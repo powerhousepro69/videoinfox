@@ -49,5 +49,8 @@ Dependencies:
   
   Any dependencies that are missing will be displayed.
   
-  ![Videoinfox DEPENDENCY CHECK](https://i.imgur.com/WnjCTQe.png) 
-
+  ![Videoinfox DEPENDENCY CHECK](https://i.imgur.com/WnjCTQe.png)
+  
+  Directory and file creation for first run or if videoinfo directory gets deleted.
+  
+  ![Videoinfox FIRST RUN](https://i.imgur.com/mzvLtaO.png)
