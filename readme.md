@@ -5,7 +5,7 @@ videoinfox v.1.83
 
 ![Videoinfox FIND RESULTS SCREEN](https://i.imgur.com/UGe9W4w.png)
   
-![Videoinfox FIND RESULTS SCREEN](https://i.imgur.com/ODPMA9K.png) 
+![Videoinfox YT-DLP SCREEN](https://i.imgur.com/ODPMA9K.png) 
  
  
   
