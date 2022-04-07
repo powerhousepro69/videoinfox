@@ -8,7 +8,7 @@ Dependencies:
   
 - ffmpeg is used to extrat Duration in <hrs:min:sec> format
 - ffprobe is used to extract Codec, Resolution and Duration in floating seconds format (x.xxxxxx)
-- ffplay is used in option pto play the video that is in the clipboard.                                        
+- ffplay is used to play the video that is in the clipboard.                                        
   
 - bc (already installed on most disrtros)  needed to do floating point math in <options 1 & 7>
   
