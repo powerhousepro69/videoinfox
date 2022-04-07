@@ -1,5 +1,6 @@
 videoinfox v.1.83
-  Scrip is still under construction but almost there.
+
+Scrip is still under construction but almost there.
 
 
 ![Videoinfox HOME SCREEN](https://i.imgur.com/3xMvxpo.png)
