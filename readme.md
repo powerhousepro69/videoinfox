@@ -3,7 +3,7 @@ videoinfox v.1.83
 Not totally finished.  All the main features are fully functional.....  A few small things left to do.
 
 
-![Videoinfox HOME (https://i.imgur.com/3xMvxpo.png)
+![Videoinfox HOME](https://i.imgur.com/3xMvxpo.png)
 
 ![Videoinfox FIND RESULTS](https://i.imgur.com/GLtCUNR.png)
 
