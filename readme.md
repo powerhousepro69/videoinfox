@@ -11,7 +11,7 @@ Not totally finished.  All the main features are fully functional.....  A few sm
 
 ![Videoinfox YT-DLP](https://i.imgur.com/ODPMA9K.png)
 
-![Videoinfox YT-DLP](https://i.imgur.com/7YidEDq.png)
+![Videoinfox YT-DLP UPDATE](https://i.imgur.com/OBwTttB.png)
 
 ![Videoinfox FIND RESULTS](https://i.imgur.com/UGe9W4w.png)
   
