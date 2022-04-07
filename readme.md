@@ -53,4 +53,4 @@ Dependencies:
   
   Directory and file creation for first the run or if the videoinfo directory gets deleted anytime after the first run.
   
-  ![Videoinfox FIRST RUN](https://i.imgur.com/mzvLtaO.png)
+  ![Videoinfox FIRST RUN](https://i.imgur.com/q8ONh3H.png)
