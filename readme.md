@@ -10,7 +10,7 @@ Dependencies:
 - ffprobe is used to extract Codec, Resolution and Duration in floating seconds format (x.xxxxxx)
 - ffplay is used to play the video that is in the clipboard.                                        
   
-- bc (already installed on most disrtros)  needed to do floating point math in <options 1 & 7>
+- bc (already installed on most disrtros)  needed to do floating point math.
   
 - notify-send (already installed on most disrtros) needed to display gui notifications.
 
