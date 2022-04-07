@@ -17,7 +17,7 @@ Not totally finished.  All the main features are fully functional.....  A few sm
 
 ![Videoinfox CHANGE DIRECTORY](https://i.imgur.com/njHqbxP.png)
 
-![Videoinfox FIND DIRECTORY](https://i.imgur.com/WarrrZt.png)
+![Videoinfox FIND DIRECTORY](https://i.imgur.com/V5ZG8Mg.png)
 
 ![Videoinfox VIDEO COUNT](https://i.imgur.com/QchN9fi.png)
 
