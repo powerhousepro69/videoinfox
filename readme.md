@@ -1,4 +1,4 @@
-videoinfox v.1.87
+videoinfox v.1.88
 
 Not totally finished.  All the main features are fully functional.....  A few small things left to do.
 
