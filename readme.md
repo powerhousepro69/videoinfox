@@ -1,11 +1,13 @@
-Videoinfo x v.1.83
+videoinfox v.1.83
 
 
 ![Videoinfox HOME SCREEN](https://i.imgur.com/wMSSunr.png)
 
 ![Videoinfox FIND RESULTS SCREEN](https://i.imgur.com/UGe9W4w.png)
   
-  
+![Videoinfox FIND RESULTS SCREEN](https://i.imgur.com/ODPMA9K.png) 
+ 
+ 
   
 Dependencies:   
  
