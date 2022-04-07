@@ -31,5 +31,5 @@ Dependencies:
  
  Videoinfox runs a dependency check at startup.  If any dependencies are Not Found, the script will exit.
 
- Videoinfox will display which dependencies are missing.
+ Any dependencies that are missing will be displayed.
 
