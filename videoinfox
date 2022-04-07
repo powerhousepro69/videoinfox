@@ -4,8 +4,8 @@
 #  github and reddit: powerhousepro69
 
 # This is where Videoinfo's Version Number is set.
-ver="Videoinfo x v1.83"
-der=$(echo -e "Videoinfo x v1\033[5m.\033m\033[0m\033[5m\033[5m\033[0m83")  #  Version Number witth blinking dot
+ver="Videoinfo x v1.87"
+der=$(echo -e "Videoinfo x v1\033[5m.\033m\033[0m\033[5m\033[5m\033[0m87")  #  Version Number witth blinking dot
 
 #===============================================================================================================================
 
@@ -190,8 +190,6 @@ fi
 
 # The below check: Does the directory <~/.config/videoinfo> exist ?
 # If it doesn't exist, directory is created. Empty files are created to avoid error when running Videoinfo for the first time.
-
-
 
 direxist="$HOME/.config/videoinfo"
 
@@ -551,8 +549,7 @@ if [ $currentdirfilecount = 0 ]  # if find returned no results goto <then>
      
       #  This is where the file <~/.config/videoinfo/videoinfo.duration.tmp> is created to store duration in seconds with the format being  (x.xxxxxx)
       #  Video files are found in current directory and processed with ffprobe and written to <~/.config/videoinfo/videoinfo.duration.tmp>. 
-find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o iname "*.webm" -o -iname "*.divx" \) -exec ffprobe -show_entries format=duration -v quiet -of csv="p=0" {} \; > ~/.config/videoinfo/videoinfo.duration.tmp
-
+find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) -exec ffprobe -show_entries format=duration -v quiet -of csv="p=0" {} \; > ~/.config/videoinfo/videoinfo.duration.tmp 2>/dev/null
 
       #  ffprobe outputs video duration in seconds 6 places past the decimal point.
       #  bash can't do floating point math.  So  <bc>  is needed first to get sum of   <~/.config/videoinfo/videoinfo.duration.tmp>
@@ -654,7 +651,7 @@ do
           
         esac
         done
-;;
+        ;;
 
 
 2)
@@ -747,15 +744,13 @@ findmeadir=$(find . -type d -iname "$dirfind" 2>/dev/null | wc -l)   # number of
 	               else 	                    
                         pastetemp=$(xclip -o -selection clipboard 2>/dev/null)  # perserve clipboard content prioir to runnin this function
                         notify-send "Videoinfo is done processing: Find Directory" "Total Directories Found: $findmeadir" # GUI Notification.
-                        echo      
-	              #echo      
-	                   echo " Chang Directory: Copy 1 line (including the dot) to the Clipboard then press <ENTER>"
+                        echo       
+	                   echo " Chang the directory: Copy 1 line (including the dot) to the Clipboard then press <ENTER>"
                         echo     		                
-                        echo " <ENTER> without copy to stay in: "$PWD
+                        echo " Stay in current directory: <ENTER> without copy."
 		              read -p " "
 		              pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
                         cd "$pasteclip" 2>/dev/null
-                  #echo
                         echo " Working Driectory: $PWD"  # <pwd>  print current working directory to the screen 
                         echo $pastetemp | xclip -sel clip 2>/dev/null  #  reload clipboard content prior to running this function
                         pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
@@ -794,7 +789,7 @@ echo " MKV   = " $mkvcount
 avicount=$(find . -type f \( -iname "*.avi" \) 2>/dev/null | wc -l)  # total number of <avi> files found
 echo " AVI   = " $avicount
 avicount=$(find . -type f \( -iname "*.webm" \) 2>/dev/null | wc -l)  # total number of <webm files found
-echo " AVI   = " $webmcount
+echo " WEBM  = " $webmcount
 divxcount=$(find . -type f \( -iname "*.divx" \) 2>/dev/null | wc -l)  # total number of <divx> files found
 echo " DIVX  = " $divxcount
 echo "------------------"
@@ -1859,7 +1854,7 @@ echo
               q)
               #  QUIT
               echo
-              echo " Not Updated"
+              echo " Not Updated . . ."
               sleep .6
               break;;
       
@@ -1867,7 +1862,7 @@ echo
               cp ~/.config/videoinfo/yt-dlp-fetched ~/.config/videoinfo/yt-dlp
               ~/.config/videoinfo/yt-dlp --version > ~/.config/videoinfo/videoinfo.yt-dlp.version
               echo
-              echo " UPDATED"
+              echo " UPDATED . . ."
               sleep .6
               break;; 
                
