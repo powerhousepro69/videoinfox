@@ -15,6 +15,8 @@ Not totally finished.  All the main features are fully functional.....  A few sm
 
 ![Videoinfox FIND DIRECTORY](https://i.imgur.com/WarrrZt.png)
 
+![Videoinfox VIDEO COUNT](https://i.imgur.com/QchN9fi.png)
+
 ![Videoinfox YT-DLP](https://i.imgur.com/ODPMA9K.png) 
 
 ![Videoinfox HELP](https://i.imgur.com/nKtJvZt.png) 
