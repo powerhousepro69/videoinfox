@@ -2026,29 +2026,27 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
      echo
      echo "==================================================================================================================="
      echo " $ver >>> YT-DLP - SET DOWNLOAD DIRECTORY"
+     echo
+     echo " Normal Syntax except, no quotations needed for paths with spaces. Case Sensative."
      echo "==================================================================================================================="
      echo
-     echo "Normal Syntax except,"
-     echo "No quotations needed for paths with spaces. Case Sensative." 
-     echo
-    # echo -e "                  \033[5m<\033[5m\033[0mPaste Safe\033[5m>\033[5m\033[0m"
-    # echo 
-           read -r -p "Enter Directory: " specifydir2  # waiting fot user input - the directory you want to chang to 
+    
+           read -r -p " Enter Directory: " specifydir2  # waiting fot user input - the directory you want to chang to 
 	
 	     if [ -z "$specifydir2" ]  # if no input was entered goto  <then> 
             then
                 echo
-                echo "     error: Nothing was entered"
+                echo " error: Nothing was entered"
             else
                 if [ -d "$specifydir2" ]  #  if directoty exists goto  <then>
                   then
                       echo
                       echo "$specifydir2" > ~/.config/videoinfo/videoinfo.yt-download-dir
                       read dirsaved < ~/.config/videoinfo/videoinfo.yt-download-dir
-                      echo "     Download Directory Set to:" "$dirsaved"                  
+                      echo " Download Directory Set to:" "$dirsaved"                  
                       else
                       echo
-                      echo "     error:  No such file or directory"                    
+                      echo " error:  No such file or directory"                    
                 fi
           fi       
           
