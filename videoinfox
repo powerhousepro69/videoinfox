@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#  file : videoinfox v1.90									         
+#  file : videoinfox v1.91									         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfo's Version Number is set.
-ver="Videoinfo x v1.90"
-der=$(echo -e "Videoinfo x v1\033[5m.\033m\033[0m\033[5m\033[5m\033[0m90")  #  Version Number witth blinking dot
+ver="Videoinfo x v1.91"
+der=$(echo -e "Videoinfo x v1\033[5m.\033m\033[0m\033[5m\033[5m\033[0m91")  #  Version Number witth blinking dot
 
 #===============================================================================================================================
 
@@ -395,7 +395,7 @@ echo "==========================================================================
 echo
 echo
 echo " "$PWD"  SAVED for next start . . ."
-sleep 1.6
+sleep 1.45
 break ;;
 
 
@@ -1826,14 +1826,16 @@ echo
      echo "==================================================================================================================="
      echo " $der >>> CHECK YT-DLP UPDATE"
      echo
-     echo " Update if version downloaded is newer than version installed"
+     echo " Update if downloaded version is newer than than installed version"
      echo "==================================================================================================================="
      echo
      echo " yt-dlp Version Checks Complete"
+     echo 
      echo
-     echo " Version Installed:  " $(~/.config/videoinfox/yt-dlp --version)
+     echo " Downloaded Version: " $(~/.config/videoinfox/yt-dlp-fetched --version)
      echo
-     echo " Version Downloaded: " $(~/.config/videoinfox/yt-dlp-fetched --version)
+     echo " Installed Version:  " $(~/.config/videoinfox/yt-dlp --version)
+     echo
      echo
      echo " u - Update     q - Don't Update"  
      echo
@@ -1857,6 +1859,7 @@ echo
               break;;
       
               u)
+              cp ~/.config/videoinfox/yt-dlp ~/.config/videoinfox/yt-dlp-old
               cp ~/.config/videoinfox/yt-dlp-fetched ~/.config/videoinfox/yt-dlp
               ~/.config/videoinfox/yt-dlp --version > ~/.config/videoinfox/videoinfo.yt-dlp.version
               echo
