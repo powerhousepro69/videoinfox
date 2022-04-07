@@ -1,6 +1,6 @@
 videoinfox v.1.83
 
-Not totally finished.  All the main features are fully functional.  A few small thing left to do.
+Not totally finished.  All the main features are fully functional.....  A few small things left to do.
 
 
 ![Videoinfox HOME SCREEN](https://i.imgur.com/3xMvxpo.png)
