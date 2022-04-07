@@ -15,7 +15,7 @@ Dependencies:
 - notify-send (already installed on most disrtros) needed to display gui notifications.
 
  
-*** Videoinfo runs a dependency check at startup.  
-*** If any dependencies are Not Found, the script will exit.
-*** Videoinfo will display which dependencies are missing.
+Videoinfo runs a dependency check at startup.  
+If any dependencies are Not Found, the script will exit.
+Videoinfo will display which dependencies are missing.
 
