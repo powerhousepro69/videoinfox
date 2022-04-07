@@ -28,7 +28,7 @@ Dependencies:
 - notify-send (already installed on most disrtros) needed to display gui notifications.
 
  
-  Videoinfox runs a dependency check at startup.  If any dependencies are Not Found, the script will exit.
+Videoinfox runs a dependency check at startup.  If any dependencies are Not Found, the script will exit.
 
-  Videoinfox will display which dependencies are missing.
+Videoinfox will display which dependencies are missing.
 
