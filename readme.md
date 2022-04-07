@@ -17,5 +17,6 @@ Dependencies:
  
 Videoinfo runs a dependency check at startup.  
 If any dependencies are Not Found, the script will exit.
+
 Videoinfo will display which dependencies are missing.
 
