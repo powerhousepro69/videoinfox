@@ -51,6 +51,6 @@ Dependencies:
   
   ![Videoinfox DEPENDENCY CHECK](https://i.imgur.com/WnjCTQe.png)
   
-  Directory and file creation for first run or if videoinfo directory gets deleted.
+  Directory and file creation for first run or if videoinfo directory gets deleted anytime after the first run.
   
   ![Videoinfox FIRST RUN](https://i.imgur.com/mzvLtaO.png)
