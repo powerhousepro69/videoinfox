@@ -1,7 +1,7 @@
 videoinfox v.1.83
 
 
-![Videoinfox HOME SCREEN](https://i.imgur.com/xHFgoHi.png)
+![Videoinfox HOME SCREEN](https://i.imgur.com/3xMvxpo.png)
 
 ![Videoinfox FIND RESULTS SCREEN](https://i.imgur.com/UGe9W4w.png)
   
