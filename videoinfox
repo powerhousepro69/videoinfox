@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#  file : videoinfox v1.88									         
+#  file : videoinfox v1.89									         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfo's Version Number is set.
-ver="Videoinfo x v1.88"
-der=$(echo -e "Videoinfo x v1\033[5m.\033m\033[0m\033[5m\033[5m\033[0m88")  #  Version Number witth blinking dot
+ver="Videoinfo x v1.89"
+der=$(echo -e "Videoinfo x v1\033[5m.\033m\033[0m\033[5m\033[5m\033[0m89")  #  Version Number witth blinking dot
 
 #===============================================================================================================================
 
@@ -41,22 +41,22 @@ der=$(echo -e "Videoinfo x v1\033[5m.\033m\033[0m\033[5m\033[5m\033[0m88")  #  V
 ##################################################################################################################################################
 
 clear
-echo "     $ver"
-echo -e "\n"
-echo "     DEPENDENCY CHECK"
-echo -e "\n"
-echo "     If a dependency isn't Found:  - app isn't installed Or"
-echo "                                   - app is installed and not in the path"
+echo "=================================================================================================================="  
+echo " $ver >>> DEPENDENCY CHECK"
+echo "==================================================================================================================" 
+echo
+echo " If a dependency isn't Found:  - App isn't installed Or app is installed and not in the path"
+echo
 echo
 
 ####### Check for <notify-send> ########
 if ! command -v notify-send &> /dev/null  # if <notify-send> isnt found goto then
 then
-    echo "     notify-send .......... Not Found"
+    echo " notify-send .......... Not Found"
     echo
     d1=1  # Not Found = 1
 else
-    echo "     notify-send .......... Found"
+    echo " notify-send .......... Found"
     echo
     d1=0  # Found = 0
 fi
@@ -64,11 +64,11 @@ fi
 ####### Check for <bc> ########
 if ! command -v bc &> /dev/null  # if <bc> isnt found goto then
 then
-    echo "     bc ................... Not Found"
+    echo " bc ................... Not Found"
     echo
     d2=1  # Not Found = 1
 else
-    echo "     bc ................... Found"
+    echo " bc ................... Found"
     echo
     d2=0  # Found = 0
 fi
@@ -76,11 +76,11 @@ fi
 ####### Check for <ffmpeg> ########
 if ! command -v ffmpeg &> /dev/null  # if <ffmpeg> isnt found goto then
 then
-    echo "     ffmpeg ............... Not Found"
+    echo " ffmpeg ............... Not Found"
     echo
     d3=1  # Not Found = 1
 else
-    echo "     ffmpeg ............... Found"
+    echo " ffmpeg ............... Found"
     echo
     d3=0  # Found = 0
 fi
@@ -88,11 +88,11 @@ fi
 ####### Check for <ffprobe> ########
 if ! command -v ffprobe &> /dev/null  # if <ffprobe> isnt found goto then
 then
-    echo "     ffprobe .............. Not Found"
+    echo " ffprobe .............. Not Found"
     echo
     d4=1  # Not Found = 1
 else
-    echo "     ffprobe .............. Found"
+    echo " ffprobe .............. Found"
     echo
     d4=0  # Found = 0
 fi
@@ -100,11 +100,11 @@ fi
 ####### Check for <ffplay> ########
 if ! command -v ffplay &> /dev/null  # if <ffplay> isnt found goto then
 then
-    echo "     ffplay ............... Not Found"
+    echo " ffplay ............... Not Found"
     echo
     d5=1  # Not Found = 1
 else
-    echo "     ffplay ............... Found"
+    echo " ffplay ............... Found"
     echo
     d5=0  # Found = 0
 fi
@@ -112,11 +112,11 @@ fi
 ####### Check for <xclip> ########
 if ! command -v xclip &> /dev/null  # if <xclip> isnt found goto then
 then
-    echo "     xclip ................ Not Found"
+    echo " xclip ................ Not Found"
     echo
     d6=1  # Not Found = 1
 else
-    echo "     xclip ................ Found"
+    echo " xclip ................ Found"
     echo
     d6=0  # Found = 0
 fi
@@ -132,16 +132,16 @@ depcount=$(($d1 + $d2 + $d3 + +d4 + $d5 + $d6))
 if [ $depcount == 0 ]  # if all dependencies = 0 (All Found) goto then
   then
       echo
-      echo "     All dependencies are satisfied."  # sript runs
+      echo " All dependencies are satisfied."  # sript runs
       echo -e "\n"
-      else
+  else
       echo
-      echo -e "     One or more dependencies: \033[5mNot Found\033[5m\033[0m"  # script exits
+      echo -e " One or more dependencies: \033[5mNot Found\033[5m\033[0m"  # script exits
       echo
-      echo "     When all dependencies are Found, the script will run."
+      echo " When all dependencies are Found, the script will run."
       echo
       echo "=================================================================================================================="  
-      echo " $ver                                                                                             Exit"
+      echo " $ver >>> EXIT"
       echo "==================================================================================================================" 
       echo -e "\n"
       
@@ -159,27 +159,28 @@ thisdir="/" #  root directory
 if [ $whatdir == $thisdir ]  # If the directory the script was run from: / <root> goto then 
   then
       clear
-      echo "     Working Directory: "$PWD
-      cd $HOME
       echo
-      echo "     $ver"
-      echo -e "\n"
-      echo "     THIS SCRIPT WAS STARTED IN ROOT  /"
-      echo -e "\n"
-      echo "     Videoinfo will throw ERRORS when run from ROOT"
-      echo -e "\n"
-      echo "     This Script's Working Directory Was Changed to: $PWD"
-      echo -e "\n"
-      echo "     Use option 2 to change to a Parent Directory of your Video Library"
-      echo -e "\n"
+      echo "=================================================================================================================="  
+      echo " $ver >>> Videoinfo x was started in root"
+      echo
+      echo " Working Directory: "$PWD
+      echo "==================================================================================================================" 
+      echo      
+      cd $HOME
+      echo " This script was started in root. Videoinfo will throw ERRORS when run from ROOT"
+      echo
+      echo " This Script's Working Directory Was Changed to: $PWD"
+      echo
+      echo " Use option 2 to change to a Parent Directory of your Video Library"
+      echo
 
-      sec=8
-          while [ $sec -ge 0 ]; do  #  This pauses the loop.  It displays and counts down the seconds set in <$sec>
-               echo -ne "     Message Expiring in: $sec\033[0K\r"
-               let "sec=sec-1"
-               sleep 1
+      # sec=8
+      #    while [ $sec -ge 0 ]; do  #  This pauses the loop.  It displays and counts down the seconds set in <$sec>
+      #         echo -ne "     Message Expiring in: $sec\033[0K\r"
+      #         let "sec=sec-1"
+      #         sleep 1
                
-          done              
+      #    done              
 fi
 
 
@@ -196,15 +197,20 @@ if [ -d "$direxist" ]  #  if directoty exists goto  <then>
   then
       :  # start main loop
   else
+      
       clear
       echo
-      echo " "$ver
-      echo -e "\n"
-      echo "cd $HOME/.config/videoinfo"        
+      echo "=================================================================================================================="  
+      echo " $ver >>> FIRST RUN"
       echo
-      echo "error: No such file or directory"
-      echo -e "\n"   
-      echo "Created config directory: $HOME/.config/videoinfo  and required files "
+      echo " Directory and file creation"
+      echo "==================================================================================================================" 
+      echo        
+      echo " cd $HOME/.config/videoinfo"        
+      echo
+      echo " error: No such file or directory"
+      echo   
+      echo " Created config directory: $HOME/.config/videoinfo  and required files "
       echo
       echo "__________________________________________________________________________________________________________________"
       echo
@@ -217,8 +223,8 @@ if [ -d "$direxist" ]  #  if directoty exists goto  <then>
       echo " "$der 
       echo "__________________________________________________________________________________________________________________"
       echo -e "\n" 
-      echo " This message will olny show if the directory: $HOME/.config/videoinfo  doesn't exist"
-      echo -e "\n"  
+      echo " This message will show if the directory: $HOME/.config/videoinfo  doesn't exist"
+      echo  
  
       ###################
       # CREATE DIRECTORY
@@ -251,13 +257,17 @@ echo "                                                                          
       
       echo " " | xclip -sel clip  # clearing clipboard just for the first run   
    
-      sec=30
+      echo
+
+           sec=30
            while [ $sec -ge 0 ]; do  #  This pauses the loop.  It displays and counts down the seconds set in <$sec>
-                echo -ne "     Message Expiring in: $sec\033[0K\r"
+                                
+                echo -ne " $ver starting in: $sec\033[0K\r"
                 let "sec=sec-1"
                 sleep 1
-                
+              
            done               
+   
 fi
 
 
