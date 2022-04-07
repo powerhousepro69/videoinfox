@@ -3,15 +3,17 @@ videoinfox v.1.83
 Not totally finished.  All the main features are fully functional.....  A few small things left to do.
 
 
-![Videoinfox HOME SCREEN](https://i.imgur.com/3xMvxpo.png)
+![Videoinfox HOME (https://i.imgur.com/3xMvxpo.png)
 
-![Videoinfox FIND RESULTS SCREEN](https://i.imgur.com/GLtCUNR.png)
+![Videoinfox FIND RESULTS](https://i.imgur.com/GLtCUNR.png)
 
-![Videoinfox FIND RESULTS SCREEN](https://i.imgur.com/UGe9W4w.png)
+![Videoinfox FIND RESULTS](https://i.imgur.com/UGe9W4w.png)
   
-![Videoinfox YT-DLP SCREEN](https://i.imgur.com/ODPMA9K.png) 
+![Videoinfox LIST DIRECTORY](https://i.imgur.com/EI8k4fC.png)                                                
 
-![Videoinfox HELP SCREEN](https://i.imgur.com/nKtJvZt.png) 
+![Videoinfox YT-DLP](https://i.imgur.com/ODPMA9K.png) 
+
+![Videoinfox HELP](https://i.imgur.com/nKtJvZt.png) 
 
 
    
