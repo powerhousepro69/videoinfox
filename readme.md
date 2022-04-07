@@ -1,6 +1,6 @@
 videoinfox v.1.83
 
-Scrip is still under construction but almost there.
+Not totally finished.  All the main features are fully functional.  A few small thing left to do.
 
 
 ![Videoinfox HOME SCREEN](https://i.imgur.com/3xMvxpo.png)
