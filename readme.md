@@ -23,7 +23,7 @@ Not totally finished.  All the main features are fully functional.....  A few sm
 
 ![Videoinfox DURATION](https://i.imgur.com/5C5VAFw.png)
 
-![Videoinfox ENTER FILE](https://i.imgur.com/DUwGRTl.png)
+![Videoinfox ENTER FILE](https://i.imgur.com/hnboxUn.png)
 
 ![Videoinfox HELP](https://i.imgur.com/nKtJvZt.png) 
 
