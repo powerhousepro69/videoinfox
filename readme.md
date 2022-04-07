@@ -9,6 +9,8 @@ Not totally finished.  All the main features are fully functional.....  A few sm
 
 ![Videoinfox YT-DLP](https://i.imgur.com/ODPMA9K.png)
 
+![Videoinfox YT-DLP](https://i.imgur.com/7YidEDq.png)
+
 ![Videoinfox FIND RESULTS](https://i.imgur.com/UGe9W4w.png)
   
 ![Videoinfox LIST DIRECTORY](https://i.imgur.com/EI8k4fC.png)                                                
