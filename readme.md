@@ -9,6 +9,7 @@ sudo wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/vide
 ```
 sudo chmod +x /usr/local/bin/videoinfox
 ```
+Dependecies listed at bottom
 
 ![Videoinfox HOME](https://i.imgur.com/3xMvxpo.png)
 
