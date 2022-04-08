@@ -43,7 +43,7 @@ Dependencies:
  
 - xclip .......... (paste feature.  xclip only works with Xsession)
   
-- ffmpeg ......... (extrat Duration in <hrs:min:sec> format)
+- ffmpeg ........... (extrat Duration in <hrs:min:sec> format)
 - ffprobe ........ (extract Codec, Resolution and Duration in floating seconds format (x.xxxxxx))
 - ffplay ......... (play the video that is in the clipboard.)                                        
   
