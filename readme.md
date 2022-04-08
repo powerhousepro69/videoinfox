@@ -43,7 +43,7 @@ Dependencies:
  
 - xclip .......... (paste feature.  xclip only works with Xsession)
   
-- ffmpeg ........... (extrat Duration in <hrs:min:sec> format)
+- ffmpeg ......... (extrat Duration in <hrs:min:sec> format)
 - ffprobe ........ (extract Codec, Resolution and Duration in floating seconds format (x.xxxxxx))
 - ffplay ......... (play the video that is in the clipboard.)                                        
   
@@ -51,11 +51,10 @@ Dependencies:
   
 - notify-send .... (display gui notifications.)
 
-
  
-  Videoinfox runs a dependency check at startup.  If any dependencies are Not Found, the script will exit.
+ Videoinfox runs a dependency check at startup.  If any dependencies are Not Found, the script will exit.
   
-  Any dependencies that are missing will be displayed.
+ Any dependencies that are missing will be displayed.
   
   ![Videoinfox DEPENDENCY CHECK](https://i.imgur.com/WnjCTQe.png)
   
