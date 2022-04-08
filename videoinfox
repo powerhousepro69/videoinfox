@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#  file : videoinfox v1.93									         
+#  file : videoinfox v1.94									         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfo's Version Number is set.
-ver="Videoinfo x v1.93"
-der=$(echo -e "Videoinfo x v1\033[5m.\033m\033[0m\033[5m\033[5m\033[0m93")  # Version Number witth blinking dot
+ver="Videoinfo x v1.94"
+der=$(echo -e "Videoinfo x v1\033[5m.\033m\033[0m\033[5m\033[5m\033[0m94")  # Version Number witth blinking dot
 
 #===============================================================================================================================
 
@@ -1312,7 +1312,7 @@ echo >> videoinfo.Video-Duration
 #echo
 #echo "     q  to quit" >> videoinfo.Video-Duration
 echo >> videoinfo.Video-Duration
-notify-send  "Videoinfo is done processing: Video Duration" "$PWD"  # GUI Notification is displayed when this function <option 5> has completed.
+notify-send  "Videoinfo is done processing: Video Duration" "$PWD"  # GUI Notification is displayed when this function has completed.
 # The file  <~/.config/videoinfox/videoinfo.duration.tmp>  was created for <ffprobe> to store video duration in seconds of all find results.
 # The math was already performed on this file and it is no longer needed.  So it is being removed.  
 #rm ~/.config/videoinfox/videoinfo.duration.tmp
@@ -1513,6 +1513,10 @@ echo
     
      C)  # CLEAR FIND RESULTS
      # CREATE FIND RESULT MESSAGE THAT THERE ARE NO STORED FINDS
+     echo " " > ~/.config/videoinfox/videoinfo.lastsearchtotal
+     echo " " > ~/.config/videoinfox/videoinfo.lastfindstring
+     echo " " > ~/.config/videoinfox/videoinfo.lastfinddir
+
 echo "                                                                                                                 " > ~/.config/videoinfox/videoinfo.findwork
 echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
 echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
@@ -1537,7 +1541,7 @@ echo "                                                                          
      echo "=================================================================================================================="
      echo "__________________________________________________________________________________________________________________"
      echo 
-     echo " using the example file:   The Reunion Show   and what searches would find it."
+     echo " Using example filename:   The Reunion Show   and what searches would find it."
      echo 
      echo " the*      would find files starting with:  the"     
      echo
@@ -1889,6 +1893,7 @@ find "$PWD" -type f \( -iname "$videofind.mp4" -o -iname "$videofind.mkv" -o -in
                            cp ~/.config/videoinfox/videoinfo.lastsearchtotal ~/.config/videoinfox/videoinfo.lastsearchtotal2                 
                            echo
                            echo " Total files found: " $searchtotal  # number of files found
+                           notify-send  "Videoinfo is done processing: Find Video(s)" "$PWD: $searchtotal Video Files"
                            sleep 1
     fi
     fi              
@@ -2160,7 +2165,6 @@ then
 
 else  # if <yt-dlp> is found
 
-
 read ytdlpver < ~/.config/videoinfox/videoinfo.yt-dlp.version
     
 function menuy {
@@ -2308,7 +2312,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
      echo
      
      ~/.config/videoinfox/yt-dlp $pasteclip -o $dirsaved/download.tmp  # downloading temporary video
-     ffplay &> /dev/null $dirsaved/download.tmp*  # watching temporary video
+     notify-send "Videoinfox YT-DLP done downloading:" "$pasteclip"ffplay &> /dev/null $dirsaved/download.tmp*  # watching temporary video
      rm $dirsaved/download.tmp*  # on player close, delete temporary video
      ;; 
 
@@ -2327,6 +2331,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
      ~/.config/videoinfox/yt-dlp -f "$svrcode" "$pasteclip"
      echo
      echo "Done"
+     notify-send "Videoinfox YT-DLP done downloading:" "$pasteclip"
      sleep 2
      ;;
 
