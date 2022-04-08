@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#  file : videoinfox v1.91									         
+#  file : videoinfox v1.92									         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfo's Version Number is set.
-ver="Videoinfo x v1.91"
-der=$(echo -e "Videoinfo x v1\033[5m.\033m\033[0m\033[5m\033[5m\033[0m91")  #  Version Number witth blinking dot
+ver="Videoinfo x v1.92"
+der=$(echo -e "Videoinfo x v1\033[5m.\033m\033[0m\033[5m\033[5m\033[0m92")  #  Version Number witth blinking dot
 
 #===============================================================================================================================
 
@@ -671,21 +671,18 @@ case $optionsettings in
           break
           ;;
          
+    
      esac
      done
      ;;
 
 
+
     v)  # CHECK FOR VIDEOINFOX UPDATE
-    function chkvideoinfox {
+    function menuinfox {
     clear
-    wget wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox -O ~/.config/videoinfox/videoinfox-fetched &>/dev/null
+    wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox -O ~/.config/videoinfox/videoinfox-fetched &>/dev/null
     chmod +x ~/.config/videoinfox/videoinfox-fetched    
-
-
-
-
-
     clear 
     echo
     echo
@@ -693,28 +690,26 @@ case $optionsettings in
     echo " $der >>> CHECK VIDEOINFOX UPDATE"
     echo "==================================================================================================================="
     echo
-    echo " Update if downloaded version is newer than than installed version"
-    echo
-    echo " videoinfox Version Checks Complete"
+    echo " Version Check Complete . . ."
     echo 
     echo
-    echo " Downloaded Version: " $(~/.config/videoinfox/videoinfox-fetched --v)
+    echo " Downloaded: "$(~/.config/videoinfox/videoinfox-fetched -v)
     echo
-    echo " Installed Version:  " $(~/.config/videoinfox/yt-dlp --version)
+    echo " Installed: " "$ver" 
     echo
     echo
     echo " u - Update     d - Don't Update"  
     echo
     echo -en " Enter Option: "
-    read -n1 optionvideoinfox
+    read -n1 optioninfox
     echo
-     }
+    }
         
               
          while [ 1 ]
          do
-         chkvideoinfox
-	    case optionvideoinfox in
+         menuinfox
+	    case $optioninfox in
 
 
          d)
@@ -725,31 +720,39 @@ case $optionsettings in
          break;;
       
          u)
-         #cp ~/.config/videoinfox/yt-dlp ~/.config/videoinfox/yt-dlp-old
-         #cp ~/.config/videoinfox/yt-dlp-fetched ~/.config/videoinfox/yt-dlp
-         #~/.config/videoinfox/yt-dlp --version > ~/.config/videoinfox/videoinfo.yt-dlp.version
+         # UPDATE VIDEOINFOX
          echo
+         sudo cp ~/.config/videoinfox/videoinfox-fetched /usr/local/bin/videoinfox 
+         echo
+         echo " Downnloaded videoinfox copied to: /usr/local/bin"
+         echo   
          echo " UPDATED . . ."
-         sleep .6
-         break;; 
-               
+         sleep 1
+         echo "$PWD" > ~/.config/videoinfox/videoinfo.dir-at-exit  # SAVE DIRECTORY AT EXIT
+         clear
+         echo -e "\n"
+         echo -e "\n"
+         echo "=================================================================================================================="  
+         echo " $ver >>> EXIT >>> Updated to: $(~/.config/videoinfox/videoinfox-fetched -v)                     Restart to use updated version."
+         echo "==================================================================================================================" 
+         echo -e "\n"
+         echo " "$PWD"  SAVED for next start . . ."
+         sleep 1.45
+         
+         clear
+         echo -e "\n"
+         echo -e "\n"
+         echo "=================================================================================================================="  
+         echo " $ver >>> EXIT >>> Updated to: $(~/.config/videoinfox/videoinfox-fetched -v)                     Restart to use updated version."
+         echo "==================================================================================================================" 
+         echo -e "\n"
+         exit 
+         ;;
+
+          
          esac
          done
          ;;
- 
-
-
-
- 
-
-
-
-
-
-
-
-
-
 
 
     y)  # CHECK FOR YT-DLP UPDATE
@@ -764,14 +767,12 @@ case $optionsettings in
     echo " $der >>> CHECK YT-DLP UPDATE"
     echo "==================================================================================================================="
     echo
-    echo " Update if downloaded version is newer than than installed version"
-    echo
-    echo " yt-dlp Version Checks Complete"
+    echo " yt-dlp Version Check Complete:"
     echo 
     echo
-    echo " Downloaded Version: " $(~/.config/videoinfox/yt-dlp-fetched --version)
+    echo " Downloaded:" $(~/.config/videoinfox/yt-dlp-fetched --version)
     echo
-    echo " Installed Version:  " $(~/.config/videoinfox/yt-dlp --version)
+    echo " Version:" $(~/.config/videoinfox/yt-dlp --version)
     echo
     echo
     echo " u - Update     d - Don't Update"  
@@ -807,10 +808,13 @@ case $optionsettings in
          esac
          done
          ;;
-    
+
+
 esac
 done
 ;;
+    
+
 
 
 x)  # CLEAR CLIPBOARD - <HOME> 
