@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#  file : videoinfox v1.92									         
+#  file : videoinfox v1.93									         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfo's Version Number is set.
-ver="Videoinfo x v1.92"
-der=$(echo -e "Videoinfo x v1\033[5m.\033m\033[0m\033[5m\033[5m\033[0m92")  #  Version Number witth blinking dot
+ver="Videoinfo x v1.93"
+der=$(echo -e "Videoinfo x v1\033[5m.\033m\033[0m\033[5m\033[5m\033[0m93")  # Version Number witth blinking dot
 
 #===============================================================================================================================
 
@@ -525,9 +525,9 @@ case $optionsettings in
     echo
     echo "==================================================================================================================="
     echo " $ver >>> SET PARENT DIRECTORY"
-    echo
-    echo " Normal Syntax except, no quotations needed for paths with spaces. Case Sensative."
     echo "==================================================================================================================="
+    echo
+    echo " No quotations needed for paths with spaces. Case sensative."
     echo
     read -r -p " Enter Directory: " specifydir2  # waiting fot user input - the directory you want to chang to 
 	
@@ -564,9 +564,9 @@ case $optionsettings in
     echo
     echo "==================================================================================================================="
     echo " $ver >>> SET TV DIRECTORY"
-    echo
-    echo " Normal Syntax except, no quotations needed for paths with spaces. Case Sensative."
     echo "==================================================================================================================="
+    echo
+    echo " No quotations needed for paths with spaces. Case sensative."
     echo
     read -r -p " Enter Directory: " specifydir2  # waiting fot user input - the directory you want to chang to 
 	
@@ -603,9 +603,9 @@ case $optionsettings in
     echo
     echo "==================================================================================================================="
     echo " $ver >>> SET MOVIE DIRECTORY"
-    echo
-    echo " Normal Syntax except, no quotations needed for paths with spaces. Case Sensative."
     echo "==================================================================================================================="
+    echo
+    echo " No quotations needed for paths with spaces. Case sensative."
     echo
     read -r -p " Enter Directory: " specifydir2  # waiting fot user input - the directory you want to chang to 
 	
@@ -642,9 +642,9 @@ case $optionsettings in
     echo
     echo "==================================================================================================================="
     echo " $ver >>> SET DOWNLOAD DIRECTORY"
-    echo
-    echo " Normal Syntax except, no quotations needed for paths with spaces. Case Sensative."
     echo "==================================================================================================================="
+    echo
+    echo " No quotations needed for paths with spaces. Case sensative."
     echo
     read -r -p " Enter Directory: " specifydir2  # waiting fot user input - the directory you want to chang to 
 	
@@ -1075,11 +1075,11 @@ echo "Clipboard: "$pasteclip
 echo
 echo "=================================================================================================================="  
 echo " $ver >>> CHANGE DIRECTORY"
-echo
-echo " Same Syntax except,  No quotations needed for paths with spaces. Case sensative."
 echo "==================================================================================================================" 
+echo
+echo " No quotations needed for paths with spaces. Case sensative."
 echo 
- read -r -p " Enter Directory: " specifydir  # waiting fot user input - the directory you want to chang to 
+read -r -p " Enter Directory: " specifydir  # waiting fot user input - the directory you want to chang to 
 	
 	if [ -z "$specifydir" ]  # if no input was entered goto  <then> 
           then
@@ -1204,12 +1204,7 @@ echo " TOTAL = " $totalcount  # display Sum
 # GUI Notification is displayed when this function <option 6> has completed. 
 notify-send  "Videoinfo is done processing Video File Count " "Total Video Files located in $PWD : $totalcount"
 echo
-
-
-
 read -p " Press <ENTER> to Continue" 
-
-
 ;;
 	
 
@@ -1427,27 +1422,30 @@ echo " $der >>> HELP"
 echo "=================================================================================================================="
 echo "__________________________________________________________________________________________________________________"
 echo
-echo " Find video files to play:"
-echo
-echo " - Change to a parent directory of your video library. (HOME options 2 and/or 3)"
-echo " - Goto find menu and select find"
-echo " - Search for  *  that will show all video files under the parent working directory"
-echo " - (there are search tips in the find menu)"
+echo " Find video files to play. Change to a parent directory of your video library. Goto find menu and select find"
+echo " Search for  *  That will show all video files under that directory"
 echo "__________________________________________________________________________________________________________________"
 echo
-echo " NOTE: Do not randomly paste in Videoinfo x"
-echo " Doing so will cause unwanted code to run producing undesired results."          
-echo
-echo " Everywhere you see Videoinfox's dot blinking in the version number,"
-echo " Don't paste and Videoinfo x will function as intended."
-echo
-echo " "$der 
+echo " Whatever directory Videoinfox is in on exit, will be restored on next start."
 echo "__________________________________________________________________________________________________________________"
 echo
-echo " Whatever directory your in on exit, will be restored on next start."
+echo " Every video played is saved to a played list. Finds can also be saved to saved finds."
 echo "__________________________________________________________________________________________________________________"
 echo
-echo -e " Help is still under construction\033[5m . . . \033[5m\033[0m"
+echo " Get codec, resolution and duration of videos. One directory deep and recursive. Also video count."
+echo "__________________________________________________________________________________________________________________"
+echo
+echo " Yt-dlp integration to make downloading and watching videos fast and easy."
+echo "__________________________________________________________________________________________________________________"
+echo
+echo " Settings Menu <set> to set default directories. Also, update Videoinfox and Yt-dlp"
+echo "__________________________________________________________________________________________________________________"
+echo
+echo " NOTE: Do not randomly paste in Videoinfox. It will cause unwanted code to run producing undesired results."         
+echo " Everywhere the dot is blinking "$der", Don't paste and Videoinfo x will function as intended."
+echo "__________________________________________________________________________________________________________________"
+echo
+echo " Error: target STRING not available is a documented xclip error."         
 echo "__________________________________________________________________________________________________________________"
 echo
 read -p " Press <ENTER> to Continue"     
@@ -1538,12 +1536,15 @@ echo "                                                                          
      echo " $der >>> FIND TIPS"
      echo "=================================================================================================================="
      echo "__________________________________________________________________________________________________________________"
+     echo 
+     echo " using the example file:   The Reunion Show   and what searches would find it."
+     echo 
+     echo " the*      would find files starting with:  the"     
      echo
+     echo " *ion*     would find files with:  ion  anywhere in the file name from the beginning to the end."
      echo
-     echo "__________________________________________________________________________________________________________________"
-     echo
-     echo -e " Tips is still under construction\033[5m . . . \033[5m\033[0m"
-     echo
+     echo " *show     would find files that ended with:  show"
+     echo     
      echo "__________________________________________________________________________________________________________________"
      echo
      read -p " Press <ENTER> to Continue"     
@@ -1656,7 +1657,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
         rm ~/.config/videoinfox/videoinfo.playedlist
         # writing header for new Played List because new file wouldn't be created until return to main HOME
         echo > ~/.config/videoinfox/videoinfo.playedlist
-        echo "$ver                                                                                        PLAYED LIST" >> ~/.config/videoinfox/videoinfo.playedlist
+echo "$ver                                                                                        PLAYED LIST" >> ~/.config/videoinfox/videoinfo.playedlist
         echo >> ~/.config/videoinfox/videoinfo.playedlist
         echo "This File was Created: $(date) by" $USER >> ~/.config/videoinfox/videoinfo.playedlist
         echo >> ~/.config/videoinfox/videoinfo.playedlist
@@ -1755,10 +1756,10 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
           echo
           echo " Save Multiple finds from: $(cat ~/.config/videoinfox/videoinfo.lastfindtime)"
           echo
-          echo "==================================================================================================================="
-          echo " $der >>> ADD TO SAVED FINDS" 
-          echo
           echo " Copy 1 or more above lines to the Clipboard. Then Add to Saved Finds"
+          echo
+          echo "==================================================================================================================="
+          echo " $der >>> ADD TO SAVED FINDS"   
           echo "==================================================================================================================="
           echo       
           echo " a - Add to Saved Finds                                                                                   q - quit"  
@@ -1841,9 +1842,9 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
     echo
     echo "==================================================================================================================="
     echo " $ver >>> Find Video File - Recursive                                                   wildcard * ok"
+    echo "===================================================================================================================" 
     echo
     echo " Find a video file to Play and/or get Info on.  No file extensions." 
-    echo "===================================================================================================================" 
     echo
     read -r -p " File Name: " videofind  # waiting fot user input - video file that you want to find
 
@@ -2118,21 +2119,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
           ;;
 
 
-          h)
-          #  HELP - <Find Menu>
-          echo
-          echo "$der"
-          echo
-          echo "Video Player Controls:  Fullscreen Toggle: f"
-          echo                             
-          echo "                        Play/Pause Toggle: space bar"
-          echo
-          echo "                        Back/Fwd: Left/Right Arrows (tap or hold down)"
-          echo
-          echo "                        Quit: q"      
-          echo
-          read -p "Press <ENTER> to Continue"
-          ;;
+         
               esac
               done
               ;;
