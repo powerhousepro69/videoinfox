@@ -30,6 +30,7 @@ Not totally finished.  All the main features are fully functional.....  A few sm
 ![Videoinfox HELP](https://i.imgur.com/9wsPGkU.png) 
 
 
+Install : copy and run the 2 lines below
 ```
 sudo wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox -O /usr/local/bin/videoinfox
 ```
