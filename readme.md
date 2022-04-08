@@ -60,6 +60,6 @@ Dependencies:
 
 
 
-sudo wget https\:\/\/\raw.githubusercontent.com\/powerhousepro69\/videoinfox\/main\/videoinfox \-O \/usr\/local\/bin\/videoinfox
+sudo wget https\:\/\/\\raw.githubusercontent.com\/powerhousepro69\/videoinfox\/main\/videoinfox \-O \/usr\/local\/bin\/videoinfox
 
 
