@@ -32,6 +32,16 @@ der=$(echo -e "Videoinfo x v1\033[5m.\033m\033[0m\033[5m\033[5m\033[0m91")  #  V
 ##################################################################################################################################################
 
 
+#  -v FOR VERSION NUMBER  Show version number then exit
+if [ "$1" = "-v" ]
+  then
+      echo "$ver"
+      exit
+  else
+      :
+fi
+
+
 #  The below 3 CHECKS run once at startup then into the HOME loop.
 #  1. Dependency Check   2. Start From Root Check   3. DIRECTORY CHECK & FILE CREATION
 
@@ -358,6 +368,10 @@ rm ~/.config/videoinfox/videoinfo.keptsearch.tmp
 #                            END ROUTINE FOR FILE: <videoinfo.keptsearch>                                                                           #
 #####################################################################################################################################################
 
+
+dirinhome="$PWD"  # grab working directory while in HOME
+echo "$dirinhome" > ~/.config/videoinfox/videoinfo.home.dir
+
 clear
 echo
 echo "Directory: "$PWD
@@ -384,8 +398,7 @@ do
 	case $option in
 
 e)  # EXIT - <HOME> 
-# SAVE DIRECTORY AT EXIT
-echo "$PWD" > ~/.config/videoinfox/videoinfo.dir-at-exit
+echo "$PWD" > ~/.config/videoinfox/videoinfo.dir-at-exit  # SAVE DIRECTORY AT EXIT
 clear
 echo -e "\n"
 echo -e "\n"
@@ -399,20 +412,404 @@ sleep 1.45
 break ;;
 
 
-d)
+d)  # SETTINGS - <HOME> 
+function menusettings {
 pasteclip=$(xclip -o -selection clipboard)  # grab clipboard content
+
+# LOAD STORED DIRECTORIES
+read dir1 < ~/.config/videoinfox/videoinfo.parent-dir 2>/dev/null
+read dir2 < ~/.config/videoinfox/videoinfo.tv-dir 2>/dev/null
+read dir3 < ~/.config/videoinfox/videoinfo.movies-dir 2>/dev/null
+read dir4 < ~/.config/videoinfox/videoinfo.yt-download-dir >/dev/null
+read dir5 < ~/.config/videoinfox/videoinfo.dir-at-exit 2>/dev/null
+
 clear
 echo
-echo "Directory: "$PWD
-echo "Clipboard: "$pasteclip
+echo "Directory:" "$PWD"
+echo "Clipboard:" "$pasteclip"
 echo
 echo "=================================================================================================================="  
-echo " $ver >>> SET DEFAULT VIDEO DIRECTORIES"
+echo " $der >>> SETTINGS"
 echo "==================================================================================================================" 
 echo
-echo -e " Set default video directories is still under construction\033[5m . . . \033[5m\033[0m"
+echo " Change Directory:                                                                          q - Quit"
 echo
-read -p " Press <ENTER> to Continue"
+echo " 1 - Parent:" "$dir1"
+echo "                                                                                            v - Videoinfox update"
+echo " 2 - TV:" "$dir2"
+echo "                                                                                            y - Yt-dlp update"
+echo " 3 - Movies:" "$dir3"
+echo "                                                                                            s - Set Directories"
+echo " 4 - Download:" "$dir4"
+echo
+echo " 5 - Last Exit:" "$dir5"
+echo
+
+
+echo -en " Enter Option: "
+read -n1 optionsettings
+}
+
+while [ 1 ]
+do
+menusettings
+case $optionsettings in
+
+    q)  # QUIT
+    break;;
+ 
+    1)  # CHANGE TO MOVIES DIR    
+    cd "$dir1"
+    ;;
+    
+    2)  # CHANGE TO TV DIR
+    cd "$dir2"
+    ;;
+
+
+    3)  # CHANGE TO MOVIES DIR
+    cd "$dir3"
+    ;;
+
+
+    4)  # CHANGE TO DOWNLOAD DIR
+    cd "$dir4"
+    ;;
+
+
+    5)  # CHANGE DIRECTORY TO LAST EXIT
+    cd "$dir5"
+    ;;
+
+    
+    s)  # SET VIDEO DIRECTORIES
+    function menusvd {
+    pasteclip=$(xclip -o -selection clipboard)  # grab clipboard content
+    clear
+    echo
+    echo "Directory: "$PWD
+    echo "Clipboard: "$pasteclip
+    echo
+    echo "=================================================================================================================="  
+    echo " $der >>> SET VIDEO DIRECTORIES                                                              q -Quit"
+    echo "=================================================================================================================="
+    echo
+    echo " 1 - Parent:" "$dir1"
+    echo
+    echo " 2 - TV:" "$dir2"
+    echo
+    echo " 3 - Movies:" "$dir3"
+    echo
+    echo " 4 - Download:" "$dir4"
+    echo
+    echo -en " Enter Option: "
+    read -n1 optionsvd
+    }
+
+    
+    while [ 1 ] 
+    do
+    menusvd
+    case $optionsvd in
+
+    q)  # QUIT
+    break;;
+    
+
+    1)
+    # SET PARENT DIRECTORY
+    grabdir="$PWD"  # grab working directory 
+    clear
+    echo
+    echo "Working Directory: "$PWD  # <pwd>  print current working directory to the screen 
+    echo
+    echo "==================================================================================================================="
+    echo " $ver >>> SET PARENT DIRECTORY"
+    echo
+    echo " Normal Syntax except, no quotations needed for paths with spaces. Case Sensative."
+    echo "==================================================================================================================="
+    echo
+    read -r -p " Enter Directory: " specifydir2  # waiting fot user input - the directory you want to chang to 
+	
+	     if [ -z "$specifydir2" ]  # if no input was entered goto  <then> 
+            then
+                echo
+                echo " error: Nothing was entered"
+            else
+                if [ -d "$specifydir2" ]  #  if directoty exists goto  <then>
+                  then
+                      echo
+                      echo "$specifydir2" > ~/.config/videoinfox/videoinfo.parent-dir
+                      read dir1 < ~/.config/videoinfox/videoinfo.parent-dir
+                      echo " Parent Directory Set to:" "$dir1"                  
+                      else
+                      echo
+                      echo " error:  No such file or directory"                    
+                fi
+          fi       
+          
+          #read -p "     Press <ENTER> to Continue" 
+          cd "$grabdir" # restore working directory
+          sleep 1.7
+          break
+          ;;
+
+
+    2)
+    # SET TV DIRECTORY
+    grabdir="$PWD"  # grab working directory 
+    clear
+    echo
+    echo "Working Directory: "$PWD  # <pwd>  print current working directory to the screen 
+    echo
+    echo "==================================================================================================================="
+    echo " $ver >>> SET TV DIRECTORY"
+    echo
+    echo " Normal Syntax except, no quotations needed for paths with spaces. Case Sensative."
+    echo "==================================================================================================================="
+    echo
+    read -r -p " Enter Directory: " specifydir2  # waiting fot user input - the directory you want to chang to 
+	
+	     if [ -z "$specifydir2" ]  # if no input was entered goto  <then> 
+            then
+                echo
+                echo " error: Nothing was entered"
+            else
+                if [ -d "$specifydir2" ]  #  if directoty exists goto  <then>
+                  then
+                      echo
+                      echo "$specifydir2" > ~/.config/videoinfox/videoinfo.tv-dir
+                      read dir2 < ~/.config/videoinfox/videoinfo.tv-dir
+                      echo " TV Directory Set to:" "$dir2"                  
+                      else
+                      echo
+                      echo " error:  No such file or directory"                    
+                fi
+          fi       
+          
+          #read -p "     Press <ENTER> to Continue" 
+          cd "$grabdir" # restore working directory
+          sleep 1.7
+          break
+          ;;
+
+
+    3)
+    # SET MOVIES DIRECTORY
+    grabdir="$PWD"  # grab working directory 
+    clear
+    echo
+    echo "Working Directory: "$PWD  # <pwd>  print current working directory to the screen 
+    echo
+    echo "==================================================================================================================="
+    echo " $ver >>> SET MOVIE DIRECTORY"
+    echo
+    echo " Normal Syntax except, no quotations needed for paths with spaces. Case Sensative."
+    echo "==================================================================================================================="
+    echo
+    read -r -p " Enter Directory: " specifydir2  # waiting fot user input - the directory you want to chang to 
+	
+	     if [ -z "$specifydir2" ]  # if no input was entered goto  <then> 
+            then
+                echo
+                echo " error: Nothing was entered"
+            else
+                if [ -d "$specifydir2" ]  #  if directoty exists goto  <then>
+                  then
+                      echo
+                      echo "$specifydir2" > ~/.config/videoinfox/videoinfo.movies-dir
+                      read dir3 < ~/.config/videoinfox/videoinfo.movies-dir
+                      echo " Movie Directory Set to:" "$dir3"                  
+                      else
+                      echo
+                      echo " error:  No such file or directory"                    
+                fi
+          fi       
+          
+          #read -p "     Press <ENTER> to Continue" 
+          cd "$grabdir" # restore working directory
+          sleep 1.7
+          break
+          ;;
+           
+
+    4)
+    # SET <yt-dlp> DOWNLOAD DIRECTORY
+    grabdir="$PWD"  # grab working directory 
+    clear
+    echo
+    echo "Working Directory: "$PWD  # <pwd>  print current working directory to the screen 
+    echo
+    echo "==================================================================================================================="
+    echo " $ver >>> SET DOWNLOAD DIRECTORY"
+    echo
+    echo " Normal Syntax except, no quotations needed for paths with spaces. Case Sensative."
+    echo "==================================================================================================================="
+    echo
+    read -r -p " Enter Directory: " specifydir2  # waiting fot user input - the directory you want to chang to 
+	
+	     if [ -z "$specifydir2" ]  # if no input was entered goto  <then> 
+            then
+                echo
+                echo " error: Nothing was entered"
+            else
+                if [ -d "$specifydir2" ]  #  if directoty exists goto  <then>
+                  then
+                      echo
+                      echo "$specifydir2" > ~/.config/videoinfox/videoinfo.yt-download-dir
+                      read dir4 < ~/.config/videoinfox/videoinfo.yt-download-dir
+                      echo " Download Directory Set to:" "$dir4"                  
+                      else
+                      echo
+                      echo " error:  No such file or directory"                    
+                fi
+          fi       
+          
+          #read -p "     Press <ENTER> to Continue" 
+          cd "$grabdir" # restore working directory
+          sleep 1.7
+          break
+          ;;
+         
+     esac
+     done
+     ;;
+
+
+    v)  # CHECK FOR VIDEOINFOX UPDATE
+    function chkvideoinfox {
+    clear
+    wget wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox -O ~/.config/videoinfox/videoinfox-fetched &>/dev/null
+    chmod +x ~/.config/videoinfox/videoinfox-fetched    
+
+
+
+
+
+    clear 
+    echo
+    echo
+    echo "==================================================================================================================="
+    echo " $der >>> CHECK VIDEOINFOX UPDATE"
+    echo "==================================================================================================================="
+    echo
+    echo " Update if downloaded version is newer than than installed version"
+    echo
+    echo " videoinfox Version Checks Complete"
+    echo 
+    echo
+    echo " Downloaded Version: " $(~/.config/videoinfox/videoinfox-fetched --v)
+    echo
+    echo " Installed Version:  " $(~/.config/videoinfox/yt-dlp --version)
+    echo
+    echo
+    echo " u - Update     d - Don't Update"  
+    echo
+    echo -en " Enter Option: "
+    read -n1 optionvideoinfox
+    echo
+     }
+        
+              
+         while [ 1 ]
+         do
+         chkvideoinfox
+	    case optionvideoinfox in
+
+
+         d)
+         #  QUIT
+         echo
+         echo " Not Updated . . ."
+         sleep .6
+         break;;
+      
+         u)
+         #cp ~/.config/videoinfox/yt-dlp ~/.config/videoinfox/yt-dlp-old
+         #cp ~/.config/videoinfox/yt-dlp-fetched ~/.config/videoinfox/yt-dlp
+         #~/.config/videoinfox/yt-dlp --version > ~/.config/videoinfox/videoinfo.yt-dlp.version
+         echo
+         echo " UPDATED . . ."
+         sleep .6
+         break;; 
+               
+         esac
+         done
+         ;;
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+    y)  # CHECK FOR YT-DLP UPDATE
+    function chkytdlp {
+    clear
+    wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O ~/.config/videoinfox/yt-dlp-fetched &> /dev/null  # download <yt-dlp> from github
+    chmod a+rx ~/.config/videoinfox/yt-dlp-fetched  # set <yt-dlp-fetched> execute bit
+    clear 
+    echo
+    echo
+    echo "==================================================================================================================="
+    echo " $der >>> CHECK YT-DLP UPDATE"
+    echo "==================================================================================================================="
+    echo
+    echo " Update if downloaded version is newer than than installed version"
+    echo
+    echo " yt-dlp Version Checks Complete"
+    echo 
+    echo
+    echo " Downloaded Version: " $(~/.config/videoinfox/yt-dlp-fetched --version)
+    echo
+    echo " Installed Version:  " $(~/.config/videoinfox/yt-dlp --version)
+    echo
+    echo
+    echo " u - Update     d - Don't Update"  
+    echo
+    echo -en " Enter Option: "
+    read -n1 optionytdlp
+    echo
+     }
+        
+              
+         while [ 1 ]
+         do
+         chkytdlp
+	    case $optionytdlp in
+
+
+         d)
+         #  QUIT
+         echo
+         echo " Not Updated . . ."
+         sleep .6
+         break;;
+      
+         u)
+         cp ~/.config/videoinfox/yt-dlp ~/.config/videoinfox/yt-dlp-old
+         cp ~/.config/videoinfox/yt-dlp-fetched ~/.config/videoinfox/yt-dlp
+         ~/.config/videoinfox/yt-dlp --version > ~/.config/videoinfox/videoinfo.yt-dlp.version
+         echo
+         echo " UPDATED . . ."
+         sleep .6
+         break;; 
+               
+         esac
+         done
+         ;;
+    
+esac
+done
 ;;
 
 
@@ -1743,6 +2140,8 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 
 y)       
 
+grabdir="$PWD"  # grab working directory
+
 if ! command -v ~/.config/videoinfox/yt-dlp &> /dev/null  # if <yt-dlp> isnt found goto then
 
 then
@@ -1769,7 +2168,7 @@ then
     read -p " Press <ENTER> to Continue"
 
 else  # if <yt-dlp> is found
-grabdir="$PWD"  # grab working directory 
+
 
 read ytdlpver < ~/.config/videoinfox/videoinfo.yt-dlp.version
     
@@ -1781,21 +2180,18 @@ pasteclip=$(xclip -o -selection clipboard)  # grab clipboard content
 
 clear
 echo
-echo " Working Directory: $PWD"
+echo "Directory: $PWD"
+echo "Clipboard:" "$pasteclip"
+echo
+echo " Video url needs to already be in the clipboard.  <ENTER> to verify copied url  Then Download or Play"
 echo
 echo "==================================================================================================================="
 echo " $der >>> YT-DLP MENU                                          yt-dlp Version Installed: $ytdlpver"
 echo
-echo " Video url needs to already be in the clipboard.  Then <ENTER> to verify copied url  Then Download or Play"      
-echo
-echo " Clipboard:" "$pasteclip"
-echo
 echo " Download Directory:" "$dirsaved"
 echo "==================================================================================================================="
 echo
-echo " d - Download Video     v - View Downloads     s - Set Download Directory     c - Check Yt-dlp Update     q - Quit"  
-echo
-echo " p - Play Video (download, watch, delete)"
+echo " d - Download Video     v - View Downloads     p - Play Video (download, watch, delete)                   q - Quit"
 echo
 echo -en " Enter Option: "
 read -n1 optiony
@@ -1813,64 +2209,6 @@ echo
      clear
      break;;
 
-
-     c)  # CHECK FOR <yt-dlp> UPDATE
-     function chkytdlp {
-     clear
-     wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O ~/.config/videoinfox/yt-dlp-fetched &> /dev/null  # download <yt-dlp> from github
-     chmod a+rx ~/.config/videoinfox/yt-dlp-fetched  # set <yt-dlp-fetched> execute bit
-     
-     clear 
-     echo
-     echo
-     echo "==================================================================================================================="
-     echo " $der >>> CHECK YT-DLP UPDATE"
-     echo
-     echo " Update if downloaded version is newer than than installed version"
-     echo "==================================================================================================================="
-     echo
-     echo " yt-dlp Version Checks Complete"
-     echo 
-     echo
-     echo " Downloaded Version: " $(~/.config/videoinfox/yt-dlp-fetched --version)
-     echo
-     echo " Installed Version:  " $(~/.config/videoinfox/yt-dlp --version)
-     echo
-     echo
-     echo " u - Update     q - Don't Update"  
-     echo
-     echo -en " Enter Option: "
-     read -n1 optionytdlp
-     echo
-     }
-        
-                  
-              while [ 1 ]
-              do
-              chkytdlp
-	         case $optionytdlp in
-
-
-              q)
-              #  QUIT
-              echo
-              echo " Not Updated . . ."
-              sleep .6
-              break;;
-      
-              u)
-              cp ~/.config/videoinfox/yt-dlp ~/.config/videoinfox/yt-dlp-old
-              cp ~/.config/videoinfox/yt-dlp-fetched ~/.config/videoinfox/yt-dlp
-              ~/.config/videoinfox/yt-dlp --version > ~/.config/videoinfox/videoinfo.yt-dlp.version
-              echo
-              echo " UPDATED . . ."
-              sleep .6
-              break;; 
-               
-                   esac
-                   done
-                   ;;
-     
 
      v)  # VIEW DOWNLOADS
      
@@ -1916,9 +2254,7 @@ echo
               q)
               #  QUIT
               break;;
-      
-              D)
-              ;;
+     
 
               p)  # PLAY DOWNLOAD DIRECTORY
               clear
@@ -2003,47 +2339,11 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
      sleep 2
      ;;
 
-
-     s)
-     # SET <yt-dlp> DOWNLOAD DIRECTORY
-     clear
-     echo
-     echo "Working Directory: "$PWD  # <pwd>  print current working directory to the screen 
-     echo
-     echo "==================================================================================================================="
-     echo " $ver >>> YT-DLP - SET DOWNLOAD DIRECTORY"
-     echo
-     echo " Normal Syntax except, no quotations needed for paths with spaces. Case Sensative."
-     echo "==================================================================================================================="
-     echo
-    
-           read -r -p " Enter Directory: " specifydir2  # waiting fot user input - the directory you want to chang to 
-	
-	     if [ -z "$specifydir2" ]  # if no input was entered goto  <then> 
-            then
-                echo
-                echo " error: Nothing was entered"
-            else
-                if [ -d "$specifydir2" ]  #  if directoty exists goto  <then>
-                  then
-                      echo
-                      echo "$specifydir2" > ~/.config/videoinfox/videoinfo.yt-download-dir
-                      read dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir
-                      echo " Download Directory Set to:" "$dirsaved"                  
-                      else
-                      echo
-                      echo " error:  No such file or directory"                    
-                fi
-          fi       
-          
-          #read -p "     Press <ENTER> to Continue" 
-          sleep 1.7
-          ;;
-          
-          esac
-          done
+     esac
+     done
 fi
-cd $grabdir  # restore working directory
+
+cd "$grabdir"  # restore dir prior to entering yt-dlp menu
 ;;
 
 
