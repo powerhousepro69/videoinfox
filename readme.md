@@ -51,6 +51,15 @@ Dependencies:
   
   ![Videoinfox DEPENDENCY CHECK](https://i.imgur.com/WnjCTQe.png)
   
-  Directory and file creation for first the run or if the videoinfo directory gets deleted anytime after the first run.
+  Directory and file creation for first the run or if the videoinfox directory gets deleted anytime after the first run.
   
   ![Videoinfox FIRST RUN](https://i.imgur.com/fP5DDnW.png)
+
+
+
+
+
+
+sudo wget https\:\/\/\raw.githubusercontent.com\/powerhousepro69\/videoinfox\/main\/videoinfox \-O \/usr\/local\/bin\/videoinfox
+
+
