@@ -1002,7 +1002,7 @@ find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi"
       echo >> videoinfo.List-Directory
       echo
       echo >> videoinfo.List-Directory
-      notify-send "Videoinfo is done processing: List Directory" "$PWD"  # GUI Notification is displayed when this function <option 1> has completed.
+      notify-send "Videoinfox is done processing: List Directory" "$PWD"  # GUI Notification is displayed when this function <option 1> has completed.
       # The file  <~/.config/videoinfox/videoinfo.duration.tmp>  was created for <ffprobe> to store video duration in seconds of all find results.
       # The math was already performed on this file and it is no longer needed.  So it is being removed.  
       rm ~/.config/videoinfox/videoinfo.duration.tmp
@@ -1149,7 +1149,7 @@ findmeadir=$(find . -type d -iname "$dirfind" 2>/dev/null | wc -l)   # number of
                         :  # the colon can be used in place of a command to 'Do Nothing'  Exit this nested loop
 	               else 	                    
                         pastetemp=$(xclip -o -selection clipboard 2>/dev/null)  # perserve clipboard content prioir to runnin this function
-                        notify-send "Videoinfo is done processing: Find Directory" "Total Directories Found: $findmeadir" # GUI Notification.
+                        notify-send "Videoinfox is done processing: Find Directory" "Total Directories Found: $findmeadir" # GUI Notification.
                         echo       
 	                   echo " Chang the directory: Copy 1 line (including the dot) to the Clipboard then press <ENTER>"
                         echo     		                
@@ -1202,7 +1202,7 @@ echo "------------------"
 totalcount=$(($mp4count + $mkvcount + $avicount + $webmcount + $divxcount))  # calcutation for Sum of All 4 file types
 echo " TOTAL = " $totalcount  # display Sum
 # GUI Notification is displayed when this function <option 6> has completed. 
-notify-send  "Videoinfo is done processing Video File Count " "Total Video Files located in $PWD : $totalcount"
+notify-send  "Videoinfox is done processing Video File Count " "Total Video Files located in $PWD : $totalcount"
 echo
 read -p " Press <ENTER> to Continue" 
 ;;
@@ -1312,7 +1312,7 @@ echo >> videoinfo.Video-Duration
 #echo
 #echo "     q  to quit" >> videoinfo.Video-Duration
 echo >> videoinfo.Video-Duration
-notify-send  "Videoinfo is done processing: Video Duration" "$PWD"  # GUI Notification is displayed when this function has completed.
+notify-send  "Videoinfox is done processing: Video Duration" "$PWD"  # GUI Notification is displayed when this function has completed.
 # The file  <~/.config/videoinfox/videoinfo.duration.tmp>  was created for <ffprobe> to store video duration in seconds of all find results.
 # The math was already performed on this file and it is no longer needed.  So it is being removed.  
 #rm ~/.config/videoinfox/videoinfo.duration.tmp
@@ -1893,7 +1893,7 @@ find "$PWD" -type f \( -iname "$videofind.mp4" -o -iname "$videofind.mkv" -o -in
                            cp ~/.config/videoinfox/videoinfo.lastsearchtotal ~/.config/videoinfox/videoinfo.lastsearchtotal2                 
                            echo
                            echo " Total files found: " $searchtotal  # number of files found
-                           notify-send  "Videoinfo is done processing: Find Video(s)" "$PWD: $searchtotal Video Files"
+                           notify-send  "Videoinfox is done processing: Find Video(s)" "$PWD: $searchtotal Video Files"
                            sleep 1
     fi
     fi              
