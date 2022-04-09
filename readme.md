@@ -11,7 +11,7 @@ sudo chmod +x /usr/local/bin/videoinfox
 ```
 
 
- Videoinfox <br /> Features:
+ Videoinfox Features:
 
  - Navigation was designed to be robust and efficient.
  - File types searched for:   .webm  .mp4  .mkv  .avi  .divx
