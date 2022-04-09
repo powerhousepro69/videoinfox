@@ -17,10 +17,10 @@ sudo chmod +x /usr/local/bin/videoinfox
  - File types searched for: &nbsp;   .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx
  - Play videos and get video info from find result(s).
  - Copy one find result to the clipboard and press &nbsp; \<p\> &nbsp; to play.
- - Keep track of everything played >>> Played List
- - Save a list of videos from find result(s) >>> Saved Finds
+ - Keep track of everything played &nbsp; >>> &nbsp; Played List
+ - Save a list of videos from find result(s) &nbsp; >>> &nbsp; Saved Finds
  - Remove duplicates and put both lists in alphabetical order.
- - Press \<enter\> anywhere you see \<Clipboard:\> to update display.
+ - Press &nbsp; \<enter\> &nbsp; anywhere you see &nbsp; \<Clipboard:\> &nbsp; to update display.
  - Enter file with full path to play and get info.
  - Store last find result(s) and autoload until deleted.
  - Yt-dlp integration for easy download and view.
@@ -31,7 +31,7 @@ sudo chmod +x /usr/local/bin/videoinfox
  - Find directory and change to it by copying it to clipboard.
  - List video info one directory deep.  Save per directory.
  - Recursive count of videos broken down into video type.
- - Recursive duration (days:hrs:min:sec) Save per directory.
+ - Recursive duration &nbsp; (days:hrs:min:sec) &nbsp; Save per directory.
  - GUI notifications.
 
 
