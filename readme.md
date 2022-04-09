@@ -22,7 +22,7 @@ sudo chmod +x /usr/local/bin/videoinfox
  - Remove duplicates and put both lists in alphabetical order.
  - Press \<enter\> anywhere you see \<Clipboard:\> to update display.
  - Enter file with full path to play and get info.
- - Store last find result(s and autoload until deleted.
+ - Store last find result(s) and autoload until deleted.
  - Yt-dlp integration for easy download and view.
  - Download and update both Videoinfox and Yt-dlp
  - Rapid directory changing by setting default directories.
