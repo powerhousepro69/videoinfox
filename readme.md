@@ -86,7 +86,7 @@ Any missing dependencies will be displayed.
 
  <br />
 
-  Directory and file creation for first the run or if the videoinfox directory gets deleted anytime after the first run.
+  Setup for first the run or if the videoinfox directory gets deleted anytime after the first run.
   
   ![Videoinfox FIRST RUN](https://i.imgur.com/fP5DDnW.png)
 
