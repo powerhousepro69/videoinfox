@@ -72,11 +72,11 @@ Dependencies:
   
 - ffmpeg ......... (extrat Duration in <hrs:min:sec> format)
 - ffprobe ........ (extract Codec, Resolution and Duration in floating seconds format (x.xxxxxx))
-- ffplay &nbsp; &nbsp; &bsp; &nbsp; &nbsp; &nbsp; (play the video that is in the clipboard.)                                        
+- ffplay &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; play video                                        
   
-- bc &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;  (floating point math.)
+- bc &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; floating point math
   
-- notify-send  &nbsp; &nbsp; &nbsp; (display gui notifications.)
+- notify-send  &nbsp; &nbsp; &nbsp; display gui notifications
 
  
  Videoinfox runs a dependency check at startup.  If any dependencies are Not Found, the script will exit.
