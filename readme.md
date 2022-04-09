@@ -29,9 +29,9 @@ sudo chmod +x /usr/local/bin/videoinfox
  - Save directory state on exit to load on next run.
  - Change directory by entering full path.
  - Find directory and change to it by copying it to clipboard.
- - List video info one directory deep and save per directory.
+ - List video info one directory deep.  Save per directory.
  - Recursive count of videos broken down into video type.
- - Recursive duration. days:hrs:min:sec and save per directory.
+ - Recursive duration.  days:hrs:min:sec.   Save per directory.
  - GUI notifications.
 
 
