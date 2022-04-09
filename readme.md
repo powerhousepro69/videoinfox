@@ -16,7 +16,7 @@ Videoinfox Features:
  - Navigation was designed to be fast and efficient.
  - File types searched for:   .webm  .mp4  .mkv  .avi  .divx
  - Play videos and get video info from find results.
- - Copy one find result to the clipboard and press <p> to play.
+ - Copy one find result to the clipboard and press \<p\> to play.
  - Keep track of everything played >>> Played List
  - Save a list of videos from find results >>> Saved Finds
  - Remove duplicates and put both lists in alphabetical order.
