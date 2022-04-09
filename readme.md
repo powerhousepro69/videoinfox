@@ -71,7 +71,7 @@ Dependencies:
 - xclip &nbsp; &nbsp; &nbsp; (paste feature.  xclip only works with Xsession)
   
 - ffmpeg ......... (extrat Duration in <hrs:min:sec> format)
-- ffprobe &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; extract Codec, Resolution and Duration in floating seconds format  &nbsp; (x.xxxxxx)
+- ffprobe &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; extract Codec, Resolution and Duration in floating seconds format  &nbsp; (x.xxxxxx)
 - ffplay &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;play video                                        
   
 - bc &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; floating point math
