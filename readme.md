@@ -14,7 +14,7 @@ sudo chmod +x /usr/local/bin/videoinfox
  Videoinfox Features:
 
  - Navigation was designed to be robust and efficient.
- - File types searched for: &nbsp;  .webm  .mp4  .mkv  .avi  .divx
+ - File types searched for: &nbsp;  .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx
  - Play videos and get video info from find result(s).
  - Copy one find result to the clipboard and press \<p\> to play.
  - Keep track of everything played >>> Played List
