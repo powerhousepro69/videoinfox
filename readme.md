@@ -11,18 +11,18 @@ sudo chmod +x /usr/local/bin/videoinfox
 ```
 
 
-Videoinfox Features:
+ Videoinfox Features:
 
- - Navigation was designed to be fast and efficient.
+ - Navigation was designed to be robust and efficient.
  - File types searched for:   .webm  .mp4  .mkv  .avi  .divx
- - Play videos and get video info from find results.
- - Copy one find result to the clipboard and press \<p\> to play.
+ - Play videos and get video info from find result(s).
+ - Copy one find result to the clipboard and press <p> to play.
  - Keep track of everything played >>> Played List
- - Save a list of videos from find results >>> Saved Finds
+ - Save a list of videos from find result(s) >>> Saved Finds
  - Remove duplicates and put both lists in alphabetical order.
- - Press \<enter\> anywhere you see \<Clipboard:\> to update display.
+ - Press <enter> anywhere you see <Clipboard:> to update display.
  - Enter file with full path to play and get info.
- - Store last find result and autoload until deleted.
+ - Store last find result(s and autoload until deleted.
  - Yt-dlp integration for easy download and view.
  - Download and update both Videoinfox and Yt-dlp
  - Rapid directory changing by setting default directories.
@@ -30,7 +30,7 @@ Videoinfox Features:
  - Change directory by entering full path.
  - Find directory and change to it by copying it to clipboard.
  - List video info one directory deep and save per directory.
- - Recursive count of videos broken down to video type.
+ - Recursive count of videos broken down into video type.
  - Recursive duration. days:hrs:min:sec and save per directory.
  - GUI notifications.
 
