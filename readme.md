@@ -34,9 +34,11 @@ sudo chmod +x /usr/local/bin/videoinfox
  - Recursive duration &nbsp; (days:hrs:min:sec) &nbsp; Save per directory.
  - GUI notifications.
 
-
+<br />
 
 Dependencies listed at bottom
+
+<br />
 
 ![Videoinfox HOME](https://i.imgur.com/3xMvxpo.png)
 
@@ -64,7 +66,7 @@ Dependencies listed at bottom
 
 
 
-
+<br />
    
 Dependencies:   
  
@@ -76,6 +78,7 @@ Dependencies:
 - bc &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; floating point math
 - notify-send  &nbsp; &nbsp; &nbsp; display gui notifications
 
+ <br />
  
  Videoinfox runs a dependency check at startup.  If any dependencies are Not Found, the script will exit.
   
