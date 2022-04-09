@@ -184,7 +184,7 @@ if [ $whatdir == $thisdir ]  # If the directory the script was run from: / <root
       echo
 
       #sec=3
-           #while [ $sec -ge 0 ]; do  #  This pauses the loop.  It displays and counts down the seconds set in <$sec>
+           #while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
            #echo -ne "     Message Expiring in: $sec\033[0K\r"
            #let "sec=sec-1"
            #sleep 1
@@ -268,7 +268,7 @@ echo "                                                                          
       echo
 
            sec=30
-           while [ $sec -ge 0 ]; do  #  This pauses the loop.  It displays and counts down the seconds set in <$sec>
+           while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
                                 
                 echo -ne " $ver starting in: $sec\033[0K\r"
                 let "sec=sec-1"
@@ -779,7 +779,7 @@ case $optionsettings in
          #  QUIT
          echo
          echo " Not Updated . . ."
-         sleep .7
+         sleep .6
          break;;
       
          u)
@@ -790,7 +790,14 @@ case $optionsettings in
          echo " Downnloaded videoinfox copied to: /usr/local/bin"
          echo   
          echo " UPDATED . . ."
-         sleep 1.5
+         
+         sec=3
+              while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
+              echo -ne " $sec\033[0K\r"
+              let "sec=sec-1"
+              sleep 1
+              done         
+
          clear
          echo -e "\n"
          echo -e "\n"
@@ -798,7 +805,7 @@ case $optionsettings in
          echo " $ver >>> EXIT >>> Updated to: $(~/.config/videoinfox/videoinfox-fetched -v)                     Restart to use updated version."
          echo "==================================================================================================================" 
          echo -e "\n"
-         echo " "$PWD"  SAVED for next start . . ."
+         " Directory state SAVED for next run:" "$PWD"
          sleep 1.5
          
          clear
@@ -817,36 +824,36 @@ case $optionsettings in
          ;;
 
 
-    y)  # CHECK FOR YT-DLP UPDATE
-    function chkytdlp {
-    clear
-    wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O ~/.config/videoinfox/yt-dlp-fetched >/dev/null  # download <yt-dlp> from github
-    chmod a+rx ~/.config/videoinfox/yt-dlp-fetched  # set <yt-dlp-fetched> execute bit
-    clear 
-    echo
-    echo
-    echo "==================================================================================================================="
-    echo " $der >>> CHECK YT-DLP UPDATE"
-    echo "==================================================================================================================="
-    echo
-    echo " ytdlp Home: https://github.com/yt-dlp/yt-dlp"
-    echo
-    echo " Downloaded From: https://github.com/yt-dlp/yt-dlp/releases/latest/download"
-    echo
-    echo
-    echo " Version Check Complete"
-    echo
-    echo " Downloaded:" $(~/.config/videoinfox/yt-dlp-fetched --version)
-    echo
-    echo " Installed: " $(~/.config/videoinfox/yt-dlp --version)
-    echo
-    echo
-    echo " u - Update     d - Don't Update"  
-    echo
-    echo -en " Enter Option: "
-    read -n1 optionytdlp
-    echo
-     }
+         y)  # CHECK FOR YT-DLP UPDATE
+         function chkytdlp {
+         clear
+wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O ~/.config/videoinfox/yt-dlp-fetched >/dev/null  # download <yt-dlp> from github
+         chmod a+rx ~/.config/videoinfox/yt-dlp-fetched  # set <yt-dlp-fetched> execute bit
+         clear 
+         echo
+         echo
+         echo "==================================================================================================================="
+         echo " $der >>> CHECK YT-DLP UPDATE"
+         echo "==================================================================================================================="
+         echo
+         echo " ytdlp Home: https://github.com/yt-dlp/yt-dlp"
+         echo
+         echo " Downloaded From: https://github.com/yt-dlp/yt-dlp/releases/latest/download"
+         echo
+         echo
+         echo " Version Check Complete"
+         echo
+         echo " Downloaded:" $(~/.config/videoinfox/yt-dlp-fetched --version)
+         echo
+         echo " Installed: " $(~/.config/videoinfox/yt-dlp --version)
+         echo
+         echo
+         echo " u - Update     d - Don't Update"  
+         echo
+         echo -en " Enter Option: "
+         read -n1 optionytdlp
+         echo
+         }
         
               
          while [ 1 ]
@@ -868,7 +875,7 @@ case $optionsettings in
          ~/.config/videoinfox/yt-dlp --version > ~/.config/videoinfox/videoinfo.yt-dlp.version
          echo
          echo " UPDATED . . ."
-         sleep .7
+         sleep 1.5
          break;; 
                
          esac
