@@ -20,7 +20,7 @@ Videoinfox Features:
  - Keep track of everything played >>> Played List
  - Save a list of videos from find results >>> Saved Finds
  - Remove duplicates and put both lists in alphabetical order.
- - Press <enter> anywhere you see <Clipboard:> to update display.
+ - Press \<enter\> anywhere you see \<Clipboard:\> to update display.
  - Enter file with full path to play and get info.
  - Store last find result and autoload until deleted.
  - Yt-dlp integration for easy download and view.
