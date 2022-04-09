@@ -31,7 +31,7 @@ sudo chmod +x /usr/local/bin/videoinfox
  - Find directory and change to it by copying it to clipboard.
  - List video info one directory deep.  Save per directory.
  - Recursive count of videos broken down into video type.
- - Recursive duration. \  \ days:hrs:min:sec. / /  Save per directory.
+ - Recursive duration (days:hrs:min:sec). Save per directory.
  - GUI notifications.
 
 
