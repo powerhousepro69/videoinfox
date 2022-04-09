@@ -1,4 +1,4 @@
-videoinfox v.1.95
+videoinfox v.1.96
 
 For xserver - Find video files fast , get info on and play, Also, yt-dlp integration.
 
