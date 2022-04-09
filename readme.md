@@ -68,7 +68,7 @@ Dependencies listed at bottom
    
 Dependencies:   
  
-- xclip .......... (paste feature.  xclip only works with Xsession)
+- xclip &nbsp; &nbsp; &nbsp; (paste feature.  xclip only works with Xsession)
   
 - ffmpeg ......... (extrat Duration in <hrs:min:sec> format)
 - ffprobe ........ (extract Codec, Resolution and Duration in floating seconds format (x.xxxxxx))
