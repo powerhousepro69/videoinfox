@@ -35,8 +35,6 @@ sudo chmod +x /usr/local/bin/videoinfox
  - Recursive duration &nbsp; (days:hrs:min:sec) &nbsp; Save per directory.
  - GUI notifications.
 
-<br />
-
 Dependencies listed at bottom
 
 <br />
