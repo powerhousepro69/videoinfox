@@ -73,15 +73,15 @@ Dependencies:
 - xclip &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;paste feature.  xclip only works with Xsession  
 - ffmpeg &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;extrat duration in &nbsp; (hrs:min:sec) &nbsp; format
 - ffprobe &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;extract codec, resolution and duration in floating seconds format  &nbsp; (x.xxxxxx)
-- ffplay &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;play video                                        
+- ffplay &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; play video                                        
 - bc &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; floating point math
 - notify-send  &nbsp; &nbsp; &nbsp; display gui notifications
 
  <br />
  
- Videoinfox runs a dependency check at startup.  If any dependencies are Not Found, the script will exit.
+Videoinfox runs a dependency check at startup.  If any dependencies are Not Found, the script will exit.
   
- Any dependencies that are missing will be displayed.
+Any missing dependencies will be displayed.
   
   ![Videoinfox DEPENDENCY CHECK](https://i.imgur.com/WnjCTQe.png)
   
