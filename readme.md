@@ -2,7 +2,7 @@ videoinfox v.1.96
 
 For xserver - Find video files fast , get info on and play.  &nbsp; Yt-dlp integration.
 
-Install : Run the 2 lines below
+To install &nbsp;: &nbsp;Run the 2 lines below
 ```
 sudo wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox -O /usr/local/bin/videoinfox
 ```
@@ -35,7 +35,7 @@ sudo chmod +x /usr/local/bin/videoinfox
  - Recursive duration &nbsp; (days:hrs:min:sec) &nbsp; Save per directory.
  - GUI notifications.
 
-Dependencies listed at bottom
+Dependencies listed at bottom of page.
 
 <br />
 
