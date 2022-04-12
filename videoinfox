@@ -547,11 +547,12 @@ d)  # SETTINGS - <HOME>
 function menusettings {
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
+
 # LOAD STORED DIRECTORIES
-read dir1 < ~/.config/videoinfox/videoinfo.parent-dir 2> /dev/null
-read dir2 < ~/.config/videoinfox/videoinfo.tv-dir 2> /dev/null
-read dir3 < ~/.config/videoinfox/videoinfo.movies-dir 2> /dev/null
+read dir1 < ~/.config/videoinfox/videoinfo.tv-dir 2> /dev/null
+read dir2 < ~/.config/videoinfox/videoinfo.movies-dir 2> /dev/null
 read dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null
+read dir4 < ~/.config/videoinfox/videoinfo.parent-dir 2> /dev/null
 read dir5 < ~/.config/videoinfox/videoinfo.dir-at-exit 2> /dev/null
 
 clear
@@ -565,13 +566,13 @@ echo "__________________________________________________________________________
 echo
 echo " Change Directory:                                                                          q - Quit"
 echo
-echo " 1 - Extra:" "$dir1"
+echo " 1 - TV:" "$dir1"
 echo "                                                                                            v - Videoinfox update"
-echo " 2 - TV:" "$dir2"
+echo " 2 - Movies:" "$dir2"
 echo "                                                                                            y - Yt-dlp update"
-echo " 3 - Movies:" "$dir3"
+echo " 3 - Download:" "$dirsaved"
 echo "                                                                                            d - Set Directories"
-echo " 4 - Download:" "$dirsaved"
+echo " 4 - Extra:" "$dir4"
 echo
 echo " 5 - Last Exit:" "$dir5"
 echo
@@ -589,25 +590,25 @@ case $optionsettings in
     q)  # QUIT
     break;;
  
-    1)  # CHANGE TO MOVIES DIR    
+    1)  # CD DIRECTORY TO TV    
     cd "$dir1"
     break
     ;;
     
-    2)  # CHANGE TO TV DIR
+    2)  # CD DIRECTORY TO MOVIES
     cd "$dir2"
     break
     ;;
 
 
-    3)  # CHANGE TO MOVIES DIR
-    cd "$dir3"
+    3)  # CHANGE DIRECTORY TO DOWNLOADS
+    cd "$dirsaved"
     break
     ;;
 
 
-    4)  # CHANGE TO DOWNLOAD DIR   
-    cd "$dirsaved"
+    4)  # CHANGE DIRECTORY TO EXTRA   
+    cd "$dir4"
     break
     ;;
 
@@ -630,13 +631,13 @@ case $optionsettings in
     echo " $der >>> SET VIDEO DIRECTORIES                                                              q -Quit"
     echo "___________________________________________________________________________________________________________________"
     echo
-    echo " 1 - Extra:" "$dir1"
+    echo " 1 - TV:" "$dir1"
     echo
-    echo " 2 - TV:" "$dir2"
+    echo " 2 - MOVIES:" "$dir2"
     echo
-    echo " 3 - Movies:" "$dir3"
+    echo " 3 - DOWNLOAD:" "$dirsaved"
     echo
-    echo " 4 - Download:" "$dirsaved"
+    echo " 4 - EXTRA:" "$dir4"
     echo
     echo -en " Enter Option: "
     read -n1 optionsvd
@@ -653,47 +654,6 @@ case $optionsettings in
     
 
     1)
-    # SET PARENT DIRECTORY
-    grabdir="$PWD"  # grab working directory 
-    pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-    clear
-    echo
-    echo "Working Directory: "$PWD  # <pwd>  print current working directory to the screen 
-    echo "Clipboard: "$pasteclip
-    echo "___________________________________________________________________________________________________________________"
-    echo
-    echo " $ver >>> SET EXTRA DIRECTORY"
-    echo "___________________________________________________________________________________________________________________"
-    echo
-    echo " No quotations needed for paths with spaces. Case sensative."
-    echo
-    read -r -p " Enter Directory: " specifydir2  # waiting fot user input - the directory you want to chang to 
-	
-	     if [ -z "$specifydir2" ]  # if no input was entered goto  <then> 
-            then
-                echo
-                echo " error: Nothing was entered"
-            else
-                if [ -d "$specifydir2" ]  #  if directoty exists goto  <then>
-                  then
-                      echo
-                      echo "$specifydir2" > ~/.config/videoinfox/videoinfo.parent-dir
-                      read dir1 < ~/.config/videoinfox/videoinfo.parent-dir
-                      echo " Parent Directory Set to:" "$dir1"                  
-                      else
-                      echo
-                      echo " error:  No such file or directory"                    
-                fi
-          fi       
-          
-          #read -p "     Press <ENTER> to Continue" 
-          cd "$grabdir" # restore working directory
-          sleep 1.5
-          break
-          ;;
-
-
-    2)
     # SET TV DIRECTORY
     grabdir="$PWD"  # grab working directory 
     pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
@@ -719,8 +679,8 @@ case $optionsettings in
                   then
                       echo
                       echo "$specifydir2" > ~/.config/videoinfox/videoinfo.tv-dir
-                      read dir2 < ~/.config/videoinfox/videoinfo.tv-dir
-                      echo " TV Directory Set to:" "$dir2"                  
+                      read dir1 < ~/.config/videoinfox/videoinfo.tv-dir
+                      echo " TV Directory Set to:" "$dir1"                  
                       else
                       echo
                       echo " error:  No such file or directory"                    
@@ -734,7 +694,7 @@ case $optionsettings in
           ;;
 
 
-    3)
+    2)
     # SET MOVIES DIRECTORY
     grabdir="$PWD"  # grab working directory 
     pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content 
@@ -760,8 +720,8 @@ case $optionsettings in
                   then
                       echo
                       echo "$specifydir2" > ~/.config/videoinfox/videoinfo.movies-dir
-                      read dir3 < ~/.config/videoinfox/videoinfo.movies-dir
-                      echo " Movie Directory Set to:" "$dir3"                  
+                      read dir2 < ~/.config/videoinfox/videoinfo.movies-dir
+                      echo " Movie Directory Set to:" "$dir2"                  
                       else
                       echo
                       echo " error:  No such file or directory"                    
@@ -775,7 +735,7 @@ case $optionsettings in
           ;;
            
 
-    4)
+    3)
     # SET <yt-dlp> DOWNLOAD DIRECTORY
     grabdir="$PWD"  # grab working directory 
     pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
@@ -814,14 +774,54 @@ case $optionsettings in
           sleep 1.5
           break
           ;;
-         
+
+
+ 4)
+    # SET PARENT DIRECTORY
+    grabdir="$PWD"  # grab working directory 
+    pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+    clear
+    echo
+    echo "Working Directory: "$PWD  # <pwd>  print current working directory to the screen 
+    echo "Clipboard: "$pasteclip
+    echo "___________________________________________________________________________________________________________________"
+    echo
+    echo " $ver >>> SET EXTRA DIRECTORY"
+    echo "___________________________________________________________________________________________________________________"
+    echo
+    echo " No quotations needed for paths with spaces. Case sensative."
+    echo
+    read -r -p " Enter Directory: " specifydir2  # waiting fot user input - the directory you want to chang to 
+	
+	     if [ -z "$specifydir2" ]  # if no input was entered goto  <then> 
+            then
+                echo
+                echo " error: Nothing was entered"
+            else
+                if [ -d "$specifydir2" ]  #  if directoty exists goto  <then>
+                  then
+                      echo
+                      echo "$specifydir2" > ~/.config/videoinfox/videoinfo.parent-dir
+                      read dir4 < ~/.config/videoinfox/videoinfo.parent-dir
+                      echo " Parent Directory Set to:" "$dir4"                  
+                      else
+                      echo
+                      echo " error:  No such file or directory"                    
+                fi
+          fi       
+          
+          #read -p "     Press <ENTER> to Continue" 
+          cd "$grabdir" # restore working directory
+          sleep 1.5
+          break
+          ;;
+
     
      esac
      done
      ;;
 
-
-
+             
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     
     v)  # CHECK FOR VIDEOINFOX UPDATE
@@ -1617,6 +1617,26 @@ echo "Find Entry: "$(cat ~/.config/videoinfox/videoinfo.lastfindstring 2>/dev/nu
 echo
 echo "Directory: "$PWD  # <pwd>  print current working directory to the screen
 
+
+
+
+# LOAD STORED DIRECTORIES
+read dir1 < ~/.config/videoinfox/videoinfo.tv-dir 2> /dev/null
+read dir2 < ~/.config/videoinfox/videoinfo.movies-dir 2> /dev/null
+read dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null
+read dir4 < ~/.config/videoinfox/videoinfo.parent-dir 2> /dev/null
+read dir5 < ~/.config/videoinfox/videoinfo.dir-at-exit 2> /dev/null
+
+
+
+
+
+
+
+
+
+
+
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content                          
 echo
 echo "Copy 1 above Find to the Clipboard then info or play."
@@ -1627,7 +1647,7 @@ echo
 echo " Clipboard: "$pasteclip
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " f - Find     p - Play Clipboard     x - Clear Clipboard                                                  q - Quit"   
+echo " f - Find     p - Play Clipboard     x - Clear Clipboard                    CD: 1 2 3 4 5                 q - Quit"   
 echo "              s - PlayList           C - Clear Find Results" 
 echo " i - Info     v - Played List                                                                             h - Help"
 echo       
@@ -1644,9 +1664,33 @@ echo
 	
      q)  
      #  QUIT - <Find Menu> 
-	 break ;;
+	break ;;
 
+
+     1)  # CD DIRECTORY TO TV    
+     cd "$dir1"
+     ;;
     
+     2)  # CD DIRECTORY TO MOVIES
+     cd "$dir2"
+     ;;
+
+
+     3)  # CHANGE DIRECTORY TO DOWNLOADS
+     cd "$dirsaved"
+     ;;
+
+
+     4)  # CHANGE DIRECTORY TO EXTRA   
+     cd "$dir4"
+     ;;
+
+
+     5)  # CHANGE DIRECTORY TO LAST EXIT
+     cd "$dir5"
+     ;;
+
+
      C)  # CLEAR FIND RESULTS
      # CREATE FIND RESULT MESSAGE THAT THERE ARE NO STORED FINDS
      echo " " > ~/.config/videoinfox/videoinfo.lastsearchtotal
@@ -1729,14 +1773,14 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
  
      i) 
      #  INFO - <Find Menu>
-    pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
-    echo
-    echo " ""$pasteclip"
-    echo    
-    echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
-    echo
-    read -p " Press <ENTER> to Continue" 
-    ;;
+     pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
+     echo
+     echo " ""$pasteclip"
+     echo    
+     echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+     echo
+     read -p " Press <ENTER> to Continue" 
+     ;;
 
 
      v)
