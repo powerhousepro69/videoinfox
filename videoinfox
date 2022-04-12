@@ -1722,7 +1722,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
      echo -e "\n"
      echo " This screen will exit when the video player is closed."
      echo $pasteclip >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
-     ffplay "$pasteclip" 2>/dev/null  # play video in clipboard
+     ffplay -fs "$pasteclip" 2>/dev/null  # play video in clipboard
      echo " Video Player Closed"
      ;;
 
@@ -1846,7 +1846,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
         echo -e "\n"
         echo " This screen will exit when the video player is closed."
         echo $pasteclip >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
-        ffplay "$pasteclip" 2>/dev/null  # play video in clipboard
+        ffplay -fs "$pasteclip" 2>/dev/null  # play video in clipboard
         echo " Played List Closed"
         ;;
 
@@ -1950,7 +1950,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
           echo -e "\n"
           echo " This screen will exit when the video player is closed."
           echo
-          ffplay "$pasteclip" 2>/dev/null  # play video in clipboard
+          ffplay -fs "$pasteclip" 2>/dev/null  # play video in clipboard
           echo "     Played List Closed"
           ;;
 
@@ -2162,8 +2162,9 @@ pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard conten
 
 if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
   then
-           
-      #  DOWNLOAD LINK AND PLAY FILE #   play last download routine from YT-DLP MENU
+      #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
+   
+      #  DOWNLOAD LINK AND PLAY FILE #   play last download routine grabbed from <YT-DLP MENU>
       grabdir="$PWD"  # storing directory to restore at the end of this function
         
       #  DOWNLOAD LINK AND PLAY
@@ -2189,6 +2190,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       read lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
 
       ytdlplast=$(find "$PWD" -type f \( -iname "$lastdownload*" \))
+      #echo "ytdlplast" > ~/.config/videoinfox/videoinfo.zzz
 
       clear
       echo
@@ -2215,14 +2217,14 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo -e "\n"
       echo " This screen will exit when the video player is closed."
       echo
-      echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to file  
-      ffplay &> /dev/null "$ytdlplast"  
+      echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List File  
+      ffplay -fs &> /dev/null "$ytdlplast"  
       cd "$grabdir"  # restore dir prior to entering yt-dlp menu
 
 
   else
       
-      #  PLAY FILE
+      #  PLAY FILE if <$grabpaste> WAS ANYTHING BUT <HTTP> 
       clear
       echo
       echo "___________________________________________________________________________________________________________________"
@@ -2251,7 +2253,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       #read -p " Press <ENTER> to Continue"
       
       echo $pasteclip >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
-      ffplay "$pasteclip" 2>/dev/null  # play video in clipboard
+      ffplay -fs "$pasteclip" 2>/dev/null  # play video in clipboard
       echo " Played List Closed"
      
   fi
@@ -2369,7 +2371,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
         echo " This screen will exit when the video player is closed."
         echo
         echo $pasteclip >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
-        ffplay "$pasteclip" 2>/dev/null  # play video in clipboard
+        ffplay -fs "$pasteclip" 2>/dev/null  # play video in clipboard
         echo " Played List Closed"
         ;;
 
@@ -2466,7 +2468,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
           echo -e "\n"
           echo " This screen will exit when the video player is closed."
           echo
-          ffplay "$pasteclip" 2>/dev/null  # play video in clipboard
+          ffplay -fs "$pasteclip" 2>/dev/null  # play video in clipboard
           echo "     Played List Closed"
           ;;
 
@@ -2795,7 +2797,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               echo " This screen will exit when the video player is closed."
               echo
               echo $pasteclip >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to file
-              ffplay &> /dev/null "$pasteclip"
+              ffplay -fs &> /dev/null "$pasteclip"
               echo
               ;; 
                 esac
@@ -2833,7 +2835,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               ~/.config/videoinfox/yt-dlp $pasteclip -o $dirsaved/download.tmp  # downloading temporary video
               notify-send "Videoinfox messsage: YT-DLP is done . . ." "$pasteclip"  
               
-              ffplay &> /dev/null $dirsaved/download.tmp*  # play temporary video
+              ffplay -fs &> /dev/null $dirsaved/download.tmp*  # play temporary video
               rm $dirsaved/download.tmp*  # on player close, delete temporary video
               ;; 
 
@@ -2876,7 +2878,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               echo
            
               echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to file  
-              ffplay &> /dev/null "$ytdlplast"  
+              ffplay -fs &> /dev/null "$ytdlplast"  
               cd "$grabdir"  # restore dir prior to entering yt-dlp menu
               ;;  
 
