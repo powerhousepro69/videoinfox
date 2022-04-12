@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#  file : videoinfox v1.98									         
+#  file : videoinfox v1.99									         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfo's Version Number is set.
-ver="Videoinfo x v1.98"
-der=$(echo -e "Videoinfo x v1\033[5m.\033m\033[0m\033[5m\033[5m\033[0m98")  # Version Number witth blinking dot
+ver="Videoinfo x v1.99"
+der=$(echo -e "Videoinfo x v1\033[5m.\033m\033[0m\033[5m\033[5m\033[0m99")  # Version Number witth blinking dot
 
 
 ##################################################################################################################################################
@@ -154,7 +154,7 @@ if [ $depcount == 0 ]  # if all dependencies = 0 (All Found) goto then
       echo " When all dependencies are Found, the script will run."
       echo
       echo "=================================================================================================================="  
-      echo " $ver >>> EXIT"
+      echo " $der >>> EXIT"
       echo "==================================================================================================================" 
       echo -e "\n"
       exit
@@ -186,6 +186,8 @@ if [ $whatdir == $thisdir ]  # If the directory the script was run from: / <root
       echo " Change to a Parent Directory of your Video Library"
       echo
 
+      # Timeout was disabled because there was no point in seeing this display.  I ended up just neeeding the <cd> execution from the loop.
+      
       #sec=3
            #while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
            #echo -ne "     Message Expiring in: $sec\033[0K\r"
@@ -294,16 +296,16 @@ fi
 echo > ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo  >> ~/.config/videoinfox/videoinfo.help
-echo " Videoinfo x >>> HELP" >> ~/.config/videoinfox/videoinfo.help
+echo " $ver >>> HELP" >> ~/.config/videoinfox/videoinfo.help
 echo  >> ~/.config/videoinfox/videoinfo.help
-echo " Up & Down Arrows or Mouse wheel - scroll                                                            Home - top" >> ~/.config/videoinfox/videoinfo.help
-echo " q - quit                                                                                            End - bottom" >> ~/.config/videoinfox/videoinfo.help
+echo " Up & Down Arrows or Mouse wheel - scroll                                                             Home - top" >> ~/.config/videoinfox/videoinfo.help
+echo " q - quit                                                                                             End - bottom" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Find videos to play or get info on: Change to a parent directory of your video library. Select find then" >> ~/.config/videoinfox/videoinfo.help
 echo " find again.  Search for  *  That will show all video files under that directory" >> ~/.config/videoinfox/videoinfo.help
-echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help_
+echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Everywhere you see  Clipboard:  you can press enter to update the display of whats in the clipboard." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
@@ -323,49 +325,57 @@ echo >> ~/.config/videoinfox/videoinfo.help
 echo " NOTE: Do not randomly paste in Videoinfox. It will cause unwanted code to run producing undesired results." >> ~/.config/videoinfox/videoinfo.help         
 echo " Everywhere the dot is blinking in the version number, don't paste and Videoinfo x will function as intended." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " Ctrl-c  can cause improper Videoinfox file writes.  To maintain data integrity and retention, don't  Ctrl-c" >> ~/.config/videoinfox/videoinfo.help
+echo " Ctrl-c and randomly pasting can both cause improper Videoinfox file writes." >> ~/.config/videoinfox/videoinfo.help
+echo " To maintain data integrity and retention, don't  Ctrl-c or randomly past"
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " Every video played is saved to a played list. Finds can also be saved to saved finds." >> ~/.config/videoinfox/videoinfo.help
+echo " Every video played is autosaved to a played list." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " Any duplicates added to the playlist or saved finds will be removed and both lists put in alphabetical order." >> ~/.config/videoinfox/videoinfo.help
+echo " Any duplicates added to the playlist or the played list will be autoremoved." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " The add saved finds screen is generated from the find results.  From the saved finds screen, Select <a>" >> ~/.config/videoinfox/videoinfo.help
-echo " to get the find results to add videos to saved finds.  Highlight whatever you want to add to saved finds." >> ~/.config/videoinfox/videoinfo.help
-echo " Copy what you highlighted to the clipboard and select <a> to add your slection from the clipboard."  >>~/.config/videoinfox/videoinfo.help      
+echo " The add playlist screen is generated from the find results.  From the playlist screen, Select <a>" >> ~/.config/videoinfox/videoinfo.help
+echo " to get the find results to add videos to to the playlist.  Highlight whatever you want to add to the playlist." >> ~/.config/videoinfox/videoinfo.help
+echo " Copy what you highlight(s) to the clipboard and select <a> to add your slection(s) from the clipboard."  >>~/.config/videoinfox/videoinfo.help      
 echo " Make sure you grab the whole line including the comma.  Rinse and repeat until done." >>~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " This is my first big shell script.  It all started with 4 lines to get video codec, resolution and duration." >> ~/.config/videoinfox/videoinfo.help
 echo " Then I thought, it would be cool if I added a find feature.  Next it was, I wanted to be able to store the find" >> ~/.config/videoinfox/videoinfo.help
 echo " results for instant access at a later date.  Everytime I completed a new feature, it was onto the next feature." >> ~/.config/videoinfox/videoinfo.help
-echo " It was a run away train.  As it grew with features, it eventually became a mission to produce a relevant script" >> ~/.config/videoinfox/videoinfo.help
+echo " It was a run away train.  As it grew with features, it eventually became a passion to produce a relevant script" >> ~/.config/videoinfox/videoinfo.help
 echo " that would find videos, play and get info on those videos.  Download videos (download feature thanks to YT-DLP)" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Videoinfox Features:" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " - Navigation was designed to be robust and efficient." >> ~/.config/videoinfox/videoinfo.help
+echo " - Copy a filename to the clipboard and press <p> to play." >> ~/.config/videoinfox/videoinfo.help
+echo " - Play clipboard: <HOME> <PLAYLIST> <PLAYED LIST> <FIND> <YT-DLP>" >> ~/.config/videoinfox/videoinfo.help
 echo " - File types searched for:   .webm  .mp4  .mkv  .avi  .divx" >> ~/.config/videoinfox/videoinfo.help
-echo " - Play videos and get video info from find result(s)." >> ~/.config/videoinfox/videoinfo.help
-echo " - Copy one find result to the clipboard and press <p> to play." >> ~/.config/videoinfox/videoinfo.help
-echo " - Keep track of everything played >>> Played List" >> ~/.config/videoinfox/videoinfo.help
-echo " - Save a list of videos from find result(s) >>> Saved Finds" >> ~/.config/videoinfox/videoinfo.help
-echo " - Remove duplicates and put both lists in alphabetical order." >> ~/.config/videoinfox/videoinfo.help
+echo " - Play videos and get video info from every screen that has a play feature." >> ~/.config/videoinfox/videoinfo.help
+echo " - Keep track of everything played <PLAYED LIST>" >> ~/.config/videoinfox/videoinfo.help
+echo " - Save a list of videos from find result(s) <PLAYLIST>" >> ~/.config/videoinfox/videoinfo.help
+echo " - Remove duplicates from the playlist and played video." >> ~/.config/videoinfox/videoinfo.help
 echo " - Press  <enter>  anywhere you see  <Clipboard:>  to update display." >> ~/.config/videoinfox/videoinfo.help
-echo " - Enter file with full path to play and get info." >> ~/.config/videoinfox/videoinfo.help
-echo " - Store last find result(s) and autoload until deleted." >> ~/.config/videoinfox/videoinfo.help
-echo " - Yt-dlp integration for easy download and view." >> ~/.config/videoinfox/videoinfo.help
-echo " - Download and update both Videoinfox and Yt-dlp" >> ~/.config/videoinfox/videoinfo.help
-echo " - Rapid directory changing by setting default directories." >> ~/.config/videoinfox/videoinfo.help
+echo " - Enter a file with full path to play and get info. <Enter Video File>" >> ~/.config/videoinfox/videoinfo.help
+echo " - Auto save last find result(s) and autoload until deleted." >> ~/.config/videoinfox/videoinfo.help
+echo " - Yt-dlp integration for easy download and play." >> ~/.config/videoinfox/videoinfo.help
+echo " - Download then auto play <HOME>"  >> ~/.config/videoinfox/videoinfo.help
+echo " - Download and play video later. <YT-DLP>" >> ~/.config/videoinfox/videoinfo.help
+echo " - When download has completed, auto play, delete when the player is closed. <YT-DLP>" >> ~/.config/videoinfox/videoinfo.help
+echo " - Play last download <YT-FLP>" >> ~/.config/videoinfox/videoinfo.help
+echo " - Pick type and quality of video before download. <YT-DLP>"  >> ~/.config/videoinfox/videoinfo.help
+echo " - Download and update Videoinfox. <SET>" >> ~/.config/videoinfox/videoinfo.help
+echo " - Download and update Yt-dlp. <SET>" >> ~/.config/videoinfox/videoinfo.help
+echo " - Rapid directory changing by setting default directories. <SET>" >> ~/.config/videoinfox/videoinfo.help
 echo " - Save directory state on exit to load on next run." >> ~/.config/videoinfox/videoinfo.help
-echo " - Change directory by entering full path." >> ~/.config/videoinfox/videoinfo.help
-echo " - Find directory and change to it by copying it to clipboard." >> ~/.config/videoinfox/videoinfo.help
-echo " - List video info one directory deep.  Save per directory." >> ~/.config/videoinfox/videoinfo.help
-echo " - Recursive count of videos broken down into video type." >> ~/.config/videoinfox/videoinfo.help
-echo " - Recursive duration (days:hrs:min:sec)  Save per directory." >> ~/.config/videoinfox/videoinfo.help
+echo " - Change directory by entering full path. <CHANGE DIRECTORY>" >> ~/.config/videoinfox/videoinfo.help
+echo " - Find directory and change to it by copying it to clipboard. <FIND DIRECTORY>" >> ~/.config/videoinfox/videoinfo.help
+echo " - List video info one directory deep. Save per directory. <LIST DIRECTORY>" >> ~/.config/videoinfox/videoinfo.help
+echo " - Recursive count of videos broken down by video type. <VIDEO COUNT>" >> ~/.config/videoinfox/videoinfo.help
+echo " - Recursive duration (days:hrs:min:sec) Save per directory. <VIDEO DURATION>" >> ~/.config/videoinfox/videoinfo.help
 echo " - GUI notifications." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -443,7 +453,7 @@ echo "Clipboard: "$pasteclip
 #=================================================================================================================================================
 ##################################################################################################################################################
 
-# the following code over explains itself for those that want to learn step by step of how the below logic works.
+# the following code over explains itself for those that want to learn step by step of how to follow the logic.
 
 
 # the 2 lines of below code are creating two new variables for the following loop.
@@ -469,7 +479,8 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       echo
       echo "Download Directory: $dirsaved"  # dislpay default download directory
       ############################################################################################################################################
-      # If PLAY CLIPBOARD IS SELECTED WITH A URL                                   SEARCH:   @PLAY CLIPBOARD   TO FOLLOW THIS PROCESS TO THE END.
+      #  Above is the display code and the following section is the action part of the process:  @PLAY CLIPBOARD                               
+      #  If PLAY CLIPBOARD IS SELECTED WITH A URL                              TO FOLLOW THIS PROCESS TO THE END:      SEARCH -   @PLAY CLIPBOARD   
       ############################################################################################################################################
  else
    
@@ -483,7 +494,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
               then 
                   pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
                   echo
-                  echo "This is the only screen that can accept both a local file or a video url from the clipboard."
+                  echo "This is the only screen that can accept both a local file or a url from the clipboard."
 
               else
                   pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
@@ -501,8 +512,8 @@ echo " $der >>> HOME"
 echo "___________________________________________________________________________________________________________________"
 echo
 echo " 1 - List Directory       4 - Video Count          p - Play Clipboard     f - FIND                       e - Exit"                     
-echo " 2 - Change Directory     5 - Video Duration       v - Played List        y - YT-DLP                     d - Set"
-echo " 3 - Find Directory       6 - Enter Video File     s - Saved Finds        x - Clear Clipboard            h - http"             
+echo " 2 - Change Directory     5 - Video Duration       s - PlayList           y - YT-DLP                     d - Set"
+echo " 3 - Find Directory       6 - Enter Video File     v - Played List        x - Clear Clipboard            h - help"             
 echo
 echo -en " Enter Option: "
 read -n1 option
@@ -522,7 +533,7 @@ echo -e "\n"
 echo
 echo "___________________________________________________________________________________________________________________"  
 echo
-echo " $ver >>> EXIT"
+echo " $der >>> EXIT"
 echo "___________________________________________________________________________________________________________________" 
 echo
 echo
@@ -878,7 +889,7 @@ case $optionsettings in
          echo -e "\n"
          echo -e "\n"
          echo "=================================================================================================================="  
-         echo " $ver >>> EXIT >>> Updated to: $(~/.config/videoinfox/videoinfox-fetched -v)                     Restart to use updated version."
+         echo " $der >>> EXIT >>> Updated to: $(~/.config/videoinfox/videoinfox-fetched -v)                     Restart to use updated version."
          echo "==================================================================================================================" 
          echo -e "\n"
          echo " Directory state SAVED for next run:" "$PWD"
@@ -888,7 +899,7 @@ case $optionsettings in
          echo -e "\n"
          echo -e "\n"
          echo "=================================================================================================================="  
-         echo " $ver >>> EXIT >>> Updated to: $(~/.config/videoinfox/videoinfox-fetched -v)                     Restart to use updated version."
+         echo " $der >>> EXIT >>> Updated to: $(~/.config/videoinfox/videoinfox-fetched -v)                     Restart to use updated version."
          echo "==================================================================================================================" 
          echo -e "\n"
          exit 
@@ -1099,7 +1110,7 @@ if [ $currentdirfilecount = 0 ]  # if find returned no results goto <then>
   then
       :  # the colon can be used in place of a command to 'Do Nothing'
   else 
-      echo "$ver"
+      echo "$rer"
       echo
       echo -e "\033[5mProbing $currentdirfilecount \033[5mVideo Files for Duration\033[0m"  #  file count of find results
       echo
@@ -1572,7 +1583,7 @@ echo
 ########## ctrl + h ########## HELP HOME
 h)  
 clear
-less ~/.config/videoinfox/videoinfo.help
+less ~/.config/videoinfox/videoinfo.help  # This help file is recreated on every start
 ;;
 
         
@@ -1616,33 +1627,14 @@ echo
 echo " Clipboard: "$pasteclip
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " f - Find     v - Played List     s - Saved Finds     x - Clear Clipboard     C - Clear Find Results      q - Quit"   
-echo " i - Info" 
-echo " p - Play     l - Play Last Download                                                                      h - Help"
+echo " f - Find     p - Play Clipboard     x - Clear Clipboard                                                  q - Quit"   
+echo "              s - PlayList           C - Clear Find Results" 
+echo " i - Info     v - Played List                                                                             h - Help"
 echo       
 echo -en " Enter Option: "
 read -n1 optionf
 echo
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
      while [ 1 ]
      do
@@ -1710,7 +1702,7 @@ echo "                                                                          
      echo
      echo "___________________________________________________________________________________________________________________"
      echo
-     echo " $der >>> Play Video"
+     echo " $der >>> Find >>> Play Clipboard"
      echo
      echo " [PLAY]> "$pasteclip" "
      echo "___________________________________________________________________________________________________________________"
@@ -1800,6 +1792,8 @@ rm ~/.config/videoinfox/videoinfo.playedlist.tmp
      echo
      echo " p - Play     D - Delete Played List                                                                      q - Quit"  
      echo
+     echo " i - Info"
+     echo
      echo -en " Enter Option: "
      read -n1 optionv
      echo
@@ -1813,13 +1807,26 @@ rm ~/.config/videoinfox/videoinfo.playedlist.tmp
         q)  # QUIT
         break;;
 
+       
+        i) 
+          #  INFO - SAVED FINDS <Find Menu>
+          pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
+          echo
+          echo " ""$pasteclip"
+          echo    
+          echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+          echo
+          read -p " Press <ENTER> to Continue" 
+          ;;
+        
+        
         p)  # PLAY
         pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
         clear
         echo
         echo "___________________________________________________________________________________________________________________"
         echo
-        echo " $der >>> PLAYED LIST - Play Video" 
+        echo " $der >>> FIND >> PLAYED LIST - Play Clipboard" 
         echo
         echo " [PLAY]> "$pasteclip" "
         echo "___________________________________________________________________________________________________________________"
@@ -1876,12 +1883,14 @@ echo "$ver                                                                      
           echo "Select a Video: Copy 1 above video to the clipboard then Play."
           echo "___________________________________________________________________________________________________________________"
           echo
-          echo " $der >>> SAVED FINDS"
+          echo " $der >>> PLAYLIST"
           echo
           echo " Clipboard: "$pasteclip
           echo "___________________________________________________________________________________________________________________"
           echo
-          echo " p - Play     i - Info     a - Add     D - Delete Saved Finds                                             q - Quit"  
+          echo " p - Play Clipboard     a - Add     D - Delete Playlist                                                   q - Quit"  
+          echo
+          echo " i - Info "
           echo
           echo -en " Enter Option: "
           read -n1 options
@@ -1901,6 +1910,18 @@ echo "$ver                                                                      
           break;;
  
 
+           i) 
+          #  INFO - SAVED FINDS <Find Menu>
+          pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
+          echo
+          echo " ""$pasteclip"
+          echo    
+          echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+          echo
+          read -p " Press <ENTER> to Continue" 
+          ;;
+
+         
           p) 
           #  PLAY - <Find Menu>
           pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
@@ -1909,7 +1930,7 @@ echo "$ver                                                                      
           echo
           echo "___________________________________________________________________________________________________________________"
           echo
-          echo " $der >>> SAVED FINDS - Play Video" 
+          echo " $der >>> FIND >>> PLAYLIST - Play Clipboard" 
           echo
           echo " [PLAY]> "$pasteclip" "
           echo "___________________________________________________________________________________________________________________"        
@@ -1934,19 +1955,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
           ;;
 
 
-          i) 
-          #  INFO - SAVED FINDS <Find Menu>
-          pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
-          echo
-          echo " ""$pasteclip"
-          echo    
-          echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
-          echo
-          read -p " Press <ENTER> to Continue" 
-          ;;
-
-
-          a)  ################  ADD TO SAVED FINDS - <Find Menu>  ################
+         a)  ################  ADD TO SAVED FINDS - <Find Menu>  ################
         
           #  When grabbing more than 1 line from the Clipboard. All the results paste in as 1 line with a space in between each result.
           #  <sed> puts each result on its own line with a comma at the end of each line.
@@ -1965,7 +1974,7 @@ mv ~/.config/videoinfox/videoinfo.keptsearch.tmp2 ~/.config/videoinfox/videoinfo
 
 # witing temporary header for new Played List 
 echo > ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
-echo "$ver                                                                                        SAVED FINDS" >> ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
+echo "$ver                                                                                        PLAYLIST" >> ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
 echo >> ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
 echo "This File was Created: $(date) by" $USER >> ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
 echo >> ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
@@ -1995,13 +2004,13 @@ rm ~/.config/videoinfox/videoinfo.keptsearch.tmp
           echo
           echo " Save Multiple finds from: $(cat ~/.config/videoinfox/videoinfo.lastfindtime)"
           echo
-          echo " Copy 1 or more above lines to the Clipboard. Then Add to Saved Finds"
+          echo " Copy 1 or more above lines to the Clipboard. Then Add to Playlist"                               
           echo "___________________________________________________________________________________________________________________"
           echo
-          echo " $der >>> ADD TO SAVED FINDS                                           Quit to go back to saved finds"   
+          echo " $der >>> ADD TO PLAYLIST                                                 Quit to go back to Playlist"   
           echo "___________________________________________________________________________________________________________________"
           echo       
-          echo " a - Add to Saved Finds                                                                                   q - quit"  
+          echo " a - Add to Playlist                                                                                      q - quit"  
           echo
           echo -en " Enter Option: "
           read -n1 optiona
@@ -2031,7 +2040,7 @@ cat ~/.config/videoinfox/videoinfo.tmp | tr , "\n" | sort > ~/.config/videoinfox
  
           echo " " | xclip -sel clip  # clearing the clipboard
           echo
-          echo " Clpboard Content Added to Saved Finds"
+          echo " Clpboard content added to playlist"
           echo
           echo " Clipboard Cleared"
           sleep .7
@@ -2052,14 +2061,14 @@ cat ~/.config/videoinfox/videoinfo.tmp | tr , "\n" | sort > ~/.config/videoinfox
            # Writing header for new Saved Search because new file wouldn't be created until return to main HOME         
            rm ~/.config/videoinfox/videoinfo.keptsearch         
            echo > ~/.config/videoinfox/videoinfo.keptsearch
-           echo "$ver                                                                                        SAVED FINDS" >> ~/.config/videoinfox/videoinfo.keptsearch
+           echo "$der                                                                                       SAVED FINDS" >> ~/.config/videoinfox/videoinfo.keptsearch
            echo >> ~/.config/videoinfox/videoinfo.keptsearch
            echo "This File was Created: $(date) by" $USER >> ~/.config/videoinfox/videoinfo.keptsearch
            echo >> ~/.config/videoinfox/videoinfo.keptsearch
            echo "Use arrow keys to scroll up and down or use mouse wheel." >> ~/.config/videoinfox/videoinfo.keptsearch
            echo >> ~/.config/videoinfox/videoinfo.keptsearch
            echo
-           echo " Saved Finds DELETED . . . "
+           echo " Playlist DELETED . . . "
            echo
            # read -p " Press <ENTER> to Continue"
            sleep .7      
@@ -2145,7 +2154,7 @@ done
 
 p)
 ##################################################################################################################################################
-###########################  HOME OPTION  p  @PLAY CLIPBOARD  ####################################################################################
+###########################  HOME  p  @PLAY CLIPBOARD  ###########################################################################################
 ###########################  Home is the only screen that that can accept Video Files and URL Links from the Clipboard   #########################
 ##################################################################################################################################################
 
@@ -2157,7 +2166,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       #  DOWNLOAD LINK AND PLAY FILE #   play last download routine from YT-DLP MENU
       grabdir="$PWD"  # storing directory to restore at the end of this function
         
-      #  DOWNLOAD LINK
+      #  DOWNLOAD LINK AND PLAY
       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
       clear
       #~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s.%(id)s.%(ext)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload
@@ -2218,7 +2227,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo
       echo "___________________________________________________________________________________________________________________"
       echo
-      echo " $der >>> Play Video" 
+      echo " $der >>> HOME >>> PLAY CLIPBOARD" 
       echo
       echo " [PLAY]> "$pasteclip" "
       echo "___________________________________________________________________________________________________________________"
@@ -2305,6 +2314,8 @@ rm ~/.config/videoinfox/videoinfo.playedlist.tmp
     echo
     echo " p - Play     D - Delete Played List                                                                      q - Quit"  
     echo
+    echo " i - Info"
+    echo
     echo -en " Enter Option: "
     read -n1 optionv0
     echo
@@ -2319,13 +2330,25 @@ rm ~/.config/videoinfox/videoinfo.playedlist.tmp
         q)  # QUIT
         break;;
 
+        i) 
+        #  INFO
+        pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
+        echo
+        echo " ""$pasteclip"
+        echo    
+        echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+        echo
+              read -p " Press <ENTER> to Continue" 
+              ;;    
+
+
         p)  # PLAY
         pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
         clear
         echo
         echo "___________________________________________________________________________________________________________________"
         echo
-        echo " $der >>> Play Video" 
+        echo " $der >>> HOME >>> PLAYED LIST" 
         echo
         echo " [PLAY]> "$pasteclip" "
         echo "___________________________________________________________________________________________________________________"
@@ -2388,12 +2411,14 @@ s) ################  VIEW/PLAYED SAVED FINDS - <HOME>  #########################
           echo "Select a Video: Copy 1 above video to the clipboard then Play."
           echo "___________________________________________________________________________________________________________________"
           echo
-          echo " $der >>> SAVED FINDS"
+          echo " $der >>> PLAYLIST"
           echo
           echo " Clipboard: "$pasteclip
           echo "___________________________________________________________________________________________________________________"
           echo
-          echo " p - Play     i - Info     a - Add     D - Delete Saved Finds                                             q - Quit"  
+          echo " p - Play Clipboard     a - Add     D - Delete Playlist                                                   q - Quit"  
+          echo
+          echo " i - Info"
           echo
           echo -en " Enter Option: "
           read -n1 options
@@ -2408,20 +2433,20 @@ s) ################  VIEW/PLAYED SAVED FINDS - <HOME>  #########################
 
 
           q)
-          #  QUIT - <Find Menu>
+          #  QUIT - <HOME>
           clear
           break;;
  
 
           p) 
-          #  PLAY - <Find Menu>
+          #  PLAYLIST - <HOME>
           pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
           echo $pasteclip >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
           clear
           echo
           echo "___________________________________________________________________________________________________________________"
           echo
-          echo " $der >>> SAVED FINDS - Play Video" 
+          echo " $der >>> HOME >>> PLAYLIST - Play Video" 
           echo
           echo " [PLAY]> "$pasteclip" "
           echo "___________________________________________________________________________________________________________________"
@@ -2458,7 +2483,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
           ;;
 
 
-          a)  ################  ADD TO SAVED FINDS - <Find Menu>  ################
+          a)  ################  ADD TO SAVED FINDS - <HOME>  ################
         
           #  When grabbing more than 1 line from the Clipboard. All the results paste in as 1 line with a space in between each result.
           #  <sed> puts each result on its own line with a comma at the end of each line.
@@ -2469,12 +2494,16 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
           
 ##################################################################################################################################################
 ###########################  START ROUTINE TO SORT AND REMOVE DUPLICATES FROM  <videoinfo.keptsearch>            #################################  
-###########################  This routine runs when you startup Videoinfo and everytime you return to the HOME.  #################################
+###########################                                                                                      #################################
 ##################################################################################################################################################
 
 # sorting finds and removing duplicates
 tail -n +8 ~/.config/videoinfox/videoinfo.keptsearch > ~/.config/videoinfox/videoinfo.keptsearch.tmp  # grab body minus header from <videoinfo.keptsearch>
+
+# awk '!seen[$0]++' ~/.config/videoinfox/videoinfo.keptsearch.tmp
 sort -u ~/.config/videoinfox/videoinfo.keptsearch.tmp > ~/.config/videoinfox/videoinfo.keptsearch.tmp2  # sort and remove duplicates
+
+
 mv ~/.config/videoinfox/videoinfo.keptsearch.tmp2 ~/.config/videoinfox/videoinfo.keptsearch.tmp  # copying <keptsearch.tmp2> to <keptsearch.tmp>
 
 # witing temporary header for new Played List 
@@ -2508,13 +2537,13 @@ rm ~/.config/videoinfox/videoinfo.keptsearch.tmp
           echo
           echo " Save Multiple finds from: $(cat ~/.config/videoinfox/videoinfo.lastfindtime)"
           echo
-          echo " Copy 1 or more above lines to the Clipboard. Then Add to Saved Finds"
+          echo " Copy 1 or more above lines to the Clipboard. Then Add to Playlist"
           echo "___________________________________________________________________________________________________________________"
           echo
-          echo " $der >>> ADD TO SAVED FINDS                                           Quit to go back to saved finds"   
+          echo " $der >>> ADD TO PLAYLIST                                              Quit to go back to Playlist"   
           echo "___________________________________________________________________________________________________________________"
           echo       
-          echo " a - Add to Saved Finds                                                                                   q - quit"  
+          echo " a - Add to Playlist                                                                                      q - quit"  
           echo
           echo -en " Enter Option: "
           read -n1 optiona
@@ -2544,7 +2573,7 @@ cat ~/.config/videoinfox/videoinfo.tmp | tr , "\n" | sort > ~/.config/videoinfox
  
           echo " " | xclip -sel clip  # clearing the clipboard
           echo
-          echo " Clpboard Content Added to Saved Finds"
+          echo " Clpboard content added to playlist"
           echo
           echo " Clipboard Cleared"
           sleep .7
@@ -2572,7 +2601,7 @@ cat ~/.config/videoinfox/videoinfo.tmp | tr , "\n" | sort > ~/.config/videoinfox
            echo "Use arrow keys to scroll up and down or use mouse wheel." >> ~/.config/videoinfox/videoinfo.keptsearch
            echo >> ~/.config/videoinfox/videoinfo.keptsearch
            echo
-           echo " Saved Finds DELETED . . . "
+           echo " Playlist DELETED . . . "
            echo
            # read -p " Press <ENTER> to Continue"
            sleep .7      
@@ -2667,7 +2696,7 @@ read -n1 optiony
 
 
      v)  # VIEW DOWNLOADS
-     
+          
      pasteclip2=$(xclip -o -selection clipboard)  # grab clipboard content to save clipboard state
      
      echo " " | xclip -sel clip  # clearing the clipboard
@@ -2678,20 +2707,20 @@ read -n1 optiony
 # echo " " > ~/.config/videoinfox/videoinfo.viewdownloads
 # ls "$PWD/"*.mp4 >> ~/.config/videoinfox/videoinfo.viewdownloads
 # ls "$PWD/"*.mkv >> ~/.config/videoinfox/videoinfo.viewdownloads
-# ls "$PWD/"*.avi >> ~/.config/videoinfox/videoinfo.viewdownloads
+# ls "$PWD/"*.avi >> ~/.config/videoinfox/videoinfo.
 # ls "$PWD/"*.webm >> ~/.config/videoinfox/videoinfo.viewdownloads
 # ls "$PWD/"*.divx >> ~/.config/videoinfox/videoinfo.viewdownloads
 # sed -i '/ls: cannot access/d' ~/.config/videoinfox/videoinfo.viewdownloads  # removing file type(s) not found errors (remove beinnging of line pattern)
 
 # Find video files.
-find "$PWD" -type f \( -iname "*.mp4" -o -iname ".mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "$videofind.divx" \) | > ~/.config/videoinfox/videoinfo.viewdownload
+find "$PWD" -type f \( -iname "*.mp4" -o -iname ".mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "$videofind.divx" \) > ~/.config/videoinfox/videoinfo.view-downloads
 
 #tac ~/.config/videoinfox/videoinfo.viewdownloads >  ~/.config/videoinfox/videoinfo.viewdownloads.tmp
 #mv ~/.config/videoinfox/videoinfo.viewdownloads.tmp ~/.config/videoinfox/videoinfo.viewdownloads
 
 
      clear
-     cat ~/.config/videoinfox/videoinfo.viewdownloads
+     cat ~/.config/videoinfox/videoinfo.view-downloads
      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
      echo
      echo "Use arrow keys to scroll up and down or use mouse wheel."
@@ -2700,12 +2729,14 @@ find "$PWD" -type f \( -iname "*.mp4" -o -iname ".mkv" -o -iname "*.avi" -o -ina
      echo    
      echo "___________________________________________________________________________________________________________________"
      echo
-     echo " $der >>> YT-DLP MENU - VIEW DOWNLOADS"
+     echo " $der >>> VIEW DOWNLOADS"
      echo
      echo " Clipboard:" "$pasteclip"
      echo "___________________________________________________________________________________________________________________"
      echo
      echo " p - Play                                                                                                 q - Quit"  
+     echo
+     echo " i - Info"
      echo
      echo -en " Enter Option: "
      read -n1 optionyt
@@ -2724,13 +2755,25 @@ find "$PWD" -type f \( -iname "*.mp4" -o -iname ".mkv" -o -iname "*.avi" -o -ina
               break;;
      
 
+              i) 
+              #  INFO
+              pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
+              echo
+              echo " ""$pasteclip"
+              echo    
+              echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+              echo
+              read -p " Press <ENTER> to Continue" 
+              ;;
+
+
               p)  # PLAY DOWNLOAD DIRECTORY
               clear
               pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
               echo
               echo "___________________________________________________________________________________________________________________"
               echo
-              echo " $der >>> Play Video"
+              echo " $der >>>  YT-DLP MENU >>> VIEW DOWNLOADS - Play Video"
               echo
               echo " [PLAY]> "$pasteclip" "
               echo "___________________________________________________________________________________________________________________"
@@ -2768,7 +2811,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               echo
               echo "___________________________________________________________________________________________________________________"
               echo
-              echo " $der >>> Play Video (download, watch, delete)"
+              echo " $der >>> YT-DLP MENU >>> Play Video (download, watch, delete)"
               echo
               echo " [PLAY]> $pasteclip"
               echo "___________________________________________________________________________________________________________________"         
