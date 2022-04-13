@@ -17,23 +17,23 @@ sudo chmod +x /usr/local/bin/videoinfox
  - Navigation was designed to be robust and efficient. One keypress for all menu selections.
  - Copy a filename to the clipboard and press \<p\> to play.
  - Play clipboard: \<HOME\> \<PLAYLIST\> \<PLAYED LIST\> \<FIND\> \<YT-DLP\>
- - File types searched for:   .webm  .mp4  .mkv  .avi  .divx
+ - File types searched for :&nbsp; &nbsp; .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx
  - Play videos and get video info from every screen that has a play feature.
- - Keep track of everything played <PLAYED LIST>
- - Save a list of videos from find result(s) <PLAYLIST>
+ - Keep track of everything played \<PLAYED LIST\>
+ - Save a list of videos from find result(s) \<PLAYLIS\T>
  - Remove duplicates from the playlist and played video.
- - Press  <enter>  anywhere you see  <Clipboard:>  to update display.
- - Enter a file with full path to play and get info. <Enter Video File>
+ - Press  \<enter\>  anywhere you see  \<Clipboard:\>  to update display.
+ - Enter a file with full path to play and get info. \<Enter Video File\>
  - Auto save last find result(s) and autoload until deleted.
  - Yt-dlp integration for easy download and play.
- - Download video and autoplay <HOME>
- - Download video and play later. <YT-DLP>
- - When download has completed, auto play, delete when the player is closed. <YT-DLP>
- - Play last download <YT-DLP>
- - Pick type and quality of video before download. <YT-DLP>
- - Download and update Videoinfox. <SET>
- - Download and update Yt-dlp. <SET>
- - Rapid directory changing by setting default directories. <SET>
+ - Download video and autoplay \<HOME\>
+ - Download video and play later. \<YT-DLP\>
+ - When download has completed, auto play, delete when the player is closed. \<YT-DLP\>
+ - Play last download \<YT-DLP\>
+ - Pick type and quality of video before download. \<YT-DLP\>
+ - Download and update Videoinfox. \<SET\>
+ - Download and update Yt-dlp. \<SET\>
+ - Rapid directory changing by setting default directories. \<SET\>
  - Save directory state on exit to load on next run.
 
 
