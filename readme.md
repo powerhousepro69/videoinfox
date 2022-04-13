@@ -42,13 +42,20 @@ Dependencies listed at bottom of page.
 <br />
 
 <br />
-Home Seceen
+Home
 
 ![Videoinfox HOME](https://i.imgur.com/YETFnPS.png)
 
-
+<br />
+Play Clipboard
 
 ![Videoinfox HOME](https://i.imgur.com/TJTPQBT.png)
+
+
+
+
+
+
 
 ![Videoinfox HOME](https://i.imgur.com/OnKZfEq.png)
 
