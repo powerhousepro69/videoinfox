@@ -14,26 +14,28 @@ sudo chmod +x /usr/local/bin/videoinfox
 
  Videoinfox Features:
 
- - Navigation was designed to be robust and efficient.
- - File types searched for: &nbsp;   .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx
- - Play videos and get video info from find result(s).
- - Copy one find result to the clipboard and press &nbsp; \<p\> &nbsp; to play.
- - Keep track of everything played &nbsp; >>> &nbsp; Played List
- - Save a list of videos from find result(s) &nbsp; >>> &nbsp; Saved Finds
- - Remove duplicates and put both lists in alphabetical order.
- - Press &nbsp; \<enter\> &nbsp; anywhere you see &nbsp; \<Clipboard:\> &nbsp; to update display.
- - Enter file with full path to play and get info.
- - Store last find result(s) and autoload until deleted.
- - Yt-dlp integration for easy download and view.
- - Download and update both Videoinfox and Yt-dlp
- - Rapid directory changing by setting default directories.
+ - Navigation was designed to be robust and efficient. One keypress for all menu selections.
+ - Copy a filename to the clipboard and press \<p\> to play.
+ - Play clipboard: \<HOME\> \<PLAYLIST\> \<PLAYED LIST\> \<FIND\> \<YT-DLP\>
+ - File types searched for:   .webm  .mp4  .mkv  .avi  .divx
+ - Play videos and get video info from every screen that has a play feature.
+ - Keep track of everything played <PLAYED LIST>
+ - Save a list of videos from find result(s) <PLAYLIST>
+ - Remove duplicates from the playlist and played video.
+ - Press  <enter>  anywhere you see  <Clipboard:>  to update display.
+ - Enter a file with full path to play and get info. <Enter Video File>
+ - Auto save last find result(s) and autoload until deleted.
+ - Yt-dlp integration for easy download and play.
+ - Download video and autoplay <HOME>
+ - Download video and play later. <YT-DLP>
+ - When download has completed, auto play, delete when the player is closed. <YT-DLP>
+ - Play last download <YT-DLP>
+ - Pick type and quality of video before download. <YT-DLP>
+ - Download and update Videoinfox. <SET>
+ - Download and update Yt-dlp. <SET>
+ - Rapid directory changing by setting default directories. <SET>
  - Save directory state on exit to load on next run.
- - Change directory by entering full path.
- - Find directory and change to it by copying it to clipboard.
- - List video info one directory deep.  Save per directory.
- - Recursive count of videos broken down into video type.
- - Recursive duration &nbsp; (days:hrs:min:sec) &nbsp; Save per directory.
- - GUI notifications.
+
 
 Dependencies listed at bottom of page.
 
