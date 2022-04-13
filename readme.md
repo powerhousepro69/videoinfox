@@ -84,10 +84,13 @@ Video Duration
 
 ![Videoinfox HOME](https://i.imgur.com/03KxKlU.png)
 
-
-
+<br />
+Find Directory
 
 ![Videoinfox HOME](https://i.imgur.com/WCHTlpd.png)
+
+
+
 
 ![Videoinfox HOME](https://i.imgur.com/VluP7RZ.png)
 
