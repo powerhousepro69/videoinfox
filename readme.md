@@ -69,12 +69,13 @@ Playlist
 
 ![Videoinfox HOME](https://i.imgur.com/hpiQMqU.png)
 
-
-
-
-
+<br />
+List Directory
 
 ![Videoinfox HOME](https://i.imgur.com/kIMMech.png)
+
+
+
 
 ![Videoinfox HOME](https://i.imgur.com/ORPVFGz.png)
 
