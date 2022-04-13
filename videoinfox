@@ -259,8 +259,8 @@ echo "There are no stored find results. A find needs to be run to populate this 
 echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
       
       # SET DEFAULT yt-dlp DOWNLOAD DIRECTORY. It can be changed in the <yt-dlp> menu
-      echo $HOME/Downloads > ~/.config/videoinfox/videoinfo.yt-download-dir
-
+      echo $HOME/Downloads > ~/.config/videoinfox/videoinfox.yt-download-dir
+            
       # CREATING EMPTY FILES SO NO ERRORS ARE PRODUCED ON FIRST RUN
       echo > ~/.config/videoinfox/videoinfox.findwork2
       echo > ~/.config/videoinfox/videoinfox.findwork3
@@ -274,13 +274,17 @@ echo "                                                                          
       echo > ~/.config/videoinfox/videoinfox.movies-dir
       echo > ~/.config/videoinfox/videoinfox.parent-dir
       echo > ~/.config/videoinfox/videoinfox.lastdownload
+      echo > ~/.config/videoinfox/videoinfo.lastfindstring
+      echo > ~/.config/videoinfox/videoinfo.lastfinddir
+      echo > ~/.config/videoinfox/videoinfo.lastsearchtotal
 
-      
+
+
       echo " " | xclip -sel clip  # clearing clipboard just for the first run   
    
       echo
 
-           sec=30
+           sec=3
            while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
                                 
                 echo -ne " $ver starting in: $sec\033[0K\r"
@@ -1603,11 +1607,11 @@ echo
 echo "Directory: "$PWD  # <pwd>  print current working directory to the screen
 
 # LOAD STORED DIRECTORIES
-read dir1 < ~/.config/videoinfox/videoinfo.tv-dir 2> /dev/null
-read dir2 < ~/.config/videoinfox/videoinfo.movies-dir 2> /dev/null
-read dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null
-read dir4 < ~/.config/videoinfox/videoinfo.parent-dir 2> /dev/null
-read dir5 < ~/.config/videoinfox/videoinfo.dir-at-exit 2> /dev/null
+read dir1 < ~/.config/videoinfox/videoinfox.tv-dir 2> /dev/null
+read dir2 < ~/.config/videoinfox/videoinfox.movies-dir 2> /dev/null
+read dirsaved < ~/.config/videoinfox/videoinfox.yt-download-dir 2> /dev/null
+read dir4 < ~/.config/videoinfox/videoinfox.parent-dir 2> /dev/null
+read dir5 < ~/.config/videoinfox/videoinfox.dir-at-exit 2> /dev/null
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content                          
 echo
