@@ -41,6 +41,8 @@ Dependencies listed at bottom of page.
 
 <br />
 
+<br />
+Home Seceen
 ![Videoinfox HOME](https://i.imgur.com/YETFnPS.png)
 
 ![Videoinfox HOME](https://i.imgur.com/TJTPQBT.png)
@@ -64,7 +66,6 @@ Dependencies listed at bottom of page.
 ![Videoinfox HOME](https://i.imgur.com/VluP7RZ.png)
 
 
-
 <br />
    
 Dependencies:   
@@ -81,6 +82,7 @@ Dependencies:
 Videoinfox runs a dependency check at startup.  If any dependencies are not found, the script will exit.
   
 Any missing dependencies will be displayed.
+
   
   ![Videoinfox DEPENDENCY CHECK](https://i.imgur.com/Sfe8ol0.png)
 
