@@ -20,7 +20,7 @@ sudo chmod +x /usr/local/bin/videoinfox
  - File types searched for :&nbsp; &nbsp; .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx
  - Play videos and get video info from every screen that has a play feature.
  - Keep track of everything played \<PLAYED LIST\>
- - Save a list of videos from find result(s) \<PLAYLIS\T>
+ - Save a list of videos from find result(s) \<PLAYLIST\>
  - Remove duplicates from the playlist and played video.
  - Press  \<enter\>  anywhere you see  \<Clipboard:\>  to update display.
  - Enter a file with full path to play and get info. \<Enter Video File\>
