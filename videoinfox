@@ -262,21 +262,21 @@ echo "There are no stored find results. A find needs to be run to populate this 
 echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
       
       # SET DEFAULT yt-dlp DOWNLOAD DIRECTORY. It can be changed in the <yt-dlp> menu
-      echo $HOME/Downloads > ~/.config/videoinfox/videoinfox.yt-download-dir
+      echo $HOME/Downloads > ~/.config/videoinfox/videoinfo.yt-download-dir
             
       # CREATING EMPTY FILES SO NO ERRORS ARE PRODUCED ON FIRST RUN
-      echo > ~/.config/videoinfox/videoinfox.findwork2
-      echo > ~/.config/videoinfox/videoinfox.findwork3
-      echo > ~/.config/videoinfox/videoinfox.lastfindtime    
-      echo > ~/.config/videoinfox/videoinfox.lastsearchtotal
-      echo > ~/.config/videoinfox/videoinfox.lastsearchtotal2
-      echo > ~/.config/videoinfox/videoinfox.playedlist
-      echo > ~/.config/videoinfox/videoinfox.keptsearch
-      echo > ~/.config/videoinfox/videoinfox.dir-at-exit
-      echo > ~/.config/videoinfox/videoinfox.tv-dir
-      echo > ~/.config/videoinfox/videoinfox.movies-dir
-      echo > ~/.config/videoinfox/videoinfox.parent-dir
-      echo > ~/.config/videoinfox/videoinfox.lastdownload
+      echo > ~/.config/videoinfox/videoinfo.findwork2
+      echo > ~/.config/videoinfox/videoinfo.findwork3
+      echo > ~/.config/videoinfox/videoinfo.lastfindtime    
+      echo > ~/.config/videoinfox/videoinfo.lastsearchtotal
+      echo > ~/.config/videoinfox/videoinfo.lastsearchtotal2
+      echo > ~/.config/videoinfox/videoinfo.playedlist
+      echo > ~/.config/videoinfox/videoinfo.keptsearch
+      echo > ~/.config/videoinfox/videoinfo.dir-at-exit
+      echo > ~/.config/videoinfox/videoinfo.tv-dir
+      echo > ~/.config/videoinfox/videoinfo.movies-dir
+      echo > ~/.config/videoinfox/videoinfo.parent-dir
+      echo > ~/.config/videoinfox/videoinfo.lastdownload
       echo > ~/.config/videoinfox/videoinfo.lastfindstring
       echo > ~/.config/videoinfox/videoinfo.lastfinddir
       echo > ~/.config/videoinfox/videoinfo.lastsearchtotal
@@ -464,7 +464,7 @@ grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st chara
 
 if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
   then
-      read dirsaved < ~/.config/videoinfox/videoinfox.yt-download-dir 2> /dev/null  # reding default download directory into <$dirsaved> to display below
+      read dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory into <$dirsaved> to display below
       echo
       echo "There is a url in the clipboard.  The only option on this screen is to Play Clipboard. That option will download"      
       echo "video with YT-DLP to your download directory. The video will be played immediately after the download is complete."
@@ -1612,11 +1612,11 @@ echo
 echo "Directory: "$PWD  # <pwd>  print current working directory to the screen
 
 # LOAD STORED DIRECTORIES
-read dir1 < ~/.config/videoinfox/videoinfox.tv-dir 2> /dev/null
-read dir2 < ~/.config/videoinfox/videoinfox.movies-dir 2> /dev/null
-read dirsaved < ~/.config/videoinfox/videoinfox.yt-download-dir 2> /dev/null
-read dir4 < ~/.config/videoinfox/videoinfox.parent-dir 2> /dev/null
-read dir5 < ~/.config/videoinfox/videoinfox.dir-at-exit 2> /dev/null
+read dir1 < ~/.config/videoinfox/videoinfo.tv-dir 2> /dev/null
+read dir2 < ~/.config/videoinfox/videoinfo.movies-dir 2> /dev/null
+read dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null
+read dir4 < ~/.config/videoinfox/videoinfo.parent-dir 2> /dev/null
+read dir5 < ~/.config/videoinfox/videoinfo.dir-at-exit 2> /dev/null
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content                          
 echo
