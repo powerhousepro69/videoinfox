@@ -118,9 +118,7 @@ Dependencies
 ![Videoinfox DEPENDENCY CHECK](https://i.imgur.com/Sfe8ol0.png)
 
 <br />
-
- Setup for first the run or if the videoinfox directory gets deleted anytime after the first run.
- 
+Setup for first the run or if the videoinfox directory gets deleted anytime after the first run.
 <br />
 Settings
 
