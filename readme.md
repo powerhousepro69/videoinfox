@@ -128,9 +128,6 @@ First Run
 ![Videoinfox FIRST RUN](https://i.imgur.com/oE8qeqA.png)
 
 
-<br />
-I'm not done with this script yet.  I'm still going to add some more features to it.
-
 
 
 
