@@ -89,8 +89,8 @@ Find Directory
 
 ![Videoinfox HOME](https://i.imgur.com/WCHTlpd.png)
 
-
-
+<br />
+Settings
 
 ![Videoinfox HOME](https://i.imgur.com/VluP7RZ.png)
 
