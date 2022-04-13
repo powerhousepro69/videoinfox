@@ -39,29 +39,13 @@ Dependencies listed at bottom of page.
 
 <br />
 
-![Videoinfox HOME](https://i.imgur.com/3xMvxpo.png)
+![Videoinfox HOME](https://i.imgur.com/YETFnPS.png)
 
-![Videoinfox PLAY VIDEO](https://i.imgur.com/GLtCUNR.png)
+![Videoinfox HOME](https://i.imgur.com/TJTPQBT.png)
 
-![Videoinfox YT-DLP](https://i.imgur.com/ODPMA9K.png)
 
-![Videoinfox YT-DLP UPDATE](https://i.imgur.com/OBwTttB.png)
 
-![Videoinfox FIND RESULTS](https://i.imgur.com/UGe9W4w.png)
-  
-![Videoinfox LIST DIRECTORY](https://i.imgur.com/EI8k4fC.png)                                                
 
-![Videoinfox CHANGE DIRECTORY](https://i.imgur.com/njHqbxP.png)
-
-![Videoinfox FIND DIRECTORY](https://i.imgur.com/V5ZG8Mg.png)
-
-![Videoinfox VIDEO COUNT](https://i.imgur.com/QchN9fi.png)
-
-![Videoinfox DURATION](https://i.imgur.com/5C5VAFw.png)
-
-![Videoinfox ENTER FILE](https://i.imgur.com/hnboxUn.png)
-
-![Videoinfox HELP](https://i.imgur.com/9wsPGkU.png) 
 
 
 
