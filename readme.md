@@ -33,7 +33,7 @@ sudo chmod +x /usr/local/bin/videoinfox
  - Play last download &nbsp;\<YT-DLP\>
  - Pick type and quality of video before download. &nbsp;\<YT-DLP\>
  - Download and update Videoinfox. &nbsp;\<SET\>
- - Download and update Yt-dlp. \&nbsp;<SET\>
+ - Download and update Yt-dlp. &nbsp;\<SET\>
  - Rapid directory changing by setting default directories. &nbsp;\<SET\>
  - Save directory state on exit to load on next run.
 
