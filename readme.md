@@ -40,8 +40,6 @@ sudo chmod +x /usr/local/bin/videoinfox
 Dependencies listed at bottom of page.
 
 <br />
-
-<br />
 Home
 
 ![Videoinfox HOME](https://i.imgur.com/YETFnPS.png)
