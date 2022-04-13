@@ -99,7 +99,7 @@ Any missing dependencies will be displayed.
 
   Setup for first the run or if the videoinfox directory gets deleted anytime after the first run.
   
-  ![Videoinfox FIRST RUN](https://i.imgur.com/fP5DDnW.png)
+  ![Videoinfox FIRST RUN](https://i.imgur.com/4PiOvYY.png)
 
 
 
