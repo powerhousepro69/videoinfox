@@ -406,14 +406,6 @@ function menu {  # HOME
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
                         
-
-
-
-
-
-
-
-
 dirinhome="$PWD" 
 
 #  Load directory from last exit
@@ -452,7 +444,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       read dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory into <$dirsaved> to display below
       echo
       echo "There is a url in the clipboard.  The only option on this screen is to Play Clipboard. That option will download"      
-      echo "the video with YT-DLP to your download directory. The video will be played immediately after the download is complete."
+      echo "video with YT-DLP to your download directory. The video will be played immediately after the download is complete."
       echo
       echo "Download Directory: $dirsaved"  # dislpay default download directory
       ############################################################################################################################################
@@ -469,14 +461,16 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
 
             if [ "$pasteclip" = " " ]   # if the clipboard is empty goto then
               then 
-                  pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-                  echo
-                  echo "This is the only screen that can accept both a local file or a url from the clipboard."
+                  :
+                  #pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+                  #echo
+                  #echo "This is the only screen that can accept both a local file or a url from the clipboard."
 
               else
-                  pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-                  echo
-                  echo "Always copy the entire line to the clipboard."  # the clipboard has content that doesn't start with </>
+                  :
+                  #pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+                  #echo
+                  #echo " "  # the clipboard has content that doesn't start with </>
 
             fi
       fi
@@ -485,7 +479,7 @@ fi
 
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " $der >>> HOME"
+echo " $der >>> HOME                                                       Enter - Update Clipboard Display"
 echo "___________________________________________________________________________________________________________________"
 echo
 echo " 1 - List Directory       4 - Video Count          p - Play Clipboard     f - FIND                       e - Exit"                     
@@ -538,7 +532,7 @@ echo "Directory:" "$PWD"
 echo "Clipboard:" "$pasteclip"
 echo "___________________________________________________________________________________________________________________"
 echo  
-echo " $der >>> SETTINGS"
+echo " $der >>> SETTINGS                                                   Enter - Update Clipboard Display"
 echo "___________________________________________________________________________________________________________________" 
 echo
 echo " Change Directory:                                                                          q - Quit"
@@ -604,8 +598,8 @@ case $optionsettings in
     echo "Directory: "$PWD
     echo "Clipboard: "$pasteclip
     echo "___________________________________________________________________________________________________________________" 
-    echo
-    echo " $der >>> SET DEFAULT VIDEO DIRECTORIES                                                              q -Quit"
+    echo              
+    echo " $der >>> SET DEFAULT VIDEO DIRECTORIES                                                          quit"
     echo "___________________________________________________________________________________________________________________"
     echo
     echo " 1 - TV:" "$dir1"
@@ -1606,7 +1600,7 @@ echo
 echo "Copy 1 above Find to the Clipboard then info or play."
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " $der >>> FIND RESULTS"
+echo " $der >>> FIND RESULTS                                               Enter - Update Clipboard Display"
 echo
 echo " Clipboard: "$pasteclip
 echo "___________________________________________________________________________________________________________________"
@@ -1771,7 +1765,7 @@ mv ~/.config/videoinfox/videoinfo.playedlist.slash ~/.config/videoinfox/videoinf
 
 # witing temporary header for new Played List 
 echo > ~/.config/videoinfox/videoinfo.playedlist.header.tmp
-echo "$ver                                                                                        PLAYED LIST" >> ~/.config/videoinfox/videoinfo.playedlist.header.tmp
+echo "PLAYED LIST" >> ~/.config/videoinfox/videoinfo.playedlist.header.tmp
 echo >> ~/.config/videoinfox/videoinfo.playedlist.header.tmp
 echo "This File was Created: $(date) by" $USER >> ~/.config/videoinfox/videoinfo.playedlist.header.tmp
 echo >> ~/.config/videoinfox/videoinfo.playedlist.header.tmp
@@ -1798,7 +1792,7 @@ rm ~/.config/videoinfox/videoinfo.playedlist.tmp
      echo "Copy 1 above video to the Clipboard then Play."
      echo "___________________________________________________________________________________________________________________"
      echo
-     echo " $der >>> PLAYED LIST"
+     echo " $der >>> PLAYED LIST                                                Enter - Update Clipboard Display"
      echo
      echo " Clipboard: "$pasteclip
      echo "___________________________________________________________________________________________________________________"
@@ -1886,44 +1880,6 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 
           s) ################  VIEW/PLAYED SAVED FINDS - <Find Menu>  ########################## 
         
-##################################################################################################################################################
-###########################  START ROUTINE TO SORT AND REMOVE DUPLICATES FROM  <videoinfo.keptsearch>            #################################  
-###########################                                                                                      #################################
-##################################################################################################################################################
-
-# removing duplicates
-tail -n +6 ~/.config/videoinfox/videoinfo.keptsearch > ~/.config/videoinfox/videoinfo.keptsearch.tmp  # grab body minus header from <videoinfo.keptsearch>
-# sort -u ~/.config/videoinfox/videoinfo.keptsearch.tmp > ~/.config/videoinfox/videoinfo.keptsearch.tmp2  # sort and remove duplicates
-cat -n ~/.config/videoinfox/videoinfo.keptsearch.tmp | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/videoinfo.keptsearch.tmp2  # remove duplicates
-mv ~/.config/videoinfox/videoinfo.keptsearch.tmp2 ~/.config/videoinfox/videoinfo.keptsearch.tmp  # copying <keptsearch.tmp2> to <keptsearch.tmp>
-
-# removing all lines from the body that don't begin with  /  
-sed -n '/^[/].*/p' ~/.config/videoinfox/videoinfo.keptsearch.tmp > ~/.config/videoinfox/videoinfo.keptsearch.slash
-cp ~/.config/videoinfox/videoinfo.keptsearch.slash ~/.config/videoinfox/videoinfo.keptsearch.tmp
-
-# witing temporary header for new Played List 
-echo > ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
-echo "PLAYLIST" >> ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
-echo >> ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
-echo "This File was Created: $(date) by" $USER >> ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
-echo >> ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
-
-# Pssting New Played List into Newly Created Header 
-# PASTE FILE: ~/.config/videoinfox/videoinfo.keptsearch.header.tmp  TO FILE:  <~/.config/videoinfox/videoinfo.keptsearch.tmp>
-# The paste result is FILE:  <~/.config/videoinfox/videoinfo.keptsearch.tmp2>
-cat ~/.config/videoinfox/videoinfo.keptsearch.header.tmp ~/.config/videoinfox/videoinfo.keptsearch.tmp > ~/.config/videoinfox/videoinfo.keptsearch.tmp2 
-
-# RENAME FILE: <~/.config/videoinfox/videoinfo.keptsearch.tmp2>  TO FILE  <~/.config/videoinfox/videoinfo.keptsearch>  (also removes .tmp2)
-mv ~/.config/videoinfox/videoinfo.keptsearch.tmp2 ~/.config/videoinfox/videoinfo.keptsearch
-
-# Cleanup of remaining temporary files
-rm ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
-rm ~/.config/videoinfox/videoinfo.keptsearch.tmp
-#####################################################################################################################################################
-#                            END ROUTINE FOR FILE: <videoinfo.keptsearch>                                                                           #
-#####################################################################################################################################################
-
-
           function menus {
           clear    
           cat $HOME/.config/videoinfox/videoinfo.keptsearch  # view played list file
@@ -1933,7 +1889,7 @@ rm ~/.config/videoinfox/videoinfo.keptsearch.tmp
           echo "Select a Video: Copy 1 above video to the clipboard then Play."
           echo "___________________________________________________________________________________________________________________"
           echo
-          echo " $der >>> PLAYLIST"
+          echo " $der >>> PLAYLIST                                                   Enter - Update Clipboard Display"
           echo
           echo " Clipboard: "$pasteclip
           echo "___________________________________________________________________________________________________________________"
@@ -2061,8 +2017,47 @@ cat ~/.config/videoinfox/videoinfo.tmp | tr , "\n" | sort > ~/.config/videoinfox
           echo
           echo " Clipboard Cleared"
           sleep .7
+          
+##################################################################################################################################################
+###########################  START ROUTINE TO SORT AND REMOVE DUPLICATES FROM  <videoinfo.keptsearch>            #################################  
+###########################                                                                                      #################################
+##################################################################################################################################################
+
+# removing duplicates
+tail -n +6 ~/.config/videoinfox/videoinfo.keptsearch > ~/.config/videoinfox/videoinfo.keptsearch.tmp  # grab body minus header from <videoinfo.keptsearch>
+# sort -u ~/.config/videoinfox/videoinfo.keptsearch.tmp > ~/.config/videoinfox/videoinfo.keptsearch.tmp2  # sort and remove duplicates
+cat -n ~/.config/videoinfox/videoinfo.keptsearch.tmp | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/videoinfo.keptsearch.tmp2  # remove duplicates
+mv ~/.config/videoinfox/videoinfo.keptsearch.tmp2 ~/.config/videoinfox/videoinfo.keptsearch.tmp  # copying <keptsearch.tmp2> to <keptsearch.tmp>
+
+# removing all lines from the body that don't begin with  /  
+sed -n '/^[/].*/p' ~/.config/videoinfox/videoinfo.keptsearch.tmp > ~/.config/videoinfox/videoinfo.keptsearch.slash
+cp ~/.config/videoinfox/videoinfo.keptsearch.slash ~/.config/videoinfox/videoinfo.keptsearch.tmp
+
+# witing temporary header for new Played List 
+echo > ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
+echo "PLAYLIST" >> ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
+echo >> ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
+echo "This File was Created: $(date) by" $USER >> ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
+echo >> ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
+
+# Pssting New Played List into Newly Created Header 
+# PASTE FILE: ~/.config/videoinfox/videoinfo.keptsearch.header.tmp  TO FILE:  <~/.config/videoinfox/videoinfo.keptsearch.tmp>
+# The paste result is FILE:  <~/.config/videoinfox/videoinfo.keptsearch.tmp2>
+cat ~/.config/videoinfox/videoinfo.keptsearch.header.tmp ~/.config/videoinfox/videoinfo.keptsearch.tmp > ~/.config/videoinfox/videoinfo.keptsearch.tmp2 
+
+# RENAME FILE: <~/.config/videoinfox/videoinfo.keptsearch.tmp2>  TO FILE  <~/.config/videoinfox/videoinfo.keptsearch>  (also removes .tmp2)
+mv ~/.config/videoinfox/videoinfo.keptsearch.tmp2 ~/.config/videoinfox/videoinfo.keptsearch
+
+# Cleanup of remaining temporary files
+rm ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
+rm ~/.config/videoinfox/videoinfo.keptsearch.tmp
+#####################################################################################################################################################
+#                            END ROUTINE FOR FILE: <videoinfo.keptsearch>                                                                           #
+#####################################################################################################################################################
+
           ;;          
             
+
 
           q) 
           echo
@@ -2298,7 +2293,7 @@ mv ~/.config/videoinfox/videoinfo.playedlist.slash ~/.config/videoinfox/videoinf
 
 # witing temporary header for new Played List 
 echo > ~/.config/videoinfox/videoinfo.playedlist.header.tmp
-echo "$ver                                                                                        PLAYED LIST" >> ~/.config/videoinfox/videoinfo.playedlist.header.tmp
+echo "PLAYED LIST" >> ~/.config/videoinfox/videoinfo.playedlist.header.tmp
 echo >> ~/.config/videoinfox/videoinfo.playedlist.header.tmp
 echo "This File was Created: $(date) by" $USER >> ~/.config/videoinfox/videoinfo.playedlist.header.tmp
 echo >> ~/.config/videoinfox/videoinfo.playedlist.header.tmp
@@ -2324,7 +2319,7 @@ rm ~/.config/videoinfox/videoinfo.playedlist.tmp
     echo "Copy 1 above video to the Clipboard then Play."
     echo "___________________________________________________________________________________________________________________"
     echo
-    echo " $der >>> PLAYED LIST"
+    echo " $der >>> PLAYED LIST                                                Enter - Update Clipboard Display"
     echo
     echo " Clipboard: "$pasteclip
     echo "___________________________________________________________________________________________________________________"
@@ -2420,43 +2415,6 @@ s) ################  VIEW/PLAYED SAVED FINDS - <HOME>  #########################
 
           function menus {          
           
-##################################################################################################################################################
-###########################  START ROUTINE TO SORT AND REMOVE DUPLICATES FROM  <videoinfo.keptsearch>            #################################  
-###########################                                                                                      #################################
-##################################################################################################################################################
-
-# removing duplicates
-tail -n +6 ~/.config/videoinfox/videoinfo.keptsearch > ~/.config/videoinfox/videoinfo.keptsearch.tmp  # grab body minus header from <videoinfo.keptsearch>
-# sort -u ~/.config/videoinfox/videoinfo.keptsearch.tmp > ~/.config/videoinfox/videoinfo.keptsearch.tmp2  # sort and remove duplicates
-cat -n ~/.config/videoinfox/videoinfo.keptsearch.tmp | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/videoinfo.keptsearch.tmp2  # remove duplicates
-mv ~/.config/videoinfox/videoinfo.keptsearch.tmp2 ~/.config/videoinfox/videoinfo.keptsearch.tmp  # copying <keptsearch.tmp2> to <keptsearch.tmp>
-
-# removing all lines from the body that don't begin with  /  
-sed -n '/^[/].*/p' ~/.config/videoinfox/videoinfo.keptsearch.tmp > ~/.config/videoinfox/videoinfo.keptsearch.slash
-cp ~/.config/videoinfox/videoinfo.keptsearch.slash ~/.config/videoinfox/videoinfo.keptsearch.tmp
-
-# witing temporary header for new Played List 
-echo > ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
-echo "PLAYLIST" >> ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
-echo >> ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
-echo "This File was Created: $(date) by" $USER >> ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
-echo >> ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
-
-# Pssting New Played List into Newly Created Header 
-# PASTE FILE: ~/.config/videoinfox/videoinfo.keptsearch.header.tmp  TO FILE:  <~/.config/videoinfox/videoinfo.keptsearch.tmp>
-# The paste result is FILE:  <~/.config/videoinfox/videoinfo.keptsearch.tmp2>
-cat ~/.config/videoinfox/videoinfo.keptsearch.header.tmp ~/.config/videoinfox/videoinfo.keptsearch.tmp > ~/.config/videoinfox/videoinfo.keptsearch.tmp2 
-
-# RENAME FILE: <~/.config/videoinfox/videoinfo.keptsearch.tmp2>  TO FILE  <~/.config/videoinfox/videoinfo.keptsearch>  (also removes .tmp2)
-mv ~/.config/videoinfox/videoinfo.keptsearch.tmp2 ~/.config/videoinfox/videoinfo.keptsearch
-
-# Cleanup of remaining temporary files
-rm ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
-rm ~/.config/videoinfox/videoinfo.keptsearch.tmp
-#####################################################################################################################################################
-#                            END ROUTINE FOR FILE: <videoinfo.keptsearch>                                                                           #
-#####################################################################################################################################################
-
           clear
           cat $HOME/.config/videoinfox/videoinfo.keptsearch  # view played list file
           pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content    
@@ -2464,7 +2422,7 @@ rm ~/.config/videoinfox/videoinfo.keptsearch.tmp
           echo "Select a Video: Copy 1 above video to the clipboard then Play."
           echo "___________________________________________________________________________________________________________________"
           echo
-          echo " $der >>> PLAYLIST"
+          echo " $der >>> PLAYLIST                                                   Enter - Update Clipboard Display"
           echo
           echo " Clipboard: "$pasteclip
           echo "___________________________________________________________________________________________________________________"
@@ -2478,7 +2436,7 @@ rm ~/.config/videoinfox/videoinfo.keptsearch.tmp
           echo
           }
 
-                    
+
           while [ 1 ]
           do
           menus
@@ -2591,7 +2549,46 @@ cat ~/.config/videoinfox/videoinfo.tmp | tr , "\n" | sort > ~/.config/videoinfox
           echo
           echo " Clipboard Cleared"
           sleep .7
+          
+##################################################################################################################################################
+###########################  START ROUTINE TO SORT AND REMOVE DUPLICATES FROM  <videoinfo.keptsearch>            #################################  
+###########################                                                                                      #################################
+##################################################################################################################################################
+
+# removing duplicates
+tail -n +6 ~/.config/videoinfox/videoinfo.keptsearch > ~/.config/videoinfox/videoinfo.keptsearch.tmp  # grab body minus header from <videoinfo.keptsearch>
+# sort -u ~/.config/videoinfox/videoinfo.keptsearch.tmp > ~/.config/videoinfox/videoinfo.keptsearch.tmp2  # sort and remove duplicates
+cat -n ~/.config/videoinfox/videoinfo.keptsearch.tmp | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/videoinfo.keptsearch.tmp2  # remove duplicates
+mv ~/.config/videoinfox/videoinfo.keptsearch.tmp2 ~/.config/videoinfox/videoinfo.keptsearch.tmp  # copying <keptsearch.tmp2> to <keptsearch.tmp>
+
+# removing all lines from the body that don't begin with  /  
+sed -n '/^[/].*/p' ~/.config/videoinfox/videoinfo.keptsearch.tmp > ~/.config/videoinfox/videoinfo.keptsearch.slash
+cp ~/.config/videoinfox/videoinfo.keptsearch.slash ~/.config/videoinfox/videoinfo.keptsearch.tmp
+
+# witing temporary header for new Played List 
+echo > ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
+echo "PLAYLIST" >> ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
+echo >> ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
+echo "This File was Created: $(date) by" $USER >> ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
+echo >> ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
+
+# Pssting New Played List into Newly Created Header 
+# PASTE FILE: ~/.config/videoinfox/videoinfo.keptsearch.header.tmp  TO FILE:  <~/.config/videoinfox/videoinfo.keptsearch.tmp>
+# The paste result is FILE:  <~/.config/videoinfox/videoinfo.keptsearch.tmp2>
+cat ~/.config/videoinfox/videoinfo.keptsearch.header.tmp ~/.config/videoinfox/videoinfo.keptsearch.tmp > ~/.config/videoinfox/videoinfo.keptsearch.tmp2 
+
+# RENAME FILE: <~/.config/videoinfox/videoinfo.keptsearch.tmp2>  TO FILE  <~/.config/videoinfox/videoinfo.keptsearch>  (also removes .tmp2)
+mv ~/.config/videoinfox/videoinfo.keptsearch.tmp2 ~/.config/videoinfox/videoinfo.keptsearch
+
+# Cleanup of remaining temporary files
+rm ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
+rm ~/.config/videoinfox/videoinfo.keptsearch.tmp
+#####################################################################################################################################################
+#                            END ROUTINE FOR FILE: <videoinfo.keptsearch>                                                                           #
+#####################################################################################################################################################
+
           ;;          
+
             
 
           q) 
@@ -2617,7 +2614,8 @@ cat ~/.config/videoinfox/videoinfo.tmp | tr , "\n" | sort > ~/.config/videoinfox
            echo
            # read -p " Press <ENTER> to Continue"
            sleep .7      
-           ;;   
+           ;; 
+
               esac
               done
               ;; 
@@ -2696,7 +2694,7 @@ fi
 # echo "This screen only accepts urls from the clipboard."
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " $der >>> YT-DLP MENU                                                      yt-dlp Version: $ytdlpver"
+echo " $der >>> YT-DLP MENU           yt-dlp Version: $ytdlpver           Enter - Update Clipboard Display"
 echo "___________________________________________________________________________________________________________________"
 echo
 echo " d - Download Video         p - Play Video (download, watch, delete)                                      q - Quit"
@@ -2751,7 +2749,7 @@ find "$PWD" -type f \( -iname "*.mp4" -o -iname ".mkv" -o -iname "*.avi" -o -ina
      echo    
      echo "___________________________________________________________________________________________________________________"
      echo
-     echo " $der >>> VIEW DOWNLOADS"
+     echo " $der >>> VIEW DOWNLOADS                                             Enter - Update Clipboard Display"
      echo
      echo " Clipboard:" "$pasteclip"
      echo "___________________________________________________________________________________________________________________"
