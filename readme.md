@@ -51,13 +51,14 @@ Play Clipboard
 
 ![Videoinfox HOME](https://i.imgur.com/TJTPQBT.png)
 
-
-
-
-
-
+<br />
+Find
 
 ![Videoinfox HOME](https://i.imgur.com/OnKZfEq.png)
+
+
+
+
 
 ![Videoinfox HOME](https://i.imgur.com/uoATDs3.png)
 
