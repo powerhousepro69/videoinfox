@@ -22,7 +22,7 @@ sudo chmod +x /usr/local/bin/videoinfox
  - Keep track of everything played \<PLAYED LIST\>
  - Save a list of videos from find result(s) \<PLAYLIST\>
  - Remove duplicates from the playlist and played video.
- - Remove any entries from lists that doesn't start with a &nbsp;\/
+ - Remove any entries from lists that don't start with a &nbsp;\/
  - Press  \<enter\>  anywhere you see  \<Clipboard:\>  to update display.
  - Enter a file with full path to play and get info. \<Enter Video File\>
  - Auto save last find result(s) and autoload until deleted.
