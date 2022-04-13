@@ -239,8 +239,6 @@ if [ -d "$direxist" ]  #  if directoty exists goto  <then>
       echo -e "\n" 
       echo " Setup for the first run or if the videoinfox directory gets deleted anytime after the first run."
       echo
-      echo " ytdlp- wil be downloaded to the videoinfox directory."
-      echo
   
  
       ###################
@@ -261,7 +259,7 @@ echo "There are no stored find results. A find needs to be run to populate this 
 echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
       
       # SET DEFAULT yt-dlp DOWNLOAD DIRECTORY. It can be changed in the <yt-dlp> menu
-      echo $HOME/Downloads > ~/.config/videoinfox/videoinfox.yt-download-dir
+      echo $HOME/Downloads > ~/.config/videoinfox/videoinfo.yt-download-dir
 
       # CREATING EMPTY FILES SO NO ERRORS ARE PRODUCED ON FIRST RUN
       echo > ~/.config/videoinfox/videoinfox.findwork2
@@ -277,18 +275,8 @@ echo "                                                                          
       echo > ~/.config/videoinfox/videoinfox.parent-dir
       echo > ~/.config/videoinfox/videoinfox.lastdownload
 
-
       
-      cd "$dirsaved"  # change to download directory
-
-     
-
-
-
-
-
-
-echo " " | xclip -sel clip  # clearing clipboard just for the first run   
+      echo " " | xclip -sel clip  # clearing clipboard just for the first run   
    
       echo
 
@@ -300,13 +288,14 @@ echo " " | xclip -sel clip  # clearing clipboard just for the first run
                 sleep 1
               
            done                  
-fi
-
 
 wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O ~/.config/videoinfox/yt-dlp-fetched >/dev/null  # download <yt-dlp> from github
 chmod a+rx ~/.config/videoinfox/yt-dlp-fetched  # set <yt-dlp-fetched> execute bit
 cp ~/.config/videoinfox/yt-dlp-fetched ~/.config/videoinfox/yt-dlp
 ~/.config/videoinfox/yt-dlp --version > ~/.config/videoinfox/videoinfo.yt-dlp.version
+
+
+fi
 
 
 #xmodmap -e 'keycode 55=v' #  on  --- remove me 
@@ -382,7 +371,6 @@ echo " - Play videos and get video info from every screen that has a play featur
 echo " - Keep track of everything played <PLAYED LIST>" >> ~/.config/videoinfox/videoinfo.help
 echo " - Save a list of videos from find result(s) <PLAYLIST>" >> ~/.config/videoinfox/videoinfo.help
 echo " - Remove duplicates from the playlist and played video." >> ~/.config/videoinfox/videoinfo.help
-echo " - Remove any entries from both lists that don't start with a slash" >> ~/.config/videoinfox/videoinfo.help
 echo " - Press  <enter>  anywhere you see  <Clipboard:>  to update display." >> ~/.config/videoinfox/videoinfo.help
 echo " - Enter a file with full path to play and get info. <Enter Video File>" >> ~/.config/videoinfox/videoinfo.help
 echo " - Auto save last find result(s) and autoload until deleted." >> ~/.config/videoinfox/videoinfo.help
@@ -391,7 +379,7 @@ echo " - Download video and autoplay <HOME>"  >> ~/.config/videoinfox/videoinfo.
 echo " - Download video and play later. <YT-DLP>" >> ~/.config/videoinfox/videoinfo.help
 echo " - When download has completed, auto play, delete when the player is closed. <YT-DLP>" >> ~/.config/videoinfox/videoinfo.help
 echo " - Play last download <YT-DLP>" >> ~/.config/videoinfox/videoinfo.help
-echo " - Pick file type and quality of video before download. <YT-DLP>"  >> ~/.config/videoinfox/videoinfo.help
+echo " - Pick type and quality of video before download. <YT-DLP>"  >> ~/.config/videoinfox/videoinfo.help
 echo " - Download and update Videoinfox. <SET>" >> ~/.config/videoinfox/videoinfo.help
 echo " - Download and update Yt-dlp. <SET>" >> ~/.config/videoinfox/videoinfo.help
 echo " - Rapid directory changing by setting default directories. <SET>" >> ~/.config/videoinfox/videoinfo.help
@@ -467,7 +455,7 @@ grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st chara
 
 if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
   then
-      read dirsaved < ~/.config/videoinfox/videoinfox.yt-download-dir 2> /dev/null  # reding default download directory into <$dirsaved> to display below
+      read dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory into <$dirsaved> to display below
       echo
       echo "There is a url in the clipboard.  The only option on this screen is to Play Clipboard. That option will download"      
       echo "video with YT-DLP to your download directory. The video will be played immediately after the download is complete."
@@ -984,8 +972,6 @@ pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard conten
 
 	
 1)  # LIST DIRECTORY - <HOME> 
-clear
-
 ##################################################################################################################################################
 ###########################  HOME OPTION 1  LIST DIRECTORY  ######################################################################################
 ##################################################################################################################################################
@@ -1008,7 +994,7 @@ if [ -f "videoinfo.List-Directory" ]  #  if file <videoinfo.List-Directory> exis
 
 # The group of echo's below write a header to file <videoinfo.List-Directory> 
 # echo > videoinfo.List-Directory
-echo "$ver                                                                                  LIST DIRECTORY" >> videoinfo.List-Directory
+echo "$ver                                                                                     LIST DIRECTORY" >> videoinfo.List-Directory
 echo >> videoinfo.List-Directory
 echo "This File was Created $(date) by" $USER >> videoinfo.List-Directory
 echo >> videoinfo.List-Directory  # Every line ending in  ' >> videoinfo.List-Directory '  is writing that line to text file <videoinfo.List-Directory>)
