@@ -75,15 +75,17 @@ List Directory
 ![Videoinfox HOME](https://i.imgur.com/kIMMech.png)
 
 <br />
-Videro Count
+Video Count
 
 ![Videoinfox HOME](https://i.imgur.com/ORPVFGz.png)
 
-
-
-
+<br />
+Video Duration
 
 ![Videoinfox HOME](https://i.imgur.com/03KxKlU.png)
+
+
+
 
 ![Videoinfox HOME](https://i.imgur.com/WCHTlpd.png)
 
