@@ -55,24 +55,11 @@ Dependencies listed at bottom of page.
 
 ![Videoinfox HOME](https://i.imgur.com/ORPVFGz.png)
 
-
-
-
-
 ![Videoinfox HOME](https://i.imgur.com/03KxKlU.png)
 
 ![Videoinfox HOME](https://i.imgur.com/WCHTlpd.png)
 
 ![Videoinfox HOME](https://i.imgur.com/VluP7RZ.png)
-
-
-
-
-
-
-
-
-
 
 
 
@@ -99,7 +86,7 @@ Any missing dependencies will be displayed.
 
   Setup for first the run or if the videoinfox directory gets deleted anytime after the first run.
   
-  ![Videoinfox FIRST RUN](https://i.imgur.com/4PiOvYY.png)
+  ![Videoinfox FIRST RUN](https://i.imgur.com/oE8qeqA.png)
 
 
 
