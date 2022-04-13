@@ -80,7 +80,7 @@ Videoinfox runs a dependency check at startup.  If any dependencies are not foun
   
 Any missing dependencies will be displayed.
   
-  ![Videoinfox DEPENDENCY CHECK](https://i.imgur.com/WnjCTQe.png)
+  ![Videoinfox DEPENDENCY CHECK](https://i.imgur.com/Sfe8ol0.png)
 
  <br />
 
