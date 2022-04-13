@@ -54,11 +54,18 @@ Find
 
 ![Videoinfox HOME](https://i.imgur.com/OnKZfEq.png)
 
-
-
-
+<br />
+Home (with http link)
 
 ![Videoinfox HOME](https://i.imgur.com/uoATDs3.png)
+
+
+
+
+
+
+
+
 
 ![Videoinfox HOME](https://i.imgur.com/DphLvOL.png)
 
