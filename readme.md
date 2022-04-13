@@ -16,7 +16,7 @@ sudo chmod +x /usr/local/bin/videoinfox
 
  - Navigation was designed to be robust and efficient. One keypress for all menu selections.
  - Copy a filename to the clipboard and press \<p\> to play.
- - Play clipboard: \<HOME\> \<PLAYLIST\> \<PLAYED LIST\> \<FIND\> \<YT-DLP\>
+ - Play clipboard:  &nbsp; &nbsp;\<HOME\> &nbsp;\<PLAYLIST\> &nbsp;\<PLAYED LIST\> &nbsp;\<FIND\> &nbsp;\<YT-DLP\>
  - File types searched for :&nbsp; &nbsp; .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx
  - Play videos and get video info from every screen that has a play feature.
  - Keep track of everything played \<PLAYED LIST\>
