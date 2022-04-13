@@ -31,7 +31,7 @@ sudo chmod +x /usr/local/bin/videoinfox
  - Download video and play later. &nbsp;\<YT-DLP\>
  - When download has completed, auto play, delete when the player is closed. &nbsp;\<YT-DLP\>
  - Play last download &nbsp;\<YT-DLP\>
- - Pick type and quality of video before download. &nbsp;\<YT-DLP\>
+ - Pick file type and quality of video before download. &nbsp;\<YT-DLP\>
  - Download and update Videoinfox. &nbsp;\<SET\>
  - Download and update Yt-dlp. &nbsp;\<SET\>
  - Rapid directory changing by setting default directories. &nbsp;\<SET\>
