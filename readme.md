@@ -112,14 +112,18 @@ Videoinfox runs a dependency check at startup.  If any dependencies are not foun
   
 Any missing dependencies will be displayed.
 
+<br />
+Dependencies
   
-  ![Videoinfox DEPENDENCY CHECK](https://i.imgur.com/Sfe8ol0.png)
+![Videoinfox DEPENDENCY CHECK](https://i.imgur.com/Sfe8ol0.png)
 
+<br />
+
+ Setup for first the run or if the videoinfox directory gets deleted anytime after the first run.
+ 
  <br />
-
-  Setup for first the run or if the videoinfox directory gets deleted anytime after the first run.
-  
-  ![Videoinfox FIRST RUN](https://i.imgur.com/oE8qeqA.png)
+Settings
+![Videoinfox FIRST RUN](https://i.imgur.com/oE8qeqA.png)
 
 
 
