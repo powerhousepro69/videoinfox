@@ -118,6 +118,7 @@ Dependencies
   
 ![Videoinfox DEPENDENCY CHECK](https://i.imgur.com/Sfe8ol0.png)
 
+
 <br />
 Setup for first the run or if the videoinfox directory gets deleted anytime after the first run.
 <br />
@@ -127,6 +128,8 @@ First Run
 ![Videoinfox FIRST RUN](https://i.imgur.com/oE8qeqA.png)
 
 
+<br />
+I'm not done with this script yet.  I'm still going to add some more features to it.
 
 
 
