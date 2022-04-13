@@ -53,6 +53,7 @@ Dependencies listed at bottom of page.
 
 ![Videoinfox HOME](https://i.imgur.com/kIMMech.png)
 
+![Videoinfox HOME](https://i.imgur.com/ORPVFGz.png)
 
 ![Videoinfox HOME](https://i.imgur.com/r5OyKGm.png)
 
