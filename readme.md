@@ -42,7 +42,7 @@ sudo chmod +x /usr/local/bin/videoinfox
  - Recursive count of videos broken down by video type. <VIDEO COUNT>
  - Recursive duration (days:hrs:min:sec) Save per directory. <VIDEO DURATION>
  - GUI notifications.
-
+<br />
 
 
 Dependencies listed at bottom of page.
