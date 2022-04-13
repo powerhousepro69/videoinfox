@@ -74,10 +74,14 @@ List Directory
 
 ![Videoinfox HOME](https://i.imgur.com/kIMMech.png)
 
-
-
+<br />
+Videro Count
 
 ![Videoinfox HOME](https://i.imgur.com/ORPVFGz.png)
+
+
+
+
 
 ![Videoinfox HOME](https://i.imgur.com/03KxKlU.png)
 
