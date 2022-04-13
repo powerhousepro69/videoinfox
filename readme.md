@@ -60,7 +60,7 @@ Home (with http link)
 ![Videoinfox HOME](https://i.imgur.com/uoATDs3.png)
 
 <br />
-YT-DLP Menu
+Yt-dlp Menu
 
 ![Videoinfox HOME](https://i.imgur.com/DphLvOL.png)
 
