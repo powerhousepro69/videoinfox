@@ -2200,29 +2200,41 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       grabdir="$PWD"  # storing directory to restore at the end of this function
         
       #  DOWNLOAD LINK AND PLAY
+      
+      read dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir  # reading download directory 
+      cd "$dirsaved"  # change to download directory
+ 
       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
       clear
       #~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s.%(id)s.%(ext)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload
       ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload 
-      ~/.config/videoinfox/yt-dlp -F "$pasteclip"
-              
-      echo
-      echo "Find what video quality and format you want. (Code on far left)"
-      read -p "Enter that Code and Press <ENTER> : " svrcode
-      echo
-      ~/.config/videoinfox/yt-dlp -f "$svrcode" "$pasteclip"
-      echo
+      #~/.config/videoinfox/yt-dlp -F "$pasteclip"
+      ~/.config/videoinfox/yt-dlp "$pasteclip"     
+      #echo
+      #echo "Find what video quality and format you want. (Code on far left)"
+      #read -p "Enter that Code and Press <ENTER> : " svrcode
+      #echo
+      #~/.config/videoinfox/yt-dlp -f "$svrcode" "$pasteclip"
+      #echo
       notify-send "Videoinfox messsage: YT-DLP is done . . ." "$pasteclip"
-      sleep 3.3
+      #sleep 3.3
 
       # PLAY DOWNLOADED FILE
-      read dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir  # reading download directory 
-      cd "$dirsaved"  # change to download directory
-
+      
       read lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
 
       ytdlplast=$(find "$PWD" -type f \( -iname "$lastdownload*" \))
-      #echo "ytdlplast" > ~/.config/videoinfox/videoinfo.zzz
+      
+
+      #ytdlplast=$(find -type f \( -iname "Saudi Arabia TV mocks Biden’s cognitive decline in ‘hilarious’ comedy skit*" \))
+
+      # was tracking down a issue
+      #echo "pasetclip" > ~/.config/videoinfox/videoinfo.zzz
+      #echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.zzz
+      #echo "ytdlplast" >> ~/.config/videoinfox/videoinfo.zzz
+      echo $ytdlplast >> ~/.config/videoinfox/videoinfo.zzz
+      #echo "lastdownkoad" >> ~/.config/videoinfox/videoinfo.zzz
+      #echo $lastdownload >> ~/.config/videoinfox/videoinfo.zzz
 
       clear
       echo
