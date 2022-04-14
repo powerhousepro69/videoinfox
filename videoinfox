@@ -139,7 +139,7 @@ fi
 #   All dependency results are added:  - All dependencies Found = 0
 #                                      - One or more dependencies Not Found = Not 0 
 ####################################################################################
-depcount=$(($d1 + $d2 + $d3 + +d4 + $d5 + $d6))
+depcount=$((d1 + d2 + d3 + +d4 + d5 + d6))
 
 
 if [ $depcount == 0 ]  # if all dependencies = 0 (All Found) goto then
@@ -168,17 +168,17 @@ fi
 whatdir=$PWD  #  current working directory
 thisdir="/" #  root directory
 
-if [ $whatdir == $thisdir ]  # If the directory the script was run from: / <root> goto then 
+if [ "$whatdir" == $thisdir ]  # If the directory the script was run from: / <root> goto then 
   then
       clear
       echo
       echo "=================================================================================================================="  
       echo " $ver >>> Videoinfo x was started in root"
       echo
-      echo " Working Directory: "$PWD
+      echo " Working Directory: ""$PWD"
       echo "==================================================================================================================" 
       echo      
-      cd $HOME
+      cd "$HOME" 
       echo " This script was started in root. Videoinfo will throw ERRORS when run from ROOT"
       echo
       echo " This Script's Working Directory Was Changed to: $PWD"
@@ -234,7 +234,7 @@ if [ -d "$direxist" ]  #  if directoty exists goto  <then>
       echo
       echo " Everywhere the dot is blinking in the version number, don't paste and Videoinfo x should function as intended."
       echo
-      echo " "$der
+      echo " ""$der"
       echo "__________________________________________________________________________________________________________________"
       echo
       echo " ytdlp will be downloaded to: $HOME/.config/videoinfox"
@@ -265,11 +265,11 @@ echo "                                                                          
       echo > ~/.config/videoinfox/videoinfo.playedlist
       echo "PLAYED LIST" >> ~/.config/videoinfox/videoinfo.playedlist
       echo >> ~/.config/videoinfox/videoinfo.playedlist
-      echo "This File was Created: $(date) by" $USER >> ~/.config/videoinfox/videoinfo.playedlist
+      echo "This File was Created: $(date) by" "$USER" >> ~/.config/videoinfox/videoinfo.playedlist
       echo >> ~/.config/videoinfox/videoinfo.playedlist
 
       # SET DEFAULT yt-dlp DOWNLOAD DIRECTORY. It can be changed in the <yt-dlp> menu
-      echo $HOME/Downloads > ~/.config/videoinfox/videoinfo.yt-download-dir
+      echo "$HOME"/Downloads > ~/.config/videoinfox/videoinfo.yt-download-dir
             
       # CREATING EMPTY FILES SO NO ERRORS ARE PRODUCED ON FIRST RUN
       echo > ~/.config/videoinfox/videoinfo.findwork2
@@ -288,13 +288,11 @@ echo "                                                                          
       echo > ~/.config/videoinfox/videoinfo.lastfinddir
       echo > ~/.config/videoinfox/videoinfo.lastsearchtotal
 
-
-
       echo " " | xclip -sel clip  # clearing clipboard just for the first run   
    
       echo
 
-           sec=30
+           sec=3
            while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
                                 
                 echo -ne " $ver starting in: $sec\033[0K\r"
@@ -409,7 +407,7 @@ echo >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " If you encounter any issues, let me know." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " Thank You for taking the time to try out my shell script.  :-)  Any feedback is appreciated." >> ~/.config/videoinfox/videoinfo.help >> ~/.config/videoinfox/videoinfo.help
+echo " Thank You for taking the time to try out my shell script.  :-)  Any feedback is appreciated." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " powerhousepro69 @ Github and Reddit   " >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
@@ -419,13 +417,13 @@ echo "__________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfo.help
 # help file creation completed
 
-read diratexit < ~/.config/videoinfox/videoinfo.dir-at-exit
-cd "$diratexit" 2>/dev/null
+read -r diratexit < ~/.config/videoinfox/videoinfo.dir-at-exit
+cd "$diratexit" 2>/dev/null 
 
 #   The Line below is what gets the Codec & Resolution from a video file.
 codecres="ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1"
 
-read dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null
+read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null
 
 
 ##################################################################################################################################################
@@ -443,8 +441,8 @@ echo "$dirinhome" > ~/.config/videoinfox/videoinfo.home.dir
 
 clear
 echo
-echo "Directory: "$PWD
-echo "Clipboard: "$pasteclip  
+echo "Directory: ""$PWD"
+echo "Clipboard: ""$pasteclip"  
 
 ##################################################################################################################################################
 #=================================================================================================================================================
@@ -471,7 +469,7 @@ grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st chara
 
 if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
   then
-      read dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory into <$dirsaved> to display below
+      read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory into <$dirsaved> to display below
       echo
       echo "There is a url in the clipboard.  The only option on this screen is to Play Clipboard. That option will download"      
       echo "video with YT-DLP to your download directory. The video will be played immediately after the download is complete."
@@ -517,11 +515,11 @@ echo " 2 - Change Directory     5 - Video Duration       s - PlayList           
 echo " 3 - Find Directory       6 - Enter Video File     v - Played List        x - Clear Clipboard            h - help"             
 echo
 echo -en " Enter Option: "
-read -n1 option
+read -r -n1 option
 }
 
   
-while [ 1 ]
+while true
 do
 	menu
 	case $option in
@@ -550,11 +548,11 @@ pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard conten
 
 
 # LOAD STORED DIRECTORIES
-read dir1 < ~/.config/videoinfox/videoinfo.tv-dir 2> /dev/null
-read dir2 < ~/.config/videoinfox/videoinfo.movies-dir 2> /dev/null
-read dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null
-read dir4 < ~/.config/videoinfox/videoinfo.parent-dir 2> /dev/null
-read dir5 < ~/.config/videoinfox/videoinfo.dir-at-exit 2> /dev/null
+read -r dir1 < ~/.config/videoinfox/videoinfo.tv-dir 2> /dev/null
+read -r dir2 < ~/.config/videoinfox/videoinfo.movies-dir 2> /dev/null
+read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null
+read -r dir4 < ~/.config/videoinfox/videoinfo.parent-dir 2> /dev/null
+read -r dir5 < ~/.config/videoinfox/videoinfo.dir-at-exit 2> /dev/null
 
 clear
 echo
@@ -580,10 +578,10 @@ echo
 
 
 echo -en " Enter Option: "
-read -n1 optionsettings
+read -r -n1 optionsettings
 }
 
-while [ 1 ]
+while true
 do
 menusettings
 case $optionsettings in
@@ -592,30 +590,30 @@ case $optionsettings in
     break;;
  
     1)  # CD DIRECTORY TO TV    
-    cd "$dir1"
+    cd "$dir1" 
     break
     ;;
     
     2)  # CD DIRECTORY TO MOVIES
-    cd "$dir2"
+    cd "$dir2" 
     break
     ;;
 
 
     3)  # CHANGE DIRECTORY TO DOWNLOADS
-    cd "$dirsaved"
+    cd "$dirsaved" 
     break
     ;;
 
 
     4)  # CHANGE DIRECTORY TO EXTRA   
-    cd "$dir4"
+    cd "$dir4" 
     break
     ;;
 
 
     5)  # CHANGE DIRECTORY TO LAST EXIT
-    cd "$dir5"
+    cd "$dir5" 
     break
     ;;
 
@@ -625,8 +623,8 @@ case $optionsettings in
     pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
     clear
     echo
-    echo "Directory: "$PWD
-    echo "Clipboard: "$pasteclip
+    echo "Directory: ""$PWD"
+    echo "Clipboard: ""$pasteclip"
     echo "___________________________________________________________________________________________________________________" 
     echo              
     echo " $der >>> SET DEFAULT VIDEO DIRECTORIES                                                          quit"
@@ -641,11 +639,11 @@ case $optionsettings in
     echo " 4 - EXTRA:" "$dir4"
     echo
     echo -en " Enter Option: "
-    read -n1 optionsvd
+    read -r -n1 optionsvd
     }
 
     
-    while [ 1 ] 
+    while true 
     do
     menusvd
     case $optionsvd in
@@ -660,8 +658,8 @@ case $optionsettings in
     pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
     clear
     echo
-    echo "Working Directory: "$PWD  # <pwd>  print current working directory to the screen 
-    echo "Clipboard: "$pasteclip
+    echo "Working Directory: ""$PWD"  # <pwd>  print current working directory to the screen 
+    echo "Clipboard: ""$pasteclip"
     echo "___________________________________________________________________________________________________________________"
     echo
     echo " $ver >>> SET TV DIRECTORY"
@@ -680,7 +678,7 @@ case $optionsettings in
                   then
                       echo
                       echo "$specifydir2" > ~/.config/videoinfox/videoinfo.tv-dir
-                      read dir1 < ~/.config/videoinfox/videoinfo.tv-dir
+                      read -r dir1 < ~/.config/videoinfox/videoinfo.tv-dir
                       echo " TV Directory Set to:" "$dir1"                  
                       else
                       echo
@@ -689,7 +687,7 @@ case $optionsettings in
           fi       
           
           #read -p "     Press <ENTER> to Continue" 
-          cd "$grabdir" # restore working directory
+          cd "$grabdir"  # restore working directory
           sleep 1.5
           break
           ;;
@@ -701,11 +699,11 @@ case $optionsettings in
     pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content 
     clear
     echo
-    echo "Working Directory: "$PWD  # <pwd>  print current working directory to the screen 
-    echo "Clipboard: "$pasteclip
+    echo "Working Directory: ""$PWD"  # <pwd>  print current working directory to the screen 
+    echo "Clipboard: ""$pasteclip"
     echo "___________________________________________________________________________________________________________________"
     echo 
-    echo " $ver >>> SET MOVIE DIRECTORY"
+    echo " ""$ver"" >>> SET MOVIE DIRECTORY"
     echo "___________________________________________________________________________________________________________________"
     echo
     echo " No quotations needed for paths with spaces. Case sensative."
@@ -721,7 +719,7 @@ case $optionsettings in
                   then
                       echo
                       echo "$specifydir2" > ~/.config/videoinfox/videoinfo.movies-dir
-                      read dir2 < ~/.config/videoinfox/videoinfo.movies-dir
+                      read -r dir2 < ~/.config/videoinfox/videoinfo.movies-dir
                       echo " Movie Directory Set to:" "$dir2"                  
                       else
                       echo
@@ -730,7 +728,7 @@ case $optionsettings in
           fi       
           
           #read -p "     Press <ENTER> to Continue" 
-          cd "$grabdir" # restore working directory
+          cd "$grabdir"  # restore working directory
           sleep 1.5
           break
           ;;
@@ -742,8 +740,8 @@ case $optionsettings in
     pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
     clear
     echo
-    echo "Working Directory: "$PWD  # <pwd>  print current working directory to the screen 
-    echo "Clipboard: "$pasteclip
+    echo "Working Directory: ""$PWD"  # <pwd>  print current working directory to the screen 
+    echo "Clipboard: ""$pasteclip"
     echo "___________________________________________________________________________________________________________________"
     echo
     echo " $ver >>> SET YT-DLP DOWNLOAD DIRECTORY"
@@ -762,7 +760,7 @@ case $optionsettings in
                   then
                       echo
                       echo "$specifydir2" > ~/.config/videoinfox/videoinfo.yt-download-dir
-                      read dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir
+                      read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir
                       echo " Download Directory Set to:" "$dirsaved"                  
                       else
                       echo
@@ -771,7 +769,7 @@ case $optionsettings in
           fi       
           
           #read -p "     Press <ENTER> to Continue" 
-          cd "$grabdir" # restore working directory
+          cd "$grabdir"  # restore working directory
           sleep 1.5
           break
           ;;
@@ -783,8 +781,8 @@ case $optionsettings in
     pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
     clear
     echo
-    echo "Working Directory: "$PWD  # <pwd>  print current working directory to the screen 
-    echo "Clipboard: "$pasteclip
+    echo "Working Directory: ""$PWD"  # <pwd>  print current working directory to the screen 
+    echo "Clipboard: ""$pasteclip"
     echo "___________________________________________________________________________________________________________________"
     echo
     echo " $ver >>> SET EXTRA DIRECTORY"
@@ -803,7 +801,7 @@ case $optionsettings in
                   then
                       echo
                       echo "$specifydir2" > ~/.config/videoinfox/videoinfo.parent-dir
-                      read dir4 < ~/.config/videoinfox/videoinfo.parent-dir
+                      read -r dir4 < ~/.config/videoinfox/videoinfo.parent-dir
                       echo " Parent Directory Set to:" "$dir4"                  
                       else
                       echo
@@ -812,7 +810,7 @@ case $optionsettings in
           fi       
           
           #read -p "     Press <ENTER> to Continue" 
-          cd "$grabdir" # restore working directory
+          cd "$grabdir"  # restore working directory
           sleep 1.5
           break
           ;;
@@ -834,7 +832,7 @@ case $optionsettings in
     echo
     echo "___________________________________________________________________________________________________________________"
     echo
-    echo " $der >>> CHECK VIDEOINFOX UPDATE"
+    echo " ""$der"" >>> CHECK VIDEOINFOX UPDATE"
     echo "___________________________________________________________________________________________________________________"
     echo
     echo " videoinfox Home: https://github.com/powerhousepro69/videoinfox"
@@ -852,12 +850,12 @@ case $optionsettings in
     echo " u - Update     d - Don't Update"  
     echo
     echo -en " Enter Option: "
-    read -n1 optioninfox
+    read -r -n1 optioninfox
     echo
     }
         
               
-         while [ 1 ]
+         while true
          do
          menuinfox
 	    case $optioninfox in
@@ -924,7 +922,7 @@ wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O ~/.conf
          echo
          echo "___________________________________________________________________________________________________________________"
          echo
-         echo " $der >>> CHECK YT-DLP UPDATE"
+         echo " ""$der"" >>> CHECK YT-DLP UPDATE"
          echo "___________________________________________________________________________________________________________________"
          echo
          echo " ytdlp Home: https://github.com/yt-dlp/yt-dlp"
@@ -942,12 +940,12 @@ wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O ~/.conf
          echo " u - Update     d - Don't Update"  
          echo
          echo -en " Enter Option: "
-         read -n1 optionytdlp
+         read -r -n1 optionytdlp
          echo
          }
         
               
-         while [ 1 ]
+         while true
          do
          chkytdlp
 	    case $optionytdlp in
@@ -1012,11 +1010,11 @@ if [ -f "videoinfo.List-Directory" ]  #  if file <videoinfo.List-Directory> exis
 # echo > videoinfo.List-Directory
 echo "$ver                                                                                     LIST DIRECTORY" >> videoinfo.List-Directory
 echo >> videoinfo.List-Directory
-echo "This File was Created $(date) by" $USER >> videoinfo.List-Directory
+echo "This File was Created $(date) by" "$USER" >> videoinfo.List-Directory
 echo >> videoinfo.List-Directory  # Every line ending in  ' >> videoinfo.List-Directory '  is writing that line to text file <videoinfo.List-Directory>)
 echo "SAVED RESULTS LOADED FROM FILE: videoinfo.List-Directory" >> videoinfo.List-Directory
 echo  >> videoinfo.List-Directory
-echo "Working Directory: "$PWD >> videoinfo.List-Directory
+echo "Working Directory: ""$PWD" >> videoinfo.List-Directory
 echo  >> videoinfo.List-Directory 
 echo "___________________________________________________________________________________________________________________" >> videoinfo.List-Directory
 echo  >> videoinfo.List-Directory 
@@ -1030,8 +1028,8 @@ echo  >> videoinfo.List-Directory
 #                                                              - ffmpeg for Duration in (hrs:min)
 for i in *.mp4  # list all <mp4> files in the current directory
 do 
-  echo $i;  # display <mp4> filename
-  echo $i >> videoinfo.List-Directory  
+  echo "$i";  # display <mp4> filename
+  echo "$i" >> videoinfo.List-Directory  
   $codecres "$i"  # display <mp4> Codec & Resolution
   $codecres "$i" >> videoinfo.List-Directory
   ffmpeg -i "$i" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//  # grep out duration, cut everything after "," then remove the ","
@@ -1042,8 +1040,8 @@ done
 
 for i in *.mkv  # list all <mkv> files in the current directory
 do 
-  echo $i  # display <mkv> filename
-  echo $i >> videoinfo.List-Directory
+  echo "$i"  # display <mkv> filename
+  echo "$i" >> videoinfo.List-Directory
   $codecres "$i"  # display <mkv> Codec & Resolution$
   $codecres "$i" >> videoinfo.List-Directory
   ffmpeg -i "$i" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//  # grep out duration, cut everything after "," then remove the ","
@@ -1055,8 +1053,8 @@ do
 
 for i in *.avi  # list all <avi> files in the current directory
 do 
-  echo $i  # display <avi> filename
-  echo $i >> videoinfo.List-Directory
+  echo "$i"  # display <avi> filename
+  echo "$i" >> videoinfo.List-Directory
   $codecres "$i"  # display <avi> Codec & Resolution
   $codecres "$i" >> videoinfo.List-Directory  
   ffmpeg -i "$i" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//  # grep out duration, cut everything after "," then remove the ","
@@ -1068,8 +1066,8 @@ done
 
 for i in *.webm  # list all <webm> files in the current directory
 do 
-  echo $i  # display <avi> filename
-  echo $i >> videoinfo.List-Directory
+  echo "$i"  # display <avi> filename
+  echo "$i" >> videoinfo.List-Directory
   $codecres "$i"  # display <avi> Codec & Resolution
   $codecres "$i" >> videoinfo.List-Directory  
   ffmpeg -i "$i" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//  # grep out duration, cut everything after "," then remove the ","
@@ -1081,8 +1079,8 @@ done
 
 for i in *.divx  # list all <divx> files in the current directory
 do 
-  echo $i  # display <divx> filename
-  echo $i >> videoinfo.List-Directory
+  echo "$i"  # display <divx> filename
+  echo "$i" >> videoinfo.List-Directory
   $codecres "$i"  # display <divx> Codec & Resolution
   $codecres "$i" >> videoinfo.List-Directory
   ffmpeg -i "$i" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//  # grep out duration, cut everything after "," then remove the ","
@@ -1092,9 +1090,9 @@ do
 done
  	
 # echo >> videoinfo.List-Directory
-echo "Total Video Files:" $currentdirfilecount
+echo "Total Video Files:" "$currentdirfilecount"
 echo >> videoinfo.List-Directory
-echo "Total Video Files:" $currentdirfilecount >> videoinfo.List-Directory
+echo "Total Video Files:" "$currentdirfilecount" >> videoinfo.List-Directory
 echo
 echo
 echo >> videoinfo.List-Directory
@@ -1102,12 +1100,12 @@ echo ">>> Listing is not recursive <<<"
 echo ">>> Listing is not recursive <<<" >> videoinfo.List-Directory
 echo
 echo >> videoinfo.List-Directory
-echo "Working Directory: "$PWD  # <pwd>  print current working directory to the screen   
-echo "Working Directory: "$PWD >> videoinfo.List-Directory
+echo "Working Directory: ""$PWD"  # <pwd>  print current working directory to the screen   
+echo "Working Directory: ""$PWD" >> videoinfo.List-Directory
 echo
 
 
-if [ $currentdirfilecount = 0 ]  # if find returned no results goto <then>
+if [ "$currentdirfilecount" = 0 ]  # if find returned no results goto <then>
   then
       :  # the colon can be used in place of a command to 'Do Nothing'
   else 
@@ -1131,24 +1129,24 @@ find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi"
       #  The total in seconds <$floatingseconds> is taken from line above and the format needs changed from  (x.xxxxxx) to (x)
       #  Below, <awk> is stripping 7 characters in from the right of the sum of  <$floatingseconds>
       #  In this case, the decimal point and the 6 trailing numbers are stripped from the string.
-      totalseconds=$(echo $floatingseconds | awk '{ print substr( $0, 1, length($0)-7 ) }')
+      totalseconds=$(echo "$floatingseconds" | awk '{ print substr( $0, 1, length($0)-7 ) }')
         
       #  Calculation of  <$totalseconds>  into different formats.
-      secs=$(echo $totalseconds)  # $totalseconds variable stored in $secs variable
+      secs=$(echo "$totalseconds")  # $totalseconds variable stored in $secs variable
       totalminutes=$(($(($totalseconds/60))))  # total minutes calculation
 
       echo >> videoinfo.List-Directory
       echo >> videoinfo.List-Directory
       echo "Seconds"
       echo "Seconds" >> videoinfo.List-Directory
-      echo $totalseconds  # display total seconds
-      echo $totalseconds >> videoinfo.List-Directory
+      echo "$totalseconds"  # display total seconds
+      echo "$totalseconds" >> videoinfo.List-Directory
       echo
       echo >> videoinfo.List-Directory 
       echo "Minutes"
       echo "Minutes" >> videoinfo.List-Directory
-      echo $totalminutes  # display total minutes
-      echo $totalminutes >> videoinfo.List-Directory
+      echo "$totalminutes"  # display total minutes
+      echo "$totalminutes" >> videoinfo.List-Directory
       echo
       echo >> videoinfo.List-Directory
       echo "Hrs:Mi:Sec"
@@ -1183,10 +1181,10 @@ function menu1 {
 clear
 less videoinfo.List-Directory  # view results from file
 echo
-echo " Directory: "$PWD
+echo " Directory: ""$PWD"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " $der >>> LIST DIRECTORY"                                                  
+echo " ""$der"" >>> LIST DIRECTORY"                                                  
 echo "___________________________________________________________________________________________________________________"
 echo
 echo " Save or Delete Directory Listing"
@@ -1194,11 +1192,11 @@ echo
 echo " s - Save     d - Delete"  
 echo 
 echo -en " Enter Option: "
-read -n1 option1
+read -r -n1 option1
 echo
 }
 
-while [ 1 ]
+while true
 do
 	menu1
 	case $option1 in
@@ -1235,8 +1233,8 @@ do
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 clear
 echo
-echo "Directory: "$PWD
-echo "Clipboard: "$pasteclip
+echo "Directory: ""$PWD"
+echo "Clipboard: ""$pasteclip"
 echo "___________________________________________________________________________________________________________________"
 echo
 echo " $ver >>> CHANGE DIRECTORY"
@@ -1255,7 +1253,7 @@ read -r -p " Enter Directory: " specifydir  # waiting fot user input - the direc
               if [ -d "$specifydir" ]  #  if directoty exists goto  <then>
                 then
                      echo
-                     cd "$specifydir"  # change the directory
+                     cd "$specifydir"   # change the directory
                      echo " Working Driectory changed to: $PWD"  # <pwd>  print current working directory to the screen
                      sleep 1.5                   
                 else
@@ -1277,11 +1275,11 @@ echo
 pasteclip=$(xclip -o -selection clipboard > /dev/null)  # grab clipboard content
 clear
 echo
-echo "Directory: "$PWD
-echo "Clipboard: "$pasteclip
+echo "Directory: ""$PWD"
+echo "Clipboard: ""$pasteclip"
 echo "___________________________________________________________________________________________________________________"
 echo  
-echo " $ver >>> FIND DIRECTORY                                                                wildcard * ok"
+echo " ""$ver"" >>> FIND DIRECTORY                                                                wildcard * ok"
 echo "___________________________________________________________________________________________________________________" 
 echo
 read -r -p " Directory Name: " dirfind  # waiting fot user input - dierectory that you want to find
@@ -1305,10 +1303,10 @@ findmeadir=$(find . -type d -iname "$dirfind" 2>/dev/null | wc -l)   # number of
                       echo
 		             find . -type d -iname "$dirfind" 2>/dev/null  # directory(s) found   
 	                  echo
-	                  echo " Total Directories Found:" $findmeadir  # number of files found
+	                  echo " Total Directories Found:" "$findmeadir"  # number of files found
 	  
 	              
-	             if [ $findmeadir = 0 ]  # if find returned no results goto <then>
+	             if [ "$findmeadir" = 0 ]  # if find returned no results goto <then>
 	               then
 	                   sleep .75
                         :  # the colon can be used in place of a command to 'Do Nothing'  Exit this nested loop
@@ -1319,11 +1317,11 @@ findmeadir=$(find . -type d -iname "$dirfind" 2>/dev/null | wc -l)   # number of
 	                   echo " Chang the directory: Copy 1 line (including the dot) to the Clipboard then press <ENTER>"
                         echo     		                
                         echo " Stay in current directory: <ENTER> without copy."
-		              read -p " "
+		              read -r -p " "
 		              pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
-                        cd "$pasteclip" 2>/dev/null
-                        echo " Working Driectory: $PWD"  # <pwd>  print current working directory to the screen 
-                        echo $pastetemp | xclip -sel clip 2>/dev/null  #  reload clipboard content prior to running this function
+                        cd "$pasteclip" 2>/dev/null 
+                        echo " Working Driectory: ""$PWD"""  # <pwd>  print current working directory to the screen 
+                        echo "$pastetemp" | xclip -sel clip 2>/dev/null  #  reload clipboard content prior to running this function
                         pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
                         sleep 1.5            
         fi
@@ -1344,8 +1342,8 @@ echo
 
 clear
 echo
-echo "Directory: "$PWD
-echo "Clipboard: "$pasteclip
+echo "Directory: ""$PWD"
+echo "Clipboard: ""$pasteclip"
 echo "___________________________________________________________________________________________________________________"
 echo  
 echo " $der >>> VIDEO COUNT - Recursive"
@@ -1354,22 +1352,22 @@ echo
 echo " RECURSIVE COUNT OF VIDEO FILES"
 echo
 mp4count=$(find . -type f \( -iname "*.mp4" \) 2>/dev/null | wc -l)  # total number of <mp4> files found
-echo " MP4   = " $mp4count
+echo " MP4   = " "$mp4count"
 mkvcount=$(find . -type f \( -iname "*.mkv" \) 2>/dev/null | wc -l)  # total number of <mkv> files found
-echo " MKV   = " $mkvcount
+echo " MKV   = " "$mkvcount"
 avicount=$(find . -type f \( -iname "*.avi" \) 2>/dev/null | wc -l)  # total number of <avi> files found
-echo " AVI   = " $avicount
-avicount=$(find . -type f \( -iname "*.webm" \) 2>/dev/null | wc -l)  # total number of <webm files found
-echo " WEBM  = " $webmcount
-divxcount=$(find . -type f \( -iname "*.divx" \) 2>/dev/null | wc -l)  # total number of <divx> files found
-echo " DIVX  = " $divxcount
+echo " AVI   = " "$avicount"
+webmcount=$(find . -type f \( -iname "*.webm" \) 2>/dev/null | wc -l) # total number of <webm files found
+echo " WEBM  = " "$webmcount"
+divxcount=$(find . -type f \( -iname "*.divx" \) 2>/dev/null | wc -l) # total number of <divx> files found
+echo " DIVX  = " "$divxcount"
 echo "------------------"
 totalcount=$(($mp4count + $mkvcount + $avicount + $webmcount + $divxcount))  # calcutation for Sum of All 4 file types
 echo " TOTAL = " $totalcount  # display Sum
 # GUI Notification is displayed when this function <option 6> has completed. 
 notify-send  "Videoinfox is done processing Video File Count " "Total Video Files located in $PWD : $totalcount"
 echo
-read -p " Press <ENTER> to Continue" 
+read -r -p " Press <ENTER> to Continue" 
 ;;
 	
 
@@ -1391,20 +1389,20 @@ alldirfilecount=$(find . -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "
 echo > videoinfo.Video-Duration
 echo "$ver                                                                                               VIDEO DURATION" >> videoinfo.Video-Duration
 echo >> videoinfo.Video-Duration
-echo "This File was Created $(date) by" $USER >> videoinfo.Video-Duration
+echo "This File was Created $(date) by" "$USER" >> videoinfo.Video-Duration
 echo >> videoinfo.Video-Duration  # Every line ending in  ' >> videoinfo.Video-Duration '  is writing that line to text file <videoinfo.Video-Duration>
 
 #  The rest of this function Writes the Results to the Screen and File <videoinfo.Video-Duration>
 clear
 echo
-echo "Directory: "$PWD
-echo "Clipboard: "$pasteclip
+echo "Directory: ""$PWD"
+echo "Clipboard: ""$pasteclip"
 echo "___________________________________________________________________________________________________________________"  
 echo
-echo " $der >>> VIDEO DURATION - Recursive"
+echo " ""$der"" >>> VIDEO DURATION - Recursive"
 echo "___________________________________________________________________________________________________________________" 
 echo
-echo "Working Directory: "$PWD >> videoinfo.Video-Duration
+echo "Working Directory: ""$PWD" >> videoinfo.Video-Duration
 echo >> videoinfo.Video-Duration
 echo "RECURSIVE DURATION OF VIDEO FILES"
 echo "RECURSIVE DURATION OF $alldirfilecount VIDEO FILES" >> videoinfo.Video-Duration
@@ -1431,25 +1429,25 @@ floatingseconds=$(paste -sd+  ~/.config/videoinfox/videoinfo.duration.tmp | bc)
 #  The total in seconds is taken from line above and the format needs changed from  (x.xxxxxx) to (x)
 #  Below, <awk> is stripping 7 characters in from the right of the sum of  <$floatingseconds>
 #  In this case, the decimal point and the 6 trailing numbers are stripped from the string.
-totalseconds=$(echo $floatingseconds | awk '{ print substr( $0, 1, length($0)-7 ) }')
+totalseconds=$(echo "$floatingseconds" | awk '{ print substr( $0, 1, length($0)-7 ) }')
 
 clear
-echo "Working Directory: "$PWD  # <pwd>  print current working directory to the screen 
+echo "Working Directory: ""$PWD"  # <pwd>  print current working directory to the screen 
 echo
 echo "$der"
 echo
 echo "RECURSIVE DURATION OF VIDEO FILES"
 echo
-echo "DONE Probing $alldirfilecount Video Files for Duration"  #  file count of find results
+echo "DONE Probing ""$alldirfilecount"" Video Files for Duration"  #  file count of find results
 echo
 #  Calculation of  <$totalseconds>  into different formats.
-secs=$(echo $totalseconds)
+secs=$(echo "$totalseconds")
 totalminutes=$(($(($totalseconds/60))))  # convert seconds into minutes
 
 echo "Seconds"
 echo "Seconds" >> videoinfo.Video-Duration
-echo $totalseconds  # display total seconds
-echo $totalseconds >> videoinfo.Video-Duration  
+echo "$totalseconds"  # display total seconds
+echo "$totalseconds" >> videoinfo.Video-Duration  
 echo
 echo >> videoinfo.Video-Duration
 echo "Minutes"
@@ -1487,24 +1485,20 @@ fi
 function menu5 {
 clear
 cat videoinfo.Video-Duration
-#echo
-#echo "Directory: "$PWD
-#echo "Clipboard: "$pasteclip
-#echo
 echo
 echo "___________________________________________________________________________________________________________________" 
 echo
-echo " $der >>> VIDEO DURATION - Recursive"
+echo " ""$der"" >>> VIDEO DURATION - Recursive"
 echo "___________________________________________________________________________________________________________________" 
 echo
 echo " s - Save     d - Delete"  
 echo 
 echo -en " Enter Option: "
-read -n1 option5
+read -r -n1 option5
 echo
 }
 
-while [ 1 ]
+while true
 do
 	menu5
 	case $option5 in
@@ -1537,11 +1531,11 @@ do
 
 clear
 echo
-echo "Directory: "$PWD
-echo "Clipboard: "$pasteclip
+echo "Directory: ""$PWD"
+echo "Clipboard: ""$pasteclip"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " $ver >>> ENTER VIDEO FILE - For Info"
+echo " ""$ver"" >>> ENTER VIDEO FILE - For Info"
 echo "___________________________________________________________________________________________________________________"
 echo
 echo " Full path needed. No quotations needed for paths or files with spaces. Case Sensative."
@@ -1566,7 +1560,7 @@ echo " Video Info: "$(ffprobe -v error -show_entries stream=codec_name -of defau
                        #echo
                        #${codecres} 2>&1 "${specifyfile}"  # codec and resolution are displayed  
                        #ffmpeg -i "$specifyfile" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//  # duration is diplayed
-                       read -p " Press <ENTER> to Continue" 
+                       read -r -p " Press <ENTER> to Continue" 
                 else
                        echo " error: No such file or directory"
                        sleep .7
@@ -1595,18 +1589,18 @@ less ~/.config/videoinfox/videoinfo.help  # This help file is recreated on every
 f)
 function menuf {
 
-$videofind=0
+videofind=0
 
 clear
 cat ~/.config/videoinfox/videoinfo.findwork
 echo 
 
 #  read last find total file count
-read searchtotal < ~/.config/videoinfox/videoinfo.lastsearchtotal
-echo "Total files found: "$searchtotal  # number of files found
+read -r searchtotal < ~/.config/videoinfox/videoinfo.lastsearchtotal
+echo "Total files found: ""$searchtotal"  # number of files found
 
 # save date and time of last find
-echo $(stat -c ‘%y’ ~/.config/videoinfox/videoinfo.findwork) > ~/.config/videoinfox/videoinfo.lastfindtime
+stat -c ‘%y’ ~/.config/videoinfox/videoinfo.findwork > ~/.config/videoinfox/videoinfo.lastfindtime
 
 # line below  strip tha last 17 characters from <stat> time of file: ~/.config/videoinfox/videoinfo.lastfindtime
 cat ~/.config/videoinfox/videoinfo.lastfindtime | awk '{ print substr( $0, 1, length($0)-17 ) }' | cut -c 4- > ~/.config/videoinfox/videoinfo.time
@@ -1616,23 +1610,23 @@ echo "Found Date: "$(cat ~/.config/videoinfox/videoinfo.lastfindtime 2>/dev/null
 echo "Found in: "$(cat ~/.config/videoinfox/videoinfo.lastfinddir 2>/dev/null) # display last directory that last find was run from
 echo "Find Entry: "$(cat ~/.config/videoinfox/videoinfo.lastfindstring 2>/dev/null)  # display last find string that was used
 echo
-echo "Directory: "$PWD  # <pwd>  print current working directory to the screen
+echo "Directory: ""$PWD"  # <pwd>  print current working directory to the screen
 
 # LOAD STORED DIRECTORIES
-read dir1 < ~/.config/videoinfox/videoinfo.tv-dir 2> /dev/null
-read dir2 < ~/.config/videoinfox/videoinfo.movies-dir 2> /dev/null
-read dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null
-read dir4 < ~/.config/videoinfox/videoinfo.parent-dir 2> /dev/null
-read dir5 < ~/.config/videoinfox/videoinfo.dir-at-exit 2> /dev/null
+read -r dir1 < ~/.config/videoinfox/videoinfo.tv-dir 2> /dev/null
+read -r dir2 < ~/.config/videoinfox/videoinfo.movies-dir 2> /dev/null
+read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null
+read -r dir4 < ~/.config/videoinfox/videoinfo.parent-dir 2> /dev/null
+read -r dir5 < ~/.config/videoinfox/videoinfo.dir-at-exit 2> /dev/null
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content                          
 echo
 echo "Copy 1 above Find to the Clipboard then info or play."
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " $der >>> FIND RESULTS                                               Enter - Update Clipboard Display"
+echo " ""$der"" >>> FIND RESULTS                                               Enter - Update Clipboard Display"
 echo
-echo " Clipboard: "$pasteclip
+echo " Clipboard: ""$pasteclip"
 echo "___________________________________________________________________________________________________________________"
 echo
 echo " f - Find     p - Play Clipboard     x - Clear Clipboard                    CD: 1 2 3 4 5                 q - Quit"   
@@ -1640,11 +1634,11 @@ echo "              s - PlayList           C - Clear Find Results"
 echo " i - Info     v - Played List                                                                             h - Help"
 echo       
 echo -en " Enter Option: "
-read -n1 optionf
+read -r -n1 optionf
 echo
 }
 
-     while [ 1 ]
+     while true
      do
      menuf
      case $optionf in
@@ -1656,26 +1650,26 @@ echo
 
 
      1)  # CD DIRECTORY TO TV    
-     cd "$dir1"
+     cd "$dir1" 
      ;;
     
      2)  # CD DIRECTORY TO MOVIES
-     cd "$dir2"
+     cd "$dir2" 
      ;;
 
 
      3)  # CHANGE DIRECTORY TO DOWNLOADS
-     cd "$dirsaved"
+     cd "$dirsaved" 
      ;;
 
 
      4)  # CHANGE DIRECTORY TO EXTRA   
-     cd "$dir4"
+     cd "$dir4" 
      ;;
 
 
      5)  # CHANGE DIRECTORY TO LAST EXIT
-     cd "$dir5"
+     cd "$dir5" 
      ;;
 
 
@@ -1706,7 +1700,7 @@ echo "                                                                          
      echo
      echo "__________________________________________________________________________________________________________________"
      echo
-     echo " $der >>> FIND HELP                                                             Using the wildcard *              "
+     echo " ""$der"" >>> FIND HELP                                                             Using the wildcard *              "
      echo "__________________________________________________________________________________________________________________"
      echo "__________________________________________________________________________________________________________________"
      echo
@@ -1726,7 +1720,7 @@ echo "                                                                          
      echo " <d> from the home srceen then <d> to setup default directories. Change to Default directories also in <set>"
      echo "__________________________________________________________________________________________________________________"
      echo
-     read -p " Press <ENTER> to Continue"     
+     read -r -p " Press <ENTER> to Continue"     
      ;;
 
 
@@ -1738,9 +1732,9 @@ echo "                                                                          
      echo
      echo "___________________________________________________________________________________________________________________"
      echo
-     echo " $der >>> Find >>> Play Clipboard"
+     echo " ""$der"" >>> Find >>> Play Clipboard"
      echo
-     echo " [PLAY]> "$pasteclip" "
+     echo " [PLAY]> ""$pasteclip"" "
      echo "___________________________________________________________________________________________________________________"
      echo
 echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration     
@@ -1757,7 +1751,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
      echo " - Quit: q"      
      echo -e "\n"
      echo " This screen will exit when the video player is closed."
-     echo $pasteclip >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
+     echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
      ffplay -fs "$pasteclip" 2>/dev/null  # play video in clipboard
      echo " Video Player Closed"
      ;;
@@ -1771,7 +1765,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
      echo    
      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
      echo
-     read -p " Press <ENTER> to Continue" 
+     read -r -p " Press <ENTER> to Continue" 
      ;;
 
 
@@ -1797,7 +1791,7 @@ mv ~/.config/videoinfox/videoinfo.playedlist.slash ~/.config/videoinfox/videoinf
 echo > ~/.config/videoinfox/videoinfo.playedlist.header.tmp
 echo "PLAYED LIST" >> ~/.config/videoinfox/videoinfo.playedlist.header.tmp
 echo >> ~/.config/videoinfox/videoinfo.playedlist.header.tmp
-echo "This File was Created: $(date) by" $USER >> ~/.config/videoinfox/videoinfo.playedlist.header.tmp
+echo "This File was Created: $(date) by" "$USER" >> ~/.config/videoinfox/videoinfo.playedlist.header.tmp
 echo >> ~/.config/videoinfox/videoinfo.playedlist.header.tmp
 
 # Pssting New Played List into Newly Created Header 
@@ -1822,9 +1816,9 @@ rm ~/.config/videoinfox/videoinfo.playedlist.tmp
      echo "Copy 1 above video to the Clipboard then Play."
      echo "___________________________________________________________________________________________________________________"
      echo
-     echo " $der >>> PLAYED LIST                                                Enter - Update Clipboard Display"
+     echo " ""$der"" >>> PLAYED LIST                                                Enter - Update Clipboard Display"
      echo
-     echo " Clipboard: "$pasteclip
+     echo " Clipboard: ""$pasteclip"
      echo "___________________________________________________________________________________________________________________"
      echo
      echo " p - Play     D - Delete Played List                                                                      q - Quit"  
@@ -1832,11 +1826,11 @@ rm ~/.config/videoinfox/videoinfo.playedlist.tmp
      echo " i - Info"
      echo
      echo -en " Enter Option: "
-     read -n1 optionv
+     read  -r -n1 optionv
      echo
      }
 
-        while [ 1 ]
+        while true
         do
 	    menuv
 	    case $optionv in
@@ -1853,7 +1847,7 @@ rm ~/.config/videoinfox/videoinfo.playedlist.tmp
           echo    
           echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
           echo
-          read -p " Press <ENTER> to Continue" 
+          read -r -p " Press <ENTER> to Continue" 
           ;;
         
         
@@ -1863,9 +1857,9 @@ rm ~/.config/videoinfox/videoinfo.playedlist.tmp
         echo
         echo "___________________________________________________________________________________________________________________"
         echo
-        echo " $der >>> FIND >> PLAYED LIST - Play Clipboard" 
+        echo " ""$der"" >>> FIND >> PLAYED LIST - Play Clipboard" 
         echo
-        echo " [PLAY]> "$pasteclip" "
+        echo " [PLAY]> ""$pasteclip"" "
         echo "___________________________________________________________________________________________________________________"
         echo
 echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
@@ -1882,7 +1876,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
         echo " - Quit: q"      
         echo -e "\n"
         echo " This screen will exit when the video player is closed."
-        echo $pasteclip >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
+        echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
         ffplay -fs "$pasteclip" 2>/dev/null  # play video in clipboard
         echo " Played List Closed"
         ;;
@@ -1894,7 +1888,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
         echo > ~/.config/videoinfox/videoinfo.playedlist
         echo "PLAYED LIST" >> ~/.config/videoinfox/videoinfo.playedlist
         echo >> ~/.config/videoinfox/videoinfo.playedlist
-        echo "This File was Created: $(date) by" $USER >> ~/.config/videoinfox/videoinfo.playedlist
+        echo "This File was Created: $(date) by" "$USER" >> ~/.config/videoinfox/videoinfo.playedlist
         echo >> ~/.config/videoinfox/videoinfo.playedlist      
         echo
         echo " Played List DELETED . . ."
@@ -1912,29 +1906,29 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
         
           function menus {
           clear    
-          cat $HOME/.config/videoinfox/videoinfo.keptsearch  # view played list file
+          cat "$HOME"/.config/videoinfox/videoinfo.keptsearch  # view played list file
           pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipbiard content
         
           echo
           echo "Select a Video: Copy 1 above video to the clipboard then Play."
           echo "___________________________________________________________________________________________________________________"
           echo
-          echo " $der >>> PLAYLIST                                                   Enter - Update Clipboard Display"
+          echo " ""$der"" >>> PLAYLIST                                                   Enter - Update Clipboard Display"
           echo
-          echo " Clipboard: "$pasteclip
+          echo " Clipboard: ""$pasteclip"
           echo "___________________________________________________________________________________________________________________"
           echo
           echo " p - Play Clipboard     a - Add     D - Delete Playlist                                                   q - Quit"  
           echo
           echo " i - Info "
           echo
-          echo -en " Enter Option: "
-          read -n1 options
+          echo -r -en " Enter Option: "
+          read -r -n1 options
           echo
           }
 
                     
-          while [ 1 ]
+          while true
           do
           menus
 	     case $options in
@@ -1954,21 +1948,21 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
           echo    
           echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
           echo
-          read -p " Press <ENTER> to Continue" 
+          read -r -p " Press <ENTER> to Continue" 
           ;;
 
          
           p) 
           #  PLAY - <Find Menu>
           pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-          echo $pasteclip >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
+          echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
           clear
           echo
           echo "___________________________________________________________________________________________________________________"
           echo
-          echo " $der >>> FIND >>> PLAYLIST - Play Clipboard" 
+          echo " ""$der"" >>> FIND >>> PLAYLIST - Play Clipboard" 
           echo
-          echo " [PLAY]> "$pasteclip" "
+          echo " [PLAY]> ""$pasteclip"" "
           echo "___________________________________________________________________________________________________________________"        
           echo
 echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
@@ -2010,18 +2004,18 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
           echo "Copy 1 or more above lines to the Clipboard. Then Add to Playlist"                               
           echo "___________________________________________________________________________________________________________________"
           echo
-          echo " $der >>> ADD TO PLAYLIST                                                 Quit to go back to Playlist"   
+          echo " ""$der"" >>> ADD TO PLAYLIST                                                 Quit to go back to Playlist"   
           echo "___________________________________________________________________________________________________________________"
           echo       
           echo " a - Add to Playlist                                                                                      q - quit"  
           echo
           echo -en " Enter Option: "
-          read -n1 optiona
+          read -r -n1 optiona
           echo
           }
  
 
-          while [ 1 ]
+          while true
           do
 	      menua                                        
 	      case $optiona in
@@ -2031,7 +2025,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
           
           echo > ~/.config/videoinfox/videoinfo.tmp  # creating temporary file for the final outputfile: <~videoinfo.keptsearch> 
           pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-          echo $pasteclip >> ~/.config/videoinfox/videoinfo.tmp  # pasting your clipboard coppy to file: <videoinfo.tmp>
+          echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.tmp  # pasting your clipboard coppy to file: <videoinfo.tmp>
 cat ~/.config/videoinfox/videoinfo.tmp | tr , "\n" | sort > ~/.config/videoinfox/videoinfo.tmp2  # sort from one line to multiple line & remove comma
           
           sed -i '/./,$!d' ~/.config/videoinfox/videoinfo.tmp2 # remove empty lines at the top of the file: <videoinfo.tmp2> and write changes
@@ -2067,7 +2061,7 @@ cp ~/.config/videoinfox/videoinfo.keptsearch.slash ~/.config/videoinfox/videoinf
 echo > ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
 echo "PLAYLIST" >> ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
 echo >> ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
-echo "This File was Created: $(date) by" $USER >> ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
+echo "This File was Created: $(date) by" "$USER" >> ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
 echo >> ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
 
 # Pssting New Played List into Newly Created Header 
@@ -2105,7 +2099,7 @@ rm ~/.config/videoinfox/videoinfo.keptsearch.tmp
            echo > ~/.config/videoinfox/videoinfo.keptsearch
            echo "PLAYlIST" >> ~/.config/videoinfox/videoinfo.keptsearch
            echo >> ~/.config/videoinfox/videoinfo.keptsearch
-           echo "This File was Created: $(date) by" $USER >> ~/.config/videoinfox/videoinfo.keptsearch
+           echo "This File was Created: $(date) by" "$USER" >> ~/.config/videoinfox/videoinfo.keptsearch
            echo >> ~/.config/videoinfox/videoinfo.keptsearch
            echo
            echo " Playlist DELETED . . . "
@@ -2124,11 +2118,11 @@ rm ~/.config/videoinfox/videoinfo.keptsearch.tmp
     pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
     clear
-    echo "Working Directory: "$PWD  # <pwd>  print current working directory to the screen 
-    echo "Clipboard Content: "$pasteclip
+    echo "Working Directory: ""$PWD"  # <pwd>  print current working directory to the screen 
+    echo "Clipboard Content: ""$pasteclip"
     echo "___________________________________________________________________________________________________________________"
     echo
-    echo " $ver >>> Find Video File - Recursive                                                   wildcard * ok"
+    echo " ""$ver"" >>> Find Video File - Recursive                                                   wildcard * ok"
     echo "___________________________________________________________________________________________________________________"
     echo
     echo " Find a video file to Play and/or get Info on.  No file extensions." 
@@ -2153,7 +2147,7 @@ rm ~/.config/videoinfox/videoinfo.keptsearch.tmp
                     sleep .7 
                 else
                                 
-                     if [ $searchtotal = 0 ]  # if find returned no results goto <then>
+                     if [ "$searchtotal" = 0 ]  # if find returned no results goto <then>
       
                        then
                            cp ~/.config/videoinfox/videoinfo.findwork3 ~/.config/videoinfox/videoinfo.findwork
@@ -2169,13 +2163,13 @@ rm ~/.config/videoinfox/videoinfo.keptsearch.tmp
 find "$PWD" -type f \( -iname "$videofind.mp4" -o -iname "$videofind.mkv" -o -iname "$videofind.avi" -o -iname "$videofind.webm" -o -iname "$videofind.divx" \) > ~/.config/videoinfox/videoinfo.findwork
                            echo "$PWD" > ~/.config/videoinfox/videoinfo.lastfinddir  # save last directory that last find was run in 
                            # write last search total file count
-                           echo $searchtotal > ~/.config/videoinfox/videoinfo.lastsearchtotal
+                           echo "$searchtotal" > ~/.config/videoinfox/videoinfo.lastsearchtotal
                            # read last search total file count
-                           read searchtotal < ~/.config/videoinfox/videoinfo.lastsearchtotal    
+                           read -r searchtotal < ~/.config/videoinfox/videoinfo.lastsearchtotal    
                            cp ~/.config/videoinfox/videoinfo.findwork ~/.config/videoinfox/videoinfo.findwork3
                            cp ~/.config/videoinfox/videoinfo.lastsearchtotal ~/.config/videoinfox/videoinfo.lastsearchtotal2                 
                            echo
-                           echo " Total files found: " $searchtotal  # number of files found
+                           echo " Total files found: " "$searchtotal"  # number of files found
                            notify-send  "Videoinfox is done processing: Find Video(s)" "$PWD: $searchtotal Video Files"
                            sleep 1.5
     fi
@@ -2208,8 +2202,8 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
         
       #  DOWNLOAD LINK AND PLAY
       
-      read dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir  # reading download directory 
-      cd "$dirsaved"  # change to download directory
+      read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir  # reading download directory 
+      cd "$dirsaved"   # change to download directory
  
       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
       clear
@@ -2228,11 +2222,10 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
 
       # PLAY DOWNLOADED FILE
       
-      read lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
+      read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
 
       ytdlplast=$(find "$PWD" -type f \( -iname "$lastdownload*" \))
       
-
       # was tracking down a issue
       #echo "pasetclip" > ~/.config/videoinfox/videoinfo.zzz
       #echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.zzz
@@ -2245,9 +2238,9 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       echo
       echo "___________________________________________________________________________________________________________________"
       echo
-      echo " $der >>> Play Last Download"
+      echo " ""$der"" >>> Play Last Download"
       echo
-      echo " [PLAY]> "$ytdlplast""
+      echo " [PLAY]> ""$ytdlplast"""
       echo "___________________________________________________________________________________________________________________"         
       echo
               
@@ -2268,7 +2261,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo
       echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List File  
       ffplay -fs &> /dev/null "$ytdlplast"  
-      cd "$grabdir"  # restore dir prior to entering yt-dlp menu
+      cd "$grabdir"   # restore dir prior to entering yt-dlp menu
 
 
   else
@@ -2278,9 +2271,9 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo
       echo "___________________________________________________________________________________________________________________"
       echo
-      echo " $der >>> HOME >>> PLAY CLIPBOARD" 
+      echo " ""$der"" >>> HOME >>> PLAY CLIPBOARD" 
       echo
-      echo " [PLAY]> "$pasteclip" "
+      echo " [PLAY]> ""$pasteclip"" "
       echo "___________________________________________________________________________________________________________________"
       echo
 
@@ -2301,7 +2294,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo
       #read -p " Press <ENTER> to Continue"
       
-      echo $pasteclip >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
+      echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
       ffplay -fs "$pasteclip" 2>/dev/null  # play video in clipboard
       echo " Played List Closed"
      
@@ -2335,7 +2328,7 @@ mv ~/.config/videoinfox/videoinfo.playedlist.slash ~/.config/videoinfox/videoinf
 echo > ~/.config/videoinfox/videoinfo.playedlist.header.tmp
 echo "PLAYED LIST" >> ~/.config/videoinfox/videoinfo.playedlist.header.tmp
 echo >> ~/.config/videoinfox/videoinfo.playedlist.header.tmp
-echo "This File was Created: $(date) by" $USER >> ~/.config/videoinfox/videoinfo.playedlist.header.tmp
+echo "This File was Created: $(date) by" "$USER" >> ~/.config/videoinfox/videoinfo.playedlist.header.tmp
 echo >> ~/.config/videoinfox/videoinfo.playedlist.header.tmp
 
 # Pssting New Played List into Newly Created Header 
@@ -2359,9 +2352,9 @@ rm ~/.config/videoinfox/videoinfo.playedlist.tmp
     echo "Copy 1 above video to the Clipboard then Play."
     echo "___________________________________________________________________________________________________________________"
     echo
-    echo " $der >>> PLAYED LIST                                                Enter - Update Clipboard Display"
+    echo " ""$der"" >>> PLAYED LIST                                                Enter - Update Clipboard Display"
     echo
-    echo " Clipboard: "$pasteclip
+    echo " Clipboard: ""$pasteclip"
     echo "___________________________________________________________________________________________________________________"
     echo
     echo " p - Play     D - Delete Played List                                                                      q - Quit"  
@@ -2369,12 +2362,12 @@ rm ~/.config/videoinfox/videoinfo.playedlist.tmp
     echo " i - Info"
     echo
     echo -en " Enter Option: "
-    read -n1 optionv0
+    read -r -n1 optionv0
     echo
     }
 
 
-        while [ 1 ]
+        while true
         do
 	    menuv0
 	    case $optionv0 in
@@ -2390,7 +2383,7 @@ rm ~/.config/videoinfox/videoinfo.playedlist.tmp
         echo    
         echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
         echo
-              read -p " Press <ENTER> to Continue" 
+              read -r -p " Press <ENTER> to Continue" 
               ;;    
 
 
@@ -2400,9 +2393,9 @@ rm ~/.config/videoinfox/videoinfo.playedlist.tmp
         echo
         echo "___________________________________________________________________________________________________________________"
         echo
-        echo " $der >>> HOME >>> PLAYED LIST" 
+        echo " ""$der"" >>> HOME >>> PLAYED LIST" 
         echo
-        echo " [PLAY]> "$pasteclip" "
+        echo " [PLAY]> ""$pasteclip"" "
         echo "___________________________________________________________________________________________________________________"
         echo
 echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
@@ -2420,7 +2413,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
         echo -e "\n"
         echo " This screen will exit when the video player is closed."
         echo
-        echo $pasteclip >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
+        echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
         ffplay -fs "$pasteclip" 2>/dev/null  # play video in clipboard
         echo " Played List Closed"
         ;;
@@ -2432,7 +2425,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
         echo > ~/.config/videoinfox/videoinfo.playedlist
         echo "PLAYED LIST" >> ~/.config/videoinfox/videoinfo.playedlist
         echo >> ~/.config/videoinfox/videoinfo.playedlist
-        echo "This File was Created: $(date) by" $USER >> ~/.config/videoinfox/videoinfo.playedlist
+        echo "This File was Created: $(date) by" "$USER" >> ~/.config/videoinfox/videoinfo.playedlist
         echo >> ~/.config/videoinfox/videoinfo.playedlist
         echo
         echo " Played List DELETED . . ."
@@ -2456,15 +2449,15 @@ s) ################  VIEW/PLAYED SAVED FINDS - <HOME>  #########################
           function menus {          
           
           clear
-          cat $HOME/.config/videoinfox/videoinfo.keptsearch  # view played list file
+          cat "$HOME"/.config/videoinfox/videoinfo.keptsearch  # view played list file
           pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content    
           echo
           echo "Select a Video: Copy 1 above video to the clipboard then Play."
           echo "___________________________________________________________________________________________________________________"
           echo
-          echo " $der >>> PLAYLIST                                                   Enter - Update Clipboard Display"
+          echo " ""$der"" >>> PLAYLIST                                                   Enter - Update Clipboard Display"
           echo
-          echo " Clipboard: "$pasteclip
+          echo " Clipboard: ""$pasteclip"
           echo "___________________________________________________________________________________________________________________"
           echo
           echo " p - Play Clipboard     a - Add     D - Delete Playlist                                                   q - Quit"  
@@ -2472,12 +2465,12 @@ s) ################  VIEW/PLAYED SAVED FINDS - <HOME>  #########################
           echo " i - Info"
           echo
           echo -en " Enter Option: "
-          read -n1 options
+          read -r -n1 options
           echo
           }
 
 
-          while [ 1 ]
+          while true
           do
           menus
 	     case $options in
@@ -2492,14 +2485,14 @@ s) ################  VIEW/PLAYED SAVED FINDS - <HOME>  #########################
           p) 
           #  PLAY CLIPBOARD - <HOME>
           pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-          echo $pasteclip >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
+          echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
           clear
           echo
           echo "___________________________________________________________________________________________________________________"
           echo
-          echo " $der >>> HOME >>> PLAYLIST - Play Video" 
+          echo " ""$der"" >>> HOME >>> PLAYLIST - Play Video" 
           echo
-          echo " [PLAY]> "$pasteclip" "
+          echo " [PLAY]> ""$pasteclip"" "
           echo "___________________________________________________________________________________________________________________"
           echo
 echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
@@ -2530,7 +2523,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
           echo    
 echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
           echo
-          read -p " Press <ENTER> to Continue" 
+          read -r -p " Press <ENTER> to Continue" 
           ;;
 
 
@@ -2552,18 +2545,18 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
           echo "Copy 1 or more above lines to the Clipboard. Then Add to Playlist"
           echo "___________________________________________________________________________________________________________________"
           echo
-          echo " $der >>> ADD TO PLAYLIST                                              Quit to go back to Playlist"   
+          echo " ""$der"" >>> ADD TO PLAYLIST                                              Quit to go back to Playlist"   
           echo "___________________________________________________________________________________________________________________"
           echo       
           echo " a - Add to Playlist                                                                                      q - quit"  
           echo
           echo -en " Enter Option: "
-          read -n1 optiona
+          read -r -n1 optiona
           echo
           }
  
 
-          while [ 1 ]
+          while true
           do
 	     menua                                        
 	     case $optiona in
@@ -2573,7 +2566,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
           
           echo > ~/.config/videoinfox/videoinfo.tmp  # creating temporary file for the final outputfile: <~videoinfo.keptsearch> 
           pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-          echo $pasteclip >> ~/.config/videoinfox/videoinfo.tmp  # pasting your clipboard coppy to file: <videoinfo.tmp>
+          echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.tmp  # pasting your clipboard coppy to file: <videoinfo.tmp>
 cat ~/.config/videoinfox/videoinfo.tmp | tr , "\n" | sort > ~/.config/videoinfox/videoinfo.tmp2  # sort from one line to multiple line & remove comma
           
           sed -i '/./,$!d' ~/.config/videoinfox/videoinfo.tmp2 # remove empty lines at the top of the file: <videoinfo.tmp2> and write changes
@@ -2609,7 +2602,7 @@ cp ~/.config/videoinfox/videoinfo.keptsearch.slash ~/.config/videoinfox/videoinf
 echo > ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
 echo "PLAYLIST" >> ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
 echo >> ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
-echo "This File was Created: $(date) by" $USER >> ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
+echo "This File was Created: $(date) by" "$USER" >> ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
 echo >> ~/.config/videoinfox/videoinfo.keptsearch.header.tmp
 
 # Pssting New Played List into Newly Created Header 
@@ -2647,7 +2640,7 @@ rm ~/.config/videoinfox/videoinfo.keptsearch.tmp
            echo > ~/.config/videoinfox/videoinfo.keptsearch
            echo "PLAYLIST" >> ~/.config/videoinfox/videoinfo.keptsearch
            echo >> ~/.config/videoinfox/videoinfo.keptsearch
-           echo "This File was Created: $(date) by" $USER >> ~/.config/videoinfox/videoinfo.keptsearch
+           echo "This File was Created: $(date) by" "$USER" >> ~/.config/videoinfox/videoinfo.keptsearch
            echo >> ~/.config/videoinfox/videoinfo.keptsearch
            echo
            echo " Playlist DELETED . . . "
@@ -2683,7 +2676,7 @@ then
     echo
     echo "___________________________________________________________________________________________________________________"
     echo  
-    echo " $ver >>> Downloaded: yt-dlp"
+    echo " ""$ver"" >>> Downloaded: yt-dlp"
     echo "___________________________________________________________________________________________________________________"
     echo
     echo " ytdlp Home: https://github.com/yt-dlp/yt-dlp"
@@ -2698,25 +2691,25 @@ then
     echo
     echo " Select YT-DLP again to see options"   
     echo 
-    read -p " Press <ENTER> to Continue"
+    read -r -p " Press <ENTER> to Continue"
 
 
 
 else  # IF YT-DLP IS FOUOND
 
-read ytdlpver < ~/.config/videoinfox/videoinfo.yt-dlp.version
+read -r ytdlpver < ~/.config/videoinfox/videoinfo.yt-dlp.version
 
 function menuy {
 
 
-read dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir
-cd "$dirsaved"
+read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir
+cd "$dirsaved" 
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
 clear
 echo
-echo "Directory: $PWD"
+echo "Directory: ""$PWD"
 echo "Clipboard:" "$pasteclip"
 echo
 echo "Download Directory:" "$dirsaved"
@@ -2734,7 +2727,7 @@ fi
 # echo "This screen only accepts urls from the clipboard."
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " $der >>> YT-DLP MENU           yt-dlp Version: $ytdlpver           Enter - Update Clipboard Display"
+echo " ""$der"" >>> YT-DLP MENU           yt-dlp Version: $ytdlpver           Enter - Update Clipboard Display"
 echo "___________________________________________________________________________________________________________________"
 echo
 echo " d - Download Video         p - Play Video (download, watch, delete)                                      q - Quit"
@@ -2742,11 +2735,11 @@ echo " v - View Downloads"
 echo " l - Play Last Download"
 echo
 echo -en " Enter Option: "                             
-read -n1 optiony
+read -r -n1 optiony
 }
 
 
-     while [ 1 ]
+     while true
      do
      menuy
 	case $optiony in
@@ -2789,7 +2782,7 @@ find "$PWD" -type f \( -iname "*.mp4" -o -iname ".mkv" -o -iname "*.avi" -o -ina
      echo    
      echo "___________________________________________________________________________________________________________________"
      echo
-     echo " $der >>> VIEW DOWNLOADS                                             Enter - Update Clipboard Display"
+     echo " ""$der"" >>> VIEW DOWNLOADS                                             Enter - Update Clipboard Display"
      echo
      echo " Clipboard:" "$pasteclip"
      echo "___________________________________________________________________________________________________________________"
@@ -2799,12 +2792,12 @@ find "$PWD" -type f \( -iname "*.mp4" -o -iname ".mkv" -o -iname "*.avi" -o -ina
      echo " i - Info"
      echo
      echo -en " Enter Option: "
-     read -n1 optionyt
+     read -r -n1 optionyt
      echo
      }
         
                   
-              while [ 1 ]
+              while true
               do
               menuyt
 	         case $optionyt in
@@ -2823,7 +2816,7 @@ find "$PWD" -type f \( -iname "*.mp4" -o -iname ".mkv" -o -iname "*.avi" -o -ina
               echo    
               echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
               echo
-              read -p " Press <ENTER> to Continue" 
+              read -r -p " Press <ENTER> to Continue" 
               ;;
 
 
@@ -2833,9 +2826,9 @@ find "$PWD" -type f \( -iname "*.mp4" -o -iname ".mkv" -o -iname "*.avi" -o -ina
               echo
               echo "___________________________________________________________________________________________________________________"
               echo
-              echo " $der >>>  YT-DLP MENU >>> VIEW DOWNLOADS - Play Video"
+              echo " ""$der"" >>>  YT-DLP MENU >>> VIEW DOWNLOADS - Play Video"
               echo
-              echo " [PLAY]> "$pasteclip" "
+              echo " [PLAY]> ""$pasteclip"" "
               echo "___________________________________________________________________________________________________________________"
               echo
 
@@ -2854,7 +2847,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               echo -e "\n"
               echo " This screen will exit when the video player is closed."
               echo
-              echo $pasteclip >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to file
+              echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to file
               ffplay -fs &> /dev/null "$pasteclip"
               echo
               ;; 
@@ -2871,9 +2864,9 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               echo
               echo "___________________________________________________________________________________________________________________"
               echo
-              echo " $der >>> YT-DLP MENU >>> Play Video (download, watch, delete)"
+              echo " ""$der"" >>> YT-DLP MENU >>> Play Video (download, watch, delete)"
               echo
-              echo " [PLAY]> $pasteclip"
+              echo " [PLAY]> ""$pasteclip"""
               echo "___________________________________________________________________________________________________________________"         
               echo
               echo
@@ -2890,21 +2883,21 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               echo " This screen will exit when the video player is closed."
               echo
      
-              ~/.config/videoinfox/yt-dlp $pasteclip -o $dirsaved/download.tmp  # downloading temporary video
+              ~/.config/videoinfox/yt-dlp "$pasteclip" -o "$dirsaved"/download.tmp  # downloading temporary video
               notify-send "Videoinfox messsage: YT-DLP is done . . ." "$pasteclip"  
               
-              ffplay -fs &> /dev/null $dirsaved/download.tmp*  # play temporary video
-              rm $dirsaved/download.tmp*  # on player close, delete temporary video
+              ffplay -fs &> /dev/null "$dirsaved"/download.tmp*  # play temporary video
+              rm "$dirsaved"/download.tmp*  # on player close, delete temporary video
               ;; 
 
 
               l)  # play last download
               grabdir="$PWD"  # storing directory to restore at the end of this function
                
-              read dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir  # reading download directory 
-              cd "$dirsaved"  # change to download directory
+              read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir  # reading download directory 
+              cd "$dirsaved"   # change to download directory
 
-              read lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
+              read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
 
               ytdlplast=$(find "$PWD" -type f \( -iname "$lastdownload*" \))
 
@@ -2913,9 +2906,9 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               echo
               echo "___________________________________________________________________________________________________________________"
               echo
-              echo " $der >>> Play Last Download"
+              echo " ""$der"" >>> Play Last Download"
               echo
-              echo " [PLAY]> "$ytdlplast""
+              echo " [PLAY]> ""$ytdlplast"""
               echo "___________________________________________________________________________________________________________________"         
               echo
               
@@ -2937,7 +2930,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
            
               echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to file  
               ffplay -fs &> /dev/null "$ytdlplast"  
-              cd "$grabdir"  # restore dir prior to entering yt-dlp menu
+              cd "$grabdir"   # restore dir prior to entering yt-dlp menu
               ;;  
 
 
@@ -2955,14 +2948,14 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               echo
               echo
               echo "Find what video quality and format you want. (Code on far left)"
-              read -p "Enter that Code and Press <ENTER> : " svrcode
+              read -r -p "Enter that Code and Press <ENTER> : " svrcode
               echo
               ~/.config/videoinfox/yt-dlp -f "$svrcode" "$pasteclip"
               echo
               #echo "YT-DLP Done . . ."
               notify-send "Videoinfox messsage: YT-DLP is done . . ." "$pasteclip"
               
-              sec=3
+              sec=2
           
               while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
                                 
@@ -2980,7 +2973,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 fi
 
 # echo "$pasteclip3" | xclip -sel clip  #  load clipboard state before entering this function
-cd "$grabdir"  # restore dir prior to entering yt-dlp menu
+cd "$grabdir"   # restore dir prior to entering yt-dlp menu
 ;;   # grabdir="$PWD"
 
 
@@ -3003,7 +2996,7 @@ echo -e "\n"
 echo
 echo "___________________________________________________________________________________________________________________"
 echo  
-echo " $ver >>> EXIT"
+echo " ""$ver"" >>> EXIT"
 echo "___________________________________________________________________________________________________________________" 
 echo -e "\n"
 
@@ -3015,10 +3008,10 @@ echo -e "\n"
 #   FYI :
 
 #   The Line Below performs a Recursive Search and outputs ffprobe's Duration of every find in seconds format (x.xxxxxx).
-#   find . -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname ".avi" -o -iname "*.divx"\) -exec ffprobe -show_entries format=duration -v quiet -of csv="p=0" {} \;
+#   find . -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname ".avi" -o -iname "*.webm -o -iname "*.divx"\) -exec ffprobe -show_entries format=duration -v quiet -of csv="p=0" {} \;
 
 #   The Line Below performs a Recursive Search and outputs Video File Count.
-#   find . -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.divx" \) | wc -l
+#   find . -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm -o -iname "*.divx" \) | wc -l
 
 #   The Line Below gets the Codec & Resolution from a video file.
 #   NOTE : Do NOT include  <  >   around the filename. 
