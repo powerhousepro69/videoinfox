@@ -73,7 +73,7 @@ Yt-dlp Menu
 ![Videoinfox HOME](https://i.imgur.com/DphLvOL.png)
 
 <br />
-Playlist
+Playlist&nbsp; (also Played List)
 
 ![Videoinfox HOME](https://i.imgur.com/hpiQMqU.png)
 
