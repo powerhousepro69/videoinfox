@@ -42,10 +42,10 @@ sudo chmod +x /usr/local/bin/videoinfox
  - Next version release will include Play Clipboard in: &nbsp; \<YT-DLP\> &nbsp; and &nbsp; \<View Downloads\>
  
  <br />
+  &nbsp; &nbsp; More Features:
+  <br />
  
  - File types searched for :&nbsp; &nbsp; .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx
-  <br />
-  
  - Keep track of everything played &nbsp; \<Played List\>
  - Save a list of videos from find result(s) &nbsp;\<Play List\>
  - Remove duplicates from the playlist and played video.
