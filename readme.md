@@ -1,6 +1,6 @@
 videoinfox v.2.00
 
-MOST SREENSHOTS BELOW STILL NEEED UPDATED TO v.2.00
+MOST SREENSHOTS BELOW STILL NEEED UPDATED TO v.2.00 THE FIRST PICTURE HAS BEEN UPDATED.
 
 For xserver - Find video files, get info on and play.  &nbsp; Yt-dlp integration.
 
