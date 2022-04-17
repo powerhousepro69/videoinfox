@@ -20,10 +20,6 @@ sudo chmod +x /usr/local/bin/videoinfox
  - Navigation was designed to be robust and efficient. One keypress for all menu selections.
 <br />
 
- - Press &nbsp; Enter &nbsp; after copying a local filename or a url video link to the clipboard to update display. Available system wide.
-<br />
-
-
  - Play Clipboard can play either a local file or a downloadable video url via yt-dlp.
  - Play Clipboard will also give you codec, resolution and duration on the playing video. 
  - Play Clipboard is available in: &nbsp;\<HOME\> &nbsp;\<Playlist\> &nbsp;\<Played List\>
