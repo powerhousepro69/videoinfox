@@ -2,9 +2,9 @@ videoinfox v.2.00
 
 MOST SREENSHOTS BELOW STILL NEEED UPDATED TO v.2.00 THE FIRST PICTURE HAS BEEN UPDATED.
 
-For xserver - Find video files, get info on and play.  &nbsp; Download by copying url video link to the clipboard. Download feature thanks to Yt-dlp.
+For xserver - Find local video files, get info on and play.  &nbsp; Download videos via Yt-dlp 
 
-To install &nbsp;: &nbsp;Run the 2 lines below
+To install &nbsp;: &nbsp;Run the 2 lines below:
 ```
 sudo wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox -O /usr/local/bin/videoinfox
 ```
