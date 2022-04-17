@@ -20,6 +20,10 @@ sudo chmod +x /usr/local/bin/videoinfox
  - Navigation was designed to be robust and efficient. One keypress for all menu selections.
 <br />
 
+ - Press  &nbsp;\<enter\> &nbsp; after copying a local filename or link to the clipboard to update display.
+<br />
+
+
  - Play Clipboard can play either a local file or a downloadable video url via yt-dlp.
  - Play Clipboard will also give you codec, resolution and duration on the playing video. 
  - Play Clipboard is available in: &nbsp;\<HOME\> &nbsp;\<Playlist\>&nbsp;\<Played List\>
@@ -44,7 +48,6 @@ sudo chmod +x /usr/local/bin/videoinfox
  - Save a list of videos from find result(s) &nbsp;\<PLAYLIST\>
  - Remove duplicates from the playlist and played video.
  - Remove any entries from lists that don't start with a &nbsp;\/
- - Press  &nbsp;\<enter\> &nbsp; anywhere you see  &nbsp;\<Clipboard:\>&nbsp; to update display.
  - Enter a file with full path to play and get info. \&nbsp;<Enter Video File\>
  - Auto save last find result(s) and autoload until deleted.
  - Yt-dlp integration for easy download and play.
