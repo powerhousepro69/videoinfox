@@ -15,12 +15,29 @@ sudo chmod +x /usr/local/bin/videoinfox
 <br />
 
  Videoinfox Features:
+<br />
 
  - Navigation was designed to be robust and efficient. One keypress for all menu selections.
- - Copy a filename to the clipboard and press \<p\> to play.
- - Play clipboard:  &nbsp; &nbsp;\<HOME\> &nbsp;\<PLAYLIST\> &nbsp;\<PLAYED LIST\> &nbsp;\<FIND\> &nbsp;\<YT-DLP\>
+<br />
+
+ - Play Clipboard can play either a local file or a downloadable video url via yt-dlp.
+ - Play Clipboard will also give you codec, resolution and duration on the playing video. 
+ - Play clipboard is available on screens &nbsp;\<HOME\> &nbsp;\<Playlist\>&nbsp;\<Played List\>
+ <br />
+ 
+ - Copy a local file including full path to the clipboard then press &nbsp; p &nbsp; to Play Clipboard.
+   <br />
+   
+ - Copy a video url to the clipboard and press &nbsp; enter &nbsp; for yt-dlp to extract video name  then press &nbsp; p &nbsp; to Play Clipboard. 
+  <br />
+ 
+ - (next version release will include Play Clipboard in &nbsp; \<YT-DLP\> &nbsp; and &nbsp; \<View Downloads\>
+ 
+ <br />
+ 
  - File types searched for :&nbsp; &nbsp; .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx
- - Play videos and get video info from every screen that has a play feature.
+  <br />
+  
  - Keep track of everything played &nbsp; \<PLAYED LIST\>
  - Save a list of videos from find result(s) &nbsp;\<PLAYLIST\>
  - Remove duplicates from the playlist and played video.
@@ -29,9 +46,8 @@ sudo chmod +x /usr/local/bin/videoinfox
  - Enter a file with full path to play and get info. \&nbsp;<Enter Video File\>
  - Auto save last find result(s) and autoload until deleted.
  - Yt-dlp integration for easy download and play.
- - Download video and autoplay &nbsp;\<HOME\>
  - Download video and play later. &nbsp;\<YT-DLP\>
- - When download has completed, auto play, delete when the player is closed. &nbsp;\<YT-DLP\>
+ - Download completed, auto play, delete when the player is closed. &nbsp;\<YT-DLP\>
  - Play last download &nbsp;\<YT-DLP\>
  - Pick file type and quality of video before download. &nbsp;\<YT-DLP\>
  - Download and update Videoinfox. &nbsp;\<SET\>
