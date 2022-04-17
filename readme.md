@@ -30,7 +30,9 @@ sudo chmod +x /usr/local/bin/videoinfox
  - Auto clear the clipboard of invalid files and urls. Press enter after your copy to the clipboard to validate clipboard content.
 
 <br />
- 
+ &nbsp; &nbsp; To use Play Clipboard:
+<br />
+
  - Copy a local file including full path to the clipboard then press &nbsp; p &nbsp; to Play Clipboard.
    <br />
    
