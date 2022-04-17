@@ -26,7 +26,7 @@ sudo chmod +x /usr/local/bin/videoinfox
 
  - Play Clipboard can play either a local file or a downloadable video url via yt-dlp.
  - Play Clipboard will also give you codec, resolution and duration on the playing video. 
- - Play Clipboard is available in: &nbsp;\<HOME\> &nbsp;\<Playlist\>&nbsp;\<Played List\>
+ - Play Clipboard is available in: &nbsp;\<HOME\> &nbsp;\<Playlist\> &nbsp;\<Played List\>
  - Play Clipboard will clear the url link out of the clipboard after you close the player.
  - To watch the last download after Play Clipboard cleared the link, select Last Download available in: &nbsp;\<HOME\> &nbsp;\<YT-DLP\>
  <br />
