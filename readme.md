@@ -20,7 +20,7 @@ sudo chmod +x /usr/local/bin/videoinfox
  - Navigation was designed to be robust and efficient. One keypress for all menu selections.
 <br />
 
- - Press &nbsp; Enter &nbsp; after copying a local filename or link to the clipboard to update display.
+ - Press &nbsp; Enter &nbsp; after copying a local filename or link to the clipboard to update display. Availabble system wide.
 <br />
 
 
