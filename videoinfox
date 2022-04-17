@@ -288,9 +288,6 @@ echo "                                                                          
       echo > ~/.config/videoinfox/videoinfo.lastfinddir
       echo > ~/.config/videoinfox/videoinfo.lastsearchtotal
 
-      # SETTING DEFAULT YT-DLP TIMEOUT TO 5 SECONDS
-      echo "5" > ~/.config/videoinfox/videoinfo.ytdlp-timeout
-
       # CLEAR CLIPBOARD JUST FOR FIRST RUM
       echo " " | xclip -sel clip     
    
@@ -436,7 +433,6 @@ read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null
 
 function menuf {
 
-read -r ytdlptimeout < ~/.config/videoinfox/videoinfo.ytdlp-timeout 2> /dev/null 
 
 ##################################################################################################################################################
 ###########################  START ROUTINE TO SORT AND REMOVE DUPLICATES FROM  <videoinfo.playedlist>            #################################  
@@ -559,7 +555,7 @@ grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st chara
 if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
   then
       read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
-      ytdlpconfirm=$(timeout $ytdlptimeout"s" ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
+      ytdlpconfirm=$(~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
 
             if [ "$ytdlpconfirm" = "" ]  
                   then
@@ -810,9 +806,9 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
       clear
       #~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s.%(id)s.%(ext)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload
-      timeout $ytdlptimeout"s" ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload 
+      ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload 
       #~/.config/videoinfox/yt-dlp -F "$pasteclip"  # -F let user see all the video formats and qualities available for download 
-      timeout $ytdlptimeout"s" ~/.config/videoinfox/yt-dlp "$pasteclip"     
+      ~/.config/videoinfox/yt-dlp "$pasteclip"     
       #echo
       #echo "Find what video quality and format you want. (Code on far left)"
       #read -p "Enter that Code and Press enter : " svrcode
@@ -998,7 +994,7 @@ grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st chara
 if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
   then
       read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
-      ytdlpconfirm=$(timeout $ytdlptimeout"s" ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
+      ytdlpconfirm=$(~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
 
             if [ "$ytdlpconfirm" = "" ]  
                   then
@@ -1122,9 +1118,9 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
       clear
       #~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s.%(id)s.%(ext)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload
-      timeout $ytdlptimeout"s" ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload 
+      ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload 
       #~/.config/videoinfox/yt-dlp -F "$pasteclip"  # -F let user see all the video formats and qualities available for download 
-      timeout $ytdlptimeout"s" ~/.config/videoinfox/yt-dlp "$pasteclip"     
+      ~/.config/videoinfox/yt-dlp "$pasteclip"     
       #echo
       #echo "Find what video quality and format you want. (Code on far left)"
       #read -p "Enter that Code and Press enter : " svrcode
@@ -1276,7 +1272,7 @@ grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st chara
 if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
   then
       read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
-      ytdlpconfirm=$(timeout $ytdlptimeout"s" ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
+      ytdlpconfirm=$(~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
 
             if [ "$ytdlpconfirm" = "" ]  
                   then
@@ -1397,9 +1393,9 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
       clear
       #~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s.%(id)s.%(ext)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload
-      timeout $ytdlptimeout"s" ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload 
+      ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload 
       #~/.config/videoinfox/yt-dlp -F "$pasteclip"  # -F let user see all the video formats and qualities available for download 
-      timeout $ytdlptimeout"s" ~/.config/videoinfox/yt-dlp "$pasteclip"     
+      ~/.config/videoinfox/yt-dlp "$pasteclip"     
       #echo
       #echo "Find what video quality and format you want. (Code on far left)"
       #read -p "Enter that Code and Press enter : " svrcode
@@ -2097,8 +2093,6 @@ read -r ytdlpver < ~/.config/videoinfox/videoinfo.yt-dlp.version
 
 function menuy {
 
-read -r ytdlptimeout < ~/.config/videoinfox/videoinfo.ytdlp-timeout 2> /dev/null
-
 read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir
 cd "$dirsaved" 
 
@@ -2131,7 +2125,7 @@ echo "__________________________________________________________________________
 echo
 echo " d - Download Video                                                                                       q - Quit"
 echo " l - Play Last Download"
-echo " v - View Downloads         s - Self Destruct (download, watch, delete)     t - Timeout: "$ytdlptimeout" seconds"
+echo " v - View Downloads         s - Self Destruct (download, watch, delete)"
 echo
 echo -en " Enter Option: "                             
 read -r -n1 optiony
@@ -2146,63 +2140,6 @@ read -r -n1 optiony
      q)  # QUIT
      clear
      break;;
-
-
-     t)   # SET TMEOUIT
-function optionyset {
-clear
-read -r ytdlptimeout < ~/.config/videoinfox/videoinfo.ytdlp-timeout 2> /dev/null   
-
-echo "___________________________________________________________________________________________________________________"
-echo 
-echo " "$ver" >>> YT-DLP MENU  >>> Set yt-dlp timeout                                    Current Setting: "$ytdlptimeout"  "
-echo "___________________________________________________________________________________________________________________"
-echo
-echo " t - Set Timeout                                                                                          q - Quit"
-echo
-echo -en " Enter Option: "                             
-read -r -n1 optionyst
-echo
-}
-
-
-while true
-     do
-     optionyset
-	case $optionyst in
-
-     q)  #quit
-     break;;
-
-    
-     t)
-echo 
-read -r -p " Enter number in seconds from: 0 - 300 : " input
-
-if [[ $input ]] && [ $input -eq $input 2>/dev/null ]
-
-  then
-       if ((input >= 0 && input <= 300)); then
-       echo "$input" > ~/.config/videoinfox/videoinfo.ytdlp-timeout
-       echo
-       echo " Timout SAVED . . ."
-       sleep .7
-  else
-       echo
-       echo " Number out of range"
-       sleep .7
-  fi
-
-  else
-       echo
-       echo " $input is not an integer"
-       sleep .7
-  fi
-
-esac
-done	
-;;
-
 
      v)  # VIEW DOWNLOADS
           
@@ -2345,7 +2282,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               echo " This screen will exit when the video player is closed."
               echo
      
-              timeout $ytdlptimeout"s" ~/.config/videoinfox/yt-dlp "$pasteclip" -o "$dirsaved"/download.tmp  # downloading temporary video
+              ~/.config/videoinfox/yt-dlp "$pasteclip" -o "$dirsaved"/download.tmp  # downloading temporary video
               notify-send "Videoinfox messsage: YT-DLP is done downloading . . ." "$pasteclip"  
               
               ffplay -fs &> /dev/null "$dirsaved"/download.tmp*  # play temporary video
@@ -2403,17 +2340,17 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               echo
               
               # <yt-dlp> gets the filename minus the extension. this is done becuase the user can pick different video file types to download.
-              timeout $ytdlptimeout"s" ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload
+              ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload
  
               # <yt-dlp> giving options for quality and file type to download
-              timeout $ytdlptimeout"s" ~/.config/videoinfox/yt-dlp -F "$pasteclip"
+              ~/.config/videoinfox/yt-dlp -F "$pasteclip"
               
               echo
               echo
               echo "Find what video quality and format you want. (Code on far left)"
               read -r -p "Enter that Code and Press enter : " svrcode
               echo
-              timeout $ytdlptimeout"s" ~/.config/videoinfox/yt-dlp -f "$svrcode" "$pasteclip"
+              ~/.config/videoinfox/yt-dlp -f "$svrcode" "$pasteclip"
               
               read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
               notify-send "Videoinfox messsage: YT-DLP done downloading . . ." "$lastdownload"              
