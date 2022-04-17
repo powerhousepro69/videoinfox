@@ -52,7 +52,7 @@ sudo chmod +x /usr/local/bin/videoinfox
  - Download video to play later. &nbsp;\<Download Video\>
  - Pick file type and quality of video before download. &nbsp;\<Download Video\>
  - Download completed, auto play, delete when the player is closed. &nbsp;\<Self Destruct\>
- - Play last download &nbsp;\<Last Download\>
+ - Watch last download &nbsp;\<Last Download\>
  
  <br />
  
