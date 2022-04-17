@@ -27,7 +27,7 @@ Play Clipboard Feature:
  - Available in: &nbsp;\<HOME\> &nbsp;\<Playlist\> &nbsp;\<Played List\>
  - Auto clear the url link out of the clipboard after the video player is closed.
  - To watch the last download after Play Clipboard cleared the link, select Last Download available in: &nbsp;\<HOME\> &nbsp;\<YT-DLP\>
- - Auto clear the clipboard of ivalid files and invalid urls. Press enter after your copy to the clipboard to validate clipboard.
+ - Auto clear the clipboard of invalid files and urls. Press enter after your copy to the clipboard to validate clipboard content.
 
 <br />
  
