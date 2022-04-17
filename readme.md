@@ -51,8 +51,8 @@ Dependencies listed at bottom of page.
 
 <br />
 Home
-
-![Videoinfox HOME](https://i.imgur.com/YETFnPS.png)
+ 
+![Videoinfox HOME]https://i.imgur.com/VUgw7eE.png)
 
 <br />
 Play Clipboard
@@ -64,10 +64,7 @@ Find
 
 ![Videoinfox HOME](https://i.imgur.com/OnKZfEq.png)
 
-<br />
-Home (with http link)
 
-![Videoinfox HOME](https://i.imgur.com/uoATDs3.png)
 
 <br />
 Yt-dlp Menu
