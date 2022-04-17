@@ -46,11 +46,16 @@ sudo chmod +x /usr/local/bin/videoinfox
  - Remove any entries from lists that don't start with a &nbsp;\/
  - Enter a file with full path to play and get info. &nbsp; \<Video File\>
  - Auto save last find result(s) and autoload until deleted.
- - Yt-dlp integration for easy download and play.
- - Download video and play later. &nbsp;\<Yt-dlp\>
- - Download completed, auto play, delete when the player is closed. &nbsp;\<Yt-dlp\>
+ <br />
+ 
+ - Yt-dlp integration for easy download and play. &nbsp;\<Yt-dlp\>
+ - Download video to play later. &nbsp;\<Download Video\>
+ - Pick file type and quality of video before download. &nbsp;\<Download Video\>
+ - Download completed, auto play, delete when the player is closed. &nbsp;\<Self Destruct\>
  - Play last download &nbsp;\<Yt-dlp\>
- - Pick file type and quality of video before download. &nbsp;\<Yt-dlp\>
+ 
+ <br />
+ 
  - Download and update Videoinfox. &nbsp;\<Set\>
  - Download and update Yt-dlp. &nbsp;\<Set\>
  - Rapid directory changing by setting default directories. &nbsp;\<Set\>
