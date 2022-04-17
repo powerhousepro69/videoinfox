@@ -52,7 +52,7 @@ Dependencies listed at bottom of page.
 <br />
 Home
  
-![Videoinfox HOME]https://i.imgur.com/VUgw7eE.png)
+![Videoinfox HOME](https://i.imgur.com/VUgw7eE.png)
 
 <br />
 Play Clipboard
