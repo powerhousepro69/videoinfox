@@ -132,8 +132,8 @@ Settings
 
 <br />
  
- YT-DLP is not on the dependeny list becuase Videoinfox will dowload it to ~/.config/videoinfox
- All calls to yt-dlp are pointed to ~/.config/videoinfo/yt-dlp
+ YT-DLP is not on the dependeny list becuase Videoinfox will dowload it to &nbsp; ~/.config/videoinfox &nbsp;
+ All calls to yt-dlp are pointed to &nbsp; ~/.config/videoinfo/yt-dlp &nbsp;
  There is an update option in &nbsp; \<Set\>&nbsp; Settings to update yt-dlp &nbsp; (just the copy in ~/.config/videoinfox) &nbsp;
  I din't want to overwrite anyones copy of &nbsp; /user/local/bin/yt-dlp &nbsp;  &nbsp;
  Also, I wanted to make sure all new Videoinfox script installs included the most recent version of Yt-dlp 
