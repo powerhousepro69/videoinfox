@@ -71,7 +71,7 @@ sudo chmod +x /usr/local/bin/videoinfox
 Dependencies listed at bottom of page.
 
 <br />
-Home screen with Youtube link it the clipboard.&nbsp; &nbsp; Press&nbsp;  p &nbsp;to play
+Home screen with Youtube link it the clipboard.&nbsp; &nbsp; Press&nbsp;  p &nbsp;to Play Clipboard.
  
 ![Videoinfox HOME](https://i.imgur.com/VUgw7eE.png)
 
