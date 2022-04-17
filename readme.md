@@ -33,7 +33,7 @@ sudo chmod +x /usr/local/bin/videoinfox
  - Copy a video url to the clipboard and press &nbsp; enter &nbsp; to dislpay if yt-dlp extracted a video name from the url then  &nbsp; p &nbsp; to Play Clipboard. 
   <br />
  
- - Next version release will include Play Clipboard in &nbsp; \<YT-DLP\> &nbsp; and &nbsp; \<View Downloads\>
+ - Next version release will include Play Clipboard in: &nbsp; \<YT-DLP\> &nbsp; and &nbsp; \<View Downloads\>
  
  <br />
  
