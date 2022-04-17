@@ -2,7 +2,7 @@ videoinfox v.2.00
 
 MOST SREENSHOTS BELOW STILL NEEED UPDATED TO v.2.00 THE FIRST PICTURE HAS BEEN UPDATED.
 
-For xserver - Find local video files, get info on and play.  &nbsp; Download videos via Yt-dlp 
+For xserver - Find local video files, get info on and play.  &nbsp; Download videos via Yt-dlp, get info on and play. 
 
 To install &nbsp;: &nbsp;Run the 2 lines below:
 ```
