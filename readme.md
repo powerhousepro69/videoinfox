@@ -44,7 +44,7 @@ sudo chmod +x /usr/local/bin/videoinfox
  - Save a list of videos from find result(s) &nbsp;\<Play List\>
  - Remove duplicates from the playlist and played video.
  - Remove any entries from lists that don't start with a &nbsp;\/
- - Enter a file with full path to play and get info. \&nbsp; \<Enter Video File\>
+ - Enter a file with full path to play and get info. &nbsp; \<Video File\>
  - Auto save last find result(s) and autoload until deleted.
  - Yt-dlp integration for easy download and play.
  - Download video and play later. &nbsp;\<Yt-dlp\>
