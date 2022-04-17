@@ -40,26 +40,26 @@ sudo chmod +x /usr/local/bin/videoinfox
  - File types searched for :&nbsp; &nbsp; .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx
   <br />
   
- - Keep track of everything played &nbsp; \<PLAYED LIST\>
- - Save a list of videos from find result(s) &nbsp;\<PLAYLIST\>
+ - Keep track of everything played &nbsp; \<Played List\>
+ - Save a list of videos from find result(s) &nbsp;\<Play List\>
  - Remove duplicates from the playlist and played video.
  - Remove any entries from lists that don't start with a &nbsp;\/
  - Enter a file with full path to play and get info. \&nbsp;<Enter Video File\>
  - Auto save last find result(s) and autoload until deleted.
  - Yt-dlp integration for easy download and play.
- - Download video and play later. &nbsp;\<YT-DLP\>
- - Download completed, auto play, delete when the player is closed. &nbsp;\<YT-DLP\>
- - Play last download &nbsp;\<YT-DLP\>
- - Pick file type and quality of video before download. &nbsp;\<YT-DLP\>
- - Download and update Videoinfox. &nbsp;\<SET\>
- - Download and update Yt-dlp. &nbsp;\<SET\>
- - Rapid directory changing by setting default directories. &nbsp;\<SET\>
+ - Download video and play later. &nbsp;\<Yt-dlp\>
+ - Download completed, auto play, delete when the player is closed. &nbsp;\<Yt-dlp\>
+ - Play last download &nbsp;\<Yt-dlp\>
+ - Pick file type and quality of video before download. &nbsp;\<Yt-dlp\>
+ - Download and update Videoinfox. &nbsp;\<Set\>
+ - Download and update Yt-dlp. &nbsp;\<Set\>
+ - Rapid directory changing by setting default directories. &nbsp;\<Set\>
  - Save directory state on exit to load on next run.
- - Change directory by entering full path. <CHANGE DIRECTORY>
- - Find directory and change to it by copying it to clipboard. <FIND DIRECTORY>
- - List video info one directory deep. Save per directory. <LIST DIRECTORY>
- - Recursive count of videos broken down by video type. <VIDEO COUNT>
- - Recursive duration (days:hrs:min:sec) Save per directory. <VIDEO DURATION>
+ - Change directory by entering full path. <Change Directory>
+ - Find directory and change to it by copying it to clipboard. <Find Directory>
+ - List video info one directory deep. Save per directory. <List Directory>
+ - Recursive count of videos broken down by video type. <Video Count>
+ - Recursive duration (days:hrs:min:sec) Save per directory. <Video Duration>
  - GUI notifications.
 <br />
 
