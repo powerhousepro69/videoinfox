@@ -1,6 +1,6 @@
 videoinfox v.2.04
 
-MOST SREENSHOTS BELOW STILL NEEED UPDATED TO v.2.00 THE FIRST PICTURE HAS BEEN UPDATED.
+MOST SREENSHOTS BELOW STILL NEEED UPDATED. THE FIRST PICTURE HAS BEEN UPDATED.
 
 For xserver - Find local video files, get info on and play.  &nbsp; Download videos via YT-DLP, get info on and play.
 
