@@ -47,7 +47,7 @@ sudo chmod +x /usr/local/bin/videoinfox
  
  - File types searched for :&nbsp; &nbsp; .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx
  - Keep track of everything played &nbsp; \<Played List\>
- - Save a list of videos from find result(s) &nbsp;\<Play List\>
+ - Save a list of videos from find results and played list &nbsp;\<Play List\>
  - Remove duplicates from the playlist and played video.
  - Remove any entries from lists that don't start with a &nbsp;\/
  - Enter a file with full path to play and get info. &nbsp; \<Video File\>
@@ -82,7 +82,7 @@ sudo chmod +x /usr/local/bin/videoinfox
 Dependencies listed at bottom of page.
 
 <br />
-Home screen with Youtube link it the clipboard.&nbsp; &nbsp; Press&nbsp;  p &nbsp;to Play Clipboard.
+Home screen with Youtube link it the clipboard.&nbsp; &nbsp; Press&nbsp;  p &nbsp;to download and autoplay full screen.
  
 ![Videoinfox HOME](https://i.imgur.com/VUgw7eE.png)
 
