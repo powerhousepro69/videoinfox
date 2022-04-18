@@ -20,8 +20,7 @@ sudo chmod +x /usr/local/bin/videoinfox
  - Navigation was designed to be robust and efficient. One keypress for all menu selections.
 <br />
 
-&nbsp; &nbsp; Play Clipboard: 
-&nbsp; &nbsp; The Play Clipboard feature wouldn't have been possible without XCLIP
+&nbsp; &nbsp; Play Clipboard:  &nbsp; The Play Clipboard feature wouldn't have been possible without XCLIP
 <br />
  - Play either a local file or a downloadable video url via yt-dlp.
  - See codec, resolution and duration on the playing video. 
