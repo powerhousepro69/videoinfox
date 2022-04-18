@@ -24,7 +24,7 @@ sudo chmod +x /usr/local/bin/videoinfox
 <br />
  - Play either a local file or a downloadable video url via yt-dlp.
  - See codec, resolution and duration on the playing video. 
- - Available in: &nbsp;\<Home\> &nbsp;\<Playlist\> &nbsp;\<Played List\>
+ - Available on all content screens.
  - Auto clear the url link out of the clipboard after the video player is closed.
  - To watch the last download after Play Clipboard cleared the link, select Last Download available in: &nbsp;\<Home\> &nbsp;\<Yt-dlp\>
  - Auto clear the clipboard of invalid files and urls. Press enter after your copy to the clipboard to validate clipboard content.
