@@ -70,7 +70,7 @@ sudo chmod +x /usr/local/bin/videoinfox
  - Download and update Yt-dlp. &nbsp;\<Set\>
  - Rapid directory changing by setting default directories. &nbsp;\<Set\>
  - Save directory state on exit to load on next run.
- - Change directory by entering full path. <Change Directory>
+ - Change directory by entering full path. \<Change Directory\>
  - Find directory and change to it by copying it to clipboard. \<Find Directory\>
  - List video info one directory deep. Save per directory. \<List Directory\>
  - Recursive count of videos broken down by video type. \<Video Count\>
