@@ -54,6 +54,10 @@ sudo chmod +x /usr/local/bin/videoinfox
  - Auto save last find result(s) and autoload until deleted.
  <br />
  
+ 
+ &nbsp; &nbsp; The Download feature wouldn't have been possible without YT-DLP
+<br />
+ 
  - Yt-dlp integration for easy download and play. &nbsp;\<Yt-dlp\>
  - Download video to play later. &nbsp;\<Download Video\>
  - Pick file type and quality of video before download. &nbsp;\<Download Video\>
