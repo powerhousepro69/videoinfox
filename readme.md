@@ -2,7 +2,7 @@ videoinfox v.2.00
 
 MOST SREENSHOTS BELOW STILL NEEED UPDATED TO v.2.00 THE FIRST PICTURE HAS BEEN UPDATED.
 
-For xserver - Find local video files, get info on and play.  &nbsp; Download videos via Yt-dlp, get info on and play.
+For xserver - Find local video files, get info on and play.  &nbsp; Download videos via YT-DLP, get info on and play.
 
 To install &nbsp;: &nbsp;Run the 2 lines below:
 ```
@@ -21,7 +21,7 @@ sudo chmod +x /usr/local/bin/videoinfox
 <br />
 
 &nbsp; &nbsp; Play Clipboard: 
-&nbsp; &nbsp; The Play Clipboard feature wouldn't have been possible without Xclip
+&nbsp; &nbsp; The Play Clipboard feature wouldn't have been possible without XCLIP
 <br />
  - Play either a local file or a downloadable video url via yt-dlp.
  - See codec, resolution and duration on the playing video. 
