@@ -1,6 +1,6 @@
 videoinfox v.2.051
 
-Note : Nome screenshots below need updated.
+Note : Some screenshots below need updated.
 
 Find loacal Video Files fast, immediately play and get info on.
 Download Video Urls effortlessly and autoplay with Play Clipboard.
@@ -23,7 +23,7 @@ Play Clipboard voodoo wouldn't have been possible without XCLIP
 
 Videoinfox Features:
 
-<br />
+
 - Navigation was designed to be robust and efficient. One keypress for all menu selections.
 - Play either a local file or a downloadable video url via yt-dlp.
 - See codec, resolution and duration on the playing video.
