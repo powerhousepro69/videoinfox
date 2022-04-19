@@ -57,13 +57,13 @@ Videoinfox Features:
 
 <br />
 To use Play Clipboard:
-<br />
+ 
 Copy a local file including full path to the clipboard and press  enter  to verify the file is valid.
 Then  p  to Play Clipboard.
-<br />
+
 Copy a video url to the clipboard and press  enter  to verify the url is valid.
 Then  p  to Play Clipboard.
-<br />
+
 Note: Pressing  enter  after content is copied to the clipboard isn't required before pressing  p
       It is just to vaidate the clipboard content for the display.
       You can also copy to the clipboard and select  p  without needing  enter.
