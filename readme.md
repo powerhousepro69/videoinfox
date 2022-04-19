@@ -22,6 +22,7 @@ Play Clipboard voodoo wouldn't have been possible without XCLIP
 <br />
 
 Videoinfox Features:
+
 <br />
 - Navigation was designed to be robust and efficient. One keypress for all menu selections.
 - Play either a local file or a downloadable video url via yt-dlp.
