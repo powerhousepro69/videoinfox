@@ -81,7 +81,7 @@ Home screen with Youtube link it the clipboard.&nbsp; &nbsp; Press&nbsp;  p &nbs
 <br />
 Play Clipboard
 <br />
-![Videoinfox HOME](https://i.imgur.com/TJTPQBT.png)
+![Videoinfox HOME](https://i.imgur.com/oFdr7Lg.png)
 
 <br />
 Find
@@ -96,7 +96,7 @@ Yt-dlp Menu
 ![Videoinfox HOME](https://i.imgur.com/DphLvOL.png)
 
 <br />
-Playlist&nbsp; (also Played List)
+Playlist &nbsp; (also Played List)
 
 ![Videoinfox HOME](https://i.imgur.com/hpiQMqU.png)
 
