@@ -8,9 +8,8 @@
 ver="Videoinfox v2.051"
 der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m051")  # Version Number witth blinking dot
 
-
 ##################################################################################################################################################
-#   DEPENDENCIES REQUIRED:
+#  DEPENDENCIES REQUIRED:  #######################################################################################################################
 ################################################################################################################################################## 
 
 # - xclip needed for autopaste feature.  xclip only works with Xsession
@@ -29,7 +28,7 @@ der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m051")  # Ve
 
 
 ##################################################################################################################################################
-#              THIS SCRPT HAS BEEN HEAVILY COMMENTED FOR ANYONE INTERESTED IN HOW IT WORKS AND TO MAKE IT EASIER TO EDIT THE CODE.
+#  THIS SCRPT HAS BEEN HEAVILY COMMENTED FOR ANYONE INTERESTED IN HOW IT WORKS AND TO MAKE IT EASIER TO EDIT THE CODE.  ##########################
 ##################################################################################################################################################
 
 
@@ -37,7 +36,7 @@ der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m051")  # Ve
 
 if [ "$1" = "-v" ]
   then
-      echo "$der"
+      echo "$ver"
       exit
   else
       :
@@ -48,7 +47,7 @@ fi
 #  1. Dependency Check   2. Start From Root Check   3. DIRECTORY CHECK & FILE CREATION
 
 ##################################################################################################################################################
-#############################  DEPENDENCY CHECK  ################################################################################################# 
+#############################  DEPENDENCY CHECK  runs on every start  ############################################################################ 
 ##################################################################################################################################################
 
 clear
@@ -269,8 +268,7 @@ echo "                                                                          
       #echo "This File was Created: $(date) by" "$USER" >> ~/.config/videoinfox/videoinfo.playedlist
       #echo >> ~/.config/videoinfox/videoinfo.playedlist
 
-      
-      #  # SET DEFAULT LAST SEARCH to <2> Never Save
+      #  SET DEFAULT LAST SEARCH to <2> Never Save
       echo "2" > ~/.config/videoinfox/videoinfo.lastsearch-set
 
       # SET DEFAULT yt-dlp DOWNLOAD DIRECTORY. It can be changed in the <yt-dlp> menu
@@ -315,7 +313,16 @@ cp ~/.config/videoinfox/yt-dlp-fetched ~/.config/videoinfox/yt-dlp
 fi
 
 ##################################################################################################################################################
-###########################  CRREATE HELP FILE  ################################################################################################## 
+###########################  CHECK FOR VIDEOINFOX VERSION UPDATE.  DISPLAY TO USER IF UPDATE IS AVAILABLE  #######################################
+##################################################################################################################################################
+
+wget -q https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox -O ~/.config/videoinfox/videoinfox-fetched >/dev/null
+chmod +x ~/.config/videoinfox/videoinfox-fetched
+viv=$(~/.config/videoinfox/videoinfox-fetched -v)  
+# echo "$viv" > ~/.config/videoinfox/videoinfo.zzz
+
+##################################################################################################################################################
+###########################  CREATE HELP FILE  ################################################################################################### 
 ##################################################################################################################################################
 
 #if [ -f ~/.config/videoinfox/videoinfo.help ]
@@ -334,6 +341,10 @@ echo " q - quit                                                                 
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo  >> ~/.config/videoinfox/videoinfo.help
+echo "                          Find loacal Video Files fast, immediately play and get info on." >> ~/.config/videoinfox/videoinfo.help
+echo "                          Download Video Urls effortlessly and watch immediately." >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo  >> ~/.config/videoinfox/videoinfo.help
 echo " Find videos to play or get info on: Change to a parent directory of your video library and slect find <f>.  " >> ~/.config/videoinfox/videoinfo.help
 echo " You can also select  <a>  to dislpay all videos recursively." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -348,7 +359,7 @@ echo >> ~/.config/videoinfox/videoinfo.help
 echo " *show     would find files that ended with:  show"  >> ~/.config/videoinfox/videoinfo.help   
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " 1 2 3 4 5 - Default Dirs  One keypress to channge default directories. <Set>" >> ~/.config/videoinfox/videoinfo.help     
+echo " 1 2 3 4 5 - Default Dirs  One keypress to channge default directories. <Set> to set default directories" >> ~/.config/videoinfox/videoinfo.help     
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " To use Play Clipboard:" >> ~/.config/videoinfox/videoinfo.help 
@@ -374,15 +385,14 @@ echo " Checking validity of clipboard content in Add to Playlist is on my list o
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " Videoinfox Features:" >> ~/.config/videoinfox/videoinfo.help
+echo "  Download feature wouldn't have been possible without YT-DLP" >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo "  Play Clipboard voodoo wouldn't have been possible without XCLIP" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo "  - Navigation was designed to be robust and efficient. One keypress for all menu selections." >> ~/.config/videoinfox/videoinfo.help
+echo "  Videoinfox Features:" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help 
-echo "    The Download feature wouldn't have been possible without YT-DLP" >> ~/.config/videoinfox/videoinfo.help
-echo >> ~/.config/videoinfox/videoinfo.help
-echo "  - Play Clipboard:  The clipboard voodoo wouldn't have been possible without XCLIP" >> ~/.config/videoinfox/videoinfo.help
-echo >> ~/.config/videoinfox/videoinfo.help
+echo "  - Navigation was designed to be robust and efficient. One keypress for all menu selections." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Play either a local file or a downloadable video url via yt-dlp." >> ~/.config/videoinfox/videoinfo.help
 echo "  - See codec, resolution and duration on the playing video." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Available on all content screens." >> ~/.config/videoinfox/videoinfo.help
@@ -390,7 +400,6 @@ echo "  - Auto clear the url link out of the clipboard after the video player is
 echo "  - To watch the last download after Play Clipboard cleared the link, Last Download in:  <Home>  <Yt-dlp>" >> ~/.config/videoinfox/videoinfo.help
 echo "  - Auto clear the clipboard of invalid files and urls." >> ~/.config/videoinfox/videoinfo.help 
 echo "  - Press enter after your copy to the clipboard to validate clipboard content." >> ~/.config/videoinfox/videoinfo.help
-echo >> ~/.config/videoinfox/videoinfo.help
 echo "  - File types searched for :    .webm   .mp4   .mkv   .avi   .divx" >> ~/.config/videoinfox/videoinfo.help
 echo "  - Keep track of everything played   <Played List>" >> ~/.config/videoinfox/videoinfo.help
 echo "  - Save a list of videos from find results and played list  <Play List>" >> ~/.config/videoinfox/videoinfo.help
@@ -414,17 +423,6 @@ echo "  - Recursive count of videos broken down by video type. <Video Count>" >>
 echo "  - Recursive duration (days:hrs:min:sec) Save per directory. <Video Duration>" >> ~/.config/videoinfox/videoinfo.help
 echo "  - GUI notifications." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
-echo >> ~/.config/videoinfox/videoinfo.help
-echo " This is my first big shell script.  It all started with 4 lines to get video codec, resolution and duration." >> ~/.config/videoinfox/videoinfo.help
-echo " Then I thought, it would be cool if I added a find feature.  Next it was, I wanted to be able to store the find" >> ~/.config/videoinfox/videoinfo.help
-echo " results for instant access at a later date.  Everytime I completed a new feature, it was onto the next feature." >> ~/.config/videoinfox/videoinfo.help
-echo " It was a run away train." >> ~/.config/videoinfox/videoinfo.help 
-echo >> ~/.config/videoinfox/videoinfo.help
-echo " As it grew with features, it eventually became a passion to produce a relevant shell script that would:" >> ~/.config/videoinfox/videoinfo.help
-echo >> ~/.config/videoinfox/videoinfo.help
-echo "   - Find loacal Video Files fast, immediately play and get info on." >> ~/.config/videoinfox/videoinfo.help
-echo "   - Download Video Urls effortlessly and watch immediately." >> ~/.config/videoinfox/videoinfo.help
-echo >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " If you encounter any issues, let me know." >> ~/.config/videoinfox/videoinfo.help
@@ -442,7 +440,6 @@ echo >> ~/.config/videoinfox/videoinfo.help
 
 ###########################  HELP COMPLETED  ##################################################################################################### 
 ##################################################################################################################################################
-
 
 
 read -r diratexit < ~/.config/videoinfox/videoinfo.dir-at-exit
@@ -488,7 +485,7 @@ echo >> ~/.config/videoinfox/videoinfo.playedlist.header.tmp
 # The paste result is FILE:  <~/.config/videoinfox/videoinfo.playedlist.tmp2>
 cat ~/.config/videoinfox/videoinfo.playedlist.header.tmp ~/.config/videoinfox/videoinfo.playedlist.tmp > ~/.config/videoinfox/videoinfo.playedlist.tmp2 
 
-# RENAME FILE: <~/.config/videoinfox/videoinfo.playedlist.tmp2>  TO FILE  <~/.config/videoinfox/videoinfo.playedlist>  (also removes .tmp2)
+# RENAME FILE: <~/.config/videoinfox/videoinfo.playedlist.tmp2>  TO FILE:  <~/.config/videoinfox/videoinfo.playedlist>  (also removes .tmp2)
 mv ~/.config/videoinfox/videoinfo.playedlist.tmp2 ~/.config/videoinfox/videoinfo.playedlist
 
 # Cleanup of remaining temporary files
@@ -1311,7 +1308,6 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
   ;;  
 
 
-
                 D)  # DELETE PLAYED LIST - <find menu>
                 rm ~/.config/videoinfox/videoinfo.playedlist
                 # writing header for new Played List because new file wouldn't be created until return to main HOME
@@ -1348,11 +1344,9 @@ echo "Clipboard: ""$pasteclip"
 
 ##################################################################################################################################################
 #=================================================================================================================================================
-#                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
+#                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT (this is for the display)
 #=================================================================================================================================================
 ##################################################################################################################################################
-
-# the following code over explains itself for those that want to learn step by step of how to follow the logic.
 
 # the 2 lines of below code are creating two new variables for the following loop.
 # 1st variable <$grabpaste>   <cut> is used to cut all characters after the 4th character from the variable. Only 4 chatacters are needed to look for <http>
@@ -2115,8 +2109,7 @@ case $optionsettings in
          echo
          echo " Downnloaded videoinfox copied to: /usr/local/bin"
          echo   
-        # echo " UPDATED . . ."
-         
+    
          sec=3
               while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
               echo -ne " UPDATED . . . $sec\033[0K\r"
@@ -2203,14 +2196,18 @@ wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O ~/.conf
          cp ~/.config/videoinfox/yt-dlp-fetched ~/.config/videoinfox/yt-dlp
          ~/.config/videoinfox/yt-dlp --version > ~/.config/videoinfox/videoinfo.yt-dlp.version
          echo
-         echo " UPDATED . . ."
-         sleep 1.5
-         break;; 
-               
+                 
+         sec=3
+              while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
+              echo -ne " UPDATED . . . $sec\033[0K\r"
+              let " sec=sec-1"
+              sleep 1
+              done         
+              break;;
+                 
          esac
          done
          ;;
-
 
 esac
 done
@@ -3593,7 +3590,6 @@ echo
 echo " ""$ver"" >>> EXIT"
 echo "___________________________________________________________________________________________________________________" 
 echo -e "\n"
-
 
 
 # Error: target STRING not available is an xclip error
