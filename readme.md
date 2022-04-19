@@ -1,11 +1,11 @@
-videoinfox v.2.05
+videoinfox v.2.051
 
-MOST SREENSHOTS BELOW STILL NEEED UPDATED. THE FIRST PICTURE HAS BEEN UPDATED.
+Note : Nome screenshots below need updated.
 
-- Find loacal Video Files fast, immediately play and get info on.
-- Download Video Urls effortlessly and autoplay with Play Clipboard.
+Find loacal Video Files fast, immediately play and get info on.
+Download Video Urls effortlessly and autoplay with Play Clipboard.
 
- 
+ <br />
 
 To install &nbsp;: &nbsp;Run the 2 lines below:
 ```
@@ -16,69 +16,63 @@ sudo chmod +x /usr/local/bin/videoinfox
 ```
 
 <br />
-
- Videoinfox Features:
+Download feature wouldn't have been possible without YT-DLP
+<br /> 
+Play Clipboard voodoo wouldn't have been possible without XCLIP
 <br />
-
- - Navigation was designed to be robust and efficient. One keypress for all menu selections.
 <br />
-
-&nbsp; &nbsp; Play Clipboard:  &nbsp; The clipboard voodoo wouldn't have been possible without XCLIP
+Videoinfox Features:
 <br />
- - Play either a local file or a downloadable video url via yt-dlp.
- - See codec, resolution and duration on the playing video. 
- - Available on all content screens.
- - Auto clear the url link out of the clipboard after the video player is closed.
- - To watch the last download after Play Clipboard cleared the link, select Last Download available in: &nbsp;\<Home\> &nbsp;\<Yt-dlp\>
- - Auto clear the clipboard of invalid files and urls. Press enter after your copy to the clipboard to validate clipboard content.
+&nbsp; &nbsp; - Navigation was designed to be robust and efficient. One keypress for all menu selections.
+&nbsp; &nbsp; - Play either a local file or a downloadable video url via yt-dlp.
+&nbsp; &nbsp; - See codec, resolution and duration on the playing video.
+&nbsp; &nbsp; - Available on all content screens.
+&nbsp; &nbsp; - Auto clear the url link out of the clipboard after the video player is closed.
+&nbsp; &nbsp; - To watch the last download after Play Clipboard cleared the link, Last Download in: &nbsp \<Home\> &nbsp \<Yt-dlp\>
+&nbsp; &nbsp; - Auto clear the clipboard of invalid files and urls.
+&nbsp; &nbsp; - Press enter after your copy to the clipboard to validate clipboard content.
+&nbsp; &nbsp; - File types searched for : &nbsp  &nbsp  .webm &nbsp  .mp4 &nbsp  .mkv &nbsp  .avi &nbsp  .divx
+&nbsp; &nbsp; - Keep track of everything played &nbsp  \<Played List\>
+&nbsp; &nbsp; - Save a list of videos from find results and played list  &nbsp \<Play List\>
+&nbsp; &nbsp; - Remove duplicates from the playlist and played video.
+&nbsp; &nbsp; - Remove any entries from lists that don't start with a &nbsp /
+&nbsp; &nbsp; - Enter a file with full path to play and get info. &nbsp  \<Video File\>
+&nbsp; &nbsp; - Auto save last find result(s) and autoload until deleted.
+&nbsp; &nbsp; - Yt-dlp integration for easy download and play. &nbsp \<Yt-dlp\>
+&nbsp; &nbsp; - Download video to play later. &nbsp  \<Download Video\>
+&nbsp; &nbsp; - Pick file type and quality of video before download. &nbsp \<Download Video\>
+&nbsp; &nbsp; - Download completed, auto play, delete when the player is closed. &nbsp \<Self Destruct\>
+&nbsp; &nbsp; - Watch last download &nbsp \<Last Download\>
+&nbsp; &nbsp; - Download and update Videoinfox.&nbsp \<Set\>
+&nbsp; &nbsp; - Download and update Yt-dlp.&nbsp  \<Set\>
+&nbsp; &nbsp; - Rapid directory changing by setting default directories. &nbsp \<Set\>
+&nbsp; &nbsp; - Save directory state on exit to load on next run.
+&nbsp; &nbsp; - Change directory by entering full path. &nbsp \<Change Directory\>
+&nbsp; &nbsp; - Find directory and change to it by copying it to clipboard. &nbsp \<Find Directory\>
+&nbsp; &nbsp; - List video info one directory deep. Save per directory. &nbsp \<List Directory\>
+&nbsp; &nbsp; - Recursive count of videos broken down by video type. &nbsp \<Video Count\>
+&nbsp; &nbsp; - Recursive duration (days:hrs:min:sec) Save per directory. &nbsp \<Video Duration\>
+&nbsp; &nbsp; - GUI notifications.
+<br />
+<br />
+To use Play Clipboard:
+<br />
+Copy a local file including full path to the clipboard and press  enter  to verify the file is valid.
+Then  p  to Play Clipboard.
+<br />
+Copy a video url to the clipboard and press  enter  to verify the url is valid.
+Then  p  to Play Clipboard.
+<br />
+Note: Pressing  enter  after content is copied to the clipboard isn't required before pressing  p
+      It is just to vaidate the clipboard content for the display.
+      You can also copy to the clipboard and select  p  without needing  enter.
+      This feature will auto clear invalid clipboard content.
+<br />
+<br />
+If videoinfox is removed, the dircetory  ~/.config/videoinfox  will have to be manually deleted.
+
 
 <br />
- &nbsp; &nbsp; To use Play Clipboard:
-<br />
-
- - Copy a local file including full path to the clipboard then press &nbsp; p &nbsp; to Play Clipboard.
-   <br />
-   
- - Copy a video url to the clipboard and press &nbsp; enter &nbsp; to dislpay if yt-dlp extracted a video name from the url then  &nbsp; p &nbsp; to Play Clipboard. 
-  <br />
-
-  &nbsp; &nbsp; More Features:
-  <br />
- 
- - File types searched for :&nbsp; &nbsp; .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx
- - Keep track of everything played &nbsp; \<Played List\>
- - Save a list of videos from find results and played list &nbsp;\<Play List\>
- - Remove duplicates from the playlist and played video.
- - Remove any entries from lists that don't start with a &nbsp;\/
- - Enter a file with full path to play and get info. &nbsp; \<Video File\>
- - Auto save last find result(s) and autoload until deleted.
- <br />
- 
- 
- &nbsp; &nbsp; The Download feature wouldn't have been possible without YT-DLP
-<br />
- 
- - Yt-dlp integration for easy download and play. &nbsp;\<Yt-dlp\>
- - Download video to play later. &nbsp;\<Download Video\>
- - Pick file type and quality of video before download. &nbsp;\<Download Video\>
- - Download completed, auto play, delete when the player is closed. &nbsp;\<Self Destruct\>
- - Watch last download &nbsp;\<Last Download\>
- 
- <br />
- 
- - Download and update Videoinfox. &nbsp;\<Set\>
- - Download and update Yt-dlp. &nbsp;\<Set\>
- - Rapid directory changing by setting default directories. &nbsp;\<Set\>
- - Save directory state on exit to load on next run.
- - Change directory by entering full path. \<Change Directory\>
- - Find directory and change to it by copying it to clipboard. \<Find Directory\>
- - List video info one directory deep. Save per directory. \<List Directory\>
- - Recursive count of videos broken down by video type. \<Video Count\>
- - Recursive duration (days:hrs:min:sec) Save per directory. \<Video Duration\>
- - GUI notifications.
-<br />
-
-
 Dependencies listed at bottom of page.
 
 <br />
