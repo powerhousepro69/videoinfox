@@ -57,7 +57,8 @@ Videoinfox Features:
 
 <br />
 To use Play Clipboard:
-<br />
+
+ 
 Copy a local file including full path to the clipboard and press  enter  to verify the file is valid.
 Then  p  to Play Clipboard.
 
