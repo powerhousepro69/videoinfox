@@ -15,7 +15,7 @@ sudo wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/vide
 sudo chmod +x /usr/local/bin/videoinfox
 ```
 
-<br />
+
 Download feature wouldn't have been possible without YT-DLP
 <br /> 
 Play Clipboard voodoo wouldn't have been possible without XCLIP
