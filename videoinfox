@@ -5,8 +5,8 @@
 #  GNU General Public License v2.0
 
 # This is where Videoinfo's Version Number is set.
-ver="Videoinfox v2.05"
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m05")  # Version Number witth blinking dot
+ver="Videoinfox v2.051"
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m051")  # Version Number witth blinking dot
 
 
 ##################################################################################################################################################
@@ -33,7 +33,8 @@ der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m05")  # Ver
 ##################################################################################################################################################
 
 
-#  -v FOR VERSION NUMBER  Show version number then exit
+#  videoinfox -v    displays version number then exit  
+
 if [ "$1" = "-v" ]
   then
       echo "$der"
@@ -311,21 +312,17 @@ chmod a+rx ~/.config/videoinfox/yt-dlp-fetched  # set <yt-dlp-fetched> execute b
 cp ~/.config/videoinfox/yt-dlp-fetched ~/.config/videoinfox/yt-dlp
 ~/.config/videoinfox/yt-dlp --version > ~/.config/videoinfox/videoinfo.yt-dlp.version
 
-
 fi
-
-
 
 ##################################################################################################################################################
 ###########################  CRREATE HELP FILE  ################################################################################################## 
 ##################################################################################################################################################
 
+#if [ -f ~/.config/videoinfox/videoinfo.help ]
+#  then
+#      :
 
-if [ -f ~/.config/videoinfox/videoinfo.help ]
-  then
-      :
-
-else
+#  else
 
 echo > ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
@@ -382,6 +379,8 @@ echo >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo "  - Navigation was designed to be robust and efficient. One keypress for all menu selections." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help 
+echo "    The Download feature wouldn't have been possible without YT-DLP" >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
 echo "  - Play Clipboard:  The clipboard voodoo wouldn't have been possible without XCLIP" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo "  - Play either a local file or a downloadable video url via yt-dlp." >> ~/.config/videoinfox/videoinfo.help
@@ -392,15 +391,6 @@ echo "  - To watch the last download after Play Clipboard cleared the link, Last
 echo "  - Auto clear the clipboard of invalid files and urls." >> ~/.config/videoinfox/videoinfo.help 
 echo "  - Press enter after your copy to the clipboard to validate clipboard content." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo "To use Play Clipboard:" >> ~/.config/videoinfox/videoinfo.help
-echo >> ~/.config/videoinfox/videoinfo.help
-echo     "Copy a local file including full path to the clipboard then press   p   to Play Clipboard." >> ~/.config/videoinfox/videoinfo.help
-echo >> ~/.config/videoinfox/videoinfo.help
-echo     "Copy a video url to the clipboard and press  enter  to dislpay the yt-dlp extracted a video name from the url" >> ~/.config/videoinfox/videoinfo.help
-echo     "then press   p   to play" >> ~/.config/videoinfox/videoinfo.help
-echo >> ~/.config/videoinfox/videoinfo.help
-echo " More Features:" >> ~/.config/videoinfox/videoinfo.help
-echo >> ~/.config/videoinfox/videoinfo.help
 echo "  - File types searched for :    .webm   .mp4   .mkv   .avi   .divx" >> ~/.config/videoinfox/videoinfo.help
 echo "  - Keep track of everything played   <Played List>" >> ~/.config/videoinfox/videoinfo.help
 echo "  - Save a list of videos from find results and played list  <Play List>" >> ~/.config/videoinfox/videoinfo.help
@@ -408,15 +398,11 @@ echo "  - Remove duplicates from the playlist and played video." >> ~/.config/vi
 echo "  - Remove any entries from lists that don't start with a  /" >> ~/.config/videoinfox/videoinfo.help
 echo "  - Enter a file with full path to play and get info.   <Video File>"  >> ~/.config/videoinfox/videoinfo.help
 echo "  - Auto save last find result(s) and autoload until deleted." >> ~/.config/videoinfox/videoinfo.help
-echo >> ~/.config/videoinfox/videoinfo.help
-echo " The Download feature wouldn't have been possible without YT-DLP" >> ~/.config/videoinfox/videoinfo.help
-echo >> ~/.config/videoinfox/videoinfo.help
 echo "  - Yt-dlp integration for easy download and play.  <Yt-dlp>" >> ~/.config/videoinfox/videoinfo.help
 echo "  - Download video to play later.  <Download Video>" >> ~/.config/videoinfox/videoinfo.help
 echo "  - Pick file type and quality of video before download.  <Download Video>" >> ~/.config/videoinfox/videoinfo.help
 echo "  - Download completed, auto play, delete when the player is closed.  <Self Destruct>" >> ~/.config/videoinfox/videoinfo.help
 echo "  - Watch last download  <Last Download>" >> ~/.config/videoinfox/videoinfo.help
-echo >> ~/.config/videoinfox/videoinfo.help
 echo "  - Download and update Videoinfox.  <Set>" >> ~/.config/videoinfox/videoinfo.help
 echo "  - Download and update Yt-dlp.  <Set>" >> ~/.config/videoinfox/videoinfo.help
 echo "  - Rapid directory changing by setting default directories.  <Set>" >> ~/.config/videoinfox/videoinfo.help
@@ -452,7 +438,7 @@ echo " If videoinfox is removed, the dircetory  ~/.config/videoinfox  will have 
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 
-fi
+#fi
 
 ###########################  HELP COMPLETED  ##################################################################################################### 
 ##################################################################################################################################################
@@ -532,6 +518,7 @@ stat -c ‘%y’ ~/.config/videoinfox/videoinfo.findwork > ~/.config/videoinfox/
 cat ~/.config/videoinfox/videoinfo.lastfindtime | awk '{ print substr( $0, 1, length($0)-17 ) }' | cut -c 4- > ~/.config/videoinfox/videoinfo.time
 mv ~/.config/videoinfox/videoinfo.time ~/.config/videoinfox/videoinfo.lastfindtime
 
+#  if search total is aany number: cat file and echo 
 if [ "$searchtotal" = "" ]  # if the file <~/.config/videoinfox/videoinfo.lastsearchtotal> is empty goto then
   then
       :
@@ -544,7 +531,7 @@ if [ "$searchtotal" = "" ]  # if the file <~/.config/videoinfox/videoinfo.lastse
       echo "Find Entry: "$(cat ~/.config/videoinfox/videoinfo.lastfindstring 2>/dev/null)  # display last find string that was used
 fi
 
-# LOAD STORED DIRECTORIES
+# LOAD DEFAULT DIRECTORIES
 read -r dir1 < ~/.config/videoinfox/videoinfo.tv-dir 2> /dev/null
 read -r dir2 < ~/.config/videoinfox/videoinfo.movies-dir 2> /dev/null
 read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null
@@ -608,7 +595,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                            #________________x________________________________________ _________________________________________________________
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " "$der"                        Enter - Update Clipboard Display                 1 2 3 4 5 - Default Dirs"
+                      echo " "$der"                        Enter - Update Clipboard Display                1 2 3 4 5 - Default Dirs"
                       echo "___________________________________________________________________________________________________________________"
                       echo
                       echo " f - Find              a - All Videos          p - Play Clipboard     y - YT-DLP                          e - Exit"
@@ -623,7 +610,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo "Download Directory: $dirsaved"  # dislpay default download directory
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " "$der"                        Enter - Update Clipboard Display                 1 2 3 4 5 - Default Dirs"
+                      echo " "$der"                        Enter - Update Clipboard Display                1 2 3 4 5 - Default Dirs"
                       echo "___________________________________________________________________________________________________________________"
                       echo
 
@@ -641,7 +628,7 @@ echo
 echo "Valid file in clipboard"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " "$der"                        Enter - Update Clipboard Display                 1 2 3 4 5 - Default Dirs"
+echo " "$der"                        Enter - Update Clipboard Display                1 2 3 4 5 - Default Dirs"
 echo "___________________________________________________________________________________________________________________"
 echo
 
@@ -658,7 +645,7 @@ pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard conten
 
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " "$der"                        Enter - Update Clipboard Display                 1 2 3 4 5 - Default Dirs"
+echo " "$der"                        Enter - Update Clipboard Display                1 2 3 4 5 - Default Dirs"
 echo "___________________________________________________________________________________________________________________"
 echo
 echo " f - Find              a - All Videos          p - Play Clipboard     y - YT-DLP                          e - Exit"
@@ -1118,7 +1105,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                            #________________x________________________________________ _________________________________________________________
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " "$der" >>> PLAYED LIST                Copy 1 above line to clipboard then press enter to update display"
+                      echo " "$der" >>> PLAYED LIST               Copy 1 above line to clipboard then press enter to update display"
                       echo "___________________________________________________________________________________________________________________"
                       echo
                       echo " p - Play Clipboard     D - Delete Played List     x - Clear Clipboard                                    q - Quit"
@@ -1133,7 +1120,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo "Download Directory: $dirsaved"  # dislpay default download directory
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " "$der" >>> PLAYED LIST                Copy 1 above line to clipboard then press enter to update display"
+                      echo " "$der" >>> PLAYED LIST               Copy 1 above line to clipboard then press enter to update display"
                       echo "___________________________________________________________________________________________________________________"
                       echo
 
@@ -1150,7 +1137,7 @@ echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     D - Del
             echo "Valid file in clipboard"
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " "$der" >>> PLAYED LIST                Copy 1 above line to clipboard then press enter to update display"
+            echo " "$der" >>> PLAYED LIST               Copy 1 above line to clipboard then press enter to update display"
             echo "___________________________________________________________________________________________________________________"
             echo
 
@@ -1167,7 +1154,7 @@ echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     D - Del
 
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " "$der" >>> PLAYED LIST                Copy 1 above line to clipboard then press enter to update display"
+            echo " "$der" >>> PLAYED LIST               Copy 1 above line to clipboard then press enter to update display"
             echo "___________________________________________________________________________________________________________________"
             echo
             echo " p - Play Clipboard     D - Delete Played List     x - Clear Clipboard                                    q - Quit"
@@ -1396,7 +1383,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                            #________________x________________________________________ _________________________________________________________
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " "$der" >>> PLAYLIST                   Copy 1 above line to clipboard then press enter to update display"
+                      echo " "$der" >>> PLAYLIST                  Copy 1 above line to clipboard then press enter to update display"
                       echo "___________________________________________________________________________________________________________________"
                       echo
                       echo " p - Play Clipboard     D - Delete Playlist     x - Clear Clipboard                                       q - Quit"
@@ -1411,7 +1398,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo "Download Directory: $dirsaved"  # dislpay default download directory
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " "$der" >>> PLAYLIST                   Copy 1 above line to clipboard then press enter to update display"
+                      echo " "$der" >>> PLAYLIST                  Copy 1 above line to clipboard then press enter to update display"
                       echo "___________________________________________________________________________________________________________________"
                       echo
                       echo " a - Add search results to playlist"
@@ -1429,7 +1416,7 @@ echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     D - Del
             echo "Valid file in clipboard"
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " "$der" >>> PLAYLIST                   Copy 1 above line to clipboard then press enter to update display"
+            echo " "$der" >>> PLAYLIST                  Copy 1 above line to clipboard then press enter to update display"
             echo "___________________________________________________________________________________________________________________"
             echo
             echo " a - Add search results to playlist"
@@ -1446,7 +1433,7 @@ echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     D - Del
 
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " "$der" >>> PLAYLIST                   Copy 1 above line to clipboard then press enter to update display"
+            echo " "$der" >>> PLAYLIST                  Copy 1 above line to clipboard then press enter to update display"
             echo "___________________________________________________________________________________________________________________"
             echo
             echo " p - Play Clipboard     D - Delete Playlist     x - Clear Clipboard                                       q - Quit"
@@ -1618,7 +1605,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
           echo                               
           echo "___________________________________________________________________________________________________________________"
           echo
-          echo " ""$der"" >>> ADD TO PLAYLIST                Copy 1 or more above lines to Clipboard then Add to Playlist"   
+          echo " ""$der"" >>> ADD TO PLAYLIST               Copy 1 or more above lines to Clipboard then Add to Playlist"   
           echo "___________________________________________________________________________________________________________________"
           echo       
           echo " a - Add to Playlist                                                                                      q - quit"  
@@ -1817,7 +1804,7 @@ echo "Directory:" "$PWD"
 echo "Clipboard:" "$pasteclip"
 echo "___________________________________________________________________________________________________________________"
 echo  
-echo " $der >>> SETTINGS                                                    Enter - Update Clipboard Display"
+echo " $der >>> SETTINGS                                                   Enter - Update Clipboard Display"
 echo "___________________________________________________________________________________________________________________" 
 echo
 echo " Set Default Directories                                                                     q - Quit"
@@ -1856,7 +1843,7 @@ case $optionsettings in
          echo
          echo "___________________________________________________________________________________________________________________"
          echo
-         echo " "$der"  >>> SETTINGS >>> LAST SEARCH                                                 Current Setting: "$lsearch" "
+         echo " "$der"  >>> SETTINGS >>> LAST SEARCH                                                Current Setting: "$lsearch" "
          echo "___________________________________________________________________________________________________________________"
          echo
          echo
@@ -2141,7 +2128,7 @@ case $optionsettings in
          echo -e "\n"
          echo -e "\n"
          echo "=================================================================================================================="  
-         echo " $der >>> EXIT >>> Updated to: $(~/.config/videoinfox/videoinfox-fetched -v)                     Restart to use updated version."
+         echo " $der >>> EXIT >>> Updated to: $(~/.config/videoinfox/videoinfox-fetched -v)                    Restart to use updated version."
          echo "==================================================================================================================" 
          echo -e "\n"
          echo " Directory state SAVED for next run:" "$PWD"
@@ -2151,7 +2138,7 @@ case $optionsettings in
          echo -e "\n"
          echo -e "\n"
          echo "=================================================================================================================="  
-         echo " $der >>> EXIT >>> Updated to: $(~/.config/videoinfox/videoinfox-fetched -v)                     Restart to use updated version."
+         echo " $der >>> EXIT >>> Updated to: $(~/.config/videoinfox/videoinfox-fetched -v)                    Restart to use updated version."
          echo "==================================================================================================================" 
          echo -e "\n"
          exit 
@@ -2323,7 +2310,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                            #________________x________________________________________ _________________________________________________________
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " ""$der"" >>> YT-DLP MENU           yt-dlp Version: $ytdlpver            Enter - Update Clipboard Display"
+                      echo " ""$der"" >>> YT-DLP MENU           yt-dlp Version: $ytdlpver           Enter - Update Clipboard Display"
                       echo "___________________________________________________________________________________________________________________"
                       echo
                       echo " d - Download Video     p - Play Clipboard     x - Clear Clipboard                                        q - Quit"
@@ -2342,7 +2329,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo "Download Directory: $dirsaved"  # dislpay default download directory
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " ""$der"" >>> YT-DLP MENU           yt-dlp Version: $ytdlpver            Enter - Update Clipboard Display"
+                      echo " ""$der"" >>> YT-DLP MENU           yt-dlp Version: $ytdlpver           Enter - Update Clipboard Display"
                       echo "___________________________________________________________________________________________________________________"
                       echo
 
@@ -2360,7 +2347,7 @@ echo -e " d - Download Video     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\03
             echo "Valid file in clipboard"
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " ""$der"" >>> YT-DLP MENU           yt-dlp Version: $ytdlpver            Enter - Update Clipboard Display"
+            echo " ""$der"" >>> YT-DLP MENU           yt-dlp Version: $ytdlpver           Enter - Update Clipboard Display"
             echo "___________________________________________________________________________________________________________________"
             echo
 
@@ -2377,7 +2364,7 @@ echo -e " d - Download Video     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\03
 
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " ""$der"" >>> YT-DLP MENU           yt-dlp Version: $ytdlpver            Enter - Update Clipboard Display"
+            echo " ""$der"" >>> YT-DLP MENU           yt-dlp Version: $ytdlpver           Enter - Update Clipboard Display"
             echo "___________________________________________________________________________________________________________________"
             echo
             echo " d - Download Video     p - Play Clipboard     x - Clear Clipboard                                        q - Quit"
@@ -2595,7 +2582,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                            #________________x________________________________________ _________________________________________________________
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " "$der" >>> VIEW DOWNLOADS             Copy 1 above line to clipboard then press enter to update display"
+                      echo " "$der" >>> VIEW DOWNLOADS            Copy 1 above line to clipboard then press enter to update display"
                       echo "___________________________________________________________________________________________________________________"
                       echo
                       echo " p - Play Clipboard     x - Clear Clipboard                                                               q - Quit"
@@ -2610,7 +2597,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo "Download Directory: $dirsaved"  # dislpay default download directory
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " "$der" >>> VIEW DOWNLOADS             Copy 1 above line to clipboard then press enter to update display"
+                      echo " "$der" >>> VIEW DOWNLOADS            Copy 1 above line to clipboard then press enter to update display"
                       echo "___________________________________________________________________________________________________________________"
                       echo
 
@@ -2627,7 +2614,7 @@ echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m            
             echo "Valid file in clipboard"
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " "$der" >>> VIEW DOWNLOADS             Copy 1 above line to clipboard then press enter to update display"
+            echo " "$der" >>> VIEW DOWNLOADS            Copy 1 above line to clipboard then press enter to update display"
             echo "___________________________________________________________________________________________________________________"
             echo
 
@@ -2644,7 +2631,7 @@ echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     x - Cle
 
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " "$der" >>> VIEW DOWNLOADS             Copy 1 above line to clipboard then press enter to update display"
+            echo " "$der" >>> VIEW DOWNLOADS            Copy 1 above line to clipboard then press enter to update display"
             echo "___________________________________________________________________________________________________________________"
             echo
             echo " p - Play Clipboard     x - Clear Clipboard                                                               q - Quit"
@@ -2974,7 +2961,7 @@ echo "Directory: ""$PWD"
 echo "Clipboard: ""$pasteclip"  
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " $der >>> MORE OPTIONS                                                Enter - Update Clipboard Display"
+echo " $der >>> MORE OPTIONS                                               Enter - Update Clipboard Display"
 echo "___________________________________________________________________________________________________________________"
 echo
 echo " 1 - List Directory       4 - Video Count                                                                 q - Quit"                     
@@ -3289,7 +3276,7 @@ echo "Directory: ""$PWD"
 echo "Clipboard: ""$pasteclip"
 echo "___________________________________________________________________________________________________________________"
 echo  
-echo " ""$ver"" >>> FIND DIRECTORY                                                                wildcard * ok"
+echo " ""$ver"" >>> FIND DIRECTORY                                                               wildcard * ok"
 echo "___________________________________________________________________________________________________________________" 
 echo
 read -r -p " Directory Name: " dirfind  # waiting fot user input - dierectory that you want to find
@@ -3397,7 +3384,7 @@ alldirfilecount=$(find . -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "
 
 #  The group of echo's below write a header to file <videoinfo.Video-Duration> 
 echo > videoinfo.Video-Duration
-echo "$ver                                                                                               VIDEO DURATION" >> videoinfo.Video-Duration
+echo "$ver                                                                                              VIDEO DURATION" >> videoinfo.Video-Duration
 echo >> videoinfo.Video-Duration
 echo "This File was Created $(date) by" "$USER" >> videoinfo.Video-Duration
 echo >> videoinfo.Video-Duration  # Every line ending in  ' >> videoinfo.Video-Duration '  is writing that line to text file <videoinfo.Video-Duration>
