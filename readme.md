@@ -20,7 +20,7 @@ Download feature wouldn't have been possible without YT-DLP
 <br /> 
 Play Clipboard voodoo wouldn't have been possible without XCLIP
 <br />
-<br />
+
 Videoinfox Features:
 <br />
 - Navigation was designed to be robust and efficient. One keypress for all menu selections.
@@ -67,7 +67,6 @@ Note: Pressing  enter  after content is copied to the clipboard isn't required b
       It is just to vaidate the clipboard content for the display.
       You can also copy to the clipboard and select  p  without needing  enter.
       This feature will auto clear invalid clipboard content.
-<br />
 <br />
 If videoinfox is removed, the dircetory  ~/.config/videoinfox  will have to be manually deleted.
 
