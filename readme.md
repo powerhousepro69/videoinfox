@@ -36,23 +36,23 @@ Videoinfox Features:
 - Keep track of everything played &nbsp  <Played List>
 - Save a list of videos from find results and played list  &nbsp <Play List>
 - Remove duplicates from the playlist and played video.
-- Remove any entries from lists that don't start with a &nbsp /
-- Enter a file with full path to play and get info. &nbsp  <Video File>
+- Remove any entries from lists that don't start with a  /
+- Enter a file with full path to play and get info. p  <Video File>
 - Auto save last find result(s) and autoload until deleted.
-- Yt-dlp integration for easy download and play. &nbsp <Yt-dlp>
-- Download video to play later. &nbsp  <Download Video>
-- Pick file type and quality of video before download. &nbsp <Download Video>
-- Download completed, auto play, delete when the player is closed. &nbsp <Self Destruct>
-- Watch last download &nbsp <Last Download>
+- Yt-dlp integration for easy download and play.  <Yt-dlp>
+- Download video to play later.   <Download Video>
+- Pick file type and quality of video before download.  <Download Video>
+- Download completed, auto play, delete when the player is closed. <Self Destruct>
+- Watch last download <Last Download>
 - Download and update Videoinfox.&nbsp <Set>
-- Download and update Yt-dlp.&nbsp  <Set>
-- Rapid directory changing by setting default directories. &nbsp <Set>
+- Download and update Yt-dlp. <Set>
+- Rapid directory changing by setting default directories. <Set>
 - Save directory state on exit to load on next run.
-- Change directory by entering full path. &nbsp <Change Directory>
-- Find directory and change to it by copying it to clipboard. &nbsp <Find Directory>
-- List video info one directory deep. Save per directory. &nbsp <List Directory>
-- Recursive count of videos broken down by video type. &nbsp <Video Count>
-- Recursive duration (days:hrs:min:sec) Save per directory. &nbsp <Video Duration>
+- Change directory by entering full path. <Change Directory>
+- Find directory and change to it by copying it to clipboard.  <Find Directory>
+- List video info one directory deep. Save per directory. <List Directory>
+- Recursive count of videos broken down by video type.  <Video Count>
+- Recursive duration (days:hrs:min:sec) Save per directory.  <Video Duration>
 - GUI notifications.
 
 <br />
