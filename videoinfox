@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#  file : videoinfox v2.04									         
+#  file : videoinfox v2.05									         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfo's Version Number is set.
-ver="Videoinfox v2.04"
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m04")  # Version Number witth blinking dot
+ver="Videoinfox v2.05"
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m05")  # Version Number witth blinking dot
 
 
 ##################################################################################################################################################
@@ -235,8 +235,7 @@ if [ -d "$direxist" ]  #  if directoty exists goto  <then>
       echo " ytdlp will be downloaded to: $HOME/.config/videoinfox  "
       echo "__________________________________________________________________________________________________________________"
       echo
-      echo -e " A sample music video url will be copied to the clipboard so you can see how the \033[5mPlay Clipboard
-\033m\033[0m\033[5m\033[5m\033[0m feature works."
+      echo -e " A sample video url will be copied to the clipboard so you can see how the \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m feature works."
       echo
       echo " Video playing:  [ f - toggle fullscreen ]   [spacebar - play/pause ]   [ l/r arrows - fwd/rew ]   [ q -quit ]"
       echo "__________________________________________________________________________________________________________________"
@@ -294,7 +293,7 @@ echo "                                                                          
       echo > ~/.config/videoinfox/videoinfo.lastsearchtotal
 
       # SAMPLE VIDEO URL BEING COPIED TO CLIPBOARD
-      echo "https://www.youtube.com/watch?v=qfGggAGITwg" | xclip -sel clip     
+      echo "https://www.youtube.com/watch?v=rNWPqfCJDnc" | xclip -sel clip     
    
       echo
 
@@ -316,13 +315,17 @@ cp ~/.config/videoinfox/yt-dlp-fetched ~/.config/videoinfox/yt-dlp
 fi
 
 
-#xmodmap -e 'keycode 55=v' #  on  --- remove me 
-#xmodmap -e 'keycode 55='  #  off --- remove me
-
 
 ##################################################################################################################################################
 ###########################  CRREATE HELP FILE  ################################################################################################## 
 ##################################################################################################################################################
+
+
+if [ -f ~/.config/videoinfox/videoinfo.help ]
+  then
+      :
+
+else
 
 echo > ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
@@ -333,83 +336,110 @@ echo " Up & Down Arrows or Mouse wheel - scroll                                 
 echo " q - quit                                                                                             End - bottom" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
+echo  >> ~/.config/videoinfox/videoinfo.help
+echo " Find videos to play or get info on: Change to a parent directory of your video library and slect find <f>.  " >> ~/.config/videoinfox/videoinfo.help
+echo " You can also select  <a>  to dislpay all videos recursively." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " Find videos to play or get info on: Change to a parent directory of your video library. Select find then" >> ~/.config/videoinfox/videoinfo.help
-echo " find again.  Search for  *  That will show all video files under that directory" >> ~/.config/videoinfox/videoinfo.help
+echo " Search Tips:  The files you search for have to be in the path of the current directory." >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo " Using example filename:   The Reunion Show   and what searches would find it." >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo " the*      would find files starting with:  the" >> ~/.config/videoinfox/videoinfo.help     
+echo >> ~/.config/videoinfox/videoinfo.help
+echo " *ion*     would find files with:  ion  anywhere in the file name from the beginning to the end." >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo " *show     would find files that ended with:  show"  >> ~/.config/videoinfox/videoinfo.help   
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " Everywhere you see  Clipboard:  you can press enter to update the display of whats in the clipboard." >> ~/.config/videoinfox/videoinfo.help
+echo " 1 2 3 4 5 - Default Dirs  One keypress to channge default directories. <Set>" >> ~/.config/videoinfox/videoinfo.help     
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " Whatever directory Videoinfox is in on exit, will be restored on next start." >> ~/.config/videoinfox/videoinfo.help
+echo " To use Play Clipboard:" >> ~/.config/videoinfox/videoinfo.help 
+echo >> ~/.config/videoinfox/videoinfo.help 
+echo " Copy a local file including full path to the clipboard and press  enter  to verify the file is valid." >> ~/.config/videoinfox/videoinfo.help 
+echo " Then  p  to Play Clipboard." >> ~/.config/videoinfox/videoinfo.help  
+echo >> ~/.config/videoinfox/videoinfo.help  
+echo " Copy a video url to the clipboard and press  enter  to verify the url is valid." >> ~/.config/videoinfox/videoinfo.help  
+echo " Then  p  to Play Clipboard." >> ~/.config/videoinfox/videoinfo.help 
+echo >> ~/.config/videoinfox/videoinfo.help 
+echo " Note: Pressing  enter  after content is copied to the clipboard isn't required before pressing  p" >> ~/.config/videoinfox/videoinfo.help 
+echo "       It is just to vaidate the clipboard content for the display." >> ~/.config/videoinfox/videoinfo.help 
+echo "       You can also copy to the clipboard and select  p  without needing  enter." >> ~/.config/videoinfox/videoinfo.help 
+echo "       This feature will auto clear invalid clipboard content."  >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " Get codec, resolution and duration of videos one directory deep.  Recursive file count. Added and shown by type." >> ~/.config/videoinfox/videoinfo.help
+echo " Add to Playlist content is generated from search results." >> ~/.config/videoinfox/videoinfo.help
+echo " Copy as many selections or blocks of selections to the clipboard of what you want to add to the Playlist." >>~/.config/videoinfox/videoinfo.help
+echo " After each copy to the clipboard, select <a> to add your slection(s) from the clipboard to the Playlist." >>~/.config/videoinfox/videoinfo.help      
+echo " Make sure to grab the entire line including the comma.  Rinse and repeat until done." >>~/.config/videoinfox/videoinfo.help
+echo " This feature will not catch an invalid user clipboard copy (not entire line) before adding it to the Playlist." >>~/.config/videoinfox/videoinfo.help
+echo " Checking validity of clipboard content in Add to Playlist is on my list of features I still need to add." >>~/.config/videoinfox/videoinfo.help
+echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " Yt-dlp integration to make downloading and watching videos fast and easy." >> ~/.config/videoinfox/videoinfo.help
-echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
+echo " Videoinfox Features:" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " Settings Menu <set> to set default directories.  Also, update Videoinfox and Yt-dlp" >> ~/.config/videoinfox/videoinfo.help
-echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " NOTE: Do not randomly paste in Videoinfox. It will cause unwanted code to run producing undesired results." >> ~/.config/videoinfox/videoinfo.help         
-echo " Everywhere the dot is blinking in the version number, don't paste and Videoinfox will function as intended." >> ~/.config/videoinfox/videoinfo.help
+echo "  - Navigation was designed to be robust and efficient. One keypress for all menu selections." >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help 
+echo "  - Play Clipboard:  The clipboard voodoo wouldn't have been possible without XCLIP" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " Ctrl-c and randomly pasting can both cause improper Videoinfox file writes." >> ~/.config/videoinfox/videoinfo.help
-echo " To maintain data integrity and retention, don't  Ctrl-c or randomly past"
-echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
+echo "  - Play either a local file or a downloadable video url via yt-dlp." >> ~/.config/videoinfox/videoinfo.help
+echo "  - See codec, resolution and duration on the playing video." >> ~/.config/videoinfox/videoinfo.help
+echo "  - Available on all content screens." >> ~/.config/videoinfox/videoinfo.help
+echo "  - Auto clear the url link out of the clipboard after the video player is closed." >> ~/.config/videoinfox/videoinfo.help
+echo "  - To watch the last download after Play Clipboard cleared the link, Last Download in:  <Home>  <Yt-dlp>" >> ~/.config/videoinfox/videoinfo.help
+echo "  - Auto clear the clipboard of invalid files and urls." >> ~/.config/videoinfox/videoinfo.help 
+echo "  - Press enter after your copy to the clipboard to validate clipboard content." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " Every video played is autosaved to a played list." >> ~/.config/videoinfox/videoinfo.help
-echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
+echo "To use Play Clipboard:" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " Any duplicates added to the playlist or the played list will be autoremoved." >> ~/.config/videoinfox/videoinfo.help
-echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
+echo     "Copy a local file including full path to the clipboard then press   p   to Play Clipboard." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " The add playlist screen is generated from the find results.  From the playlist screen, Select <a>" >> ~/.config/videoinfox/videoinfo.help
-echo " to get the find results to add videos to to the playlist.  Highlight whatever you want to add to the playlist." >> ~/.config/videoinfox/videoinfo.help
-echo " Copy what you highlight(s) to the clipboard and select <a> to add your slection(s) from the clipboard."  >>~/.config/videoinfox/videoinfo.help      
-echo " Make sure you grab the whole line including the comma.  Rinse and repeat until done." >>~/.config/videoinfox/videoinfo.help
+echo     "Copy a video url to the clipboard and press  enter  to dislpay the yt-dlp extracted a video name from the url" >> ~/.config/videoinfox/videoinfo.help
+echo     "then press   p   to play" >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo " More Features:" >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo "  - File types searched for :    .webm   .mp4   .mkv   .avi   .divx" >> ~/.config/videoinfox/videoinfo.help
+echo "  - Keep track of everything played   <Played List>" >> ~/.config/videoinfox/videoinfo.help
+echo "  - Save a list of videos from find results and played list  <Play List>" >> ~/.config/videoinfox/videoinfo.help
+echo "  - Remove duplicates from the playlist and played video." >> ~/.config/videoinfox/videoinfo.help
+echo "  - Remove any entries from lists that don't start with a  /" >> ~/.config/videoinfox/videoinfo.help
+echo "  - Enter a file with full path to play and get info.   <Video File>"  >> ~/.config/videoinfox/videoinfo.help
+echo "  - Auto save last find result(s) and autoload until deleted." >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo " The Download feature wouldn't have been possible without YT-DLP" >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo "  - Yt-dlp integration for easy download and play.  <Yt-dlp>" >> ~/.config/videoinfox/videoinfo.help
+echo "  - Download video to play later.  <Download Video>" >> ~/.config/videoinfox/videoinfo.help
+echo "  - Pick file type and quality of video before download.  <Download Video>" >> ~/.config/videoinfox/videoinfo.help
+echo "  - Download completed, auto play, delete when the player is closed.  <Self Destruct>" >> ~/.config/videoinfox/videoinfo.help
+echo "  - Watch last download  <Last Download>" >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo "  - Download and update Videoinfox.  <Set>" >> ~/.config/videoinfox/videoinfo.help
+echo "  - Download and update Yt-dlp.  <Set>" >> ~/.config/videoinfox/videoinfo.help
+echo "  - Rapid directory changing by setting default directories.  <Set>" >> ~/.config/videoinfox/videoinfo.help
+echo "  - Save directory state on exit to load on next run." >> ~/.config/videoinfox/videoinfo.help
+echo "  - Change directory by entering full path. <Change Directory>" >> ~/.config/videoinfox/videoinfo.help
+echo "  - Find directory and change to it by copying it to clipboard. <Find Directory>" >> ~/.config/videoinfox/videoinfo.help
+echo "  - List video info one directory deep. Save per directory. <List Directory>" >> ~/.config/videoinfox/videoinfo.help
+echo "  - Recursive count of videos broken down by video type. <Video Count>" >> ~/.config/videoinfox/videoinfo.help
+echo "  - Recursive duration (days:hrs:min:sec) Save per directory. <Video Duration>" >> ~/.config/videoinfox/videoinfo.help
+echo "  - GUI notifications." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " This is my first big shell script.  It all started with 4 lines to get video codec, resolution and duration." >> ~/.config/videoinfox/videoinfo.help
 echo " Then I thought, it would be cool if I added a find feature.  Next it was, I wanted to be able to store the find" >> ~/.config/videoinfox/videoinfo.help
 echo " results for instant access at a later date.  Everytime I completed a new feature, it was onto the next feature." >> ~/.config/videoinfox/videoinfo.help
-echo " It was a run away train.  As it grew with features, it eventually became a passion to produce a relevant script" >> ~/.config/videoinfox/videoinfo.help
-echo " that would find videos, play and get info on those videos.  Download videos (download feature thanks to YT-DLP)" >> ~/.config/videoinfox/videoinfo.help
+echo " It was a run away train." >> ~/.config/videoinfox/videoinfo.help 
 echo >> ~/.config/videoinfox/videoinfo.help
+echo " As it grew with features, it eventually became a passion to produce a relevant shell script that would:" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " Videoinfox Features:" >> ~/.config/videoinfox/videoinfo.help
+echo "   - Find loacal Video Files fast, immediately play and get info on." >> ~/.config/videoinfox/videoinfo.help
+echo "   - Download Video Urls effortlessly and watch immediately." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " - Navigation was designed to be robust and efficient. One keypress for all menu selections." >> ~/.config/videoinfox/videoinfo.help
-echo " - Copy a filename to the clipboard and press <p> to play." >> ~/.config/videoinfox/videoinfo.help
-echo " - Play clipboard: <HOME> <PLAYLIST> <PLAYED LIST> <FIND> <YT-DLP>" >> ~/.config/videoinfox/videoinfo.help
-echo " - File types searched for:   .webm  .mp4  .mkv  .avi  .divx" >> ~/.config/videoinfox/videoinfo.help
-echo " - Play videos and get video info from every screen that has a play feature." >> ~/.config/videoinfox/videoinfo.help
-echo " - Keep track of everything played <PLAYED LIST>" >> ~/.config/videoinfox/videoinfo.help
-echo " - Save a list of videos from find result(s) <PLAYLIST>" >> ~/.config/videoinfox/videoinfo.help
-echo " - Remove duplicates from the playlist and played video." >> ~/.config/videoinfox/videoinfo.help
-echo " - Press  enter  anywhere you see  <Clipboard:>  to update display." >> ~/.config/videoinfox/videoinfo.help
-echo " - Enter a file with full path to play and get info. <Enter Video File>" >> ~/.config/videoinfox/videoinfo.help
-echo " - Auto save last find result(s) and autoload until deleted." >> ~/.config/videoinfox/videoinfo.help
-echo " - Yt-dlp integration for easy download and play." >> ~/.config/videoinfox/videoinfo.help
-echo " - Download video and autoplay <HOME>"  >> ~/.config/videoinfox/videoinfo.help
-echo " - Download video and play later. <YT-DLP>" >> ~/.config/videoinfox/videoinfo.help
-echo " - When download has completed, auto play, delete when the player is closed. <YT-DLP>" >> ~/.config/videoinfox/videoinfo.help
-echo " - Play last download <YT-DLP>" >> ~/.config/videoinfox/videoinfo.help
-echo " - Pick type and quality of video before download. <YT-DLP>"  >> ~/.config/videoinfox/videoinfo.help
-echo " - Download and update Videoinfox. <SET>" >> ~/.config/videoinfox/videoinfo.help
-echo " - Download and update Yt-dlp. <SET>" >> ~/.config/videoinfox/videoinfo.help
-echo " - Rapid directory changing by setting default directories. <SET>" >> ~/.config/videoinfox/videoinfo.help
-echo " - Change fefault directories in <set> and <find>"
-echo " - Save directory state on exit to load on next run." >> ~/.config/videoinfox/videoinfo.help
-echo " - Change directory by entering full path. <CHANGE DIRECTORY>" >> ~/.config/videoinfox/videoinfo.help
-echo " - Find directory and change to it by copying it to clipboard. <FIND DIRECTORY>" >> ~/.config/videoinfox/videoinfo.help
-echo " - List video info one directory deep. Save per directory. <LIST DIRECTORY>" >> ~/.config/videoinfox/videoinfo.help
-echo " - Recursive count of videos broken down by video type. <VIDEO COUNT>" >> ~/.config/videoinfox/videoinfo.help
-echo " - Recursive duration (days:hrs:min:sec) Save per directory. <VIDEO DURATION>" >> ~/.config/videoinfox/videoinfo.help
-echo " - GUI notifications." >> ~/.config/videoinfox/videoinfo.help
-echo >> ~/.config/videoinfox/videoinfo.help
+echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " If you encounter any issues, let me know." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -421,7 +451,13 @@ echo >> ~/.config/videoinfox/videoinfo.help
 echo " If videoinfox is removed, the dircetory  ~/.config/videoinfox  will have to be manually deleted." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-# help file creation completed
+
+fi
+
+###########################  HELP COMPLETED  ##################################################################################################### 
+##################################################################################################################################################
+
+
 
 read -r diratexit < ~/.config/videoinfox/videoinfo.dir-at-exit
 cd "$diratexit" 2>/dev/null 
