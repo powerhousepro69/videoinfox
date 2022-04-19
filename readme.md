@@ -53,7 +53,7 @@ Videoinfox Features:
 - Recursive count of videos broken down by video type. &nbsp <Video Count>
 - Recursive duration (days:hrs:min:sec) Save per directory. &nbsp <Video Duration>
 - GUI notifications.
-<br />
+
 <br />
 To use Play Clipboard:
 <br />
