@@ -55,6 +55,7 @@ Videoinfox Features:
 - Recursive duration (days:hrs:min:sec) Save per directory.  <Video Duration>
 - GUI notifications.
 
+ 
 To use Play Clipboard:
 
 Copy a local file including full path to the clipboard and press  enter  to verify the file is valid.
