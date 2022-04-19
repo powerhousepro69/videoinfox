@@ -80,7 +80,7 @@ Home screen with Youtube link it the clipboard.&nbsp; &nbsp; Press&nbsp;  p &nbs
 
 <br />
 Play Clipboard
-
+<br />
 ![Videoinfox HOME](https://i.imgur.com/TJTPQBT.png)
 
 <br />
