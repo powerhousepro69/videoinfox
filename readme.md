@@ -57,7 +57,7 @@ Videoinfox Features:
 
 <br />
 To use Play Clipboard:
- 
+<br />
 Copy a local file including full path to the clipboard and press  enter  to verify the file is valid.
 Then  p  to Play Clipboard.
 
@@ -71,9 +71,7 @@ Note: Pressing  enter  after content is copied to the clipboard isn't required b
 <br />
 If videoinfox is removed, the dircetory  ~/.config/videoinfox  will have to be manually deleted.
 
-
-<br />
-Dependencies listed at bottom of page.
+ Dependencies listed at bottom of page.
 
 <br />
 Home screen with Youtube link it the clipboard.&nbsp; &nbsp; Press&nbsp;  p &nbsp;to download and autoplay full screen.
