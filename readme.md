@@ -19,7 +19,7 @@ sudo chmod +x /usr/local/bin/videoinfox
 Download feature wouldn't have been possible without YT-DLP
 <br /> 
 Play Clipboard voodoo wouldn't have been possible without XCLIP
-
+<br />
 
 Videoinfox Features:
 
