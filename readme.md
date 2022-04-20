@@ -1,9 +1,10 @@
-videoinfox v.2.052 &nbsp; Where video play is a clipboard copy away.
+videoinfox v.2.053 &nbsp; Where video play is a clipboard copy away.
 
 Find local Video Files fast, immediately play and get info on.
 Download Video Urls effortlessly and autoplay with Play Clipboard.
 
-New Feature: Update check on startup.  Notification in videoinfox on home screen and a gui notification.
+v.2.053 update added: Video Player (ffplay) auto closes when the video ends.
+
 
 Note : Some screenshots below need updated.
 
@@ -58,6 +59,7 @@ Videoinfox Features:
 - Recursive count of videos broken down by video type.  <Video Count>
 - Recursive duration (days:hrs:min:sec) Save per directory.  <Video Duration>
 - GUI notifications.
+- Check for update on startup and notifity if update is available
 
  
 To use Play Clipboard:
