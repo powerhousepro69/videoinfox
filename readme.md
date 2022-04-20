@@ -39,7 +39,7 @@ Videoinfox Features:
 - Press enter after your copy to the clipboard to validate clipboard content.
 - File types searched for :   .webm  .mp4  .mkv  .avi  .divx
 - Keep track of everything played  <Played List>
-- Save a list of videos from find results and played list  &nbsp <Play List>
+- Save a list of videos from find results and played list  <Play List>
 - Remove duplicates from the playlist and played video.
 - Remove any entries from lists that don't start with a  /
 - Enter a file with full path to play and get info. p  <Video File>
@@ -49,7 +49,7 @@ Videoinfox Features:
 - Pick file type and quality of video before download.  <Download Video>
 - Download completed, auto play, delete when the player is closed. <Self Destruct>
 - Watch last download <Last Download>
-- Download and update Videoinfox.&nbsp <Set>
+- Download and update Videoinfox. <Set>
 - Download and update Yt-dlp. <Set>
 - Rapid directory changing by setting default directories. <Set>
 - Save directory state on exit to load on next run.
@@ -59,7 +59,7 @@ Videoinfox Features:
 - Recursive count of videos broken down by video type.  <Video Count>
 - Recursive duration (days:hrs:min:sec) Save per directory.  <Video Duration>
 - GUI notifications.
-- Check for update on startup and notifity if update is available
+- Check for update on startup and notifity if update is available.
 
  
 To use Play Clipboard:
