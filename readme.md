@@ -3,7 +3,7 @@ videoinfox v.2.052 &nbsp; Where video play is a clipboard copy away.
 Find local Video Files fast, immediately play and get info on.
 Download Video Urls effortlessly and autoplay with Play Clipboard.
 
-New Feature: Update check on startup.  Notification in videoinfox on home screen and a gui notification
+New Feature: Update check on startup.  Notification in videoinfox on home screen and a gui notification.
 
 Note : Some screenshots below need updated.
 
