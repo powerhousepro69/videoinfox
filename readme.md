@@ -2,7 +2,7 @@ videoinfox v.2.052 &nbsp; &nbsp; Where video play is a clipboard copy away.
 
 Note : Some screenshots below need updated.
 
-Find loacal Video Files fast, immediately play and get info on.
+Find local Video Files fast, immediately play and get info on.
 Download Video Urls effortlessly and autoplay with Play Clipboard.
 
  <br />
