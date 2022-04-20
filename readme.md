@@ -1,4 +1,4 @@
-videoinfox v.2.052   Video play is a clipboard copy away.
+videoinfox v.2.052 &nbsp; Where video play is a clipboard copy away.
 
 Note : Some screenshots below need updated.
 
