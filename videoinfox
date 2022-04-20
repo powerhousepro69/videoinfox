@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#  file : videoinfox v2.05									         
+#  file : videoinfox v2.052									         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfo's Version Number is set.
-ver="Videoinfox v2.051"
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m051")  # Version Number witth blinking dot
+ver="Videoinfox v2.052"
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m052")  # Version Number witth blinking dot
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -32,7 +32,7 @@ der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m051")  # Ve
 ##################################################################################################################################################
 
 
-#  videoinfox -v    displays version number then exit  
+#  videoinfox -v    display version number then exit  
 
 if [ "$1" = "-v" ]
   then
@@ -274,6 +274,13 @@ echo "                                                                          
       # SET DEFAULT yt-dlp DOWNLOAD DIRECTORY. It can be changed in the <yt-dlp> menu
       echo "$HOME"/Downloads > ~/.config/videoinfox/videoinfo.yt-download-dir
             
+      # Writing header for new blank Saved Search  playlist  ++++++++ this was added to get around a bug until the bug gets squashed.       
+      echo > ~/.config/videoinfox/videoinfo.keptsearch
+      echo "PLAYlIST" >> ~/.config/videoinfox/videoinfo.keptsearch
+      echo >> ~/.config/videoinfox/videoinfo.keptsearch
+      echo "This File was Created: $(date) by" "$USER" >> ~/.config/videoinfox/videoinfo.keptsearch
+      echo >> ~/.config/videoinfox/videoinfo.keptsearch
+
       # CREATING EMPTY FILES SO NO ERRORS ARE PRODUCED ON FIRST RUN
       echo > ~/.config/videoinfox/videoinfo.findwork2
       echo > ~/.config/videoinfox/videoinfo.findwork3
@@ -305,21 +312,56 @@ echo "                                                                          
               
            done                  
 
-wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O ~/.config/videoinfox/yt-dlp-fetched >/dev/null  # download <yt-dlp> from github
-chmod a+rx ~/.config/videoinfox/yt-dlp-fetched  # set <yt-dlp-fetched> execute bit
-cp ~/.config/videoinfox/yt-dlp-fetched ~/.config/videoinfox/yt-dlp
-~/.config/videoinfox/yt-dlp --version > ~/.config/videoinfox/videoinfo.yt-dlp.version
+
+# download:  yt-dlp  from github and rename to: yt-dlp-fetched  
+wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O ~/.config/videoinfox/yt-dlp-fetched >/dev/null  
+chmod a+rx ~/.config/videoinfox/yt-dlp-fetched 2> /dev/null  # set <yt-dlp-fetched> execute bit
+cp ~/.config/videoinfox/yt-dlp-fetched ~/.config/videoinfox/yt-dlp  # copy: yt-dlp-fetched  to: yt-dlp  
+~/.config/videoinfox/yt-dlp --version > ~/.config/videoinfox/videoinfo.yt-dlp.version # write yt-dlp ver number to file: yt-dlp.version  
 
 fi
 
-##################################################################################################################################################
-###########################  CHECK FOR VIDEOINFOX VERSION UPDATE.  DISPLAY TO USER IF UPDATE IS AVAILABLE  #######################################
-##################################################################################################################################################
 
-wget -q https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox -O ~/.config/videoinfox/videoinfox-fetched >/dev/null
-chmod +x ~/.config/videoinfox/videoinfox-fetched
+##################################################################################################################################################
+###########################  CHECK FOR  (VIDEOINFOX NOTIFICATION UPDATE)      routine to get version number from github          #################
+########################################################################      and compare it to this scripts version number      #################
+
+clear  # Display while downloading videoinfox from github on startup
+echo
+echo
+echo
+echo "___________________________________________________________________________________________________________________"
+echo  
+echo " $ver >>> Checking for update . . ."
+echo "___________________________________________________________________________________________________________________"
+
+# download  videoinfox  from github, rename it to  videoinfox-fetched,  extraxt the ver mumber and reformat it
+# if the download doesn't come in 2.4 seconds, it will be aborted.  Just for notification.  To prevent script hanging on  wget  during high traffic times.
+timeout 2.4 wget -q https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox -O ~/.config/videoinfox/videoinfox-fetched >/dev/null
+
+# make script executable to get ver number
+chmod +x ~/.config/videoinfox/videoinfox-fetched 2> /dev/null
+
+# ver number of download
 viv=$(~/.config/videoinfox/videoinfox-fetched -v)  
-# echo "$viv" > ~/.config/videoinfox/videoinfo.zzz
+
+# the download: cut the first 13 characters + sed to remove the dot =  version number minus the dot 
+viv2=$(echo "$viv" | cut -c13- | sed -e 's/\.//g') # format: whole number  xxxx
+
+# this script:  cut the first 13 characters + sed to remove the dot =  version number minus the dot 
+viv3=$(echo "$ver" | cut -c13- | sed -e 's/\.//g') # format: whole number  xxxx
+
+$ for  # the notification just on the home screen
+if [ "$viv2" = "$viv3" ]  # If the downloaded version = this script's version goto then
+  then
+      # Version numbers are the same
+      viv4=$(echo -e \ "               ") # dead space place holder for when there is no   update available   in the display
+  else
+      # Version numbers are not the same
+      viv4="update available"
+      notify-send "Videoinfox messsage: Update Available" "$viv" # send gui notification with update ver number
+fi
+
 
 ##################################################################################################################################################
 ###########################  CREATE HELP FILE  ################################################################################################### 
@@ -582,7 +624,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
       read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
       ytdlpconfirm=$(~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
 
-            if [ "$ytdlpconfirm" = "" ]  
+            if [ "$ytdlpconfirm" = "" ]  # if yt-dlp couldn't extract a name goto then
                   then
   
                   echo " " | xclip -sel clip  # clearing out the clipboard
@@ -592,7 +634,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                            #________________x________________________________________ _________________________________________________________
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " "$der"                        Enter - Update Clipboard Display                1 2 3 4 5 - Default Dirs"
+                      echo " $der $viv4      Enter - Update Clipboard Display                 1 2 3 4 5 - Default Dirs"
                       echo "___________________________________________________________________________________________________________________"
                       echo
                       echo " f - Find              a - All Videos          p - Play Clipboard     y - YT-DLP                          e - Exit"
@@ -600,14 +642,14 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " i - Info              x - Clear Clipboard     v - Played List        l - Last Download                   h - Help"
                       echo         
                   
-                  else 
+                  else  # yt-dlp extracted a filename
                       echo
                       echo "YT-DLP Confirmed: "$ytdlpconfirm""
                       echo
                       echo "Download Directory: $dirsaved"  # dislpay default download directory
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " "$der"                        Enter - Update Clipboard Display                1 2 3 4 5 - Default Dirs"
+                      echo " $der $viv4      Enter - Update Clipboard Display                 1 2 3 4 5 - Default Dirs"
                       echo "___________________________________________________________________________________________________________________"
                       echo
 
@@ -625,7 +667,7 @@ echo
 echo "Valid file in clipboard"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " "$der"                        Enter - Update Clipboard Display                1 2 3 4 5 - Default Dirs"
+echo " $der $viv4      Enter - Update Clipboard Display                 1 2 3 4 5 - Default Dirs"
 echo "___________________________________________________________________________________________________________________"
 echo
 
@@ -635,14 +677,14 @@ echo " c - Clear Results     m - More Options        s - Playlist               
 echo " i - Info              x - Clear Clipboard     v - Played List        l - Last Download                   h - Help"
 echo                                                             
 
-  else 
+  else  # file does not exist
 
 echo " " | xclip -sel clip  # clearing out the clipboard
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " "$der"                        Enter - Update Clipboard Display                1 2 3 4 5 - Default Dirs"
+echo " $der $viv4      Enter - Update Clipboard Display                 1 2 3 4 5 - Default Dirs"
 echo "___________________________________________________________________________________________________________________"
 echo
 echo " f - Find              a - All Videos          p - Play Clipboard     y - YT-DLP                          e - Exit"
@@ -1689,7 +1731,7 @@ rm ~/.config/videoinfox/videoinfo.keptsearch.tmp
 
           D)  ################  DELETE SAVED FINDS  ##############################
      
-           # Writing header for new Saved Search because new file wouldn't be created until return to main HOME         
+           # Writing header for new blank Saved Search         
            rm ~/.config/videoinfox/videoinfo.keptsearch         
            echo > ~/.config/videoinfox/videoinfo.keptsearch
            echo "PLAYlIST" >> ~/.config/videoinfox/videoinfo.keptsearch
@@ -1841,7 +1883,7 @@ case $optionsettings in
          echo "___________________________________________________________________________________________________________________"
          echo
          echo
-         echo " If there are search results on the the home screen on exit, the below always applies to your next run."
+         echo " If there are search results on the the home screen on exit, the below always applies to the next run."
          echo
          echo
          echo " 1 - Always Save                                                                                          q - Quit"  
