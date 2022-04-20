@@ -12,7 +12,7 @@ Note : Some screenshots below need updated.
 
  <br />
 
-To install &nbsp;: &nbsp;Run the 2 lines below:
+To install &nbsp;: &nbsp;Run the 2 lines below.
 ```
 sudo wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox -O /usr/local/bin/videoinfox
 ```
