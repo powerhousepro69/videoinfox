@@ -34,7 +34,7 @@ Videoinfox Features:
 - See codec, resolution and duration on the playing video.
 - Available on all content screens.
 - Auto clear the url link out of the clipboard after the video player is closed.
-- To watch the last download after Play Clipboard cleared the link, Last Download in:  <Home> <Yt-dlp>
+- To watch the last download after Play Clipboard cleared the link select Last Download  <Home> <Yt-dlp>
 - Auto clear the clipboard of invalid files and urls.
 - Press enter after your copy to the clipboard to validate clipboard content.
 - File types searched for :   .webm  .mp4  .mkv  .avi  .divx
