@@ -3,8 +3,8 @@ videoinfox v.2.054 &nbsp; Where video play is a clipboard copy away.
 Find local Video Files fast, immediately play and get info on.
 Download Video Urls effortlessly and autoplay with Play Clipboard.
 
-v.2.054 update added: Auto play with option to quit everytime
-                      a video ends (played to end or quit by user)
+v.2.054 update added: Play Directory  Auto play with option to quit everytime
+                                      a video ends (played to end or quit by user)
 
 
 Note : Some screenshots below need updated.
