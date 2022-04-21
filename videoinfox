@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#  file : videoinfox v2.053									         
+#  file : videoinfox v2.054									         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfo's Version Number is set.
-ver="Videoinfox v2.053"
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m053")  # Version Number witth blinking dot
+ver="Videoinfox v2.054"
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m054")  # Version Number witth blinking dot
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -353,7 +353,7 @@ viv2=$(echo "$viv" | cut -c13- | sed -e 's/\.//g') # format: whole number  xxxx
 # this script:  cut the first 13 characters + sed to remove the dot =  version number minus the dot 
 viv3=$(echo "$ver" | cut -c13- | sed -e 's/\.//g') # format: whole number  xxxx
 
-$ for  # the notification just on the home screen
+# for the notification just on the home screen
 if [ "$viv2" = "$viv3" ]  # If the downloaded version = this script's version goto then
   then
       # Version numbers are the same
@@ -387,12 +387,13 @@ echo "__________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfo.help
 
 
-echo " This update added: Video Player (ffplay) auto closes when the video ends." >> ~/.config/videoinfox/videoinfo.help
+echo " THIS UPDATE ADDED: Play Directory - Auto play " >> ~/.config/videoinfox/videoinfo.help
+echo "                                     with option to quit everytime a video ends (played to end or quit by user)" >> ~/.config/videoinfox/videoinfo.help
 
 
 echo  >> ~/.config/videoinfox/videoinfo.help
-echo "                          Find loacal Video Files fast, immediately play and get info on." >> ~/.config/videoinfox/videoinfo.help
-echo "                          Download Video Urls effortlessly and watch immediately." >> ~/.config/videoinfox/videoinfo.help
+echo " Find loacal Video Files fast, immediately play and get info on." >> ~/.config/videoinfox/videoinfo.help
+echo " Download Video Urls effortlessly and watch immediately." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Find videos to play or get info on: Change to a parent directory of your video library and slect find <f>.  " >> ~/.config/videoinfox/videoinfo.help
@@ -472,6 +473,8 @@ echo "  - List video info one directory deep. Save per directory. <List Director
 echo "  - Recursive count of videos broken down by video type. <Video Count>" >> ~/.config/videoinfox/videoinfo.help
 echo "  - Recursive duration (days:hrs:min:sec) Save per directory. <Video Duration>" >> ~/.config/videoinfox/videoinfo.help
 echo "  - GUI notifications." >> ~/.config/videoinfox/videoinfo.help
+echo "  - Check for update on startup and notifity if update is available." >> ~/.config/videoinfox/videoinfo.help
+echo "  - Video Player (ffplay) auto closes when the video ends." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -645,9 +648,9 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " $der $viv4      Enter - Update Clipboard Display                 1 2 3 4 5 - Default Dirs"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " f - Find              a - All Videos          p - Play Clipboard     y - YT-DLP                          e - Exit"
-                      echo " c - Clear Results     m - More Options        s - Playlist                                               d - Set" 
-                      echo " i - Info              x - Clear Clipboard     v - Played List        l - Last Download                   h - Help"
+                      echo " f - Find                                   p - Play Clipboard     d - Play Directory                     e - Exit"
+                      echo " a - All Videos        i - Info             s - Playlist           l - Last Download                      z - Set" 
+                      echo " c - Clear Results     m - More Options     v - Played List        y - Yt-dlp                             h - Help"
                       echo         
                   
                   else  # yt-dlp extracted a filename
@@ -661,10 +664,10 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo "___________________________________________________________________________________________________________________"
                       echo
 
-echo -e " f - Find              a - All Videos          p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     y - YT-DLP                          e - Exit"
+echo -e " f - Find                                   p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     d - Play Directory                     e - Exit"
  
-                      echo " c - Clear Results     m - More Options        s - Playlist                                               d - Set" 
-                      echo " i - Info              x - Clear Clipboard     v - Played List        l - Last Download                   h - Help"
+                      echo " a - All Videos        i - Info             s - Playlist           l - Last Download                      z - Set" 
+                      echo " c - Clear Results     m - More Options     v - Played List        y - Yt-dlp                             h - Help"
                       echo                                                             
             fi
     else
@@ -678,11 +681,10 @@ echo
 echo " $der $viv4      Enter - Update Clipboard Display                 1 2 3 4 5 - Default Dirs"
 echo "___________________________________________________________________________________________________________________"
 echo
-
-echo -e " f - Find              a - All Videos          p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     y - YT-DLP                          e - Exit"
+echo -e " f - Find                                   p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     d - Play Directory                     e - Exit"
  
-echo " c - Clear Results     m - More Options        s - Playlist                                               d - Set" 
-echo " i - Info              x - Clear Clipboard     v - Played List        l - Last Download                   h - Help"
+                      echo " a - All Videos        i - Info             s - Playlist           l - Last Download                      z - Set" 
+                      echo " c - Clear Results     m - More Options     v - Played List        y - Yt-dlp                             h - Help"
 echo                                                             
 
   else  # file does not exist
@@ -695,9 +697,10 @@ echo
 echo " $der $viv4      Enter - Update Clipboard Display                 1 2 3 4 5 - Default Dirs"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " f - Find              a - All Videos          p - Play Clipboard     y - YT-DLP                          e - Exit"
-echo " c - Clear Results     m - More Options        s - Playlist                                               d - Set" 
-echo " i - Info              x - Clear Clipboard     v - Played List        l - Last Download                   h - Help"
+echo " f - Find                                   p - Play Clipboard     d - Play Directory                     e - Exit"
+echo " a - All Videos        i - Info             s - Playlist           l - Last Download                      z - Set" 
+echo " c - Clear Results     m - More Options     v - Played List        y - Yt-dlp                             h - Help"
+echo         
 echo                                                             
 
 
@@ -813,6 +816,52 @@ sleep .7
 break ;;
 
 
+d)  # (@PLAY DIRECTORY)
+
+for f in *.{mp4,webm,mkv,avi,divx}
+do 
+      clear
+      echo
+      echo "___________________________________________________________________________________________________________________"
+      echo
+      echo " ""$der"" >>> PLAY DIRECTORY:" "$PWD" 
+      echo
+      echo " [PLAY]> "$f" "
+      echo "___________________________________________________________________________________________________________________"
+      echo
+
+      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$f")  " Duration:" $(ffmpeg -i "$f" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+      echo
+      echo
+      echo " Video Player Controls:"
+      echo                             
+      echo " - Fullscreen Toggle: f"
+      echo
+      echo " - Play/Pause Toggle: space bar"
+      echo
+      echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
+      echo
+      echo " - Quit: q"      
+      echo -e "\n"
+
+      ffplay -fs -autoexit &> /dev/null "$f" #  play file  $f
+      # everytime ffplay exits contintue with no user input
+
+      echo " To bypass the 3 second wait press enter with no entry"
+      echo
+      echo -e "\033[5m 3 seconds remaining to quit Directory Play\033m\033[0m\033[5m\033[5m\033[0m"      
+      echo 
+      read -t 3 -p " Press any key then press enter to quit : " playdir  # read will timeout for 3 seconds
+                                                                         # if no input is entered the next video will play
+           if [[ $playdir ]]                                             # if enter is pressed without any input the next video will play
+             then                                                        # press any key then enter to quit Play Directory
+                 break
+             else
+                 :
+           fi
+done
+;;
+
 
 l)  # play last download
               grabdir="$PWD"  # storing directory to restore at the end of this function
@@ -866,8 +915,8 @@ searchtotal=$(find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname 
       
                        then
                            :
-                          #cp ~/.config/videoinfox/videoinfo.findwork3 ~/.config/videoinfox/videoinfo.findwork
-                          #cp ~/.config/videoinfox/videoinfo.lastsearchtotal2  ~/.config/videoinfox/videoinfo.lastsearchtotal
+                           #cp ~/.config/videoinfox/videoinfo.findwork3 ~/.config/videoinfox/videoinfo.findwork
+                           #cp ~/.config/videoinfox/videoinfo.lastsearchtotal2  ~/.config/videoinfox/videoinfo.lastsearchtotal
                         
                        else
                            echo "*" > ~/.config/videoinfox/videoinfo.lastfindstring   # save last find string used                          
@@ -929,11 +978,11 @@ echo "                                                                          
      ;;
 
 
-     x) 
+     #x) 
      #  CLEAR CLIPBOARD - <HOME> 
-     echo " " | xclip -sel clip  # copy message in quotes to the clipboard. clearing out the clipboard
-     pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-     ;;
+     #echo " " | xclip -sel clip  # copy message in quotes to the clipboard. clearing out the clipboard
+     #pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+     #;;
 	
 
      p) 
@@ -1036,8 +1085,10 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       
        # video filename with full path <$pasteclip> strip from the bgininning of line to the last slash leaving only the filename <$getfilenameonly>
       getfilenameonly=$(echo "$pasteclip" |  awk -F '/' '{print $NF}')  
-      notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"
-     
+      
+      #notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"
+      notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"      
+
       echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
       ffplay -fs -autoexit "$pasteclip" 2>/dev/null  # play video in clipboard
 
@@ -1155,7 +1206,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" >>> PLAYED LIST               Copy 1 above line to clipboard then press enter to update display"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " p - Play Clipboard     D - Delete Played List     x - Clear Clipboard                                    q - Quit"
+                      echo " p - Play Clipboard     D - Delete Played List                                                            q - Quit"
                       echo
                       echo " i - Info"         
                       echo
@@ -1171,7 +1222,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo "___________________________________________________________________________________________________________________"
                       echo
 
-echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     D - Delete Played List     x - Clear Clipboard                                    q - Quit"             
+echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     D - Delete Played List                                                            q - Quit"             
                       echo
                       echo " i - Info"         
                       echo                                                                                  
@@ -1188,7 +1239,7 @@ echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     D - Del
             echo "___________________________________________________________________________________________________________________"
             echo
 
-echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     D - Delete Played List     x - Clear Clipboard                                    q - Quit"
+echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     D - Delete Played List                                                            q - Quit"
 
             echo
             echo " i - Info"
@@ -1204,7 +1255,7 @@ echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     D - Del
             echo " "$der" >>> PLAYED LIST               Copy 1 above line to clipboard then press enter to update display"
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " p - Play Clipboard     D - Delete Played List     x - Clear Clipboard                                    q - Quit"
+            echo " p - Play Clipboard     D - Delete Played List                                                            q - Quit"
             echo
             echo " i - Info"
             echo                                                             
@@ -1224,12 +1275,6 @@ read -r -n1 optionv
     
         q)  # QUIT
         break;;
-
-        x) 
-        #  CLEAR CLIPBOARD
-        echo " " | xclip -sel clip  # copy message in quotes to the clipboard. clearing out the clipboard
-        pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-        ;;       
 
         
         i) 
@@ -1430,7 +1475,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" >>> PLAYLIST                  Copy 1 above line to clipboard then press enter to update display"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " p - Play Clipboard     D - Delete Playlist     x - Clear Clipboard                                       q - Quit"
+                      echo " p - Play Clipboard     D - Delete Playlist                                                               q - Quit"
                       echo
                       echo " a - Add search results to playlist"
                       echo         
@@ -1448,7 +1493,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " a - Add search results to playlist"
                       echo
 
-echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     D - Delete Playlist     x - Clear Clipboard                                       q - Quit"             
+echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     D - Delete Playlist                                                               q - Quit"             
                       
                       echo                                                             
             fi
@@ -1466,7 +1511,7 @@ echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     D - Del
             echo " a - Add search results to playlist"
             echo
 
-echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     D - Delete Playlist     x - Clear Clipboard                                       q - Quit"
+echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     D - Delete Playlist                                                               q - Quit"
 
             echo                                                             
 
@@ -1480,7 +1525,7 @@ echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     D - Del
             echo " "$der" >>> PLAYLIST                  Copy 1 above line to clipboard then press enter to update display"
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " p - Play Clipboard     D - Delete Playlist     x - Clear Clipboard                                       q - Quit"
+            echo " p - Play Clipboard     D - Delete Playlist                                                               q - Quit"
             echo                                                             
             echo " a - Add search results to playlist"
             echo
@@ -1829,7 +1874,7 @@ find "$PWD" -type f \( -iname "$videofind.mp4" -o -iname "$videofind.mkv" -o -in
 
 
 ##################################################################################################################################################
-d)  # SETTINGS - <HOME>  #########################################################################################################################
+z)  # SETTINGS - <HOME>  #########################################################################################################################
 ##################################################################################################################################################
 
 function menusettings {
@@ -2361,9 +2406,9 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " ""$der"" >>> YT-DLP MENU           yt-dlp Version: $ytdlpver           Enter - Update Clipboard Display"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " d - Download Video     p - Play Clipboard     x - Clear Clipboard                                        q - Quit"
+                      echo " d - Download Video     p - Play Clipboard                                                                q - Quit"
                       echo " l - Last Download"
-                      echo " v - View Downloads     s - Self Destruct (download, watch, delete)"
+                      echo " v - View Downloads     s - Self Destruct"
                       echo
                   
                       echo " " | xclip -sel clip  # clearing out the clipboard
@@ -2381,10 +2426,10 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo "___________________________________________________________________________________________________________________"
                       echo
 
-echo -e " d - Download Video     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     x - Clear Clipboard                                        q - Quit "
+echo -e " d - Download Video     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                                                                q - Quit "
 
                       echo " l - Last Download"
-                      echo " v - View Downloads     s - Self Destruct (download, watch, delete)"
+                      echo " v - View Downloads     s - Self Destruct"
                       echo                                                                                  
             fi
   else
@@ -2399,10 +2444,10 @@ echo -e " d - Download Video     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\03
             echo "___________________________________________________________________________________________________________________"
             echo
 
-echo -e " d - Download Video     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     x - Clear Clipboard                                        q - Quit "
+echo -e " d - Download Video     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                                                                q - Quit "
                                                       
             echo " l - Last Download"
-            echo " v - View Downloads     s - Self Destruct (download, watch, delete)"
+            echo " v - View Downloads     s - Self Destruct"
             echo                                                             
 
         else 
@@ -2415,9 +2460,9 @@ echo -e " d - Download Video     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\03
             echo " ""$der"" >>> YT-DLP MENU           yt-dlp Version: $ytdlpver           Enter - Update Clipboard Display"
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " d - Download Video     p - Play Clipboard     x - Clear Clipboard                                        q - Quit"
+            echo " d - Download Video     p - Play Clipboard                                                                q - Quit"
             echo " l - Last Download"
-            echo " v - View Downloads     s - Self Destruct (download, watch, delete)"
+            echo " v - View Downloads     s - Self Destruct"
             echo
 fi
 fi
@@ -2441,14 +2486,10 @@ read -r -n1 optiony
      break;;
 
     
-      x) 
-      #  CLEAR CLIPBOARD
-      echo " " | xclip -sel clip  # copy message in quotes to the clipboard. clearing out the clipboard
-      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-      ;;   
+#######################################################################################################################################
+#########################  (PLAY DOWNLOAD DIRECTORY)  #################################################################################
+#######################################################################################################################################
 
-
-     
      p) 
      #  @PLAY CLIPBOARD - <VIEW DOWNLOADS>
           
@@ -2561,9 +2602,9 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
      
   fi
   ;;  
-
+#####################################################################################
      v)  # VIEW DOWNLOADS
-     
+#####################################################################################     
           
      function menuyt {  # LIST ALL VIDEO FILES RECURSIVELY IN THE DEFAULT DOWNLOAD DIRECTORY 
 
@@ -2633,7 +2674,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" >>> VIEW DOWNLOADS            Copy 1 above line to clipboard then press enter to update display"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " p - Play Clipboard     x - Clear Clipboard                                                               q - Quit"
+                      echo " p - Play Clipboard                                                                                       q - Quit"
                       echo
                       echo " i - Info"         
                       echo
@@ -2649,7 +2690,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo "___________________________________________________________________________________________________________________"
                       echo
 
-echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                                x - Clear Clipboard                                    q - Quit"             
+echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                                                                                       q - Quit"             
                       echo
                       echo " i - Info"         
                       echo                                                                                  
@@ -2666,7 +2707,7 @@ echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m            
             echo "___________________________________________________________________________________________________________________"
             echo
 
-echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     x - Clear Clipboard                                                               q - Quit"
+echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                                                                                       q - Quit"
 
             echo
             echo " i - Info"
@@ -2682,7 +2723,7 @@ echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     x - Cle
             echo " "$der" >>> VIEW DOWNLOADS            Copy 1 above line to clipboard then press enter to update display"
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " p - Play Clipboard     x - Clear Clipboard                                                               q - Quit"
+            echo " p - Play Clipboard                                                                                       q - Quit"
             echo
             echo " i - Info"
             echo                                                             
@@ -2693,8 +2734,7 @@ echo -en " Enter Option: "
 read -r -n1 optionyt
 
 }
-
-                
+        
               while true
               do
               menuyt
@@ -2705,14 +2745,9 @@ read -r -n1 optionyt
               #  QUIT
               break;;
 
-              
-               x) 
-               #  CLEAR CLIPBOARD - <HOME> 
-               echo " " | xclip -sel clip  # copy message in quotes to the clipboard. clearing out the clipboard
-               pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-               ;;
-     
-               p) 
+                            
+              p)
+ 
           #  @PLAY CLIPBOARD - <VIEW DOWNLOADS>
           
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
@@ -2990,7 +3025,23 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
  esac
      done
 
-fi    
+
+
+
+
+
+   
+
+
+
+
+
+
+
+
+
+
+fi
 
 # echo "$pasteclip3" | xclip -sel clip  #  load clipboard state before entering this function
 cd "$grabdir"   # restore dir prior to entering yt-dlp menu
