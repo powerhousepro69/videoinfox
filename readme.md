@@ -6,15 +6,15 @@ Download Video Urls effortlessly and autoplay with Play Clipboard.
 
 THIS UPDATE ADDED:  missing features in Navigate Tree
 
-    - Clipboard content is now saved when entering Navigate Tree and restored on quit.
+- Clipboard content is now saved when entering Navigate Tree and restored on quit.
 
-    - Total Files: (recursive) was added to the display.
+- Total Files: (recursive) was added to the display.
 
-    - When navigating in or out of a directory, 
-      Play Directory will blink when video files are available in the current directory.
+- When navigating in or out of a directory, 
+  Play Directory will blink when video files are available in the current directory.
 
 
-    Yt-dlp menu - Clear clipboard after download.
+Yt-dlp menu - Clear clipboard after download.
 
 
 
