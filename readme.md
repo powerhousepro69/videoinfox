@@ -43,6 +43,7 @@ Videoinfox Features:
 
 - Navigation was designed to be robust and efficient. One keypress for all menu selections.
 - Check for update on startup and notifity if update is available.
+- Download and update Videoinfox. <Set>
 - Play either a local file or a downloadable video url via yt-dlp.
 - See codec, resolution and duration on the playing video.
 - Play Clipboard available in: &nbsp; -Home &nbsp; -Played List &nbsp; -Played List &nbsp; -Yt-dlp menu &nbsp; -View Downloads
@@ -66,7 +67,6 @@ Videoinfox Features:
 - Pick file type and quality of video before download.  <Download Video>
 - Download completed, auto play, delete when the player is closed. <Self Destruct>
 - Watch last download <Last Download>
-- Download and update Videoinfox. <Set>
 - Download and update Yt-dlp. <Set>
 - Rapid directory changing by setting default directories. <Set>
 - Save directory state on exit to load on next run.
