@@ -46,8 +46,9 @@ Videoinfox Features:
 - Play either a local file or a downloadable video url via yt-dlp.
 - See codec, resolution and duration on the playing video.
 - Play Clipboard available in: &nbsp; -Home &nbsp; -Played List &nbsp; -Played List &nbsp; -Yt-dlp menu &nbsp; -View Downloads
+- Play Clipboard with blinking notification when there is a valid video file or video url for play.
 - Play Directory with autoplay on Home Screen.
-- Navigate Tree with Play Directory notification when there are video files in the current directory.
+- Navigate Tree with blinking Play Directory notification when there are video files in the current directory.
 - Video Player (ffplay) auto closes when the video ends.
 - Auto clear the url link out of the clipboard after the video player is closed.
 - To watch the last download after Play Clipboard cleared the link select Last Download  <Home> <Yt-dlp>
