@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#  file : videoinfox v2.054									         
+#  file : videoinfox v2.055									         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfo's Version Number is set.
-ver="Videoinfox v2.054"
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m054")  # Version Number witth blinking dot
+ver="Videoinfox v2.055"
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m055")  # Version Number witth blinking dot
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -337,7 +337,7 @@ echo
 echo " $ver >>> Checking for update . . ."
 echo "___________________________________________________________________________________________________________________"
 
-# download  videoinfox  from github, rename it to  videoinfox-fetched,  extraxt the ver mumber and reformat it
+# download  videoinfox  from github, rename it to  videoinfox-fetched,  extract the ver mumber and reformat it
 # if the download doesn't come in 2.4 seconds, it will be aborted.  Just for notification.  To prevent script hanging on  wget  during high traffic times.
 timeout 2.4 wget -q https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox -O ~/.config/videoinfox/videoinfox-fetched >/dev/null
 
@@ -360,7 +360,7 @@ if [ "$viv2" = "$viv3" ]  # If the downloaded version = this script's version go
       viv4=$(echo -e \ "               ") # dead space place holder for when there is no   update available   in the display
   else
       # Version numbers are not the same
-      viv4="update available"
+      viv4="update available"   # for update available notification on home screen
       notify-send "Videoinfox messsage: Update Available" "$viv" # send gui notification with update ver number
 fi
 
@@ -375,26 +375,28 @@ fi
 
 #  else
 
-echo > ~/.config/videoinfox/videoinfo.help
-echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
+echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " $ver >>> HELP" >> ~/.config/videoinfox/videoinfo.help
+echo " $ver  Where Video Play Is A Clipboard Copy Away" >> ~/.config/videoinfox/videoinfo.help
+echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
+echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Up & Down Arrows or Mouse wheel - scroll                                                             Home - top" >> ~/.config/videoinfox/videoinfo.help
 echo " q - quit                                                                                             End - bottom" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
-echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 
 
-echo " THIS UPDATE ADDED: Play Directory - Auto play " >> ~/.config/videoinfox/videoinfo.help
-echo "                                     with option to quit everytime a video ends (played to end or quit by user)" >> ~/.config/videoinfox/videoinfo.help
+
+echo " THIS UPDATE ADDED: Navigate Tree with Play Directory: Change Directory, Up One Level and Treetop" >> ~/.config/videoinfox/videoinfo.help
 
 
+
+echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo  >> ~/.config/videoinfox/videoinfo.help
 echo " Find loacal Video Files fast, immediately play and get info on." >> ~/.config/videoinfox/videoinfo.help
 echo " Download Video Urls effortlessly and watch immediately." >> ~/.config/videoinfox/videoinfo.help
-echo >> ~/.config/videoinfox/videoinfo.help
+echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Find videos to play or get info on: Change to a parent directory of your video library and slect find <f>.  " >> ~/.config/videoinfox/videoinfo.help
 echo " You can also select  <a>  to dislpay all videos recursively." >> ~/.config/videoinfox/videoinfo.help
@@ -475,6 +477,7 @@ echo "  - Recursive duration (days:hrs:min:sec) Save per directory. <Video Durat
 echo "  - GUI notifications." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Check for update on startup and notifity if update is available." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Video Player (ffplay) auto closes when the video ends." >> ~/.config/videoinfox/videoinfo.help
+echo "  - Play Directory with Auto play" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -555,6 +558,9 @@ dirinhome="$PWD"
 #  Load directory from last exit
 echo "$dirinhome" > ~/.config/videoinfox/videoinfo.home.dir
 
+grabdirfornav="$PWD"  # Save tree top before entering  NAVIGATE TREE  loop
+echo "$grabdirfornav" > ~/.config/videoinfox/videoinfo.navigate-dir-dat
+read -r grabdirfornav2 < ~/.config/videoinfox/videoinfo.navigate-dir-dat
 
 clear
 
@@ -612,9 +618,6 @@ echo "Clipboard: ""$pasteclip"
 #=================================================================================================================================================
 ##################################################################################################################################################
 
-# the following code over explains itself for those that want to learn step by step of how to follow the logic.
-
-
 # the 2 lines of below code are creating two new variables for the following loop.
 # 1st variable <$grabpaste>   <cut> is used to cut all characters after the 4th character from the variable. Only 4 chatacters are needed to look for <http>
 # 2nd variable <$grabpaste2>  <cut> is used to cut all characters after the 1st character from the variable. Only 1 character is needed to look for </>  
@@ -648,9 +651,9 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " $der $viv4      Enter - Update Clipboard Display                 1 2 3 4 5 - Default Dirs"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " f - Find                                   p - Play Clipboard     d - Play Directory                     e - Exit"
-                      echo " a - All Videos        i - Info             s - Playlist           l - Last Download                      z - Set" 
-                      echo " c - Clear Results     m - More Options     v - Played List        y - Yt-dlp                             h - Help"
+                      echo " f - Find              t - Navigate Tree     p - Play Clipboard     d - Play Directory                    e - Exit"
+                      echo " a - All Videos        i - Video Info        s - Playlist           l - Last Download                     z - Set" 
+                      echo " c - Clear Results     m - More Options      v - Played List        y - Yt-dlp                            h - Help"
                       echo         
                   
                   else  # yt-dlp extracted a filename
@@ -664,10 +667,10 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo "___________________________________________________________________________________________________________________"
                       echo
 
-echo -e " f - Find                                   p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     d - Play Directory                     e - Exit"
+echo -e " f - Find              t - Navigate Tree     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     d - Play Directory                    e - Exit"
  
-                      echo " a - All Videos        i - Info             s - Playlist           l - Last Download                      z - Set" 
-                      echo " c - Clear Results     m - More Options     v - Played List        y - Yt-dlp                             h - Help"
+                      echo " a - All Videos        i - Video Info        s - Playlist           l - Last Download                     z - Set" 
+                      echo " c - Clear Results     m - More Options      v - Played List        y - Yt-dlp                            h - Help"
                       echo                                                             
             fi
     else
@@ -681,10 +684,10 @@ echo
 echo " $der $viv4      Enter - Update Clipboard Display                 1 2 3 4 5 - Default Dirs"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo -e " f - Find                                   p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     d - Play Directory                     e - Exit"
+echo -e " f - Find              t - Navigate Tree     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     d - Play Directory                    e - Exit"
  
-                      echo " a - All Videos        i - Info             s - Playlist           l - Last Download                      z - Set" 
-                      echo " c - Clear Results     m - More Options     v - Played List        y - Yt-dlp                             h - Help"
+echo " a - All Videos        i - Video Info        s - Playlist           l - Last Download                     z - Set" 
+echo " c - Clear Results     m - More Options      v - Played List        y - Yt-dlp                            h - Help"
 echo                                                             
 
   else  # file does not exist
@@ -697,20 +700,17 @@ echo
 echo " $der $viv4      Enter - Update Clipboard Display                 1 2 3 4 5 - Default Dirs"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " f - Find                                   p - Play Clipboard     d - Play Directory                     e - Exit"
-echo " a - All Videos        i - Info             s - Playlist           l - Last Download                      z - Set" 
-echo " c - Clear Results     m - More Options     v - Played List        y - Yt-dlp                             h - Help"
+echo " f - Find              t - Navigate Tree     p - Play Clipboard     d - Play Directory                    e - Exit"
+echo " a - All Videos        i - Video Info        s - Playlist           l - Last Download                     z - Set" 
+echo " c - Clear Results     m - More Options      v - Played List        y - Yt-dlp                            h - Help"
 echo         
-echo                                                             
-
+                                         
 
 fi
 fi
 
 echo -en " Enter Option: "
 read -r -n1 optionf
-
-
 
 }
 
@@ -816,7 +816,90 @@ sleep .7
 break ;;
 
 
-d)  # (@PLAY DIRECTORY)
+t)
+##################################################################################################################################################
+###########################   (@NAVIGATE TREE)  t  ###############################################################################################
+##################################################################################################################################################
+
+echo " " | xclip -sel clip  # clearing the clipboard
+
+function navtree {
+
+pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+
+clear
+find "$PWD" -type d -iname "*" 2>/dev/null
+echo
+ttotal=$(find  "$PWD" -type d -iname "*" 2>/dev/null | wc -l)   # number of files found
+
+echo "Total Directories: "$ttotal" "
+echo
+echo "Tree Top:" "$grabdirfornav2"                                                                   	                                         
+
+notify-send "Videoinfox is done processing: Directory Tree" "Total Directories Found: "$ttotal" " # GUI Notification.
+
+echo
+echo "Directory:" "$PWD"
+echo "Clipboard:" "$pasteclip"
+echo "___________________________________________________________________________________________________________________"
+echo  
+echo " ""$ver"" >>> NAVIGATE TREE             Copy 1 line from above to the clipboard.  Press enter to comfirm."
+echo "___________________________________________________________________________________________________________________" 
+echo
+echo " c - Change Directory     u - Up One Level     t - Treetop     d - Play Directory                         q - Quit"
+echo
+echo -en " Enter Option: "
+read -r -n1 option
+echo
+}
+  
+         while true
+         do
+         navtree
+	    case $option in
+         
+  
+         q)  # QUIT
+         cd "$grabdirfornav2" &>/dev/null 
+         echo " " | xclip -sel clip  # clearing the clipboard
+         pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
+         break
+         ;;
+
+
+         u)  # UP ONE LEVEL 
+         if [ "$grabdirfornav2" = "$PWD" ]  # when   Up One Level   reaches the    Treetop    no   cd..   out of the parennt directory 
+           then
+               echo
+               echo " At the treetop. Can't go any higher . . ."
+               sleep 1.7
+
+           else
+               cd .. &>/dev/null
+         fi 
+         ;;
+        
+
+         t)  # TREE TOP
+         cd "$grabdirfornav2" &>/dev/null
+         ;;          
+
+
+         c)  # CHANGE TO DIRECTORY IN CLIPBOARD
+         echo
+         pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
+         cd "$pasteclip" 2>/dev/null 
+         echo " " | xclip -sel clip  # clearing the clipboard
+         pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
+
+         #echo " Working Driectory: ""$PWD"""  # <pwd>  print current working directory to the screen 
+         #sleep 1.7                    
+         ;;
+
+
+##################################################################################################################################################
+          d)  # (@PLAY DIRECTORY) NAVIGATE TREE  #################################################################################################
+##################################################################################################################################################
 
 for f in *.{mp4,webm,mkv,avi,divx}
 do 
@@ -831,6 +914,7 @@ do
       echo
 
       echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$f")  " Duration:" $(ffmpeg -i "$f" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+      
       echo
       echo
       echo " Video Player Controls:"
@@ -844,8 +928,62 @@ do
       echo " - Quit: q"      
       echo -e "\n"
 
-      ffplay -fs -autoexit &> /dev/null "$f" #  play file  $f
-      # everytime ffplay exits contintue with no user input
+      ffplay -fs -autoexit &> /dev/null "$f" #  play file  $f  then quit player when done playing
+      # everytime ffplay exits. contintue with no user input
+
+      echo " To bypass the 3 second wait press enter with no entry"
+      echo
+      echo -e "\033[5m 3 seconds remaining to quit Directory Play\033m\033[0m\033[5m\033[5m\033[0m"      
+      echo 
+      read -t 3 -p " Press any key then press enter to quit : " playdir  # read will timeout for 3 seconds
+                                                                         # if no input is entered the next video will play
+           if [[ $playdir ]]                                             # if enter is pressed without any input the next video will play
+             then                                                        # press any key then enter to quit Play Directory
+                 break
+             else
+                 :
+           fi
+done
+;;
+
+         esac
+         done
+         ;;
+ 
+
+##################################################################################################################################################
+d)  # (@PLAY DIRECTORY) HOME   ###################################################################################################################
+##################################################################################################################################################
+
+for f in *.{mp4,webm,mkv,avi,divx}
+do 
+      clear
+      echo
+      echo "___________________________________________________________________________________________________________________"
+      echo
+      echo " ""$der"" >>> PLAY DIRECTORY:" "$PWD" 
+      echo
+      echo " [PLAY]> "$f" "
+      echo "___________________________________________________________________________________________________________________"
+      echo
+
+      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$f")  " Duration:" $(ffmpeg -i "$f" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+      
+      echo
+      echo
+      echo " Video Player Controls:"
+      echo                             
+      echo " - Fullscreen Toggle: f"
+      echo
+      echo " - Play/Pause Toggle: space bar"
+      echo
+      echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
+      echo
+      echo " - Quit: q"      
+      echo -e "\n"
+
+      ffplay -fs -autoexit &> /dev/null "$f" #  play file  $f  then quit player when done playing
+      # everytime ffplay exits. contintue with no user input
 
       echo " To bypass the 3 second wait press enter with no entry"
       echo
@@ -983,10 +1121,12 @@ echo "                                                                          
      #echo " " | xclip -sel clip  # copy message in quotes to the clipboard. clearing out the clipboard
      #pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
      #;;
-	
 
+	
+#############################################################################################################################################
      p) 
      #  @PLAY CLIPBOARD - <HOME> !!!!!!!!!!!!!!!!! MASTER TEMPLATE this is the one that gets the edits then pasted in 3 other places.
+############################################################################################################################################
      
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
@@ -1114,9 +1254,9 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       read -r -p " Press enter to Continue" 
       ;;
 
-
-v)
-     #  VIEW/PLAYED LIST - <HOME>   
+##################################################################################################################################################
+v)                                  ##############################################################################################################    
+     #  VIEW/PLAYED LIST - <HOME>   ##############################################################################################################
      function menuv {
 
 ##################################################################################################################################################
@@ -1171,8 +1311,6 @@ echo "Clipboard: ""$pasteclip"
 #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
 #=================================================================================================================================================
 ##################################################################################################################################################
-
-# the following code over explains itself for those that want to learn step by step of how to follow the logic.
 
 # the 2 lines of below code are creating two new variables for the following loop.
 # 1st variable <$grabpaste>   <cut> is used to cut all characters after the 4th character from the variable. Only 4 chatacters are needed to look for <http>
@@ -1727,6 +1865,7 @@ cat ~/.config/videoinfox/videoinfo.tmp | tr , "\n" | sort > ~/.config/videoinfox
  
           echo " " | xclip -sel clip  # clearing the clipboard
           echo
+
           echo " Clpboard content added to playlist"
           echo
           echo " Clipboard Cleared"
@@ -2373,8 +2512,6 @@ echo "Clipboard:" "$pasteclip"
 #=================================================================================================================================================
 ##################################################################################################################################################
 
-# the following code over explains itself for those that want to learn step by step of how to follow the logic.
-
 # the 2 lines of below code are creating two new variables for the following loop.
 # 1st variable <$grabpaste>   <cut> is used to cut all characters after the 4th character from the variable. Only 4 chatacters are needed to look for <http>
 # 2nd variable <$grabpaste2>  <cut> is used to cut all characters after the 1st character from the variable. Only 1 character is needed to look for </>  
@@ -2639,8 +2776,6 @@ echo "Clipboard: ""$pasteclip"
 #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
 #=================================================================================================================================================
 ##################################################################################################################################################
-
-# the following code over explains itself for those that want to learn step by step of how to follow the logic.
 
 # the 2 lines of below code are creating two new variables for the following loop.
 # 1st variable <$grabpaste>   <cut> is used to cut all characters after the 4th character from the variable. Only 4 chatacters are needed to look for <http>
