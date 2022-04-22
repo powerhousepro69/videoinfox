@@ -1,10 +1,21 @@
-videoinfox v.2.055 &nbsp; Where Video Play Is A Clipboard Copy Away
+videoinfox v.2.056 &nbsp; Where Video Play Is A Clipboard Copy Away
 
 
 Find local Video Files fast, immediately play and get info on.
 Download Video Urls effortlessly and autoplay with Play Clipboard.
 
-v.2.055 update added:  Navigate Tree with Play Directory: Change Directory, Up One Level and Treetop
+THIS UPDATE ADDED:  missing features in Navigate Tree
+
+    - Clipboard content is now saved when entering Navigate Tree and restored on quit.
+
+    - Total Files: (recursive) was added to the display.
+
+    - When navigating in or out of a directory, 
+      Play Directory will blink when video files are available in the current directory.
+
+
+    Yt-dlp menu - Clear clipboard after download.
+
 
 
 Note:  Screenshots below need updated.
@@ -31,9 +42,13 @@ Videoinfox Features:
 
 
 - Navigation was designed to be robust and efficient. One keypress for all menu selections.
+- Check for update on startup and notifity if update is available.
 - Play either a local file or a downloadable video url via yt-dlp.
 - See codec, resolution and duration on the playing video.
 - Play Clipboard available in: &nbsp; -Home &nbsp; -Played List &nbsp; -Played List &nbsp; -Yt-dlp menu &nbsp; -View Downloads
+- Play Directory with autoplay on Home Screen.
+- Navigate Tree with Play Directory notification when there are video files in the current directory.
+- Video Player (ffplay) auto closes when the video ends.
 - Auto clear the url link out of the clipboard after the video player is closed.
 - To watch the last download after Play Clipboard cleared the link select Last Download  <Home> <Yt-dlp>
 - Auto clear the clipboard of invalid files and urls.
@@ -60,9 +75,8 @@ Videoinfox Features:
 - Recursive count of videos broken down by video type.  <Video Count>
 - Recursive duration (days:hrs:min:sec) Save per directory.  <Video Duration>
 - GUI notifications.
-- Check for update on startup and notifity if update is available.
-- Video Player (ffplay) auto closes when the video ends.
-- Play Directory with autoplay on Home Screen.
+
+
 
  
 To use Play Clipboard:
