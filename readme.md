@@ -14,7 +14,7 @@ THIS UPDATE ADDED:  missing features in Navigate Tree
   Play Directory will blink when video files are available in the current directory.
 
 
-Yt-dlp menu - Clear clipboard after download.
+- Yt-dlp menu - Clear clipboard after download.
 
 
 
