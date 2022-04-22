@@ -62,7 +62,7 @@ Videoinfox Features:
 - GUI notifications.
 - Check for update on startup and notifity if update is available.
 - Video Player (ffplay) auto closes when the video ends.
-- Play Directory with autoplay.
+- Play Directory with autoplay on Home Screen.
 
  
 To use Play Clipboard:
