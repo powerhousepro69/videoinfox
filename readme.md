@@ -38,7 +38,7 @@ Videoinfox Features:
 - To watch the last download after Play Clipboard cleared the link select Last Download  <Home> <Yt-dlp>
 - Auto clear the clipboard of invalid files and urls.
 - Press enter after your copy to the clipboard to validate clipboard content.
-- File types searched for :   .webm  .mp4  .mkv  .avi  .divx
+- File types searched for : &nbsp; .webm  &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx
 - Keep track of everything played  <Played List>
 - Save a list of videos from find results and played list  <Play List>
 - Remove duplicates from the playlist and played video.
