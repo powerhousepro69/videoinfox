@@ -33,7 +33,7 @@ Videoinfox Features:
 - Navigation was designed to be robust and efficient. One keypress for all menu selections.
 - Play either a local file or a downloadable video url via yt-dlp.
 - See codec, resolution and duration on the playing video.
-- Play Clipboard available in:  -Home  -Played List  -Played List  -Yt-dlp menu.
+- Play Clipboard available in: &nbsp; -Home &nbsp; -Played List &nbsp; -Played List &nbsp; -Yt-dlp menu &nbsp; -View Downloads
 - Auto clear the url link out of the clipboard after the video player is closed.
 - To watch the last download after Play Clipboard cleared the link select Last Download  <Home> <Yt-dlp>
 - Auto clear the clipboard of invalid files and urls.
