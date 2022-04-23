@@ -1,4 +1,4 @@
-videoinfox v.2.057 &nbsp; Where Video Play Is A Clipboard Copy Away
+videoinfox v.2.058 &nbsp; Where Video Play Is A Clipboard Copy Away
 
 
 Find local Video Files fast, immediately play and get info on.
@@ -6,10 +6,13 @@ Download Video Urls effortlessly and autoplay with Play Clipboard.
 
 THIS UPDATE ADDED:  
 
-1 2 3 4 5 - Default Dirs  Navigate Tree
-                    
-Files:  (file count 1 dir deep)  Navigate Tree
- <br />
+Yt-dlp menu update.  Now 2 download choices:
+
+d - Download Default - Yt-dlp with no arguments.
+c - Download Choose  - Choose video type and qualiy before download.
+
+Added content to Help.
+
 
 Note:  Screenshots below need updated.
 
