@@ -6,6 +6,10 @@ Download Video Urls effortlessly and autoplay with Play Clipboard.
 
 THIS UPDATE ADDED: 
 
+Fixed typo in Navigate Tree
+
+LAST UPDATE ADDED:
+
 Blinking Change Directory in Navigate Tree.  Change Directory blinks when valid directory is in clipboard.
 
 
