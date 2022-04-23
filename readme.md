@@ -1,4 +1,4 @@
-videoinfox v.2.059 &nbsp; Where Video Play Is A Clipboard Copy Away
+videoinfox v.2.060 &nbsp; Where Video Play Is A Clipboard Copy Away
 
 
 Find local Video Files fast, immediately play and get info on.
