@@ -1,4 +1,4 @@
-videoinfox v.2.058 &nbsp; Where Video Play Is A Clipboard Copy Away
+videoinfox v.2.059 &nbsp; Where Video Play Is A Clipboard Copy Away
 
 
 Find local Video Files fast, immediately play and get info on.
@@ -6,11 +6,7 @@ Download Video Urls effortlessly and autoplay with Play Clipboard.
 
 THIS UPDATE ADDED:  
 
-Yt-dlp menu update.  Now 2 download choices:
 
-d - Download Default - Yt-dlp with no arguments.
-
-c - Download Choose  - Choose video type and qualiy before download.
 
 Added content to Help.
 
@@ -39,40 +35,43 @@ Videoinfox Features:
 
 
 - Navigation was designed to be robust and efficient. One keypress for all menu selections.
-- Check for update on startup and notifity if update is available.
-- Download and update Videoinfox. <Set>
-- Play either a local file or a downloadable video url via yt-dlp.
-- See codec, resolution and duration on the playing video.
-- Play Clipboard available in: &nbsp; -Home &nbsp; -Played List &nbsp; -Played List &nbsp; -Yt-dlp menu &nbsp; -View Downloads
-- Play Clipboard with blinking notification when there is a valid video file or video url for play.
-- Play Directory with autoplay on Home Screen.
-- Navigate Tree with blinking Play Directory notification when there are video files in the current directory.
-- Video Player (ffplay) auto closes when the video ends.
-- Auto clear the url link out of the clipboard after the video player is closed.
-- To watch the last download after Play Clipboard cleared the link select Last Download  <Home> <Yt-dlp>
-- Auto clear the clipboard of invalid files and urls.
-- Press enter after your copy to the clipboard to validate clipboard content.
-- File types searched for : &nbsp; .webm  &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx
-- Keep track of everything played  <Played List>
-- Save a list of videos from find results and played list  <Play List>
-- Remove duplicates from the playlist and played video.
-- Remove any entries from lists that don't start with a  /
-- Enter a file with full path to play and get info. p  <Video File>
-- Auto save last find result(s) and autoload until deleted.
-- Yt-dlp integration for easy download and play.  <Yt-dlp>
-- Download video to play later.   <Download Video>
-- Pick file type and quality of video before download.  <Download Video>
-- Download completed, auto play, delete when the player is closed. <Self Destruct>
-- Watch last download <Last Download>
-- Download and update Yt-dlp. <Set>
-- Rapid directory changing by setting default directories. <Set>
-- Save directory state on exit to load on next run.
-- Change directory by entering full path. <Change Directory>
-- Find directory and change to it by copying it to clipboard.  <Find Directory>
-- List video info one directory deep. Save per directory. <List Directory>
-- Recursive count of videos broken down by video type.  <Video Count>
-- Recursive duration (days:hrs:min:sec) Save per directory.  <Video Duration>
-- GUI notifications.
+  - Check for update on startup and notifity if update is available.
+  - Download and update Videoinfox.
+  - Play either a local file or a downloadable video url via yt-dlp.
+  - See codec, resolution and duration on the playing video.
+  - Play Clipboard available in:   -Home   -Played List   -Played List   -Yt-dlp menu   -View Downloads
+  - Play Clipboard blinking notification when there is a valid video file or video url for play.
+  - Play Directory autoplay on the Home Screen.
+  - Navigate Tree blinking  Play Directory  notification when there are video files in the current directory.
+  - Navigate Tree blinking  Change Directory  notification when there is a valid directory in the clipboard
+  - Video Player (ffplay) auto closes when the video ends.
+  - Auto clear the url link out of the clipboard after the video player is closed.
+  - To watch the last download after Play Clipboard cleared the link select Last Download.
+  - Auto clear the clipboard of invalid files and urls.
+  - Press enter after your copy to the clipboard to validate clipboard content.
+  - File types searched for :   .webm   .mp4   .mkv   .avi   .divx
+  - Keep track of everything played except Play Dirctory
+  - Save a list of videos from find results and played list
+  - Remove duplicates from the playlist and played video.
+  - Remove any entries from lists that don't start with a /
+  - Enter a file with full path to play and get info. p
+  - Auto save last find result(s) and autoload until deleted.
+  - Yt-dlp integration for easy download and play.
+  - Download video to play later.
+  - Download Default - Yt-dlp with no arguments.
+  - Download Choose  - Choose video type and qualiy before download.
+  - Download completed, auto play, delete when the player is closed. (self Destruct)
+  - Watch last download.
+  - Download and update Yt-dlp.
+  - Rapid directory changing by setting default directories.
+  - Save directory state on exit to load on next run.
+  - Change directory by entering full path.
+  - Find directory and change to it by copying it to clipboard.
+  - List video info one directory deep. Save per directory.
+  - Recursive count of videos broken down by video type.
+  - Recursive duration (days:hrs:min:sec) Save per directory.
+  - GUI notifications.
+
 
 
 
