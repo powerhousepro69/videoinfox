@@ -4,9 +4,11 @@ videoinfox v.2.056 &nbsp; Where Video Play Is A Clipboard Copy Away
 Find local Video Files fast, immediately play and get info on.
 Download Video Urls effortlessly and autoplay with Play Clipboard.
 
-THIS UPDATE ADDED:  1 2 3 4 5 - Default Dirs  to Navigate Tree
+THIS UPDATE ADDED:  
+
+1 2 3 4 5 - Default Dirs  to Navigate Tree
                     
-                    added  Files:  (file count 1 dir deep) to Navigate Tree 
+Files:  (file count 1 dir deep) to Navigate Tree 
 
 
 
