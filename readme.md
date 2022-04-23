@@ -53,8 +53,8 @@ Videoinfox Features:
   - Auto clear the clipboard of invalid files and urls.
   - Press enter after your copy to the clipboard to validate clipboard content.
   - File types searched for :   .webm   .mp4   .mkv   .avi   .divx
-  - Keep track of everything played except Play Dirctory
-  - Save a list of videos from find results and played list
+  - Keep track of everything played except Play Directory.
+  - Save a list of videos from find results and played list.
   - Remove duplicates from the playlist and played video.
   - Remove any entries from lists that don't start with a /
   - Enter a file with full path to play and get info. p
