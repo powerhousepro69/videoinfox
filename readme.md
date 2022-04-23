@@ -9,6 +9,7 @@ THIS UPDATE ADDED:
 Yt-dlp menu update.  Now 2 download choices:
 
 d - Download Default - Yt-dlp with no arguments.
+
 c - Download Choose  - Choose video type and qualiy before download.
 
 Added content to Help.
