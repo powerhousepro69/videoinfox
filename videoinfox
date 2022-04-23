@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#  file : videoinfox v2.056									         
+#  file : videoinfox v2.057									         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfo's Version Number is set.
-ver="Videoinfox v2.056"
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m056")  # Version Number witth blinking dot
+ver="Videoinfox v2.057"
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m057")  # Version Number witth blinking dot
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -881,10 +881,12 @@ echo
 echo "Treetop:" "$grabdirfornav2"                                                                   	                                         
 echo
 echo "Directory:" "$PWD"
+echo "Files:" "$blinkit"
+echo
 echo "Clipboard:" "$pasteclip"
 echo "___________________________________________________________________________________________________________________"
 echo  
-echo " ""$ver"" >>> NAVIGATE TREE                             Copy 1 above result to clipboard then press enter"
+echo " ""$ver"" >>> NAVIGATE TREE           Enter - Update Clipboard Display           1 2 3 4 5 - Default Dirs"
 echo "___________________________________________________________________________________________________________________" 
 echo
 echo " c - Change Directory     u - Up One Level     t - Treetop     d = "$blinkit2"                         q - Quit"
@@ -899,7 +901,6 @@ echo
          navtree
 	    case $option in
          
-  
          q)  # QUIT
          cd "$grabdirfornav2" &>/dev/null   # restore directory
          echo " " | xclip -sel clip  # clearing the clipboard
@@ -908,6 +909,32 @@ echo
          ;;
 
 
+         1)  # CD DIRECTORY TO TV    
+         cd "$dir1" 
+         grabdirfornav2="$dir1"
+         ;;
+    
+         2)  # CD DIRECTORY TO MOVIES
+         grabdirfornav2="$dir2"
+         cd "$dir2" 
+         ;;
+
+         3)  # CHANGE DIRECTORY TO DOWNLOADS
+         grabdirfornav2="$dirsaved"
+         cd "$dirsaved" 
+         ;;
+   
+         4)  # CHANGE DIRECTORY TO EXTRA   
+         grabdirfornav2="$dir4"
+         cd "$dir4" 
+         ;;
+
+         5)  # CHANGE DIRECTORY TO LAST EXIT
+         grabdirfornav2="$dir5"
+         cd "$dir5" 
+         ;;
+       
+       
          u)  # UP ONE LEVEL 
          if [ "$grabdirfornav2" = "$PWD" ]  # when   Up One Level   reaches the    Treetop    no   cd..   out of the parent directory 
            then
