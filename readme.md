@@ -4,18 +4,10 @@ videoinfox v.2.056 &nbsp; Where Video Play Is A Clipboard Copy Away
 Find local Video Files fast, immediately play and get info on.
 Download Video Urls effortlessly and autoplay with Play Clipboard.
 
-THIS UPDATE ADDED:  missing features in Navigate Tree
+THIS UPDATE ADDED:  1 2 3 4 5 - Default Dirs  to Navigate Tree
+                    
+                    added  Files:  (file count 1 dir deep) to Navigate Tree 
 
-- Clipboard content is now saved when entering Navigate Tree and restored on quit.
-
-- Total Files: (recursive) was added to the display.
-
-- When navigating in or out of a directory, 
-  Play Directory will blink when video files are available in the current directory.
- <br />
- 
-- Yt-dlp menu - Clear clipboard after download.
- <br />
 
 
 Note:  Screenshots below need updated.
