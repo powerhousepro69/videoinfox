@@ -6,7 +6,7 @@ Download Video Urls effortlessly and autoplay with Play Clipboard.
 
 THIS UPDATE ADDED: 
 
-Blinking Change Directory in Navigate Tree.  Change Directory blink when valid directory is in clipboard.
+Blinking Change Directory in Navigate Tree.  Change Directory blinks when valid directory is in clipboard.
 
 
 
