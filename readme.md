@@ -6,9 +6,9 @@ Download Video Urls effortlessly and autoplay with Play Clipboard.
 
 THIS UPDATE ADDED:  
 
-1 2 3 4 5 - Default Dirs  to Navigate Tree
+1 2 3 4 5 - Default Dirs  Navigate Tree
                     
-Files:  (file count 1 dir deep) to Navigate Tree
+Files:  (file count 1 dir deep)  Navigate Tree
  <br />
 
 Note:  Screenshots below need updated.
