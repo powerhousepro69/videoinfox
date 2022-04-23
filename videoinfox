@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#  file : videoinfox v2.058									         
+#  file : videoinfox v2.059									         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfo's Version Number is set.
-ver="Videoinfox v2.058"
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m058")  # Version Number witth blinking dot
+ver="Videoinfox v2.059"
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m059")  # Version Number witth blinking dot
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -270,10 +270,10 @@ echo "                                                                          
       #echo "This File was Created: $(date) by" "$USER" >> ~/.config/videoinfox/videoinfo.playedlist
       #echo >> ~/.config/videoinfox/videoinfo.playedlist
 
-      #  SET DEFAULT LAST SEARCH to <2> Never Save
+      #  SET DEFAULT  LAST SEARCH  to <2> Never Save
       echo "2" > ~/.config/videoinfox/videoinfo.lastsearch-set
 
-      # SET DEFAULT yt-dlp DOWNLOAD DIRECTORY. It can be changed in the <yt-dlp> menu
+      # SET DEFAULT yt-dlp DOWNLOAD DIRECTORY. It can be changed in the <set> menu
       echo "$HOME"/Downloads > ~/.config/videoinfox/videoinfo.yt-download-dir
             
       # Writing header for new blank Saved Search  playlist  ++++++++ this was added to get around a bug until the bug gets squashed.       
@@ -315,8 +315,8 @@ echo "                                                                          
            done                  
 
 
-# download:  yt-dlp  from github and rename to: yt-dlp-fetched  
-wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O ~/.config/videoinfox/yt-dlp-fetched >/dev/null  
+# download:  yt-dlp  from github, rename to: yt-dlp-fetched, set execute bit, copy to  yt-dlp, pull version with -v and write it to a file.  
+wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O ~/.config/videoinfox/yt-dlp-fetched >/dev/null  # download and rename 
 chmod a+rx ~/.config/videoinfox/yt-dlp-fetched 2> /dev/null  # set <yt-dlp-fetched> execute bit
 cp ~/.config/videoinfox/yt-dlp-fetched ~/.config/videoinfox/yt-dlp  # copy: yt-dlp-fetched  to: yt-dlp  
 ~/.config/videoinfox/yt-dlp --version > ~/.config/videoinfox/videoinfo.yt-dlp.version # write yt-dlp ver number to file: yt-dlp.version  
@@ -387,19 +387,16 @@ echo "__________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfo.help
 
 
-echo " THIS UPDATE ADDED:  Yt-dlp menu update.  Now 2 download choices:" >> ~/.config/videoinfox/videoinfo.help
-echo >> ~/.config/videoinfox/videoinfo.help
-echo "                     d - Download Default - Yt-dlp with no arguements." >> ~/.config/videoinfox/videoinfo.help
-echo "                     c - Download Choose  - Choose video type and qualiy before download." >> ~/.config/videoinfox/videoinfo.help
-echo >> ~/.config/videoinfox/videoinfo.help
-echo "                     Navigate Tree - sorted summary data for any easier read." >> ~/.config/videoinfox/videoinfo.help
-echo >> ~/.config/videoinfox/videoinfo.help
-echo "                     Added content to Help." >> ~/.config/videoinfox/videoinfo.help
+echo " THIS UPDATE ADDED: Blinking  Change Directory  in  Navigate Tree." >> ~/.config/videoinfox/videoinfo.help
+echo
+echo "                    Blink when valid directory in clipboard." >> ~/.config/videoinfox/videoinfo.help
+
 
 
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo  >> ~/.config/videoinfox/videoinfo.help
 echo " Find loacal Video Files fast, immediately play and get info on." >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
 echo " Download Video Urls effortlessly and watch immediately." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -466,9 +463,10 @@ echo "  - Download and update Videoinfox." >> ~/.config/videoinfox/videoinfo.hel
 echo "  - Play either a local file or a downloadable video url via yt-dlp." >> ~/.config/videoinfox/videoinfo.help 
 echo "  - See codec, resolution and duration on the playing video." >> ~/.config/videoinfox/videoinfo.help 
 echo "  - Play Clipboard available in:   -Home   -Played List   -Played List   -Yt-dlp menu   -View Downloads" >> ~/.config/videoinfox/videoinfo.help 
-echo "  - Play Clipboard with blinking notification when there is a valid video file or video url for play." >> ~/.config/videoinfox/videoinfo.help 
-echo "  - Play Directory with autoplay on Home Screen." >> ~/.config/videoinfox/videoinfo.help 
-echo "  - Navigate Tree with blinking Play Directory notification when there are video files in the current directory." >> ~/.config/videoinfox/videoinfo.help 
+echo "  - Play Clipboard blinking notification when there is a valid video file or video url for play." >> ~/.config/videoinfox/videoinfo.help 
+echo "  - Play Directory autoplay on the Home Screen." >> ~/.config/videoinfox/videoinfo.help 
+echo "  - Navigate Tree blinking  Play Directory  notification when there are video files in the current directory." >> ~/.config/videoinfox/videoinfo.help 
+echo "  - Navigate Tree blinking  Change Directory  notification when there is a valid directory in the clipboard" >> ~/.config/videoinfox/videoinfo.help 
 echo "  - Video Player (ffplay) auto closes when the video ends." >> ~/.config/videoinfox/videoinfo.help 
 echo "  - Auto clear the url link out of the clipboard after the video player is closed." >> ~/.config/videoinfox/videoinfo.help 
 echo "  - To watch the last download after Play Clipboard cleared the link select Last Download." >> ~/.config/videoinfox/videoinfo.help 
@@ -483,7 +481,8 @@ echo "  - Enter a file with full path to play and get info. p" >> ~/.config/vide
 echo "  - Auto save last find result(s) and autoload until deleted." >> ~/.config/videoinfox/videoinfo.help 
 echo "  - Yt-dlp integration for easy download and play." >> ~/.config/videoinfox/videoinfo.help 
 echo "  - Download video to play later." >> ~/.config/videoinfox/videoinfo.help 
-echo "  - Pick file type and quality of video before download." >> ~/.config/videoinfox/videoinfo.help 
+echo "  - Download Default - Yt-dlp with no arguments."  >> ~/.config/videoinfox/videoinfo.help 
+echo "  - Download Choose  - Choose video type and qualiy before download."  >> ~/.config/videoinfox/videoinfo.help 
 echo "  - Download completed, auto play, delete when the player is closed. (self Destruct)" >> ~/.config/videoinfox/videoinfo.help 
 echo "  - Watch last download." >> ~/.config/videoinfox/videoinfo.help 
 echo "  - Download and update Yt-dlp." >> ~/.config/videoinfox/videoinfo.help 
@@ -659,7 +658,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
             if [ "$ytdlpconfirm" = "" ]  # if yt-dlp couldn't extract a name goto then
                   then
   
-                  echo " " | xclip -sel clip  # clearing out the clipboard
+                  echo "" | xclip -sel clip  # clearing out the clipboard
                   pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
                            # Videoinfox v2.00________________________________________ Videoinfox v2.00_________________________________________
@@ -710,7 +709,7 @@ echo
 
   else  # file does not exist
 
-echo " " | xclip -sel clip  # clearing out the clipboard
+echo "" | xclip -sel clip  # clearing out the clipboard
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
 echo "___________________________________________________________________________________________________________________"
@@ -841,7 +840,7 @@ t)
 
 pasteclip2=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content   save to restore on option quit
 
-echo " " | xclip -sel clip  # clearing the clipboard
+echo "" | xclip -sel clip  # clearing the clipboard
 
 
 function navtree {
@@ -864,7 +863,7 @@ notify-send "Videoinfox is done processing: Directory Tree" "Total Directories F
 ttotalnum=$(find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
 
 
-########## blinking routine for display ##########
+########## blinking routines for display ##########
 
 # not blinking
 playdir1=$(echo "Play Directory")
@@ -877,18 +876,33 @@ blinkit=$(find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o
 # if find results are zero goto then
 if [ "$blinkit" = 0 ]
   then
-      blinkit2="$playdir1"  # zero files. display non bliking  Playdirectory
+      blinkit2="$playdir1"  # zero files. non bliking  Playdirectory
   else
-      blinkit2="$playdir2" # not zero files. display blinking  Play Directory
+      blinkit2="$playdir2" # not zero files. blinking  Play Directory
 fi
-########## end blinking routine ################## 
+
+
+# not blinking
+changedir1=$(echo "Change Directory")
+# blinking
+changedir2=$(echo -e "\033[5mChange Directory\033m\033[0m\033[5m\033[5m\033[0m")
+
+# if directory exists goto then
+if [ -d "$pasteclip" ]
+  then
+      changedir3="$changedir2"  # if the directory exists, blinking  Change Directory
+  else
+      changedir3="$changedir1"  # if the directory doesn't exist, non blinking  Change Directory
+fi
+########## end blinking routines ################## 
+
 
 echo
 echo
-echo "Treetop:" "$grabdirfornav2"
-echo
 echo "Total Directories: "$ttotal" "
 echo "Total Files:" "$ttotalnum"                                                               	                                         
+echo
+echo "Treetop:" "$grabdirfornav2"
 echo
 echo "Directory:" "$PWD"
 echo "Total Files:" "$blinkit"
@@ -899,7 +913,7 @@ echo
 echo " ""$ver"" >>> NAVIGATE TREE           Enter - Update Clipboard Display           1 2 3 4 5 - Default Dirs"
 echo "___________________________________________________________________________________________________________________" 
 echo
-echo " c - Change Directory     u - Up One Level     t - Treetop     d = "$blinkit2"                         q - Quit"
+echo " c - "$changedir3"     u - Up One Level     t - Treetop     d = "$blinkit2"                         q - Quit"
 echo
 echo -en " Enter Option: "
 read -r -n1 option
@@ -913,7 +927,7 @@ echo
          
          q)  # QUIT
          cd "$grabdirfornav2" &>/dev/null   # restore directory
-         echo " " | xclip -sel clip  # clearing the clipboard
+         echo "" | xclip -sel clip  # clearing the clipboard
          pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
          break
          ;;
@@ -948,8 +962,8 @@ echo
          u)  # UP ONE LEVEL 
          if [ "$grabdirfornav2" = "$PWD" ]  # when   Up One Level   reaches the    Treetop    no   cd..   out of the parent directory 
            then
-               echo
-               echo " At the treetop. Can't go any higher . . ."
+               #echo
+               echo " At treetop. Can't go any higher . . ."
                sleep 1.7
 
            else
@@ -965,10 +979,22 @@ echo
 
          c)  # CHANGE TO DIRECTORY IN CLIPBOARD
          echo
-         pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
-         cd "$pasteclip" 2>/dev/null  # change to the directory in the clipboard
-         echo " " | xclip -sel clip  # clearing the clipboard
-         pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content  
+         pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content 
+
+         treelength=$(echo "$grabdirfornav2" |awk '{print length}')  # get number of characters in treetop         
+         clipdat=$(echo "$pasteclip" | head -c"$treelength")  # grabbing the first  $treelength  characters
+
+         if [ "$clipdat" = "$grabdirfornav2" ]  # if clipboard string = treetop go then
+           then
+               cd "$pasteclip" 2>/dev/null  # change to the directory in the clipboard
+           else
+               echo " At treetop. Can't go any higher . . ."
+               sleep 1.7
+         fi
+        
+         echo "" | xclip -sel clip  # clearing the clipboard
+         pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content 
+
          ;;
 
 
@@ -1196,7 +1222,7 @@ echo "                                                                          
 
      #x) 
      #  CLEAR CLIPBOARD - <HOME> 
-     #echo " " | xclip -sel clip  # copy message in quotes to the clipboard. clearing out the clipboard
+     #echo "" | xclip -sel clip  # copy message in quotes to the clipboard. clearing out the clipboard
      #pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
      #;;
 
@@ -1265,7 +1291,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List File  
       ffplay -fs -autoexit &> /dev/null "$ytdlplast"  
       
-      echo " " | xclip -sel clip  # clearing out the clipboard
+      echo "" | xclip -sel clip  # clearing out the clipboard
       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
       
       cd "$grabdir"   # restore dir prior to entering yt-dlp menu
@@ -1310,7 +1336,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
       ffplay -fs -autoexit "$pasteclip" 2>/dev/null  # play video in clipboard
 
-      #echo " " | xclip -sel clip  # clearing out the clipboard
+      #echo "" | xclip -sel clip  # clearing out the clipboard
       #pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
       echo " Played List Closed"
@@ -1412,7 +1438,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
             if [ "$ytdlpconfirm" = "" ]  
                   then
 
-                      echo " " | xclip -sel clip  # clearing out the clipboard
+                      echo "" | xclip -sel clip  # clearing out the clipboard
                       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
                            # Videoinfox v2.00________________________________________ Videoinfox v2.00_________________________________________
@@ -1463,7 +1489,7 @@ echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     D - Del
 
         else 
 
-            echo " " | xclip -sel clip  # clearing out the clipboard
+            echo "" | xclip -sel clip  # clearing out the clipboard
             pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
             echo "___________________________________________________________________________________________________________________"
@@ -1567,7 +1593,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List File  
       ffplay -fs -autoexit &> /dev/null "$ytdlplast"  
       
-      echo " " | xclip -sel clip  # clearing out the clipboard
+      echo "" | xclip -sel clip  # clearing out the clipboard
       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
       
       cd "$grabdir"   # restore dir prior to entering yt-dlp menu
@@ -1610,7 +1636,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
       ffplay -fs -autoexit "$pasteclip" 2>/dev/null  # play video in clipboard
 
-      #echo " " | xclip -sel clip  # clearing out the clipboard
+      #echo "" | xclip -sel clip  # clearing out the clipboard
       #pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
       echo " Played List Closed"
@@ -1681,7 +1707,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
             if [ "$ytdlpconfirm" = "" ]  
                   then
 
-                      echo " " | xclip -sel clip  # clearing out the clipboard
+                      echo "" | xclip -sel clip  # clearing out the clipboard
                       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
                            # Videoinfox v2.00________________________________________ Videoinfox v2.00_________________________________________
@@ -1733,7 +1759,7 @@ echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     D - Del
 
         else 
 
-           echo " " | xclip -sel clip  # clearing out the clipboard
+           echo "" | xclip -sel clip  # clearing out the clipboard
            pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
             echo "___________________________________________________________________________________________________________________"
@@ -1839,7 +1865,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List File  
       ffplay -fs -autoexit &> /dev/null "$ytdlplast"  
       
-      echo " " | xclip -sel clip  # clearing out the clipboard
+      echo "" | xclip -sel clip  # clearing out the clipboard
       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
       
       cd "$grabdir"   # restore dir prior to entering yt-dlp menu
@@ -1882,7 +1908,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
       ffplay -fs -autoexit "$pasteclip" 2>/dev/null  # play video in clipboard
 
-      #echo " " | xclip -sel clip  # clearing out the clipboard
+      #echo "" | xclip -sel clip  # clearing out the clipboard
       #pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
       echo " Played List Closed"
@@ -1898,7 +1924,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
           #  <sed> puts each result on its own line with a comma at the end of each line.
           sed "s/$/,/g" ~/.config/videoinfox/videoinfo.findwork > ~/.config/videoinfox/videoinfo.findwork2
           cat ~/.config/videoinfox/videoinfo.findwork2
-          echo " " | xclip -sel clip  # clearing the clipboard before entering add to playlist
+          echo "" | xclip -sel clip  # clearing the clipboard before entering add to playlist
 
           
           function menua {
@@ -1941,7 +1967,7 @@ cat ~/.config/videoinfox/videoinfo.tmp | tr , "\n" | sort > ~/.config/videoinfox
           rm ~/.config/videoinfox/videoinfo.tmp
           rm ~/.config/videoinfox/videoinfo.tmp2
  
-          echo " " | xclip -sel clip  # clearing the clipboard
+          echo "" | xclip -sel clip  # clearing the clipboard
           echo
 
           echo " Clpboard content added to playlist"
@@ -2626,7 +2652,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " s - Self Destruct"
                       echo
                   
-                      echo " " | xclip -sel clip  # clearing out the clipboard
+                      echo "" | xclip -sel clip  # clearing out the clipboard
                       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
 
@@ -2667,7 +2693,7 @@ echo -e " d - Download Default     l - Last Download     v - View Downloads     
 
         else 
 
-            echo " " | xclip -sel clip  # clearing out the clipboard
+            echo "" | xclip -sel clip  # clearing out the clipboard
             pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
             echo "___________________________________________________________________________________________________________________"
@@ -2765,7 +2791,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List File  
       ffplay -fs -autoexit &> /dev/null "$ytdlplast"  
       
-      echo " " | xclip -sel clip  # clearing out the clipboard
+      echo "" | xclip -sel clip  # clearing out the clipboard
       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
       
       cd "$grabdir"   # restore dir prior to entering yt-dlp menu
@@ -2808,7 +2834,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
       ffplay -fs -autoexit "$pasteclip" 2>/dev/null  # play video in clipboard
 
-      #echo " " | xclip -sel clip  # clearing out the clipboard
+      #echo "" | xclip -sel clip  # clearing out the clipboard
       #pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
       echo " Played List Closed"
@@ -2875,7 +2901,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
             if [ "$ytdlpconfirm" = "" ]  
                   then
 
-                      echo " " | xclip -sel clip  # clearing out the clipboard
+                      echo "" | xclip -sel clip  # clearing out the clipboard
                       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
                            # Videoinfox v2.00________________________________________ Videoinfox v2.00_________________________________________
@@ -2926,7 +2952,7 @@ echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m            
 
         else 
 
-            echo " " | xclip -sel clip  # clearing out the clipboard
+            echo "" | xclip -sel clip  # clearing out the clipboard
             pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
             echo "___________________________________________________________________________________________________________________"
@@ -3216,7 +3242,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       
               read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
               
-              echo " " | xclip -sel clip  # clearing out the clipboard
+              echo "" | xclip -sel clip  # clearing out the clipboard
               pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
               ;;
 
@@ -3251,7 +3277,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
                    sleep 1
               done      
               
-              echo " " | xclip -sel clip  # clearing out the clipboard
+              echo "" | xclip -sel clip  # clearing out the clipboard
               pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
               ;; 
