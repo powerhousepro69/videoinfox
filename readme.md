@@ -5,7 +5,7 @@ Find local Video Files fast, immediately play and get info on.
 Download Video Urls effortlessly and autoplay with Play Clipboard.
 
 THIS UPDATE ADDED: Bug Squashed
- <br />
+<br />
 
 LAST UPDATE v2.061 
 
