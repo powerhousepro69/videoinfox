@@ -49,7 +49,7 @@ Videoinfox Features:
   - Check for update on startup and notifity if update is available.
   - Download and update Videoinfox.
   - Play either a local file or a downloadable video url via yt-dlp.
-  - Create download list(s) of video urls with your preferred text editor & videoinfox will use yt-dlp to download the list.
+  - Create Download List(s) of video urls with your preferred text editor & videoinfox will use yt-dlp to download the list.
   - See codec, resolution and duration on the playing video.
   - Play Clipboard available in:   -Home   -Played List   -Played List   -Yt-dlp menu   -View Downloads
   - Play Clipboard blinking notification when there is a valid video file or video url for play.
