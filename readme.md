@@ -87,7 +87,7 @@ This feature will auto clear invalid clipboard content.
 
 If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 
-Dependencies listed at bottom of page.
+#### Dependencies listed at bottom of page.
 
 <br />
 Home screen with video url it the clipboard.&nbsp; &nbsp; Press&nbsp;  p &nbsp;to download and autoplay full screen.
