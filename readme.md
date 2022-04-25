@@ -72,11 +72,10 @@ Play Clipboard voodoo wouldn't have been possible without XCLIP
  
 ### To use Play Clipboard:
 
-#### Copy a local file including full path to the clipboard and press  enter  to verify the file is valid. The p to Play Clipboard.
-#### Then  p  to Play Clipboard.
+#### Copy a local file including full path to the clipboard and press  enter  to verify the file is valid. Then  p  to Play Clipboard.
  
-#### Copy a video url to the clipboard and press  enter  to verify the url is valid.
-#### Then  p  to Play Clipboard.
+#### Copy a video url to the clipboard and press  enter  to verify the url is valid. The  p  to Play Clipboard.
+
 
 ##### Note: Pressing  enter  after content is copied to the clipboard isn't required before pressing  p
 #####       It is just to vaidate the clipboard content for the display.
@@ -88,7 +87,7 @@ Play Clipboard voodoo wouldn't have been possible without XCLIP
 
 If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 
- Dependencies listed at bottom of page.
+Dependencies listed at bottom of page.
 
 <br />
 Home screen with video url it the clipboard.&nbsp; &nbsp; Press&nbsp;  p &nbsp;to download and autoplay full screen.
