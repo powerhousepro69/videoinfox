@@ -25,7 +25,7 @@ The help located in:   Download List   explains how the download list feature wo
 Added content to Help.
 
 
-Note:  Screenshots below need updated.
+Note:  Screenshots were updated.
 
 
 
