@@ -136,6 +136,11 @@ Find
 
 
 <br />
+Navigate Tree
+
+![Navigate Tree](https://i.imgur.com/fWh8p4v.png)
+
+<br />
 Playlist &nbsp; (also Played List)
 
 ![Videoinfox HOME](https://i.imgur.com/hpiQMqU.png)
