@@ -194,7 +194,6 @@ Dependencies
 #### Setup for first the run or if the videoinfox directory gets deleted anytime after the first run.
 
 <br />
-<br />
 First Run
 
 ![Videoinfox FIRST RUN](https://i.imgur.com/IzaDGUs.png)
