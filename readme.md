@@ -1,5 +1,6 @@
 # Videoinfox v.2.062 &nbsp; Where Video Play is a Clipboard Copy Away
 
+## Create your own url download list and Videoinfox will downloadf the entire lit.
 
 #### Find local Video Files fast, immediately play and get info on.
 #### Download Video Urls effortlessly and autoplay with Play Clipboard.
