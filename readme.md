@@ -1,10 +1,12 @@
-videoinfox v.2.061 &nbsp; Where Video Play Is A Clipboard Copy Away
+videoinfox v.2.062 &nbsp; Where Video Play Is A Clipboard Copy Away
 
 
 Find local Video Files fast, immediately play and get info on.
 Download Video Urls effortlessly and autoplay with Play Clipboard.
 
-THIS UPDATE ADDED: 
+THIS UPDATE ADDED: Bug Squashed
+
+LAST UPDATE v2.061 
 
 Download List added to the Yt-dlp Menu
 
