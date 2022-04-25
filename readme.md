@@ -6,14 +6,10 @@
 #### Download Video Urls effortlessly and autoplay with Play Clipboard.
 <br />
 
-THIS UPDATE ADDED: Bug Squashed
+THIS UPDATE ADDED: Bug Squashed and help edited.
 <br />
 
 
-Added content to Help.
-
-
- <br />
 
 To install &nbsp;: &nbsp;Run the 2 lines below.
 ```
