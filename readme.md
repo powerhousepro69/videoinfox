@@ -77,10 +77,10 @@ Play Clipboard voodoo wouldn't have been possible without XCLIP
 #### Copy a video url to the clipboard and press  enter  to verify the url is valid. The  p  to Play Clipboard.
 
 
-##### Note: Pressing  enter  after content is copied to the clipboard isn't required before pressing  p
-#####       It is just to vaidate the clipboard content for the display.
-#####       You can also copy to the clipboard and select  p  without needing  enter.
-#####       This feature will auto clear invalid clipboard content.
+Note: Pressing  enter  after content is copied to the clipboard isn't required before pressing  p
+It is just to vaidate the clipboard content for the display.
+You can also copy to the clipboard and select  p  without needing  enter.
+This feature will auto clear invalid clipboard content.
 <br />
 
 <br />
