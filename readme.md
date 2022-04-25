@@ -81,7 +81,7 @@ Play Clipboard voodoo wouldn't have been possible without XCLIP
 ##### Note: Pressing  enter  after content is copied to the clipboard isn't required before pressing  p
 #####       It is just to vaidate the clipboard content for the display.
 #####       You can also copy to the clipboard and select  p  without needing  enter.
-######      This feature will auto clear invalid clipboard content.
+#####       This feature will auto clear invalid clipboard content.
 <br />
 
 <br />
