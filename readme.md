@@ -1,6 +1,6 @@
 # Videoinfox v.2.062 &nbsp; Where Video Play is a Clipboard Copy Away
 
-### Create your own url download list and Videoinfox will downloadf the entire lit.
+### Create your own url download list and Videoinfox will downloadf the entire list.
 
 #### Find local Video Files fast, immediately play and get info on.
 #### Download Video Urls effortlessly and autoplay with Play Clipboard.
@@ -8,20 +8,6 @@
 
 THIS UPDATE ADDED: Bug Squashed
 <br />
-
-LAST UPDATE v2.061 
-
-Download List added to the Yt-dlp Menu
-
-Create download list(s) of video urls with your preferred text editor.
-                     
-Then use Videoinfox to download the entire list with Yt-dlp.
-
-The help located in:   Download List   explains how the download list feature works.
-
-
-
-
 
 
 Added content to Help.
