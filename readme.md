@@ -122,7 +122,7 @@ Play Clipboard
 <br />
 Find
 
-![Videoinfox HOME](https://i.imgur.com/OnKZfEq.png)
+![Videoinfox HOME](https://i.imgur.com/hwtyrdi.png)
 
 
 
