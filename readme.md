@@ -1,4 +1,4 @@
-# Videoinfox v.2.062 &nbsp; Where Video Play is a Clipboard Copy Away
+# Videoinfox v.2.063 &nbsp; Where Video Play is a Clipboard Copy Away
 
 #### Find local Video Files fast, immediately play and get info on. Download Video Urls effortlessly and autoplay with Play Clipboard.
 
@@ -6,7 +6,19 @@
 
 <br />
 
-THIS UPDATE ADDED: Bug Squashed and help edited.
+THIS UPDATE ADDED:  Download List Menu Fix
+
+<br />
+
+I forgot to refresh the clipboard variable $pasteclip in the following options:
+
+d - Download List   &nbsp; v - View List  &nbsp;  l- View Logs
+
+The user was forced to press enter after copying to the clipboard for the above options to work.
+Now those 3 features refresh the clipboard variable upon entering those options.
+No need to press enter after copy unless you want to update the clipboard display first.
+
+
 <br />
 
 <br />
