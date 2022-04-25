@@ -72,7 +72,7 @@ Play Clipboard voodoo wouldn't have been possible without XCLIP
  
 ### To use Play Clipboard:
 
-#### Copy a local file including full path to the clipboard and press  enter  to verify the file is valid.
+#### Copy a local file including full path to the clipboard and press  enter  to verify the file is valid. The p to Play Clipboard.
 #### Then  p  to Play Clipboard.
  
 #### Copy a video url to the clipboard and press  enter  to verify the url is valid.
