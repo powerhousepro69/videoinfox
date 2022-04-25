@@ -122,11 +122,11 @@ Play Clipboard
 <br />
 Yt-dlp Menu
 
-![Yt-dpp Menu](https://i.imgur.com/NRTL3H2.png)
+![Yt-dlp Menu](https://i.imgur.com/NRTL3H2.png)
 
 <br />
 Yt-dlp Menu Download List
-![Yt-dpp Menu](https://i.imgur.com/imGG5T6.png)
+![download list](https://i.imgur.com/imGG5T6.png)
 
 
 
