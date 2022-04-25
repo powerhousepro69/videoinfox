@@ -9,7 +9,7 @@
 THIS UPDATE ADDED: Bug Squashed and help edited.
 <br />
 
-<br />
+
 
 ### To install : &nbsp; &nbsp;Run the 2 lines below.
 ```
