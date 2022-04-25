@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#  file : videoinfox v2.061									         
+#  file : videoinfox v2.062									         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfo's Version Number is set.
-ver="Videoinfox v2.061"
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m061")  # Version Number witth blinking dot
+ver="Videoinfox v2.062"
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m062")  # Version Number witth blinking dot
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -392,12 +392,13 @@ echo "__________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfo.help
 
 
-echo " THIS UPDATE ADDED:  Download List feature added to the Yt-dlp Menu" >> ~/.config/videoinfox/videoinfo.help
+echo " LAST UPDATE ADDED:  Download List feature added to the Yt-dlp Menu" >> ~/.config/videoinfox/videoinfo.help
 echo "                     Create download list(s) of video urls with your preferred text editor." >> ~/.config/videoinfox/videoinfo.help 
 echo "                     Then use Videoinfox to download the entire list." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo "                     The help located in:   Download List   explains how the download list feature works." >> ~/.config/videoinfox/videoinfo.help
-
+echo  >> ~/.config/videoinfox/videoinfo.help
+echo " THIS UPDATE ADDED:  Squashed bug" >> ~/.config/videoinfox/videoinfo.help
 
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo  >> ~/.config/videoinfox/videoinfo.help
@@ -471,7 +472,7 @@ echo "  - Create download list(s) of video urls with your preferred text editor 
 echo "  - See codec, resolution and duration on the playing video." >> ~/.config/videoinfox/videoinfo.help 
 echo "  - Play Clipboard available in:   -Home   -Played List   -Played List   -Yt-dlp menu   -View Downloads" >> ~/.config/videoinfox/videoinfo.help 
 echo "  - Play Clipboard blinking notification when there is a valid video file or video url for play." >> ~/.config/videoinfox/videoinfo.help 
-echo "  - Play Directory autoplay on the Home Screen." >> ~/.config/videoinfox/videoinfo.help 
+echo "  - Play Directory auto play on the Home Screen." >> ~/.config/videoinfox/videoinfo.help 
 echo "  - Navigate Tree blinking  Play Directory  notification when there are video files in the current directory." >> ~/.config/videoinfox/videoinfo.help 
 echo "  - Navigate Tree blinking  Change Directory  notification when there is a valid directory in the clipboard" >> ~/.config/videoinfox/videoinfo.help 
 echo "  - Video Player (ffplay) auto closes when the video ends." >> ~/.config/videoinfox/videoinfo.help 
@@ -511,7 +512,7 @@ echo >> ~/.config/videoinfox/videoinfo.help
 echo " powerhousepro69 @ Github and Reddit   " >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " If videoinfox is removed, the dircetory  ~/.config/videoinfox  will have to be manually deleted." >> ~/.config/videoinfox/videoinfo.help
+echo " If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 
@@ -1120,7 +1121,7 @@ l)  # play last download
 
               read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
 
-              ytdlplast=$(find "$PWD" -type f \( -iname "$lastdownload*" \))
+              ytdlplast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))
 
               clear
               echo
@@ -1233,10 +1234,11 @@ echo "                                                                          
      #pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
      #;;
 
-	
+#############################################################################################################################################	
 #############################################################################################################################################
      p) 
-     #  @PLAY CLIPBOARD - <HOME> !!!!!!!!!!!!!!!!! MASTER TEMPLATE this is the one that gets the edits then pasted in 3 other places.
+     #  @PLAY CLIPBOARD - <HOME> !!!!!!!!!!!!!!!!! MASTER TEMPLATE this is the one that gets the edits then pasted in other places.
+############################################################################################################################################
 ############################################################################################################################################
      
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
@@ -1265,7 +1267,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       
       # PLAY DOWNLOADED FILE
       
-      ytdlplast=$(find "$PWD" -type f \( -iname "$lastdownload*" \))  # finding the file to play
+      ytdlplast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))  # finding the file to play
            
       clear
       echo
@@ -1567,7 +1569,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       
       # PLAY DOWNLOADED FILE
       
-      ytdlplast=$(find "$PWD" -type f \( -iname "$lastdownload*" \))  # finding the file to play
+      ytdlplast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))  # finding the file to play
            
       clear
       echo
@@ -1839,7 +1841,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       
       # PLAY DOWNLOADED FILE
       
-      ytdlplast=$(find "$PWD" -type f \( -iname "$lastdownload*" \))  # finding the file to play
+      ytdlplast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))  # finding the file to play
            
       clear
       echo
@@ -2980,7 +2982,7 @@ done
 
 
 #######################################################################################################################################
-#########################  (PLAY DOWNLOAD DIRECTORY)  #################################################################################
+#########################  (PLAY ClIPBOARD) VIEW DOWNLOADS  ###########################################################################
 #######################################################################################################################################
 
      p) 
@@ -3012,7 +3014,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       
       # PLAY DOWNLOADED FILE
       
-      ytdlplast=$(find "$PWD" -type f \( -iname "$lastdownload*" \))  # finding the file to play
+      ytdlplast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))  # finding the file to play
            
       clear
       echo
@@ -3267,7 +3269,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       
       # PLAY DOWNLOADED FILE
       
-      ytdlplast=$(find "$PWD" -type f \( -iname "$lastdownload*" \))  # finding the file to play
+      ytdlplast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))  # finding the file to play
            
       clear
       echo
@@ -3445,7 +3447,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 
               read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
 
-              ytdlplast=$(find "$PWD" -type f \( -iname "$lastdownload*" \))
+              ytdlplast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))
 
               clear
               echo
