@@ -190,7 +190,7 @@ Dependencies
 
 
 <br />
-Setup for first the run or if the videoinfox directory gets deleted anytime after the first run.
+#### Setup for first the run or if the videoinfox directory gets deleted anytime after the first run.
 <br />
 <br />
 First Run
