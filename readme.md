@@ -12,7 +12,7 @@ THIS UPDATE ADDED:  Download List Menu Fix
 
 I forgot to refresh the clipboard variable $pasteclip in the following options:
 
-d - Download List   &nbsp; v - View List  &nbsp;  l- View Logs
+d - Download List   &nbsp; v - View List  &nbsp;  l - View Logs
 
 The user was forced to press enter after copying to the clipboard for the above options to work.
 Now those 3 features refresh the clipboard variable upon entering those options.
