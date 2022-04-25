@@ -112,7 +112,7 @@ If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be m
 <br />
 Home screen with Youtube link it the clipboard.&nbsp; &nbsp; Press&nbsp;  p &nbsp;to download and autoplay full screen.
  
-![Videoinfox HOME](https://i.imgur.com/VUgw7eE.png)
+![Videoinfox HOME](https://i.imgur.com/poQOxK9.png)
 
 <br />
 Play Clipboard
