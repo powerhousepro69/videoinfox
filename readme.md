@@ -9,6 +9,7 @@
 THIS UPDATE ADDED: Bug Squashed and help edited.
 <br />
 
+<br />
 
 To install &nbsp;: &nbsp;Run the 2 lines below.
 ```
@@ -66,8 +67,6 @@ Videoinfox Features:
   - Recursive count of videos broken down by video type.
   - Recursive duration (days:hrs:min:sec) Save per directory.
   - GUI notifications.
-
-
 
 
  
