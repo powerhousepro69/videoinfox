@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#  file : videoinfox v2.063									         
+#  file : videoinfox v2.064									         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfo's Version Number is set.
-ver="Videoinfox v2.063"
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m063")  # Version Number witth blinking dot
+ver="Videoinfox v2.064"
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m064")  # Version Number witth blinking dot
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -392,13 +392,22 @@ echo "__________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfo.help
 
 
-echo " LAST UPDATE ADDED:  Download List feature added to the Yt-dlp Menu" >> ~/.config/videoinfox/videoinfo.help
-echo "                     Create download list(s) of video urls with your preferred text editor." >> ~/.config/videoinfox/videoinfo.help 
-echo "                     Then use Videoinfox to download the entire list." >> ~/.config/videoinfox/videoinfo.help
+
+
+
+echo " THIS UPDATE ADDED: More error handling with clipboard content."  >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo "                     The help located in:   Download List   explains how the download list feature works." >> ~/.config/videoinfox/videoinfo.help
-echo  >> ~/.config/videoinfox/videoinfo.help
-echo " THIS UPDATE ADDED:  Squashed bug" >> ~/.config/videoinfox/videoinfo.help
+echo " Affected areas: Anywhere there is Play Clipboard. Also, Navigate Tree and Download List" >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo " Any content that is copied to the clipboard that doesn't start with   http   was addressed with this update." >> ~/.config/videoinfox/videoinfo.help
+echo " A file exist check is done on the clipboard content. If the file doesn't exist," >> ~/.config/videoinfox/videoinfo.help
+echo " the clipboard is cleared and the invalid content never makes it to the clipboard display." >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo " The above update doesn't include    http   because Yt-dlp validates anything that starts with   http " >> ~/.config/videoinfox/videoinfo.help
+
+
+
+
 
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo  >> ~/.config/videoinfox/videoinfo.help
@@ -538,6 +547,23 @@ read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null
 
 function menuf {
 
+pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+
+grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
+
+if [ "$grabclip" = "http" ]  # if the first 4 characters = <http> go then
+  then
+      :
+
+  else      
+      if [ -f "$pasteclip" ]
+        then
+            :
+        else
+            echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
+            pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+      fi
+fi
 
 ##################################################################################################################################################
 ###########################  START ROUTINE TO SORT AND REMOVE DUPLICATES FROM  <videoinfo.playedlist>            #################################  
@@ -620,8 +646,8 @@ read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null
 read -r dir4 < ~/.config/videoinfox/videoinfo.parent-dir 2> /dev/null
 read -r dir5 < ~/.config/videoinfox/videoinfo.dir-at-exit 2> /dev/null
 
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content                          
 
+pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content                          
 
 if [ "$searchtotal" = "" ]  # if the file <~/.config/videoinfox/videoinfo.lastsearchtotal> is empty goto then
   then
@@ -632,11 +658,9 @@ if [ "$searchtotal" = "" ]  # if the file <~/.config/videoinfox/videoinfo.lastse
       #echo
  fi
 
-
 echo
 echo "Directory: ""$PWD"
 echo "Clipboard: ""$pasteclip"
-
 
 ##################################################################################################################################################
 #=================================================================================================================================================
@@ -653,7 +677,6 @@ grabpaste=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th chara
 
 # for nested if loop - to look for </>
 grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st character
-
 
 # the following code checks to see if the clipbooard has a url in it by lookin for <http> from <$grabpaste>  
 # If it is <http>, YT-DLP will get the clipboard. yt-dlp will check if its a valid link by trying to extract the name of the video file.
@@ -848,13 +871,23 @@ t)
 ##################################################################################################################################################
 
 pasteclip2=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content   save to restore on option quit
-
 echo "" | xclip -sel clip  # clearing the clipboard
 
 
 function navtree {
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+
+if [ -d "$pasteclip" ]  # if the directory exists gto then
+  then
+      :
+
+  else      
+      echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
+      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+     
+fi
+
 
 clear
 
@@ -971,7 +1004,7 @@ echo
          u)  # UP ONE LEVEL 
          if [ "$grabdirfornav2" = "$PWD" ]  # when   Up One Level   reaches the    Treetop    no   cd..   out of the parent directory 
            then
-               #echo
+               echo
                echo " At treetop. Can't go any higher . . ."
                sleep 1.7
 
@@ -1371,7 +1404,27 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 ##################################################################################################################################################
 v)                                  ##############################################################################################################    
      #  VIEW/PLAYED LIST - <HOME>   ##############################################################################################################
-     function menuv {
+     
+function menuv {
+
+pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+
+grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
+
+if [ "$grabclip" = "http" ]  # if the first 4 characters = <http> go then
+  then
+      :
+
+  else      
+      if [ -f "$pasteclip" ]
+        then
+            :
+        else
+            echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
+            pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+      fi
+fi
+
 
 ##################################################################################################################################################
 ###########################  START ROUTINE TO SORT AND REMOVE DUPLICATES FROM  <videoinfo.playedlist>            #################################  
@@ -1680,8 +1733,26 @@ s) #######################  VIEW/PLAYED SAVED FINDS - <HOME>  ##################
 ##################################################################################################################################################
         
 function menus {
+
 clear 
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content                  
+pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content 
+
+grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
+
+if [ "$grabclip" = "http" ]  # if the first 4 characters = <http> go then
+  then
+      :
+
+  else      
+      if [ -f "$pasteclip" ]
+        then
+            :
+        else
+            echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
+            pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+      fi
+fi
+            
 
 cat ~/.config/videoinfox/videoinfo.keptsearch 
 
@@ -2607,7 +2678,27 @@ else  # IF YT-DLP IS FOUND
 
 read -r ytdlpver < ~/.config/videoinfox/videoinfo.yt-dlp.version
 
+
 function menuy {
+
+pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+
+grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
+
+if [ "$grabclip" = "http" ]  # if the first 4 characters = <http> go then
+  then
+      :
+
+  else      
+      if [ -f "$pasteclip" ]
+        then
+            :
+        else
+            echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
+            pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+      fi
+fi
+
 
 read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir
 cd "$dirsaved" 
@@ -2741,10 +2832,19 @@ pastetemp=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard conten
 dirtemp="$PWD"  # grab dir to save for quit
 echo "" | xclip -sel clip  # clearing out the clipboard
 
+
 function dwnlist {
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
+if [ -f "$pasteclip" ]
+then
+:
+else
+echo "$pastetemp" | xclip -sel clip  # clearing out the clipboard
+pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+fi
+ 
 # find download lists and write to file. these results also include the log files which shouldn't be listed here
 find "$PWD" -type f \( -iname "videoinfox-dl*" \) > ~/.config/videoinfox/videoinfox.dowload.list
 
@@ -2764,7 +2864,6 @@ dash1=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
 
 # not blinking
 dash0=$(echo "-")
-
 
 # if file exists goto then
 if [ -f "$pasteclip" ]
@@ -2808,10 +2907,18 @@ pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard conten
 break;;
 
 
-d)  # DOWNLOAD LIST"
+d)  # (DOWNLOAD THE URL LIST)
 clear
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+
+if [ -f "$pasteclip" ]
+then
+:
+else
+echo "$pastetemp" | xclip -sel clip  # clearing out the clipboard
+pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+fi
 
 sed -i '/^$/d' "$pasteclip" 2>/dev/null  # remove any blank lines in the list
 
@@ -2861,15 +2968,13 @@ echo ""$der" done processing download list . . ."
 echo
 read -p ""
 
-
-echo "" | xclip -sel clip  # clearing out the clipboard clipboard
+echo "" | xclip -sel clip  # clearing out the clipboard
 cd $dirtemp &> /dev/null  # change directory back to what is was before running  Download List
 ;;
 
 
 v)  # VIEW A DOWNLOAD LIST
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-
 clear
 cat "$pasteclip" 2>/dev/null
 echo
@@ -2879,14 +2984,21 @@ read -p "Up/Down arrows or mouse to scroll.  Press enter to quit"
 
 l)  # VIEW LOGS
 
-
 pastecliptemp=$(xclip -o -selection clipboard 2> /dev/null)  # saving clipboard content to restore on quit
+
 echo "" | xclip -sel clip  # clearing out the clipboard clipboard
 
 function viewlogs {
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
+if [ -f "$pasteclip" ]
+then
+:
+else
+echo "$pastetemp" | xclip -sel clip  # clearing out the clipboard
+pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+fi
 
 ########## blinking routine for display ##########
 
@@ -2980,7 +3092,6 @@ echo "       I'm 'Still planning on adding an options save for yt-dlp command li
 echo
 echo
 read -p " Press enter to quit"
-
 ;;
 
 esac
@@ -3109,6 +3220,25 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 #####################################################################################     
           
      function menuyt {  # LIST ALL VIDEO FILES RECURSIVELY IN THE DEFAULT DOWNLOAD DIRECTORY 
+
+
+pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+
+grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
+
+if [ "$grabclip" = "http" ]  # if the first 4 characters = <http> go then
+  then
+      :
+
+  else      
+      if [ -f "$pasteclip" ]
+        then
+            :
+        else
+            echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
+            pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+      fi
+fi
 
 # below was the method i used for this functions before switching to find   
 # echo " " > ~/.config/videoinfox/videoinfo.viewdownloads
