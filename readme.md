@@ -1,4 +1,4 @@
-videoinfox v.2.060 &nbsp; Where Video Play Is A Clipboard Copy Away
+videoinfox v.2.061 &nbsp; Where Video Play Is A Clipboard Copy Away
 
 
 Find local Video Files fast, immediately play and get info on.
@@ -6,11 +6,15 @@ Download Video Urls effortlessly and autoplay with Play Clipboard.
 
 THIS UPDATE ADDED: 
 
-Fixed typo in Navigate Tree
+Download List added to the Yt-dlp Menu
 
-LAST UPDATE ADDED:
+Create download list(s) of video urls with your preferred text editor.
+                     
+Then use Videoinfox to download the entire list.
 
-Blinking Change Directory in Navigate Tree.  Change Directory blinks when valid directory is in clipboard.
+The help located in:   Download List   explains how the download list feature works.
+
+
 
 
 
@@ -45,6 +49,7 @@ Videoinfox Features:
   - Check for update on startup and notifity if update is available.
   - Download and update Videoinfox.
   - Play either a local file or a downloadable video url via yt-dlp.
+  - Create download list(s) of video urls with your preferred text editor & videoinfox will use yt-dlp to download the list.
   - See codec, resolution and duration on the playing video.
   - Play Clipboard available in:   -Home   -Played List   -Played List   -Yt-dlp menu   -View Downloads
   - Play Clipboard blinking notification when there is a valid video file or video url for play.
