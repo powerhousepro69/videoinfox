@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#  file : videoinfox v2.062									         
+#  file : videoinfox v2.063									         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfo's Version Number is set.
-ver="Videoinfox v2.062"
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m062")  # Version Number witth blinking dot
+ver="Videoinfox v2.063"
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m063")  # Version Number witth blinking dot
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -222,8 +222,8 @@ if [ -d "$direxist" ]  #  if directoty exists goto  <then>
       echo "___________________________________________________________________________________________________________________"
       echo         
       echo " Created config directory: $HOME/.config/videoinfox  and required files "
-      echo "__________________________________________________________________________________________________________________"
-      echo
+      echo "___________________________________________________________________________________________________________________"
+      echo_
       echo " NOTE: Do not randomly paste in Videoinfox.  It will cause unwanted code to run producing"  
       echo " undesired results and can corrupt Videoinfox's data integrity and retention."
       echo
@@ -443,8 +443,9 @@ echo "       This feature will auto clear invalid clipboard content."  >> ~/.con
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Yt-dlp Menu    d - Download Default - Yt-dlp with no arguements." >> ~/.config/videoinfox/videoinfo.help
-echo "                c - Download Choose  - Choose video type and qualiy before download." >> ~/.config/videoinfox/videoinfo.help
+echo "                c - Download Choose  - Choose video type and quality before download." >> ~/.config/videoinfox/videoinfo.help
 echo "                s - Self Destruct    - Download, auto play then delete when the video player is quit." >> ~/.config/videoinfox/videoinfo.help
+echo "                g - Download List    - Instructions in help on the download list screen." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Add to Playlist content is generated from search results." >> ~/.config/videoinfox/videoinfo.help
@@ -2810,6 +2811,8 @@ break;;
 d)  # DOWNLOAD LIST"
 clear
 
+pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+
 sed -i '/^$/d' "$pasteclip" 2>/dev/null  # remove any blank lines in the list
 
 grablistdir=$(echo "$pasteclip" | sed 's|\(.*\)/.*|\1|')  # remove last slash and filenname leaving only path
@@ -2865,6 +2868,8 @@ cd $dirtemp &> /dev/null  # change directory back to what is was before running 
 
 
 v)  # VIEW A DOWNLOAD LIST
+pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+
 clear
 cat "$pasteclip" 2>/dev/null
 echo
@@ -2873,6 +2878,7 @@ read -p "Up/Down arrows or mouse to scroll.  Press enter to quit"
 
 
 l)  # VIEW LOGS
+
 
 pastecliptemp=$(xclip -o -selection clipboard 2> /dev/null)  # saving clipboard content to restore on quit
 echo "" | xclip -sel clip  # clearing out the clipboard clipboard
@@ -2935,6 +2941,7 @@ break;;
 
 
 l)  # VIEW LOG
+pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard contentclear
 clear
 cat "$pasteclip" 2>/dev/null
 read -p "Up/Down arrows or mouse to scroll.  Press enter to quit"
