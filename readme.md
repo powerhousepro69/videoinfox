@@ -103,7 +103,7 @@ If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be m
 #### Dependencies listed at bottom of page.
 
 <br />
-Home screen with video url it the clipboard.&nbsp; &nbsp; Press&nbsp;  p &nbsp;to download and autoplay full screen.
+Home screen with video url in the clipboard.&nbsp; &nbsp; Press&nbsp;  p &nbsp;to download and autoplay full screen.
  
 ![Videoinfox HOME](https://i.imgur.com/poQOxK9.png)
 
