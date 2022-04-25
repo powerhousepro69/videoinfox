@@ -126,11 +126,8 @@ Yt-dlp Menu
 
 <br />
 Yt-dlp Menu Download List
+
 ![download list](https://i.imgur.com/imGG5T6.png)
-
-
-
-
 
 <br />
 Find
