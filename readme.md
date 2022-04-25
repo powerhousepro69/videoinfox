@@ -2,8 +2,7 @@
 
 #### Create your own url download list and Videoinfox will download the entire list.
 
-#### Find local Video Files fast, immediately play and get info on.
-#### Download Video Urls effortlessly and autoplay with Play Clipboard.
+#### Find local Video Files fast, immediately play and get info on. Download Video Urls effortlessly and autoplay with Play Clipboard.
 <br />
 
 THIS UPDATE ADDED: Bug Squashed and help edited.
