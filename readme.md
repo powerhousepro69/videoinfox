@@ -25,7 +25,7 @@ Download feature wouldn't have been possible without YT-DLP
 Play Clipboard voodoo wouldn't have been possible without XCLIP
 <br />
 
-Videoinfox Features:
+### Videoinfox Features:
 
 
 - Navigation was designed to be robust and efficient. One keypress for all menu selections.
