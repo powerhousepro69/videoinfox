@@ -179,9 +179,9 @@ Settings
 
  <br />
  
-Videoinfox runs a dependency check at startup.  If any dependencies are not found, the script will exit.
+##### Videoinfox runs a dependency check at startup.  If any dependencies are not found, the script will exit.
   
-Any missing dependencies will be displayed.
+##### Any missing dependencies will be displayed.
 
 <br />
 Dependencies
