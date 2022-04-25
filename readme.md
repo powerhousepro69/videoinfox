@@ -19,7 +19,7 @@ Now those 3 features refresh the clipboard variable upon entering those options.
 No need to press enter after copy unless you want to update the clipboard display first.
 
 
-<br />
+
 
 <br />
 
