@@ -102,7 +102,7 @@ Note: Pressing  enter  after content is copied to the clipboard isn't required b
       This feature will auto clear invalid clipboard content.
 <br />
 
-If videoinfox is removed, the dircetory  ~/.config/videoinfox  will have to be manually deleted.
+If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 
  Dependencies listed at bottom of page.
 
