@@ -215,7 +215,7 @@ Setup for first the run or if the videoinfox directory gets deleted anytime afte
 <br />
 First Run
 
-![Videoinfox FIRST RUN](https://i.imgur.com/QB9Ykax.png)
+![Videoinfox FIRST RUN](https://i.imgur.com/IzaDGUs.png)
 
 
 
