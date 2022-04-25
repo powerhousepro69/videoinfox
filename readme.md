@@ -10,7 +10,7 @@ Download List added to the Yt-dlp Menu
 
 Create download list(s) of video urls with your preferred text editor.
                      
-Then use Videoinfox to download the entire list.
+Then use Videoinfox to download the entire list with yt-dlp.
 
 The help located in:   Download List   explains how the download list feature works.
 
