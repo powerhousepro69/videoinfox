@@ -6,7 +6,7 @@
 
 <br />
 
-### This update added: More error handling with clipboard content.
+#### This update added: More error handling with clipboard content.
 
 
 
