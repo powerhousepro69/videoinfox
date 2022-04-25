@@ -49,6 +49,7 @@ Videoinfox Features:
 
 
 - Navigation was designed to be robust and efficient. One keypress for all menu selections.
+
   - Check for update on startup and notifity if update is available.
   - Download and update Videoinfox.
   - Play either a local file or a downloadable video url via yt-dlp.
