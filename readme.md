@@ -149,7 +149,7 @@ Playlist &nbsp; (also Played List)
 <br />
 More Options
 
-![Videoinfox HOME](https://i.imgur.com/kIMMech.png))
+![Videoinfox HOME](https://i.imgur.com/j0V0PtJ.png)
 
 
 <br />
