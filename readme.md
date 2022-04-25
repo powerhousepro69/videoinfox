@@ -28,7 +28,7 @@ Play Clipboard voodoo wouldn't have been possible without XCLIP
 ### Videoinfox Features:
 
 
-#### - Navigation was designed to be robust and efficient. One keypress for all menu selections.
+#### Navigation was designed to be robust and efficient. One keypress for all menu selections.
 
   - Check for update on startup and notifity if update is available.
   - Download and update Videoinfox.
