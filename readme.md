@@ -145,6 +145,13 @@ Playlist &nbsp; (also Played List)
 
 ![Videoinfox HOME](https://i.imgur.com/hpiQMqU.png)
 
+
+<br />
+More Options
+
+![Videoinfox HOME](https://i.imgur.com/kIMMech.png))
+
+
 <br />
 List Directory
 
