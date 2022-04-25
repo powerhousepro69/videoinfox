@@ -13,10 +13,6 @@ THIS UPDATE ADDED: Bug Squashed
 Added content to Help.
 
 
-Note:  Screenshots were updated.
-
-
-
  <br />
 
 To install &nbsp;: &nbsp;Run the 2 lines below.
