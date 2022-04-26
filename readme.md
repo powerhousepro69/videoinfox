@@ -6,7 +6,10 @@
 
 <br />
 
-#### This update added:  Version History added to Settings  Version History is still under construction.
+#### This update added:  Play Directory will only execute if video files exist in the current directory.
+-  &nbsp; On the Home Screen, the dash at Play Directory will blink if video files exist in the current directory.
+
+-  &nbsp; Updated Version History.
 
 
 
