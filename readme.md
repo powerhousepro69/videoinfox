@@ -1,4 +1,4 @@
-# Videoinfox v.2.065 &nbsp; Where Video Play is a Clipboard Copy Away
+# Videoinfox v.2.066 &nbsp; Where Video Play is a Clipboard Copy Away
 
 #### Find local Video Files fast, immediately play and get info on. Download Video Urls effortlessly and autoplay with Play Clipboard.
 
@@ -6,16 +6,7 @@
 
 <br />
 
-#### This update added:  Auto clear clipboard content after player quit script wide.
-<br />
-
-Before Update: Yty-dlp Menu. Valid video url in the clipboard causes Play Clipboard to blink.
-
-After Update: Blinking along with Play Clipboard - (just the dash on) Download Default, Download Choose and Self Destruct 
-<br />
-
-They are all available options with a valid video url in the clipboard.
-
+#### This update added:  Version History added to Settings  Version History is still under construction.
 
 
 
