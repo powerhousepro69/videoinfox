@@ -193,7 +193,7 @@ Settings
 <br />
 Dependencies
   
-![Videoinfox DEPENDENCY CHECK](https://i.imgur.com/Sfe8ol0.png)
+![Videoinfox DEPENDENCY CHECK](https://i.imgur.com/HjqIZqM.png)
 
 
 <br />
