@@ -10,7 +10,8 @@
 <br />
 
 Before Update: Yty-dlp Menu. Valid video url in the clipboard causes Play Clipboard to blink.
-After Update: Blinking along with Play Plipboard, Download Default, Download Choose and Self Destruct 
+
+After Update: Blinking along with Play Clipboard, Download Default, Download Choose and Self Destruct 
 <br />
 
 They are all available options with a valid video url in the clipboard.
