@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#  file : videoinfox v2.067									         
+#  file : videoinfox v2.068									         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfo's Version Number is set.
-ver="Videoinfox v2.067"
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m067")  # Version Number witth blinking dot
+ver="Videoinfox v2.068"
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m068")  # Version Number witth blinking dot
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -32,7 +32,7 @@ der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m067")  # Ve
 ##################################################################################################################################################
 
 
-#  videoinfox -v    display version number then exit  
+#  videoinfox -v    display version number then exit.  This is the only command line option.  
 
 if [ "$1" = "-v" ]
   then
@@ -42,12 +42,25 @@ if [ "$1" = "-v" ]
       :
 fi
 
+##################################################################################################################################################
+##################################################################################################################################################
 
-#  The below 3 CHECKS run once at startup then into the HOME loop.
-#  1. Dependency Check   2. Start From Root Check   3. DIRECTORY CHECK & FILE CREATION
+#  The below 6 functions run once on every startup then onto the home loop.
+
+#  1. Dependency Check. If any dependencies are not found, the scipt will exit. Script will run when all dependencies are found
+#  2. Start from root check and change to home dir if started from root.   
+#  3. Configuration directory check and file creation. If  ~/.config/videoinfox  doesn't exist, directory will be crated along with config files.
+#  4. Check for Videoinfox update and notify if update is available.
+#  5. Create help file
+#  6  Creat version history file
 
 ##################################################################################################################################################
-#############################  DEPENDENCY CHECK  runs on every start  ############################################################################ 
+##################################################################################################################################################
+
+
+
+##################################################################################################################################################
+#############################  DEPENDENCY CHECK  ################################################################################################# 
 ##################################################################################################################################################
 
 clear
@@ -58,7 +71,7 @@ echo " $ver >>> DEPENDENCY CHECK"
 echo "___________________________________________________________________________________________________________________"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " If a dependency isn't Found:  App isn't installed Or app is installed and not in the path."
+echo " If a dependency isn't Found:  App isn't installed or App is installed and not in the path."
 echo
 echo
 
@@ -154,7 +167,7 @@ if [ $depcount == 0 ]  # if all dependencies = 0 (All Found) goto then
       echo " When all dependencies are Found, the script will run."
       echo
       echo "=================================================================================================================="  
-      echo " $der >>> EXIT"
+      echo " $ver >>> EXIT"
       echo "==================================================================================================================" 
       echo -e "\n"
       exit
@@ -173,7 +186,7 @@ if [ "$whatdir" == $thisdir ]  # If the directory the script was run from: / <ro
       clear
       echo
       echo "=================================================================================================================="  
-      echo " $ver >>> Videoinfo x was started in root"
+      echo " $ver >>> Videoinfox was started in root"
       echo
       echo " Working Directory: ""$PWD"
       echo "==================================================================================================================" 
@@ -389,21 +402,17 @@ echo >> ~/.config/videoinfox/videoinfo.help
 echo " Up & Down Arrows or Mouse wheel - scroll                                                             Home - top" >> ~/.config/videoinfox/videoinfo.help
 echo " q - quit                                                                                             End - bottom" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
-echo >> ~/.config/videoinfox/videoinfo.help
-
-
-echo " THIS UPDATE ADDED: This information is now located in   Settings (set)   option   Version History" >> ~/.config/videoinfox/videoinfo.help
-
-
-echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo  >> ~/.config/videoinfox/videoinfo.help
-echo " Find loacal Video Files fast, immediately play and get info on." >> ~/.config/videoinfox/videoinfo.help
+echo " Find local Video Files fast and watch immediately. Download Video Urls effortlessly and watch immediately." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " Download Video Urls effortlessly and watch immediately." >> ~/.config/videoinfox/videoinfo.help
+echo " Make a list of video url's with your preferred text editor and Videoinfox will download your list." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " Find videos to play or get info on: Change to a parent directory of your video library and slect find <f>.  " >> ~/.config/videoinfox/videoinfo.help
-echo " You can also select  <a>  to dislpay all videos recursively." >> ~/.config/videoinfox/videoinfo.help
+echo " Release information is now located in:  Settings (set)  option:  Version History" >> ~/.config/videoinfox/videoinfo.help
+echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo " Find videos to play or get info on: Change to a parent directory of your video library and slect find <f>" >> ~/.config/videoinfox/videoinfo.help
+echo " You can also select  <a>  to display all videos recursively." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Search Tips:  The files you search for have to be in the path of the current directory." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -480,8 +489,7 @@ echo "  - File types searched for :   .webm   .mp4   .mkv   .avi   .divx" >> ~/.
 echo "  - Keep track of everything played except Play Directory." >> ~/.config/videoinfox/videoinfo.help 
 echo "  - Save a list of videos from find results and played list." >> ~/.config/videoinfox/videoinfo.help 
 echo "  - Remove duplicates from the playlist and played video." >> ~/.config/videoinfox/videoinfo.help 
-echo "  - Remove any entries from lists that don't start with a /" >> ~/.config/videoinfox/videoinfo.help 
-echo "  - Enter a file with full path to play and get info. p" >> ~/.config/videoinfox/videoinfo.help 
+echo "  - Enter a file with full path to get info on and play." >> ~/.config/videoinfox/videoinfo.help 
 echo "  - Auto save last find result(s) and autoload until deleted." >> ~/.config/videoinfox/videoinfo.help 
 echo "  - Yt-dlp integration for easy download and play." >> ~/.config/videoinfox/videoinfo.help 
 echo "  - Download video to play later." >> ~/.config/videoinfox/videoinfo.help 
@@ -508,7 +516,7 @@ echo >> ~/.config/videoinfox/videoinfo.help
 echo " powerhousepro69 @ Github and Reddit   " >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted." >> ~/.config/videoinfox/videoinfo.help
+echo " If Videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 
@@ -540,16 +548,25 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 # KNOWN ISSUE
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " KNOWN ISSUE: Only with a URL. If you download a video file and you already have a filename with the same name but a" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " KNOWN ISSUES: None Reported." >> ~/.config/videoinfox/videoinfo-ver-history
+
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              differernt video extension in the current directory or recursively, it will cause Play Clipboard auto play" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              to fail. Last Downlownload will also fail to play in this situation.  It is on my to do list." >> ~/.config/videoinfox/videoinfo-ver-history
+
+# STILL NEEDS COMPLETED
+echo " NEEDS COMPLETED: Add auto play to Playlist and Played List then add multiple playlist capability." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v2.068 Fixed auto play failing with urls in Play Clipboard. This issue also caused Last Download auto play to fail. ">> ~/.config/videoinfox/videoinfo-ver-history
+echo "        Below is what would cause the failure." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "        Only with a URL. If you download a video file and you already have a filename with the same name but a" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "        different video extension in the current directory, it would cause Play Clipboard auto play to fail." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "        Last Download would also fail to play in this situation." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.067 Play Directory will only execute if video files exist in the current directory." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -1351,7 +1368,10 @@ l)  # play last download
 
               read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
 
-              ytdlplast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))
+              ylast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))
+
+              echo "$ylast" > ~/.config/videoinfox/videoinfo.find-last-download
+              read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download
 
               clear
               echo
@@ -1469,9 +1489,10 @@ echo "                                                                          
 #############################################################################################################################################	
 #############################################################################################################################################
      p) 
-     #  @PLAY CLIPBOARD - <HOME> !!!!!!!!!!!!!!!!! MASTER TEMPLATE this is the one that gets the edits then pasted in other places.
-############################################################################################################################################
-############################################################################################################################################
+     #  @PLAY CLIPBOARD - <HOME> !!!!!    MASTER TEMPLATE  This is the one that gets the edits then copied to other places in the code.
+
+#############################################################################################################################################
+#############################################################################################################################################
      
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
@@ -1499,7 +1520,10 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       
       # PLAY DOWNLOADED FILE
       
-      ytdlplast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))  # finding the file to play
+      ylast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))  # finding the file to play
+
+      echo "$ylast" > ~/.config/videoinfox/videoinfo.find-last-download
+      read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download
            
       clear
       echo
@@ -1568,7 +1592,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo
       #read -p " Press enter to Continue"
       
-       # video filename with full path <$pasteclip> strip from the bgininning of line to the last slash leaving only the filename <$getfilenameonly>
+      # video filename with full path <$pasteclip> strip from the bgininning of line to the last slash leaving only the filename <$getfilenameonly>
       getfilenameonly=$(echo "$pasteclip" |  awk -F '/' '{print $NF}')  
       
       #notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"
@@ -1821,8 +1845,11 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       
       # PLAY DOWNLOADED FILE
       
-      ytdlplast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))  # finding the file to play
-           
+      ylast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))  # finding the file to play
+            
+      echo "$ylast" > ~/.config/videoinfox/videoinfo.find-last-download
+      read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download
+
       clear
       echo
       echo "___________________________________________________________________________________________________________________"
@@ -2109,7 +2136,10 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       
       # PLAY DOWNLOADED FILE
       
-      ytdlplast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))  # finding the file to play
+      ylast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))  # finding the file to play
+
+      echo "$ylast" > ~/.config/videoinfox/videoinfo.find-last-download
+      read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download
            
       clear
       echo
@@ -3282,7 +3312,7 @@ echo
 echo
 echo " The download list name always has to beigin with:   videoinfox-dl   Add anything to the end of the filename."
 echo
-echo " Sample download list name:   videoinfox-dl-sample"
+echo " Sample download list name:   videoinfox-dl-funny-videos"
 echo
 echo
 echo " One video url per line starting at line 1.  No Spaces.  Any blank lines will be removed before processing."
@@ -3338,7 +3368,10 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       
       # PLAY DOWNLOADED FILE
       
-      ytdlplast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))  # finding the file to play
+      ylast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))  # finding the file to play
+
+      echo "$ylast" > ~/.config/videoinfox/videoinfo.find-last-download
+      read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download
            
       clear
       echo
@@ -3611,7 +3644,10 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       
       # PLAY DOWNLOADED FILE
       
-      ytdlplast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))  # finding the file to play
+      ylast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))  # finding the file to play
+
+      echo "$ylast" > ~/.config/videoinfox/videoinfo.find-last-download
+      read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download
            
       clear
       echo
@@ -3797,7 +3833,10 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 
               read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
 
-              ytdlplast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))
+              ylast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))
+
+              echo "$ylast" > ~/.config/videoinfox/videoinfo.find-last-download
+              read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download
 
               clear
               echo
