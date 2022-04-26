@@ -162,7 +162,7 @@ Find Directory
 <br />
 Settings
 
-![Videoinfox HOME](https://i.imgur.com/qZMFpx8.png)
+![Videoinfox HOME](https://i.imgur.com/hrOdE5o.png)
 
 
 <br />
