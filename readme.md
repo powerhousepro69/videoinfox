@@ -1,4 +1,4 @@
-# Videoinfox v2.067 &nbsp; Where Video Play is a Clipboard Copy Away
+# Videoinfox v2.068 &nbsp; Where Video Play is a Clipboard Copy Away
 
 #### Find local Video Files fast, immediately play and get info on. Download Video Urls effortlessly and autoplay with Play Clipboard.
 
@@ -7,12 +7,7 @@
 <br />
 
 
-#### This update added: 
--  &nbsp; Play Directory will only execute if video files exist in the current directory.
-
--  &nbsp; On the Home Screen, the dash at Play Directory will blink if video files exist in the current directory.
-
--  &nbsp; Updated Version History.
+#### This update added: Bug Squashed in Play Clipboard and Last Download.
 
 
 
