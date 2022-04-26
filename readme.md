@@ -57,8 +57,7 @@ Play Clipboard voodoo wouldn't have been possible without XCLIP
   - Keep track of everything played except Play Directory.
   - Save a list of videos from find results and played list.
   - Remove duplicates from the playlist and played video.
-  - Remove any entries from lists that don't start with a /
-  - Enter a file with full path to play and get info. p
+  - Enter a file with full path to get info on and play.
   - Auto save last find result(s) and autoload until deleted.
   - Yt-dlp integration for easy download and play.
   - Download video to play later.
@@ -82,7 +81,7 @@ Play Clipboard voodoo wouldn't have been possible without XCLIP
 
 #### Copy a local file including full path to the clipboard and press  enter  to verify the file is valid. Then  p  to Play Clipboard.
  
-#### Copy a video url to the clipboard and press  enter  to verify the url is valid. The  p  to Play Clipboard.
+#### Copy a video url to the clipboard and press  enter  to verify the url is valid. Then  p  to Play Clipboard.
 
 
 Note: Pressing  enter  after content is copied to the clipboard isn't required before pressing  p
