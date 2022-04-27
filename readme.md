@@ -1,4 +1,4 @@
-# Videoinfox v2.0.69 &nbsp; Where Video Play is a Clipboard Copy Away
+# Videoinfox v2.0.70 &nbsp; Where Video Play is a Clipboard Copy Away
 
 #### Find local Video Files fast, immediately play and get info on. Download Video Urls effortlessly and autoplay with Play Clipboard.
 
@@ -7,7 +7,7 @@
 <br />
 
 
-#### This update added:  Added another decimal to the version number be compliant with Semantic Versioning.
+#### This update added:  Download List menu fixes and change to download Log.
 
 
 
