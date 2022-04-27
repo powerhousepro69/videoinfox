@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#  file : videoinfox v2.0.69									         
+#  file : videoinfox v2.0.70									         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfo's Version Number is set.
-ver="Videoinfox v2.0.69"
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m0.69")  # Version Number witth blinking dot
+ver="Videoinfox v2.0.70"
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m0.70")  # Version Number witth blinking dot
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -559,6 +559,16 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v2.0.70 Download List menu fixes and change to download Log.">> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         If you would try to Download List with an empty clipboard, it would throw an error.">> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Now View List won't execute if the clipboard is empty.">> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Now View Log  won't execute if the clipboard is empty .">> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Download log only shows url and matching filename." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.0.69 Added another decimal to the version number be compliant with Semantic Versioning.">> ~/.config/videoinfox/videoinfo-ver-history
@@ -3067,9 +3077,10 @@ read -r -n1 optiony
 
      g)  # (DOWNLOAD LIST)
 
-pastetemp=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content to save for quit
 dirtemp="$PWD"  # grab dir to save for quit
+
 echo "" | xclip -sel clip  # clearing out the clipboard
+pasteclip=$(xclip -o -selection clipboard 2> /dev/null) # grab clipboard content
 
 
 function dwnlist {
@@ -3080,7 +3091,7 @@ if [ -f "$pasteclip" ]
 then
 :
 else
-echo "$pastetemp" | xclip -sel clip  # clearing out the clipboard
+echo "" | xclip -sel clip  # clearing out the clipboard
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 fi
  
@@ -3141,7 +3152,7 @@ dwnlist
 case $optiond in
          
 q)  # QUIT
-echo "$pastetemp" | xclip -sel clip  # restore clipboard
+echo "$pasteclip3" | xclip -sel clip  # restore clipboard
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 break;;
 
@@ -3151,17 +3162,13 @@ clear
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
-if [ -f "$pasteclip" ]
+if [ -f "$pasteclip" ]  # continue if file exists  
 then
 :
-else
-echo "$pastetemp" | xclip -sel clip  # clearing out the clipboard
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-fi
 
 sed -i '/^$/d' "$pasteclip" 2>/dev/null  # remove any blank lines in the list
 
-grablistdir=$(echo "$pasteclip" | sed 's|\(.*\)/.*|\1|')  # remove last slash and filenname leaving only path
+grablistdir=$(echo "$pasteclip" | sed 's|\(.*\)/.*|\1|' &> /dev/null)  # remove last slash and filenname leaving only path
 cd "$grablistdir" &> /dev/null  # change directory to list location
 
 rm videoinfox-dl*~ &> /dev/null  # duplicate lists were showing up with   ~   added onto the filename
@@ -3182,7 +3189,7 @@ do
 
 echo
 
-~/.config/videoinfox/yt-dlp "$line" # download url
+~/.config/videoinfox/yt-dlp "$line"  # download url
 
 # logging yt-dlp output
 echo "$line" >> "$logfile" 
@@ -3194,11 +3201,19 @@ done < "$input"
 ################  DOWNLOAD LOOP END  ################
 
 
-sed -i 's/has already been downloaded//' "$pasteclip".log  # removing text string from log file
+############  REMOVE UNWANTED LOG INFO  ############# 
+
+sed -i '/\[youtube\]/d' "$pasteclip".log &> /dev/null  # removing lines that start with  [youtube]
+sed -i '/\[info\]/d' "$pasteclip".log &> /dev/null  # removing lines that start with  [info]
+sed -i 's/\[download\]//' "$pasteclip".log &> /dev/null  # remove   [download]   from the end of the line.
+sed -i 's/has already been downloaded//' "$pasteclip".log &> /dev/null  # remove   has already been downloaded   from the end of the line.
+sed -i -e 's/^[ \t]*//' "$pasteclip".log &> /dev/null  # remove spaces at beginning of line.
+
+#####################################################
 
 echo
 echo
-echo "Up/Down arrows or mouse to scroll.  Press enter to quit" 
+echo "Up/Down arrows or mouse to scroll.  Press enter to quit"
 echo
 echo
 echo "Log file:" "$logfile"
@@ -3209,21 +3224,36 @@ read -p ""
 
 echo "" | xclip -sel clip  # clearing out the clipboard
 cd $dirtemp &> /dev/null  # change directory back to what is was before running  Download List
+
+else  # File didn't exist. clipboard cleared
+
+echo "" | xclip -sel clip  # clearing out the clipboard
+pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+fi
 ;;
 
 
 v)  # VIEW A DOWNLOAD LIST
+
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+
+if [ -f "$pasteclip" ]  # continue if file exists  
+then
+
 clear
 cat "$pasteclip" 2>/dev/null
 echo
 read -p "Up/Down arrows or mouse to scroll.  Press enter to quit"
+
+else  # File didn't exist. clipboard cleared
+
+echo "" | xclip -sel clip  # clearing out the clipboard
+pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+fi
 ;;
 
 
 l)  # VIEW LOGS
-
-pastecliptemp=$(xclip -o -selection clipboard 2> /dev/null)  # saving clipboard content to restore on quit
 
 echo "" | xclip -sel clip  # clearing out the clipboard clipboard
 
@@ -3231,13 +3261,10 @@ function viewlogs {
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
-if [ -f "$pasteclip" ]
-then
-:
-else
-echo "$pastetemp" | xclip -sel clip  # clearing out the clipboard
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-fi
+
+
+
+
 
 ########## blinking routine for display ##########
 
@@ -3293,10 +3320,20 @@ break;;
 
 l)  # VIEW LOG
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard contentclear
+
+if [ -f "$pasteclip" ]
+then
+
 clear
 cat "$pasteclip" 2>/dev/null
 read -p "Up/Down arrows or mouse to scroll.  Press enter to quit"
 echo "" | xclip -sel clip  # clearing out the clipboard clipboard
+
+else
+echo "" | xclip -sel clip  # clearing out the clipboard
+pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+fi
+
 esac
 done
 ;;
@@ -3476,7 +3513,7 @@ if [ "$grabclip" = "http" ]  # if the first 4 characters = <http> go then
         then
             :
         else
-            echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
+            echo "" | xclip -sel clip  # clearing out the clipboaed
             pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
       fi
 fi
