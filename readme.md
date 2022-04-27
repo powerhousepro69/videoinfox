@@ -7,14 +7,14 @@
 <br />
 
 
-#### This update added:  Download List menu fixes and change to download Log.
+#### This update added:  &nbsp; &nbsp; Download List menu fixes and change to download Log.
 
 
 
 <br />
 
 
-### To install : &nbsp; &nbsp;Run the 2 lines below.
+### To install : &nbsp; &nbsp; Run the 2 lines below.
 ```
 sudo wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox -O /usr/local/bin/videoinfox
 ```
