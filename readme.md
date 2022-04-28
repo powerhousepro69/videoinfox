@@ -144,7 +144,7 @@ NAVIGATE TREE
 ![Navigate Tree](https://i.imgur.com/fWh8p4v.png)
 
 <br />
-PLAYLIST &nbsp; (also Played List)
+PLAYLIST &nbsp; & PLAYED LIST
 
 ![Videoinfox HOME](https://i.imgur.com/hpiQMqU.png)
 
