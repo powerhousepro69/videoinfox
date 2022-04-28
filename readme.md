@@ -9,9 +9,9 @@
 
 #### This update added:  &nbsp; &nbsp; Play Clipboard handling of invalid urls and an empty clipboard.
 
-    Fix: Running Play Clipboard with an invalid url would play the Last Download.
+Fix: Running Play Clipboard with an invalid url would play the Last Download.
 
-    Add: Play Clipboard won't run if the clipboard is empty.
+Add: Play Clipboard won't run if the clipboard is empty.
 
 
 
