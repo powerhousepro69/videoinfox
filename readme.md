@@ -128,7 +128,7 @@ YT-DLP MENU
 ![Yt-dlp Menu](https://i.imgur.com/NRTL3H2.png)
 
 <br />
-YT-DLP DOWNLOAD LIST
+DOWNLOAD LIST
 
 ![download list](https://i.imgur.com/imGG5T6.png)
 
