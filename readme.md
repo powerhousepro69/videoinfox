@@ -63,7 +63,7 @@ FFprobe - Get codec, resolution & duration in seconds.
   - Play either a local file or a downloadable video url via yt-dlp.
   - Create Download List(s) of video urls with your preferred text editor & videoinfox will use yt-dlp to download the list.
   - See codec, resolution and duration on the playing video.
-  - Play Clipboard available in:   -Home   -Played List   -Played List   -Yt-dlp menu   -View Downloads
+  - Play Clipboard available in:   -Home   -Played List   -Play List   -Yt-dlp menu   -View Downloads
   - Play Clipboard blinking notification when there is a valid video file or video url for play.
   - Play Directory autoplay on the Home Screen.
   - Navigate Tree blinking  Play Directory  notification when there are video files in the current directory.
