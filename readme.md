@@ -33,7 +33,7 @@ Videoinfox is a Linux shell script that feels like an app. If you enjoy watching
 
 Note: Played List and Playlist don't auto play yet, but will in the near future. Along with multiple playlist capability.
 
- 
+<br />
 
 Harnessing the power of:
 
