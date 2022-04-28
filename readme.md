@@ -75,8 +75,8 @@ FFprobe - Get codec, resolution & duration in seconds.
   - Press enter after your copy to the clipboard to validate clipboard content.
   - File types searched for:  &nbsp; .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx
   - Keep track of everything played except Play Directory.
-  - Save a list of videos from find results and played list.
-  - Remove duplicates from the playlist and played video.
+  - Save a list of videos from find results and directory listing.
+  - Remove duplicates from the Playlist and Played List.
   - Enter a file with full path to get info on and play.
   - Auto save last find result(s) and autoload until deleted.
   - Yt-dlp integration for easy download and play.
