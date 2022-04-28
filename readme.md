@@ -83,7 +83,7 @@ FFprobe - Get codec, resolution & duration in seconds.
   - Download video to play later.
   - Download Default - Yt-dlp with no arguments.
   - Download Choose  - Choose video type and qualiy before download.
-  - Download completed, auto play, delete when the player is closed. (self Destruct)
+  - Self Destruct - Download, auto play, delete when the player is closed.
   - Watch last download.
   - Download and update Yt-dlp.
   - Rapid directory changing by setting default directories.
