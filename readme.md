@@ -1,4 +1,4 @@
-# Videoinfox v2.0.70 &nbsp; Where Video Play is a Clipboard Copy Away
+# Videoinfox v2.0.71 &nbsp; Where Video Play is a Clipboard Copy Away
 
 #### Find local Video Files fast, immediately play and get info on. Download Video Urls effortlessly and autoplay with Play Clipboard.
 
@@ -7,7 +7,12 @@
 <br />
 
 
-#### This update added:  &nbsp; &nbsp; Download List menu fixes and change to download Log.
+#### This update added:  &nbsp; &nbsp; Play Clipboard handling of invalid urls and an empty clipboard.
+
+    Fix: Running Play Clipboard with an invalid url would play the Last Download.
+
+    Add: Play Clipboard won't run if the clipboard is empty.
+
 
 
 
