@@ -150,7 +150,7 @@ PLAYLIST &nbsp; & PLAYED LIST
 
 
 <br />
-MORTE OPTIONS
+MORE OPTIONS
 
 ![Videoinfox HOME](https://i.imgur.com/j0V0PtJ.png)
 
@@ -176,7 +176,7 @@ FIND DIRECTORY
 ![Videoinfox HOME](https://i.imgur.com/WCHTlpd.png)
 
 <br />
-SSETTINGS
+SETTINGS
 
 ![Videoinfox HOME](https://i.imgur.com/hrOdE5o.png)
 
