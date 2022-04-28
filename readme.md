@@ -113,70 +113,70 @@ FFprobe - Get codec, resolution & duration in seconds.
 #### Dependencies listed at bottom of page.
 
 <br />
-Home screen with video url in the clipboard.&nbsp; &nbsp; Press&nbsp;  p &nbsp;to download and autoplay full screen.
+HOME SCREEN WITH VIDEO URL IN THE CLIPBOARD. &nbsp; &nbsp; PRESS &nbsp;  p &nbsp; TO DOWNLOAD AND PLAY FULLSCREEN.
  
 ![Videoinfox HOME](https://i.imgur.com/poQOxK9.png)
 
 <br />
-Play Clipboard
+PLAY CLIPBOARD & PLAY DIRECTORY
 
 ![Play Clipboard](https://i.imgur.com/TJTPQBT.png)
 
 <br />
-Yt-dlp Menu
+YT-DLP MENU
 
 ![Yt-dlp Menu](https://i.imgur.com/NRTL3H2.png)
 
 <br />
-Yt-dlp Menu Download List
+YT-DLP DOWNLOAD LIST
 
 ![download list](https://i.imgur.com/imGG5T6.png)
 
 <br />
-Find
+FIND
 
 ![Videoinfox HOME](https://i.imgur.com/hwtyrdi.png)
 
 
 <br />
-Navigate Tree
+NAVIGATE TREE
 
 ![Navigate Tree](https://i.imgur.com/fWh8p4v.png)
 
 <br />
-Playlist &nbsp; (also Played List)
+PLAYLIST &nbsp; (also Played List)
 
 ![Videoinfox HOME](https://i.imgur.com/hpiQMqU.png)
 
 
 <br />
-More Options
+MORTE OPTIONS
 
 ![Videoinfox HOME](https://i.imgur.com/j0V0PtJ.png)
 
 
 <br />
-List Directory
+LIST DIRECTORY
 
 ![Videoinfox HOME](https://i.imgur.com/kIMMech.png)
 
 <br />
-Video Count
+VIDEO COUNT
 
 ![Videoinfox HOME](https://i.imgur.com/ORPVFGz.png)
 
 <br />
-Video Duration
+VIDEO DURATION
 
 ![Videoinfox HOME](https://i.imgur.com/03KxKlU.png)
 
 <br />
-Find Directory
+FIND DIRECTORY
 
 ![Videoinfox HOME](https://i.imgur.com/WCHTlpd.png)
 
 <br />
-Settings
+SSETTINGS
 
 ![Videoinfox HOME](https://i.imgur.com/hrOdE5o.png)
 
@@ -207,7 +207,7 @@ Settings
 #### Any missing dependencies will be displayed.
 
 <br />
-Dependencies
+DEPENDENCIES
   
 ![Videoinfox DEPENDENCY CHECK](https://i.imgur.com/HjqIZqM.png)
 
@@ -217,7 +217,7 @@ Dependencies
 #### Setup for first the run or if the videoinfox directory gets deleted anytime after the first run.
 
 <br />
-First Run
+FIRST RUN
 
 ![Videoinfox FIRST RUN](https://i.imgur.com/IzaDGUs.png)
 
