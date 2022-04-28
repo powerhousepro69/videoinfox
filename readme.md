@@ -28,9 +28,29 @@ sudo chmod +x /usr/local/bin/videoinfox
 ```
 <br />
 
-Download feature wouldn't have been possible without YT-DLP
-<br /> 
-Play Clipboard voodoo wouldn't have been possible without XCLIP
+
+Videoinfox is a Linux shell script that feels like an app. If you enjoy watching local videos on your PC and want the ability to download video url's, you won't be disappointed. You can also make your own URL lists to download. While downloading a list, a log file will be generated for each list. The log is each http link from your list with the downloaded video filename. If the download list is aborted before completion, Yt-dlp has you covered. Just run the Download List feature again. Yt-dlp won't re-download files that you already have. There is a Played List that keeps track of everything you played with the exception of of the Play Directory feature. There is also a playlist you can create from search results or from directory listings. Videoinfox does all the error handling. So you should never see any script errors.
+
+Note: Played List and Playlist don't auto play yet, but will in the near future. Along with multiple playlist capability.
+
+ 
+
+Harnessing the power of:
+
+Videoinfox - My contribution.
+
+Xclip - Interact with the clipboard.
+
+Yt-dlp - Download video urls.
+
+FFplay - Play videos.
+
+FFmpeg - Get duration in hh:min:sec
+
+FFprobe - Get codec, resolution & duration in seconds.
+
+
+
 <br />
 
 ### Videoinfox Features:
