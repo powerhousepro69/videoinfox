@@ -108,7 +108,7 @@ FFprobe - Get codec, resolution & duration in seconds.
 
 <br />
 
-If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
+** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted. **
 
 #### Dependencies listed at bottom of page.
 
