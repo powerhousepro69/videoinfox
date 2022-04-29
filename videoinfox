@@ -1,12 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v2.0.71									         
+#  file : videoinfox v2.0.72									         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
-# This is where Videoinfo's Version Number is set.
-ver="Videoinfox v2.0.71"
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m0.71")  # Version Number witth blinking dot
+# This is where Videoinfox's Version Number is set.
+
+ver="Videoinfox v2.0.72"  # Version Number no blinking
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m0.72")  # Version Number witth blinking dot
+
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -23,16 +25,15 @@ der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m0.71")  # V
 # - notify-send (already installed on most disrtros) needed to display gui notifications.
 
  
-#  Videoinfo runs a dependency check at startup. If any dependencies are Not Found, the script will exit. 
-#  Videoinfo will display which dependencies are missing.
+##########  Videoinfox runs a dependency check at startup. If any dependencies are Not Found, the script will exit. 
+##########  Missing dependencies will be displayed.
 
 
 ##################################################################################################################################################
 #  THIS SCRPT HAS BEEN HEAVILY COMMENTED FOR ANYONE INTERESTED IN HOW IT WORKS AND TO MAKE IT EASIER TO EDIT THE CODE.  ##########################
 ##################################################################################################################################################
 
-
-#  videoinfox -v    display version number then exit.  This is the only command line option.  
+#  videoinfox -v    Display version number then exit.  This is the only command line option.  
 
 if [ "$1" = "-v" ]
   then
@@ -316,7 +317,7 @@ echo "                                                                          
       # SAMPLE VIDEO URL BEING COPIED TO CLIPBOARD
       echo "https://www.youtube.com/watch?v=rNWPqfCJDnc" | xclip -sel clip     
    
-      # SAMPLE DOWLOAD LIST WITH 3 VIDEO URL'S
+      # SAMPLE URL DOWLOAD LIST BEING CREATED WITH 3 VIDEO URL'S
       echo "https://www.youtube.com/watch?v=d59H0UxhyaY" > $HOME/Downloads/videoinfox-dl-sample
       echo "https://www.youtube.com/watch?v=5tSAKS8LRj0" >> $HOME/Downloads/videoinfox-dl-sample
       echo "https://www.youtube.com/watch?v=DAPkOxRnh4c" >> $HOME/Downloads/videoinfox-dl-sample
@@ -362,23 +363,24 @@ timeout 2.4 wget -q https://raw.githubusercontent.com/powerhousepro69/videoinfox
 # make script executable to get ver number
 chmod +x ~/.config/videoinfox/videoinfox-fetched 2> /dev/null
 
-# ver number of download
+# get ver number of download
 viv=$(~/.config/videoinfox/videoinfox-fetched -v)  
 
-# the download: cut the first 13 characters + sed to remove the dot =  version number minus the dot 
+# download ver: cut the first 13 characters + sed to remove the dot =  version number minus the dot 
 viv2=$(echo "$viv" | cut -c13- | sed -e 's/\.//g') # format: whole number  xxxx
 
-# this script:  cut the first 13 characters + sed to remove the dot =  version number minus the dot 
+# script ver:   cut the first 13 characters + sed to remove the dot =  version number minus the dot 
 viv3=$(echo "$ver" | cut -c13- | sed -e 's/\.//g') # format: whole number  xxxx
 
 # for the notification just on the home screen
+
 if [ "$viv2" = "$viv3" ]  # If the downloaded version = this script's version goto then
   then
       # Version numbers are the same
       viv4=$(echo -e \ "               ") # dead space place holder for when there is no   update available   in the display
   else
       # Version numbers are not the same
-      viv4="update available"   # for update available notification on home screen
+      viv4="update available"   # update available   notification on home screen
       notify-send "Videoinfox messsage: Update Available" "$viv" # send gui notification with update ver number
 fi
 
@@ -441,9 +443,6 @@ echo >> ~/.config/videoinfox/videoinfo.help
 echo " Copy a video url to the clipboard and press  enter  to verify the url is valid." >> ~/.config/videoinfox/videoinfo.help  
 echo " Then  p  to Play Clipboard." >> ~/.config/videoinfox/videoinfo.help 
 echo >> ~/.config/videoinfox/videoinfo.help 
-echo " Note: Pressing  enter  after content is copied to the clipboard isn't required before pressing  p" >> ~/.config/videoinfox/videoinfo.help 
-echo "       It is just to vaidate the clipboard content for the display." >> ~/.config/videoinfox/videoinfo.help 
-echo "       This feature will auto clear invalid clipboard content."  >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Yt-dlp Menu    d - Download Default - Yt-dlp with no arguements." >> ~/.config/videoinfox/videoinfo.help
@@ -558,7 +557,15 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
-
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v2.0.72 View Downloads  and  Last Download.">> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Fix: Valid clipboard content was being cleard after the above options were run then quit.">> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Clipboard Policy: There are only 2 circumstances when valid clipboard content will be cleared.">> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         1. User copies to clipboard.     2. Clipboard has been played.">> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.0.71 Play Clipboard handling of invalid urls and an empty clipboard.">> ~/.config/videoinfox/videoinfo-ver-history
@@ -749,6 +756,8 @@ codecres="ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null
 
 
+
+
 ##################################################################################################################################################
 ###########################  HOME LOOP START #####################################################################################################
 ##################################################################################################################################################
@@ -856,7 +865,8 @@ read -r dir5 < ~/.config/videoinfox/videoinfo.dir-at-exit 2> /dev/null
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content                          
 
-#checking for videos in the current directory.  if video(s) exist:  the dash @ Play Directory will blink on the home screen
+
+# CHECKING FOR VIDEOS IN CURRENT DIRECTORY.  if video(s) exist:  the dash @ Play Directory will blink on the home screen
 dovideosexist=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
 
 if [ $dovideosexist -ne 0 ]  # If the find result don't =   0   goto then
@@ -962,7 +972,7 @@ echo "" | xclip -sel clip  # clearing out the clipboard
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
 echo "___________________________________________________________________________________________________________________"
-echo
+echo 
 echo " $der $viv4      Enter - Update Clipboard Display                1 2 3 4 5 - Default Dirs"
 echo "___________________________________________________________________________________________________________________"
 echo
@@ -1431,8 +1441,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
                        
               echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to file  
-              ffplay -fs -autoexit &> /dev/null "$ytdlplast"  
-              echo "" | xclip -sel clip  # clearing out the clipboard
+              ffplay -fs -autoexit &> /dev/null "$ytdlplast"
               pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
               cd "$grabdir"   # restore dir prior to entering yt-dlp menu
               ;;  
@@ -1559,7 +1568,8 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       #  On invalid url..... find from above will list all files in the directory when it is a specific file that is needed.
       #  selecting Play Clipboard with an invalid url in clipboard: would always play the first video in the default Download Directory         
       #  the below is counting the lines in the file.  It should always be 1 line (valid url) or no line (invalid url) at the file level.
-      correcterror=$(wc -l ~/.config/videoinfox/videoinfo.find-last-download | cut -d' ' -f1)
+      
+      correcterror=$(wc -l ~/.config/videoinfox/videoinfo.find-last-download | cut -d' ' -f1)  # getting line count.
           
               if [ "$correcterror" -gt 1 ]  # If line count is greater than 1 goto then. More than 1 was caused from Play Clipboard on invalid url.
                 then                
@@ -1908,7 +1918,8 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       #  On invalid url..... find from above will list all files in the directory when it is a specific file that is needed.
       #  selecting Play Clipboard with an invalid url in clipboard: would always play the first video in the default Download Directory         
       #  the below is counting the lines in the file.  It should always be 1 line (valid url) or no line (invalid url) at the file level.
-      correcterror=$(wc -l ~/.config/videoinfox/videoinfo.find-last-download | cut -d' ' -f1)
+
+      correcterror=$(wc -l ~/.config/videoinfox/videoinfo.find-last-download | cut -d' ' -f1)  # getting line count.
           
               if [ "$correcterror" -gt 1 ]  # If line count is greater than 1 goto then. More than 1 was caused from Play Clipboard on invalid url.
                 then                
@@ -2223,7 +2234,8 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       #  On invalid url..... find from above will list all files in the directory when it is a specific file that is needed.
       #  selecting Play Clipboard with an invalid url in clipboard: would always play the first video in the default Download Directory         
       #  the below is counting the lines in the file.  It should always be 1 line (valid url) or no line (invalid url) at the file level.
-      correcterror=$(wc -l ~/.config/videoinfox/videoinfo.find-last-download | cut -d' ' -f1)
+
+      correcterror=$(wc -l ~/.config/videoinfox/videoinfo.find-last-download | cut -d' ' -f1)  # getting line count.
           
               if [ "$correcterror" -gt 1 ]  # If line count is greater than 1 goto then. More than 1 was caused from Play Clipboard on invalid url.
                 then                
@@ -3206,11 +3218,11 @@ dash0=$(echo "-")
 # if file exists goto then
 if [ -f "$pasteclip" ]
   then
-      finalresult="$downloadlist1"  # if the file exists, blinking   DOWNLOAD LIST
-      finalresult2="$dash1"  # if the file exists, blinking   -
+      finalresult="$downloadlist1"  # if the file exists: blinking   DOWNLOAD LIST
+      finalresult2="$dash1"  #                            blinking   -
   else
-      finalresult="$downloadlist0"  # if the file doesn't exist, non blinking   DOWNLOAD LIST
-      finalresult2="$dash0"  # if the file doesn't exist, non blinking   -
+      finalresult="$downloadlist0"  # if the file doesn't exist: non blinking   DOWNLOAD LIST
+      finalresult2="$dash0"  # if                                non blinking   -
 fi
 ########## end blinking routine #################
 
@@ -3350,10 +3362,6 @@ function viewlogs {
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
 
-
-
-
-
 ########## blinking routine for display ##########
 
 # blinking
@@ -3452,7 +3460,7 @@ echo " Then load the completed list in Videoinfox to download."
 echo
 echo
 echo " Note: This is yt-dlp with no options at the command line." 
-echo "       I'm 'Still planning on adding an options save for yt-dlp command line options."
+echo "       I'm still planning on adding an options save for yt-dlp command line options."
 echo
 echo
 read -p " Press enter to quit"
@@ -3506,7 +3514,8 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       #  On invalid url..... find from above will list all files in the directory when it is a specific file that is needed.
       #  selecting Play Clipboard with an invalid url in clipboard: would always play the first video in the default Download Directory         
       #  the below is counting the lines in the file.  It should always be 1 line (valid url) or no line (invalid url) at the file level.
-      correcterror=$(wc -l ~/.config/videoinfox/videoinfo.find-last-download | cut -d' ' -f1)
+
+      correcterror=$(wc -l ~/.config/videoinfox/videoinfo.find-last-download | cut -d' ' -f1)  # getting line count.
           
               if [ "$correcterror" -gt 1 ]  # If line count is greater than 1 goto then. More than 1 was caused from Play Clipboard on invalid url.
                 then                
@@ -3609,9 +3618,12 @@ fi
   
 #####################################################################################
      v)  # VIEW DOWNLOADS
-#####################################################################################     
+##################################################################################### 
+
+clipsave=$(xclip -o -selection clipboard 2> /dev/null)  # save clipboard content         
           
-     function menuyt {  # LIST ALL VIDEO FILES RECURSIVELY IN THE DEFAULT DOWNLOAD DIRECTORY 
+     
+      function menuyt {  # LIST ALL VIDEO FILES RECURSIVELY IN THE DEFAULT DOWNLOAD DIRECTORY 
 
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
@@ -3763,8 +3775,8 @@ read -r -n1 optionyt
 	         case $optionyt in
 
 
-              q)
-              #  QUIT
+              q)  # QUIT
+              echo "$clipsave" | xclip -sel clip  # restore clipboard         
               break;;
 
                             
@@ -3808,7 +3820,8 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       #  On invalid url..... find from above will list all files in the directory when it is a specific file that is needed.
       #  selecting Play Clipboard with an invalid url in clipboard: would always play the first video in the default Download Directory         
       #  the below is counting the lines in the file.  It should always be 1 line (valid url) or no line (invalid url) at the file level.
-      correcterror=$(wc -l ~/.config/videoinfox/videoinfo.find-last-download | cut -d' ' -f1)
+
+      correcterror=$(wc -l ~/.config/videoinfox/videoinfo.find-last-download | cut -d' ' -f1)  # getting line count.
           
               if [ "$correcterror" -gt 1 ]  # If line count is greater than 1 goto then. More than 1 was caused from Play Clipboard on invalid url.
                 then                
@@ -4048,8 +4061,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
                        
               echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to file  
-              ffplay -fs -autoexit &> /dev/null "$ytdlplast"  
-              echo "" | xclip -sel clip  # clearing out the clipboard
+              ffplay -fs -autoexit &> /dev/null "$ytdlplast"
               pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
               cd "$grabdir"   # restore dir prior to entering yt-dlp menu
               ;;  
