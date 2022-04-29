@@ -9,11 +9,11 @@
 
 #### This update:  &nbsp; &nbsp; View Downloads  and  Last Download.
 
-Fix: Valid clipboard content was being cleared after the above options were run then quit.
+Fix: &nbsp; Valid clipboard content was being cleared after the above options were run then quit.
 
-Clipboard Policy: There are only 2 circumstances when valid clipboard content will be cleared.
+Clipboard Policy: &nbsp; There are only 2 circumstances when valid clipboard content will be cleared.
 
-1. User copies to clipboard.     2. Clipboard has been played.
+1. User copies to clipboard.  &nbsp;    2. Clipboard has been played.
 
 
 
