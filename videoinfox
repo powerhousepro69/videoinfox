@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#  file : videoinfox v2.0.72									         
+#  file : videoinfox v2.0.73									         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v2.0.72"  # Version Number no blinking
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m0.72")  # Version Number witth blinking dot
+ver="Videoinfox v2.0.73"  # Version Number no blinking
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m0.73")  # Version Number witth blinking dot
 
 
 ##################################################################################################################################################
@@ -410,7 +410,7 @@ echo >> ~/.config/videoinfox/videoinfo.help
 echo " Make a list of video url's with your preferred text editor and Videoinfox will download your list." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " Release information is now located in:  Settings (set)  option:  Version History" >> ~/.config/videoinfox/videoinfo.help
+echo " Version History is located in:  Settings (set)" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Find videos to play or get info on: Change to a parent directory of your video library and slect find <f>" >> ~/.config/videoinfox/videoinfo.help
@@ -557,15 +557,19 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
+
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v2.0.73 added done downloading gui notification to Download Default.">> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.0.72 View Downloads  and  Last Download.">> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Fix: Valid clipboard content was being cleard after the above options were run then quit.">> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Fix: Valid clipboard content was being cleared after the above options were run then quit.">> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Clipboard Policy: There are only 2 circumstances when valid clipboard content will be cleared.">> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         1. User copies to clipboard.     2. Clipboard has been played.">> ~/.config/videoinfox/videoinfo-ver-history
+echo "                           1. User copies to clipboard.     2. Clipboard has been played.">> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.0.71 Play Clipboard handling of invalid urls and an empty clipboard.">> ~/.config/videoinfox/videoinfo-ver-history
@@ -3125,7 +3129,7 @@ echo -e " d "$dash1" Download Default     l - Last Download     v - View Downloa
             fi
   else
 
-      if [ -f "$pasteclip" ]  # 
+      if [ -f "$pasteclip" ]  # Valid file in the clipboard
         then
             echo      
             echo "Valid file in clipboard"
@@ -3921,8 +3925,6 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 fi
 ;;  
 
-
-
               i) 
               #  INFO
               pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
@@ -4081,6 +4083,9 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               sed -i "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload  
       
               read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
+              
+              read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
+              notify-send "Videoinfox messsage: YT-DLP done downloading . . ." "$lastdownload"
               
               echo "" | xclip -sel clip  # clearing out the clipboard
               pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
