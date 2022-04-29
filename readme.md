@@ -13,7 +13,7 @@ Fix: &nbsp; Valid clipboard content was being cleared after the above options we
 
 Clipboard Policy: &nbsp; There are only 2 circumstances when valid clipboard content will be cleared.
 
-1. User copies to clipboard.  &nbsp;    2. Clipboard has been played.
+ &nbsp;  &nbsp;  &nbsp;  &nbsp;  1. User copies to clipboard.  &nbsp;    2. Clipboard has been played.
 
 
 
