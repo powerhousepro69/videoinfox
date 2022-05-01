@@ -9,7 +9,7 @@
 
 #### This update:  &nbsp; &nbsp;  Added Default Download List with companion &nbsp; videoinfox -a
 
-keep pasting your clipboard copies on the fly to the Default List without needing to run Videoinfox.
+Keep pasting your clipboard copies on the fly to the Default List without needing to run Videoinfox.
 
 New feature located in: &nbsp; &nbsp;  Yt-dlp Menu \>\>\> Download List \>\>\> Default List &nbsp; &nbsp;   Help -  Download List \>\>\> Help
 
