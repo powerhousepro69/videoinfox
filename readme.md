@@ -7,7 +7,7 @@
 <br />
 
 
-#### This update:  &nbsp; &nbsp;  Added Default Download List with companion &nbsp; &nbsp; videoinfox -a
+#### This update:  &nbsp; &nbsp;  Added Default Download List with companion &nbsp; videoinfox -a
 
 keep pasting your clipboard copies on the fly to the Default List without needing to run Videoinfox.
 
