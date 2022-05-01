@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#  file : videoinfox v2.0.73									         
+#  file : videoinfox v2.1.00									         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v2.0.73"  # Version Number no blinking
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m0.73")  # Version Number witth blinking dot
+ver="Videoinfox v2.1.00"  # Version Number no blinking
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m1.00")  # Version Number witth blinking dot
 
 
 ##################################################################################################################################################
@@ -29,11 +29,16 @@ der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m0.73")  # V
 ##########  Missing dependencies will be displayed.
 
 
+# THIS SCRIPT HAS BEEN HEAVILY COMMENTED FOR ANYONE INTERESTED IN HOW IT WORKS AND TO MAKE IT EASIER TO EDIT THE CODE.
+
+
 ##################################################################################################################################################
-#  THIS SCRPT HAS BEEN HEAVILY COMMENTED FOR ANYONE INTERESTED IN HOW IT WORKS AND TO MAKE IT EASIER TO EDIT THE CODE.  ##########################
+#  START COMMAND LINE OPTIONS  ###################################################################################################################
 ##################################################################################################################################################
 
-#  videoinfox -v    Display version number then exit.  This is the only command line option.  
+#-------------------------------------------------------------------------------------------------------------------------------------------------
+#  videoinfox -v     DISPLAY VERSION NUMBER THEN EXIT  
+#-------------------------------------------------------------------------------------------------------------------------------------------------
 
 if [ "$1" = "-v" ]
   then
@@ -43,17 +48,70 @@ if [ "$1" = "-v" ]
       :
 fi
 
+
+#-------------------------------------------------------------------------------------------------------------------------------------------------
+#  videoinfox -a     ADD CLIPBOARD CONTENT TO   Default List   THEN EXIT
+#-------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Create a gui keyboard shortcut for:   videoinfox -a
+# It isn't necessary to have the Videoinfox running while using this feature.
+
+# COPY THE URL TO THE BROWSER. THEN USE YOUR SHORTCUT TO WRITE URL TO THE DEFAULT DOWNLOAD LIST. 
+
+if [ "$1" = "-a" ]
+  then
+
+if [ -f ~/.config/videoinfox/videoinfox-dl-Default ]  # if file exists then 
+then
+    :
+else  # if file doesn't exist one will be created
+
+# CREATING EMPTY DEFAULT DOWNLOAD LIST WITH LIST EMPTY MESSAGE
+echo > ~/.config/videoinfox/videoinfox-dl-Default
+echo "Default Download List Empty" >> ~/.config/videoinfox/videoinfox-dl-Default
+
+fi
+
+# ADD TO DEFAULT LIST  <DEFAULT LIST>
+pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+echo "$pasteclip" >> ~/.config/videoinfox/videoinfox-dl-Default  # write url to the default download list
+notify-send "Videoinfox Messaage: Added to the Default Download List . . ." ""$pasteclip"" # GUI Notification.
+
+# REMOVE DUPLICATES
+cat -n ~/.config/videoinfox/videoinfox-dl-Default | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/videoinfox-dl-Default.tmp
+mv ~/.config/videoinfox/videoinfox-dl-Default.tmp ~/.config/videoinfox/videoinfox-dl-Default
+
+sed -i '/^$/d' ~/.config/videoinfox/videoinfox-dl-Default 2>/dev/null  # remove any blank lines in the list
+sed -i '/http/!d' ~/.config/videoinfox/videoinfox-dl-Default  # remove all lines not starting with  http
+
+echo "" | xclip -sel clip  # clearing out the clipboard
+
+exit
+
+else
+    :
+fi
+
+
+##################################################################################################################################################
+#  END COMMAND LINE OPTIONS  #####################################################################################################################
+##################################################################################################################################################
+
+
+
 ##################################################################################################################################################
 ##################################################################################################################################################
 
-#  The below 6 functions run once on every startup then onto the home loop.
+#  The below 7 functions run once on every startup then onto the home loop.
 
 #  1. Dependency Check. If any dependencies are not found, the scipt will exit. Script will run when all dependencies are found
 #  2. Start from root check and change to home dir if started from root.   
 #  3. Configuration directory check and file creation. If  ~/.config/videoinfox  doesn't exist, directory will be crated along with config files.
 #  4. Check for Videoinfox update and notify if update is available.
-#  5. Create help file
-#  6  Creat version history file
+#  5. Create empty default download list if one doesn't already exist.
+#  6. Created download list help
+#  7. Create help file
+#  8. Creat version history file
 
 ##################################################################################################################################################
 ##################################################################################################################################################
@@ -61,7 +119,7 @@ fi
 
 
 ##################################################################################################################################################
-#############################  DEPENDENCY CHECK  ################################################################################################# 
+#####  DEPENDENCY CHECK  ######################################################################################################################### 
 ##################################################################################################################################################
 
 clear
@@ -176,7 +234,7 @@ fi
 
 
 ##################################################################################################################################################
-###########################  START FROM ROOT CHECK  ############################################################################################## 
+#####  START FROM ROOT CHECK  #################################################################################################################### 
 ##################################################################################################################################################
 
 whatdir=$PWD  #  current working directory
@@ -212,7 +270,7 @@ fi
 
 
 ##################################################################################################################################################
-###########################  DIRECTORY CHECK & FILE CREATION ##################################################################################### 
+#####  DIRECTORY CHECK & FILE CREATION  ########################################################################################################## 
 ##################################################################################################################################################
 
 # The below check: Does the directory <~/.config/videoinfox> exist ?
@@ -237,7 +295,7 @@ if [ -d "$direxist" ]  #  if directoty exists goto  <then>
       echo         
       echo " Created config directory: $HOME/.config/videoinfox  and required files "
       echo "___________________________________________________________________________________________________________________"
-      echo_
+      echo
       echo " NOTE: Do not randomly paste in Videoinfox.  It will cause unwanted code to run producing"  
       echo " undesired results and can corrupt Videoinfox's data integrity and retention."
       echo
@@ -344,7 +402,7 @@ fi
 
 
 ##################################################################################################################################################
-###########################  CHECK FOR  (VIDEOINFOX NOTIFICATION UPDATE)      routine to get version number from github          #################
+#####  CHECK FOR  (VIDEOINFOX NOTIFICATION UPDATE)                            routine to get version number from github          #################
 ########################################################################      and compare it to this scripts version number      #################
 
 clear  # Display while downloading videoinfox from github on startup
@@ -386,7 +444,104 @@ fi
 
 
 ##################################################################################################################################################
-###########################  CREATE HELP FILE  ################################################################################################### 
+##### IF THE DEFAULT LIST DOESN'T EXIST, CREATE IT  ##############################################################################################
+##################################################################################################################################################
+
+if [ -f ~/.config/videoinfox/videoinfox-dl-Default ]  # if file exists then 
+then
+    :
+else  # if file doesn't exist one will be created
+
+# CREATING EMPTY DEFAULT DOWNLOAD LIST WITH LIST EMPTY MESSAGE
+echo > ~/.config/videoinfox/videoinfox-dl-Default
+echo "Default Download List Empty" >> ~/.config/videoinfox/videoinfox-dl-Default
+
+fi
+
+
+
+##################################################################################################################################################
+#####  CREATE DOWNLOAD LIST HELP FILE  ########################################################################################################### 
+##################################################################################################################################################
+
+echo  > ~/.config/videoinfox/videoinfox.download-list-help
+echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help 
+echo " "$ver" >>> DOWNLOAD LIST >>> HELP                                                            q - Quit" >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " There is a Default List and User Created Lists." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " DEFAULT LIST:  - There is just one Default List." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "                - The list resides in Videoinfox's .config directory and is maintained by the script." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "                - Script Directory location is irrelevant.  The Default List will follow the user." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "                - Video URL's' are always downloaded to the default Download Directory." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "                - Default List Companion,  videoinfox -a " >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "                  TO SETUP:  Make a gui shortcut for  videoinfox -a  (no spaces after the a)" >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "                  The shortcut varies per terminal. I use Mate Terminal and this is my shortcut command:" >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "                  mate-terminal --command=\"videoinfox -a\"" >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "                  Keep pasting your clipboard copies on the fly to the Default List without running Videoinfox." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "                  TO USE:  Copy a Video Download URL to the clipboard then use the  videoinfox -a  shortcut." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "                  Everytime you copy to the clipboard then run the shortcut, that will write the URL to the list ." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "                  When done making the list, start Videoinfox, load the list and Download List." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " USER LISTS:    - Unlimited user created Lists." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "                - Lists can be put anywhere and named." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "                - Script Directory location is relavant to having access to the user lists in Videoinfox." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "                - Video URL's are always downloaded to the directory of the lists location." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " The download list name always has to beigin with:   videoinfox-dl   Add anything to the end of the filename." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Sample download list name:   videoinfox-dl-funny-videos   (one restriction: don't use the Default List name)" >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " One video url per line starting at line 1.  No Spaces." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " First, create a download list with your preferred text editor." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Then load the completed list in Videoinfox to download." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Note: The user lists can be anywhere so they need to be recursively reachable from the current directory." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Erorr correction on all Download Lists:  - remove all lines that don't start with  http" >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "                                          - remove all duplicates." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "                                          - remove all empty lines." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "                                          * User lists will be edited if they contain any of the above errors." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " This is yt-dlp with no options at the command line." >> ~/.config/videoinfox/videoinfox.download-list-help 
+echo " I'm still planning on adding an options save for yt-dlp command line options." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+
+#####  DOWNLOAD LIST HELP COMPLETED  ############################################################################################################# 
+##################################################################################################################################################
+
+
+##################################################################################################################################################
+#####  CREATE HELP FILE  ######################################################################################################################### 
 ##################################################################################################################################################
 
 #if [ -f ~/.config/videoinfox/videoinfo.help ]
@@ -521,14 +676,14 @@ echo >> ~/.config/videoinfox/videoinfo.help
 
 #fi
 
-###########################  HELP COMPLETED  ##################################################################################################### 
+#####  HELP COMPLETED  ########################################################################################################################### 
 ##################################################################################################################################################
 
 
 
 
 ##################################################################################################################################################
-###########################  CREATE VERSION HISTORY FILE  ######################################################################################## ################################################################################################################################################## 
+#####  CREATE VERSION HISTORY FILE  ############################################################################################################## ################################################################################################################################################## 
 
 
 echo " _________________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo-ver-history
@@ -560,7 +715,14 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.0.73 added done downloading gui notification to Download Default.">> ~/.config/videoinfox/videoinfo-ver-history
+echo " v2.1.00 Added Default Download List and a command line option  -a  for making a gui shortcut" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         to keep pasting your clipboard copies on the fly to the Default List without needing to run Videoinfox." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         The srcitp will run, paste your clipboard content to the Default List and exit.  Make Shortcut:  "videoinfox -a"  " >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         New feature located in:  Yt-dlp Menu >>> Download List >>> Default List           Help -  Download List >>> Help" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v2.0.73 Added done downloading gui notification to Download Default.">> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.0.72 View Downloads  and  Last Download.">> ~/.config/videoinfox/videoinfo-ver-history
@@ -894,9 +1056,9 @@ echo "Directory: ""$PWD"
 echo "Clipboard: ""$pasteclip"
 
 ##################################################################################################################################################
-#=================================================================================================================================================
+
 #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
-#=================================================================================================================================================
+
 ##################################################################################################################################################
 
 # the 2 lines of below code are creating two new variables for the following loop.
@@ -1763,9 +1925,9 @@ echo "Clipboard: ""$pasteclip"
 
 
 ##################################################################################################################################################
-#=================================================================================================================================================
+
 #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
-#=================================================================================================================================================
+
 ##################################################################################################################################################
 
 # the 2 lines of below code are creating two new variables for the following loop.
@@ -2076,9 +2238,9 @@ echo "Directory: ""$PWD"
 echo "Clipboard: ""$pasteclip"
 
 ##################################################################################################################################################
-#=================================================================================================================================================
+
 #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT (this is for the display)
-#=================================================================================================================================================
+
 ##################################################################################################################################################
 
 # the 2 lines of below code are creating two new variables for the following loop.
@@ -3050,7 +3212,7 @@ fi
 
 
 read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir
-cd "$dirsaved" 
+#######################  cd "$dirsaved" 
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
@@ -3095,7 +3257,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                            #________________x________________________________________ _________________________________________________________
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " ""$der"" >>> YT-DLP MENU            Enter - Update Clipboard Display         yt-dlp Version: $ytdlpver"
+                      echo " ""$der"" >>> YT-DLP MENU       Enter - Update Clipboard Display              yt-dlp Version: $ytdlpver"
                       echo "___________________________________________________________________________________________________________________"
                       echo
                       echo " d "$dash0" Download Default     l - Last Download     v - View Downloads     p - Play Clipboard                 q - Quit"
@@ -3117,7 +3279,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo "Download Directory: $dirsaved"  # dislpay default download directory
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " ""$der"" >>> YT-DLP MENU            Enter - Update Clipboard Display         yt-dlp Version: $ytdlpver"
+                      echo " ""$der"" >>> YT-DLP MENU       Enter - Update Clipboard Display              yt-dlp Version: $ytdlpver"
                       echo "___________________________________________________________________________________________________________________"
                       echo
 
@@ -3135,7 +3297,7 @@ echo -e " d "$dash1" Download Default     l - Last Download     v - View Downloa
             echo "Valid file in clipboard"
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " ""$der"" >>> YT-DLP MENU            Enter - Update Clipboard Display         yt-dlp Version: $ytdlpver"
+            echo " ""$der"" >>> YT-DLP MENU       Enter - Update Clipboard Display              yt-dlp Version: $ytdlpver"
             echo "___________________________________________________________________________________________________________________"
             echo
 
@@ -3152,7 +3314,7 @@ echo -e " d - Download Default     l - Last Download     v - View Downloads     
 
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " ""$der"" >>> YT-DLP MENU            Enter - Update Clipboard Display         yt-dlp Version: $ytdlpver"
+            echo " ""$der"" >>> YT-DLP MENU       Enter - Update Clipboard Display              yt-dlp Version: $ytdlpver"
             echo "___________________________________________________________________________________________________________________"
             echo
             echo " d - Download Default     l - Last Download     v - View Downloads     p - Play Clipboard                 q - Quit"
@@ -3181,7 +3343,7 @@ read -r -n1 optiony
 
      g)  # (DOWNLOAD LIST)
 
-dirtemp="$PWD"  # grab dir to save for quit
+rm ~/.config/videoinfox/videoinfox-dl-Default~ 2> /dev/null  # tmp fix
 
 echo "" | xclip -sel clip  # clearing out the clipboard
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null) # grab clipboard content
@@ -3199,11 +3361,15 @@ echo "" | xclip -sel clip  # clearing out the clipboard
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 fi
  
-# find download lists and write to file. these results also include the log files which shouldn't be listed here
+# find default download list and write to file.
+find ~/.config/videoinfox/videoinfox-dl-Default > ~/.config/videoinfox/videoinfox.dowload.list.default
+
+# find user created download lists and write to file. these results also include the log files which shouldn't be listed here
 find "$PWD" -type f \( -iname "videoinfox-dl*" \) > ~/.config/videoinfox/videoinfox.dowload.list
 
 # removing all lines that contain  .log   this removes all  */.videoinfox-dl*.log listings from the results   videoinfox.dowload.list  
 sed -i '/.log/d' ~/.config/videoinfox/videoinfox.dowload.list 
+sed -i '/videoinfox-dl-Default/d' ~/.config/videoinfox/videoinfox.dowload.list  # remove default list from user list listing
 
 ########## blinking routine for display ##########
 
@@ -3231,8 +3397,9 @@ fi
 ########## end blinking routine #################
 
 clear
-cat ~/.config/videoinfox/videoinfox.dowload.list  # display edited results
-
+cat ~/.config/videoinfox/videoinfox.dowload.list  # display user created download lists
+echo
+cat ~/.config/videoinfox/videoinfox.dowload.list.default  # display default download list
 echo
 echo "Copy 1 above download list to the clipboard to download."
 echo
@@ -3240,10 +3407,11 @@ echo "Directory:" "$PWD"
 echo "Clipboard:" "$pasteclip"
 echo "___________________________________________________________________________________________________________________"
 echo  
-echo " ""$ver"" >>> "$finalresult"           Enter - Update Clipboard Display"
+echo " ""$der"" >>> "$finalresult"        Enter - Update Clipboard Display             1 2 3 4 5 - Default Dirs"
 echo "___________________________________________________________________________________________________________________" 
 echo
-echo " d "$finalresult2" Download List     v "$finalresult2" View List     l - View Logs     h - Help                                       q - Quit"
+echo " d "$finalresult2" Download List     v "$finalresult2" View List     l - View Logs     k - Default List     x - Clear Clipboard       q - Quit"
+echo "                                                                                                          h - help"
 echo
 echo -en " Enter Option: "
 read -r -n1 optiond
@@ -3254,26 +3422,232 @@ while true
 do
 dwnlist
 case $optiond in
+
+
+# LOAD STORED DIRECTORIES
+#read -r dir1 < ~/.config/videoinfox/videoinfo.tv-dir 2> /dev/null
+#read -r dir2 < ~/.config/videoinfox/videoinfo.movies-dir 2> /dev/null
+#read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null
+#read -r dir4 < ~/.config/videoinfox/videoinfo.parent-dir 2> /dev/null
+#read -r dir5 < ~/.config/videoinfox/videoinfo.dir-at-exit 2> /dev/null
+
+
+
+1)
+cd "$dir1"
+;;
+
+
+2)
+cd "$dir2"
+;;
+
+
+3)
+cd "$dirsaved"
+;;
+
+4)
+cd "$dir4"
+;;
+
+
+5)
+cd "$dir5"
+;;
+
+
          
-q)  # QUIT
+q)  # QUIT <DOWNLOAD LIST>
 echo "$pasteclip3" | xclip -sel clip  # restore clipboard
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 break;;
 
 
-d)  # (DOWNLOAD THE URL LIST)
+x) #  CLEAR CLIPBOARD  <DOWNLOAD LIST> 
+echo "" | xclip -sel clip  # clearing out the clipboard
+pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+;;
+
+
+k)  # DEFAULT LIST  <DOWNLOAD LIST>
+
+echo "" | xclip -sel clip  # clearing out the clipboard
+
+function ddefault {
+
+pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+
+
+########## start blinking and error correcting routine #################
+
+# blinking
+addtodefault1=$(echo -e "\033[5mAdd to Default List\033m\033[0m\033[5m\033[5m\033[0m")
+
+# not blinking
+addtodefault0=$(echo "Add to Default List")
+
+
+checktheclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
+
+if [ "$checktheclip" = "http" ]  # if the first 4 characters = <http> go then
+  then
+      atd="$addtodefault1"
+      
+  else      
+      atd="$addtodefault0"
+      echo "" | xclip -sel clip  # clearing out the clipboard
+      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content      
+
+fi
+
+########## end blinking and error correcting routine #################
+
+# # DEFAULT LIST - REMOVE DUPLICATES, BLANK LINES and ANY LINES NOT STARTING WITH HTTP
+cat -n ~/.config/videoinfox/videoinfox-dl-Default | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/videoinfox-dl-Default.tmp
+mv ~/.config/videoinfox/videoinfox-dl-Default.tmp ~/.config/videoinfox/videoinfox-dl-Default
+
+sed -i '/^$/d' ~/.config/videoinfox/videoinfox-dl-Default 2>/dev/null  # remove any blank lines in the list
+sed -i '/http/!d' ~/.config/videoinfox/videoinfox-dl-Default  # remove all lines not starting with  http
+
+clear
+cat ~/.config/videoinfox/videoinfox-dl-Default  # display default download list
+echo
+echo "Copy 1 url to the clipboard then Add to Default List to add the url."
+echo
+echo "Directory:" "$PWD"
+echo "Clipboard:" "$pasteclip"
+echo "___________________________________________________________________________________________________________________"
+echo  
+echo " ""$der"" >>> DEFAULT DOWNLOAD LIST                                     Enter - Update Clipboard Display"
+echo "___________________________________________________________________________________________________________________" 
+echo
+echo " a - "$atd"     r - Remove Last Entry     c - Clear Default List     x - Clear Clipboard     q - Quit"
+echo
+echo -en " Enter Option: "
+read -r -n1 optiondd
+echo
+}
+
+while true
+do
+ddefault
+case $optiondd in
+         
+q)  # QUIT  <DEFAULT LIST>
+echo "" | xclip -sel clip  # clearing out the clipboard
+pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+break;;
+
+
+x) #  CLEAR CLIPBOARD  <DEFAULT LIST> 
+echo "" | xclip -sel clip  # clearing out the clipboard
+pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+;;
+
+
+c)  # CLEAR DEFAULT LIST   <DEFAULT LIST>  
+function yesorno {
+echo
+echo " Are you sure that you want to clear the Default List ?"
+echo
+echo " y - Yes     n - No"  
+echo 
+echo -en " Enter Option: "
+read -r -n1 optionyn
+echo
+}
+
+while true
+do
+    yesorno
+    case $optionyn in
+	
+    y) 
+    # CREATING EMPTY DEFAULT DOWNLOAD LIST WITH LIST EMPTY MESSAGE
+    echo > ~/.config/videoinfox/videoinfox-dl-Default
+    echo "Default Download List Empty" >> ~/.config/videoinfox/videoinfox-dl-Default
+ 
+    rm ~/.config/videoinfox/videoinfox-dl-Default.log 2> /dev/null    
+ 
+    echo
+    echo " Default List CLEARED . . ."
+    echo 
+    sleep .75
+    break;; 
+ 
+       
+    n) 
+    echo
+    echo " Default List SAVED . . ."
+    echo     
+    sleep .75
+    break;;
+          
+esac
+done
+;;
+
+a)  # ADD TO DEFAULT LIST  <DEFAULT LIST>
+
+pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+echo "$pasteclip" >> ~/.config/videoinfox/videoinfox-dl-Default
+# notify-send "Videoinfox Messaage: Added to Default Download List." ""$pasteclip"" # GUI Notification.
+echo "" | xclip -sel clip  # clearing out the clipboard
+pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+;;
+
+
+r)  # REMOVE LAST LINE IN THE DEFAULT DOWNLOAD LIST <DEFAULT LIST>
+
+sed -i '$d' ~/.config/videoinfox/videoinfox-dl-Default
+;;
+
+
+esac
+done
+;;
+
+
+d)  # DOWNLOAD THE URL LIST <DOWNLOAD LIST>
 clear
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
 if [ -f "$pasteclip" ]  # continue if file exists  
 then
-:
 
+# check if   $pasteclip   contains   Default List   or   User Created list 
+find ~/.config/videoinfox/videoinfox-dl-Default > ~/.config/videoinfox/videoinfox.default2
+checkclip=$(cat ~/.config/videoinfox/videoinfox.default2)
+
+if [ "$checkclip" = "$pasteclip" ] 
+then # PROCESSING DEFAULT LIST
+
+read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null
+cd "$dirsaved" # Change directory to default download directory
+
+# DEFAULT LIST - REMOVE DUPLICATES, BLANK LINES and ANY LINES NOT STARTING WITH HTTP
+cat -n ~/.config/videoinfox/videoinfox-dl-Default | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/videoinfox-dl-Default.tmp
+mv ~/.config/videoinfox/videoinfox-dl-Default.tmp ~/.config/videoinfox/videoinfox-dl-Default
+sed -i '/^$/d' ~/.config/videoinfox/videoinfox-dl-Default 2>/dev/null  # remove any blank lines in the list
+sed -i '/http/!d' ~/.config/videoinfox/videoinfox-dl-Default  # remove all lines not starting with  http
+
+
+else # PROCESSING USER CREATED LIST
+
+echo "$pasteclip" | sed 's|\(.*\)/.*|\1|' > ~/.config/videoinfox/videoinfox.userlist-tmp # remove last slash and filenname leaving only path
+read -r grablistdir < ~/.config/videoinfox/videoinfox.userlist-tmp 2> /dev/null
+cd "$grablistdir"  # change directory to list location
+
+# USER CREATED LIST - REMOVE DUPLICATES, BLANK LINES and ANY LINES NOT STARTING WITH HTTP
+cat -n "$pasteclip" | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/videoinfox-dl-userlist.tmp
+mv ~/.config/videoinfox/videoinfox-dl-userlist.tmp "$pasteclip"
 sed -i '/^$/d' "$pasteclip" 2>/dev/null  # remove any blank lines in the list
+sed -i '/http/!d' "$pasteclip" 2>/dev/null  # remove all lines not starting with  http
 
-grablistdir=$(echo "$pasteclip" | sed 's|\(.*\)/.*|\1|' &> /dev/null)  # remove last slash and filenname leaving only path
-cd "$grablistdir" &> /dev/null  # change directory to list location
+fi
+
 
 rm videoinfox-dl*~ &> /dev/null  # duplicate lists were showing up with   ~   added onto the filename
 
@@ -3324,16 +3698,18 @@ echo "Log file:" "$logfile"
 echo
 echo ""$der" done processing download list . . ."
 echo
-read -p ""
+notify-send "Videoinfox messsage: Done Processing Download List . . ." "$pasteclip"
 
+read -p ""
 echo "" | xclip -sel clip  # clearing out the clipboard
-cd $dirtemp &> /dev/null  # change directory back to what is was before running  Download List
 
 else  # File didn't exist. clipboard cleared
 
 echo "" | xclip -sel clip  # clearing out the clipboard
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 fi
+
+cd "$grabdir"
 ;;
 
 
@@ -3387,8 +3763,15 @@ fi
 
 clear
 
-# find logs
+
+# find default download list and write to file.
+find ~/.config/videoinfox/videoinfox-dl-Default.log > ~/.config/videoinfox/videoinfox.dowload.list.default.log 2> /dev/null
+
+# find user created list logs 
 find "$PWD" -type f \( -iname "videoinfox-dl*.log" \)  # find log files  */.videoinfox-dl*log
+echo
+
+cat ~/.config/videoinfox/videoinfox.dowload.list.default.log 
 
 echo
 echo "Copy 1 above log to the clipboard to view"
@@ -3397,7 +3780,7 @@ echo "Directory:" "$PWD"
 echo "Clipboard:" "$pasteclip"
 echo "___________________________________________________________________________________________________________________"
 echo  
-echo " "$ver" >>> DOWNLOAD LIST >>> VIEW LOG          Enter - Update Clipboard Display"
+echo " "$der" >>> DOWNLOAD LIST >>> VIEW LOGS         Enter - Update Clipboard Display"
 echo "___________________________________________________________________________________________________________________" 
 echo
 echo " l - "$finalresult"                                                                                             q - Quit"
@@ -3439,35 +3822,8 @@ done
 ;;
 
 
-h)
-clear
-echo
-echo "___________________________________________________________________________________________________________________"
-echo  
-echo " "$ver" >>> DOWNLOAD LIST >>> HELP"
-echo "___________________________________________________________________________________________________________________" 
-echo
-echo " The urls in the download list will always be downloaded to the directory where the download list is located."
-echo
-echo
-echo " The download list name always has to beigin with:   videoinfox-dl   Add anything to the end of the filename."
-echo
-echo " Sample download list name:   videoinfox-dl-funny-videos"
-echo
-echo
-echo " One video url per line starting at line 1.  No Spaces.  Any blank lines will be removed before processing."
-echo
-echo
-echo " First, create a download list with your preferred text editor."
-echo
-echo " Then load the completed list in Videoinfox to download."
-echo
-echo
-echo " Note: This is yt-dlp with no options at the command line." 
-echo "       I'm still planning on adding an options save for yt-dlp command line options."
-echo
-echo
-read -p " Press enter to quit"
+h) # DOWNLOAD LIST HELP
+less ~/.config/videoinfox/videoinfox.download-list-help
 ;;
 
 esac
@@ -3488,7 +3844,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
   then
       #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
    
-      grabdir="$PWD"  # storing directory to restore at the end of this function
+     #################3 grabdir="$PWD"  # storing directory to restore at the end of this function
         
       #  DOWNLOAD LINK AND PLAY
       
@@ -3613,10 +3969,13 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
       echo " Played List Closed"
-        else
+      
+       else
             :
-      fi
+       fi
 fi
+
+cd "$grabdir"
 ;;
 
   
@@ -3923,6 +4282,8 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
             :
       fi 
 fi
+
+cd "$grabdir"
 ;;  
 
               i) 
@@ -3938,7 +4299,7 @@ fi
 
 
 
-              p)  # VIEW DOWNLOAD DIRECTORY TO PLAY
+              p)  # VIEW DOWNLOAD DIRECTORY  PLAY
               clear
               pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
               echo
@@ -3987,6 +4348,10 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 
 
               s)  # PLAY VIDEO THEN DELETE 
+              
+              read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir  # reading download directory 
+              cd "$dirsaved"   # change to download directory
+              
               clear
               echo
               echo "___________________________________________________________________________________________________________________"
@@ -4017,12 +4382,13 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               rm "$dirsaved"/download.tmp*  # on player close, delete temporary video
               echo "" | xclip -sel clip  # clearing out the clipboard
               pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-
+             
+              cd "$grabdir" # restore dir
               ;; 
 
 
               l)  # play last download
-              grabdir="$PWD"  # storing directory to restore at the end of this function
+              ######grabdir="$PWD"  # storing directory to restore at the end of this function
                
               read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir  # reading download directory 
               cd "$dirsaved"   # change to download directory
@@ -4089,11 +4455,17 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               
               echo "" | xclip -sel clip  # clearing out the clipboard
               pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+              
+              cd "$grabdir"
               ;;
 
 
               c)  # DOWNLOAD CHOOSE
               pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+              
+              read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir  # reading download directory 
+              cd "$dirsaved"   # change to download directory
+
               clear
               echo
               echo
@@ -4116,7 +4488,8 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               
               echo "" | xclip -sel clip  # clearing out the clipboard
               pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-
+              
+              cd "$grabdir"
               ;; 
  esac
  done
@@ -4125,7 +4498,7 @@ fi
 
 
 cd "$grabdir"   # restore dir prior to entering yt-dlp menu
-;;   # grabdir="$PWD"
+;; 
 
 
 
