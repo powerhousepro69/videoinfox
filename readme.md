@@ -2,7 +2,7 @@
 
 #### Find local Video Files fast, immediately play and get info on. Download Video Urls effortlessly and auto play with Play Clipboard.
 
-#### Add URL's to The Default Download List without leaving your gui or starting Videoinfox.
+#### Add URL's to The Default Download List without leaving your gui or starting up Videoinfox.
 
 #### Create your own url download list and Videoinfox will download the entire list with Yt-dlp.
 
@@ -66,7 +66,7 @@ FFprobe - Get codec, resolution & duration in seconds.
   - Download and update Videoinfox.
   - Play either a local file or a downloadable video url via yt-dlp.
   - Create Download List(s) of video urls with your preferred text editor & videoinfox will use yt-dlp to download the list.
-  - Keep pasting your Video URL clipboard copies on the fly to the Default Download List without needing to run Videoinfox.
+  - Keep pasting your Video URL clipboard copies on the fly to the Default Download List without needing to startup Videoinfox.
   - See codec, resolution and duration on the playing video.
   - Play Clipboard available in: &nbsp; -Home &nbsp; -Played List &nbsp; -Play List &nbsp; -Yt-dlp Menu &nbsp; -View Downloads
   - Play Clipboard blinking notification when there is a valid video file or video url for play.
