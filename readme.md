@@ -136,6 +136,11 @@ DOWNLOAD USER CREATED URL LISTS
 ![download list](https://i.imgur.com/4qAtGII.png)
 
 <br />
+DEFAULT DOWNLOAD LIST. &nbsp; ADD TO THE DEFAULT LIST WITHOUT LEAVING YOUR GUI OR STARTING VIDEOINFOX. 
+
+![Videoinfox HOME](https://i.imgur.com/UjmVJqs.png)
+
+<br />
 FIND
 
 ![Videoinfox HOME](https://i.imgur.com/hwtyrdi.png)
