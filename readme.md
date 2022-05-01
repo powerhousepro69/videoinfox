@@ -2,6 +2,8 @@
 
 #### Find local Video Files fast, immediately play and get info on. Download Video Urls effortlessly and auto play with Play Clipboard.
 
+#### Add URL's to The Default Download List without leaving your gui or starting Videoinfox.
+
 #### Create your own url download list and Videoinfox will download the entire list with Yt-dlp.
 
 <br />
