@@ -1,10 +1,10 @@
 # Videoinfox v2.7.00 &nbsp; *Where Video Play is a Clipboard Copy Away*
 
-#### Find local Video Files fast, immediately play and get info on. Download Video Urls effortlessly and auto play with Play Clipboard.
+### Find local Video Files fast, immediately play and get info on. Download Video Urls effortlessly and auto play with Play Clipboard.
 
-#### Add URL's to The Default Download List without leaving your gui or starting up Videoinfox.
+### Add URL's to the Default Download list on the fly without leaving your gui or starting up Videoinfox until you want to download the list.
 
-#### Create your own url download list and Videoinfox will download the entire list with Yt-dlp.
+### You can also create your own url download lists with your preferred text editor then load in Videoinfox and Download List.
 
 <br />
 
