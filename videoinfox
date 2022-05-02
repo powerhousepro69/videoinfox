@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#  file : videoinfox v2.1.00									         
+#  file : videoinfox v2.7.00									         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v2.1.00"  # Version Number no blinking
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m1.00")  # Version Number witth blinking dot
+ver="Videoinfox v2.7.00"  # Version Number no blinking
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m7.00")  # Version Number witth blinking dot
 
 
 ##################################################################################################################################################
@@ -280,7 +280,7 @@ direxist="$HOME/.config/videoinfox"
 
 if [ -d "$direxist" ]  #  if directoty exists goto  <then>
   then
-      :  # start main loop
+      :  #  goto CHECK FOR  (VIDEOINFOX NOTIFICATION UPDATE)
   else
       
       clear
@@ -335,6 +335,7 @@ echo "                                                                          
 echo "Select find to search for files.                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
 echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
 
+
       # witing header for blank Played List 
       #echo > ~/.config/videoinfox/videoinfo.playedlist
       #echo "PLAYED LIST" >> ~/.config/videoinfox/videoinfo.playedlist
@@ -342,12 +343,27 @@ echo "                                                                          
       #echo "This File was Created: $(date) by" "$USER" >> ~/.config/videoinfox/videoinfo.playedlist
       #echo >> ~/.config/videoinfox/videoinfo.playedlist
 
-      #  SET DEFAULT  LAST SEARCH  to <2> Never Save
+
+      # SET DEFAULT  LAST SEARCH  to <2> Never Save
       echo "2" > ~/.config/videoinfox/videoinfo.lastsearch-set
 
-      # SET DEFAULT yt-dlp DOWNLOAD DIRECTORY. It can be changed in the <set> menu
+      # CHECK FOR  ~/Downloads  If it doesn't exist, create it 
+      direxist2="$HOME/Downloads"
+
+      if [ -d "$direxist2" ]  #  if directoty exists goto  <then>
+        then
+             : 
+        else
+             mkdir ~/Downloads
+      fi
+
+
+      # SET DEFAULT  yt-dlp  DOWNLOAD DIRECTORY TO  ~/Downloads    It can be changed in the <set> menu
       echo "$HOME"/Downloads > ~/.config/videoinfox/videoinfo.yt-download-dir
-            
+
+      # CHANGE DIRECTORY TO DOWNLOAD DIECTORY
+      cd "$HOME"/Downloads
+          
       # Writing header for new blank Saved Search  playlist  ++++++++ this was added to get around a bug until the bug gets squashed.       
       echo > ~/.config/videoinfox/videoinfo.keptsearch
       echo "PLAYlIST" >> ~/.config/videoinfox/videoinfo.keptsearch
@@ -376,9 +392,9 @@ echo "                                                                          
       echo "https://www.youtube.com/watch?v=rNWPqfCJDnc" | xclip -sel clip     
    
       # SAMPLE URL DOWLOAD LIST BEING CREATED WITH 3 VIDEO URL'S
-      echo "https://www.youtube.com/watch?v=d59H0UxhyaY" > $HOME/Downloads/videoinfox-dl-sample
-      echo "https://www.youtube.com/watch?v=5tSAKS8LRj0" >> $HOME/Downloads/videoinfox-dl-sample
-      echo "https://www.youtube.com/watch?v=DAPkOxRnh4c" >> $HOME/Downloads/videoinfox-dl-sample
+      echo "https://www.youtube.com/watch?v=d59H0UxhyaY" > $HOME/Downloads/videoinfox-dl-sample-list
+      echo "https://www.youtube.com/watch?v=5tSAKS8LRj0" >> $HOME/Downloads/videoinfox-dl-sample-list
+      echo "https://www.youtube.com/watch?v=DAPkOxRnh4c" >> $HOME/Downloads/videoinfox-dl-sample-list
 
       echo
 
@@ -459,7 +475,6 @@ echo "Default Download List Empty" >> ~/.config/videoinfox/videoinfox-dl-Default
 fi
 
 
-
 ##################################################################################################################################################
 #####  CREATE DOWNLOAD LIST HELP FILE  ########################################################################################################### 
 ##################################################################################################################################################
@@ -506,7 +521,7 @@ echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo " The download list name always has to beigin with:   videoinfox-dl   Add anything to the end of the filename." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
-echo " Sample download list name:   videoinfox-dl-funny-videos   (one restriction: don't use the Default List name)" >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Sample download list name:   videoinfox-dl-funny-videos" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo " One video url per line starting at line 1.  No Spaces." >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -715,9 +730,39 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v2.7.00 Changes, Additions and Bug Squashing." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Cosmetic update on  1 2 3 4 5 - Default Dirs  display." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         When a default directory is selected that number stays normal while the othe 4 numbers will be less bold." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         If you change to a directory that is not a default driectory 1-5: All 5 numbers will be less bold." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         If directory on exit (5) matches any of the default directories 1-4: 1-4 gets the display." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Download List  - Added:  1 2 3 4 5 - Default Dirs  selector." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         More Options   - Changed look to maintain continuity.  " >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                        - Changed options from numbers to letters" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                        - Added:  1 2 3 4 5 - Default Dirs  selector." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Home Screen    - Changed Navigate Tree option from  t  to  n" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         View Downloads - Directory is saved on the way in because the dir is changed to the Default Download Directory." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                          Directory is restord on quit." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Fix: View Downloads   Valid clipboard content was being lost on quit." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                               Valid clipboard content should only be cleared after Video Player exit." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Fix: Navigate Tree    Directory was getting changed when quitting to the Home screen." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Fix: Self Destruct - After copying to the clipboard, you had to press enter first." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Fix: Download List - After a list was downloaded the directory was changed back to what it was pre download." >> ~/.config/videoinfox/videoinfo-ver-history 
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Directory Policy: Directory will only be change when the user changes the directory." >> ~/.config/videoinfox/videoinfo-ver-history 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.1.00 Added Default Download List and a command line option  -a  for making a gui shortcut" >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         to keep pasting your clipboard copies on the fly to the Default List without needing to run Videoinfox." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         The srcitp will run, paste your clipboard content to the Default List and exit.  Make Shortcut:  "videoinfox -a"  " >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Videoinfox will run, paste your clipboard content to the Default List and exit.  Make Shortcut:  "videoinfox -a"  " >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         New feature located in:  Yt-dlp Menu >>> Download List >>> Default List           Help -  Download List >>> Help" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -923,7 +968,6 @@ read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null
 
 
 
-
 ##################################################################################################################################################
 ###########################  HOME LOOP START #####################################################################################################
 ##################################################################################################################################################
@@ -1031,6 +1075,138 @@ read -r dir5 < ~/.config/videoinfox/videoinfo.dir-at-exit 2> /dev/null
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content                          
 
+##################################################################################
+##########  START   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
+################################################################################## 
+
+# DIRECTORY SELECTED IS NORMAL TEXT AND THE OTHER 4 ARE LESS BOLD. 
+
+# DEFAULT DIR NUMBER 1 FORMAT
+dirdisplay1=$(echo -e "1\033[2m 2 3 4 5\033[0m")
+# DEFAULT DIR NUMBER 2 FORMAT
+dirdisplay2=$(echo -e "\033[2m1 \033[0m2 \033[2m3 4 5\033[0m") 
+# DEFAULT DIR NUMBER 3 FORMAT
+dirdisplay3=$(echo -e "\033[2m1 2 \033[0m3 \033[2m4 5\033[0m")
+# DEFAULT DIR NUMBER 4 FORMAT
+dirdisplay4=$(echo -e "\033[2m1 2 3 \033[0m4 \033[2m5\033[0m")
+# DEFAULT DIR NUMBER 5 FORMAT
+dirdisplay5=$(echo -e "\033[2m1 2 3 4 \033[0m5\033[0m")
+# NO MATCH ALL LESS BOLD
+dirdisplayno=$(echo -e "\033[2m1 2 3 4 5\033[0m")
+
+
+# FORMAT PWD NAME FOR COMPARISON
+echo "$PWD" > ~/.config/videoinfox/videoinfox.pwd.tmp  # write PWD to a tmp file: videoinfox.pwd.tmp
+cat ~/.config/videoinfox/videoinfox.pwd.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.pwd  # remove all froward slashes / write file: videoinfox.pwd
+rm  ~/.config/videoinfox/videoinfox.pwd.tmp  # remove tmp file: videoinfox.pwd.tmp
+sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.pwd  # remove horizontal whitespace write file: videoinfox.pwd
+
+# FORMAT DEFAULT DIR 1 NAME FOR COMPARISON
+echo "$dir1" > ~/.config/videoinfox/videoinfox.dir1.tmp  # write dir 1 to a tmp file: videoinfox.dir1.tmp
+cat ~/.config/videoinfox/videoinfox.dir1.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.dir1  # remove all froward slashes / write file: videoinfox.dir1
+rm ~/.config/videoinfox/videoinfox.dir1.tmp  # remove tmp file: videoinfox.dir1.tmp 
+sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.dir1  # remove horizontal whitespace write file: videoinfox.dir1
+
+# FORMAT DEFAULT DIR 2 NAME FOR COMPARISON
+echo "$dir2" > ~/.config/videoinfox/videoinfox.dir2.tmp  # write dir 2 to a tmp file: videoinfox.dir2.tmp
+cat ~/.config/videoinfox/videoinfox.dir2.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.dir2  # remove all froward slashes / write file: videoinfox.dir2
+rm ~/.config/videoinfox/videoinfox.dir2.tmp   # remove tmp file: videoinfox.dir2.tmp 
+sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.dir2 # remove horizontal whitespace write file: videoinfox.dir2
+
+# FORMAT DEFAULT DIR 3 NAME FOR COMPARISON
+echo "$dirsaved" > ~/.config/videoinfox/videoinfox.dir3.tmp  # write dir 3 to a tmp file: videoinfox.dir3.tmp
+cat ~/.config/videoinfox/videoinfox.dir3.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.dir3  # remove all froward slashes / write file: videoinfox.dir3
+rm ~/.config/videoinfox/videoinfox.dir3.tmp   # remove tmp file: videoinfox.dir3.tmp 
+sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.dir3 # remove horizontal whitespace write file: videoinfox.dir3
+
+# FORMAT DEFAULT DIR 4 NAME FOR COMPARISON
+echo "$dir4" > ~/.config/videoinfox/videoinfox.dir4.tmp  # write dir 4 to a tmp file: videoinfox.dir4.tmp
+cat ~/.config/videoinfox/videoinfox.dir4.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.dir4  # remove all froward slashes / write file: videoinfox.dir4
+rm ~/.config/videoinfox/videoinfox.dir4.tmp   # remove tmp file: videoinfox.dir4.tmp 
+sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.dir4 # remove horizontal whitespace write file: videoinfox.dir4
+
+# FORMAT DEFAULT DIR 5 NAME FOR COMPARISON
+echo "$dir5" > ~/.config/videoinfox/videoinfox.dir5.tmp  # write dir 5 to a tmp file: videoinfox.dir5.tmp
+cat ~/.config/videoinfox/videoinfox.dir5.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.dir5  # remove all froward slashes / write file: videoinfox.dir5
+rm ~/.config/videoinfox/videoinfox.dir5.tmp   # remove tmp file: videoinfox.dir5.tmp 
+sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.dir5 # remove horizontal whitespace write file: videoinfox.dir5
+
+
+# LOAD EDITED PWD AND DEFAULT DIRECTORY NAMES FOR BELOW  IF LOOPS   (all frorward slashes / and white spaces removed from the below directory names)
+
+read -r controldir < ~/.config/videoinfox/videoinfox.pwd    # load reformatted current directory name 
+read -r dir1display < ~/.config/videoinfox/videoinfox.dir1  # load reformatted default directory 1 name
+read -r dir2display < ~/.config/videoinfox/videoinfox.dir2  # load reformatted default directory 2 name
+read -r dir3display < ~/.config/videoinfox/videoinfox.dir3  # load reformatted default directory 3 name
+read -r dir4display < ~/.config/videoinfox/videoinfox.dir4  # load reformatted default directory 4 name
+read -r dir5display < ~/.config/videoinfox/videoinfox.dir5  # load reformatted default directory 5 name
+
+
+# DEFAULT DIR 5  DISPLAY     IF DIRECTORY ON EXIT  =  DEFAULT DIRECTORIES 1-4 then Display that directory number.
+
+if [[ "$controldir" = "$dir5display" ]]
+  then 
+
+      if [[ "$dir5display" = "$dir1display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 1 then display 1 and not 5
+        then
+             dirdisp="$dirdisplay1"
+      fi
+
+      if [[ "$dir5display" = "$dir2display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 2 then display 2 and not 5
+        then
+             dirdisp="$dirdisplay2"
+      fi
+
+      if [[ "$dir5display" = "$dir3display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 3 then display 3 and not 5
+        then
+             dirdisp="$dirdisplay3"
+      fi
+
+      if [[ "$dir5display" = "$dir4display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 4 then display 4 and not 5
+        then
+             dirdisp="$dirdisplay4"
+      fi
+fi
+
+
+
+# DEFAULT DIR 5 DISPLAY
+if [[ "$controldir" = "$dir5display" ]] 
+  then
+       dirdisp="$dirdisplay5"  # if directory is changed to  Default Dir 5 :  The number 4 is normal text and the other 4 are less bold.
+        
+  else
+       dirdisp="$dirdisplayno" # if directory doesn't match  Default Dirs 1-5 : All 5 numbers are less bold.  
+fi 
+
+# DEFAULT DIR 1  DISPLAY
+if [[ "$controldir" = "$dir1display" ]]  # IF PWD = DEFAULT DIR 1 then display 1
+  then 
+       dirdisp="$dirdisplay1"
+fi
+
+# DEFAULT DIR 2  DISPLAY
+if [[ "$controldir" = "$dir2display" ]]  # IF PWD = DEFAULT DIR 2 then display 2
+  then 
+       dirdisp="$dirdisplay2"
+fi
+
+# DEFAULT DIR 3  DISPLAY
+if [[ "$controldir" = "$dir3display" ]]  # IF PWD = DEFAULT DIR 3 then display 3
+  then 
+       dirdisp="$dirdisplay3"
+fi
+
+# DEFAULT DIR 4  DISPLAY
+if [[ "$controldir" = "$dir4display" ]]  # IF PWD = DEFAULT DIR 4 then display 4
+  then 
+       dirdisp="$dirdisplay4"  # if directory is changed to  Default Dir 4 :  The number 4 is normal text and the other 4 are less bold.
+fi
+
+################################################################################
+##########  END   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
+################################################################################
+
 
 # CHECKING FOR VIDEOS IN CURRENT DIRECTORY.  if video(s) exist:  the dash @ Play Directory will blink on the home screen
 dovideosexist=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
@@ -1090,10 +1266,10 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                            #________________x________________________________________ _________________________________________________________
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " $der $viv4      Enter - Update Clipboard Display                1 2 3 4 5 - Default Dirs"
+                      echo " $der $viv4      Enter - Update Clipboard Display               "$dirdisp" - Default Dirs"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " f - Find              t - Navigate Tree     p - Play Clipboard     d "$dash" Play Directory                    e - Exit"
+                      echo " f - Find              n - Navigate Tree     p - Play Clipboard     d "$dash" Play Directory                    e - Exit"
                       echo " a - Show All          i - Video Info        s - Playlist           l - Last Download                     z - Set" 
                       echo " c - Clear Results     m - More Options      v - Played List        y - Yt-dlp                            h - Help"
                       echo         
@@ -1105,11 +1281,11 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo "Download Directory: $dirsaved"  # dislpay default download directory
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " $der $viv4      Enter - Update Clipboard Display                1 2 3 4 5 - Default Dirs"
+                      echo " $der $viv4      Enter - Update Clipboard Display               "$dirdisp" - Default Dirs"
                       echo "___________________________________________________________________________________________________________________"
                       echo
 
-echo -e " f - Find              t - Navigate Tree     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     d "$dash" Play Directory                    e - Exit"
+echo -e " f - Find              n - Navigate Tree     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     d "$dash" Play Directory                    e - Exit"
  
                       echo " a - Show All          i - Video Info        s - Playlist           l - Last Download                     z - Set" 
                       echo " c - Clear Results     m - More Options      v - Played List        y - Yt-dlp                            h - Help"
@@ -1123,10 +1299,10 @@ echo
 echo "Valid file in clipboard"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " $der $viv4      Enter - Update Clipboard Display                1 2 3 4 5 - Default Dirs"
+echo " $der $viv4      Enter - Update Clipboard Display                "$dirdisp" - Default Dirs"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo -e " f - Find              t - Navigate Tree     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     d "$dash" Play Directory                    e - Exit"
+echo -e " f - Find              n - Navigate Tree     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     d "$dash" Play Directory                    e - Exit"
  
 echo " a - Show All          i - Video Info        s - Playlist           l - Last Download                     z - Set" 
 echo " c - Clear Results     m - More Options      v - Played List        y - Yt-dlp                            h - Help"
@@ -1139,10 +1315,10 @@ pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard conten
 
 echo "___________________________________________________________________________________________________________________"
 echo 
-echo " $der $viv4      Enter - Update Clipboard Display                1 2 3 4 5 - Default Dirs"
+echo " $der $viv4      Enter - Update Clipboard Display                "$dirdisp" - Default Dirs"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " f - Find              t - Navigate Tree     p - Play Clipboard     d "$dash" Play Directory                    e - Exit"
+echo " f - Find              n - Navigate Tree     p - Play Clipboard     d "$dash" Play Directory                    e - Exit"
 echo " a - Show All          i - Video Info        s - Playlist           l - Last Download                     z - Set" 
 echo " c - Clear Results     m - More Options      v - Played List        y - Yt-dlp                            h - Help"
 echo         
@@ -1258,7 +1434,7 @@ sleep .7
 break ;;
 
 
-t)
+n)
 ##################################################################################################################################################
 ###########################   (@NAVIGATE TREE)  t  ###############################################################################################
 ##################################################################################################################################################
@@ -1296,6 +1472,139 @@ notify-send "Videoinfox is done processing: Directory Tree" "Total Directories F
 
 # recursive number of files found
 ttotalnum=$(find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
+
+
+##################################################################################
+##########  START   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
+################################################################################## 
+
+# DIRECTORY SELECTED IS NORMAL TEXT AND THE OTHER 4 ARE LESS BOLD. 
+
+# DEFAULT DIR NUMBER 1 FORMAT
+dirdisplay1=$(echo -e "1\033[2m 2 3 4 5\033[0m")
+# DEFAULT DIR NUMBER 2 FORMAT
+dirdisplay2=$(echo -e "\033[2m1 \033[0m2 \033[2m3 4 5\033[0m") 
+# DEFAULT DIR NUMBER 3 FORMAT
+dirdisplay3=$(echo -e "\033[2m1 2 \033[0m3 \033[2m4 5\033[0m")
+# DEFAULT DIR NUMBER 4 FORMAT
+dirdisplay4=$(echo -e "\033[2m1 2 3 \033[0m4 \033[2m5\033[0m")
+# DEFAULT DIR NUMBER 5 FORMAT
+dirdisplay5=$(echo -e "\033[2m1 2 3 4 \033[0m5\033[0m")
+# NO MATCH ALL LESS BOLD
+dirdisplayno=$(echo -e "\033[2m1 2 3 4 5\033[0m")
+
+
+# FORMAT PWD NAME FOR COMPARISON
+echo "$PWD" > ~/.config/videoinfox/videoinfox.pwd.tmp  # write PWD to a tmp file: videoinfox.pwd.tmp
+cat ~/.config/videoinfox/videoinfox.pwd.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.pwd  # remove all froward slashes / write file: videoinfox.pwd
+rm  ~/.config/videoinfox/videoinfox.pwd.tmp  # remove tmp file: videoinfox.pwd.tmp
+sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.pwd  # remove horizontal whitespace write file: videoinfox.pwd
+
+# FORMAT DEFAULT DIR 1 NAME FOR COMPARISON
+echo "$dir1" > ~/.config/videoinfox/videoinfox.dir1.tmp  # write dir 1 to a tmp file: videoinfox.dir1.tmp
+cat ~/.config/videoinfox/videoinfox.dir1.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.dir1  # remove all froward slashes / write file: videoinfox.dir1
+rm ~/.config/videoinfox/videoinfox.dir1.tmp  # remove tmp file: videoinfox.dir1.tmp 
+sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.dir1  # remove horizontal whitespace write file: videoinfox.dir1
+
+# FORMAT DEFAULT DIR 2 NAME FOR COMPARISON
+echo "$dir2" > ~/.config/videoinfox/videoinfox.dir2.tmp  # write dir 2 to a tmp file: videoinfox.dir2.tmp
+cat ~/.config/videoinfox/videoinfox.dir2.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.dir2  # remove all froward slashes / write file: videoinfox.dir2
+rm ~/.config/videoinfox/videoinfox.dir2.tmp   # remove tmp file: videoinfox.dir2.tmp 
+sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.dir2 # remove horizontal whitespace write file: videoinfox.dir2
+
+# FORMAT DEFAULT DIR 3 NAME FOR COMPARISON
+echo "$dirsaved" > ~/.config/videoinfox/videoinfox.dir3.tmp  # write dir 3 to a tmp file: videoinfox.dir3.tmp
+cat ~/.config/videoinfox/videoinfox.dir3.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.dir3  # remove all froward slashes / write file: videoinfox.dir3
+rm ~/.config/videoinfox/videoinfox.dir3.tmp   # remove tmp file: videoinfox.dir3.tmp 
+sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.dir3 # remove horizontal whitespace write file: videoinfox.dir3
+
+# FORMAT DEFAULT DIR 4 NAME FOR COMPARISON
+echo "$dir4" > ~/.config/videoinfox/videoinfox.dir4.tmp  # write dir 4 to a tmp file: videoinfox.dir4.tmp
+cat ~/.config/videoinfox/videoinfox.dir4.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.dir4  # remove all froward slashes / write file: videoinfox.dir4
+rm ~/.config/videoinfox/videoinfox.dir4.tmp   # remove tmp file: videoinfox.dir4.tmp 
+sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.dir4 # remove horizontal whitespace write file: videoinfox.dir4
+
+# FORMAT DEFAULT DIR 5 NAME FOR COMPARISON
+echo "$dir5" > ~/.config/videoinfox/videoinfox.dir5.tmp  # write dir 5 to a tmp file: videoinfox.dir5.tmp
+cat ~/.config/videoinfox/videoinfox.dir5.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.dir5  # remove all froward slashes / write file: videoinfox.dir5
+rm ~/.config/videoinfox/videoinfox.dir5.tmp   # remove tmp file: videoinfox.dir5.tmp 
+sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.dir5 # remove horizontal whitespace write file: videoinfox.dir5
+
+
+# LOAD EDITED PWD AND DEFAULT DIRECTORY NAMES FOR BELOW  IF LOOPS   (all frorward slashes / and white spaces removed from the below directory names)
+
+read -r controldir < ~/.config/videoinfox/videoinfox.pwd    # load reformatted current directory name 
+read -r dir1display < ~/.config/videoinfox/videoinfox.dir1  # load reformatted default directory 1 name
+read -r dir2display < ~/.config/videoinfox/videoinfox.dir2  # load reformatted default directory 2 name
+read -r dir3display < ~/.config/videoinfox/videoinfox.dir3  # load reformatted default directory 3 name
+read -r dir4display < ~/.config/videoinfox/videoinfox.dir4  # load reformatted default directory 4 name
+read -r dir5display < ~/.config/videoinfox/videoinfox.dir5  # load reformatted default directory 5 name
+
+
+# DEFAULT DIR 5  DISPLAY     IF DIRECTORY ON EXIT  =  DEFAULT DIRECTORIES 1-4 then Display that directory number.
+
+if [[ "$controldir" = "$dir5display" ]]
+  then 
+
+      if [[ "$dir5display" = "$dir1display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 1 then display 1 and not 5
+        then
+             dirdisp="$dirdisplay1"
+      fi
+
+      if [[ "$dir5display" = "$dir2display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 2 then display 2 and not 5
+        then
+             dirdisp="$dirdisplay2"
+      fi
+
+      if [[ "$dir5display" = "$dir3display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 3 then display 3 and not 5
+        then
+             dirdisp="$dirdisplay3"
+      fi
+
+      if [[ "$dir5display" = "$dir4display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 4 then display 4 and not 5
+        then
+             dirdisp="$dirdisplay4"
+      fi
+fi
+
+
+
+# DEFAULT DIR 5 DISPLAY
+if [[ "$controldir" = "$dir5display" ]] 
+  then
+       dirdisp="$dirdisplay5"  # if directory is changed to  Default Dir 5 :  The number 4 is normal text and the other 4 are less bold.
+        
+  else
+       dirdisp="$dirdisplayno" # if directory doesn't match  Default Dirs 1-5 : All 5 numbers are less bold.  
+fi 
+
+# DEFAULT DIR 1  DISPLAY
+if [[ "$controldir" = "$dir1display" ]]  # IF PWD = DEFAULT DIR 1 then display 1
+  then 
+       dirdisp="$dirdisplay1"
+fi
+
+# DEFAULT DIR 2  DISPLAY
+if [[ "$controldir" = "$dir2display" ]]  # IF PWD = DEFAULT DIR 2 then display 2
+  then 
+       dirdisp="$dirdisplay2"
+fi
+
+# DEFAULT DIR 3  DISPLAY
+if [[ "$controldir" = "$dir3display" ]]  # IF PWD = DEFAULT DIR 3 then display 3
+  then 
+       dirdisp="$dirdisplay3"
+fi
+
+# DEFAULT DIR 4  DISPLAY
+if [[ "$controldir" = "$dir4display" ]]  # IF PWD = DEFAULT DIR 4 then display 4
+  then 
+       dirdisp="$dirdisplay4"  # if directory is changed to  Default Dir 4 :  The number 4 is normal text and the other 4 are less bold.
+fi
+
+################################################################################
+##########  END   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
+################################################################################
 
 
 ########## blinking routines for display ##########
@@ -1345,7 +1654,7 @@ echo
 echo "Clipboard:" "$pasteclip"
 echo "___________________________________________________________________________________________________________________"
 echo  
-echo " ""$der"" >>> NAVIGATE TREE          Enter - Update Clipboard Display           1 2 3 4 5 - Default Dirs"
+echo " ""$der"" >>> NAVIGATE TREE          Enter - Update Clipboard Display           "$dirdisp" - Default Dirs"
 echo "___________________________________________________________________________________________________________________" 
 echo
 echo " c - "$changedir3"     u - Up One Level     t - Treetop     d - "$blinkit2"                         q - Quit"
@@ -1361,7 +1670,7 @@ echo
 	    case $option in
          
          q)  # QUIT
-         cd "$grabdirfornav2" &>/dev/null   # restore directory
+    ##############################     cd "$grabdirfornav2" &>/dev/null   # restore directory
          echo "" | xclip -sel clip  # clearing the clipboard
          pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
          break
@@ -3371,6 +3680,138 @@ find "$PWD" -type f \( -iname "videoinfox-dl*" \) > ~/.config/videoinfox/videoin
 sed -i '/.log/d' ~/.config/videoinfox/videoinfox.dowload.list 
 sed -i '/videoinfox-dl-Default/d' ~/.config/videoinfox/videoinfox.dowload.list  # remove default list from user list listing
 
+
+##################################################################################
+##########  START   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
+################################################################################## 
+
+# DIRECTORY SELECTED IS NORMAL TEXT AND THE OTHER 4 ARE LESS BOLD. 
+
+# DEFAULT DIR NUMBER 1 FORMAT
+dirdisplay1=$(echo -e "1\033[2m 2 3 4 5\033[0m")
+# DEFAULT DIR NUMBER 2 FORMAT
+dirdisplay2=$(echo -e "\033[2m1 \033[0m2 \033[2m3 4 5\033[0m") 
+# DEFAULT DIR NUMBER 3 FORMAT
+dirdisplay3=$(echo -e "\033[2m1 2 \033[0m3 \033[2m4 5\033[0m")
+# DEFAULT DIR NUMBER 4 FORMAT
+dirdisplay4=$(echo -e "\033[2m1 2 3 \033[0m4 \033[2m5\033[0m")
+# DEFAULT DIR NUMBER 5 FORMAT
+dirdisplay5=$(echo -e "\033[2m1 2 3 4 \033[0m5\033[0m")
+# NO MATCH ALL LESS BOLD
+dirdisplayno=$(echo -e "\033[2m1 2 3 4 5\033[0m")
+
+
+# FORMAT PWD NAME FOR COMPARISON
+echo "$PWD" > ~/.config/videoinfox/videoinfox.pwd.tmp  # write PWD to a tmp file: videoinfox.pwd.tmp
+cat ~/.config/videoinfox/videoinfox.pwd.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.pwd  # remove all froward slashes / write file: videoinfox.pwd
+rm  ~/.config/videoinfox/videoinfox.pwd.tmp  # remove tmp file: videoinfox.pwd.tmp
+sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.pwd  # remove horizontal whitespace write file: videoinfox.pwd
+
+# FORMAT DEFAULT DIR 1 NAME FOR COMPARISON
+echo "$dir1" > ~/.config/videoinfox/videoinfox.dir1.tmp  # write dir 1 to a tmp file: videoinfox.dir1.tmp
+cat ~/.config/videoinfox/videoinfox.dir1.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.dir1  # remove all froward slashes / write file: videoinfox.dir1
+rm ~/.config/videoinfox/videoinfox.dir1.tmp  # remove tmp file: videoinfox.dir1.tmp 
+sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.dir1  # remove horizontal whitespace write file: videoinfox.dir1
+
+# FORMAT DEFAULT DIR 2 NAME FOR COMPARISON
+echo "$dir2" > ~/.config/videoinfox/videoinfox.dir2.tmp  # write dir 2 to a tmp file: videoinfox.dir2.tmp
+cat ~/.config/videoinfox/videoinfox.dir2.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.dir2  # remove all froward slashes / write file: videoinfox.dir2
+rm ~/.config/videoinfox/videoinfox.dir2.tmp   # remove tmp file: videoinfox.dir2.tmp 
+sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.dir2 # remove horizontal whitespace write file: videoinfox.dir2
+
+# FORMAT DEFAULT DIR 3 NAME FOR COMPARISON
+echo "$dirsaved" > ~/.config/videoinfox/videoinfox.dir3.tmp  # write dir 3 to a tmp file: videoinfox.dir3.tmp
+cat ~/.config/videoinfox/videoinfox.dir3.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.dir3  # remove all froward slashes / write file: videoinfox.dir3
+rm ~/.config/videoinfox/videoinfox.dir3.tmp   # remove tmp file: videoinfox.dir3.tmp 
+sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.dir3 # remove horizontal whitespace write file: videoinfox.dir3
+
+# FORMAT DEFAULT DIR 4 NAME FOR COMPARISON
+echo "$dir4" > ~/.config/videoinfox/videoinfox.dir4.tmp  # write dir 4 to a tmp file: videoinfox.dir4.tmp
+cat ~/.config/videoinfox/videoinfox.dir4.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.dir4  # remove all froward slashes / write file: videoinfox.dir4
+rm ~/.config/videoinfox/videoinfox.dir4.tmp   # remove tmp file: videoinfox.dir4.tmp 
+sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.dir4 # remove horizontal whitespace write file: videoinfox.dir4
+
+# FORMAT DEFAULT DIR 5 NAME FOR COMPARISON
+echo "$dir5" > ~/.config/videoinfox/videoinfox.dir5.tmp  # write dir 5 to a tmp file: videoinfox.dir5.tmp
+cat ~/.config/videoinfox/videoinfox.dir5.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.dir5  # remove all froward slashes / write file: videoinfox.dir5
+rm ~/.config/videoinfox/videoinfox.dir5.tmp   # remove tmp file: videoinfox.dir5.tmp 
+sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.dir5 # remove horizontal whitespace write file: videoinfox.dir5
+
+
+# LOAD EDITED PWD AND DEFAULT DIRECTORY NAMES FOR BELOW  IF LOOPS   (all frorward slashes / and white spaces removed from the below directory names)
+
+read -r controldir < ~/.config/videoinfox/videoinfox.pwd    # load reformatted current directory name 
+read -r dir1display < ~/.config/videoinfox/videoinfox.dir1  # load reformatted default directory 1 name
+read -r dir2display < ~/.config/videoinfox/videoinfox.dir2  # load reformatted default directory 2 name
+read -r dir3display < ~/.config/videoinfox/videoinfox.dir3  # load reformatted default directory 3 name
+read -r dir4display < ~/.config/videoinfox/videoinfox.dir4  # load reformatted default directory 4 name
+read -r dir5display < ~/.config/videoinfox/videoinfox.dir5  # load reformatted default directory 5 name
+
+
+# DEFAULT DIR 5  DISPLAY     IF DIRECTORY ON EXIT  =  DEFAULT DIRECTORIES 1-4 then Display that directory number.
+
+if [[ "$controldir" = "$dir5display" ]]
+  then 
+
+      if [[ "$dir5display" = "$dir1display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 1 then display 1 and not 5
+        then
+             dirdisp="$dirdisplay1"
+      fi
+
+      if [[ "$dir5display" = "$dir2display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 2 then display 2 and not 5
+        then
+             dirdisp="$dirdisplay2"
+      fi
+
+      if [[ "$dir5display" = "$dir3display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 3 then display 3 and not 5
+        then
+             dirdisp="$dirdisplay3"
+      fi
+
+      if [[ "$dir5display" = "$dir4display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 4 then display 4 and not 5
+        then
+             dirdisp="$dirdisplay4"
+      fi
+fi
+
+
+
+# DEFAULT DIR 5 DISPLAY
+if [[ "$controldir" = "$dir5display" ]] 
+  then
+       dirdisp="$dirdisplay5"  # if directory is changed to  Default Dir 5 :  The number 4 is normal text and the other 4 are less bold.
+        
+  else
+       dirdisp="$dirdisplayno" # if directory doesn't match  Default Dirs 1-5 : All 5 numbers are less bold.  
+fi 
+
+# DEFAULT DIR 1  DISPLAY
+if [[ "$controldir" = "$dir1display" ]]  # IF PWD = DEFAULT DIR 1 then display 1
+  then 
+       dirdisp="$dirdisplay1"
+fi
+
+# DEFAULT DIR 2  DISPLAY
+if [[ "$controldir" = "$dir2display" ]]  # IF PWD = DEFAULT DIR 2 then display 2
+  then 
+       dirdisp="$dirdisplay2"
+fi
+
+# DEFAULT DIR 3  DISPLAY
+if [[ "$controldir" = "$dir3display" ]]  # IF PWD = DEFAULT DIR 3 then display 3
+  then 
+       dirdisp="$dirdisplay3"
+fi
+
+# DEFAULT DIR 4  DISPLAY
+if [[ "$controldir" = "$dir4display" ]]  # IF PWD = DEFAULT DIR 4 then display 4
+  then 
+       dirdisp="$dirdisplay4"  # if directory is changed to  Default Dir 4 :  The number 4 is normal text and the other 4 are less bold.
+fi
+
+################################################################################
+##########  END   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
+################################################################################
 ########## blinking routine for display ##########
 
 # blinking
@@ -3407,7 +3848,7 @@ echo "Directory:" "$PWD"
 echo "Clipboard:" "$pasteclip"
 echo "___________________________________________________________________________________________________________________"
 echo  
-echo " ""$der"" >>> "$finalresult"        Enter - Update Clipboard Display             1 2 3 4 5 - Default Dirs"
+echo " ""$der"" >>> "$finalresult"        Enter - Update Clipboard Display             "$dirdisp" - Default Dirs"
 echo "___________________________________________________________________________________________________________________" 
 echo
 echo " d "$finalresult2" Download List     v "$finalresult2" View List     l - View Logs     k - Default List     x - Clear Clipboard       q - Quit"
@@ -3422,7 +3863,6 @@ while true
 do
 dwnlist
 case $optiond in
-
 
 # LOAD STORED DIRECTORIES
 #read -r dir1 < ~/.config/videoinfox/videoinfo.tv-dir 2> /dev/null
@@ -3708,8 +4148,6 @@ else  # File didn't exist. clipboard cleared
 echo "" | xclip -sel clip  # clearing out the clipboard
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 fi
-
-cd "$grabdir"
 ;;
 
 
@@ -3984,10 +4422,14 @@ cd "$grabdir"
 ##################################################################################### 
 
 clipsave=$(xclip -o -selection clipboard 2> /dev/null)  # save clipboard content         
-          
+
+keepdir="$PWD"  # save dir for exit      
      
+
       function menuyt {  # LIST ALL VIDEO FILES RECURSIVELY IN THE DEFAULT DOWNLOAD DIRECTORY 
 
+
+cd "$dirsaved"
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
@@ -4138,8 +4580,8 @@ read -r -n1 optionyt
 	         case $optionyt in
 
 
-              q)  # QUIT
-              echo "$clipsave" | xclip -sel clip  # restore clipboard         
+              q)  # QUIT        
+              cd "$keepdir"
               break;;
 
                             
@@ -4346,12 +4788,16 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               ;;
 
 
-
-              s)  # PLAY VIDEO THEN DELETE 
+              s)  # DOWNLOAD VIDEO PLAY THEN DELETE ON VIDEO PLAYER CLOSE 
               
+              pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
               read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir  # reading download directory 
               cd "$dirsaved"   # change to download directory
-              
+         
+              clear
+              ~/.config/videoinfox/yt-dlp "$pasteclip" -o "$dirsaved"/download.tmp  # downloading temporary video
+              notify-send "Videoinfox messsage: YT-DLP is done downloading . . ." "$pasteclip" 
+
               clear
               echo
               echo "___________________________________________________________________________________________________________________"
@@ -4374,9 +4820,6 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               echo -e "\n"
               echo " This screen will exit when the video player is closed."
               echo
-     
-              ~/.config/videoinfox/yt-dlp "$pasteclip" -o "$dirsaved"/download.tmp  # downloading temporary video
-              notify-send "Videoinfox messsage: YT-DLP is done downloading . . ." "$pasteclip"  
               
               ffplay -fs -autoexit &> /dev/null "$dirsaved"/download.tmp*  # play temporary video
               rm "$dirsaved"/download.tmp*  # on player close, delete temporary video
@@ -4481,6 +4924,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               echo "Find what video quality and format you want. (Code on far left)"
               read -r -p "Enter that Code and Press enter : " svrcode
               echo
+              clear
               ~/.config/videoinfox/yt-dlp -f "$svrcode" "$pasteclip"
               
               read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
@@ -4497,7 +4941,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 fi
 
 
-cd "$grabdir"   # restore dir prior to entering yt-dlp menu
+################################################## cd "$grabdir"   # restore dir prior to entering yt-dlp menu
 ;; 
 
 
@@ -4507,18 +4951,152 @@ m)  # MORE OPTIONS   ###########################################################
 ##################################################################################################################################################
 
 function menu {
+
+##################################################################################
+##########  START   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
+################################################################################## 
+
+# DIRECTORY SELECTED IS NORMAL TEXT AND THE OTHER 4 ARE LESS BOLD. 
+
+# DEFAULT DIR NUMBER 1 FORMAT
+dirdisplay1=$(echo -e "1\033[2m 2 3 4 5\033[0m")
+# DEFAULT DIR NUMBER 2 FORMAT
+dirdisplay2=$(echo -e "\033[2m1 \033[0m2 \033[2m3 4 5\033[0m") 
+# DEFAULT DIR NUMBER 3 FORMAT
+dirdisplay3=$(echo -e "\033[2m1 2 \033[0m3 \033[2m4 5\033[0m")
+# DEFAULT DIR NUMBER 4 FORMAT
+dirdisplay4=$(echo -e "\033[2m1 2 3 \033[0m4 \033[2m5\033[0m")
+# DEFAULT DIR NUMBER 5 FORMAT
+dirdisplay5=$(echo -e "\033[2m1 2 3 4 \033[0m5\033[0m")
+# NO MATCH ALL LESS BOLD
+dirdisplayno=$(echo -e "\033[2m1 2 3 4 5\033[0m")
+
+
+# FORMAT PWD NAME FOR COMPARISON
+echo "$PWD" > ~/.config/videoinfox/videoinfox.pwd.tmp  # write PWD to a tmp file: videoinfox.pwd.tmp
+cat ~/.config/videoinfox/videoinfox.pwd.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.pwd  # remove all froward slashes / write file: videoinfox.pwd
+rm  ~/.config/videoinfox/videoinfox.pwd.tmp  # remove tmp file: videoinfox.pwd.tmp
+sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.pwd  # remove horizontal whitespace write file: videoinfox.pwd
+
+# FORMAT DEFAULT DIR 1 NAME FOR COMPARISON
+echo "$dir1" > ~/.config/videoinfox/videoinfox.dir1.tmp  # write dir 1 to a tmp file: videoinfox.dir1.tmp
+cat ~/.config/videoinfox/videoinfox.dir1.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.dir1  # remove all froward slashes / write file: videoinfox.dir1
+rm ~/.config/videoinfox/videoinfox.dir1.tmp  # remove tmp file: videoinfox.dir1.tmp 
+sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.dir1  # remove horizontal whitespace write file: videoinfox.dir1
+
+# FORMAT DEFAULT DIR 2 NAME FOR COMPARISON
+echo "$dir2" > ~/.config/videoinfox/videoinfox.dir2.tmp  # write dir 2 to a tmp file: videoinfox.dir2.tmp
+cat ~/.config/videoinfox/videoinfox.dir2.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.dir2  # remove all froward slashes / write file: videoinfox.dir2
+rm ~/.config/videoinfox/videoinfox.dir2.tmp   # remove tmp file: videoinfox.dir2.tmp 
+sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.dir2 # remove horizontal whitespace write file: videoinfox.dir2
+
+# FORMAT DEFAULT DIR 3 NAME FOR COMPARISON
+echo "$dirsaved" > ~/.config/videoinfox/videoinfox.dir3.tmp  # write dir 3 to a tmp file: videoinfox.dir3.tmp
+cat ~/.config/videoinfox/videoinfox.dir3.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.dir3  # remove all froward slashes / write file: videoinfox.dir3
+rm ~/.config/videoinfox/videoinfox.dir3.tmp   # remove tmp file: videoinfox.dir3.tmp 
+sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.dir3 # remove horizontal whitespace write file: videoinfox.dir3
+
+# FORMAT DEFAULT DIR 4 NAME FOR COMPARISON
+echo "$dir4" > ~/.config/videoinfox/videoinfox.dir4.tmp  # write dir 4 to a tmp file: videoinfox.dir4.tmp
+cat ~/.config/videoinfox/videoinfox.dir4.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.dir4  # remove all froward slashes / write file: videoinfox.dir4
+rm ~/.config/videoinfox/videoinfox.dir4.tmp   # remove tmp file: videoinfox.dir4.tmp 
+sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.dir4 # remove horizontal whitespace write file: videoinfox.dir4
+
+# FORMAT DEFAULT DIR 5 NAME FOR COMPARISON
+echo "$dir5" > ~/.config/videoinfox/videoinfox.dir5.tmp  # write dir 5 to a tmp file: videoinfox.dir5.tmp
+cat ~/.config/videoinfox/videoinfox.dir5.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.dir5  # remove all froward slashes / write file: videoinfox.dir5
+rm ~/.config/videoinfox/videoinfox.dir5.tmp   # remove tmp file: videoinfox.dir5.tmp 
+sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.dir5 # remove horizontal whitespace write file: videoinfox.dir5
+
+
+# LOAD EDITED PWD AND DEFAULT DIRECTORY NAMES FOR BELOW  IF LOOPS   (all frorward slashes / and white spaces removed from the below directory names)
+
+read -r controldir < ~/.config/videoinfox/videoinfox.pwd    # load reformatted current directory name 
+read -r dir1display < ~/.config/videoinfox/videoinfox.dir1  # load reformatted default directory 1 name
+read -r dir2display < ~/.config/videoinfox/videoinfox.dir2  # load reformatted default directory 2 name
+read -r dir3display < ~/.config/videoinfox/videoinfox.dir3  # load reformatted default directory 3 name
+read -r dir4display < ~/.config/videoinfox/videoinfox.dir4  # load reformatted default directory 4 name
+read -r dir5display < ~/.config/videoinfox/videoinfox.dir5  # load reformatted default directory 5 name
+
+
+# DEFAULT DIR 5  DISPLAY     IF DIRECTORY ON EXIT  =  DEFAULT DIRECTORIES 1-4 then Display that directory number.
+
+if [[ "$controldir" = "$dir5display" ]]
+  then 
+
+      if [[ "$dir5display" = "$dir1display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 1 then display 1 and not 5
+        then
+             dirdisp="$dirdisplay1"
+      fi
+
+      if [[ "$dir5display" = "$dir2display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 2 then display 2 and not 5
+        then
+             dirdisp="$dirdisplay2"
+      fi
+
+      if [[ "$dir5display" = "$dir3display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 3 then display 3 and not 5
+        then
+             dirdisp="$dirdisplay3"
+      fi
+
+      if [[ "$dir5display" = "$dir4display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 4 then display 4 and not 5
+        then
+             dirdisp="$dirdisplay4"
+      fi
+fi
+
+
+
+# DEFAULT DIR 5 DISPLAY
+if [[ "$controldir" = "$dir5display" ]] 
+  then
+       dirdisp="$dirdisplay5"  # if directory is changed to  Default Dir 5 :  The number 4 is normal text and the other 4 are less bold.
+        
+  else
+       dirdisp="$dirdisplayno" # if directory doesn't match  Default Dirs 1-5 : All 5 numbers are less bold.  
+fi 
+
+# DEFAULT DIR 1  DISPLAY
+if [[ "$controldir" = "$dir1display" ]]  # IF PWD = DEFAULT DIR 1 then display 1
+  then 
+       dirdisp="$dirdisplay1"
+fi
+
+# DEFAULT DIR 2  DISPLAY
+if [[ "$controldir" = "$dir2display" ]]  # IF PWD = DEFAULT DIR 2 then display 2
+  then 
+       dirdisp="$dirdisplay2"
+fi
+
+# DEFAULT DIR 3  DISPLAY
+if [[ "$controldir" = "$dir3display" ]]  # IF PWD = DEFAULT DIR 3 then display 3
+  then 
+       dirdisp="$dirdisplay3"
+fi
+
+# DEFAULT DIR 4  DISPLAY
+if [[ "$controldir" = "$dir4display" ]]  # IF PWD = DEFAULT DIR 4 then display 4
+  then 
+       dirdisp="$dirdisplay4"  # if directory is changed to  Default Dir 4 :  The number 4 is normal text and the other 4 are less bold.
+fi
+
+################################################################################
+##########  END   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
+################################################################################
+
+
 clear
 echo
 echo "Directory: ""$PWD"
-echo "Clipboard: ""$pasteclip"  
+echo "Clipboard: ""$pasteclip"                                                                 #
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " $der >>> MORE OPTIONS                                              Enter - Update Clipboard Display"
+echo " $der >>> MORE OPTIONS                                                      "$dirdisp" - Default Dirs"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " 1 - List Directory       4 - Video Count                                                                 q - Quit"                     
-echo " 2 - Change Directory     5 - Video Duration"
-echo " 3 - Find Directory       6 - Video File"             
+echo " c - Change Directory     n - Video Count        v - Video File                                           q - Quit"                     
+echo " f - Find Directory       d - Video Duration"
+echo " l - List Directory"
 echo
 echo -en " Enter Option: "
 read -r -n1 option
@@ -4535,12 +5113,37 @@ q)  # QUIT - <HOME>
 break ;;
 
 
-1)  # LIST DIRECTORY - <HOME> 
-##################################################################################################################################################
-###########################   MORE OPTIONS 1  LIST DIRECTORY  ####################################################################################
-##################################################################################################################################################
+
+1) # CD DIRECTORY TO TV    
+cd "$dir1" 
+;;
+
+    
+2)  # CD DIRECTORY TO MOVIES
+cd "$dir2" 
+;;
 
 
+3)  # CHANGE DIRECTORY TO DOWNLOADS
+cd "$dirsaved" 
+;;
+
+
+4)  # CHANGE DIRECTORY TO EXTRA   
+cd "$dir4" 
+;;
+
+
+5)  # CHANGE DIRECTORY TO LAST EXIT
+cd "$dir5" 
+;;
+
+
+
+l)  # LIST DIRECTORY - <HOME> 
+##################################################################################################################################################
+###########################   MORE OPTIONS l  LIST DIRECTORY  ####################################################################################
+##################################################################################################################################################
 
 #   The Line below gives a total count of all mp4, mkv, avi, & divx in Current Directory.
 currentdirfilecount=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
@@ -4774,9 +5377,9 @@ do
         ;;
 
 
-2)
+c)
 ##################################################################################################################################################
-###########################   MORE OPTIONS 2  CHANGE DIRECTORY  ##################################################################################
+###########################   MORE OPTIONS c  CHANGE DIRECTORY  ##################################################################################
 ##################################################################################################################################################
 
 ##############xmodmap -e 'keycode 55=v'  #  enable v key 
@@ -4818,9 +5421,9 @@ echo
 ;;
 	
 
-3)	 
+f)	 
 ##################################################################################################################################################
-###########################   MORE OPTIONS 3  FIND DIRECTORY  ####################################################################################
+###########################   MORE OPTIONS f  FIND DIRECTORY  ####################################################################################
 ##################################################################################################################################################
 
 pasteclip=$(xclip -o -selection clipboard > /dev/null)  # grab clipboard content
@@ -4885,7 +5488,7 @@ echo
 ;;
 
 
-4)
+n)
 ##################################################################################################################################################
 ###########################   MORE OPTIONS  4  VIDEO COUNT  ######################################################################################
 ##################################################################################################################################################
@@ -4922,9 +5525,9 @@ read -r -p " Press enter to Continue"
 ;;
 	
 
-5)
+d)
 ##################################################################################################################################################
-###########################  MORE OPTIONS  5  VIDEO DURATION  ####################################################################################
+###########################  MORE OPTIONS  d  VIDEO DURATION  ####################################################################################
 ##################################################################################################################################################
 
 if [ -f "videoinfo.Video-Duration" ]  #  if <videoinfo.Video-Durationy> exists goto <then>
@@ -5075,9 +5678,9 @@ do
          ;;
 
 
-6)
+v)
 ##################################################################################################################################################
-###########################   MORE OPTIONS 6  ENTER VIDEO FILE  ##################################################################################
+###########################   MORE OPTIONS v  ENTER VIDEO FILE  ##################################################################################
 ##################################################################################################################################################
 
 clear
