@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#  file : videoinfox v2.7.00									         
+#  file : videoinfox v2.7.10									         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v2.7.00"  # Version Number no blinking
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m7.00")  # Version Number witth blinking dot
+ver="Videoinfox v2.7.10"  # Version Number no blinking
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m7.10")  # Version Number witth blinking dot
 
 
 ##################################################################################################################################################
@@ -55,8 +55,8 @@ fi
 
 # Create a gui keyboard shortcut for:   videoinfox -a
 # It isn't necessary to have the Videoinfox running while using this feature.
-
-# COPY THE URL TO THE BROWSER. THEN USE YOUR SHORTCUT TO WRITE URL TO THE DEFAULT DOWNLOAD LIST. 
+# Build your default list on the fly without leaving the gui
+# COPY THE URL TO THE BROWSER. THEN USE YOUR SHORTCUT TO WRITE URL TO THE DEFAULT DOWNLOAD LIST. Rinse and repeat to keep adding to the Default List. 
 
 if [ "$1" = "-a" ]
   then
@@ -64,7 +64,7 @@ if [ "$1" = "-a" ]
 if [ -f ~/.config/videoinfox/videoinfox-dl-Default ]  # if file exists then 
 then
     :
-else  # if file doesn't exist one will be created
+else  # This file should always exist:   ~/.config/videoinfox/videoinfox-dl-Default   if it doesn't, it will be created
 
 # CREATING EMPTY DEFAULT DOWNLOAD LIST WITH LIST EMPTY MESSAGE
 echo > ~/.config/videoinfox/videoinfox-dl-Default
@@ -506,9 +506,9 @@ echo "                  Keep pasting your clipboard copies on the fly to the Def
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "                  TO USE:  Copy a Video Download URL to the clipboard then use the  videoinfox -a  shortcut." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
-echo "                  Everytime you copy to the clipboard then run the shortcut, that will write the URL to the list ." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "                  Everytime you copy to the clipboard then run the shortcut, that will write the URL to the list." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
-echo "                  When done making the list, start Videoinfox, load the list and Download List." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "                  When done making the list, start Videoinfox, load the list and Download." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -577,6 +577,8 @@ echo "__________________________________________________________________________
 echo  >> ~/.config/videoinfox/videoinfo.help
 echo " Find local Video Files fast and watch immediately. Download Video Urls effortlessly and watch immediately." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
+echo " Add URL's to the Default Download list on the fly without leaving your gui or starting up Videoinfox." >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
 echo " Make a list of video url's with your preferred text editor and Videoinfox will download your list." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -619,6 +621,10 @@ echo " Yt-dlp Menu    d - Download Default - Yt-dlp with no arguements." >> ~/.c
 echo "                c - Download Choose  - Choose video type and quality before download." >> ~/.config/videoinfox/videoinfo.help
 echo "                s - Self Destruct    - Download, auto play then delete when the video player is quit." >> ~/.config/videoinfox/videoinfo.help
 echo "                g - Download List    - Instructions in help on the download list screen." >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo " Note: Vidoeinfox keeps its own yt-dlp copy in:  ~/.config/videoinfox" >> ~/.config/videoinfox/videoinfo.help
+echo "       On every start of Videoinfox, it will check for its own update and notify if an update is available." >> ~/.config/videoinfox/videoinfo.help
+echo "       No auto update checks are done for Yt-dlp.  To check for a Yt-dlp update and install update: Settings (Set)"  >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Add to Playlist content is generated from search results." >> ~/.config/videoinfox/videoinfo.help
@@ -627,6 +633,9 @@ echo " After each copy to the clipboard, select <a> to add your slection(s) from
 echo " Make sure to grab the entire line including the comma.  Rinse and repeat until done." >>~/.config/videoinfox/videoinfo.help
 echo " This feature will not catch an invalid user clipboard copy (not entire line) before adding it to the Playlist." >>~/.config/videoinfox/videoinfo.help
 echo " Checking validity of clipboard content in Add to Playlist is on my list of features I still need to add." >>~/.config/videoinfox/videoinfo.help
+echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo " When you use:  Videoinfox Update in Settings (Set), the update will always be applied to:  /usr/local/bin/  " >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -678,11 +687,7 @@ echo "  - GUI notifications." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " If you encounter any issues, let me know." >> ~/.config/videoinfox/videoinfo.help
-echo >> ~/.config/videoinfox/videoinfo.help
-echo " Thank You for taking the time to try out my shell script.  :-)  Any feedback is appreciated." >> ~/.config/videoinfox/videoinfo.help
-echo >> ~/.config/videoinfox/videoinfo.help
-echo " powerhousepro69 @ Github and Reddit   " >> ~/.config/videoinfox/videoinfo.help
+echo " Thanks for checking out Videoinfox!  If you encounter any issues: Reddit /videoinfox" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " If Videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted." >> ~/.config/videoinfox/videoinfo.help
@@ -728,13 +733,17 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v2.7.10 Added:  Code Stats  to Settings (set)  Edited Help on home screen.  Cleaned up some comments." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.7.00 Changes, Additions and Bug Squashing." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Cosmetic update on  1 2 3 4 5 - Default Dirs  display." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         When a default directory is selected that number stays normal while the othe 4 numbers will be less bold." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         If you change to a directory that is not a default driectory 1-5: All 5 numbers will be less bold." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         When a default directory is selected that number stays normal while the other 4 numbers will be less bold." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         If you change to a directory that is not a default directory 1-5: All 5 numbers will be less bold." >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         If directory on exit (5) matches any of the default directories 1-4: 1-4 gets the display." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Download List  - Added:  1 2 3 4 5 - Default Dirs  selector." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -746,16 +755,18 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Home Screen    - Changed Navigate Tree option from  t  to  n" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         View Downloads - Directory is saved on the way in because the dir is changed to the Default Download Directory." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                          Directory is restord on quit." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                          Directory is restored on quit." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Fix: View Downloads   Valid clipboard content was being lost on quit." >> ~/.config/videoinfox/videoinfo-ver-history
 echo "                               Valid clipboard content should only be cleared after Video Player exit." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Fix: Navigate Tree    Directory was getting changed when quitting to the Home screen." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Fix: Navigate Tree -  Directory was getting changed when quitting to the Home screen." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Fix: Self Destruct - After copying to the clipboard, you had to press enter first." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Fix: Download List - After a list was downloaded the directory was changed back to what it was pre download." >> ~/.config/videoinfox/videoinfo-ver-history 
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         First Run now checks for the directory:   ~/Downloads.   If it doesn't exit. it is created'" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Directory Policy: Directory will only be change when the user changes the directory." >> ~/.config/videoinfox/videoinfo-ver-history 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -3044,8 +3055,9 @@ echo "                                                                          
 echo " 3 - Download:" "$dirsaved"
 echo "                                                                                             h - Version History"
 echo " 4 - Extra:" "$dir4"
+echo "                                                                                             c - Code Stats"
 echo
-echo
+echo "                                                                                             x - Clear Clipboard"
 echo " Last Exit Dir 5:" "$dir5"
 echo
 echo
@@ -3060,7 +3072,84 @@ case $optionsettings in
 
     q)  # QUIT
     break;;
+
+
+    x) #  CLEAR CLIPBOARD  <DOWNLOAD LIST> 
+    echo "" | xclip -sel clip  # clearing out the clipboard
+    pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+    ;;
  
+
+    c)  # CODE STATS
+
+function codestats {
+
+clear
+echo
+echo #"Directory:" "$PWD"
+echo #"Clipboard:" "$pasteclip"
+echo "___________________________________________________________________________________________________________________"
+echo  
+echo " $der >>> SETTINGS >>> CODE STATS                                                           q - Quit"
+echo "___________________________________________________________________________________________________________________" 
+echo
+echo
+
+a=$(grep -c "^$" /usr/local/bin/videoinfox 2> /dev/null)  # NUMBER OF BLANK LINES
+b=$(sed -n -e '/#/p' /usr/local/bin/videoinfox | wc -l 2> /dev/null)  # NUMBER OF COMMENT ONLY LINES
+c=$(sed -n '$=' /usr/local/bin/videoinfox 2> /dev/null)  # TOTAL LINES
+
+d=$((c - a - b))  # CODE LINES = TOTAL LINES - BLANK LINES - COMMENT ONLY LINES
+
+
+# GET VIDEOINFOX FILE SIZE AND LOCATION AND WRITE TO FILE:  ~/.config/videoinfox/videoinfox.code-stats.tmp
+du -h /usr/local/bin/videoinfox > ~/.config/videoinfox/videoinfox.code-stats.tmp 2> /dev/null
+
+# READ FILE SIZE
+vsize=$(sed 's:/.*::' ~/.config/videoinfox/videoinfox.code-stats.tmp)
+
+# READ FILE LOCATION
+vlocat=$(cat ~/.config/videoinfox/videoinfox.code-stats.tmp | cut -c 6-)
+
+
+printf " Code Lines .......  %s\n" "$d"
+
+echo
+printf " Comment Lines ....  %s\n" "$b"
+
+echo
+printf " Blank Lines ......   %s\n" "$a"
+
+echo " _________________________"
+
+echo
+printf " Total Lines ......  %s\n" "$c"
+echo
+echo
+echo " File Size:" "$vsize"
+echo
+echo " File Location:" "$vlocat"
+#echo " White Spaces ....." $(wc -w < /usr/local/bin/videoinfox 2> /dev/null)  # White Space COUNT
+echo
+echo
+echo -en " Enter Option: "
+read -r -n1 optionstats
+}
+
+
+while true
+do
+codestats
+case $optionstats in
+
+    q)  # QUIT
+    break;;
+
+
+esac
+done
+;;
+
     
     h)  # VERSION HISTORY
     clear
@@ -3989,7 +4078,7 @@ pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard conten
 c)  # CLEAR DEFAULT LIST   <DEFAULT LIST>  
 function yesorno {
 echo
-echo " Are you sure that you want to clear the Default List ?"
+echo " Are you sure that you want to clear the Default List?"
 echo
 echo " y - Yes     n - No"  
 echo 
@@ -4081,7 +4170,7 @@ read -r grablistdir < ~/.config/videoinfox/videoinfox.userlist-tmp 2> /dev/null
 cd "$grablistdir"  # change directory to list location
 
 # USER CREATED LIST - REMOVE DUPLICATES, BLANK LINES and ANY LINES NOT STARTING WITH HTTP
-cat -n "$pasteclip" | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/videoinfox-dl-userlist.tmp
+cat -n "$pasteclip" | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/videoinfox-dl-userlist.tmp  # remove duplicates
 mv ~/.config/videoinfox/videoinfox-dl-userlist.tmp "$pasteclip"
 sed -i '/^$/d' "$pasteclip" 2>/dev/null  # remove any blank lines in the list
 sed -i '/http/!d' "$pasteclip" 2>/dev/null  # remove all lines not starting with  http
@@ -4218,7 +4307,7 @@ echo "Directory:" "$PWD"
 echo "Clipboard:" "$pasteclip"
 echo "___________________________________________________________________________________________________________________"
 echo  
-echo " "$der" >>> DOWNLOAD LIST >>> VIEW LOGS         Enter - Update Clipboard Display"
+echo " "$der" >>> DOWNLOAD LIST >>> VIEW LOGS                               Enter - Update Clipboard Display"
 echo "___________________________________________________________________________________________________________________" 
 echo
 echo " l - "$finalresult"                                                                                             q - Quit"
