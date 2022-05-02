@@ -2,7 +2,7 @@
 
 #### Find local Video Files fast, immediately play and get info on. Download Video Urls effortlessly and auto play with Play Clipboard.
 
-#### Add URL's to the Default Download list on the fly without leaving your gui or starting up Videoinfox until you want to download the list.
+#### Add URL's to the Default Download list on the fly without leaving your gui or starting up Videoinfox.
 
 #### You can also create your own url download lists with your preferred text editor then load in Videoinfox and Download List.
 
