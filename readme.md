@@ -115,7 +115,7 @@ FFprobe - Get codec, resolution & duration in seconds.
 #### Dependencies listed at bottom of page.
 
 <br />
-HOME SCREEN WITH VIDEO URL IN THE CLIPBOARD. &nbsp; &nbsp; PRESS &nbsp;  p &nbsp; TO DOWNLOAD AND PLAY FULLSCREEN.
+HOME SCREEN WITH VIDEO URL IN THE CLIPBOARD. &nbsp; &nbsp; PRESS &nbsp;  p &nbsp; TO DOWNLOAD AND AUTO PLAY FULLSCREEN.
  
 ![Videoinfox HOME](https://i.imgur.com/poQOxK9.png)
 
