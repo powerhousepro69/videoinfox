@@ -9,7 +9,9 @@
 <br />
 
 
-#### This update:  &nbsp; &nbsp;  Added: &nbsp; Code Stats  to Settings (set) &nbsp; Edited Help on home screen. &nbsp; Cleaned up some comments.
+#### This update:  &nbsp; &nbsp;  Added: &nbsp; Code Stats  to Settings (set) &nbsp; Edited Help on home screen.
+
+Cleaned up some comments.
 
 
 
