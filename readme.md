@@ -1,4 +1,4 @@
-# Videoinfox v2.7.00 &nbsp; *Where Video Play is a Clipboard Copy Away*
+# Videoinfox v2.7.10 &nbsp; *Where Video Play is a Clipboard Copy Away*
 
 #### Find local Video Files fast, immediately play and get info on. Download Video Urls effortlessly and auto play with Play Clipboard.
 
@@ -9,10 +9,7 @@
 <br />
 
 
-#### This update:  &nbsp; &nbsp;  Changes, Additions and Bug Squashing.
-
-
-Detailed information located in Version History in Settings &nbsp; (Set)
+#### This update:  &nbsp; &nbsp;  Added:  Code Stats  to Settings (set)  Edited Help on home screen.  Cleaned up some comments.
 
 
 
