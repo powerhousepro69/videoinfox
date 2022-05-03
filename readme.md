@@ -1,4 +1,4 @@
-# Videoinfox v2.7.10 &nbsp; *Where Video Play is a Clipboard Copy Away*
+# Videoinfox v2.7.11 &nbsp; *Where Video Play is a Clipboard Copy Away*
 
 #### Find local Video Files fast, immediately play and get info on. Download Video Urls effortlessly and auto play with Play Clipboard.
 
@@ -9,12 +9,9 @@
 <br />
 
 
-#### This update:  &nbsp; &nbsp;  Added: &nbsp; Code Stats  to Settings (set) &nbsp; Edited Help on home screen.
+#### This update:  &nbsp; &nbsp;  Added: &nbsp; Completed Version History.
 
-Cleaned up some comments.
-
-
-
+Videoinfox is now at 3,469 lines of code.  The rest is comment only and blank lines.
 
 <br />
 
