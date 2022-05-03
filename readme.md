@@ -181,7 +181,7 @@ FIND DIRECTORY
 <br />
 SETTINGS
 
-![Videoinfox HOME](https://i.imgur.com/hrOdE5o.png)
+![Videoinfox HOME](https://i.imgur.com/vun9YFS.png)
 
 
 <br />
