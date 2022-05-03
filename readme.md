@@ -11,7 +11,7 @@
 
 #### This update:  &nbsp; &nbsp; Completed Version History.
 
-Videoinfox is now at 3,469 lines of code.  The rest is comment only and blank lines.
+Videoinfox is now at 3,469 lines of code. &nbsp; The rest is comment only and blank lines.
 
 <br />
 
