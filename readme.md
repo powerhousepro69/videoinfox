@@ -126,7 +126,7 @@ YT-DLP MENU
 ![Yt-dlp Menu](https://i.imgur.com/NRTL3H2.png)
 
 <br />
-DOWNLOAD USER CREATED URL LISTS
+DOWNLOAD USER CREATED URL LISTS OR THE DEFAULT LIST
 
 ![download list](https://i.imgur.com/XhNNYC9.png)
 
