@@ -1,4 +1,4 @@
-# Videoinfox v2.7.12 &nbsp; 
+# Videoinfox v2.7.13 &nbsp; 
 
 ## *Where Video Play is a Clipboard Copy Away*
 
@@ -11,9 +11,8 @@
 <br />
 
 
-#### This update:  &nbsp; &nbsp; Bug Squashed: Download List.
+#### This update:  &nbsp; &nbsp; Change: Videoinfo Update exit message appearance.
 
-Fix: &nbsp; After downloading a user list, the directory wasn't changing back to what is was before downloading list. 
 
 <br />
 
