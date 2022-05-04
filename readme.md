@@ -1,4 +1,4 @@
-# Videoinfox v2.7.14 &nbsp; 
+# Videoinfox v2.7.15 &nbsp; 
 
 ## *Where Video Play is a Clipboard Copy Away*
 
@@ -11,7 +11,7 @@
 <br />
 
 
-#### This update:  &nbsp; &nbsp; Added: Command line option -h
+#### This update:  &nbsp; &nbsp; Updated Features List In Help
 
 
 <br />
