@@ -171,7 +171,7 @@ FIND
 
 
 <br />
-PLAYLIST &nbsp; & PLAYED LIST
+PLAYLIST
 
 ![Videoinfox HOME](https://i.imgur.com/hpiQMqU.png)
 
