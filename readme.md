@@ -1,4 +1,4 @@
-# Videoinfox v2.7.13 &nbsp; 
+# Videoinfox v2.7.14 &nbsp; 
 
 ## *Where Video Play is a Clipboard Copy Away*
 
@@ -11,7 +11,7 @@
 <br />
 
 
-#### This update:  &nbsp; &nbsp; Change: Videoinfo Update exit message appearance.
+#### This update:  &nbsp; &nbsp; Added: Command line option -h
 
 
 <br />
