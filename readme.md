@@ -158,15 +158,27 @@ ADD TO THE DEFAULT LIST WITHOUT LEAVING YOUR GUI OR STARTING VIDEOINFOX.
 
 
 <br />
+DEFAULT DOWNLOAD LIST HELP.
+
+![Videoinfox HOME](https://i.imgur.com/LPNoA47.png)
+
+
+<br />
+USER CREATED LIST HELP.
+
+![Videoinfox HOME](https://i.imgur.com/GNfpXi0.png)
+
+
+<br />
 NAVIGATE TREE
 
 ![Navigate Tree](https://i.imgur.com/5pJMjgx.png)
 
 
 <br />
-FIND
+FIND VIDEOS TO PLAY OR GET INFO
 
-![Videoinfox HOME](https://i.imgur.com/hwtyrdi.png)
+![Videoinfox HOME](https://i.imgur.com/NeuxflE.png)
 
 
 <br />
