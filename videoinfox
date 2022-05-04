@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#  file : videoinfox v2.7.13									         
+#  file : videoinfox v2.7.14									         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v2.7.13"  # Version Number no blinking
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m7.13")  # Version Number witth blinking dot
+ver="Videoinfox v2.7.14"  # Version Number no blinking
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m7.14")  # Version Number witth blinking dot
 
 
 ##################################################################################################################################################
@@ -90,6 +90,30 @@ exit
 
 else
     :
+fi
+
+
+#-------------------------------------------------------------------------------------------------------------------------------------------------
+#  videoinfox -v     DISPLAY VERSION NUMBER THEN EXIT  
+#-------------------------------------------------------------------------------------------------------------------------------------------------
+
+if [ "$1" = "-h" ]
+  then
+       echo "___________________________________________________________________________________________________________________"
+       echo  
+       echo " ""$ver"" >>> Command Line Options"
+       echo "___________________________________________________________________________________________________________________" 
+       echo
+       echo "   -v  Display Version Number."
+       echo
+       echo "   -h  This Help Screen."
+       echo
+       echo "   -a  Write Clipboard Content To The Default List.  For instructions on use: Yt-dlp >>> Download List >>> Help"
+       echo -e "\n"     
+       exit
+  
+   else
+      :
 fi
 
 
@@ -411,7 +435,7 @@ echo "                                                                          
 
 
 # download:  yt-dlp  from github, rename to: yt-dlp-fetched, set execute bit, copy to  yt-dlp, pull version with -v and write it to a file.  
-wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O ~/.config/videoinfox/yt-dlp-fetched >/dev/null  # download and rename 
+wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O ~/.config/videoinfox/yt-dlp-fetched 2>/dev/null  # download and rename 
 chmod a+rx ~/.config/videoinfox/yt-dlp-fetched 2> /dev/null  # set <yt-dlp-fetched> execute bit
 cp ~/.config/videoinfox/yt-dlp-fetched ~/.config/videoinfox/yt-dlp  # copy: yt-dlp-fetched  to: yt-dlp  
 ~/.config/videoinfox/yt-dlp --version > ~/.config/videoinfox/videoinfo.yt-dlp.version # write yt-dlp ver number to file: yt-dlp.version  
@@ -434,7 +458,7 @@ echo "__________________________________________________________________________
 
 # download  videoinfox  from github, rename it to  videoinfox-fetched,  extract the ver mumber and reformat it
 # if the download doesn't come in 2.4 seconds, it will be aborted.  Just for notification.  To prevent script hanging on  wget  during high traffic times.
-timeout 2.4 wget -q https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox -O ~/.config/videoinfox/videoinfox-fetched >/dev/null
+timeout 2.4 wget -q https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox -O ~/.config/videoinfox/videoinfox-fetched 2>/dev/null
 
 # make script executable to get ver number
 chmod +x ~/.config/videoinfox/videoinfox-fetched 2> /dev/null
@@ -745,6 +769,9 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v2.7.14 Added: Command line option -h" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.7.13 Change: Videoinfo Update exit message appearance." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2595,6 +2622,8 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
                 sleep .7
                 ;;
 
+                *)
+
                 esac
                 done
                 ;; 
@@ -2999,6 +3028,8 @@ rm ~/.config/videoinfox/videoinfo.keptsearch.tmp
           echo
           break;;
 
+               *)
+
                esac
                done
                ;;
@@ -3020,6 +3051,9 @@ rm ~/.config/videoinfox/videoinfo.keptsearch.tmp
            # read -p " Press enter to Continue"
            sleep .7      
            ;;   
+
+              *)
+
               esac
               done
               ;; 
@@ -3219,6 +3253,7 @@ case $optionstats in
     q)  # QUIT
     break;;
 
+*)
 
 esac
 done
@@ -3289,6 +3324,8 @@ done
          echo " Ask on Exit . . ."
          sleep .7
          ;;
+
+         *)
 
          esac
          done
@@ -3461,9 +3498,11 @@ done
     v)  # CHECK FOR VIDEOINFOX UPDATE
     function menuinfox {
     clear
-    wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox -O ~/.config/videoinfox/videoinfox-fetched >/dev/null
+    wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox -O ~/.config/videoinfox/videoinfox-fetched 2>/dev/null
     chmod +x ~/.config/videoinfox/videoinfox-fetched    
     clear 
+    echo
+    echo
     echo
     echo "___________________________________________________________________________________________________________________"
     echo
@@ -3542,6 +3581,7 @@ done
          exit
          ;;
 
+         *)
           
          esac
          done
@@ -3553,9 +3593,11 @@ done
          y)  # CHECK FOR YT-DLP UPDATE
          function chkytdlp {
          clear
-wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O ~/.config/videoinfox/yt-dlp-fetched >/dev/null  # download <yt-dlp> from github
+wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O ~/.config/videoinfox/yt-dlp-fetched 2>/dev/null  # download <yt-dlp> from github
          chmod a+rx ~/.config/videoinfox/yt-dlp-fetched  # set <yt-dlp-fetched> execute bit
          clear 
+         echo
+         echo
          echo
          echo "___________________________________________________________________________________________________________________"
          echo
@@ -3608,10 +3650,14 @@ wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O ~/.conf
               sleep 1
               done         
               break;;
-                 
+             
+         *)    
+        
          esac
          done
          ;;
+
+*)
 
 esac
 done
@@ -4188,7 +4234,10 @@ do
     echo " Default List SAVED . . ."
     echo     
     sleep .75
+
     break;;
+
+*)
           
 esac
 done
@@ -4209,6 +4258,8 @@ r)  # REMOVE LAST LINE IN THE DEFAULT DOWNLOAD LIST <DEFAULT LIST>
 sed -i '$d' ~/.config/videoinfox/videoinfox-dl-Default
 ;;
 
+
+*)
 
 esac
 done
@@ -4428,6 +4479,8 @@ echo "" | xclip -sel clip  # clearing out the clipboard
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 fi
 
+
+
 esac
 done
 ;;
@@ -4436,6 +4489,8 @@ done
 h) # DOWNLOAD LIST HELP
 less ~/.config/videoinfox/videoinfox.download-list-help
 ;;
+
+*)
 
 esac
 done
@@ -4955,6 +5010,9 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               echo
         
               ;; 
+
+                *)
+
                 esac
                 done  
                 
@@ -5108,6 +5166,9 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               
               cd "$grabdir"
               ;; 
+
+*)
+
  esac
  done
 
@@ -5544,7 +5605,9 @@ do
     #read -p "Press enter to Continue"    
     sleep .75
     break;;
-          
+      
+        *)
+    
         esac
         done
         ;;
@@ -5846,6 +5909,9 @@ do
     #read -p "Press enter to Continue"    
     sleep .75
     break;;
+
+         *)
+
          esac
          done
          ;;
@@ -5895,7 +5961,6 @@ echo
 ;;
 
 
-
 esac
 done
 ;;
@@ -5906,7 +5971,7 @@ done
 ##################################################################################################################################################
 
 	*)
-	clear
+	#clear
 	#echo "Invalid selection";;
 	esac
     #echo    
