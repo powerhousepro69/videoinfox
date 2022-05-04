@@ -179,7 +179,7 @@ PLAYLIST
 <br />
 MORE OPTIONS
 
-![Videoinfox HOME](https://i.imgur.com/j0V0PtJ.png)
+![Videoinfox HOME](https://i.imgur.com/HXyfhCU.png)
 
 
 <br />
