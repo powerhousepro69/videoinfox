@@ -1,4 +1,4 @@
-# Videoinfox v2.7.15 &nbsp; 
+# Videoinfox v2.7.16 &nbsp; 
 
 ## *Where Video Play is a Clipboard Copy Away*
 
@@ -11,7 +11,7 @@
 <br />
 
 
-#### This update:  &nbsp; &nbsp; Updated Features List In Help
+#### This update:  &nbsp; &nbsp; Fix: Yt-dlp Version Display in Yt-dlp Menu
 
 
 <br />
@@ -83,7 +83,7 @@ FFprobe - Get codec, resolution & duration in seconds.
   - Download Default: &nbsp; Yt-dlp with no arguments.  Download only.  No auto play.
   - Download Choose: &nbsp; Choose video type and qualiy before download.  Download only.  No auto play.
   - Self Destruct: &nbsp; Download, auto play, delete when the player is closed.
-  - Last Download: &nbsp; Watch last download is available in: &nbsp; Home and Yt-dlp Menu.
+  - Last Download available in: &nbsp; Home and Yt-dlp Menu. &nbsp; It will only play the last url processed by Play Clipboard.  
   - Download List: &nbsp; Blinking notification on list load.
   - View Logs: &nbsp; Blinking notification on log load.
   - Default List companion: &nbsp; Create a gui shortcut for: &nbsp; videoinfox -a &nbsp; to add to the default list. 
@@ -170,7 +170,7 @@ USER CREATED LIST HELP.
 
 
 <br />
-NAVIGATE TREE
+NAVIGATE TREE WITH PLAY DIRECTORY
 
 ![Navigate Tree](https://i.imgur.com/5pJMjgx.png)
 
