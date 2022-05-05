@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#  file : videoinfox v2.7.15									         
+#  file : videoinfox v2.7.16									         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v2.7.15"  # Version Number no blinking
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m7.15")  # Version Number with blinking dot
+ver="Videoinfox v2.7.16"  # Version Number no blinking
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m7.16")  # Version Number with blinking dot
 
 
 ##################################################################################################################################################
@@ -72,6 +72,7 @@ echo "Default Download List Empty" >> ~/.config/videoinfox/videoinfox-dl-Default
 
 fi
 
+
 # ADD TO DEFAULT LIST  <DEFAULT LIST>
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 echo "$pasteclip" >> ~/.config/videoinfox/videoinfox-dl-Default  # write url to the default download list
@@ -87,6 +88,7 @@ sed -i '/http/!d' ~/.config/videoinfox/videoinfox-dl-Default  # remove all lines
 echo "" | xclip -sel clip  # clearing out the clipboard
 
 exit
+
 
 else
     :
@@ -104,11 +106,11 @@ if [ "$1" = "-h" ]
        echo " ""$ver"" >>> Command Line Options"
        echo "___________________________________________________________________________________________________________________" 
        echo
-       echo "   -v  Display Version Number."
+       echo "   -v  Display version number."
        echo
-       echo "   -h  This Help Screen."
+       echo "   -h  This help screen."
        echo
-       echo "   -a  Write Clipboard Content To The Default List.  For instructions on use: Yt-dlp >>> Download List >>> Help"
+       echo "   -a  Write clipboard content to the Default List.  For instructions on use: Yt-dlp >>> Download List >>> Help"
        echo -e "\n"     
        exit
   
@@ -771,6 +773,9 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v2.7.16 Fix: Yt-dlp Version Display in Yt-dlp Menu" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.7.15 Updated: Features List In Help" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -3783,7 +3788,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                            #________________x________________________________________ _________________________________________________________
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " ""$der"" >>> YT-DLP MENU       Enter - Update Clipboard Display              yt-dlp Version: $ytdlpver"
+                      echo " ""$der"" >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlpver"
                       echo "___________________________________________________________________________________________________________________"
                       echo
                       echo " d "$dash0" Download Default     l - Last Download     v - View Downloads     p - Play Clipboard                 q - Quit"
@@ -3805,11 +3810,11 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo "Download Directory: $dirsaved"  # dislpay default download directory
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " ""$der"" >>> YT-DLP MENU       Enter - Update Clipboard Display              yt-dlp Version: $ytdlpver"
+                      echo " ""$der"" >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlpver"
                       echo "___________________________________________________________________________________________________________________"
                       echo
 
-echo -e " d "$dash1" Download Default     l - Last Download     v - View Downloads     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                 q - Quit "
+echo -e " d "$dash1" Download Default     l - Last Download     v - View Downloads     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m          q - Quit "
 
                       echo " c "$dash1" Download Choose"
                       echo " s "$dash1" Self Destruct        g - Download List"
@@ -3823,7 +3828,7 @@ echo -e " d "$dash1" Download Default     l - Last Download     v - View Downloa
             echo "Valid file in clipboard"
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " ""$der"" >>> YT-DLP MENU       Enter - Update Clipboard Display              yt-dlp Version: $ytdlpver"
+            echo " ""$der"" >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlpver"
             echo "___________________________________________________________________________________________________________________"
             echo
 
@@ -3840,7 +3845,7 @@ echo -e " d - Download Default     l - Last Download     v - View Downloads     
 
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " ""$der"" >>> YT-DLP MENU       Enter - Update Clipboard Display              yt-dlp Version: $ytdlpver"
+            echo " ""$der"" >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlpver"
             echo "___________________________________________________________________________________________________________________"
             echo
             echo " d - Download Default     l - Last Download     v - View Downloads     p - Play Clipboard                 q - Quit"
