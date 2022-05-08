@@ -1,17 +1,24 @@
-# Videoinfox v2.7.16 &nbsp; 
+# Videoinfox v2.8.00 &nbsp; 
 
 ## *Where Video Play is a Clipboard Copy Away*
 
 #### Find local Video Files fast, immediately play and get info on. Download Videos effortlessly and auto play.
 
-#### Add URL's to the Default Download list on the fly without leaving your gui or starting up Videoinfox.
+#### Add URL's to The Default Download list on the fly without leaving your gui or starting up Videoinfox.
 
-#### Create your own url download lists with your preferred text editor and load in Videoinfox to Download.
+#### Add URL's to Unlimited User Lists on the fly without leaving your gui or starting up Videoinfox.
+
+#### Download all your video url lists with Videoinfox.
 
 <br />
 
 
-#### This update:  &nbsp; &nbsp; Fix: Yt-dlp Version Display in Yt-dlp Menu
+#### This update added a New Feature: &nbsp; videoinfox -l shortcut for unlimited User Lists.
+
+
+Copy your links on the fly without needing to have Videoinfox running.
+
+Complete instructions located in: &nbsp; Yt-dlp \>\>\> Download List \>\>\> Help
 
 
 <br />
@@ -58,8 +65,8 @@ FFprobe - Get codec, resolution & duration in seconds.
 
   - Check for update on startup and notifity if update is available.  Download and update in Videoinfox.
   - Play either a local file or a downloadable video url via yt-dlp.
-  - Create Download List(s) with your preferred text editor & videoinfox will use yt-dlp to download the list.
-  - Default List: &nbsp; Keep pasting Video URL's on the fly from the clipboard to the list without starting Videoinfox.
+  - Unlimited User Lists: Keep pasting Video URL's on the fly to the Default List without starting Videoinfox.
+  - Default List: &nbsp; Keep pasting Video URL's on the fly to the User List without starting Videoinfox.
   - See codec, resolution and duration on the playing video.
   - Play Clipboard is available in: &nbsp; Home &nbsp; Played List &nbsp; Play List &nbsp; Yt-dlp Menu &nbsp; View Downloads
   - Play Clipboard: &nbsp; Blinking notification when there is a valid video file or video url for play.
@@ -145,9 +152,9 @@ YT-DLP MENU
 
 
 <br />
-DOWNLOAD LIST. USER CREATED URL LISTS OR THE DEFAULT LIST
+CREATE USER LISTS AND ADD URL'S TO THEM WITHOUT LEAVING YOUR GUI OR STARTING VIDEOINFOX.
 
-![download list](https://i.imgur.com/a8RLhLv.png)
+![download list](https://i.imgur.com/FiSn0dP.png)
 
 
 <br />
@@ -164,9 +171,9 @@ DEFAULT DOWNLOAD LIST HELP.
 
 
 <br />
-USER CREATED LIST HELP.
+USER LIST HELP.
 
-![Videoinfox HOME](https://i.imgur.com/GNfpXi0.png)
+![Videoinfox HOME](https://i.imgur.com/nHBamaY.jpg)
 
 
 <br />
