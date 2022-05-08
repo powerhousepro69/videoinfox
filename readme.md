@@ -1,4 +1,4 @@
-# Videoinfox v2.8.00 &nbsp; 
+# Videoinfox v2.8.01 &nbsp; 
 
 ## *Where Video Play is a Clipboard Copy Away*
 
@@ -13,12 +13,11 @@
 <br />
 
 
-#### This update added a New Feature: &nbsp; videoinfox -l shortcut for unlimited User Lists.
+#### This update fixed a mistake that was in  command line option: &nbsp; videoinfox -h
 
+Error: &nbsp; -u &nbsp; Write clipboard content to User Set List
 
-Copy your links on the fly without needing to have Videoinfox running.
-
-Complete instructions located in: &nbsp; Yt-dlp \>\>\> Download List \>\>\> Help
+Correction: &nbsp; -l &nbsp; Write clipboard content to User Set List
 
 
 <br />
