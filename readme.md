@@ -32,6 +32,12 @@ sudo chmod +x /usr/local/bin/videoinfox
 ```
 <br />
 
+Download multiple URL lists simultaneously.
+
+You have to start Download List first then run another instance of Videoinfox to start downloading the next list.
+
+
+<br />
 
 Videoinfox is a Linux shell script that feels like an app. If you enjoy watching local videos on your PC and want the ability to download video url's, you won't be disappointed. You can also make your own URL lists to download. While downloading a list, a log file will be generated for each list. The log is each http link from your list with the downloaded video filename. If the download list is aborted before completion, Yt-dlp has you covered. Just run the Download List feature again. Yt-dlp won't re-download files that you already have. There is a Played List that keeps track of everything you played with the exception of the Play Directory feature. There is also a playlist you can create from search results or from directory listings. Videoinfox does all the error handling. You should never encounter any script errors.
 
