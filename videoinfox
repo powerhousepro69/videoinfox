@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#  file : videoinfox v2.8.01									         
+#  file : videoinfox v2.8.02									         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v2.8.01"  # Version Number no blinking
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.01")  # Version Number with blinking dot
+ver="Videoinfox v2.8.02"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.02")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -173,16 +173,16 @@ fi
 ##################################################################################################################################################
 ##################################################################################################################################################
 
-#  The below 7 functions run once on every startup then onto the home loop.
+#  THE BELOW 8 FUNCTIONS RUN ONCE ON EVERY STARTUP THEN INTO THE MAIN LOOP.
 
-#  1. Dependency Check. If any dependencies are not found, the scipt will exit. Script will run when all dependencies are found
-#  2. Start from root check and change to home dir if started from root.   
+#  1. Dependency Check. If any dependencies are not found, the scipt will exit. Script will run when all dependencies are found.
+#  2. Start from root check and change to home dir if started from the root directory.   
 #  3. Configuration directory check and file creation. If  ~/.config/videoinfox  doesn't exist, directory will be crated along with config files.
-#  4. Check for Videoinfox update and notify if update is available.
-#  5. Create empty default download list if one doesn't already exist.
-#  6. Created download list help
-#  7. Create help file
-#  8. Creat version history file
+#  4. Check for Videoinfox Update and Notify if update is available.
+#  5. Create empty Default Download List if one doesn't already exist.
+#  6. Created Download List Help file.
+#  7. Create Main Help file.
+#  8. Create Version History file.
 
 ##################################################################################################################################################
 ##################################################################################################################################################
@@ -190,7 +190,7 @@ fi
 
 
 ##################################################################################################################################################
-#####  DEPENDENCY CHECK  ######################################################################################################################### 
+#####  1. DEPENDENCY CHECK  ###################################################################################################################### 
 ##################################################################################################################################################
 
 clear
@@ -306,7 +306,7 @@ fi
 
 
 ##################################################################################################################################################
-#####  START FROM ROOT CHECK  #################################################################################################################### 
+#####  2. START FROM ROOT CHECK  ################################################################################################################# 
 ##################################################################################################################################################
 
 whatdir=$PWD  #  current working directory
@@ -343,7 +343,7 @@ fi
 
 
 ##################################################################################################################################################
-#####  DIRECTORY CHECK & FILE CREATION  ########################################################################################################## 
+#####  3. DIRECTORY CHECK & FILE CREATION  ####################################################################################################### 
 ##################################################################################################################################################
 
 # The below check: Does the directory <~/.config/videoinfox> exist ?
@@ -360,13 +360,13 @@ if [ -d "$direxist" ]  #  if directoty exists goto  <then>
       echo
       echo "___________________________________________________________________________________________________________________"
       echo  
-      echo " $ver >>> FIRST RUN - Setup"
+      echo " $ver >>> FIRST RUN >>> SETUP"
       echo
       echo " Directory and file creation"
       echo "___________________________________________________________________________________________________________________"
       echo "___________________________________________________________________________________________________________________"
       echo         
-      echo " Created config directory: $HOME/.config/videoinfox  and required files "
+      echo " Created config directory: "$HOME"/.config/videoinfox and required files "
       echo "___________________________________________________________________________________________________________________"
       echo
       echo " NOTE: Do not randomly paste in Videoinfox.  It will cause unwanted code to run producing"  
@@ -377,7 +377,7 @@ if [ -d "$direxist" ]  #  if directoty exists goto  <then>
       echo " ""$der"
       echo "__________________________________________________________________________________________________________________"
       echo
-      echo " ytdlp will be downloaded to: $HOME/.config/videoinfox  "
+      echo " Yt-dlp will be downloaded to: "$HOME"/.config/videoinfox  "
       echo "__________________________________________________________________________________________________________________"
       echo
       echo -e " A sample video url was copied to the clipboard to show how the \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m feature works."
@@ -395,6 +395,7 @@ if [ -d "$direxist" ]  #  if directoty exists goto  <then>
       # CREATE DIRECTORY
       ###################
       mkdir ~/.config/videoinfox
+      mkdir ~/.config/videoinfox/tmp
       
       ###############
       # CREATE FILES
@@ -461,9 +462,7 @@ echo "                                                                          
       echo > ~/.config/videoinfox/videoinfo.lastfinddir
       echo > ~/.config/videoinfox/videoinfo.lastsearchtotal
       echo > ~/.config/videoinfox/videoinfox.set-user-list
-
-      # SAMPLE VIDEO URL BEING COPIED TO CLIPBOARD
-      echo "https://www.youtube.com/watch?v=rNWPqfCJDnc" | xclip -sel clip     
+          
    
       # SAMPLE URL DOWLOAD LIST BEING CREATED WITH 3 VIDEO URL'S
       echo "https://www.youtube.com/watch?v=d59H0UxhyaY" > $HOME/Downloads/videoinfox-dl-sample-list
@@ -475,24 +474,93 @@ echo "                                                                          
            sec=36
            while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
                                 
-                echo -ne " $ver starting in: $sec\033[0K\r"
+                echo -ne " Downloading Yt-dlp in: $sec\033[0K\r"
                 let "sec=sec-1"
                 sleep 1
               
            done                  
 
+ 
+# Yt-dlp initial download attempt on the first run. If it fails, download will be re-attempted when you select the Yt-dlp Menu.
+clear
+echo
+echo 
+echo 
+echo "___________________________________________________________________________________________________________________"
+echo  
+echo " $der >>> Attempting to download the most recent version of Yt-dlp"
+echo "___________________________________________________________________________________________________________________" 
+echo
+echo " If Yt-dlp can't be downloaded, the download attempt will be aborted."
+echo
+echo " If the download fails, it is most likely due to at least 1 of the following reasons:"
+echo
+echo "    - Your internet connection is down."
+echo
+echo "    - Github isn't reachable due to technical issues on their end."
+echo
+echo "    - There is no Yt-dlp release available in:  https://github.com/yt-dlp/yt-dlp/releases/latest/download"
+echo
+echo
+echo " If this download fails, the download attempt will be tried again when you select the Yt-dlp Menu in Videoinfox."
+echo
+echo
+echo " Note: The Yt-dlp Menu will not work until there is a copy of yt-dlp in:"
+echo
+echo " "$HOME"/.config/videoinfox"
+echo
+echo
 
-# download:  yt-dlp  from github, rename to: yt-dlp-fetched, set execute bit, copy to  yt-dlp, pull version with -v and write it to a file.  
-wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O ~/.config/videoinfox/yt-dlp-fetched 2>/dev/null  # download and rename 
-chmod a+rx ~/.config/videoinfox/yt-dlp-fetched 2> /dev/null  # set <yt-dlp-fetched> execute bit
-cp ~/.config/videoinfox/yt-dlp-fetched ~/.config/videoinfox/yt-dlp  # copy: yt-dlp-fetched  to: yt-dlp  
-~/.config/videoinfox/yt-dlp --version > ~/.config/videoinfox/videoinfo.yt-dlp.version # write yt-dlp ver number to file: yt-dlp.version  
+dirtemp="$PWD"  # save dir for restore after ty-dlp download
+cd ~/.config/videoinfox
+  
+timeout 30 wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp 2>/dev/null  # download and rename 
+ 
+if [ -f ~/.config/videoinfox/yt-dlp ]  # if yt-dlp exists goto then
+   then
+        chmod a+rx ~/.config/videoinfox/yt-dlp  # set <yt-dlp-fetched> execute bit
+        ~/.config/videoinfox/yt-dlp --version > ~/.config/videoinfox/videoinfo.yt-dlp.version # write yt-dlp ver number to file: yt-dlp.version 
+        echo
+        echo " Yt-dlp Downloaded . . ."
+        echo
+        # SAMPLE VIDEO URL BEING COPIED TO CLIPBOARD
+        echo "https://www.youtube.com/watch?v=rNWPqfCJDnc" | xclip -sel clip 
+
+        sec=5           
+        while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>                       
+             echo -ne " $ver starting in: $sec\033[0K\r"
+             let "sec=sec-1"
+             sleep 1
+        done          
+
+
+   else
+       
+        echo
+        echo " Yt-dlp Download Failure . . ."
+        echo
+
+        sec=20           
+        while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>                       
+             echo -ne " $ver starting in: $sec\033[0K\r"
+             let "sec=sec-1"
+             sleep 1
+        done     
+
+cd "$dirtemp"  # restore directory
 
 fi
 
+fi
 
 ##################################################################################################################################################
-#####  CHECK FOR  (VIDEOINFOX NOTIFICATION UPDATE)                            routine to get version number from github          #################
+#####  You will only see FIRST RUN >>> SETUP again if the  ~/.config/videoinfox directory doesn't exist.  ######################################## 
+##################################################################################################################################################
+
+
+
+##################################################################################################################################################
+#####  4. CHECK FOR  (VIDEOINFOX NOTIFICATION UPDATE)                         routine to get version number from github          #################
 ########################################################################      and compare it to this scripts version number      #################
 
 clear  # Display while downloading videoinfox from github on startup
@@ -504,15 +572,18 @@ echo
 echo " $ver >>> Checking for update . . ."
 echo "___________________________________________________________________________________________________________________"
 
+dirtemp="$PWD"  # save directory for restore
+cd ~/.config/videoinfox/tmp
+
 # download  videoinfox  from github, rename it to  videoinfox-fetched,  extract the ver mumber and reformat it
 # if the download doesn't come in 2.4 seconds, it will be aborted.  Just for notification.  To prevent script hanging on  wget  during high traffic times.
-timeout 2.4 wget -q https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox -O ~/.config/videoinfox/videoinfox-fetched 2>/dev/null
+timeout 2.4 wget -q https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox 2>/dev/null
 
 # make script executable to get ver number
-chmod +x ~/.config/videoinfox/videoinfox-fetched 2> /dev/null
+chmod +x ~/.config/videoinfox/tmp/videoinfox 2> /dev/null
 
 # get ver number of download
-viv=$(~/.config/videoinfox/videoinfox-fetched -v)  
+viv=$(~/.config/videoinfox/tmp/videoinfox -v)  
 
 # download ver: cut the first 13 characters + sed to remove the dot =  version number minus the dot 
 viv2=$(echo "$viv" | cut -c13- | sed -e 's/\.//g') # format: whole number  xxxx
@@ -528,13 +599,17 @@ if [ "$viv2" = "$viv3" ]  # If the downloaded version = this script's version go
       viv4=$(echo -e \ "               ") # dead space place holder for when there is no   update available   in the display
   else
       # Version numbers are not the same
-      viv4="update available"   # update available   notification on home screen
+      viv4="Update Available"   # update available   notification on home screen
       notify-send "Videoinfox messsage: Update Available" "$viv" # send gui notification with update ver number
+
+rm ~/.config/videoinfox/tmp/* 2> /dev/null
+cd "$dirtemp"
+
 fi
 
 
 ##################################################################################################################################################
-##### IF THE DEFAULT LIST DOESN'T EXIST, CREATE IT  ##############################################################################################
+#####  5. IF THE DEFAULT LIST DOESN'T EXIST, CREATE IT  ##########################################################################################
 ##################################################################################################################################################
 
 if [ -f ~/.config/videoinfox/videoinfox-dl-Default ]  # if file exists then 
@@ -550,7 +625,7 @@ fi
 
 
 ##################################################################################################################################################
-#####  CREATE DOWNLOAD LIST HELP FILE  ########################################################################################################### 
+#####  6. CREATE DOWNLOAD LIST HELP FILE  ######################################################################################################## 
 ##################################################################################################################################################
 
 echo  > ~/.config/videoinfox/videoinfox.download-list-help
@@ -673,7 +748,7 @@ echo >> ~/.config/videoinfox/videoinfox.download-list-help
 
 
 ##################################################################################################################################################
-#####  CREATE HELP FILE  ######################################################################################################################### 
+#####  7. CREATE HELP FILE  ###################################################################################################################### 
 ##################################################################################################################################################
 
 #if [ -f ~/.config/videoinfox/videoinfo.help ]
@@ -828,7 +903,7 @@ echo >> ~/.config/videoinfox/videoinfo.help
 
 
 ##################################################################################################################################################
-#####  CREATE VERSION HISTORY FILE  ############################################################################################################## ################################################################################################################################################## 
+#####  8. CREATE VERSION HISTORY FILE  ########################################################################################################### ################################################################################################################################################## 
 
 
 echo " _________________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo-ver-history
@@ -864,6 +939,11 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v2.8.02 Fix: Videoinfox and Yt-dlp download and update routines." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              On download fail, notification given." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.8.01 Fix: a mistake that was in command line option: videoinfox -h" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -3340,7 +3420,7 @@ echo
 printf " Comment Lines ....  %s\n" "$b"
 
 echo
-printf " Blank Lines ......   %s\n" "$a"
+printf " Blank Lines ......  %s\n" "$a"
 
 echo " _________________________"
 
@@ -3611,9 +3691,24 @@ done
     
     v)  # CHECK FOR VIDEOINFOX UPDATE
     function menuinfox {
-    clear
-    wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox -O ~/.config/videoinfox/videoinfox-fetched 2>/dev/null
-    chmod +x ~/.config/videoinfox/videoinfox-fetched    
+
+    dirtemp="$PWD"  # save dir for restore
+    cd ~/.config/videoinfox/tmp
+
+    timeout 30 wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox 2>/dev/null
+    chmod +x ~/.config/videoinfox/tmp/videoinfox 2>/dev/null
+
+
+    if [ -f ~/.config/videoinfox/tmp/videoinfox ]  # if file exists goto then
+       then
+            gver=$(~/.config/videoinfox/tmp/videoinfox -v)
+
+       else
+            gver="Download Failure"
+    fi
+  
+
+    clear     
     clear 
     echo
     echo
@@ -3630,7 +3725,7 @@ done
     echo
     echo " Version Check Complete"
     echo
-    echo " Downloaded: "$(~/.config/videoinfox/videoinfox-fetched -v)
+    echo " Downloaded: ""$gver"
     echo
     echo " Installed: " "$ver" 
     echo
@@ -3646,11 +3741,12 @@ done
          while true
          do
          menuinfox
-	    case $optioninfox in
+	   case $optioninfox in
 
 
          d)
          #  QUIT
+         rm ~/.config/videoinfox/tmp/* 2> /dev/null
          echo
          echo " Not Updated . . ."
          sleep .6
@@ -3658,42 +3754,55 @@ done
       
          u)
          # UPDATE VIDEOINFOX
-         echo
-         sudo cp ~/.config/videoinfox/videoinfox-fetched /usr/local/bin/videoinfox 
-         echo
-         echo " Downnloaded videoinfox copied to: /usr/local/bin"
-         echo   
+     
+         if [ -f ~/.config/videoinfox/tmp/videoinfox ]  # if file exists goto then
+            then
+                 echo
+                 sudo mv ~/.config/videoinfox/tmp/videoinfox /usr/local/bin/videoinfox 2> /dev/null
+                 rm ~/.config/videoinfox/tmp/* 2> /dev/null
+                 echo
+                 echo " Downnloaded videoinfox copied to: /usr/local/bin"
+                 echo   
     
-         sec=3
-              while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
-              echo -ne " UPDATED . . . $sec\033[0K\r"
-              let " sec=sec-1"
-              sleep 1
-              done         
+                sec=3
+                while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
+                     echo -ne " UPDATED . . . $sec\033[0K\r"
+                     let " sec=sec-1"
+                     sleep 1
+                done         
 
-         clear
-         echo -e "\n"
-         echo
-         echo "___________________________________________________________________________________________________________________"  
-         echo
-         echo " $der >>> EXIT"
-         echo "___________________________________________________________________________________________________________________" 
-         echo
-         echo
-         echo " Videoinox Updated . . ."
-         sleep 1.5
+
+                clear
+                echo -e "\n"
+                echo
+                echo "___________________________________________________________________________________________________________________"  
+                echo
+                echo " $der >>> EXIT"
+                echo "___________________________________________________________________________________________________________________" 
+                echo
+                echo
+                echo " Videoinox Updated . . ."
+                sleep 1.5
        
   
-         clear
-         echo -e "\n"
-         echo
-         echo "___________________________________________________________________________________________________________________"
-         echo  
-         echo " $der >>> EXIT >>> Updated to: $(~/.config/videoinfox/videoinfox-fetched -v)                    Restart to use updated version."
-         echo "___________________________________________________________________________________________________________________" 
-         echo -e "\n"
-         exit
+                clear
+                echo -e "\n"
+                echo
+                echo "___________________________________________________________________________________________________________________"
+                echo  
+                echo " $der >>> EXIT >>> Updated to: "$gver"                    Restart to use updated version."
+                echo "___________________________________________________________________________________________________________________" 
+                echo -e "\n"
+                exit
+                
+            else
+                :  
+
+         cd "$dirtemp"
+
+         fi      
          ;;
+
 
          *)
           
@@ -3705,10 +3814,59 @@ done
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         
          y)  # CHECK FOR YT-DLP UPDATE
-         function chkytdlp {
-         clear
-wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O ~/.config/videoinfox/yt-dlp-fetched 2>/dev/null  # download <yt-dlp> from github
-         chmod a+rx ~/.config/videoinfox/yt-dlp-fetched  # set <yt-dlp-fetched> execute bit
+
+dirtemp="$PWD"  # save dir for restore after yt-dlp download      
+
+# Yt-dlp download attempt.
+clear
+echo
+echo 
+echo 
+echo "___________________________________________________________________________________________________________________"
+echo  
+echo " $der >>> Attempting to download the most recent version of Yt-dlp"
+echo "___________________________________________________________________________________________________________________" 
+echo
+echo " If Yt-dlp can't be downloaded, the download attempt will be aborted."
+echo
+echo " If the download fails, it is most likely due to at least 1 of the following reasons:"
+echo
+echo "    - Your internet connection is down."
+echo
+echo "    - Github isn't reachable due to technical issues on their end."
+echo
+echo "    - There is no Yt-dlp release available in:  https://github.com/yt-dlp/yt-dlp/releases/latest/download"
+echo
+echo
+echo " If this download fails, the download attempt will be tried again when you select the Yt-dlp Menu in Videoinfox."
+echo
+echo
+echo " Note: The Yt-dlp Menu will not work until there is a copy of yt-dlp in:"
+echo
+echo " "$HOME"/.config/videoinfox"
+echo
+echo
+
+cd ~/.config/videoinfox/tmp
+ 
+timeout 30 wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp 2>/dev/null  # download yt-dlp 
+ 
+
+if [ -f ~/.config/videoinfox/tmp/yt-dlp ]  # if yt-dlp exists goto then
+   then
+        chmod a+rx ~/.config/videoinfox/tmp/yt-dlp  # set <yt-dlp-fetched> execute bit      
+   
+function chkytdlp {
+
+         sec=5
+             
+         while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
+              echo -ne " Yt-dlp Downloaded . . . $sec\033[0K\r"
+              let " sec=sec-1"
+              sleep 1
+         done
+         
+
          clear 
          echo
          echo
@@ -3718,14 +3876,14 @@ wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O ~/.conf
          echo " ""$der"" >>> CHECK YT-DLP UPDATE"
          echo "___________________________________________________________________________________________________________________"
          echo
-         echo " yt-dlp Home: https://github.com/yt-dlp/yt-dlp"
+         echo " Yt-dlp Home: https://github.com/yt-dlp/yt-dlp"
          echo
          echo " Downloaded From: https://github.com/yt-dlp/yt-dlp/releases/latest/download"
          echo
          echo
          echo " Version Check Complete"
          echo
-         echo " Downloaded:" $(~/.config/videoinfox/yt-dlp-fetched --version)
+         echo " Downloaded:" $(~/.config/videoinfox/tmp/yt-dlp --version)
          echo
          echo " Installed: " $(~/.config/videoinfox/yt-dlp --version)
          echo
@@ -3734,9 +3892,8 @@ wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O ~/.conf
          echo
          echo -en " Enter Option: "
          read -r -n1 optionytdlp
-         echo
-         }
-        
+         echo         
+}        
               
          while true
          do
@@ -3745,37 +3902,52 @@ wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O ~/.conf
 
 
          d)
-         #  QUIT
+         #  DON'T UPDATE
          echo
-         echo " Not Updated . . ."
+         echo " Yt-dlp Not Updated . . ."
          sleep .7
          break;;
       
          u)
-         cp ~/.config/videoinfox/yt-dlp ~/.config/videoinfox/yt-dlp-old
-         cp ~/.config/videoinfox/yt-dlp-fetched ~/.config/videoinfox/yt-dlp
+         # UPDATE
+         rm ~/.config/videoinfox/yt-dlp 2> /dev/null
+         mv ~/.config/videoinfox/tmp/yt-dlp ~/.config/videoinfox 2> /dev/null       
          ~/.config/videoinfox/yt-dlp --version > ~/.config/videoinfox/videoinfo.yt-dlp.version
          echo
                  
          sec=3
               while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
-              echo -ne " UPDATED . . . $sec\033[0K\r"
+              echo -ne " Yt-dlp UPDATED . . . $sec\033[0K\r"
               let " sec=sec-1"
               sleep 1
               done         
-              break;;
-             
-         *)    
+              break;;    
         
          esac
          done
-         ;;
 
-*)
+
+   else
+              
+
+        sec=20           
+        while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>                       
+             echo -ne " Yt-dlp Download Failure . . . $sec\033[0K\r"
+             let "sec=sec-1"
+             sleep 1
+        done     
+fi
+         
+
+rm ~/.config/videoinfox/tmp/* 2>/dev/null
+
+cd "$dirtemp"  # restore directory
+
 
 esac
-done
+done  
 ;;
+
 
 ##################################################################################################################################################
 ###########################  HOME OPTION  y  Yt-dlp Menu  ########################################################################################
@@ -3790,31 +3962,77 @@ pasteclip3=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard conte
 if ! command -v ~/.config/videoinfox/yt-dlp &> /dev/null  # if <yt-dlp> isnt found goto then
 
 then
-    clear
-    wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O ~/.config/videoinfox/yt-dlp &> /dev/null # download <yt-dlp> from github
-    chmod a+rx ~/.config/videoinfox/yt-dlp  # set <yt-dlp> execute bit
-    ~/.config/videoinfox/yt-dlp --version > ~/.config/videoinfox/videoinfo.yt-dlp.version
-    #  the file: <yt-dlp> can be copied to </usr/local/bin> to be in your path"
-    clear
-    echo
-    echo "___________________________________________________________________________________________________________________"
-    echo  
-    echo " ""$ver"" >>> Downloaded: yt-dlp"
-    echo "___________________________________________________________________________________________________________________"
-    echo
-    echo " ytdlp Home: https://github.com/yt-dlp/yt-dlp"
-    echo
-    echo " Downloaded From: https://github.com/yt-dlp/yt-dlp/releases/latest/download"
-    echo
-    echo
-    echo " Version:" $(~/.config/videoinfox/yt-dlp --version)
-    echo
-    echo " Location: $HOME/.config/videoinfox"
-    echo
-    echo
-    echo " Select YT-DLP again to see options"   
-    echo 
-    #read -r -p " Press enter to Continue"
+
+# Yt-dlp download attempt.  Yt-dlp Menu won't start untl Yt-dlp is downloaded to: ~/.config/videoinfox/yt-dlp
+clear
+echo
+echo 
+echo 
+echo "___________________________________________________________________________________________________________________"
+echo  
+echo " $der >>> Attempting to download the most recent version of Yt-dlp"
+echo "___________________________________________________________________________________________________________________" 
+echo
+echo " If Yt-dlp can't be downloaded, the download attempt will be aborted."
+echo
+echo " If the download fails, it is most likely due to at least 1 of the following reasons:"
+echo
+echo "    - Your internet connection is down."
+echo
+echo "    - Github isn't reachable due to technical issues on their end."
+echo
+echo "    - There is no Yt-dlp release available in:  https://github.com/yt-dlp/yt-dlp/releases/latest/download"
+echo
+echo
+echo " If this download fails, the download attempt will be tried again when you select the Yt-dlp Menu in Videoinfox."
+echo
+echo
+echo " Note: The Yt-dlp Menu will not work until there is a copy of yt-dlp in:"
+echo
+echo " "$HOME"/.config/videoinfox"
+echo
+echo
+
+dirtemp="$PWD"  # save dir for restore after ty-dlp download
+cd ~/.config/videoinfox
+
+timeout 30 wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp 2>/dev/null  # download yt-dlp 
+ 
+if [ -f ~/.config/videoinfox/yt-dlp ]  # if yt-dlp exists goto then
+   then
+        chmod a+rx ~/.config/videoinfox/yt-dlp  # set <yt-dlp-fetched> execute bit
+        ~/.config/videoinfox/yt-dlp --version > ~/.config/videoinfox/videoinfo.yt-dlp.version # write yt-dlp ver number to file: yt-dlp.version 
+        echo
+        echo " Yt-dlp Downloaded . . ."
+        echo
+        # SAMPLE VIDEO URL BEING COPIED TO CLIPBOARD
+        echo "https://www.youtube.com/watch?v=rNWPqfCJDnc" | xclip -sel clip 
+
+        sec=5           
+        while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>                       
+             echo -ne " $ver starting in: $sec\033[0K\r"
+             let "sec=sec-1"
+             sleep 1
+        done          
+
+
+   else
+       
+        echo
+        echo " Yt-dlp Download Failure . . ."
+        echo
+
+        sec=20           
+        while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>                       
+             echo -ne " $ver starting in: $sec\033[0K\r"
+             let "sec=sec-1"
+             sleep 1
+        done     
+
+cd "$dirtemp"  # restore directory
+
+fi
+
 
 ############################
 
@@ -4954,7 +5172,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
   then
       #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
    
-     #################3 grabdir="$PWD"  # storing directory to restore at the end of this function
+     ################# grabdir="$PWD"  # storing directory to restore at the end of this function
         
       #  DOWNLOAD LINK AND PLAY
       
