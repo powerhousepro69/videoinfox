@@ -1,4 +1,4 @@
-# Videoinfox v2.8.02 &nbsp; 
+# Videoinfox v2.8.03 &nbsp; 
 
 ## *Where Video Play is a Clipboard Copy Away*
 
@@ -13,9 +13,11 @@
 <br />
 
 
-#### This update fixed Videoinfox and Yt-dlp download and update routines.
+#### This update fixed: &nbsp; Videoinfox Update Available was showing on download fail. 
 
-On download fail, notification given.
+I went back through the download and update routines and found more errors.
+
+Fixed error checking and reporting. Tested all possible scenarios with download success vs. download fail.
 
 <br />
 
