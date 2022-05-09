@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#  file : videoinfox v2.8.04								         
+#  file : videoinfox v2.8.05								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v2.8.04"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.04")  # Version Number: with blinking dot
+ver="Videoinfox v2.8.05"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.05")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -562,6 +562,15 @@ fi
 ##################################################################################################################################################
 
 
+direxist3="$HOME/.config/videoinfox/tmp"
+
+if [ -d "$direxist3" ]  #  if directoty exists goto  <then>
+  then
+       :
+  else
+       mkdir ~/.config/videoinfox/tmp
+fi
+
 
 ##################################################################################################################################################
 #####  4. CHECK FOR  (VIDEOINFOX NOTIFICATION UPDATE)                         routine to get version number from github          #################
@@ -960,6 +969,13 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v2.8.05 Fixed issues from v2.8.03 and v2.8.04 Had a mess going on here for a minute." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v2.8.04 Fix: I was unaware that my cat edited the last update before commit. Forgot to lock the keyboard and auto save" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              got the cat's edit.  The dog really did eat my homework. lol" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.8.03 Fix: Videoinfox Update Available was showing on download fail." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "              I went back through the download and update routines and found more errors." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -1293,16 +1309,6 @@ codecres="ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null
 cd "$dirsaved"
 
-
-# CHECK FOR  ~/.config/videoinfox/tmp  If it doesn't exist, create it 
-      direxist3="$HOME/.config/videoinfox/tmp"
-
-      if [ -d "$direxist2" ]  #  if directoty exists goto  <then>
-        then
-             : 
-        else
-             mkdir ~/.config/videoinfox/tmp
-      fi
 
 
 ##################################################################################################################################################
