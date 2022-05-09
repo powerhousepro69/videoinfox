@@ -2,6 +2,13 @@
 
 ## *Where Video Play is a Clipboard Copy Away*
 
+### NOTE: AUTO UPDATE WILL NOT WORK FROM v2.8.03 
+
+### EXISTING USERS CAN JUST CREATE THE DIRECTORY &nbsp; tmp &nbsp; IN: ~/.config/videoinfox/ 
+
+### ~/.config/videoinfox/temp    
+
+
 #### Find local Video Files fast, immediately play and get info on. Download Videos effortlessly and auto play.
 
 #### Add URL's to The Default Download list on the fly without leaving your gui or starting up Videoinfox.
