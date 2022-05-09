@@ -2,7 +2,7 @@
 
 ## *Where Video Play is a Clipboard Copy Away*
 
-### NOTE: AUTO UPDATE WILL NOT WORK FROM v2.8.03 
+### NOTE: AUTO UPDATE WILL NOT UPDATE FROM v2.8.03 FORWARD FOR EXISTING USERS.  EASY FIX BELOW
 
 ### EXISTING USERS CAN JUST CREATE THE DIRECTORY &nbsp; tmp &nbsp; IN: ~/.config/videoinfox/ 
 
