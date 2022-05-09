@@ -2,11 +2,11 @@
 
 ## *Where Video Play is a Clipboard Copy Away*
 
-### NOTE: AUTO UPDATE WILL NOT UPDATE FROM v2.8.03 FORWARD FOR EXISTING USERS. EASY FIX
+### NOTE: AUTO UPDATE WILL NOT UPDATE FROM v2.8.03 FORWARD FOR EXISTING USERS.
 
-### EXISTING USERS CAN JUST CREATE THE DIRECTORY &nbsp; tmp &nbsp; IN: ~/.config/videoinfox/ 
+### JUSR MANUALLY UPDDATE THEN IT WILL START AUTO UPDATING AGAIN. NO VIDEOINFOX SETTINGS OR DATA WILL BE LOST
 
-### ~/.config/videoinfox/tmp    
+   
 
 
 #### Find local Video Files fast, immediately play and get info on. Download Videos effortlessly and auto play.
