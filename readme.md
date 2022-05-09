@@ -6,7 +6,7 @@
 
 ### EXISTING USERS CAN JUST CREATE THE DIRECTORY &nbsp; tmp &nbsp; IN: ~/.config/videoinfox/ 
 
-### ~/.config/videoinfox/temp    
+### ~/.config/videoinfox/tmp    
 
 
 #### Find local Video Files fast, immediately play and get info on. Download Videos effortlessly and auto play.
