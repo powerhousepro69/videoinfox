@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#  file : videoinfox v2.8.03									         
+#  file : videoinfox v2.8.04								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v2.8.03"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.03")  # Version Number: with blinking dot
+ver="Videoinfox v2.8.04"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.04")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -963,7 +963,7 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.8.03 Fix: Videoinfox Update Available was showing on download fail." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "              I went back through the download and update routines and found more errors." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              Fixed error checking and reporting. Tested all possible scenarios with download sucess vs. download fail." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              Fixed error checking and reporting. Tested all possible scenarios with download success vs. download fail." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.8.02 Fix: Videoinfox and Yt-dlp download and update routines." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -1292,6 +1292,17 @@ codecres="ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 
 read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null
 cd "$dirsaved"
+
+
+# CHECK FOR  ~/.config/videoinfox/tmp  If it doesn't exist, create it 
+      direxist3="$HOME/.config/videoinfox/tmp"
+
+      if [ -d "$direxist2" ]  #  if directoty exists goto  <then>
+        then
+             : 
+        else
+             mkdir ~/.config/videoinfox/tmp
+      fi
 
 
 ##################################################################################################################################################
