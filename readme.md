@@ -1,4 +1,4 @@
-# Videoinfox v2.8.01 &nbsp; 
+# Videoinfox v2.8.02 &nbsp; 
 
 ## *Where Video Play is a Clipboard Copy Away*
 
@@ -13,12 +13,9 @@
 <br />
 
 
-#### This update fixed a mistake that was in  command line option: &nbsp; videoinfox -h
+#### This update fixed Videoinfox and Yt-dlp download and update routines.
 
-Error: &nbsp; -u &nbsp; Write clipboard content to User Set List
-
-Correction: &nbsp; -l &nbsp; Write clipboard content to User Set List
-
+On download fail, notification given.
 
 <br />
 
@@ -32,7 +29,7 @@ sudo chmod +x /usr/local/bin/videoinfox
 ```
 <br />
 
-Download multiple URL lists simultaneously.
+Download multiple URL User Lists simultaneously.
 
 You have to start Download List first then run another instance of Videoinfox to start downloading the next list.
 
