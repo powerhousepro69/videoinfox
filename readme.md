@@ -7,6 +7,7 @@
 ### JUST MANUALLY UPDATE THEN IT WILL START AUTO UPDATING AGAIN.
 
 ### NO VIDEOINFOX SETTINGS OR DATA WILL BE LOST. 
+<br />
 
 
 #### Find local Video Files fast, immediately play and get info on. Download Videos effortlessly and auto play.
