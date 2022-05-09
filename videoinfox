@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#  file : videoinfox v2.8.02									         
+#  file : videoinfox v2.8.03									         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v2.8.02"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.02")  # Version Number: with blinking dot
+ver="Videoinfox v2.8.03"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.03")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -531,7 +531,9 @@ if [ -f ~/.config/videoinfox/yt-dlp ]  # if yt-dlp exists goto then
              echo -ne " $ver starting in: $sec\033[0K\r"
              let "sec=sec-1"
              sleep 1
-        done          
+        done
+        
+        rm ~/.config/videoinfox/wget-* 2> /dev/null          
 
 
    else
@@ -545,7 +547,9 @@ if [ -f ~/.config/videoinfox/yt-dlp ]  # if yt-dlp exists goto then
              echo -ne " $ver starting in: $sec\033[0K\r"
              let "sec=sec-1"
              sleep 1
-        done     
+        done 
+
+        rm ~/.config/videoinfox/wget-* 2> /dev/null    
 
 cd "$dirtemp"  # restore directory
 
@@ -571,11 +575,12 @@ echo "__________________________________________________________________________
 echo  
 echo " $ver >>> Checking for update . . ."
 echo "___________________________________________________________________________________________________________________"
+echo
 
 dirtemp="$PWD"  # save directory for restore
 cd ~/.config/videoinfox/tmp
 
-# download  videoinfox  from github, rename it to  videoinfox-fetched,  extract the ver mumber and reformat it
+# download  videoinfox  from github, extract the ver mumber and reformat it
 # if the download doesn't come in 2.4 seconds, it will be aborted.  Just for notification.  To prevent script hanging on  wget  during high traffic times.
 timeout 2.4 wget -q https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox 2>/dev/null
 
@@ -583,28 +588,42 @@ timeout 2.4 wget -q https://raw.githubusercontent.com/powerhousepro69/videoinfox
 chmod +x ~/.config/videoinfox/tmp/videoinfox 2> /dev/null
 
 # get ver number of download
-viv=$(~/.config/videoinfox/tmp/videoinfox -v)  
+viv=$(~/.config/videoinfox/tmp/videoinfox -v 2> /dev/null)  
 
 # download ver: cut the first 13 characters + sed to remove the dot =  version number minus the dot 
-viv2=$(echo "$viv" | cut -c13- | sed -e 's/\.//g') # format: whole number  xxxx
+viv2=$(echo "$viv" | cut -c13- | sed -e 's/\.//g' 2> /dev/null) # format: whole number  xxxx
 
 # script ver:   cut the first 13 characters + sed to remove the dot =  version number minus the dot 
 viv3=$(echo "$ver" | cut -c13- | sed -e 's/\.//g') # format: whole number  xxxx
+
+
+# Prevent Update Available notifications from displaying if download fails. 
+# If download fails, download version = script version
+
+if [ -f ~/.config/videoinfox/tmp/videoinfox ]  # if file exists goto then
+   then  # Downloaded
+        :
+
+   else # Download Failure
+        viv3="$viv2"
+fi
+
 
 # for the notification just on the home screen
 
 if [ "$viv2" = "$viv3" ]  # If the downloaded version = this script's version goto then
   then
       # Version numbers are the same
-      viv4=$(echo -e \ "               ") # dead space place holder for when there is no   update available   in the display
+      viv4=$(echo -e \ "               ") # dead space place holder for when there is no Update Available in the display
+      rm ~/.config/videoinfox/tmp/* 2> /dev/null
+      cd "$dirtemp"  # restore directory
+
   else
       # Version numbers are not the same
       viv4="Update Available"   # update available   notification on home screen
       notify-send "Videoinfox messsage: Update Available" "$viv" # send gui notification with update ver number
-
-rm ~/.config/videoinfox/tmp/* 2> /dev/null
-cd "$dirtemp"
-
+      rm ~/.config/videoinfox/tmp/* 2> /dev/null
+      cd "$dirtemp"  # restore directory
 fi
 
 
@@ -941,6 +960,12 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v2.8.03 Fix: Videoinfox Update Available was showing on download fail." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              I went back through the download and update routines and found more errors." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              Fixed error checking and reporting. Tested all possible scenarios with download sucess vs. download fail." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.8.02 Fix: Videoinfox and Yt-dlp download and update routines." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "              On download fail, notification given." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -1068,7 +1093,6 @@ echo "         On the Home Screen, the dash at Play Directory will blink if vide
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.066  Version History added to Settings  Version History is still under construction." >> ~/.config/videoinfox/videoinfo-ver-history
-echo ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.065  Auto clear clipboard content after player quit script wide." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -1267,7 +1291,7 @@ cd "$diratexit" 2>/dev/null
 codecres="ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1"
 
 read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null
-
+cd "$dirsaved"
 
 
 ##################################################################################################################################################
@@ -3746,6 +3770,7 @@ done
 
          d)
          #  QUIT
+         cd "$dirtemp" # restore directory
          rm ~/.config/videoinfox/tmp/* 2> /dev/null
          echo
          echo " Not Updated . . ."
@@ -3764,43 +3789,46 @@ done
                  echo " Downnloaded videoinfox copied to: /usr/local/bin"
                  echo   
     
-                sec=3
-                while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
-                     echo -ne " UPDATED . . . $sec\033[0K\r"
-                     let " sec=sec-1"
-                     sleep 1
-                done         
+                 sec=3
+                 while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
+                      echo -ne " UPDATED . . . $sec\033[0K\r"
+                      let " sec=sec-1"
+                      sleep 1
+                 done         
 
 
-                clear
-                echo -e "\n"
-                echo
-                echo "___________________________________________________________________________________________________________________"  
-                echo
-                echo " $der >>> EXIT"
-                echo "___________________________________________________________________________________________________________________" 
-                echo
-                echo
-                echo " Videoinox Updated . . ."
-                sleep 1.5
+                 clear
+                 echo -e "\n"
+                 echo
+                 echo "___________________________________________________________________________________________________________________"  
+                 echo
+                 echo " $der >>> EXIT"
+                 echo "___________________________________________________________________________________________________________________" 
+                 echo
+                 echo
+                 echo " Videoinox Updated . . ."
+                 sleep 1.5
        
   
-                clear
-                echo -e "\n"
-                echo
-                echo "___________________________________________________________________________________________________________________"
-                echo  
-                echo " $der >>> EXIT >>> Updated to: "$gver"                    Restart to use updated version."
-                echo "___________________________________________________________________________________________________________________" 
-                echo -e "\n"
-                exit
+                 clear
+                 echo -e "\n"
+                 echo
+                 echo "___________________________________________________________________________________________________________________"
+                 echo  
+                 echo " $der >>> EXIT >>> Updated to: "$gver"                    Restart to use updated version."
+                 echo "___________________________________________________________________________________________________________________" 
+                 echo -e "\n"
                 
-            else
-                :  
+                 cd "$dirtemp"  # restore directory
+                 exit
+                
+            else 
+                 :
 
-         cd "$dirtemp"
+         fi
 
-         fi      
+      
+         cd "$dirtemp"  # restore directory
          ;;
 
 
@@ -3867,6 +3895,13 @@ function chkytdlp {
          done
          
 
+         if [ -f ~/.config/videoinfox/tmp/yt-dlp ]
+            then
+                 ytexist=$(~/.config/videoinfox/yt-dlp --version)
+            else
+                 ytexist="Not installed"
+         fi
+
          clear 
          echo
          echo
@@ -3885,7 +3920,7 @@ function chkytdlp {
          echo
          echo " Downloaded:" $(~/.config/videoinfox/tmp/yt-dlp --version)
          echo
-         echo " Installed: " $(~/.config/videoinfox/yt-dlp --version)
+         echo " Installed: " "$ytexist"
          echo
          echo
          echo " u - Update     d - Don't Update"  
@@ -3898,11 +3933,13 @@ function chkytdlp {
          while true
          do
          chkytdlp
-	    case $optionytdlp in
+	   case $optionytdlp in
 
 
          d)
          #  DON'T UPDATE
+         rm ~/.config/videoinfox/tmp/* 2>/dev/null
+         cd "$dirtemp"  # restore directory
          echo
          echo " Yt-dlp Not Updated . . ."
          sleep .7
@@ -3913,6 +3950,8 @@ function chkytdlp {
          rm ~/.config/videoinfox/yt-dlp 2> /dev/null
          mv ~/.config/videoinfox/tmp/yt-dlp ~/.config/videoinfox 2> /dev/null       
          ~/.config/videoinfox/yt-dlp --version > ~/.config/videoinfox/videoinfo.yt-dlp.version
+         rm ~/.config/videoinfox/tmp/* 2>/dev/null
+         cd "$dirtemp"  # restore directory
          echo
                  
          sec=3
@@ -3928,24 +3967,21 @@ function chkytdlp {
 
 
    else
-              
-
-        sec=20           
-        while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>                       
-             echo -ne " Yt-dlp Download Failure . . . $sec\033[0K\r"
-             let "sec=sec-1"
-             sleep 1
-        done     
+         rm ~/.config/videoinfox/tmp/* 2>/dev/null     
+         cd "$dirtemp"  # restore directory
+         sec=20           
+         while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>                       
+              echo -ne " Yt-dlp Download Failure . . . $sec\033[0K\r"
+              let "sec=sec-1"
+              sleep 1
+         done     
 fi
          
 
-rm ~/.config/videoinfox/tmp/* 2>/dev/null
-
-cd "$dirtemp"  # restore directory
-
-
 esac
-done  
+done
+
+rm ~/.config/videoinfox/tmp/* 2>/dev/null
 ;;
 
 
@@ -4002,6 +4038,8 @@ if [ -f ~/.config/videoinfox/yt-dlp ]  # if yt-dlp exists goto then
    then
         chmod a+rx ~/.config/videoinfox/yt-dlp  # set <yt-dlp-fetched> execute bit
         ~/.config/videoinfox/yt-dlp --version > ~/.config/videoinfox/videoinfo.yt-dlp.version # write yt-dlp ver number to file: yt-dlp.version 
+        
+
         echo
         echo " Yt-dlp Downloaded . . ."
         echo
@@ -4013,7 +4051,10 @@ if [ -f ~/.config/videoinfox/yt-dlp ]  # if yt-dlp exists goto then
              echo -ne " $ver starting in: $sec\033[0K\r"
              let "sec=sec-1"
              sleep 1
-        done          
+        done
+
+        cd "$dirtemp"  # restore directory
+        rm ~/.config/videoinfox/wget-* 2> /dev/null  
 
 
    else
@@ -4029,8 +4070,8 @@ if [ -f ~/.config/videoinfox/yt-dlp ]  # if yt-dlp exists goto then
              sleep 1
         done     
 
-cd "$dirtemp"  # restore directory
-
+        cd "$dirtemp"  # restore directory
+        rm ~/.config/videoinfox/wget-* 2> /dev/null
 fi
 
 
