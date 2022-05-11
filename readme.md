@@ -1,10 +1,8 @@
-# Videoinfox v2.8.05 &nbsp; 
+# Videoinfox v2.8.10 &nbsp; 
 
 ## *Where Video Play is a Clipboard Copy Away*
 
-NOTE: AUTO UPDATE WILL NOT UPDATE FROM v2.8.03 or v2.8.04 FORWARD FOR EXISTING USERS.
 
-JUST MANUALLY UPDATE THEN IT WILL START AUTO UPDATING AGAIN.
  
 <br />
 
@@ -19,11 +17,26 @@ JUST MANUALLY UPDATE THEN IT WILL START AUTO UPDATING AGAIN.
 
 <br />
 
+#### This update added: &nbsp; Command line option -u
 
-#### This update fixed: &nbsp; The rest of the cat edits. 
+This option can be used with your own ready to download url list that can be any name and location.
+
+There is no need to use the Videoinfox interface with this option. Videos will be downloaded to the
+      
+directory of the list location.  Example: &nbsp; videoinfox -u mylist &nbsp; Only enter the list filename.
+       
+The list must be recursively reachable from the current directory.
+       
+The first line in the list must begin with http to be processed.
+
+The above instructions can be displayed with: &nbsp; videoinfox -h
+ 
 
 
+<br />
+Note: Auto update will not work with v2.8.03 or v2.8.04 and both versions had bugs.
 
+If using either version, manually update.
 <br />
 
 
@@ -47,6 +60,8 @@ Videoinfox is a Linux shell script that feels like an app. If you enjoy watching
 
 Note: Played List and Playlist don't auto play yet, but will in the near future. Along with multiple playlist capability.
 
+
+#### Next feature in the works: &nbsp; A download queue to load up as many url lists as that you want to download.
 <br />
 
 ### Harnessing the power of:
