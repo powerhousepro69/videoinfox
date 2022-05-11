@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#  file : videoinfox v2.8.05								         
+#  file : videoinfox v2.8.10								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v2.8.05"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.05")  # Version Number: with blinking dot
+ver="Videoinfox v2.8.10"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.10")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -144,18 +144,28 @@ fi
 
 if [ "$1" = "-h" ]
   then
+       echo
        echo "___________________________________________________________________________________________________________________"
        echo  
-       echo " ""$ver"" >>> Command Line Options"
+       echo " ""$ver"" >>> Command Line Options >>> Help              Where Video Play is a Clipboard Copy Away . . ."    
        echo "___________________________________________________________________________________________________________________" 
        echo
-       echo "   -v  Display version number."
+       echo " Note: Videoinfox won't accept multiple options. Only one option per instance."
+       echo
        echo
        echo "   -h  This help screen."
        echo
+       echo "   -v  Display the version number."
+       echo
        echo "   -a  Write clipboard content to the Default List. For instructions on use: Yt-dlp >>> Download List >>> Help"
        echo
-       echo "   -l  Write clipboard content to User Set List. For instructions on use: Yt-dlp >>> Download List >>> Help"
+       echo "   -l  Write clipboard content to the User Set List. For instructions on use: Yt-dlp >>> Download List >>> Help"
+       echo
+       echo "   -u  This option can be used with your own ready to download url list that can be any name and location."
+       echo "       There is no need to use the Videoinfox interface with this option. Videos will be downloaded to the"
+       echo "       directory of the list location.  Example: videoinfox -u mylist  Only enter the list filename."
+       echo "       The list must be recursively reachable from the current directory."
+       echo "       The first line in the list must begin with http to be processed."
        echo -e "\n"     
        exit
   
@@ -164,6 +174,161 @@ if [ "$1" = "-h" ]
 fi
 
 
+#-------------------------------------------------------------------------------------------------------------------------------------------------
+#  videoinfox -u     DOWNLOAD ANY LIST THAT IS RECURSIVELY REACHABLE FROM THE CURRENT DIRECORY. ENTER FULL FILENAME ONLY. NO WILDCARD
+#-------------------------------------------------------------------------------------------------------------------------------------------------
+
+if [ "$1" = "-u" ]
+   then 
+       
+     clear
+     echo
+     echo "___________________________________________________________________________________________________________________"
+     echo
+     echo " ""$ver"" >>> Load recursively reachable Download List for processing . . ."
+     echo "___________________________________________________________________________________________________________________"    
+        
+
+     if echo "$2" | grep "/" > /dev/null  # if any slashehes were entered, exit
+       then
+            echo
+            echo " error: No directories. Only a filename. List must be recursively reachable from the current directory."
+            echo 
+            exit    
+
+       else
+            :
+     fi
+
+
+     if echo "$2" | grep "*" > /dev/null  # if any wildcards * were entered, exit
+       then
+            echo
+            echo " error: No wildcards. Only a filename. List must be recursively reachable from the current directory."
+            echo 
+            exit    
+
+       else
+            :
+     fi
+
+
+        filecount=$(find "$PWD" -type f \( -iname "$2" \) | wc -l)
+       
+        if [ "$filecount" = 1 ]  # IF THE FILE IS FOUND THE COUNT WILL BE: 1
+           then
+                chkforhttp=$(find "$PWD" -type f \( -iname "$2" \))  # getting list name to check the first line for http
+                read chkforhttp2 < "$chkforhttp"  # reading first line into varible $chkforhhtp2
+                chkforhttp=$(echo "$chkforhttp2" | cut -c-4)   # cut everything after the 4th character
+
+                if [ "$chkforhttp" = "http" ]  # if the first 4 characters = <http> go then
+                   then
+                        :
+                   else
+                        echo
+                        echo " aborted: The first 4 characters on the first line don't start with http" 
+                        echo "          This is a safety feature so a file that isn't actually a download list doesn't get erased."
+                        echo "          If this file was processed, The following lines would be removed from the file."
+                        echo
+                        echo "          - All duplicate lines"
+                        echo "          - All blank lines"
+                        echo "          - All lines that don't begin with http"
+                        echo
+                        echo "          ** The first line of the list must begin with http to be processed."
+                        echo 
+                        exit
+                fi
+
+
+                ##### GRAB THE PATH FROM THE DOWNLOAD LIST TO CHANGE THE WORKING DIRECTORY TO THAT PATH #####
+
+                find "$PWD" -type f \( -iname "$2" \) > videoinfox-u-option-grabdir.tmp #2> /dev/null # find the list to grab the full path with filename
+                sed -i 's%/[^/]*$%%' videoinfox-u-option-grabdir.tmp  # remove last slash and filename from the path for the cd command
+                read -r < videoinfox-u-option-grabdir.tmp whatsthepath  # read the path into the varible: $whatsthepath 
+                rm videoinfox-u-option-grabdir.tmp  # download list location is no longer needed. so it will be removed
+                cd "$whatsthepath"  # cd to the download list location. the code will let you know
+
+     
+                #####  ERROR CORRECTION FOR THE USER'S LIST BEFORE DOWNLOAD.  #####
+
+                cat -n "$2" | sort -uk2 | sort -n | cut -f2- > videoinfox-u-option.tmp  # remove duplicates from the user's list
+                sed -i '/^$/d' videoinfox-u-option.tmp  # remove any blank lines from the user's list
+                sed -i '/http/!d' videoinfox-u-option.tmp  # remove all lines not starting with: http from the user's list
+                mv videoinfox-u-option.tmp "$2"  
+               
+
+                #####  TAGGING .log ONTO THE USER'S LIST FILENAME TO CREATE A LOG FILE OF THE DOWNLOAD  #####
+            
+                ulogfile="$2".log  # tag  .log  onto the filename for log creation
+                echo "$ver" ">>> videoinfox -u" "$2" ">>> Logfile" > "$ulogfile"  # create the log file header Line 1
+                echo >> "$ulogfile"
+                echo "Download list:" "$PWD/""$2" >> "$ulogfile"  # create the log file header Line 2
+                echo >> "$ulogfile"  # create the log file header Line 3 (blank line)
+                echo >> "$ulogfile"  # create the log file header Line 4 (blank line)
+
+                echo
+                echo "Processing list:" "$PWD/""$2"
+           
+             
+                #####  DOWNLOAD LIST  #####
+                
+                input="$2"  # INPUT FOR THE DOWNLOAD LOOP (the download list)
+
+
+                #####  DOWNLOAD LOOP START  #####
+
+                while read -r line  # read line by line until end of file
+                do
+
+                echo
+
+                ~/.config/videoinfox/yt-dlp "$line"  # download url
+                echo
+                echo "Logging URL and Filename to:" "$PWD/""$ulogfile" 
+
+                # logging yt-dlp output to the log file
+
+                echo "$line" >> "$ulogfile" 
+                ~/.config/videoinfox/yt-dlp "$line" | tee >> "$PWD/""$ulogfile"
+                echo >> "$ulogfile" 
+
+                done < "$input"
+
+                #####  DOWNLOAD LOOP END  #####
+
+
+                #####  REMOVE UNWANTED LOG INFO  ##### 
+
+                sed -i '/\[youtube\]/d' "$2".log &> /dev/null  # removing lines that start with  [youtube]
+                sed -i '/\[info\]/d' "$2".log &> /dev/null  # removing lines that start with  [info]
+                sed -i 's/\[download\]//' "$2".log &> /dev/null  # remove   [download]   from the end of the line.
+                sed -i 's/has already been downloaded//' "$2".log &> /dev/null  # remove   has already been downloaded   from the end of the line.
+                sed -i -e 's/^[ \t]*//' "$2".log &> /dev/null  # remove spaces at beginning of line.
+
+
+                #####  DISPLAY AFTER THE LIST IS DONE DOWNLOADING  #####
+
+                echo
+                echo
+                echo -e "$ver" "\033[5mdone processing download list . . .\033m\033[0m"                 
+                echo
+                echo "List:" "$PWD/""$2"  # display list filename with full path
+                echo "Log :" "$PWD/""$ulogfile"  # display log filename with full path
+                echo
+                
+                notify-send "Videoinfox -u messsage: Done Processing Download List . . ." "$PWD/""$2"
+                exit  # exit videoinfox
+
+           else
+                echo
+                echo " Videoinfox Error: List not found. List must be recursively reachable from the current directory."
+                echo
+                exit
+           fi    
+   
+   else
+        :
+fi
 ##################################################################################################################################################
 #  END COMMAND LINE OPTIONS  #####################################################################################################################
 ##################################################################################################################################################
@@ -967,6 +1132,17 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v2.8.10 Added: Command line option -u" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                This option can be used with your own ready to download url list that can be any name and location." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                There is no need to use the Videoinfox interface with this option. Videos will be downloaded to the" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                directory of the list location.  Example: videoinfox -u mylist  Only enter the list filename." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                The list must be recursively reachable from the current directory." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                The first line in the list must begin with http to be processed." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                videoinfox -h  will display the above instructions." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.8.05 Fixed issues from v2.8.03 and v2.8.04 Had a mess going on here for a minute." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -5024,11 +5200,13 @@ fi
 #  REMOVE TMP2 FILES
 rm ~/.config/videoinfox/videoinfox.c.tmp2
 rm ~/.config/videoinfox/videoinfox.checku.tmp2
-#########################################################################################################################################################
-# START Routine to find out if clipboard content  =  set user list filename  if it does, the file will be cleared from the screen after list download
-#########################################################################################################################################################
 
 fi
+
+
+#########################################################################################################################################################
+# END Routine to find out if clipboard content  =  set user list filename  if it does, the file will be cleared from the screen after list download
+#########################################################################################################################################################
 
 
 rm videoinfox-dl*~ &> /dev/null  # duplicate lists were showing up with   ~   added onto the filename
