@@ -61,7 +61,7 @@ Videoinfox is a Linux shell script that feels like an app. If you enjoy watching
 Note: Played List and Playlist don't auto play yet, but will in the near future. Along with multiple playlist capability.
 
 
-#### Next feature in the works: &nbsp; A download queue to load up as many url lists as that you want to download.
+#### Next feature in the works: &nbsp; A download queue to load up as many url lists that you want to download.
 <br />
 
 ### Harnessing the power of:
