@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#  file : videoinfox v2.8.13								         
+#  file : videoinfox v2.8.14								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v2.8.13"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.13")  # Version Number: with blinking dot
+ver="Videoinfox v2.8.14"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.14")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -603,9 +603,11 @@ echo "                                                                          
       # SET DEFAULT  yt-dlp  DOWNLOAD DIRECTORY TO  ~/Downloads    It can be changed in the <set> menu
       echo "$HOME"/Downloads > ~/.config/videoinfox/videoinfo.yt-download-dir
 
-      # CHANGE DIRECTORY TO DOWNLOAD DIECTORY
-      cd "$HOME"/Downloads
-          
+      # SET DIR AT EXIT TO THE DEFAULT DOWNLOAD DIRECTORY SO DEFAULT DIR DISPLAY #3 LIGHTS UP ON FIRST RUN 
+      echo "$HOME"/Downloads > ~/.config/videoinfox/videoinfo.dir-at-exit
+      read -r diratexit < ~/.config/videoinfox/videoinfo.dir-at-exit
+      cd "$diratexit" 2>/dev/null 
+
       # Writing header for new blank Saved Search  playlist  ++++++++ this was added to get around a bug until the bug gets squashed.       
       echo > ~/.config/videoinfox/videoinfo.keptsearch
       echo "PLAYlIST" >> ~/.config/videoinfox/videoinfo.keptsearch
@@ -621,7 +623,7 @@ echo "                                                                          
       echo > ~/.config/videoinfox/videoinfo.lastsearchtotal2
       echo > ~/.config/videoinfox/videoinfo.playedlist
       echo > ~/.config/videoinfox/videoinfo.keptsearch
-      echo > ~/.config/videoinfox/videoinfo.dir-at-exit
+      #echo > ~/.config/videoinfox/videoinfo.dir-at-exit
       echo > ~/.config/videoinfox/videoinfo.tv-dir
       echo > ~/.config/videoinfox/videoinfo.movies-dir
       echo > ~/.config/videoinfox/videoinfo.parent-dir
@@ -1095,7 +1097,7 @@ echo "  - GUI notifications." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " Privacy Policy: Videoinfox will never collect or attempt to transmit any information on users." >> ~/.config/videoinfox/videoinfo.help
+echo " Privacy Policy: Videoinfox will never collect or attempt to transmit any information on it's users." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo "                 Internet activity will only happen under the following circumstances:" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1163,6 +1165,9 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v2.8.14 Fix: Directory at exit was not auto loading on next run." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.8.13 Added: Privacy Policy added to Home Help" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -1524,10 +1529,6 @@ cd "$diratexit" 2>/dev/null
 
 #   The Line below is what gets the Codec & Resolution from a video file.
 codecres="ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1"
-
-read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null
-cd "$dirsaved"
-
 
 
 ##################################################################################################################################################
@@ -1945,7 +1946,7 @@ if [ "$lsearch" = 3 ]  # ASK TO SAVE
         
          echo
          echo
-         echo -en " 1 - Saved Search     2 - Delete Search "
+         echo -en " 1 - Save Search Results     2 - Clear Search Results"
          read -r -n1 option
          echo
         
@@ -2513,11 +2514,12 @@ find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -in
                            read -r searchtotal < ~/.config/videoinfox/videoinfo.lastsearchtotal    
                            cp ~/.config/videoinfox/videoinfo.findwork ~/.config/videoinfox/videoinfo.findwork3
                            cp ~/.config/videoinfox/videoinfo.lastsearchtotal ~/.config/videoinfox/videoinfo.lastsearchtotal2                 
-                           
-                           notify-send  "Videoinfox messsage: Find results in "$PWD" "$searchtotal" files found using search term: "$fterm""
+
+                           notify-send  "Videoinfox messsage: Find results in $PWD" "$searchtotal files found using search term: $fterm"
                          
      fi
      ;;
+
 
 
      1)  # CD DIRECTORY TO TV    
@@ -3817,7 +3819,7 @@ done
                       echo " TV Directory Set to:" "$dir1"                  
                       else
                       echo
-                      echo " error:  No such file or directory"                    
+                      echo " error: Directory doesn't exist"                    
                 fi
           fi       
           
@@ -3857,7 +3859,7 @@ done
                       echo " Movie Directory Set to:" "$dir2"                  
                       else
                       echo
-                      echo " error:  No such file or directory"                    
+                      echo " error: Directory doesn't exist"                    
                 fi
           fi       
           
@@ -3897,7 +3899,7 @@ done
                       echo " Download Directory Set to:" "$dirsaved"                  
                       else
                       echo
-                      echo " error:  No such file or directory"                    
+                      echo " error: Directory doesn't exist"                   
                 fi
           fi       
           
@@ -3937,7 +3939,7 @@ done
                       echo " Extra Directory Set to:" "$dir4"                  
                       else
                       echo
-                      echo " error:  No such file or directory"                    
+                      echo " error: Directory doesn't exist"                    
                 fi
           fi       
           
