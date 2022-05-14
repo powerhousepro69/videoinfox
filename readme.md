@@ -1,4 +1,4 @@
-# Videoinfox v2.8.10 &nbsp; 
+# Videoinfox v2.8.11 
 
 ## *Where Video Play is a Clipboard Copy Away*
 
@@ -17,20 +17,9 @@
 
 <br />
 
-#### This update added: &nbsp; Command line option -u
+#### This update: &nbsp; Updated Home Help and Download List Help
 
-This option can be used with your own ready to download url list that can be any name and location.
 
-There is no need to use the Videoinfox interface with this option. Videos will be downloaded to the
-      
-directory of the list location.  Example: &nbsp; videoinfox -u mylist &nbsp; Only enter the list filename.
-       
-The list must be recursively reachable from the current directory.
-       
-The first line in the list must begin with http to be processed.
-
-The above instructions can be displayed with: &nbsp; videoinfox -h
- 
 
 
 <br />
@@ -61,7 +50,7 @@ Videoinfox is a Linux shell script that feels like an app. If you enjoy watching
 Note: Played List and Playlist don't auto play yet, but will in the near future. Along with multiple playlist capability.
 
 
-#### Next feature in the works: &nbsp; A download queue to load up as many url lists that you want to download.
+#### Next feature in the works: &nbsp; A download queue to load up as many url lists as that you want to download.
 <br />
 
 ### Harnessing the power of:
@@ -117,7 +106,9 @@ FFprobe - Get codec, resolution & duration in seconds.
   - Last Download available in: &nbsp; Home and Yt-dlp Menu. &nbsp; It will only play the last url processed by Play Clipboard.  
   - Download List: &nbsp; Blinking notification on list load.
   - View Logs: &nbsp; Blinking notification on log load.
-  - Default List companion: &nbsp; Create a gui shortcut for: &nbsp; videoinfox -a &nbsp; to add to the default list. 
+  - Default List companion: &nbsp; Create a gui shortcut for: &nbsp; videoinfox -a &nbsp; to add to the Default List.
+  - User Set List companion: Create a gui shortcut for: &nbsp; videoinfox -l &nbsp; to add to the User Set list.
+  - Download any list. Any name and location. No need to use the Videoinfox interface: &nbsp; videoinfox -u listname 
   - Download and update Yt-dlp in Videoinfox.  
   - Save directory state on exit to load on next run.
   - Change directory by entering full path.
