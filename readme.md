@@ -1,4 +1,4 @@
-# Videoinfox v2.8.12 
+# Videoinfox v2.8.13 
 
 ## *Where Video Play is a Clipboard Copy Away*
 
@@ -17,11 +17,7 @@
 
 <br />
 
-#### This update: &nbsp; Edited Version History. Posted known issue:
-
-If Play Clipboard is selected with an invalid video url in the clipboard, the gui play notification still displays.
-
-This only happens if Play Clipboard is selected before pressing enter.
+#### This update: &nbsp; Added Privacy Policy to Home Help
 
 
 
@@ -284,6 +280,21 @@ DEPENDENCIES
 FIRST RUN
 
 ![Videoinfox FIRST RUN](https://i.imgur.com/IzaDGUs.png)
+<br />
+
+
+#### Privacy Policy: &nbsp; Videoinfox will never collect or attempt to transmit any information on users.
+
+     Internet activity will only happen under the following circumstances:
+
+      - On First Run, Github will be contacted to download Yt-dlp.
+      - On every start, Github will be contacted to download Videoinfox for Update Available Check.
+      - Everytime Videoinfox Update or Yt-dlp Update is selected in Settings, Github will be contacted.
+      - If there isn't a copy of Yt-dlp in Videoinfox's config directory, Github will be contacted
+        everytime you select the Yt-dlp Menu to attempt a download of Yt-dlp.
+      - Everytime Yt-dlp is used to download a video url.
+        Refer to Yt-dlp's site for their privacy policy. https://github.com/yt-dlp/yt-dlp
+
 
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
