@@ -1,4 +1,4 @@
-# Videoinfox v2.8.13 
+# Videoinfox v2.8.14 
 
 ## *Where Video Play is a Clipboard Copy Away*
 
@@ -17,7 +17,7 @@
 
 <br />
 
-#### This update: &nbsp; Added Privacy Policy to Home Help
+#### This update fixed: &nbsp; Directory saved at exit was not auto loading on next run.
 
 
 
@@ -283,7 +283,7 @@ FIRST RUN
 <br />
 
 
-#### Privacy Policy: &nbsp; Videoinfox will never collect or attempt to transmit any information on users.
+#### Privacy Policy: &nbsp; Videoinfox will never collect or attempt to transmit any information on it's users.
 
      Internet activity will only happen under the following circumstances:
 
