@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#  file : videoinfox v2.8.11								         
+#  file : videoinfox v2.8.12								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v2.8.11"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.11")  # Version Number: with blinking dot
+ver="Videoinfox v2.8.12"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.12")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -188,7 +188,7 @@ if [ "$1" = "-u" ]
      echo
      echo "___________________________________________________________________________________________________________________"
      echo
-     echo " ""$ver"" >>> Load recursively reachable Download List for processing . . ."
+     echo " ""$ver"" >>> Load a recursively reachable Download List for processing . . ."
      echo "___________________________________________________________________________________________________________________"    
         
 
@@ -229,15 +229,16 @@ if [ "$1" = "-u" ]
                         :
                    else
                         echo
-                        echo " aborted: The first 4 characters on the first line don't start with http" 
-                        echo "          This is a safety feature so a file that isn't actually a download list doesn't get erased."
-                        echo "          If this file was processed, The following lines would be removed from the file."
+                        echo -e "\033[5m aborted\033m\033[0m: The first 4 characters on the first line don't start with http"
+                        echo "          This is a safety feature to prevent accidental deletion of a file that is not a Download list."
                         echo
+                        echo "          If this file was processed, The following lines would have been removed:"
+                        echo
+                        echo "          - All lines that don't begin with: http"
                         echo "          - All duplicate lines"
                         echo "          - All blank lines"
-                        echo "          - All lines that don't begin with http"
                         echo
-                        echo "          ** The first line of the list must begin with http to be processed."
+                        echo "          ** The first line of all Download Lists must begin with http to be processed with: videoinfox -u"
                         echo 
                         exit
                 fi
@@ -1129,13 +1130,16 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 # KNOWN ISSUE
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " KNOWN ISSUES: None Reported." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " KNOWN ISSUE: If Play Clipboard is selected with an invalid video url in the clipboard, the gui play notification still" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              displays. This only happens if Play Clipboard is selected before pressing enter." >> ~/.config/videoinfox/videoinfo-ver-history
 
+echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 # STILL NEEDS COMPLETED
 echo " NEEDS COMPLETED: Add auto play to Playlist and Played List then add multiple playlist capability." >> ~/.config/videoinfox/videoinfo-ver-history
 
+echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 # NOTE TO ANYONE CHECKING OUT THE CODE
@@ -1145,10 +1149,15 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
-
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.8.10 Updated Home Help and Download List Help." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v2.8.12 Edited: Version History. Posted known issue:" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                 If Play Clipboard is selected with an invalid video url in the clipboard, the gui play notification" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                 still displays. This only happens if Play Clipboard is selected before pressing enter." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v2.8.11 Updated: Home Help and Download List Help." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.8.10 Added: Command line option -u" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -1244,7 +1253,7 @@ echo "         Fix: Self Destruct - After copying to the clipboard, you had to p
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Fix: Download List - After a list was downloaded the directory was changed back to what it was pre download." >> ~/.config/videoinfox/videoinfo-ver-history 
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         First Run now checks for the directory:   ~/Downloads.   If it doesn't exit. it is created." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         First Run now checks for the directory: ~/Downloads  If the directory doesn't exist, it is created." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Directory Policy: Directory will only be change when the user changes the directory." >> ~/.config/videoinfox/videoinfo-ver-history 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
