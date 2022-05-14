@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#  file : videoinfox v2.8.10								         
+#  file : videoinfox v2.8.11								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v2.8.10"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.10")  # Version Number: with blinking dot
+ver="Videoinfox v2.8.11"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.11")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -27,6 +27,9 @@ der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.10")  # V
  
 ##########  Videoinfox runs a dependency check at startup. If any dependencies are Not Found, the script will exit. 
 ##########  Missing dependencies will be displayed.
+
+
+# YT-DLP is not on the dependeny list becuase Videoinfox will dowload it to:   ~/.config/videoinfox   All calls to yt-dlp are pointed to:   ~/.config/videoinfox/yt-dlp   There is an update option in:   <Set>  Settings to update yt-dlp   (just the copy in ~/.config/videoinfox)   I didn't want to overwrite anyones copy of:   /user/local/bin/yt-dlp     Also, I wanted to make sure all new Videoinfox script installs included the most recent version of Yt-dlp
 
 
 # THIS SCRIPT HAS BEEN HEAVILY COMMENTED FOR ANYONE INTERESTED IN HOW IT WORKS AND TO MAKE IT EASIER TO EDIT THE CODE.
@@ -83,7 +86,7 @@ if [ "$1" = "-l" ]
           
                 else
                 
-                     notify-send "Videoinfox ERROR . . ." "No user list has been set for this feature.  Set User List in Videoinfox first."
+                     notify-send "Videoinfox -l ERROR . . ." "No user list has been set for this feature.  Set User List in Videoinfox first."
                      exit
              fi
    else
@@ -147,7 +150,7 @@ if [ "$1" = "-h" ]
        echo
        echo "___________________________________________________________________________________________________________________"
        echo  
-       echo " ""$ver"" >>> Command Line Options >>> Help              Where Video Play is a Clipboard Copy Away . . ."    
+       echo " ""$ver"" >>> COMMAND LINE OPTIONS >>> HELP              Where Video Play is a Clipboard Copy Away . . ."    
        echo "___________________________________________________________________________________________________________________" 
        echo
        echo " Note: Videoinfox won't accept multiple options. Only one option per instance."
@@ -252,7 +255,7 @@ if [ "$1" = "-u" ]
                 #####  ERROR CORRECTION FOR THE USER'S LIST BEFORE DOWNLOAD.  #####
 
                 cat -n "$2" | sort -uk2 | sort -n | cut -f2- > videoinfox-u-option.tmp  # remove duplicates from the user's list
-                sed -i '/^$/d' videoinfox-u-option.tmp  # remove any blank lines from the user's list
+                sed -i '/^$/d' videoinfox-u-option.tmp  # remove all blank lines from the user's list
                 sed -i '/http/!d' videoinfox-u-option.tmp  # remove all lines not starting with: http from the user's list
                 mv videoinfox-u-option.tmp "$2"  
                
@@ -281,7 +284,6 @@ if [ "$1" = "-u" ]
                 do
 
                 echo
-
                 ~/.config/videoinfox/yt-dlp "$line"  # download url
                 echo
                 echo "Logging URL and Filename to:" "$PWD/""$ulogfile" 
@@ -866,7 +868,7 @@ echo "                - Script Directory location is relavant to having access t
 echo "                - Video URL's are always downloaded to the directory of the list's location." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
-echo "                  User List Companion: videoinfox -l" >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "                  User Set List Companion: videoinfox -l" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "                  TO SETUP:  Make a gui shortcut for  videoinfox -l  (no space after the l)" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -911,17 +913,29 @@ echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "                  You can also make a list with your preferred text editor." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
-echo "                  The download list name always has to beigin with:   videoinfox-dl" >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "                  The download list name always has to beigin with: videoinfox-dl" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "                  Add anything to the end of the filename." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
-echo "                  Sample download list name:   videoinfox-dl-funny-videos" >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "                  Sample download list name: videoinfox-dl-funny-videos" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
-echo "                  One video URL per line starting at line 1.  No Spaces." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "                  One video URL per line starting at line 1. No Spaces." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
-###################echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " COMMAND LINE OPTION: videoinfox -u" >> ~/.config/videoinfox/videoinfox.download-list-help       
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " This option can be used with your own ready to download url list that can be any name and location." >> ~/.config/videoinfox/videoinfox.download-list-help 
+echo " There is no need to use the Videoinfox interface with this option. Videos will be downloaded to the" >> ~/.config/videoinfox/videoinfox.download-list-help 
+echo " directory of the list location.  Example: videoinfox -u mylist  Only enter the list filename." >> ~/.config/videoinfox/videoinfox.download-list-help 
+echo " The list must be recursively reachable from the current directory." >> ~/.config/videoinfox/videoinfox.download-list-help       
+echo " The first line in the list must begin with http to be processed." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " videoinfox -h  will also display the above instuctions for: videoinfox -u" >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1022,11 +1036,9 @@ echo " Add to Playlist content is generated from search results." >> ~/.config/v
 echo " Copy as many selections or blocks of selections to the clipboard of what you want to add to the Playlist." >>~/.config/videoinfox/videoinfo.help
 echo " After each copy to the clipboard, select <a> to add your slection(s) from the clipboard to the Playlist." >>~/.config/videoinfox/videoinfo.help      
 echo " Make sure to grab the entire line including the comma.  Rinse and repeat until done." >>~/.config/videoinfox/videoinfo.help
-echo " This feature will not catch an invalid user clipboard copy (not entire line) before adding it to the Playlist." >>~/.config/videoinfox/videoinfo.help
-echo " Checking validity of clipboard content in Add to Playlist is on my list of features I still need to add." >>~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " When you use:  Videoinfox Update in Settings (Set), the update will always be applied to:  /usr/local/bin/  " >> ~/.config/videoinfox/videoinfo.help
+echo " When you use:  Videoinfox Update in Settings (Set), the update will always be applied to: /usr/local/bin/  " >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1036,12 +1048,12 @@ echo "  Download feature wouldn't have been possible without YT-DLP" >> ~/.confi
 echo >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo "  Videoinfox Features:" >> ~/.config/videoinfox/videoinfo.help
-echo >> ~/.config/videoinfox/videoinfo.help 
+echo >> ~/.config/videoinfox/videoinfo.help
 echo "  - Navigation was designed to be robust and efficient. One keypress for all menu selections." >> ~/.config/videoinfox/videoinfo.help 
 echo "  - Check for update on startup and notifity if update is available. Download and update in Videoinfox." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Play either a local file or a downloadable video url via yt-dlp." >> ~/.config/videoinfox/videoinfo.help
-echo "  - Unlimited User Lists: Keep pasting Video URL's on the fly from the clipboard to the list without starting Videoinfox." >> ~/.config/videoinfox/videoinfo.help
-echo "  - Default List: Keep pasting Video URL's on the fly from the clipboard to the list without starting Videoinfox." >> ~/.config/videoinfox/videoinfo.help
+echo "  - Unlimited User Lists: Keep pasting Video URL's on the fly from the clipboard to the User Set List." >> ~/.config/videoinfox/videoinfo.help
+echo "  - Default List: Keep pasting Video URL's on the fly from the clipboard to the Default List." >> ~/.config/videoinfox/videoinfo.help
 echo "  - See codec, resolution and duration on the playing video." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Play Clipboard is available in: Home  Played List  Play List  Yt-dlp Menu  View Downloads" >> ~/.config/videoinfox/videoinfo.help
 echo "  - Play Clipboard: Blinking notification when there is a valid video file or video url for play." >> ~/.config/videoinfox/videoinfo.help
@@ -1054,21 +1066,23 @@ echo "  - To watch the last download after Play Clipboard cleared the link selec
 echo "  - Auto clear the clipboard of invalid files and urls." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Press enter after your copy to the clipboard to validate clipboard content." >> ~/.config/videoinfox/videoinfo.help
 echo "  - File types searched for: .webm   .mp4   .mkv   .avi   .divx" >> ~/.config/videoinfox/videoinfo.help
-echo "  - Rapid directory changing by setting default directories in Settings. 4 available to set. The 5th is dir at last exit." >> ~/.config/videoinfox/videoinfo.help
-echo "  - Default Dirs - 1 2 3 4 5   directory switching available in: Home  Navigate Tree  Download List  More Options" >> ~/.config/videoinfox/videoinfo.help
+echo "  - Rapid directory changing by setting default directories (4) in Settings. The 5th is dir at last exit." >> ~/.config/videoinfox/videoinfo.help
+echo "  - Default Dirs - 1 2 3 4 5  available in: Home  Navigate Tree  Download List  More Options" >> ~/.config/videoinfox/videoinfo.help
 echo "  - Played List: Keep track of everything played except for Play Directory." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Playlist: Save a list of videos from find results and directory listing." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Remove duplicates from the Playlist and Played List." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Enter a video file with full path to get info on and play." >> ~/.config/videoinfox/videoinfo.help
-echo "  - Auto save last find result(s) and autoload until deleted. Defaulted to never save. Can be changed in Settings." >> ~/.config/videoinfox/videoinfo.help
+echo "  - Auto save last find result(s) and autoload until deleted. Defaulted to never save. Changed in Settings." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Yt-dlp integration for easy download and play of single url's or entire lists." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Download Default: Yt-dlp with no arguments. Download only. No auto play." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Download Choose: Choose video type and qualiy before download. Download only. No auto play." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Self Destruct: Download, auto play, delete when the player is closed." >> ~/.config/videoinfox/videoinfo.help
-echo "  - Last Download available in: Home and Yt-dlp Menu.  It will only play the last url processed by Play Clipboard." >> ~/.config/videoinfox/videoinfo.help
+echo "  - Last Download available in: Home and Yt-dlp Menu. Only for the last url processed by Play Clipboard." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Download List: Blinking notification on list load." >> ~/.config/videoinfox/videoinfo.help
 echo "  - View Logs: Blinking notification on log load." >> ~/.config/videoinfox/videoinfo.help
-echo "  - Default List companion: Create a gui shortcut for: videoinfox -a   to add to the default list." >> ~/.config/videoinfox/videoinfo.help
+echo "  - Default List companion: Create a gui shortcut for: videoinfox -a  to add to the Default List." >> ~/.config/videoinfox/videoinfo.help
+echo "  - User Set List companion: Create a gui shortcut for: videoinfox -l  to add to the User Set list." >> ~/.config/videoinfox/videoinfo.help
+echo "  - Download any list. Any name and location. No need to use the Videoinfox interface: videoinfox -u listname" >> ~/.config/videoinfox/videoinfo.help
 echo "  - Download and update Yt-dlp in Videoinfox." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Save directory state on exit to load on next run." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Change directory by entering full path." >> ~/.config/videoinfox/videoinfo.help
@@ -1132,6 +1146,9 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v2.8.10 Updated Home Help and Download List Help." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.8.10 Added: Command line option -u" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -4401,7 +4418,7 @@ echo -e " d - Download Default     l - Last Download     v - View Downloads     
 
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " ""$der"" >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlpver"
+            echo " ""$der"" >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlpver"        
             echo "___________________________________________________________________________________________________________________"
             echo
             echo " d - Download Default     l - Last Download     v - View Downloads     p - Play Clipboard                 q - Quit"
@@ -5212,12 +5229,12 @@ fi
 rm videoinfox-dl*~ &> /dev/null  # duplicate lists were showing up with   ~   added onto the filename
 
 logfile="$pasteclip".log  # tag  .log  onto the users Download List  */.videoinfox-dl*.log 
-echo ""$ver" >>> DOWNLOAD LIST >>> YT-DLP LOG: "$pasteclip"" > "$logfile"  # create file
+echo ""$ver" >>> DOWNLOAD LIST >>> Logfile:" "$pasteclip"".log" > "$logfile"  # create file
 echo >> "$logfile"
 
 #justfile=$(echo "$pasteclip" | sed 's|.*/||')  # ended up not using. grabs filename minus path
 
-input="$pasteclip"  # input file for below loop
+input="$pasteclip"  # input file for download loop (clipboard contents)
 
 
 ################  DOWNLOAD LOOP START  ###################################################################################################################
@@ -5228,6 +5245,11 @@ do
 echo
 
 ~/.config/videoinfox/yt-dlp "$line"  # download url
+
+
+echo
+echo "Logging URL and Filename to:" "$logfile" 
+
 
 # logging yt-dlp output
 echo "$line" >> "$logfile" 
@@ -5249,19 +5271,21 @@ sed -i -e 's/^[ \t]*//' "$pasteclip".log &> /dev/null  # remove spaces at beginn
 
 #####################################################
 
+
 echo
 echo
-echo "Up/Down arrows or mouse to scroll.  Press enter to quit"
+echo -e "$der" "\033[5mdone processing download list . . .\033m\033[0m"
 echo
+echo "List:" "$pasteclip"  # display list filename with full path
+echo "Log :" "$logfile"  # display log filename with full path
 echo
-echo "Log file:" "$logfile"
-echo
-echo ""$der" done processing download list . . ."
-echo
+echo "Press enter to exit this screen"
+
 notify-send "Videoinfox messsage: Done Processing Download List . . ." "$pasteclip"
 
 read -p ""
 echo "" | xclip -sel clip  # clearing out the clipboard
+
 
 else  # File didn't exist. clipboard cleared
 
