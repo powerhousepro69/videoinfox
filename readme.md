@@ -1,4 +1,4 @@
-# Videoinfox v2.8.11 
+# Videoinfox v2.8.12 
 
 ## *Where Video Play is a Clipboard Copy Away*
 
@@ -17,7 +17,11 @@
 
 <br />
 
-#### This update: &nbsp; Updated Home Help and Download List Help
+#### This update: &nbsp; Edited Version History. Posted known issue:
+
+If Play Clipboard is selected with an invalid video url in the clipboard, the gui play notification still displays.
+
+This only happens if Play Clipboard is selected before pressing enter.
 
 
 
