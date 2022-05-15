@@ -13,7 +13,7 @@
 
 #### Add URL's to Unlimited User Set Lists on the fly without leaving your gui or starting up Videoinfox.
 
-#### Download all your video url lists with Videoinfox.
+#### Download all your video url lists with Videoinfox's Yt-dlp integration.
 
 <br />
 
