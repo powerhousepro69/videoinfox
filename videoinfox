@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#  file : videoinfox v2.8.14								         
+#  file : videoinfox v2.8.20								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v2.8.14"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.14")  # Version Number: with blinking dot
+ver="Videoinfox v2.8.20"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.20")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -623,7 +623,6 @@ echo "                                                                          
       echo > ~/.config/videoinfox/videoinfo.lastsearchtotal2
       echo > ~/.config/videoinfox/videoinfo.playedlist
       echo > ~/.config/videoinfox/videoinfo.keptsearch
-      #echo > ~/.config/videoinfox/videoinfo.dir-at-exit
       echo > ~/.config/videoinfox/videoinfo.tv-dir
       echo > ~/.config/videoinfox/videoinfo.movies-dir
       echo > ~/.config/videoinfox/videoinfo.parent-dir
@@ -1072,6 +1071,7 @@ echo "  - File types searched for: .webm   .mp4   .mkv   .avi   .divx" >> ~/.con
 echo "  - Rapid directory changing by setting default directories (4) in Settings. The 5th is dir at last exit." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Default Dirs - 1 2 3 4 5  available in: Home  Navigate Tree  Download List  More Options" >> ~/.config/videoinfox/videoinfo.help
 echo "  - Played List: Keep track of everything played except for Play Directory." >> ~/.config/videoinfox/videoinfo.help
+echo "  - Played List: Play All option that will auto play the entire list with option to quit." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Playlist: Save a list of videos from find results and directory listing." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Remove duplicates from the Playlist and Played List." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Enter a video file with full path to get info on and play." >> ~/.config/videoinfox/videoinfo.help
@@ -1152,7 +1152,7 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 # STILL NEEDS COMPLETED
-echo " NEEDS COMPLETED: Add auto play to Playlist and Played List then add multiple playlist capability." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " NEEDS COMPLETED: Add auto play to Playlist then add multiple playlist capability." >> ~/.config/videoinfox/videoinfo-ver-history
 
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
@@ -1165,6 +1165,9 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v2.8.20 Added: Play All option for Played List. Auto play the entire list with option to quit." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.8.14 Fix: Directory at exit was not auto loading on next run." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -1776,7 +1779,7 @@ fi
 # CHECKING FOR VIDEOS IN CURRENT DIRECTORY.  if video(s) exist:  the dash @ Play Directory will blink on the home screen
 dovideosexist=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
 
-if [ $dovideosexist -ne 0 ]  # If the find result don't =   0   goto then
+if [ $dovideosexist -ne 0 ]  # If the find result doesn't =   0   goto then
   then 
       dash=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")  # blink dash on home screen
   else
@@ -2316,7 +2319,7 @@ echo
 #checking for videos in the current directory.  if no videos exist,   Play Directory   won't execute
 dovideosexist=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
 
-if [ $dovideosexist -ne 0 ]  # If the find result don't =   0   goto then
+if [ $dovideosexist -ne 0 ]  # If the find result doesn't =   0   goto then
   then  
 
 for f in *.{mp4,webm,mkv,avi,divx}
@@ -2385,7 +2388,7 @@ d)  # (@PLAY DIRECTORY) HOME   #################################################
 #checking for videos in the current directory.  if no videos exist,   Play Directory   won't execute
 dovideosexist=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
 
-if [ $dovideosexist -ne 0 ]  # If the find result don't =   0   goto then
+if [ $dovideosexist -ne 0 ]  # If the find result doesn't =   0   goto then
   then  
 
 for f in *.{mp4,webm,mkv,avi,divx}
@@ -2839,7 +2842,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" >>> PLAYED LIST              Copy 1 above line to clipboard then press enter to update display"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " p - Play Clipboard     D - Delete Played List                                                            q - Quit"
+                      echo " p - Play Clipboard     a - Play All     D - Delete Played List                                           q - Quit"
                       echo
                       echo " i - Info"         
                       echo
@@ -2855,7 +2858,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo "___________________________________________________________________________________________________________________"
                       echo
 
-echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     D - Delete Played List                                                            q - Quit"             
+echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     a - Play All     D - Delete Played List                                           q - Quit"             
                       echo
                       echo " i - Info"         
                       echo                                                                                  
@@ -2872,7 +2875,7 @@ echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     D - Del
             echo "___________________________________________________________________________________________________________________"
             echo
 
-echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     D - Delete Played List                                                            q - Quit"
+echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     a - Play All     D - Delete Played List                                           q - Quit"
 
             echo
             echo " i - Info"
@@ -2888,7 +2891,7 @@ echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     D - Del
             echo " "$der" >>> PLAYED LIST              Copy 1 above line to clipboard then press enter to update display"
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " p - Play Clipboard     D - Delete Played List                                                            q - Quit"
+            echo " p - Play Clipboard     a - Play All     D - Delete Played List                                           q - Quit"
             echo
             echo " i - Info"
             echo                                                             
@@ -2921,7 +2924,150 @@ read -r -n1 optionv
           read -r -p " Press enter to Continue" 
           ;;
         
-        
+
+##################################################################################################################################################
+a)  # AUTO PLAY THE PLAYED LIST  #################################################################################################################
+##################################################################################################################################################
+
+#  REMOVE PLAYED LIST HEADER AND WRITE NEW FILE FOR PROCESSING: ~/.config/videoinfox/tmp/videoinfo.playedlist-auto-play-all
+awk 'NR>5' ~/.config/videoinfox/videoinfo.playedlist > ~/.config/videoinfox/tmp/videoinfo.playedlist-apa
+
+#  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
+atleastone=$(grep '^/' ~/.config/videoinfox/tmp/videoinfo.playedlist-apa | wc -l)
+
+#  IF THE NUMBER DOESN"T = 0  THEN PROCESS AUTO PLAY OF PLAYED LIST
+if [ $atleastone -ne 0 ]  
+   then
+
+#  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
+moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfo.playedlist-apa"
+
+#  PLAYED LIST INPUT FOR LOOP
+input="$moddedplayedlist"  
+
+#  CREATE TEMP FILE NEEDED FOR LOOP 
+echo > ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2
+
+#  #  START WRITING ONLY VALID FILES
+while read -r line  # read line by line until end of file
+do
+
+   if [ -f "$line" ]
+      then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
+           echo "$line" >> ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2  
+      else
+           :
+   fi        
+
+done < "$input"
+#  DONE WRITING ONLY VALID FILES
+
+#  REMOVE BLANK LINES
+sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2 2>/dev/null
+
+#  MOVE apa2 BACK TO apa
+mv ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2 ~/.config/videoinfox/tmp/videoinfo.playedlist-apa 2>/dev/null
+
+#  CREATE FILE NEEDED FOR LOOP 
+echo > ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2  
+
+#  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
+while read -r line  # read line by line until end of file
+do
+
+   if [[ "$line" == *.mp4 ]] 
+        then # IF FILE IS MP4, WRITE LINE TO FILE
+             echo "$line" >> ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2  
+     
+   elif [[ "$line" == *.webm ]]
+        then # IF FILE IS WEBM, WRITE LINE TO FILE
+             echo "$line" >> ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2
+      
+   elif [[ "$line" == *.mkv ]]
+        then # IF FILE IS MKV, WRITE LINE TO FILE
+             echo "$line" >> ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2
+
+   elif [[ "$line" == *.avi ]]
+        then # IF FILE IS AVI, WRITE LINE TO FILE
+             echo "$line" >> ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2
+
+   elif [[ "$line" == *.divx ]]
+        then  # IF FILE IS DIVX, WRITE LINE TO FILE
+             echo "$line" >> ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2
+   else
+        :  # IF THERE IS NO FILE MATCH, THERE IS NO WRITE
+   fi
+
+done < "$input"
+#  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
+
+#  REMOVE BLANK LINES
+sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2 2>/dev/null
+
+#  MOVE apa2 BACK TO apa
+mv ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2 ~/.config/videoinfox/tmp/videoinfo.playedlist-apa 2>/dev/null
+
+
+   else #  NO LINES START WITH A SLASH / 
+        rm ~/.config/videoinfox/tmp/videoinfo.playedlist-apa 2>/dev/null 
+        rm ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2 2>/dev/null
+        # ADD MESSAGE !!!!!!!!
+fi
+
+
+OLDIFS=$IFS
+
+IFS=$'\n'
+ for line in $(cat "$input")
+ do
+      clear
+      echo
+      echo "___________________________________________________________________________________________________________________"
+      echo
+      echo " ""$der"" >>> PLAYED LIST >>> AUTOPLAY" 
+      echo
+      echo " [PLAY]>" "$line"
+      echo "___________________________________________________________________________________________________________________"
+      echo
+
+      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$line")  " Duration:" $(ffmpeg -i "$line" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+      
+      echo
+      echo
+      echo " Video Player Controls:"
+      echo                             
+      echo " - Fullscreen Toggle: f"
+      echo
+      echo " - Play/Pause Toggle: space bar"
+      echo
+      echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
+      echo
+      echo " - Quit: q"      
+      echo -e "\n"
+
+      ffplay -fs -autoexit "$line" 2> /dev/null
+
+      echo " To bypass the 3 second wait press enter with no entry"
+      echo
+      echo -e "\033[5m 3 seconds remaining to quit Played List Autoplay\033m\033[0m\033[5m\033[5m\033[0m"      
+      echo 
+      read -t 3 -p " Press any key then press enter to quit : " playdir
+           
+           # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
+           if [[ $playdir ]]                                             
+             then                                                        # if no input is entered within 3 seconds the next video will play
+                 break                                                   # if enter is pressed without any input the next video will play
+             else                                                        
+                 :                                                       # press any key then enter within 3 seconds to quit Play Directory
+           fi
+done
+ 
+IFS=$OLDIFS
+
+rm ~/.config/videoinfox/tmp/videoinfo.playedlist-apa 2>/dev/null
+;;           
+
+       
           p) 
           #  @PLAY CLIPBOARD - <PLAYED LIST>        
 
