@@ -1,4 +1,4 @@
-# Videoinfox v2.8.14 
+# Videoinfox v2.8.20 
 
 ## *Where Video Play is a Clipboard Copy Away*
 
@@ -11,21 +11,15 @@
 
 #### Add URL's to The Default Download list on the fly without leaving your gui or starting up Videoinfox.
 
-#### Add URL's to Unlimited User Lists on the fly without leaving your gui or starting up Videoinfox.
+#### Add URL's to Unlimited User Set Lists on the fly without leaving your gui or starting up Videoinfox.
 
 #### Download all your video url lists with Videoinfox.
 
 <br />
 
-#### This update fixed: &nbsp; Directory saved at exit was not auto loading on next run.
+#### This update added: &nbsp; Play All option now available in Played List.
 
-
-
-
-<br />
-Note: Auto update will not work with v2.8.03 or v2.8.04 and both versions had bugs.
-
-If using either version, manually update.
+It will auto play the entire Played List with option to quit.
 <br />
 
 
@@ -47,7 +41,7 @@ You have to start Download List first then run another instance of Videoinfox to
 
 Videoinfox is a Linux shell script that feels like an app. If you enjoy watching local videos on your PC and want the ability to download video url's, you won't be disappointed. You can also make your own URL lists to download. While downloading a list, a log file will be generated for each list. The log is each http link from your list with the downloaded video filename. If the download list is aborted before completion, Yt-dlp has you covered. Just run the Download List feature again. Yt-dlp won't re-download files that you already have. There is a Played List that keeps track of everything you played with the exception of the Play Directory feature. There is also a playlist you can create from search results or from directory listings. Videoinfox does all the error handling. You should never encounter any script errors.
 
-Note: Played List and Playlist don't auto play yet, but will in the near future. Along with multiple playlist capability.
+Note: Playlist doesn't auto play yet, but will in the near future. Along with multiple playlist capability.
 
 
 #### Next feature in the works: &nbsp; A download queue to load up as many url lists as that you want to download.
@@ -95,6 +89,7 @@ FFprobe - Get codec, resolution & duration in seconds.
   - Rapid directory changing by setting default directories in Settings. &nbsp; 4 available to set.  The 5th is dir at last exit.
   - Default Dirs - 1 2 3 4 5 &nbsp; directory switching available in: &nbsp; Home &nbsp; Navigate Tree &nbsp; Download List &nbsp; More Options
   - Played List: &nbsp; Keep track of everything played except for: &nbsp; Play Directory.
+  - Played List: Play All option that will auto play the entire list with option to quit.
   - Playlist: &nbsp; Save a list of videos from find results and directory listing.
   - Remove duplicates from the Playlist and Played List.
   - Enter a video file with full path to get info on and play.
