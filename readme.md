@@ -20,6 +20,8 @@
 #### This update added: &nbsp; Play All option now available in Played List.
 
 It will auto play the entire Played List with option to quit.
+
+THANKS to Falderol on Reddit for pointing me in the right direction so I was able to get the play loop working properly.
 <br />
 
 
