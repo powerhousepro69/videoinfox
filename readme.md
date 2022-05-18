@@ -17,6 +17,12 @@
 
 <br />
 
+NOTE: I just found out that Play Clipboard and Last download are breaking with file names that contain a [
+
+I will get an update out withing the next few days fixing that issue.
+
+
+
 #### This update added: &nbsp; Home Help edit.
 
 I fixed the below many updates ago and forgot to update it in help.
