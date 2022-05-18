@@ -17,11 +17,11 @@
 
 <br />
 
-#### This update added: &nbsp; Error Repoting for Play Clipboard and Play Directory.
+#### This update added: &nbsp; Error Reporting for Play Clipboard and Play Directory.
 
 Fix: If a User Set List was deleted outside of Videoinfox, It would still display as a Set User List.
 
-Complete details located in: &nbsp; Settings (set) \>\>\> Vesion History
+Complete details located in: &nbsp; Settings (set) \>\>\> Version History
 
 
 
