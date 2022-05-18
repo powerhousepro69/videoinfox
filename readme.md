@@ -1,4 +1,4 @@
-# Videoinfox v2.8.20 
+# Videoinfox v2.8.22 
 
 ## *Where Video Play is a Clipboard Copy Away*
 
@@ -17,11 +17,14 @@
 
 <br />
 
-#### This update added: &nbsp; Play All option now available in Played List.
+#### This update added: &nbsp; Error Repoting for Play Clipboard and Play Directory.
 
-It will auto play the entire Played List with option to quit.
+Fix: If a User Set List was deleted outside of Videoinfox, It would still display as a Set User List.
 
-THANKS to Falderol on Reddit for pointing me in the right direction so I was able to get the play loop working properly.
+Complete details located in: &nbsp; Settings (set) \>\>\> Vesion History
+
+
+
 <br />
 
 
@@ -46,7 +49,7 @@ Videoinfox is a Linux shell script that feels like an app. If you enjoy watching
 Note: Playlist doesn't auto play yet, but will in the near future. Along with multiple playlist capability.
 
 
-#### Next feature in the works: &nbsp; A download queue to load up as many url lists that you want to download.
+#### Next feature in the works: &nbsp; A download queue to load up as many url lists as that you want to download.
 <br />
 
 ### Harnessing the power of:
