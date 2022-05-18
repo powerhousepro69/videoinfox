@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#  file : videoinfox v2.8.20								         
+#  file : videoinfox v2.8.22								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v2.8.20"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.20")  # Version Number: with blinking dot
+ver="Videoinfox v2.8.22"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.22")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -915,7 +915,7 @@ echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "                  You can also make a list with your preferred text editor." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
-echo "                  The download list name always has to beigin with: videoinfox-dl" >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "                  The download list name always has to beigin with: videoinfox-dl to be accessed by Videoinfox." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "                  Add anything to the end of the filename." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1167,7 +1167,24 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v2.8.22 Added: Error Repoting for Play Clipboard and Play Directory." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                If Play Clipboard is selected with no playable content available in the clipboard," >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                Error Message Displayed: No playable content in the clipboard . . ." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                With Play Clipboard, you will also see this meaasge right after a Yt-dlp download completes." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                The error shows there because the clipboard is cleared immediately after the download is completed." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                If Play Directory is selected with no playable content available in the current directory," >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                Error Message Displayed: No playable content in the current directory . . ." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Fix: If a User Set List was deleted outside of Videoinfox, It would still display as a Set User List." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              Now when download Download List menu is selected, if a list doesn't exist, it is cleard from User Set List." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              The gui notification will also notify if the user download list is not set or missing when using the" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              videoinfox -l shortcut. " >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.8.20 Added: Play All option for Played List. Auto play the entire list with option to quit." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         THANKS to Falderol on Reddit for pointing me in the right direction so I was able to get the play loop working." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.8.14 Fix: Directory at exit was not auto loading on next run." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -1834,7 +1851,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                            #________________x________________________________________ _________________________________________________________
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " $der $viv4      Enter - Update Clipboard Display               "$dirdisp" - Default Dirs"
+                      echo " $der $viv4      Enter - Update Clipboard Display                "$dirdisp" - Default Dirs"
                       echo "___________________________________________________________________________________________________________________"
                       echo
                       echo " f - Find              n - Navigate Tree     p - Play Clipboard     d "$dash" Play Directory                    e - Exit"
@@ -1849,7 +1866,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo "Download Directory: $dirsaved"  # dislpay default download directory
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " $der $viv4      Enter - Update Clipboard Display               "$dirdisp" - Default Dirs"
+                      echo " $der $viv4      Enter - Update Clipboard Display                "$dirdisp" - Default Dirs"
                       echo "___________________________________________________________________________________________________________________"
                       echo
 
@@ -2004,7 +2021,7 @@ break ;;
 
 n)
 ##################################################################################################################################################
-###########################   (@NAVIGATE TREE)  t  ###############################################################################################
+###########################   (@NAVIGATE TREE)  n  ###############################################################################################
 ##################################################################################################################################################
 
 pasteclip2=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content   save to restore on option quit
@@ -2278,7 +2295,7 @@ echo
            then
                echo
                echo " At treetop. Can't go any higher . . ."
-               sleep 1.7
+               sleep .50
 
            else
                cd .. &>/dev/null
@@ -2303,7 +2320,7 @@ echo
                cd "$pasteclip" 2>/dev/null  # change to the directory in the clipboard
            else
                echo " At treetop. Can't go any higher . . ."
-               sleep 1.7
+               sleep .50
          fi
         
          echo "" | xclip -sel clip  # clearing the clipboard
@@ -2366,11 +2383,15 @@ for f in *.{mp4,webm,mkv,avi,divx}
              fi
    done
 
-else
-    :
-fi
+else    
+    echo
+    echo " No playable content in the current directory . . ."
+    sleep 1.2
 
+
+fi
 ;;
+
 
 esac
 done
@@ -2437,9 +2458,13 @@ for f in *.{mp4,webm,mkv,avi,divx}
    done
 
 else
-    :
-fi
+    echo
+    echo
+    echo " No playable content in the current directory . . ."
+    sleep 1.2
 
+
+fi
 ;;
 
 
@@ -2624,8 +2649,13 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
                      echo > ~/.config/videoinfox/videoinfo.find-last-download  # erase all because there is more than 1 find result             
  
                 else
-                    :
+                    
+                    echo
+                    echo
+                    echo " No playable content in the clipboard . . ."
+                    sleep 1.2
               fi
+
 
       read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download  # read find result from file
            
@@ -2712,7 +2742,11 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo " Played List Closed"
 
          else
-             :
+             echo
+             echo
+             echo " No playable content in the clipboard . . ."
+             sleep 1.2
+
 fi
 fi
 ;;  
@@ -3058,7 +3092,7 @@ IFS=$'\n'
              then                                                        # if no input is entered within 3 seconds the next video will play
                  break                                                   # if enter is pressed without any input the next video will play
              else                                                        
-                 :                                                       # press any key then enter within 3 seconds to quit Play Directory
+                 :                                                       # press any key then enter within 3 seconds to quit Play Played List
            fi
 done
  
@@ -3117,8 +3151,13 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
                      echo > ~/.config/videoinfox/videoinfo.find-last-download  # erase all because there is more than 1 find result             
  
                 else
-                    :
+                    
+                    echo
+                    echo
+                    echo " No playable content in the clipboard . . ."
+                    sleep 1.2
               fi
+
 
       read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download  # read find result from file
            
@@ -3202,7 +3241,11 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo " Played List Closed"
   
         else
-            :
+            
+            echo
+            echo
+            echo " No playable content in the clipboard . . ."
+            sleep 1.2
       fi   
   fi
   ;;  
@@ -3435,8 +3478,13 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
                      echo > ~/.config/videoinfox/videoinfo.find-last-download  # erase all because there is more than 1 find result             
  
                 else
-                    :
+                    
+                    echo
+                    echo
+                    echo " No playable content in the clipboard . . ."
+                    sleep 1.2
               fi
+
 
       read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download  # read find result from file
            
@@ -3521,7 +3569,11 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo " Played List Closed"
      
         else
-            :
+            
+            echo
+            echo
+            echo " No playable content in the clipboard . . ."
+            sleep 1.2
       fi
 fi
 ;;  
@@ -4094,7 +4146,7 @@ done
           sleep 1.5
           ;;
 
-             
+
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     
     v)  # CHECK FOR VIDEOINFOX UPDATE
@@ -4215,8 +4267,6 @@ done
          cd "$dirtemp"  # restore directory
          ;;
 
-
-         *)
           
          esac
          done
@@ -4266,18 +4316,22 @@ timeout 30 wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp
 
 if [ -f ~/.config/videoinfox/tmp/yt-dlp ]  # if yt-dlp exists goto then
    then
-        chmod a+rx ~/.config/videoinfox/tmp/yt-dlp  # set <yt-dlp-fetched> execute bit      
-   
-function chkytdlp {
+        chmod a+rx ~/.config/videoinfox/tmp/yt-dlp  # set <yt-dlp-fetched> execute bit  
 
-         sec=5
+
+        sec=5
              
          while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
               echo -ne " Yt-dlp Downloaded . . . $sec\033[0K\r"
               let " sec=sec-1"
               sleep 1
          done
-         
+
+    
+   
+function chkytdlp {
+
+        
 
          if [ -f ~/.config/videoinfox/tmp/yt-dlp ]
             then
@@ -4344,8 +4398,8 @@ function chkytdlp {
               let " sec=sec-1"
               sleep 1
               done         
-              break;;    
-        
+              break;;
+   
          esac
          done
 
@@ -4360,7 +4414,8 @@ function chkytdlp {
               sleep 1
          done     
 fi
-         
+;;         
+          
 
 esac
 done
@@ -4368,6 +4423,7 @@ done
 rm ~/.config/videoinfox/tmp/* 2>/dev/null
 ;;
 
+   
 
 ##################################################################################################################################################
 ###########################  HOME OPTION  y  Yt-dlp Menu  ########################################################################################
@@ -4889,6 +4945,17 @@ read -r ulistset < ~/.config/videoinfox/videoinfox.set-user-list  # set user lis
 echo
 
 
+# CEAR USER SET LIST IF IT GETS DELETED OUTSIDE OF THE VIDEOINFOX INTERFACE
+if [ -f "$chkulistset" ]  # if the user set list exists goto then
+   then
+       :
+   else  # if the user set list doesn't exist, clear the user set list.
+       echo > ~/.config/videoinfox/videoinfox.set-user-list
+       ctmp4=""
+fi
+
+
+
 if [ -z "$ctmp4" ]  # if the set user list = null goto then
     then
          :  # don't display anything
@@ -5056,7 +5123,7 @@ pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard conten
 ###########################################################################################################################################################
 # START Routine to find out if clipboard contents  =  The default download list or a user list.  only a user list can:  Set User List and Delete User List
 ###########################################################################################################################################################
-# Also, check if the User List in the clipboard  =  Set User List  if it does, the set user list will be set to null
+# Also, check if the User List in the clipboard  =  Set User List  if it is, the set user list will be set to null
 ###########################################################################################################################################################
 
 # REFORMAT PASTECLIP VARIBLE FOR COMPARISON TO CONTROL VARIBLE
@@ -5646,8 +5713,13 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
                      echo > ~/.config/videoinfox/videoinfo.find-last-download  # erase all because there is more than 1 find result             
  
                 else
-                    :
+                    
+                    echo
+                    echo
+                    echo " No playable content in the clipboard . . ."
+                    sleep 1.2
               fi
+
 
       read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download  # read find result from file
            
@@ -5733,7 +5805,11 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo " Played List Closed"
       
        else
-            :
+            
+           echo
+           echo
+           echo " No playable content in the clipboard . . ."
+           sleep 1.2
        fi
 fi
 
@@ -5959,9 +6035,14 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
                      echo > ~/.config/videoinfox/videoinfo.find-last-download  # erase all because there is more than 1 find result             
  
                 else
-                    :
+                    
+                    echo
+                    echo
+                    echo " No playable content in the clipboard . . ."
+                    sleep 1.2
               fi
 
+   
       read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download  # read find result from file
            
       clear
@@ -6045,7 +6126,11 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo " Played List Closed"
  
         else
-            :
+            
+           echo
+           echo
+           echo " No playable content in the clipboard . . ."
+           sleep 1.2
       fi 
 fi
 
@@ -6472,7 +6557,7 @@ cd "$dir5"
 
 
 
-l)  # LIST DIRECTORY - <HOME> 
+l)  # LIST DIRECTORY
 ##################################################################################################################################################
 ###########################   MORE OPTIONS l  LIST DIRECTORY  ####################################################################################
 ##################################################################################################################################################
@@ -7055,26 +7140,21 @@ echo " Video Info: "$(ffprobe -v error -show_entries stream=codec_name -of defau
           fi	  
           fi
 
-echo
-;;
+    echo
+    ;;
 
 
-esac
+    esac
+    done
+    ;;
+
+
+esac    
 done
-;;
-
 
 ##################################################################################################################################################
 ###########################  END MAIN LOOP  ######################################################################################################
 ##################################################################################################################################################
-
-	*)
-	#clear
-	#echo "Invalid selection";;
-	esac
-    #echo    
-    #read -p "     enter  to continue . . . . ."
-done
 
 
 #  EXIT MESSAGE
