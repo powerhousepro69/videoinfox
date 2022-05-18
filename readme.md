@@ -1,4 +1,4 @@
-# Videoinfox v2.8.22 
+# Videoinfox v2.8.23 
 
 ## *Where Video Play is a Clipboard Copy Away*
 
@@ -17,11 +17,12 @@
 
 <br />
 
-#### This update added: &nbsp; Error Reporting for Play Clipboard and Play Directory.
+#### This update added: &nbsp; Home Help edit.
 
-Fix: If a User Set List was deleted outside of Videoinfox, It would still display as a Set User List.
+I fixed the below many updates ago and forgot to update it in help.
 
-Complete details located in: &nbsp; Settings (set) \>\>\> Version History
+
+Last Download will work with Play Clipboard, Download Default and Download Choose.
 
 
 
@@ -103,7 +104,7 @@ FFprobe - Get codec, resolution & duration in seconds.
   - Download Default: &nbsp; Yt-dlp with no arguments.  Download only.  No auto play.
   - Download Choose: &nbsp; Choose video type and qualiy before download.  Download only.  No auto play.
   - Self Destruct: &nbsp; Download, auto play, delete when the player is closed.
-  - Last Download available in: &nbsp; Home and Yt-dlp Menu. &nbsp; It will only play the last url processed by Play Clipboard.  
+  - Last Download in Home and Yt-dlp Menu for Play Clipboard, Download Default and Download Choose.  
   - Download List: &nbsp; Blinking notification on list load.
   - View Logs: &nbsp; Blinking notification on log load.
   - Default List companion: &nbsp; Create a gui shortcut for: &nbsp; videoinfox -a &nbsp; to add to the Default List.
