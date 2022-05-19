@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#  file : videoinfox v2.8.23								         
+#  file : videoinfox v2.8.24								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v2.8.23"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.23")  # Version Number: with blinking dot
+ver="Videoinfox v2.8.24"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.24")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -1080,7 +1080,7 @@ echo "  - Yt-dlp integration for easy download and play of single url's or entir
 echo "  - Download Default: Yt-dlp with no arguments. Download only. No auto play." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Download Choose: Choose video type and qualiy before download. Download only. No auto play." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Self Destruct: Download, auto play, delete when the player is closed." >> ~/.config/videoinfox/videoinfo.help
-echo "  - Last Download available in: Home and Yt-dlp Menu. Only for the last url processed by Play Clipboard." >> ~/.config/videoinfox/videoinfo.help
+echo "  - Last Download available in: Home and Yt-dlp Menu for Play Clipboard, Download Default and Download Choose." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Download List: Blinking notification on list load." >> ~/.config/videoinfox/videoinfo.help
 echo "  - View Logs: Blinking notification on log load." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Default List companion: Create a gui shortcut for: videoinfox -a  to add to the Default List." >> ~/.config/videoinfox/videoinfo.help
@@ -1165,6 +1165,13 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v2.8.24 Fixed: Play Clipboard and Last download were breaking with file names that contained a [" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v2.8.23 Updated: Home Help. Last Download will work with Play Clipboard, Download Default and Download Choose.." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                  I fixed this many updates ago and forgot to update it in help." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.8.22 Added: Error Reporting for Play Clipboard and Play Directory." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -1262,7 +1269,6 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         It has been a month of heavy coding since I started writing Videoinfox. I initially wrote it because I wanted" >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         to learn more about the Linux Shell.  I have been a Linux only user for 18 years.  I have learned more about" >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Linux in the last 30 days than I have in the past 18 years.  Screenshot of first script at bottom of page." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.7.10 Added:  Code Stats  to Settings (set)  Edited Help on home screen.  Cleaned up some comments." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2625,9 +2631,15 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload 
       ~/.config/videoinfox/yt-dlp "$pasteclip"     
       
-      # remove first dot and everything after it in filename. this was done because file names with dots before the extennsion were breking find results
-      sed -i "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload  
-      
+      # remove first dot and everything after it in filename. this was done because file names with dots before the extension were breking find results
+      sed "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload > ~/.config/videoinfox/videoinfo.lastdownload.work
+
+      # remove first [ and everything after it in filename. this was done because file names with [ 
+      sed -i "s/\[.*//" ~/.config/videoinfox/videoinfo.lastdownload.work
+
+      # rename videoinfo.lastdownload.work to videoinfox/videoinfo.lastdownload
+      mv ~/.config/videoinfox/videoinfo.lastdownload.work ~/.config/videoinfox/videoinfo.lastdownload
+     
       read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
       
       # PLAY DOWNLOADED FILE
@@ -3127,8 +3139,14 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload 
       ~/.config/videoinfox/yt-dlp "$pasteclip"     
       
-      # remove first dot and everything after it in filename. this was done because file names with dots before the extennsion were breking find results
-      sed -i "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload  
+      # remove first dot and everything after it in filename. this was done because file names with dots before the extension were breking find results
+      sed "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload > ~/.config/videoinfox/videoinfo.lastdownload.work
+
+      # remove first [ and everything after it in filename. this was done because file names with [ 
+      sed -i "s/\[.*//" ~/.config/videoinfox/videoinfo.lastdownload.work
+
+      # rename videoinfo.lastdownload.work to videoinfox/videoinfo.lastdownload
+      mv ~/.config/videoinfox/videoinfo.lastdownload.work ~/.config/videoinfox/videoinfo.lastdownload  
       
       read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
       
@@ -3454,8 +3472,14 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload 
       ~/.config/videoinfox/yt-dlp "$pasteclip"     
       
-      # remove first dot and everything after it in filename. this was done because file names with dots before the extennsion were breking find results
-      sed -i "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload  
+      # remove first dot and everything after it in filename. this was done because file names with dots before the extension were breking find results
+      sed "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload > ~/.config/videoinfox/videoinfo.lastdownload.work
+
+      # remove first [ and everything after it in filename. this was done because file names with [ 
+      sed -i "s/\[.*//" ~/.config/videoinfox/videoinfo.lastdownload.work
+
+      # rename videoinfo.lastdownload.work to videoinfox/videoinfo.lastdownload
+      mv ~/.config/videoinfox/videoinfo.lastdownload.work ~/.config/videoinfox/videoinfo.lastdownload 
       
       read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
       
@@ -5689,8 +5713,14 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload 
       ~/.config/videoinfox/yt-dlp "$pasteclip"     
       
-      # remove first dot and everything after it in filename. this was done because file names with dots before the extennsion were breking find results
-      sed -i "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload  
+      # remove first dot and everything after it in filename. this was done because file names with dots before the extension were breking find results
+      sed "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload > ~/.config/videoinfox/videoinfo.lastdownload.work
+
+      # remove first [ and everything after it in filename. this was done because file names with [ 
+      sed -i "s/\[.*//" ~/.config/videoinfox/videoinfo.lastdownload.work
+
+      # rename videoinfo.lastdownload.work to videoinfox/videoinfo.lastdownload
+      mv ~/.config/videoinfox/videoinfo.lastdownload.work ~/.config/videoinfox/videoinfo.lastdownload
       
       read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
       
@@ -6011,8 +6041,14 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload 
       ~/.config/videoinfox/yt-dlp "$pasteclip"     
       
-      # remove first dot and everything after it in filename. this was done because file names with dots before the extennsion were breking find results
-      sed -i "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload  
+      # remove first dot and everything after it in filename. this was done because file names with dots before the extension were breking find results
+      sed "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload > ~/.config/videoinfox/videoinfo.lastdownload.work
+
+      # remove first [ and everything after it in filename. this was done because file names with [ 
+      sed -i "s/\[.*//" ~/.config/videoinfox/videoinfo.lastdownload.work
+
+      # rename videoinfo.lastdownload.work to videoinfox/videoinfo.lastdownload
+      mv ~/.config/videoinfox/videoinfo.lastdownload.work ~/.config/videoinfox/videoinfo.lastdownload
       
       read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
       
@@ -6200,7 +6236,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               ;;
 
 
-              s)  # DOWNLOAD VIDEO PLAY THEN DELETE ON VIDEO PLAYER CLOSE 
+              s)  # DOWNLOAD VIDEO PLAY, THEN DELETE ON VIDEO PLAYER CLOSE 
               
               pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
               read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir  # reading download directory 
@@ -6300,12 +6336,17 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload 
               ~/.config/videoinfox/yt-dlp "$pasteclip"     
       
-              # remove first dot and everything after it in filename. 
-              sed -i "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload  
+              # remove first dot and everything after it in filename. file names with dots before the extension were breking find results
+              sed "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload > ~/.config/videoinfox/videoinfo.lastdownload.work
+
+              # remove first [ and everything after it in filename. this was done because file names with [ 
+              sed -i "s/\[.*//" ~/.config/videoinfox/videoinfo.lastdownload.work
+
+              # rename videoinfo.lastdownload.work to videoinfox/videoinfo.lastdownload
+              mv ~/.config/videoinfox/videoinfo.lastdownload.work ~/.config/videoinfox/videoinfo.lastdownload
       
               read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
               
-              read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
               notify-send "Videoinfox messsage: YT-DLP done downloading . . ." "$lastdownload"
               
               echo "" | xclip -sel clip  # clearing out the clipboard
@@ -6338,6 +6379,15 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               echo
               clear
               ~/.config/videoinfox/yt-dlp -f "$svrcode" "$pasteclip"
+
+              # remove first dot and everything after it in filename. file names with dots before the extension were breking find results
+              sed "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload > ~/.config/videoinfox/videoinfo.lastdownload.work
+
+              # remove first [ and everything after it in filename. this was done because file names with [ 
+              sed -i "s/\[.*//" ~/.config/videoinfox/videoinfo.lastdownload.work
+
+              # rename videoinfo.lastdownload.work to videoinfox/videoinfo.lastdownload
+              mv ~/.config/videoinfox/videoinfo.lastdownload.work ~/.config/videoinfox/videoinfo.lastdownload
               
               read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
               notify-send "Videoinfox messsage: YT-DLP done downloading . . ." "$lastdownload"              
