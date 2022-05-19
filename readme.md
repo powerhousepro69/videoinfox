@@ -17,18 +17,19 @@
 
 <br />
 
-NOTE: I just found out that Play Clipboard and Last download are breaking with file names that contain a [
+## NOTE: I just found out that Play Clipboard and Last download are breaking with file names that contain a [
+
+The video will still download. It just won't auto play after download.
 
 I will get an update out withing the next few days fixing that issue.
 
 
 
+<br />
+
 #### This update added: &nbsp; Home Help edit.
 
-I fixed the below many updates ago and forgot to update it in help.
 
-
-Last Download will work with Play Clipboard, Download Default and Download Choose.
 
 
 
