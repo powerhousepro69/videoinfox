@@ -1,4 +1,4 @@
-# Videoinfox v2.8.23 
+# Videoinfox v2.8.24 
 
 ## *Where Video Play is a Clipboard Copy Away*
 
@@ -17,18 +17,7 @@
 
 <br />
 
-#### NOTE: I just found out that Play Clipboard and Last download are breaking with file names that contain a [
-
-The video will still download. It just won't auto play after download.
-
-I will get an update out withing the next few days fixing that issue.
-
-
-
-<br />
-
-
-
+#### This update fixed: &nbsp; Play Clipboard and Last download were breaking with file names that contained a [ 
 
 
 
