@@ -1,4 +1,4 @@
-# Videoinfox v2.8.24 
+# Videoinfox v2.8.25 
 
 ## *Where Video Play is a Clipboard Copy Away*
 
@@ -17,7 +17,7 @@
 
 <br />
 
-#### This update fixed: &nbsp; Play Clipboard and Last download were breaking with file names that contained a [ 
+#### This update fixed: &nbsp; Flawed logic in Last Download and http side of Play Clipboard keeping track of last sucessful download. 
 
 
 
