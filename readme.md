@@ -1,4 +1,4 @@
-# Videoinfox v2.8.25 
+# Videoinfox v2.8.26 
 
 ## *Where Video Play is a Clipboard Copy Away*
 
@@ -17,7 +17,7 @@
 
 <br />
 
-#### This update fixed: &nbsp; Flawed logic in Last Download and http side of Play Clipboard keeping track of last successful download. 
+#### This update fixed: &nbsp; Play Clipboard play notificaton displaying when processing an invalid url. 
 
 
 
