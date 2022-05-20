@@ -17,7 +17,7 @@
 
 <br />
 
-#### This update fixed: &nbsp; Flawed logic in Last Download and http side of Play Clipboard keeping track of last sucessful download. 
+#### This update fixed: &nbsp; Flawed logic in Last Download and http side of Play Clipboard keeping track of last successful download. 
 
 
 
