@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#  file : videoinfox v2.8.24								         
+#  file : videoinfox v2.8.25								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v2.8.24"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.24")  # Version Number: with blinking dot
+ver="Videoinfox v2.8.25"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.25")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -1165,6 +1165,9 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v2.8.25 Fixed: Flawed logic in Last Download and http side of Play Clipboard keeping track of last sucessful download." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.8.24 Fixed: Play Clipboard and Last download were breaking with file names that contained a [" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2474,20 +2477,30 @@ fi
 ;;
 
 
+#####################################################################################################################################################
+l)  # PLAY LAST DOWNLOAD >>> HOME    ################################################################################################################
+#####################################################################################################################################################
 
-l)  # play last download
               grabdir="$PWD"  # storing directory to restore at the end of this function
                
               read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir  # reading download directory 
               cd "$dirsaved"   # change to download directory
 
-              read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
+                 if [ -s ~/.config/videoinfox/videoinfo.lastdownload ]
+                    then
+                        read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download attempt         
+                        ylast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))
+                        echo "$ylast" > ~/.config/videoinfox/videoinfo.find-last-download  # write find result to file
+                        read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download  # read first find result from file
 
-              ylast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))
-              
-              echo "$ylast" > ~/.config/videoinfox/videoinfo.find-last-download
-              read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download
+                    else
+                        read -r lastdownloadbak < ~/.config/videoinfox/videoinfo.lastdownload.bak  # reading last successful download
+                        ylast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownloadbak*" \))
+                        echo "$ylast" > ~/.config/videoinfox/videoinfo.find-last-download  # write find result to file
+                        read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download  # read first find result from file
+                 fi   
 
+          
               clear
               echo
               echo "___________________________________________________________________________________________________________________"
@@ -2624,12 +2637,10 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
  
       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
       clear
-    
-      # make a backup copy of:   ~/.config/videoinfox/videoinfo.lastdownload   to restore on Play Clipboard with invalid url
-      cp ~/.config/videoinfox/videoinfo.lastdownload ~/.config/videoinfox/videoinfo.lastdownload.bak
    
       ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload 
-      ~/.config/videoinfox/yt-dlp "$pasteclip"     
+      ~/.config/videoinfox/yt-dlp "$pasteclip"    
+
       
       # remove first dot and everything after it in filename. this was done because file names with dots before the extension were breking find results
       sed "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload > ~/.config/videoinfox/videoinfo.lastdownload.work
@@ -2639,37 +2650,44 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
 
       # rename videoinfo.lastdownload.work to videoinfox/videoinfo.lastdownload
       mv ~/.config/videoinfox/videoinfo.lastdownload.work ~/.config/videoinfox/videoinfo.lastdownload
-     
-      read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
-      
-      # PLAY DOWNLOADED FILE
-      
+
+
+      if [ -s ~/.config/videoinfox/videoinfo.lastdownload ]
+         then
+             # make a backup copy of:   ~/.config/videoinfox/videoinfo.lastdownload to restore on Play Clipboard with invalid url
+             cp ~/.config/videoinfox/videoinfo.lastdownload ~/.config/videoinfox/videoinfo.lastdownload.bak
+         else
+             :
+      fi
+
+   
+      read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download attempt
+      read -r lastdownloadbak < ~/.config/videoinfox/videoinfo.lastdownload.bak  # reading last successful download 
+             
       ylast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))  # finding the file to play
 
       echo "$ylast" > ~/.config/videoinfox/videoinfo.find-last-download  # write find result to file
 
-      #  On invalid url..... find from above will list all files in the directory when it is a specific file that is needed.
-      #  selecting Play Clipboard with an invalid url in clipboard: would always play the first video in the default Download Directory         
-      #  the below is counting the lines in the file.  It should always be 1 line (valid url) or no line (invalid url) at the file level.
-      
+   
+      # IF THERE ARE IDENTICAL FILENAMES WITH DIFFERENT FILE EXTENSIONS FIND WILL PRODUCE MORE THAN ONE RESULT      
       correcterror=$(wc -l ~/.config/videoinfox/videoinfo.find-last-download | cut -d' ' -f1)  # getting line count.
           
-              if [ "$correcterror" -gt 1 ]  # If line count is greater than 1 goto then. More than 1 was caused from Play Clipboard on invalid url.
+             if [ "$correcterror" -gt 1 ]  # If line count is greater than 1 goto then. More than 1 was caused from Play Clipboard on invalid url.
                 then                
-                     :
-                     cp ~/.config/videoinfox/videoinfo.lastdownload.bak ~/.config/videoinfox/videoinfo.lastdownload   # restore last download  
-                     echo > ~/.config/videoinfox/videoinfo.find-last-download  # erase all because there is more than 1 find result             
- 
-                else
-                    
-                    echo
-                    echo
-                    echo " No playable content in the clipboard . . ."
-                    sleep 1.2
-              fi
+                     if [[ "$lastdownload" == "$lastdownloadbak" ]]                 
+                        then
+                            read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download  # read first find result from file
+                     
+                        else
+                            echo > ~/.config/videoinfox/videoinfo.find-last-download
+                            read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download
+                     fi
+                               
+             else
+                  read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download      
+                                     
+             fi      
 
-
-      read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download  # read find result from file
            
       clear
       echo
@@ -3148,36 +3166,42 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       # rename videoinfo.lastdownload.work to videoinfox/videoinfo.lastdownload
       mv ~/.config/videoinfox/videoinfo.lastdownload.work ~/.config/videoinfox/videoinfo.lastdownload  
       
-      read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
-      
-      # PLAY DOWNLOADED FILE
-      
+      if [ -s ~/.config/videoinfox/videoinfo.lastdownload ]
+         then
+             # make a backup copy of:   ~/.config/videoinfox/videoinfo.lastdownload to restore on Play Clipboard with invalid url
+             cp ~/.config/videoinfox/videoinfo.lastdownload ~/.config/videoinfox/videoinfo.lastdownload.bak
+         else
+             :
+      fi
+
+   
+      read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download attempt
+      read -r lastdownloadbak < ~/.config/videoinfox/videoinfo.lastdownload.bak  # reading last successful download 
+             
       ylast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))  # finding the file to play
 
       echo "$ylast" > ~/.config/videoinfox/videoinfo.find-last-download  # write find result to file
 
-      #  On invalid url..... find from above will list all files in the directory when it is a specific file that is needed.
-      #  selecting Play Clipboard with an invalid url in clipboard: would always play the first video in the default Download Directory         
-      #  the below is counting the lines in the file.  It should always be 1 line (valid url) or no line (invalid url) at the file level.
-
+   
+      # IF THERE ARE IDENTICAL FILENAMES WITH DIFFERENT FILE EXTENSIONS FIND WILL PRODUCE MORE THAN ONE RESULT      
       correcterror=$(wc -l ~/.config/videoinfox/videoinfo.find-last-download | cut -d' ' -f1)  # getting line count.
           
-              if [ "$correcterror" -gt 1 ]  # If line count is greater than 1 goto then. More than 1 was caused from Play Clipboard on invalid url.
+             if [ "$correcterror" -gt 1 ]  # If line count is greater than 1 goto then. More than 1 was caused from Play Clipboard on invalid url.
                 then                
-                     :
-                     cp ~/.config/videoinfox/videoinfo.lastdownload.bak ~/.config/videoinfox/videoinfo.lastdownload   # restore last download  
-                     echo > ~/.config/videoinfox/videoinfo.find-last-download  # erase all because there is more than 1 find result             
- 
-                else
-                    
-                    echo
-                    echo
-                    echo " No playable content in the clipboard . . ."
-                    sleep 1.2
-              fi
+                     if [[ "$lastdownload" == "$lastdownloadbak" ]]                 
+                        then
+                            read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download  # read first find result from file
+                     
+                        else
+                            echo > ~/.config/videoinfox/videoinfo.find-last-download
+                            read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download
+                     fi
+                               
+             else
+                  read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download      
+                                     
+             fi      
 
-
-      read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download  # read find result from file
            
       clear
       echo
@@ -3481,37 +3505,42 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       # rename videoinfo.lastdownload.work to videoinfox/videoinfo.lastdownload
       mv ~/.config/videoinfox/videoinfo.lastdownload.work ~/.config/videoinfox/videoinfo.lastdownload 
       
-      read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
-      
-      # PLAY DOWNLOADED FILE
-      
+      if [ -s ~/.config/videoinfox/videoinfo.lastdownload ]
+         then
+             # make a backup copy of:   ~/.config/videoinfox/videoinfo.lastdownload to restore on Play Clipboard with invalid url
+             cp ~/.config/videoinfox/videoinfo.lastdownload ~/.config/videoinfox/videoinfo.lastdownload.bak
+         else
+             :
+      fi
+
+   
+      read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download attempt
+      read -r lastdownloadbak < ~/.config/videoinfox/videoinfo.lastdownload.bak  # reading last successful download 
+             
       ylast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))  # finding the file to play
 
       echo "$ylast" > ~/.config/videoinfox/videoinfo.find-last-download  # write find result to file
 
-      #  On invalid url..... find from above will list all files in the directory when it is a specific file that is needed.
-      #  selecting Play Clipboard with an invalid url in clipboard: would always play the first video in the default Download Directory         
-      #  the below is counting the lines in the file.  It should always be 1 line (valid url) or no line (invalid url) at the file level.
-
+   
+      # IF THERE ARE IDENTICAL FILENAMES WITH DIFFERENT FILE EXTENSIONS FIND WILL PRODUCE MORE THAN ONE RESULT      
       correcterror=$(wc -l ~/.config/videoinfox/videoinfo.find-last-download | cut -d' ' -f1)  # getting line count.
           
-              if [ "$correcterror" -gt 1 ]  # If line count is greater than 1 goto then. More than 1 was caused from Play Clipboard on invalid url.
+             if [ "$correcterror" -gt 1 ]  # If line count is greater than 1 goto then. More than 1 was caused from Play Clipboard on invalid url.
                 then                
-                     :
-                     cp ~/.config/videoinfox/videoinfo.lastdownload.bak ~/.config/videoinfox/videoinfo.lastdownload   # restore last download  
-                     echo > ~/.config/videoinfox/videoinfo.find-last-download  # erase all because there is more than 1 find result             
- 
-                else
-                    
-                    echo
-                    echo
-                    echo " No playable content in the clipboard . . ."
-                    sleep 1.2
-              fi
+                     if [[ "$lastdownload" == "$lastdownloadbak" ]]                 
+                        then
+                            read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download  # read first find result from file
+                     
+                        else
+                            echo > ~/.config/videoinfox/videoinfo.find-last-download
+                            read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download
+                     fi
+                               
+             else
+                  read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download      
+                                     
+             fi      
 
-
-      read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download  # read find result from file
-           
       clear
       echo
       echo "___________________________________________________________________________________________________________________"
@@ -5722,37 +5751,42 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       # rename videoinfo.lastdownload.work to videoinfox/videoinfo.lastdownload
       mv ~/.config/videoinfox/videoinfo.lastdownload.work ~/.config/videoinfox/videoinfo.lastdownload
       
-      read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
-      
-      # PLAY DOWNLOADED FILE
-      
+      if [ -s ~/.config/videoinfox/videoinfo.lastdownload ]
+         then
+             # make a backup copy of:   ~/.config/videoinfox/videoinfo.lastdownload to restore on Play Clipboard with invalid url
+             cp ~/.config/videoinfox/videoinfo.lastdownload ~/.config/videoinfox/videoinfo.lastdownload.bak
+         else
+             :
+      fi
+
+   
+      read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download attempt
+      read -r lastdownloadbak < ~/.config/videoinfox/videoinfo.lastdownload.bak  # reading last successful download 
+             
       ylast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))  # finding the file to play
 
       echo "$ylast" > ~/.config/videoinfox/videoinfo.find-last-download  # write find result to file
 
-      #  On invalid url..... find from above will list all files in the directory when it is a specific file that is needed.
-      #  selecting Play Clipboard with an invalid url in clipboard: would always play the first video in the default Download Directory         
-      #  the below is counting the lines in the file.  It should always be 1 line (valid url) or no line (invalid url) at the file level.
-
+   
+      # IF THERE ARE IDENTICAL FILENAMES WITH DIFFERENT FILE EXTENSIONS FIND WILL PRODUCE MORE THAN ONE RESULT      
       correcterror=$(wc -l ~/.config/videoinfox/videoinfo.find-last-download | cut -d' ' -f1)  # getting line count.
           
-              if [ "$correcterror" -gt 1 ]  # If line count is greater than 1 goto then. More than 1 was caused from Play Clipboard on invalid url.
+             if [ "$correcterror" -gt 1 ]  # If line count is greater than 1 goto then. More than 1 was caused from Play Clipboard on invalid url.
                 then                
-                     :
-                     cp ~/.config/videoinfox/videoinfo.lastdownload.bak ~/.config/videoinfox/videoinfo.lastdownload   # restore last download  
-                     echo > ~/.config/videoinfox/videoinfo.find-last-download  # erase all because there is more than 1 find result             
- 
-                else
-                    
-                    echo
-                    echo
-                    echo " No playable content in the clipboard . . ."
-                    sleep 1.2
-              fi
+                     if [[ "$lastdownload" == "$lastdownloadbak" ]]                 
+                        then
+                            read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download  # read first find result from file
+                     
+                        else
+                            echo > ~/.config/videoinfox/videoinfo.find-last-download
+                            read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download
+                     fi
+                               
+             else
+                  read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download      
+                                     
+             fi      
 
-
-      read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download  # read find result from file
-           
       clear
       echo
       echo "___________________________________________________________________________________________________________________"
@@ -6050,37 +6084,42 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       # rename videoinfo.lastdownload.work to videoinfox/videoinfo.lastdownload
       mv ~/.config/videoinfox/videoinfo.lastdownload.work ~/.config/videoinfox/videoinfo.lastdownload
       
-      read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
-      
-      # PLAY DOWNLOADED FILE
-      
+      if [ -s ~/.config/videoinfox/videoinfo.lastdownload ]
+         then
+             # make a backup copy of:   ~/.config/videoinfox/videoinfo.lastdownload to restore on Play Clipboard with invalid url
+             cp ~/.config/videoinfox/videoinfo.lastdownload ~/.config/videoinfox/videoinfo.lastdownload.bak
+         else
+             :
+      fi
+
+   
+      read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download attempt
+      read -r lastdownloadbak < ~/.config/videoinfox/videoinfo.lastdownload.bak  # reading last successful download 
+             
       ylast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))  # finding the file to play
 
       echo "$ylast" > ~/.config/videoinfox/videoinfo.find-last-download  # write find result to file
 
-      #  On invalid url..... find from above will list all files in the directory when it is a specific file that is needed.
-      #  selecting Play Clipboard with an invalid url in clipboard: would always play the first video in the default Download Directory         
-      #  the below is counting the lines in the file.  It should always be 1 line (valid url) or no line (invalid url) at the file level.
-
+   
+      # IF THERE ARE IDENTICAL FILENAMES WITH DIFFERENT FILE EXTENSIONS FIND WILL PRODUCE MORE THAN ONE RESULT      
       correcterror=$(wc -l ~/.config/videoinfox/videoinfo.find-last-download | cut -d' ' -f1)  # getting line count.
           
-              if [ "$correcterror" -gt 1 ]  # If line count is greater than 1 goto then. More than 1 was caused from Play Clipboard on invalid url.
+             if [ "$correcterror" -gt 1 ]  # If line count is greater than 1 goto then. More than 1 was caused from Play Clipboard on invalid url.
                 then                
-                     :
-                     cp ~/.config/videoinfox/videoinfo.lastdownload.bak ~/.config/videoinfox/videoinfo.lastdownload   # restore last download  
-                     echo > ~/.config/videoinfox/videoinfo.find-last-download  # erase all because there is more than 1 find result             
- 
-                else
-                    
-                    echo
-                    echo
-                    echo " No playable content in the clipboard . . ."
-                    sleep 1.2
-              fi
+                     if [[ "$lastdownload" == "$lastdownloadbak" ]]                 
+                        then
+                            read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download  # read first find result from file
+                     
+                        else
+                            echo > ~/.config/videoinfox/videoinfo.find-last-download
+                            read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download
+                     fi
+                               
+             else
+                  read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download      
+                                     
+             fi      
 
-   
-      read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download  # read find result from file
-           
       clear
       echo
       echo "___________________________________________________________________________________________________________________"
@@ -6278,18 +6317,28 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               ;; 
 
 
+
               l)  # play last download
-              ######grabdir="$PWD"  # storing directory to restore at the end of this function
+               
+              #grabdir="$PWD"  # storing directory to restore at the end of this function
                
               read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir  # reading download directory 
               cd "$dirsaved"   # change to download directory
 
-              read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
+                 if [ -s ~/.config/videoinfox/videoinfo.lastdownload ]
+                    then
+                        read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download attempt         
+                        ylast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))
+                        echo "$ylast" > ~/.config/videoinfox/videoinfo.find-last-download  # write find result to file
+                        read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download  # read first find result from file
 
-              ylast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))
+                    else
+                        read -r lastdownloadbak < ~/.config/videoinfox/videoinfo.lastdownload.bak  # reading last successful download
+                        ylast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownloadbak*" \))
+                        echo "$ylast" > ~/.config/videoinfox/videoinfo.find-last-download  # write find result to file
+                        read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download  # read first find result from file
+                 fi   
 
-              echo "$ylast" > ~/.config/videoinfox/videoinfo.find-last-download
-              read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download
 
               clear
               echo
@@ -6322,7 +6371,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to file  
               ffplay -fs -autoexit &> /dev/null "$ytdlplast"
               pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-              cd "$grabdir"   # restore dir prior to entering yt-dlp menu
+              # cd "$grabdir"   # restore dir prior to entering yt-dlp menu
               ;;  
 
 
