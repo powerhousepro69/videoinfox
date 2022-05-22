@@ -87,11 +87,12 @@ FFprobe - Get codec, resolution & duration in seconds.
   - To watch the last download after Play Clipboard cleared the link select Last Download.
   - Auto clear the clipboard of invalid files and urls.
   - Press enter after your copy to the clipboard to validate clipboard content.
-  - File types searched for:   .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx 
+  - File types searched for: &nbsp; .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx 
   - Rapid directory changing by setting default directories in Settings. &nbsp; 4 available to set.  The 5th is dir at last exit.
   - Default Dirs - 1 2 3 4 5 &nbsp; directory switching available in: &nbsp; Home &nbsp; Navigate Tree &nbsp; Download List &nbsp; More Options
   - Played List: &nbsp; Keep track of everything played except for: &nbsp; Play Directory.
-  - Played List: Play All option that will auto play the entire list with option to quit.
+  - Played List: &nbsp; Play All option that will autoplay the entire list with option to quit.
+  - Played List: &nbsp; Play Line option to start autoplay from any line in the Played List by entering the line number.
   - Playlist: &nbsp; Save a list of videos from find results and directory listing.
   - Remove duplicates from the Playlist and Played List.
   - Enter a video file with full path to get info on and play.
@@ -198,6 +199,18 @@ NAVIGATE TREE WITH PLAY DIRECTORY
 FIND VIDEOS TO PLAY OR GET INFO
 
 ![Videoinfox HOME](https://i.imgur.com/NeuxflE.png)
+
+
+<br />
+PLAYED LIST
+
+![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/playedlist.png)
+
+
+<br />
+PLAYED LIST >>> PLAY LINE &nbsp; START AUTOPLAY FROM ANY LINE BY ENTERING THE LINE NUMBER.
+
+![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/playedlist-playline.png)
 
 
 <br />
