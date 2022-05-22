@@ -1,4 +1,4 @@
-# Videoinfox v2.8.26 
+# Videoinfox v2.8.30 
 
 ## *Where Video Play is a Clipboard Copy Away*
 
@@ -17,8 +17,9 @@
 
 <br />
 
-#### This update fixed: &nbsp; Play Clipboard play notificaton displaying when processing an invalid url. 
+#### This update added: &nbsp; Played List \>\>\> Play Line 
 
+Start Autoplay from any line in the Played List by entering the line number.
 
 
 <br />
@@ -45,7 +46,7 @@ Videoinfox is a Linux shell script that feels like an app. If you enjoy watching
 Note: Playlist doesn't auto play yet, but will in the near future. Along with multiple playlist capability.
 
 
-#### Next feature in the works: &nbsp; A download queue to load up as many url lists as that you want to download.
+#### Temporarily on hold: &nbsp; A download queue to load up as many url lists that you want to download.
 <br />
 
 ### Harnessing the power of:
