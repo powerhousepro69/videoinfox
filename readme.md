@@ -257,7 +257,7 @@ VIDEO DURATION
 <br />
 FIND DIRECTORY
 
-![Videoinfox HOME](https://i.imgur.com/WCHTlpd.png)
+![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/find-directory.png)
 
 <br />
 SETTINGS
