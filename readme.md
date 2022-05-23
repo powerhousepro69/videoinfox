@@ -1,7 +1,6 @@
 # Videoinfox v2.8.40 
 
 ## *Where Video Play is a Clipboard Copy Away*
-
 <br />
 
 ### 100% Linux Shell Script. Videoinfox is one file under a half a megabyte.
@@ -199,9 +198,15 @@ USER LIST HELP.
 
 
 <br />
-NAVIGATE TREE WITH PLAY DIRECTORY
+NAVIGATE TREE WITH PLAY DIRECTORY AND PLAY LINE
 
-![Navigate Tree](https://i.imgur.com/5pJMjgx.png)
+![Navigate Tree](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/navigate-tree.png)
+
+
+<br />
+NAVIGATE TREE >>> PLAY LINE. START AUTOPLAY FROM ANY LINE BY ENTERING THE LINE NUMBER.
+
+![Navigate Tree](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/navigate-tree-play-line.png)
 
 
 <br />
