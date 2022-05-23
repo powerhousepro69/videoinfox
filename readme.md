@@ -2,9 +2,9 @@
 
 ## *Where Video Play is a Clipboard Copy Away*
 
-
- 
 <br />
+
+### 100% Linux Shell Script. Videoinfox is one file under a half a megabyte.
 
 
 #### Find local Video Files fast, immediately play and get info on. Download Videos effortlessly and auto play.
