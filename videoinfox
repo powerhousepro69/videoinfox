@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#  file : videoinfox v2.8.30								         
+#  file : videoinfox v2.8.40								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v2.8.30"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.30")  # Version Number: with blinking dot
+ver="Videoinfox v2.8.40"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.40")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -1060,8 +1060,9 @@ echo "  - See codec, resolution and duration on the playing video." >> ~/.config
 echo "  - Play Clipboard is available in: Home  Played List  Play List  Yt-dlp Menu  View Downloads" >> ~/.config/videoinfox/videoinfo.help
 echo "  - Play Clipboard: Blinking notification when there is a valid video file or video url for play." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Play Directory autoplay available on: Home Screen and in Navigate Tree." >> ~/.config/videoinfox/videoinfo.help
-echo "  - Blinking  Play Directory notification when there are video files in the current directory." >> ~/.config/videoinfox/videoinfo.help
-echo "  - Navigate Tree  Blinking  Change Directory  notification when there is a valid directory in the clipboard." >> ~/.config/videoinfox/videoinfo.help
+echo "  - Blinking Play Directory otification when there are video files in the current directory." >> ~/.config/videoinfox/videoinfo.help
+echo "  - Navigate Tree Blinking Change Directory notification when there is a valid directory in the clipboard." >> ~/.config/videoinfox/videoinfo.help
+echo "  - Navigate Tree with Play Directory autoplay and Play Line with autoplay. Select line number to start play." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Video Player (ffplay) auto closes when the video ends." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Auto clear the clipboard after the video player is closed." >> ~/.config/videoinfox/videoinfo.help
 echo "  - To watch the last download after Play Clipboard cleared the link select Last Download." >> ~/.config/videoinfox/videoinfo.help
@@ -1072,13 +1073,14 @@ echo "  - Rapid directory changing by setting default directories (4) in Setting
 echo "  - Default Dirs - 1 2 3 4 5  available in: Home  Navigate Tree  Download List  More Options" >> ~/.config/videoinfox/videoinfo.help
 echo "  - Played List: Keep track of everything played except for Play Directory." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Played List: Play All option that will auto play the entire list with option to quit." >> ~/.config/videoinfox/videoinfo.help
+echo "  - Played List: Play Line option to start autoplay from any line in the Played List by entering the line number." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Playlist: Save a list of videos from find results and directory listing." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Remove duplicates from the Playlist and Played List." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Enter a video file with full path to get info on and play." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Auto save last find result(s) and autoload until deleted. Defaulted to never save. Changed in Settings." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Yt-dlp integration for easy download and play of single url's or entire lists." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Download Default: Yt-dlp with no arguments. Download only. No auto play." >> ~/.config/videoinfox/videoinfo.help
-echo "  - Download Choose: Choose video type and qualiy before download. Download only. No auto play." >> ~/.config/videoinfox/videoinfo.help
+echo "  - Download Choose: Choose video type and quality before download. Download only. No auto play." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Self Destruct: Download, auto play, delete when the player is closed." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Last Download available in: Home and Yt-dlp Menu for Play Clipboard, Download Default and Download Choose." >> ~/.config/videoinfox/videoinfo.help
 echo "  - Download List: Blinking notification on list load." >> ~/.config/videoinfox/videoinfo.help
@@ -1145,7 +1147,7 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 # KNOWN ISSUE
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " KNOWN ISSUES: None Reported." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " KNOWN ISSUES: Play Directory alphabetical sorting needs fixed for directories with multiple file extensions." >> ~/.config/videoinfox/videoinfo-ver-history
 
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
@@ -1168,7 +1170,12 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.8.30 Added: Play Line in Played List. Start Autoplay from any line in the Played List." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v2.8.40 Added: Navigate Tree >>> Play Line. Select line number to start autoplay from directory listing." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Fix: Find results needed sorted alphabetically in: Find Directory and Home Find." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v2.8.30 Added: Played List >>> Play Line. Start Autoplay from any line in the Played List by entering the line number." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.8.26 Fixed: Play Clipboard play notificaton displaying when processing an invalid url." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2062,9 +2069,7 @@ fi
 clear
 
 # recursive list of directories for the user to copy one to the clipboard and press  c   to change to that directory
-find "$PWD" -type d -iname "*" 2>/dev/null   
-
-#echo
+find "$PWD" -type d -iname "*" | sort -u 2>/dev/null
 
 # recursive number of directories found
 ttotal=$(find  "$PWD" -type d -iname "*" 2>/dev/null | wc -l)   
@@ -2212,10 +2217,16 @@ fi
 
 ########## blinking routines for display ##########
 
-# not blinking
+# not blinking Play Directory
 playdir1=$(echo "Play Directory")
-# blinking
+# blinking Play Directory
 playdir2=$(echo -e "\033[5mPlay Directory\033m\033[0m\033[5m\033[5m\033[0m")
+
+# not blinking dash
+dash0=$(echo "-")
+# blinking dash
+dash1=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
+
 
 # get file count of videos one directory deep for blinking   Play Directory
 blinkit=$(find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
@@ -2224,8 +2235,10 @@ blinkit=$(find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o
 if [ "$blinkit" = 0 ]
   then
       blinkit2="$playdir1"  # zero files. non bliking  Playdirectory
+      bdash="$dash0"
   else
       blinkit2="$playdir2" # not zero files. blinking  Play Directory
+      bdash="$dash1"
 fi
 
 
@@ -2260,7 +2273,7 @@ echo
 echo " ""$der"" >>> NAVIGATE TREE          Enter - Update Clipboard Display           "$dirdisp" - Default Dirs"
 echo "___________________________________________________________________________________________________________________" 
 echo
-echo " c - "$changedir3"     u - Up One Level     t - Treetop     d - "$blinkit2"                         q - Quit"
+echo " c - "$changedir3"     u - Up One Level     t - Treetop     d - "$blinkit2"     l "$bdash" Play Line       q - Quit"
 echo
 echo -en " Enter Option: "
 read -r -n1 option
@@ -2409,14 +2422,228 @@ fi
 ;;
 
 
+         ########################################################################################################################################
+         l)  # START FROM LINE... NAVIGATE TREE.. PLAY DIRECTORY  ###############################################################################
+         ########################################################################################################################################
+
+#checking for videos in the current directory.  if no videos exist,   Play Directory   won't execute
+dovideosexist=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
+
+
+if [ $dovideosexist -ne 0 ]  # If the find result doesn't =   0   goto then
+  then  # IF VIDEOS EXIST IN THE CURRENT DIRECTORY THEN RUN PLAY LINE
+
+function ntplaynum {
+
+# WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
+find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) > ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa-work 2>/dev/null
+
+# SORT BACK INTO ORDER
+sort -u /home/homeserver/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa-work > /home/homeserver/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa
+
+#  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
+atleastone=$(grep '^/' ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa 2>/dev/null | wc -l)
+
+#  IF THE NUMBER DOESN"T = 0  THEN PROCESS AUTO PLAY OF PLAYED LIST
+if [ $atleastone -ne 0 ]  
+   then
+
+#  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
+moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa"
+
+#  PLAYED LIST INPUT FOR LOOP
+input="$moddedplayedlist"  
+
+#  CREATE TEMP FILE NEEDED FOR LOOP 
+echo > ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2
+
+#  #  START WRITING
+while read -r line  # read line by line and write line by line until end of file
+do
+
+   if [ -f "$line" ]
+      then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
+           echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2  
+      else
+           :
+   fi        
+
+done < "$input"
+#  DONE WRITING ONLY VALID FILES
+
+#  REMOVE BLANK LINES
+sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2 2>/dev/null
+
+#  MOVE apa2 BACK TO apa
+mv ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2 ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa 2>/dev/null
+
+#  CREATE FILE NEEDED FOR LOOP 
+echo > ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2  
+
+#  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
+while read -r line  # read line by line until end of file
+do
+
+   if [[ "$line" == *.mp4 ]] 
+        then # IF FILE IS MP4, WRITE LINE TO FILE
+             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2  
+     
+   elif [[ "$line" == *.webm ]]
+        then # IF FILE IS WEBM, WRITE LINE TO FILE
+             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2
+      
+   elif [[ "$line" == *.mkv ]]
+        then # IF FILE IS MKV, WRITE LINE TO FILE
+             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2
+
+   elif [[ "$line" == *.avi ]]
+        then # IF FILE IS AVI, WRITE LINE TO FILE
+             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2
+
+   elif [[ "$line" == *.divx ]]
+        then  # IF FILE IS DIVX, WRITE LINE TO FILE
+             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2
+   else
+        :  # IF THERE IS NO FILE MATCH, THERE IS NO WRITE
+   fi
+
+done < "$input"
+#  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
+
+#  REMOVE BLANK LINES
+sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2 2>/dev/null
+
+#  MOVE apa2 BACK TO apa
+cp ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2 ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa 2>/dev/null
+
+# REMOVE PATH ONLY LEAVING FILENAME
+sed -i 's/.*\///' ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2
+
+# NUMBER THE LIST
+sed '/./='  ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2 | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/videoinfox.numbered-nt-play-directory-list 2>/dev/null
+
+   
+else #  NO LINES START WITH A SLASH /   remove empty files
+     rm ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa 2>/dev/null
+     rm ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2 2>/dev/null
+     rm ~/.config/videoinfox/tmp/videoinfox.numbered-nt-play-directory-list 2>/dev/null    
+fi
+
+
+clear
+
+if [ -f ~/.config/videoinfox/tmp/videoinfox.numbered-nt-play-directory-list ]
+   then
+        cat ~/.config/videoinfox/tmp/videoinfox.numbered-nt-play-directory-list 2>/dev/null
+   else
+        echo
+        echo " No Playable Content in Current Directory . . ."
+fi
+
+
+echo "___________________________________________________________________________________________________________________"
+echo  
+echo " $der >>> NAVIGATE TREE >>> PLAY DIRECTORY >>> PLAY LINE"
+echo "___________________________________________________________________________________________________________________" 
+echo
+echo " l - Start at Line                                                                                        q - Quit"
+echo
+echo -en " Enter Option: "
+read -r -n1 optionaplist
+}
+
+while true
+do
+ntplaynum
+case $optionaplist in
+
+
+q) # QUIT
+   break;;
+
+
+l) # START FROM LINE
+
+echo
+echo
+read -r -p " Enter Line Number: " linenumber  # waiting fot user input
+
+tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa > ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa.tmp 2>/dev/null
+mv ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa.tmp ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa 2>/dev/null
+
+OLDIFS=$IFS
+IFS=$'\n'
+
+for line in $(cat "$input" 2>/dev/null)
+ do
+      clear
+      echo
+      echo "___________________________________________________________________________________________________________________"
+      echo
+      echo " ""$der"" >>> NAVIGATE TREE >>> PLAY DIRECTORY" 
+      echo
+      echo " [PLAY]>" "$line"
+      echo "___________________________________________________________________________________________________________________"
+      echo
+
+      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$line")  " Duration:" $(ffmpeg -i "$line" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+      
+      echo
+      echo
+      echo " Video Player Controls:"
+      echo                             
+      echo " - Fullscreen Toggle: f"
+      echo
+      echo " - Play/Pause Toggle: space bar"
+      echo
+      echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
+      echo
+      echo " - Quit: q"      
+      echo -e "\n"
+
+      ffplay -fs -autoexit "$line" 2> /dev/null
+
+      echo " To bypass the 3 second wait press enter with no entry"
+      echo
+      echo -e "\033[5m 3 seconds remaining to quit Played List Autoplay\033m\033[0m\033[5m\033[5m\033[0m"      
+      echo 
+      read -t 3 -p " Press any key then press enter to quit : " playdir
+           
+           # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
+           if [[ $playdir ]]                                             
+             then                                                        # if no input is entered within 3 seconds the next video will play
+                 break                                                   # if enter is pressed without any input the next video will play
+             else                                                        
+                 :                                                       # press any key then enter within 3 seconds to quit Play Played List
+           fi
+done
+ 
+IFS=$OLDIFS
+
+rm ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa 2>/dev/null
+rm ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2 2>/dev/null
+rm ~/.config/videoinfox/tmp/videoinfox.numbered-nt-play-directory-list 2>/dev/null 
+          
 esac
 done
 
+
+else
+    :
+
+fi
+
+;;
+
+esac
+done
      
 echo "$pasteclip2" | xclip -sel clip  # restoring clipboard that was saved when entering this option:  Navigate Tree
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+
 ;;
- 
+
+
 
 ##################################################################################################################################################
 d)  # (@PLAY DIRECTORY) HOME   ###################################################################################################################
@@ -2560,7 +2787,7 @@ searchtotal=$(find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname 
                            
 
                            # save find results
-find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) > ~/.config/videoinfox/videoinfo.findwork
+find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) | sort -u > ~/.config/videoinfox/videoinfo.findwork
                            echo "$PWD" > ~/.config/videoinfox/videoinfo.lastfinddir  # save last directory that last find was run in 
                            # write last search total file count
                            echo "$searchtotal" > ~/.config/videoinfox/videoinfo.lastsearchtotal
@@ -3288,7 +3515,7 @@ fi
 OLDIFS=$IFS
 
 IFS=$'\n'
- for line in $(cat "$input")
+ for line in $(cat "$input" 2>/dev/null)
  do
       clear
       echo
@@ -4032,7 +4259,7 @@ rm ~/.config/videoinfox/videoinfo.keptsearch.tmp
                            read -r fterm < ~/.config/videoinfox/videoinfo.lastfindstring
 
                            # save find results
-find "$PWD" -type f \( -iname "$videofind.mp4" -o -iname "$videofind.mkv" -o -iname "$videofind.avi" -o -iname "$videofind.webm" -o -iname "$videofind.divx" \) > ~/.config/videoinfox/videoinfo.findwork
+find "$PWD" -type f \( -iname "$videofind.mp4" -o -iname "$videofind.mkv" -o -iname "$videofind.avi" -o -iname "$videofind.webm" -o -iname "$videofind.divx" \) | sort -u > ~/.config/videoinfox/videoinfo.findwork
                            echo "$PWD" > ~/.config/videoinfox/videoinfo.lastfinddir  # save last directory that last find was run in 
                            # write last search total file count
                            echo "$searchtotal" > ~/.config/videoinfox/videoinfo.lastsearchtotal
@@ -7195,7 +7422,7 @@ findmeadir=$(find . -type d -iname "$dirfind" 2>/dev/null | wc -l)   # number of
                       sleep .75  # EXIT THIS LOOP  
                  else
                       echo
-		             find . -type d -iname "$dirfind" 2>/dev/null  # directory(s) found   
+		             find . -type d -iname "$dirfind" | sort -u 2>/dev/null  # directory(s) found   
 	                  echo
 	                  echo " Total Directories Found:" "$findmeadir"  # number of files found
 	  
