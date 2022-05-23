@@ -1,4 +1,4 @@
-# Videoinfox v2.8.30 
+# Videoinfox v2.8.40 
 
 ## *Where Video Play is a Clipboard Copy Away*
 
@@ -17,10 +17,18 @@
 
 <br />
 
-#### This update added: &nbsp; Played List \>\>\> Play Line 
+#### This update added: &nbsp; Navigate Tree \>\>\> Play Line 
 
-Start Autoplay from any line in the Played List by entering the line number.
+Select line number to start autoplay from directory listing if you don't want to play the entire directory.
+With Play Line you can start auto play from any point in the directory listing or use Play Directory to watch the entire directory.
+All autoplay features in Videoinfox have an option to quit every time the player closes on video end or you quit the player.
+Auto Play All and Line Play were also been added to the Played List with the last few updates.
 
+Fix: &nbsp; Find results needed sorted alphabetically in Find Directory and Home Find. Find results now list in the proper order. A season of a TV show now lists correctly.
+
+Note: Play Directory alphabetical sorting still needs applied for directories that include multiple file extensions, Each extension is processed
+separately for now. So all mp4 files are played alphabetically. Then all webm files are played alphabetically. Then avi files . . .
+I need to re-write the Play Directory feature to correct this issue. This is the next planned update.
 
 <br />
 
@@ -72,7 +80,7 @@ FFprobe - Get codec, resolution & duration in seconds.
 
 #### Navigation was designed to be robust and efficient. One keypress for all menu selections.
 
-  - Check for update on startup and notifity if update is available.  Download and update in Videoinfox.
+  - Check for update on startup and notifity if update is available. Download and update in Videoinfox.
   - Play either a local file or a downloadable video url via yt-dlp.
   - Unlimited User Lists: Keep pasting Video URL's on the fly to the Default List without starting Videoinfox.
   - Default List: &nbsp; Keep pasting Video URL's on the fly to the User List without starting Videoinfox.
@@ -82,6 +90,7 @@ FFprobe - Get codec, resolution & duration in seconds.
   - Play Directory autoplay available on: &nbsp; Home Screen and in Navigate Tree.
   - Blinking &nbsp; Play Directory &nbsp; notification when there are video files in the current directory.
   - Navigate Tree  &nbsp;  Blinking &nbsp; Change Directory &nbsp; notification when there is a valid directory in the clipboard.
+  - Navigate Tree with Play Directory autoplay and Play Line with autoplay. Select line number to start play.
   - Video Player (ffplay) auto closes when the video ends.
   - Auto clear the clipboard after the video player is closed.
   - To watch the last download after Play Clipboard cleared the link select Last Download.
@@ -99,13 +108,13 @@ FFprobe - Get codec, resolution & duration in seconds.
   - Auto save last find result(s) and autoload until deleted.  Defaulted to never save.  Can be changed in Settings.
   - Yt-dlp integration for easy download and play of single url's or entire lists.
   - Download Default: &nbsp; Yt-dlp with no arguments.  Download only.  No auto play.
-  - Download Choose: &nbsp; Choose video type and qualiy before download.  Download only.  No auto play.
+  - Download Choose: &nbsp; Choose video type and quality before download.  Download only.  No auto play.
   - Self Destruct: &nbsp; Download, auto play, delete when the player is closed.
   - Last Download in Home and Yt-dlp Menu for Play Clipboard, Download Default and Download Choose.  
   - Download List: &nbsp; Blinking notification on list load.
   - View Logs: &nbsp; Blinking notification on log load.
   - Default List companion: &nbsp; Create a gui shortcut for: &nbsp; videoinfox -a &nbsp; to add to the Default List.
-  - User Set List companion: Create a gui shortcut for: &nbsp; videoinfox -l &nbsp; to add to the User Set list.
+  - User Set List companion: &nbsp; Create a gui shortcut for: &nbsp; videoinfox -l &nbsp; to add to the User Set list.
   - Download any list. Any name and location. No need to use the Videoinfox interface: &nbsp; videoinfox -u listname 
   - Download and update Yt-dlp in Videoinfox.  
   - Save directory state on exit to load on next run.
