@@ -15,7 +15,7 @@
 #### Download all your video url lists with Videoinfox's Yt-dlp integration.
 <br />
 
-#### This update added: &nbsp; videoinfox -d  Autoplay video files in the current directory.
+#### This update added: &nbsp; videoinfox -d &nbsp; Autoplay video files in the current directory.
 
 #### Last update fixed: &nbsp; Play Directory alphabetical sorting for directories that include multiple file extensions. 
 
