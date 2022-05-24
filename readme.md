@@ -1,4 +1,4 @@
-# Videoinfox v2.8.40 
+# Videoinfox v2.8.41 
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -13,21 +13,10 @@
 #### Add URL's to Unlimited User Set Lists on the fly without leaving your gui or starting up Videoinfox.
 
 #### Download all your video url lists with Videoinfox's Yt-dlp integration.
-
 <br />
 
-#### This update added: &nbsp; Navigate Tree \>\>\> Play Line 
+#### This update fixed: &nbsp; Play Directory alphabetical sorting for directories that include multiple file extensions. 
 
-Select line number to start autoplay from directory listing if you don't want to play the entire directory.
-With Play Line you can start auto play from any point in the directory listing or use Play Directory to watch the entire directory.
-All autoplay features in Videoinfox have an option to quit every time the player closes on video end or you quit the player.
-Auto Play All and Line Play were also been added to the Played List with the last few updates.
-
-Fix: &nbsp; Find results needed sorted alphabetically in Find Directory and Home Find. Find results now list in the proper order. A season of a TV show now lists correctly.
-
-Note: Play Directory alphabetical sorting still needs applied for directories that include multiple file extensions, Each extension is processed
-separately for now. So all mp4 files are played alphabetically. Then all webm files are played alphabetically. Then avi files . . .
-I need to re-write the Play Directory feature to correct this issue. This is the next planned update.
 
 <br />
 
