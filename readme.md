@@ -1,4 +1,4 @@
-# Videoinfox v2.8.41 
+# Videoinfox v2.8.42 
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -15,7 +15,9 @@
 #### Download all your video url lists with Videoinfox's Yt-dlp integration.
 <br />
 
-#### This update fixed: &nbsp; Play Directory alphabetical sorting for directories that include multiple file extensions. 
+#### This update added: &nbsp; videoinfox -d  Autoplay video files in the current directory.
+
+#### Last update fixed: &nbsp; Play Directory alphabetical sorting for directories that include multiple file extensions. 
 
 
 <br />
@@ -104,6 +106,7 @@ FFprobe - Get codec, resolution & duration in seconds.
   - Default List companion: &nbsp; Create a gui shortcut for: &nbsp; videoinfox -a &nbsp; to add to the Default List.
   - User Set List companion: &nbsp; Create a gui shortcut for: &nbsp; videoinfox -l &nbsp; to add to the User Set list.
   - Download any list. Any name and location. No need to use the Videoinfox interface: &nbsp; videoinfox -u listname 
+  - Autoplay video files in the current directory with option to quit. videoinfox -d
   - Download and update Yt-dlp in Videoinfox.  
   - Save directory state on exit to load on next run.
   - Change directory by entering full path.
