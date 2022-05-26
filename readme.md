@@ -1,4 +1,4 @@
-# Videoinfox v2.9.00 
+# Videoinfox v2.9.01 
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -15,11 +15,9 @@
 #### Download all your video url lists with Videoinfox's Yt-dlp integration.
 <br />
 
-#### This update added: &nbsp; v2.9.00 Add: Play Number on Home Screen.
+#### This update fixed: &nbsp; Video Info on Home Screen. Get info on video in clipboard or by entering the line number.
 
-#### No more copying a find result to the clipboard to play. Select Play Number and enter the number that you want to play.
-
-Next update: &nbsp; fix &nbsp; i - info &nbsp; on home screen.
+#### Last update added: &nbsp; No more copying a find result to the clipboard to play. Select Play Number and enter the number that you want to play.
 
 
 <br />
