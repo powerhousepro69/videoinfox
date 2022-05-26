@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#  file : videoinfox v2.8.44								         
+#  file : videoinfox v2.9.00								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v2.8.44"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.44")  # Version Number: with blinking dot
+ver="Videoinfox v2.9.00"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m9.00")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -1261,7 +1261,10 @@ echo " the*      would find files starting with:  the" >> ~/.config/videoinfox/v
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " *ion*     would find files with:  ion  anywhere in the file name from the beginning to the end." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " *show     would find files that ended with:  show"  >> ~/.config/videoinfox/videoinfo.help   
+echo " *show     would find files that ended with:  show" >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo " With search results on the screen, select Play Number and enter the number that you want to play." >> ~/.config/videoinfox/videoinfo.help  
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " 1 2 3 4 5 - Default Dirs  One keypress to change default directories. <Set> to set default directories" >> ~/.config/videoinfox/videoinfo.help     
@@ -1413,7 +1416,7 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 # KNOWN ISSUE
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " KNOWN ISSUES: None reported." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " KNOWN ISSUES: Need to fix  i - info  on home screen." >> ~/.config/videoinfox/videoinfo-ver-history
 
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
@@ -1434,6 +1437,10 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v2.9.00 Add: Play Number on Home Screen." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              No more copying a find result to the clipboard to play. Select Play Number and enter the number to play." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.8.44 Add: Error reporting added to command line options. User notified if videoinfox's config directory is missing." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -1933,13 +1940,35 @@ stat -c ‘%y’ ~/.config/videoinfox/videoinfo.findwork > ~/.config/videoinfox/
 cat ~/.config/videoinfox/videoinfo.lastfindtime | awk '{ print substr( $0, 1, length($0)-17 ) }' | cut -c 4- > ~/.config/videoinfox/videoinfo.time
 mv ~/.config/videoinfox/videoinfo.time ~/.config/videoinfox/videoinfo.lastfindtime
 
-#  if search total is aany number: cat file and echo 
+
+
+#  if search total is any number
 if [ "$searchtotal" = "" ]  # if the file <~/.config/videoinfox/videoinfo.lastsearchtotal> is empty goto then
   then
-      :
+      dashj=$(echo "-")  # don't blink dash on home screen @ Play Number
+      rm ~/.config/videoinfox/tmp/videoinfo-findwork.tmp 2>/dev/null
+      rm ~/.config/videoinfox/tmp/videoinfo-number-findwork.tmp 2>/dev/null 
+
+
   else
-      cat ~/.config/videoinfox/videoinfo.findwork
-      echo
+      dashj=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")  # blink dash on home screen @ Play Number
+
+# cat ~/.config/videoinfox/videoinfo.findwork
+
+#  REMOVE BLANK LINES
+sed '/^$/d' ~/.config/videoinfox/videoinfo.findwork > ~/.config/videoinfox/tmp/videoinfo-findwork.tmp 2>/dev/null
+
+# REMOVE PATH ONLY LEAVING FILENAME
+sed 's/.*\///' ~/.config/videoinfox/tmp/videoinfo-findwork.tmp > ~/.config/videoinfox/tmp/videoinfo-number-findwork.tmp2 2>/dev/null
+
+# CREATE NUMBERED lIST
+sed '/./=' ~/.config/videoinfox/tmp/videoinfo-number-findwork.tmp2 | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/videoinfo-number-findwork.tmp 2>/dev/null
+rm ~/.config/videoinfox/tmp/videoinfo-number-findwork.tmp2 2>/dev/null
+
+
+
+      cat ~/.config/videoinfox/tmp/videoinfo-number-findwork.tmp  # display numbered find results    
+      #echo
       echo
       echo "Total files found: ""$searchtotal"  # number of files found
       echo "Found Date: "$(cat ~/.config/videoinfox/videoinfo.lastfindtime 2>/dev/null) # display last find time
@@ -2102,13 +2131,13 @@ if [ $dovideosexist -ne 0 ]  # If the find result doesn't =   0   goto then
 fi
 
 
-if [ "$searchtotal" = "" ]  # if the file <~/.config/videoinfox/videoinfo.lastsearchtotal> is empty goto then
-  then
-      :
-  else
-      echo
-      echo "Copy 1 above result to clipboard then press enter"
- fi
+# if [ "$searchtotal" = "" ]  # if the file <~/.config/videoinfox/videoinfo.lastsearchtotal> is empty goto then
+#  then
+#      :
+#  else
+#      echo
+#      echo "Copy 1 above result to clipboard then press enter"
+# fi
 
 echo
 echo "Directory: ""$PWD"
@@ -2152,9 +2181,9 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " $der $viv4      Enter - Update Clipboard Display                "$dirdisp" - Default Dirs"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " f - Find              n - Navigate Tree     p - Play Clipboard     d "$dash" Play Directory                    e - Exit"
-                      echo " a - Show All          i - Video Info        s - Playlist           l - Last Download                     z - Set" 
-                      echo " c - Clear Results     m - More Options      v - Played List        y - Yt-dlp                            h - Help"
+                      echo " f - Find              n - Navigate Tree     p - Play Clipboard     d "$dash" Play Directory     y - Yt-dlp     e - Exit"
+                      echo " a - Show All          i - Video Info        s - Playlist           j "$dashj" Play Number                       z - Set" 
+                      echo " c - Clear Results     m - More Options      v - Played List        l - Last Download      x - Clrclp     h - Help"
                       echo         
                   
                   else  # yt-dlp extracted a filename
@@ -2168,10 +2197,10 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo "___________________________________________________________________________________________________________________"
                       echo
 
-echo -e " f - Find              n - Navigate Tree     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     d "$dash" Play Directory                    e - Exit"
+echo -e " f - Find              n - Navigate Tree     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     d "$dash" Play Directory     y - Yt-dlp     e - Exit"
  
-                      echo " a - Show All          i - Video Info        s - Playlist           l - Last Download                     z - Set" 
-                      echo " c - Clear Results     m - More Options      v - Played List        y - Yt-dlp                            h - Help"
+                      echo " a - Show All          i - Video Info        s - Playlist           j "$dashj" Play Number                       z - Set" 
+                      echo " c - Clear Results     m - More Options      v - Played List        l - Last Download      x - Clrclp     h - Help"
                       echo                                                             
             fi
     else
@@ -2185,10 +2214,10 @@ echo
 echo " $der $viv4      Enter - Update Clipboard Display                "$dirdisp" - Default Dirs"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo -e " f - Find              n - Navigate Tree     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     d "$dash" Play Directory                    e - Exit"
+echo -e " f - Find              n - Navigate Tree     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     d "$dash" Play Directory     y - Yt-dlp     e - Exit"
  
-echo " a - Show All          i - Video Info        s - Playlist           l - Last Download                     z - Set" 
-echo " c - Clear Results     m - More Options      v - Played List        y - Yt-dlp                            h - Help"
+echo " a - Show All          i - Video Info        s - Playlist           j "$dashj" Play Number                       z - Set" 
+echo " c - Clear Results     m - More Options      v - Played List        l - Last Download      x - Clrclp     h - Help"
 echo                                                             
 
   else  # file does not exist
@@ -2201,9 +2230,9 @@ echo
 echo " $der $viv4      Enter - Update Clipboard Display                "$dirdisp" - Default Dirs"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " f - Find              n - Navigate Tree     p - Play Clipboard     d "$dash" Play Directory                    e - Exit"
-echo " a - Show All          i - Video Info        s - Playlist           l - Last Download                     z - Set" 
-echo " c - Clear Results     m - More Options      v - Played List        y - Yt-dlp                            h - Help"
+echo " f - Find              n - Navigate Tree     p - Play Clipboard     d "$dash" Play Directory     y - Yt-dlp     e - Exit"
+echo " a - Show All          i - Video Info        s - Playlist           j "$dashj" Play Number                       z - Set" 
+echo " c - Clear Results     m - More Options      v - Played List        l - Last Download      x - Clrclp     h - Help"
 echo         
                                          
 
@@ -2315,6 +2344,74 @@ echo " Directory state SAVED for next run:" "$PWD"
 sleep .7
 
 break ;;
+
+
+j)
+##################################################################################################################################################
+###########################   PLAY NUMBER  j  ####################################################################################################
+##################################################################################################################################################
+
+if [ -f ~/.config/videoinfox/tmp/videoinfo-findwork.tmp ]  # if file exists goto then
+  then
+      echo
+      echo
+      read -r -p " Enter Line Number: " linenumber  # waiting fot user input
+
+      # create file moving selected line number to the top
+      tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfo-findwork.tmp > ~/.config/videoinfox/tmp/videoinfo-findwork-playnumber.tmp 2>/dev/null
+      
+      # read first line of file for play
+      read playnumber < ~/.config/videoinfox/tmp/videoinfo-findwork-playnumber.tmp
+
+      if [ -z "$playnumber" ]
+          then
+              :
+
+          else
+
+      clear
+      echo
+      echo "___________________________________________________________________________________________________________________"
+      echo
+      echo " ""$der"" >>> FIND RESULT >>> LINE NUMBER" 
+      echo
+      echo " [PLAY]>" "$playnumber"
+      echo "___________________________________________________________________________________________________________________"
+      echo
+
+      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$playnumber")  " Duration:" $(ffmpeg -i "$playnumber" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height & duration
+      echo
+      echo
+      echo " Video Player Controls:"
+      echo                             
+      echo " - Fullscreen Toggle: f"
+      echo
+      echo " - Play/Pause Toggle: space bar"
+      echo
+      echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
+      echo
+      echo " - Quit: q"      
+      echo -e "\n"
+      echo " This screen will exit when the video player is closed."
+      echo
+      
+      # video filename with full path <$pasteclip> strip from the bgininning of line to the last slash leaving only the filename <$getfilenameonly>
+      getfilenameonly=$(echo "$playnumber" |  awk -F '/' '{print $NF}')  
+  
+      notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"      
+
+      echo "$playnumber" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
+      ffplay -fs -autoexit "$playnumber" 2>/dev/null  # play video
+      rm ~/.config/videoinfox/tmp/videoinfo-findwork-playnumber.tmp 2>/dev/null
+
+     fi
+
+else
+    :
+
+fi
+
+;;
 
 
 n)
@@ -2952,7 +3049,6 @@ q) # QUIT
 
 
 l) # START FROM LINE
-
 echo
 echo
 read -r -p " Enter Line Number: " linenumber  # waiting fot user input
@@ -3338,11 +3434,11 @@ echo "                                                                          
      ;;
 
 
-     #x) 
-     #  CLEAR CLIPBOARD - <HOME> 
-     #echo "" | xclip -sel clip  # copy message in quotes to the clipboard. clearing out the clipboard
-     #pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-     #;;
+     x) 
+       #CLEAR CLIPBOARD - <HOME> 
+       echo "" | xclip -sel clip  # copy message in quotes to the clipboard. clearing out the clipboard
+       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+       ;;
 
 #############################################################################################################################################	
 #############################################################################################################################################
@@ -3516,19 +3612,45 @@ fi
 ;;  
 
 
+
+
+
+
+
+##### NEED TO FIX THIS
+
       i) 
       #  INFO - <HOME>
-      pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
-      echo
-      echo
-      echo " ""$pasteclip"
-      echo    
+      #pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
+      #echo
+      #echo
+      #echo " ""$pasteclip"
+      #echo    
 
-echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+#echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
 
-      echo
-      read -r -p " Press enter to Continue" 
+      #echo
+      # 
+echo      
+echo
+
+sec=3
+           while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
+           echo -ne " This feature will be fixed in the next update: $sec\033[0K\r"
+           let "sec=sec-1"
+           sleep 1
+           done     
+
+
       ;;
+
+
+
+
+
+
+
+
 
 ##################################################################################################################################################
 v)                                  ##############################################################################################################    
