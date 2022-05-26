@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#  file : videoinfox v2.9.00								         
+#  file : videoinfox v2.9.01								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v2.9.00"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m9.00")  # Version Number: with blinking dot
+ver="Videoinfox v2.9.01"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m9.01")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -1416,7 +1416,7 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 # KNOWN ISSUE
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " KNOWN ISSUES: Need to fix  i - info  on home screen." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " KNOWN ISSUES: None Reported." >> ~/.config/videoinfox/videoinfo-ver-history
 
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
@@ -1437,6 +1437,9 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v2.9.01 Fix: Video Info on Home Screen. Get info on video in clipboard or by entering the line number." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.9.00 Add: Play Number on Home Screen." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -3612,44 +3615,60 @@ fi
 ;;  
 
 
+      i)  # INFO - <HOME>
+ 
+      if [ -f "$pasteclip" ]
+        then
+            pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
+            echo
+            echo
+            echo " ""$pasteclip"
+            echo  
 
+echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
 
+            echo
+            read -r -p " Press enter to Continue" 
 
+        else
+            if [ -f ~/.config/videoinfox/tmp/videoinfo-findwork.tmp ]  # if file exists goto then
+              then
+              echo
+              echo
+              read -r -p " Enter Line Number: " linenumber  # waiting fot user input
 
+             # create file moving selected line number to the top
+             tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfo-findwork.tmp > ~/.config/videoinfox/tmp/videoinfo-findwork-playnumber.tmp 2>/dev/null
+      
+             # read first line of file for play
+             read playnumber < ~/.config/videoinfox/tmp/videoinfo-findwork-playnumber.tmp
 
-##### NEED TO FIX THIS
+                 if [ -z "$playnumber" ]
+                   then
+                       :
+ 
+                   else
+                       #echo
+                       echo
+                       echo "$playnumber"
+                       echo
+           
+echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$playnumber")  " Duration:" $(ffmpeg -i "$playnumber" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height & duration
 
-      i) 
-      #  INFO - <HOME>
-      #pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
-      #echo
-      #echo
-      #echo " ""$pasteclip"
-      #echo    
+                       echo
+                       read -r -p " Press enter to Continue" 
+                       rm ~/.config/videoinfox/tmp/videoinfo-findwork-playnumber.tmp 2>/dev/null
 
-#echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+                 fi
 
-      #echo
-      # 
-echo      
-echo
+        else
+            :
 
-sec=3
-           while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
-           echo -ne " This feature will be fixed in the next update: $sec\033[0K\r"
-           let "sec=sec-1"
-           sleep 1
-           done     
+            fi
 
+      fi
 
-      ;;
-
-
-
-
-
-
-
+;;
 
 
 ##################################################################################################################################################
