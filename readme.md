@@ -1,4 +1,4 @@
-# Videoinfox v2.8.42 
+# Videoinfox v2.8.44 
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -15,9 +15,7 @@
 #### Download all your video url lists with Videoinfox's Yt-dlp integration.
 <br />
 
-#### This update added: &nbsp; videoinfox -d &nbsp; Autoplay video files in the current directory.
-
-#### Last update fixed: &nbsp; Play Directory alphabetical sorting for directories that include multiple file extensions. 
+#### This update added: &nbsp; Error reporting added to command line options. User notified if videoinfox's config directory is missing.
 
 
 <br />
