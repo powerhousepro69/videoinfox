@@ -1,4 +1,4 @@
-# Videoinfox v2.8.44 
+# Videoinfox v2.9.00 
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -15,7 +15,11 @@
 #### Download all your video url lists with Videoinfox's Yt-dlp integration.
 <br />
 
-#### This update added: &nbsp; Error reporting added to command line options. User notified if videoinfox's config directory is missing.
+#### This update added: &nbsp; v2.9.00 Add: Play Number on Home Screen.
+
+#### No more copying a find result to the clipboard to play. Select Play Number and enter the number that you want to play.
+
+Next update: &nbsp; fix &nbsp; i - info &nbsp; on home screen.
 
 
 <br />
@@ -124,7 +128,6 @@ FFprobe - Get codec, resolution & duration in seconds.
 
 
 
-
 <br />
 
 #### Dependencies listed at bottom of page.
@@ -135,7 +138,7 @@ FFprobe - Get codec, resolution & duration in seconds.
 HOME SCREEN WITH A VIDEO URL IN THE CLIPBOARD. 
 
 PRESS &nbsp; p &nbsp; TO DOWNLOAD AND AUTO PLAY FULLSCREEN. 
-![Videoinfox HOME](https://i.imgur.com/bhl60L7.png)
+![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/HOME.png)
 
 
 <br />
@@ -194,15 +197,17 @@ NAVIGATE TREE WITH PLAY DIRECTORY AND PLAY LINE
 
 
 <br />
-NAVIGATE TREE >>> PLAY LINE. START AUTOPLAY FROM ANY LINE BY ENTERING THE LINE NUMBER.
+NAVIGATE TREE >>> PLAY LINE. &nbsp; START AUTOPLAY FROM ANY LINE BY ENTERING THE LINE NUMBER.
 
 ![Navigate Tree](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/navigate-tree-play-line.png)
 
 
 <br />
-FIND VIDEOS TO PLAY OR GET INFO
+FIND VIDEOS TO PLAY OR GET INFO.
 
-![Videoinfox HOME](https://i.imgur.com/NeuxflE.png)
+SELECT PLAY NUMBER AND ENTER THE NUMBER THAT YOU WANT TO PLAY.
+
+![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/find.png)
 
 
 <br />
