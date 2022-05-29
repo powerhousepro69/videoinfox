@@ -1,4 +1,4 @@
-# Videoinfox v2.9.01 
+# Videoinfox v2.9.30 
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -15,9 +15,28 @@
 #### Download all your video url lists with Videoinfox's Yt-dlp integration.
 <br />
 
-#### This update fixed: &nbsp; Video Info on Home Screen. Get info on video in clipboard or by entering the line number.
+#### This update: &nbsp; v2.9.30 Change, Add and Fix.
 
-#### Last update added: &nbsp; No more copying a find result to the clipboard to play. Select Play Number and enter the number that you want to play.
+Change: 
+
+&nbsp; &nbsp; - Renamed Play Line to Autoplay Line. Autoplay from entered line number to end of list.
+
+&nbsp; &nbsp; - Home Screen: Moved a few things around. Autoplay Line will not write to the Played List.
+
+&nbsp; &nbsp; - Navigate Tree: Moved a few things around. Autoplay Line will not write to the Played List.
+
+Add:
+ 
+&nbsp; &nbsp; - Play Line to Home Screen. Only Play Line number entered. This feature will write to the Played List.
+                 
+&nbsp; &nbsp; - Play Line to Navigate Tree. Only Play Line number entered. This feature will write to the Played List.
+
+&nbsp; &nbsp; - Autoplay Features added to Home Help.
+
+Fix: 
+
+&nbsp; &nbsp; - Last Search Setting 3 (Ask On Exit) was freezing script on invalid selection.
+
 
 
 <br />
@@ -89,9 +108,10 @@ FFprobe - Get codec, resolution & duration in seconds.
   - File types searched for: &nbsp; .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx 
   - Rapid directory changing by setting default directories in Settings. &nbsp; 4 available to set.  The 5th is dir at last exit.
   - Default Dirs - 1 2 3 4 5 &nbsp; directory switching available in: &nbsp; Home &nbsp; Navigate Tree &nbsp; Download List &nbsp; More Options
-  - Played List: &nbsp; Keep track of everything played except for: &nbsp; Play Directory.
+  - Play Line option. Only play the line number entered.
+  - Autoplay Line option. Start autoplay from any line in the Played List by entering the line number.
+  - Played List will keep track of everything played except for Play Directory and Autoplay Line.
   - Played List: &nbsp; Play All option that will autoplay the entire list with option to quit.
-  - Played List: &nbsp; Play Line option to start autoplay from any line in the Played List by entering the line number.
   - Playlist: &nbsp; Save a list of videos from find results and directory listing.
   - Remove duplicates from the Playlist and Played List.
   - Enter a video file with full path to get info on and play.
@@ -189,15 +209,15 @@ USER LIST HELP.
 
 
 <br />
-NAVIGATE TREE WITH PLAY DIRECTORY AND PLAY LINE
+NAVIGATE TREE WITH PLAY DIRECTORY, AUTOPLAY PLAY AND PLAY LINE
 
 ![Navigate Tree](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/navigate-tree.png)
 
 
 <br />
-NAVIGATE TREE >>> PLAY LINE. &nbsp; START AUTOPLAY FROM ANY LINE BY ENTERING THE LINE NUMBER.
+NAVIGATE TREE >>> AUTOPLAY LINE. &nbsp; START AUTOPLAY FROM ANY LINE BY ENTERING THE LINE NUMBER.
 
-![Navigate Tree](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/navigate-tree-play-line.png)
+![Navigate Tree](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/navigate-tree-autoplay-line.png)
 
 
 <br />
@@ -215,9 +235,9 @@ PLAYED LIST
 
 
 <br />
-PLAYED LIST >>> PLAY LINE &nbsp; START AUTOPLAY FROM ANY LINE BY ENTERING THE LINE NUMBER.
+PLAYED LIST >>> AUTOPLAY LINE &nbsp; START AUTOPLAY FROM ANY LINE BY ENTERING THE LINE NUMBER.
 
-![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/playedlist-playline.png)
+![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/playedlist-autoplay.png)
 
 
 <br />
