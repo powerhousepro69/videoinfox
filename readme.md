@@ -1,4 +1,4 @@
-# Videoinfox v2.9.30 
+# Videoinfox v2.9.40 
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -15,28 +15,7 @@
 #### Download all your video url lists with Videoinfox's Yt-dlp integration.
 <br />
 
-#### This update: &nbsp; Change, Add and Fix.
-
-Change: 
-
-&nbsp; &nbsp; - Renamed Play Line to Autoplay Line. Autoplay from entered line number to end of list.
-
-&nbsp; &nbsp; - Home Screen: Moved a few things around. Autoplay Line will not write to the Played List.
-
-&nbsp; &nbsp; - Navigate Tree: Moved a few things around. Autoplay Line will not write to the Played List.
-
-Add:
- 
-&nbsp; &nbsp; - Play Line to Home Screen. Only Play Line number entered. This feature will write to the Played List.
-                 
-&nbsp; &nbsp; - Play Line to Navigate Tree. Only Play Line number entered. This feature will write to the Played List.
-
-&nbsp; &nbsp; - Autoplay Features added to Home Help.
-
-Fix: 
-
-&nbsp; &nbsp; - Last Search Setting 3 (Ask On Exit) was freezing script on invalid selection.
-
+#### This update: &nbsp; Played List Menu Updated. No more copying to the clipboard to play a local file. Enter line number to play.
 
 
 <br />
@@ -232,12 +211,6 @@ SELECT PLAY NUMBER AND ENTER THE NUMBER THAT YOU WANT TO PLAY.
 PLAYED LIST
 
 ![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/playedlist.png)
-
-
-<br />
-PLAYED LIST >>> AUTOPLAY LINE &nbsp; START AUTOPLAY FROM ANY LINE BY ENTERING THE LINE NUMBER.
-
-![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/playedlist-autoplay.png)
 
 
 <br />
