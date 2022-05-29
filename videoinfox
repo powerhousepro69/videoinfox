@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#  file : videoinfox v2.9.40								         
+#  file : videoinfox v2.9.41								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v2.9.40"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m9.40")  # Version Number: with blinking dot
+ver="Videoinfox v2.9.41"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v2\033[5m.\033m\033[0m\033[5m\033[5m\033[0m9.41")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -834,12 +834,13 @@ if [ -d "$direxist" ]  #  if directoty exists goto  <then>
       ###############
       
       # CREATE FIND RESULT MESSAGE THAT THERE ARE NO STORED RESULTS
-echo "                                                                                                                 " > ~/.config/videoinfox/videoinfo.findwork
-echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-echo "Select find to search for files.                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
+#echo "                                                                                                                 " > ~/.config/videoinfox/videoinfo.findwork
+#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
+#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
+#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
+#echo "Select find to search for files.                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
+#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
+echo > ~/.config/videoinfox/videoinfo.findwork
 
 
       # witing header for blank Played List 
@@ -1454,6 +1455,9 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v2.9.41 Removed play loop exit in Play Line." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.9.40 Played List Menu Updated. No more copying to the clipboard to play a local file. Enter line number to play." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2317,12 +2321,15 @@ if [ "$lsearch" = 2 ]  # NEVER SAVE
      echo " " > ~/.config/videoinfox/videoinfo.lastfinddir
 
 # CREATE FIND RESULT MESSAGE THAT THERE ARE NO STORED FINDS
-echo "                                                                                                                 " > ~/.config/videoinfox/videoinfo.findwork
-echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-echo "Select find to search for files.                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork     
+#echo "                                                                                                                 " > ~/.config/videoinfox/videoinfo.findwork
+#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
+#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
+#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
+#echo "Select find to search for files.                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
+#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork     
+echo > ~/.config/videoinfox/videoinfo.findwork
+
+
 fi
 
 
@@ -2362,12 +2369,16 @@ if [ "$lsearch" = 3 ]  # ASK TO SAVE
      echo " " > ~/.config/videoinfox/videoinfo.lastfinddir
 
 # CREATE FIND RESULT MESSAGE THAT THERE ARE NO STORED FINDS
-echo "                                                                                                                 " > ~/.config/videoinfox/videoinfo.findwork
-echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-echo "Select find to search for files.                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork     
+#echo "                                                                                                                 " > ~/.config/videoinfox/videoinfo.findwork
+#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
+#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
+#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
+#echo "Select find to search for files.                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
+#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork     
+
+echo > ~/.config/videoinfox/videoinfo.findwork
+
+
 break;;
 
 *)
@@ -3438,19 +3449,19 @@ read line < ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa
       echo "$line" >> ~/.config/videoinfox/videoinfo.playedlist  # write to the played list 
       ffplay -fs -autoexit "$line" 2> /dev/null
 
-      echo " To bypass the 3 second wait press enter with no entry"
-      echo
-      echo -e "\033[5m 3 seconds remaining to quit Autoplay\033m\033[0m\033[5m\033[5m\033[0m"      
-      echo 
-      read -t 3 -p " Press any key then press enter to quit : " playdir
+      #echo " To bypass the 3 second wait press enter with no entry"
+      #echo
+      #echo -e "\033[5m 3 seconds remaining to quit Autoplay\033m\033[0m\033[5m\033[5m\033[0m"      
+      #echo 
+      #read -t 3 -p " Press any key then press enter to quit : " playdir
            
            # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 3 seconds the next video will play
-                 break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 3 seconds to quit
-           fi
+           #if [[ $playdir ]]                                             
+             #then                                                        # if no input is entered within 3 seconds the next video will play
+             #    break                                                   # if enter is pressed without any input the next video will play
+             #else                                                        
+             #    :                                                       # press any key then enter within 3 seconds to quit
+           #fi
 #done
  
 IFS=$OLDIFS
@@ -3783,12 +3794,15 @@ find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -in
      echo " " > ~/.config/videoinfox/videoinfo.lastfindstring
      echo " " > ~/.config/videoinfox/videoinfo.lastfinddir
 
-echo "                                                                                                                 " > ~/.config/videoinfox/videoinfo.findwork
-echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-echo "Select find to search for files.                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork     
+#echo "                                                                                                                 " > ~/.config/videoinfox/videoinfo.findwork
+#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
+#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
+#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
+#echo "Select find to search for files.                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
+#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
+
+echo > ~/.config/videoinfox/videoinfo.findwork
+     
      ;;
 
 
@@ -4441,21 +4455,23 @@ if [ -z "$line" ]
       echo " - Quit: q"      
       echo -e "\n"
 
+      echo " Screen will close after video player is quit."
+
       ffplay -fs -autoexit "$line" 2> /dev/null
 
-      echo " To bypass the 3 second wait press enter with no entry"
-      echo
-      echo -e "\033[5m 3 seconds remaining to quit Played List Autoplay\033m\033[0m\033[5m\033[5m\033[0m"      
-      echo 
-      read -t 3 -p " Press any key then press enter to quit : " playdir
+      #echo " To bypass the 3 second wait press enter with no entry"
+      #echo
+      #echo -e "\033[5m 3 seconds remaining to quit Played List Autoplay\033m\033[0m\033[5m\033[5m\033[0m"      
+      #echo 
+      #read -t 3 -p " Press any key then press enter to quit : " playdir
            
            # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 3 seconds the next video will play
-                 break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 3 seconds to quit Play Played List
-           fi
+           #if [[ $playdir ]]                                             
+           #  then                                                        # if no input is entered within 3 seconds the next video will play
+           #      break                                                   # if enter is pressed without any input the next video will play
+           #  else                                                        
+           #      :                                                       # press any key then enter within 3 seconds to quit Play Played List
+           #fi
 # done
  
 IFS=$OLDIFS
