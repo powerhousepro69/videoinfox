@@ -15,7 +15,7 @@
 #### Download all your video url lists with Videoinfox's Yt-dlp integration.
 <br />
 
-#### This update: &nbsp; v2.9.30 Change, Add and Fix.
+#### This update: &nbsp; Change, Add and Fix.
 
 Change: 
 
