@@ -1,4 +1,4 @@
-# Videoinfox v2.9.40 
+# Videoinfox v2.9.41 
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -15,7 +15,10 @@
 #### Download all your video url lists with Videoinfox's Yt-dlp integration.
 <br />
 
-#### This update: &nbsp; Played List Menu Updated. No more copying to the clipboard to play a local file. Enter line number to play.
+#### This update: &nbsp; Removed play loop exit in Play Line.
+
+
+#### Last update: &nbsp; Played List Menu Updated. No more copying to the clipboard to play a local file. Enter line number to play.
 
 
 <br />
