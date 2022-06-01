@@ -1,4 +1,4 @@
-# Videoinfox v2.9.50 
+# Videoinfox v2.9.51 
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -15,7 +15,11 @@
 #### Download all your video url lists with Videoinfox's Yt-dlp integration.
 <br />
 
-#### This update: &nbsp; v2.9.50 Fixed Major Faux Pas with Autoplay Line and Play Line.
+
+#### This update: &nbsp; Updated Autoplay Features in Home Help.
+
+
+#### Last update: &nbsp; Fixed Major Faux Pas with Autoplay Line and Play Line.
 
 #### Added Play Directory, Autoplay Line and Play Line to View Downloads.
 
