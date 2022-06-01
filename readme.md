@@ -1,4 +1,4 @@
-# Videoinfox v2.9.41 
+# Videoinfox v2.9.50 
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -15,10 +15,10 @@
 #### Download all your video url lists with Videoinfox's Yt-dlp integration.
 <br />
 
-#### This update: &nbsp; Removed play loop exit in Play Line.
+#### This update: &nbsp; v2.9.50 Fixed Major Faux Pas with Autoplay Line and Play Line.
 
+#### Added Play Directory, Autoplay Line and Play Line to View Downloads.
 
-#### Last update: &nbsp; Played List Menu Updated. No more copying to the clipboard to play a local file. Enter line number to play.
 
 
 <br />
@@ -90,7 +90,7 @@ FFprobe - Get codec, resolution & duration in seconds.
   - File types searched for: &nbsp; .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx 
   - Rapid directory changing by setting default directories in Settings. &nbsp; 4 available to set.  The 5th is dir at last exit.
   - Default Dirs - 1 2 3 4 5 &nbsp; directory switching available in: &nbsp; Home &nbsp; Navigate Tree &nbsp; Download List &nbsp; More Options
-  - Play Line option. Only play the line number entered.
+  - Play Line option. Only play the line number entered and wriet to the Played List.
   - Autoplay Line option. Start autoplay from any line in the Played List by entering the line number.
   - Played List will keep track of everything played except for Play Directory and Autoplay Line.
   - Played List: &nbsp; Play All option that will autoplay the entire list with option to quit.
