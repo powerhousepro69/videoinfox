@@ -1,4 +1,4 @@
-# Videoinfox v2.9.51 
+# Videoinfox v2.9.52 
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -16,13 +16,16 @@
 <br />
 
 
-#### This update: &nbsp; Updated Autoplay Features in Home Help.
 
+#### Last 3 updates: &nbsp; 
 
-#### Last update: &nbsp; Fixed Major Faux Pas with Autoplay Line and Play Line.
+##### Fixed Major Faux Pas with Autoplay Line and Play Line.
 
-#### Added Play Directory, Autoplay Line and Play Line to View Downloads.
+##### Added Play Directory, Autoplay Line and Play Line to View Downloads.
 
+##### Updated Autoplay Features in Home Help.
+
+##### Updated header in View Downloads.
 
 
 <br />
