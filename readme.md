@@ -27,7 +27,7 @@
 
 ##### CREATE DIRECTORY: &nbsp; Easily create directories for your Download Lists with Navigate Tree & Default Dirs Interface.
 
-###### More information is avalable in: &nbsp; Yt-dlp >>> Download List >>> Help
+###### More information is available in: &nbsp; Yt-dlp >>> Download List >>> Help
 
 
 <br />
