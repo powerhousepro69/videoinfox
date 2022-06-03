@@ -21,7 +21,7 @@
 
 #### Last Update Added: &nbsp; New features in Yt-dlp >>> Download List. 
 
-##### DOWNLOAD QUEUE: &nbsp; Download multiple Videoinfox Created User Lists.
+##### DOWNLOAD QUEUE: &nbsp; Download unlimited Videoinfox Created User Lists.
 
 ##### ADD TO QUEUE: &nbsp; Add User Lists from the clipboard to the queue. 
 
