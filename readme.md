@@ -1,4 +1,4 @@
-# Videoinfox v3.0.00 
+# Videoinfox v3.0.01 
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -17,7 +17,9 @@
 
 
 
-#### This Update Added: &nbsp; New features in Yt-dlp >>> Download List. 
+#### This Update: Download Queue added to feature list in Home Help.
+
+#### Last Update Added: &nbsp; New features in Yt-dlp >>> Download List. 
 
 ##### DOWNLOAD QUEUE: &nbsp; Download multiple Videoinfox Created User Lists.
 
@@ -104,6 +106,7 @@ FFprobe - Get codec, resolution & duration in seconds.
   - Enter a video file with full path to get info on and play.
   - Auto save last find result(s) and autoload until deleted.  Defaulted to never save.  Can be changed in Settings.
   - Yt-dlp integration for easy download and play of single url's or entire lists.
+  - Download Queue: Add unlimited Videoinfox User Download Lists to the queue.
   - Download Default: &nbsp; Yt-dlp with no arguments.  Download only.  No auto play.
   - Download Choose: &nbsp; Choose video type and quality before download.  Download only.  No auto play.
   - Self Destruct: &nbsp; Download, auto play, delete when the player is closed.
