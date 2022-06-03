@@ -171,9 +171,11 @@ YT-DLP MENU
 
 
 <br />
+DOWNLOAD LIST MENU WITH DOWNLOAD QUEUE
+
 CREATE USER LISTS AND ADD URL'S TO THEM WITHOUT LEAVING YOUR GUI OR STARTING VIDEOINFOX.
 
-![download list](https://i.imgur.com/FiSn0dP.png)
+![download list menu](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/download-list.png)
 
 
 <br />
