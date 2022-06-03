@@ -1,4 +1,4 @@
-# Videoinfox v2.9.52 
+# Videoinfox v3.0.00 
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -17,15 +17,15 @@
 
 
 
-#### Last 3 updates: &nbsp; 06/01/22
+#### This Update Added: &nbsp; New features in Yt-dlp >>> Download List. 
 
-##### Fixed Major Faux Pas with Autoplay Line and Play Line.
+##### DOWNLOAD QUEUE: &nbsp; Download multiple Videoinfox Created User Lists.
 
-##### Added Play Directory, Autoplay Line and Play Line to View Downloads.
+##### ADD TO QUEUE: &nbsp; Add User Lists from the clipboard to the queue. 
 
-##### Updated Autoplay Features in Home Help.
+##### CREATE DIRECTORY: &nbsp; Easily create directories for your Download Lists with Navigate Tree & Default Dirs Interface.
 
-##### Updated header in View Downloads.
+###### More information is avalable in: &nbsp; Yt-dlp >>> Download List >>> Help
 
 
 <br />
@@ -51,8 +51,6 @@ Videoinfox is a Linux shell script that feels like an app. If you enjoy watching
 
 Note: Playlist doesn't auto play yet, but will in the near future. Along with multiple playlist capability.
 
-
-#### Temporarily on hold: &nbsp; A download queue to load up as many url lists that you want to download.
 <br />
 
 ### Harnessing the power of:
