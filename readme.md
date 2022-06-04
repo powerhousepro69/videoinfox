@@ -1,9 +1,9 @@
-# Videoinfox v3.0.01 
+# Videoinfox v3.3.00
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
 
-### 100% Linux Shell Script. Videoinfox is one file under a half a megabyte.
+### 100% Linux Shell Script. Videoinfox is one file under one megabyte.
 
 
 #### Find local Video Files fast, immediately play and get info on. Download Videos effortlessly and auto play.
@@ -13,23 +13,6 @@
 #### Add URL's to Unlimited User Set Lists on the fly without leaving your gui or starting up Videoinfox.
 
 #### Download all your video url lists with Videoinfox's Yt-dlp integration.
-<br />
-
-
-
-#### This Update: Download Queue added to feature list in Home Help.
-
-#### Last Update Added: &nbsp; New features in Yt-dlp >>> Download List. 
-
-##### DOWNLOAD QUEUE: &nbsp; Download unlimited Videoinfox Created User Lists.
-
-##### ADD TO QUEUE: &nbsp; Add User Lists from the clipboard to the queue. 
-
-##### CREATE DIRECTORY: &nbsp; Easily create directories for your Download Lists with Navigate Tree & Default Dirs Interface.
-
-###### More information is available in: &nbsp; Yt-dlp >>> Download List >>> Help
-
-
 <br />
 
 
@@ -323,6 +306,40 @@ FIRST RUN
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
 
-### Reddit /Videoinfox for discussion.
+##### Reddit /Videoinfox for discussion.
+
+
+## This Update: v3.3.00 Additions and Changes
+
+New feature: PlayList Add: add video selection to the Playlist by entering line number.
+
+Playlist Add: Added to the Home Screen. Add to the Playlist from Search Results.
+
+Playlist Add: Added to Navigate Tree. Add to the Playlist from directory listings.
+
+View Playlist was added to Navigate Tree.
+
+No more coying to the clipboard to play selections from the Playlist.
+View Playlist look and function was updated to maintain user interface continuity.
+
+Added to View Playlist: Autoplay Line and Play Line. Neither will write to the Played List.
+Removed error correction routine for clipboard copy errors. It was no longer needed.
+Added error correction to verify file validity before adding selection to the Playlist.
+
+Notes:
+
+Local video files can no longer be added to the Playlist from the Clipboard.
+Local video files played with Play Clipboard will still be added to the Played List.
+All Local video play and autoplay is now done by entering the line number or using Play Directory.
+
+
+The clipboard feature is still used to:
+
+Download video url's (yt-dlp) with Play Clipboard, Download Default, Download Choose and Self Destruct.
+Loading Download List, View Logs, and Add to Queue.
+Change Directories in Navigate Tree and Create Directory.
+
+Updated Home Help.
+
 
 
