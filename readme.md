@@ -1,4 +1,4 @@
-# Videoinfox v3.3.01
+# Videoinfox v3.3.02
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -307,6 +307,11 @@ FIRST RUN
 <br />
 
 ##### Reddit /Videoinfox for discussion.
+
+## v3.3.02 Switched 2 lines around in Yt-dlp >>> Download List
+
+
+## v3.3.01 Add: Remove duplicates from the Play List.
 
 
 ## v3.3.00 Update: &nbsp; Additions and Changes
