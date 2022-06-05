@@ -1,4 +1,4 @@
-# Videoinfox v3.3.03
+# Videoinfox v3.4.00
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -306,6 +306,14 @@ FIRST RUN
 <br />
 
 ##### Reddit /Videoinfox for discussion.
+
+###  v3.4.00 Added: Playlist Add in Played List. Add videos from the Played List to the Playlist.
+                
+View Playlist added to Played List.
+
+Fix: Bug in Played List
+
+Update: Home Help > Autoplay Features and Playlist.
 
 
 ### v3.3.03 Fixed an error in Clear Results on Home Screen.
