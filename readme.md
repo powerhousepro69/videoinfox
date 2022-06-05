@@ -212,7 +212,7 @@ PLAYED LIST
 <br />
 PLAYLIST
 
-![Videoinfox HOME](https://i.imgur.com/hpiQMqU.png)
+![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/playlist.png)
 
 
 <br />
