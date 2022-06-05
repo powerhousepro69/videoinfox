@@ -1,4 +1,4 @@
-# Videoinfox v3.4.00
+# Videoinfox v3.4.01
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -314,6 +314,8 @@ FIRST RUN
 <br />
 
 ##### Reddit /Videoinfox for discussion.
+
+###  v3.4.01 Change timeout on message: Added to Playlist . . .
 
 ###  v3.4.00 Added: Playlist Add in Played List.
 
