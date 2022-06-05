@@ -325,7 +325,7 @@ Update: Home Help > Autoplay Features and Playlist.
 ### v3.3.01 Add: Remove duplicates from the Play List.
 
 
-## v3.3.00 Update: &nbsp; Additions and Changes
+### v3.3.00 Update: &nbsp; Additions and Changes
 
 New feature: PlayList Add: add video selection to the Playlist by entering line number.
 
