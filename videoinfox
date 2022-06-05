@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v3.3.00								         
+#  file : videoinfox v3.3.01								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v3.3.00"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m3.00")  # Version Number: with blinking dot
+ver="Videoinfox v3.3.01"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m3.01")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -1479,6 +1479,10 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v3.3.01 Add: Remove duplicates from the Play List." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v3.3.00 Additions and Changes" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -3308,12 +3312,8 @@ fi
 ;;
 
 
-
-
-
-
  ########################################################################################################################################
-         k)  # playlistaddnavLIST ADD (NAVIGATE TREE)  ############################################################################################
+         k)  # PLAYLIST ADD (NAVIGATE TREE)  ############################################################################################
  ########################################################################################################################################
 
 #checking for videos in the current directory.  if no videos exist,   playlistaddnav Directory   won't execute
@@ -3360,6 +3360,7 @@ do
 
 done < "$input"
 #  DONE WRITING ONLY VALID FILES
+
 
 #  REMOVE BLANK LINES
 sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-directory-apa2 2>/dev/null
@@ -3480,7 +3481,7 @@ if [ -z "$linenumber" ]
               echo " ""$line" 
               echo
               echo " Added to Playlist . . ."
-              sleep 1.7
+              sleep .2
       fi
  
 IFS=$OLDIFS
@@ -3729,7 +3730,7 @@ fi
 
 
 ##################################################################################################################################################
-s) #######################  PLAYLIST - <HOME>  ################################################################################################### 
+s) #######################  PLAYLIST - <Navigate Treee>  ################################################################################################## 
 ##################################################################################################################################################
 
 
@@ -3800,6 +3801,27 @@ done < "$input"
 
 #  REMOVE BLANK LINES
 sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfo.playlist-apa2 2>/dev/null
+
+
+
+
+
+
+
+
+# REMOVE DUPLICATES
+cat -n ~/.config/videoinfox/tmp/videoinfo.playlist-apa2 | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfo.playlist-apa3
+
+mv ~/.config/videoinfox/tmp/videoinfo.playlist-apa3 ~/.config/videoinfox/tmp/videoinfo.playlist-apa2
+
+
+
+
+
+
+
+
+
 
 #  MOVE apa2 BACK TO apa
 mv ~/.config/videoinfox/tmp/videoinfo.playlist-apa2 ~/.config/videoinfox/tmp/videoinfo.playlist-apa 2>/dev/null
@@ -4962,49 +4984,16 @@ if [ "$grabclip" = "http" ]  # if the first 4 characters = <http> go then
       fi
 fi
 
-
-##################################################################################################################################################
-###########################  START ROUTINE TO SORT AND REMOVE DUPLICATES FROM  <videoinfo.playedlist>            #################################  
-###########################  This routine runs when you startup Videoinfo and everytime you return to the HOME.  #################################  
-##################################################################################################################################################
-
-# grab body without header. remove duplicates
-tail -n +6 ~/.config/videoinfox/videoinfo.playedlist > ~/.config/videoinfox/videoinfo.playedlist.tmp  # grab body minus header from <videoinfo.playedlist>
-#sort -u ~/.config/videoinfox/videoinfo.playedlist.tmp > ~/.config/videoinfox/videoinfo.playedlist.tmp2  # sort and remove duplicates
-cat -n ~/.config/videoinfox/videoinfo.playedlist.tmp | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/videoinfo.playedlist.tmp2
-mv ~/.config/videoinfox/videoinfo.playedlist.tmp2 ~/.config/videoinfox/videoinfo.playedlist.tmp  # copying <playedlist.tmp2> to <playedlist.tmp>
-
-# removing all lines from the body that don't begin with  / 
-sed -n '/^[/].*/p' ~/.config/videoinfox/videoinfo.playedlist.tmp > ~/.config/videoinfox/videoinfo.playedlist.slash
-mv ~/.config/videoinfox/videoinfo.playedlist.slash ~/.config/videoinfox/videoinfo.playedlist.tmp
-
-# witing temporary header to be applied to the body of the processed played list 
-echo > ~/.config/videoinfox/videoinfo.playedlist.header.tmp
-echo "PLAYED LIST" >> ~/.config/videoinfox/videoinfo.playedlist.header.tmp
-echo >> ~/.config/videoinfox/videoinfo.playedlist.header.tmp
-echo "This File was Created: $(date) by" "$USER" >> ~/.config/videoinfox/videoinfo.playedlist.header.tmp
-echo >> ~/.config/videoinfox/videoinfo.playedlist.header.tmp
-
-# Pssting New Played List into Newly Created Header 
-# PASTE FILE: ~/.config/videoinfox/videoinfo.playedlist.header.tmp  TO FILE:  <~/.config/videoinfox/videoinfo.playedlist.tmp>
-# The paste result is FILE:  <~/.config/videoinfox/videoinfo.playedlist.tmp2>
-cat ~/.config/videoinfox/videoinfo.playedlist.header.tmp ~/.config/videoinfox/videoinfo.playedlist.tmp > ~/.config/videoinfox/videoinfo.playedlist.tmp2 
-
-# RENAME FILE: <~/.config/videoinfox/videoinfo.playedlist.tmp2>  TO FILE  <~/.config/videoinfox/videoinfo.playedlist>  (also removes .tmp2)
-mv ~/.config/videoinfox/videoinfo.playedlist.tmp2 ~/.config/videoinfox/videoinfo.playedlist
-
-# Cleanup of remaining temporary files
-rm ~/.config/videoinfox/videoinfo.playedlist.header.tmp
-rm ~/.config/videoinfox/videoinfo.playedlist.tmp
-##################################################################################################################################################
-#                            END ROUTINE FOR FILE: <videoinfo.playedlist>                                                                        #
-##################################################################################################################################################
+########################### removed sort routine #########################
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content                  
 clear
 
 #  REMOVE PLAYED LIST HEADER AND WRITE NEW FILE FOR PROCESSING: ~/.config/videoinfox/tmp/videoinfo.playedlist-auto-play-all
-awk 'NR>5' ~/.config/videoinfox/videoinfo.playedlist > ~/.config/videoinfox/tmp/videoinfo.playedlist-apa
+#awk 'NR>5' ~/.config/videoinfox/videoinfo.playedlist > ~/.config/videoinfox/tmp/videoinfo.playedlist-apa
+
+cp ~/.config/videoinfox/videoinfo.playedlist ~/.config/videoinfox/tmp/videoinfo.playedlist-apa
+
 
 #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
 atleastone=$(grep '^/' ~/.config/videoinfox/tmp/videoinfo.playedlist-apa | wc -l)
@@ -5038,6 +5027,10 @@ done < "$input"
 
 #  REMOVE BLANK LINES
 sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2 2>/dev/null
+
+# REMOVE DUPLICATES
+cat -n ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2 | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfo.playedlist-apa3
+mv ~/.config/videoinfox/tmp/videoinfo.playedlist-apa3 ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2
 
 #  MOVE apa2 BACK TO apa
 mv ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2 ~/.config/videoinfox/tmp/videoinfo.playedlist-apa 2>/dev/null
@@ -5699,6 +5692,17 @@ done < "$input"
 #  REMOVE BLANK LINES
 sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfo.playlist-apa2 2>/dev/null
 
+
+
+# REMOVE DUPLICATES
+cat -n ~/.config/videoinfox/tmp/videoinfo.playlist-apa2 | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfo.playlist-apa3
+
+mv ~/.config/videoinfox/tmp/videoinfo.playlist-apa3 ~/.config/videoinfox/tmp/videoinfo.playlist-apa2
+
+
+
+
+
 #  MOVE apa2 BACK TO apa
 mv ~/.config/videoinfox/tmp/videoinfo.playlist-apa2 ~/.config/videoinfox/tmp/videoinfo.playlist-apa 2>/dev/null
 
@@ -6314,7 +6318,7 @@ if [ -f ~/.config/videoinfox/tmp/videoinfo-findwork.tmp ]  # if file exists goto
               echo " ""$playnumber" 
               echo
               echo " Added to Playlist . . ."
-              sleep 1.7
+              sleep .2
       fi
 
 else
