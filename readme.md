@@ -12,7 +12,7 @@
 
 #### Add URL's to Unlimited User Set Lists on the fly without leaving your gui or starting up Videoinfox.
 
-#### Download all your video url lists with Videoinfox's Yt-dlp integration.
+#### Download all your video url lists with Videoinfox's Yt-dlp integration including a Download Queue.
 <br />
 
 
@@ -34,7 +34,7 @@ You have to start Download List first then run another instance of Videoinfox to
 
 Videoinfox is a Linux shell script that feels like an app. If you enjoy watching local videos on your PC and want the ability to download video url's, you won't be disappointed. You can also make your own URL lists to download. While downloading a list, a log file will be generated for each list. The log is each http link from your list with the downloaded video filename. If the download list is aborted before completion, Yt-dlp has you covered. Just run the Download List feature again. Yt-dlp won't re-download files that you already have. There is a Played List that keeps track of everything you played with the exception of the Play Directory feature. There is also a playlist you can create from search results or from directory listings. Download Queue to add unlimited Videoinfox created User Download Lists for batch processing. Videoinfox does all the error handling. You should never encounter any script errors.
 
-Note: Playlist doesn't auto play yet, but will in the near future. Along with multiple playlist capability.
+### Planned Feature: Multiple Playlist Capability.
 
 <br />
 
@@ -113,9 +113,8 @@ FFprobe - Get codec, resolution & duration in seconds.
  
 ### To use Play Clipboard:
 
-#### Copy a local file including full path to the clipboard and press  enter  to verify validity and  p  to play.
  
-#### Copy a video url to the clipboard and press  enter  to verify validity and  p  to download and auto play.
+#### Copy a video url to the clipboard then press enter to verify validity then &nbsp; p &nbsp; to download and auto play.
 
 
 
