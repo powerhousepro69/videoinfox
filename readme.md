@@ -346,6 +346,6 @@ Change Directories in Navigate Tree and Create Directory.
 Updated Home Help.
 <br />
 
-![Play Directory](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/code-stats.png)
+![Code Stats](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/code-stats.png)
 
 
