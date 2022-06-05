@@ -340,6 +340,8 @@ Loading Download List, View Logs, and Add to Queue.
 Change Directories in Navigate Tree and Create Directory.
 
 Updated Home Help.
+<br />
 
+![Play Directory](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/code-stats.png)
 
 
