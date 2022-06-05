@@ -307,7 +307,9 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 
-###  v3.4.00 Added: Playlist Add in Played List. Add videos from the Played List to the Playlist.
+###  v3.4.00 Added: Playlist Add in Played List.
+
+Add videos from the Played List to the Playlist.
                 
 View Playlist added to Played List.
 
