@@ -1,4 +1,4 @@
-# Videoinfox v3.3.00
+# Videoinfox v3.3.01
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -309,7 +309,7 @@ FIRST RUN
 ##### Reddit /Videoinfox for discussion.
 
 
-## This Update: v3.3.00 Additions and Changes
+## v3.3.00 Update: &nbsp; Additions and Changes
 
 New feature: PlayList Add: add video selection to the Playlist by entering line number.
 
