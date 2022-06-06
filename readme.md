@@ -1,4 +1,4 @@
-# Videoinfox v3.4.02
+# Videoinfox v3.4.03
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -314,6 +314,10 @@ FIRST RUN
 <br />
 
 ##### Reddit /Videoinfox for discussion.
+
+###  v3.4.03 Fix: Last Download in Yt-dlp Menu 
+
+Directory wasn't changing back to user set directory after video play.
 
 ###  v3.4.02 Updated Home Help and Version History.
 
