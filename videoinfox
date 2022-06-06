@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v3.4.02								         
+#  file : videoinfox v3.4.03								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v3.4.02"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.02")  # Version Number: with blinking dot
+ver="Videoinfox v3.4.03"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.03")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -1503,6 +1503,9 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v3.4.03 Fix: Last Download in Yt-dlp Menu wasn't changing back to user set directory after video play." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v3.4.02 Updated Home Help and Version History." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -10570,6 +10573,8 @@ fi
 
               s)  # DOWNLOAD VIDEO PLAY, THEN DELETE ON VIDEO PLAYER CLOSE 
               
+              grabdir="$PWD"
+
               pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
               read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir  # reading download directory 
               cd "$dirsaved"   # change to download directory
@@ -10610,10 +10615,9 @@ fi
               ;; 
 
 
-
               l)  # play last download
                
-              #grabdir="$PWD"  # storing directory to restore at the end of this function
+              grabdir="$PWD"  # storing directory to restore at the end of this function
                
               read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir  # reading download directory 
               cd "$dirsaved"   # change to download directory
@@ -10664,7 +10668,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to file  
               ffplay -fs -autoexit &> /dev/null "$ytdlplast"
               pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-              # cd "$grabdir"   # restore dir prior to entering yt-dlp menu
+              cd "$grabdir"   # restore dir prior to entering yt-dlp menu
               ;;  
 
 
