@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v3.4.04								         
+#  file : videoinfox v3.4.05								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v3.4.04"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.04")  # Version Number: with blinking dot
+ver="Videoinfox v3.4.05"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.05")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -1329,6 +1329,7 @@ echo "                s - Self Destruct...... Download, auto play then delete wh
 echo "                g - Download List...... Instructions in help on the Download List screen." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Last Download works with Play Clipboard, Download Default and Download Choose." >> ~/.config/videoinfox/videoinfo.help
+echo " Self Destruct isn't written to Last Download because the video is deleted after closing the player."  >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Note: Vidoeinfox keeps its own yt-dlp copy in:  ~/.config/videoinfox" >> ~/.config/videoinfox/videoinfo.help
 echo "       On every start of Videoinfox, it will check for its own update and notify if an update is available." >> ~/.config/videoinfox/videoinfo.help
@@ -1503,6 +1504,12 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v3.4.05 Add: Error handling and reporting in Yt-dlp Menu." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Download Default, Download Choose and Self Destruct. Yt-dlp won't try to process empty clipboard or invalid url." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Error message: Clipboard is empty or contained invalid video url . . ." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v3.4.04 Fix: Error in Played List." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -7900,7 +7907,7 @@ echo
 dirtemp="$PWD"  # save dir for restore after ty-dlp download
 cd ~/.config/videoinfox
 
-timeout 30 wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp 2>/dev/null  # download yt-dlp 
+wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp 2>/dev/null  # download yt-dlp 
  
 if [ -f ~/.config/videoinfox/yt-dlp ]  # if yt-dlp exists goto then
    then
@@ -10578,9 +10585,15 @@ fi
               
               grabdir="$PWD"
 
-              pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
               read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir  # reading download directory 
-              cd "$dirsaved"   # change to download directory
+              cd "$dirsaved"   # change to download directory              
+
+              pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+              
+              grabpaste3=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
+
+              if [ "$grabpaste3" = "http" ]  # if the 4 characters = <http> go then
+                then
          
               clear
               ~/.config/videoinfox/yt-dlp "$pasteclip" -o "$dirsaved"/download.tmp  # downloading temporary video
@@ -10614,6 +10627,13 @@ fi
               echo "" | xclip -sel clip  # clearing out the clipboard
               pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
              
+              else 
+                    echo
+                    echo
+                    echo " Clipboard is empty or contained invalid video url . . ."
+                    sleep 1
+              fi
+
               cd "$grabdir" # restore dir
               ;; 
 
@@ -10679,7 +10699,13 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir  # reading download directory 
               cd "$dirsaved"  # change to download directory
  
-              pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+              pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content              
+#!!!
+              grabpaste3=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
+
+              if [ "$grabpaste3" = "http" ]  # if the 4 characters = <http> go then
+                then
+                  
               clear
       
               ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload 
@@ -10700,17 +10726,30 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               
               echo "" | xclip -sel clip  # clearing out the clipboard
               pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+
+              
+                else 
+                    echo
+                    echo
+                    echo " Clipboard is empty or contained invalid video url . . ."
+                    sleep 1
+              fi
               
               cd "$grabdir"
               ;;
 
 
               c)  # DOWNLOAD CHOOSE
-              pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-              
               read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir  # reading download directory 
               cd "$dirsaved"   # change to download directory
 
+              pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+
+              grabpaste3=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
+
+              if [ "$grabpaste3" = "http" ]  # if the 4 characters = <http> go then
+                then
+              
               clear
               echo
               echo
@@ -10743,6 +10782,13 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               
               echo "" | xclip -sel clip  # clearing out the clipboard
               pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+              
+              else 
+                    echo
+                    echo
+                    echo " Clipboard is empty or contained invalid video url . . ."
+                    sleep 1
+              fi
               
               cd "$grabdir"
               ;; 
