@@ -1,4 +1,4 @@
-# Videoinfox v3.4.05
+# Videoinfox v3.4.06
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -314,6 +314,10 @@ FIRST RUN
 <br />
 
 ##### Reddit /Videoinfox for discussion.
+
+###  v3.4.06 Fix: View Downloads in Yt-dlp Menu.
+
+Play Directory, Autoplay Line and Play Line were not being displayed when there was a url in the clipboard.
 
 ### v3.4.05 Add: Error handling and reporting in Yt-dlp Menu.
 
