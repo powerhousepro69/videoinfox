@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v3.4.06								         
+#  file : videoinfox v3.4.07								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v3.4.06"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.06")  # Version Number: with blinking dot
+ver="Videoinfox v3.4.07"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.07")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -1504,6 +1504,11 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v3.4.07 Add: Show Message when Set User List is slected in Yt-dlp >>> Download List." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Message: User list set for option: videoinfox -l   Also, gui notification." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v3.4.06 Fix: View Downloads in Yt-dlp Menu." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -9117,8 +9122,19 @@ if [ -z "$pasteclip" ]  # if clipboard is empty goto then
 
            else  # clipbaord = User List
                 echo "$pasteclip" > ~/.config/videoinfox/videoinfox.set-user-list
+                
+                echo
+                echo " ""$pasteclip"
+                echo
+                echo " User List Set for option: videoinfox -l"
+                echo
+                notify-send "Videoinfox Message: User List Set for option: videoinfox -l" ""$pasteclip"" # GUI Notification.
+
+                read -p " Press enter to Continue"
+
                 echo "" | xclip -sel clip  # clearing out the clipboard
-                pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content   
+                pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content 
+   
         fi
 fi
 
