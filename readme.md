@@ -1,4 +1,4 @@
-# Videoinfox v3.4.03
+# Videoinfox v3.4.04
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -315,6 +315,8 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 
+###  v3.4.04 Fix: Error in Played List.
+
 ###  v3.4.03 Fix: Last Download in Yt-dlp Menu 
 
 Directory wasn't changing back to user set directory after video play.
@@ -336,45 +338,8 @@ Update: Home Help > Autoplay Features and Playlist.
 
 ### v3.3.03 Fixed an error in Clear Results on Home Screen.
 
-
-### v3.3.02 Switched 2 lines around in Yt-dlp >>> Download List
-
-
-### v3.3.01 Add: Remove duplicates from the Play List.
-
-
-### v3.3.00 Update: &nbsp; Additions and Changes
-
-New feature: PlayList Add: add video selection to the Playlist by entering line number.
-
-Playlist Add: Added to the Home Screen. Add to the Playlist from Search Results.
-
-Playlist Add: Added to Navigate Tree. Add to the Playlist from directory listings.
-
-View Playlist was added to Navigate Tree.
-
-No more coying to the clipboard to play selections from the Playlist.
-View Playlist look and function was updated to maintain user interface continuity.
-
-Added to View Playlist: Autoplay Line and Play Line. Neither will write to the Played List.
-Removed error correction routine for clipboard copy errors. It was no longer needed.
-Added error correction to verify file validity before adding selection to the Playlist.
-
-Notes:
-
-Local video files can no longer be added to the Playlist from the Clipboard.
-Local video files played with Play Clipboard will still be added to the Played List.
-All Local video play and autoplay is now done by entering the line number or using Play Directory.
-
-
-The clipboard feature is still used to:
-
-Download video url's (yt-dlp) with Play Clipboard, Download Default, Download Choose and Self Destruct.
-Loading Download List, View Logs, and Add to Queue.
-Change Directories in Navigate Tree and Create Directory.
-
-Updated Home Help.
 <br />
+
 
 ![Code Stats](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/code-stats.png)
 
