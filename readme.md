@@ -1,4 +1,4 @@
-# Videoinfox v3.4.04
+# Videoinfox v3.4.05
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -314,6 +314,11 @@ FIRST RUN
 <br />
 
 ##### Reddit /Videoinfox for discussion.
+
+### v3.4.05 Add: Error handling and reporting in Yt-dlp Menu.
+
+Download Default, Download Choose and Self Destruct. Yt-dlp won't try to process empty clipboard or invalid url.
+Error message: Clipboard is empty or contained invalid video url . . .
 
 ###  v3.4.04 Fix: Error in Played List.
 
