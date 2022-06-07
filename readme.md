@@ -1,4 +1,4 @@
-# Videoinfox v3.4.06
+# Videoinfox v3.4.07
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -314,6 +314,10 @@ FIRST RUN
 <br />
 
 ##### Reddit /Videoinfox for discussion.
+
+###  v3.4.07 Add: Show Message when Set User List is slected in Yt-dlp >>> Download List.
+
+Message: User list set for option: videoinfox -l   Also, gui notification.
 
 ###  v3.4.06 Fix: View Downloads in Yt-dlp Menu.
 
