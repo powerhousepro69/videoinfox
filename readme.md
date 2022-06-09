@@ -1,4 +1,4 @@
-# Videoinfox v3.4.07
+# Videoinfox v3.4.08
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -315,6 +315,12 @@ FIRST RUN
 <br />
 
 ##### Reddit /Videoinfox for discussion.
+
+###  v3.4.08 Add: Error reporting when trying to set the Default List as a User Set List.
+
+MSG: The Default List can't be a User Set List. Only user created lists.
+
+Add: Download Queue removes any blank lines in each list in the queue before processing.
 
 ###  v3.4.07 Add: Show Message when Set User List is slected in Yt-dlp >>> Download List.
 
