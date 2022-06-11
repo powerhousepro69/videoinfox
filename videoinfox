@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v3.4.08								         
+#  file : videoinfox v3.4.10								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v3.4.08"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.08")  # Version Number: with blinking dot
+ver="Videoinfox v3.4.10"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.10")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -1339,7 +1339,8 @@ echo >> ~/.config/videoinfox/videoinfo.help
 echo " Autoplay Features:" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " Play Clipboard: This option always writes to the Played List." >> ~/.config/videoinfox/videoinfo.help
+echo " Play Clipboard: Download and autoplay a video url that is in the clipboard." >> ~/.config/videoinfox/videoinfo.help
+echo "                 This option always writes to the Played List." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Play Directory: Autoplay all videos in the current directory from beginning to end of the directory listing." >> ~/.config/videoinfox/videoinfo.help
 echo "                 This option never writes to the Played List." >> ~/.config/videoinfox/videoinfo.help
@@ -1357,7 +1358,7 @@ echo "__________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Playlist:" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " Playlist Add: On the Home Screen. Add videos from find results to the Playlist." >>~/.config/videoinfox/videoinfo.help
+echo " Playlist Add: On the Home Screen. Add videos from recursive find results or directory listings to the Playlist." >>~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Playlist Add: In Navigate Tree. Add videos from directory listings to the Playlist." >>~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1366,10 +1367,21 @@ echo >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Autoplay Line: Autoplay. Start from any line number and play to the end of the list. " >>~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " Play Line: Only play the line number entered. (View Playlist >>> Play Line won't write to the Played List.)" >>~/.config/videoinfox/videoinfo.help
+echo " Play Line: Only play the line number entered." >>~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " Planned Feature: Multiple Playlist Capability." >>~/.config/videoinfox/videoinfo.help
+echo " Planned Feature: Multi Playlist Capability." >>~/.config/videoinfox/videoinfo.help
+echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo " Navigate Tree: Whatever the directory is when entering Navigate Tree will be set as the Treetop." >> ~/.config/videoinfox/videoinfo.help
+echo "                Treetop: You can navigate in but not out." >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo "                While in Navigate Tree, there are two ways to change the Treetop." >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo "                - Default Dirs" >> ~/.config/videoinfox/videoinfo.help
+echo "                - Change Treetop" >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " videoinfox -h to see command line options." >> ~/.config/videoinfox/videoinfo.help
@@ -1491,7 +1503,7 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 # STILL NEEDS COMPLETED
-echo " PLANNED FEATURE: Multiple Playlist Capability." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " PLANNED FEATURE: Multi Playlist Capability." >> ~/.config/videoinfox/videoinfo-ver-history
 
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
@@ -1504,6 +1516,17 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v3.4.10 Change: User Set List display in Download List."  >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Add: Show message on Home Screen when Show All is selected and there are no video files to play." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         MSG: No video files recursively reachable from the current directory . . ." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Add: Change Treetop in Navigate Tree." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              Now the Treetop can be changed by Default Dirs or by manually entering a directory." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Add: Navigate Tree info in Home Help." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v3.4.08 Add: Download List error reporting when trying to set the Default List as a User Set List."  >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2902,9 +2925,9 @@ echo
 echo " ""$der"" >>> NAVIGATE TREE          Enter - Update Clipboard Display           "$dirdisp" - Default Dirs"
 echo "___________________________________________________________________________________________________________________" 
 echo
-echo " c - "$changedir3"     d "$bdash" Play Directory     s - View Playlist     k "$bdash" Playlist Add                   q - Quit"
-echo " u - Up One Level         o "$bdash" Autoplay Line"
-echo " t - Treetop              j "$bdash" Play Line"
+echo " c - "$changedir3"     d "$bdash" Play Directory     o "$bdash" Autoplay Line     s - View Playlist                  q - Quit"
+echo " u - Up One Level         n - Change Treetop     j "$bdash" Play Line         k "$bdash" Playlist Add                          "
+echo " t - Treetop"
 echo   
 echo -en " Enter Option: "
 read -r -n1 option
@@ -2925,8 +2948,9 @@ echo
 
 
          1)  # CD DIRECTORY TO TV    
-         cd "$dir1" 
+          
          grabdirfornav2="$dir1"
+         cd "$dir1"
          ;;
     
          2)  # CD DIRECTORY TO MOVIES
@@ -3161,6 +3185,50 @@ rm ~/.config/videoinfox/tmp/videoinfox.numbered-navtree-play-directory-list 2>/d
 rm ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa-work 2>/dev/null 
 
 ;;           
+
+
+         ########################################################################################################################################
+         n)  # CHANGE TREETOP (NAVIGATE TREE)  ##################################################################################################
+         ########################################################################################################################################
+
+pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+clear
+echo
+echo "Directory: ""$PWD"
+echo "Clipboard: ""$pasteclip"
+echo "___________________________________________________________________________________________________________________"
+echo
+echo " $ver >>> CHANGE TREETOP"
+echo "___________________________________________________________________________________________________________________"
+echo
+echo " No quotations needed for paths with spaces. Case sensative."
+echo 
+echo " Enter directory or paste directory if in clipboard."
+echo
+read -r -p " " specifydir  # waiting fot user input - the directory you want to chang to 
+	
+	if [ -z "$specifydir" ]  # if no input was entered goto  <then> 
+          then
+               echo
+               echo " error: Nothing was entered"
+               sleep .75
+          else
+              if [ -d "$specifydir" ]  #  if directoty exists goto  <then>
+                then
+                     echo
+                     grabdirfornav2="$specifydir"
+                     cd "$specifydir"   # change the directory
+                     echo " Treetop changed to: $PWD"  # <pwd>  print current working directory to the screen
+                     sleep 1.5                   
+                else
+                     echo
+                     echo " error:  No such directory"
+                     sleep 1.5                   
+          fi
+    fi       
+echo
+
+;;
 
 
          ########################################################################################################################################
@@ -4730,7 +4798,10 @@ searchtotal=$(find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname 
                      if [ "$searchtotal" = 0 ]  # if find returned no results goto <then>
       
                        then
-                           :
+                           echo
+                           echo
+                           echo " No video files recursively reachable from the current directory . . ."
+                           sleep 1
                            #cp ~/.config/videoinfox/videoinfo.findwork3 ~/.config/videoinfox/videoinfo.findwork
                            #cp ~/.config/videoinfox/videoinfo.lastsearchtotal2  ~/.config/videoinfox/videoinfo.lastsearchtotal
                         
@@ -8413,8 +8484,9 @@ if [ -z "$ctmp4" ]  # if the set user list = null goto then
          :  # don't display anything
 
     else
-         echo "User Set List:" "$ulistset"  # display if there is at least one line
-         echo 
+         echo "User Set List:"   # display if there is at least one line
+         echo "$ulistset"
+         echo
 fi
     
 
@@ -11276,9 +11348,7 @@ c)
 ##################################################################################################################################################
 ###########################   MORE OPTIONS c  CHANGE DIRECTORY  ##################################################################################
 ##################################################################################################################################################
-
-##############xmodmap -e 'keycode 55=v'  #  enable v key 
-
+ 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 clear
 echo
