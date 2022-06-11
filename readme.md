@@ -176,19 +176,19 @@ CREATE USER LISTS AND ADD URL'S TO THEM WITHOUT LEAVING YOUR GUI OR STARTING VID
 DEFAULT DOWNLOAD LIST.
 
 ADD TO THE DEFAULT LIST WITHOUT LEAVING YOUR GUI OR STARTING VIDEOINFOX.
-![Videoinfox HOME](https://i.imgur.com/vEIx5DB.png)
+![Videoinfox download list help](https://i.imgur.com/vEIx5DB.png)
 
 
 <br />
 DEFAULT DOWNLOAD LIST HELP.
 
-![Videoinfox HOME](https://i.imgur.com/LPNoA47.png)
+![Videoinfox Download list help 2](https://i.imgur.com/LPNoA47.png)
 
 
 <br />
 USER LIST HELP.
 
-![Videoinfox HOME](https://i.imgur.com/nHBamaY.jpg)
+![Videoinfox User List help](https://i.imgur.com/nHBamaY.jpg)
 
 
 <br />
@@ -200,7 +200,7 @@ NAVIGATE TREE WITH PLAY DIRECTORY, AUTOPLAY PLAY AND PLAY LINE
 <br />
 NAVIGATE TREE >>> AUTOPLAY LINE. &nbsp; START AUTOPLAY FROM ANY LINE BY ENTERING THE LINE NUMBER.
 
-![Navigate Tree](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/navigate-tree-autoplay-line.png)
+![Navigate Tree Play Line](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/navigate-tree-autoplay-line.png)
 
 
 <br />
@@ -208,51 +208,51 @@ FIND VIDEOS TO PLAY OR GET INFO.
 
 SELECT PLAY NUMBER AND ENTER THE NUMBER THAT YOU WANT TO PLAY.
 
-![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/find.png)
+![Videoinfox Find](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/find.png)
 
 
 <br />
 PLAYED LIST
 
-![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/playedlist.png)
+![Videoinfox Played List](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/playedlist.png)
 
 
 <br />
 PLAYLIST
 
-![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/playlist.png)
+![Videoinfox Playlist](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/playlist.png)
 
 
 <br />
 MORE OPTIONS
 
-![Videoinfox HOME](https://i.imgur.com/HXyfhCU.png)
+![Videoinfox More Options](https://i.imgur.com/HXyfhCU.png)
 
 
 <br />
 LIST DIRECTORY
 
-![Videoinfox HOME](https://i.imgur.com/kIMMech.png)
+![Videoinfox List Directory](https://i.imgur.com/kIMMech.png)
 
 <br />
 VIDEO COUNT
 
-![Videoinfox HOME](https://i.imgur.com/ORPVFGz.png)
+![Videoinfox Video Count](https://i.imgur.com/ORPVFGz.png)
 
 <br />
 VIDEO DURATION
 
-![Videoinfox HOME](https://i.imgur.com/03KxKlU.png)
+![Videoinfox Duration](https://i.imgur.com/03KxKlU.png)
 
 <br />
 FIND DIRECTORY
 
-![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/find-directory.png)
+![Videoinfox Find Directory](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/find-directory.png)
 
 <br />
 SETTINGS
 
-![Videoinfox HOME](https://i.imgur.com/vun9YFS.png)
+![Videoinfox Settings](https://i.imgur.com/vun9YFS.png)
 
 
 <br />
