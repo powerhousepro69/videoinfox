@@ -1,4 +1,4 @@
-# Videoinfox v3.4.08
+# Videoinfox v3.4.10
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -34,15 +34,15 @@ You have to start Download List first then run another instance of Videoinfox to
 
 Videoinfox is a Linux shell script that feels like an app. If you enjoy watching local videos on your PC and want the ability to download video url's, you won't be disappointed. You can also make your own URL lists to download. While downloading a list, a log file will be generated for each list. The log is each http link from your list with the downloaded video filename. If the download list is aborted before completion, Yt-dlp has you covered. Just run the Download List feature again. Yt-dlp won't re-download files that you already have. There is a Played List that keeps track of everything played with the exception of Play Directory and Autoplay Line. Create a Playlist to autoplay. Download Queue to add unlimited Videoinfox created User Download Lists for batch processing. Videoinfox does all the error handling. You should never encounter any script errors.
 
-Add videos to the Playlist from: 
+#### Add videos to the Playlist from: 
 
-- Search Results
+- Search Results: &nbsp; Find for recursive searching and Show All for recursive directory listing.
                                  
-- Directory Listings
+- Directory Listings: &nbsp; Navigate Tree for current directory listing. 
 
-- Played List
+- Played List: &nbsp; Play Clipboard, Last Download and Play Line all write to the Played List.  
 
-#### Planned Feature: Multiple Playlist Capability.
+##### Planned Feature: Multi Playlist Capability.
 
 <br />
 
@@ -315,6 +315,16 @@ FIRST RUN
 <br />
 
 ##### Reddit /Videoinfox for discussion.
+
+###  v3.4.10 Change: User Set List display in Download List.
+
+Add: Show message on Home Screen when Show All is selected and there are no video files to play.
+MSG: No video files recursively reachable from the current directory . . .
+
+Add: Change Treetop in Navigate Tree.
+Now the Treetop can be changed by Default Dirs or by manually entering a directory.
+
+Add: Navigate Tree info in Home Help.
 
 ###  v3.4.08 Add: Error reporting when trying to set the Default List as a User Set List.
 
