@@ -1,4 +1,4 @@
-# Videoinfox v3.4.10
+# Videoinfox v3.4.11
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -70,45 +70,46 @@ FFprobe - Get codec, resolution & duration in seconds.
 #### Navigation was designed to be robust and efficient. One keypress for all menu selections.
 
   - Check for update on startup and notifity if update is available. Download and update in Videoinfox.
-  - Play either a local file or a downloadable video url via yt-dlp.
-  - Unlimited User Lists: Keep pasting Video URL's on the fly to the Default List without starting Videoinfox.
-  - Default List: &nbsp; Keep pasting Video URL's on the fly to the User List without starting Videoinfox.
+  - Play a local file by entering the line number. Play single video or autoplay the entire list.
+  - Play Clipboard: Blinking notification when there is a valid video url for play.
+  - Play Clipboard: Download a video url that is in the clipboard via Yt-dlp and autoplay.
+  - Play Clipboard is available in: Home  Played List  Play List  Yt-dlp Menu  View Downloads
   - See codec, resolution and duration on the playing video.
-  - Play Clipboard is available in: &nbsp; Home &nbsp; Played List &nbsp; Play List &nbsp; Yt-dlp Menu &nbsp; View Downloads
-  - Play Clipboard: &nbsp; Blinking notification when there is a valid video file or video url for play.
-  - Play Directory autoplay available on: &nbsp; Home Screen and in Navigate Tree.
-  - Blinking &nbsp; Play Directory &nbsp; notification when there are video files in the current directory.
-  - Navigate Tree  &nbsp;  Blinking &nbsp; Change Directory &nbsp; notification when there is a valid directory in the clipboard.
+  - Play Directory autoplay available on: Home Screen, Navigate Tree and View Downloads.
+  - Autoplay video files in the current directory with option to quit. videoinfox -d
+  - Blinking Play Directory otification when there are video files in the current directory.
+  - Navigate Tree Blinking Change Directory notification when there is a valid directory in the clipboard.
   - Navigate Tree with Play Directory autoplay and Play Line with autoplay. Select line number to start play.
   - Video Player (ffplay) auto closes when the video ends.
   - Auto clear the clipboard after the video player is closed.
   - To watch the last download after Play Clipboard cleared the link select Last Download.
   - Auto clear the clipboard of invalid files and urls.
   - Press enter after your copy to the clipboard to validate clipboard content.
-  - File types searched for: &nbsp; .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx 
-  - Rapid directory changing by setting default directories in Settings. &nbsp; 4 available to set.  The 5th is dir at last exit.
-  - Default Dirs - 1 2 3 4 5 &nbsp; directory switching available in: &nbsp; Home &nbsp; Navigate Tree &nbsp; Download List &nbsp; More Options
-  - Play Line option. Only play the line number entered and wriet to the Played List.
+  - File types searched for: .webm   .mp4   .mkv   .avi   .divx
+  - Rapid directory changing by setting default directories (4) in Settings. The 5th is dir at last exit.
+  - Default Dirs - 1 2 3 4 5  available in: Home  Navigate Tree  Download List  More Options
+  - Play Line option. Only play the line number entered and write to Played List.
   - Autoplay Line option. Start autoplay from any line in the Played List by entering the line number.
   - Played List will keep track of everything played except for Play Directory and Autoplay Line.
-  - Played List: &nbsp; Play All option that will autoplay the entire list with option to quit.
-  - Playlist: &nbsp; Save a list of videos from find results, directory listings and the Played List.
+  - Played List: Play All option that will auto play the entire list with option to quit.
+  - Playlist: Save a list of videos from search results, directory listings and Played List.
   - Remove duplicates from the Playlist and Played List.
   - Enter a video file with full path to get info on and play.
-  - Auto save last find result(s) and autoload until deleted.  Defaulted to never save.  Can be changed in Settings.
+  - Auto save last find result(s) and autoload until deleted. Defaulted to never save. Change in Settings.
   - Yt-dlp integration for easy download and play of single url's or entire lists.
-  - Download Queue: Add unlimited Videoinfox User Download Lists to the Download Queue for batch processing.
-  - Download Default: &nbsp; Yt-dlp with no arguments.  Download only.  No auto play.
-  - Download Choose: &nbsp; Choose video type and quality before download.  Download only.  No auto play.
-  - Self Destruct: &nbsp; Download, auto play, delete when the player is closed.
-  - Last Download in Home and Yt-dlp Menu for Play Clipboard, Download Default and Download Choose.  
-  - Download List: &nbsp; Blinking notification on list load.
-  - View Logs: &nbsp; Blinking notification on log load.
-  - Default List companion: &nbsp; Create a gui shortcut for: &nbsp; videoinfox -a &nbsp; to add to the Default List.
-  - User Set List companion: &nbsp; Create a gui shortcut for: &nbsp; videoinfox -l &nbsp; to add to the User Set list.
-  - Download any list. Any name and location. No need to use the Videoinfox interface: &nbsp; videoinfox -u listname 
-  - Autoplay video files in the current directory with option to quit. videoinfox -d
-  - Download and update Yt-dlp in Videoinfox.  
+  - Download Queue: Add unlimited Videoinfox User Download Lists to the queue for download.
+  - Download Default: Yt-dlp with no arguments. Download only. No auto play.
+  - Download Choose: Choose video type and quality before download. Download only. No auto play.
+  - Self Destruct: Download, auto play, delete when the player is closed.
+  - Last Download in: Home and Yt-dlp Menu for: Play Clipboard, Download Default and Download Choose.
+  - Download List: Blinking notification on list load.
+  - View Logs: Blinking notification on log load.
+  - Default List: Keep pasting Video URL's on the fly from the clipboard to the Default List.
+  - Default List companion: Create a gui shortcut for: videoinfox -a  to add to the Default List.
+  - Unlimited User Lists: Keep pasting Video URL's on the fly from the clipboard to the User Set List.
+  - User Set List companion: Create a gui shortcut for: videoinfox -l  to add to the User Set list.
+  - Download any list. Any name and location. No need to use the Videoinfox interface: videoinfox -u listname
+  - Download and update Yt-dlp in Videoinfox.
   - Save directory state on exit to load on next run.
   - Change directory by entering full path.
   - Find directory and change to it by copying it to clipboard.
@@ -315,6 +316,8 @@ FIRST RUN
 <br />
 
 ##### Reddit /Videoinfox for discussion.
+
+###  v3.4.11 Edit: Home Help > Videoinfox Features:
 
 ###  v3.4.10 Change: User Set List display in Download List.
 
