@@ -1,4 +1,4 @@
-# Videoinfox v3.4.11
+# Videoinfox v3.4.12
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -316,6 +316,10 @@ FIRST RUN
 <br />
 
 ##### Reddit /Videoinfox for discussion.
+
+###  v3.4.12 Add: Info (blinking dash) when videos are available.
+
+Fix: Option spacing in Play List when there was a url in the clipboard.
 
 ###  v3.4.11 Edit: Home Help > Videoinfox Features:
 
