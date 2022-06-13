@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v3.4.11								         
+#  file : videoinfox v3.4.12								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v3.4.11"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.11")  # Version Number: with blinking dot
+ver="Videoinfox v3.4.12"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.12")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -1375,7 +1375,7 @@ echo " Planned Feature: Multi Playlist Capability." >>~/.config/videoinfox/video
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Navigate Tree: Whatever the directory is when entering Navigate Tree will be set as the Treetop." >> ~/.config/videoinfox/videoinfo.help
-echo "                Treetop: You can navigate in but not out." >> ~/.config/videoinfox/videoinfo.help
+echo "                Recursive Navigation from the Treetop." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo "                While in Navigate Tree, there are two ways to change the Treetop." >> ~/.config/videoinfox/videoinfo.help
@@ -1511,13 +1511,18 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 # NOTE TO ANYONE CHECKING OUT THE CODE
-echo " NOTE: There are a lot of redirects to /dev/null only to suppress script errors. Videoinfox does the error handling.">> ~/.config/videoinfox/videoinfo-ver-history 
+echo " NOTE: There are a lot of redirects to /dev/null only to suppress errors. Videoinfox does the error handling.">> ~/.config/videoinfox/videoinfo-ver-history 
 
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v3.4.12 Add: Info (blinking dash) when videos are available." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Fix: Option spacing in Play List when there was a url in the clipboard." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v3.4.11 Edit: Home Help > Videoinfox Features:"  >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2370,7 +2375,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo "___________________________________________________________________________________________________________________"
                       echo
                       echo " f - Find              n - Navigate Tree     p - Play Clipboard     d "$dash" Play Directory     y - Yt-dlp     e - Exit"
-                      echo " a - Show All          l - Last Download     s - View Playlist      o "$dashj" Autoplay Line      i - V-Info     z - Set" 
+                      echo " a - Show All          l - Last Download     s - View Playlist      o "$dashj" Autoplay Line      i "$dashj" Info       z - Set" 
                       echo " c - Clear Results     v - Played List       k "$dashj" Playlist Add       j "$dashj" Play Line          x - Clrclp     h - Help"
                       echo " m - More Options"
                       echo         
@@ -2388,7 +2393,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
 
 echo -e " f - Find              n - Navigate Tree     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     d "$dash" Play Directory     y - Yt-dlp     e - Exit"
  
-                      echo " a - Show All          l - Last Download     s - View Playlist      o "$dashj" Autoplay Line      i - V-Info     z - Set" 
+                      echo " a - Show All          l - Last Download     s - View Playlist      o "$dashj" Autoplay Line      i "$dashj" Info       z - Set" 
                       echo " c - Clear Results     v - Played List       k "$dashj" Playlist Add       j "$dashj" Play Line          x - Clrclp     h - Help"
                       echo " m - More Options"
                       echo                                                             
@@ -2407,7 +2412,7 @@ echo
 
 echo -e " f - Find              n - Navigate Tree     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     d "$dash" Play Directory     y - Yt-dlp     e - Exit"
  
-                      echo " a - Show All          l - Last Download     s - View Playlist      o "$dashj" Autoplay Line      i - V-Info     z - Set" 
+                      echo " a - Show All          l - Last Download     s - View Playlist      o "$dashj" Autoplay Line      i "$dashj" Info       z - Set" 
                       echo " c - Clear Results     v - Played List       k "$dashj" Playlist Add       j "$dashj" Play Line          x - Clrclp     h - Help"
                       echo " m - More Options"
                       echo                                                             
@@ -2423,7 +2428,7 @@ echo " $der $viv4      Enter - Update Clipboard Display                "$dirdisp
 echo "___________________________________________________________________________________________________________________"
 echo
 echo " f - Find              n - Navigate Tree     p - Play Clipboard     d "$dash" Play Directory     y - Yt-dlp     e - Exit"
-echo " a - Show All          l - Last Download     s - View Playlist      o "$dashj" Autoplay Line      i - V-Info     z - Set" 
+echo " a - Show All          l - Last Download     s - View Playlist      o "$dashj" Autoplay Line      i "$dashj" Info       z - Set" 
 echo " c - Clear Results     v - Played List       k "$dashj" Playlist Add       j "$dashj" Play Line          x - Clrclp     h - Help"
 echo " m - More Options"
 echo         
@@ -4084,7 +4089,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" PLAYLIST"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " p - Play Clipboard     o "$dashit" Autoplay Line     j "$dashit" Play Line     i - Info     D - Delete PLAYLIST       q - Quit"
+                      echo " p - Play Clipboard     o "$dashit" Autoplay Line     j "$dashit" Play Line     i "$dashit" Info     D - Delete Playlist          q - Quit"
                       echo         
 
                   else 
@@ -4098,7 +4103,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo "___________________________________________________________________________________________________________________"
                       echo
 
-echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     o "$dashit" Autoplay Line     j "$dashit" Play Line     i - Info     D - Delete PLAYLIST       q - Quit"
+echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     o "$dashit" Autoplay Line     j "$dashit" Play Line     i "$dashit" Info     D - Delete PLAYLIST          q - Quit"
         
                       echo                                                                                  
             fi
@@ -4114,7 +4119,7 @@ echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     o "$das
             echo "___________________________________________________________________________________________________________________"
             echo
 
-echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     o "$dashit" Autoplay Line     j "$dashit" Play Line     i - Info     D - Delete PLAYLIST       q - Quit"
+echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     o "$dashit" Autoplay Line     j "$dashit" Play Line     i "$dashit" Info     D - Delete PLAYLIST          q - Quit"
 
             echo                                                             
 
@@ -4128,7 +4133,7 @@ echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     o "$das
             echo " "$der" PLAYLIST"
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " p - Play Clipboard     o "$dashit" Autoplay Line     j "$dashit" Play Line     i - Info     D - Delete Playlist          q - Quit"
+            echo " p - Play Clipboard     o "$dashit" Autoplay Line     j "$dashit" Play Line     i "$dashit" Info     D - Delete Playlist          q - Quit"
             echo                                                             
 fi
 fi
@@ -5319,7 +5324,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" >>> PLAYED LIST"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " p - Play Clipboard     o "$dashit" Autoplay Line     s - View Playlist     i - Info                              q - Quit"
+                      echo " p - Play Clipboard     o "$dashit" Autoplay Line     s - View Playlist     i "$dashit" Info                              q - Quit"
                       echo "                        j "$dashit" Play Line         k - Playlist Add      D - Delete Played List"
                       echo         
 
@@ -5334,7 +5339,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo "___________________________________________________________________________________________________________________"
                       echo
 
-echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     o "$dashit" Autoplay Line     s - View Playlist     i - Info                              q - Quit"
+echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     o "$dashit" Autoplay Line     s - View Playlist     i "$dashit" Info                              q - Quit"
                       
                       echo "                        j "$dashit" Play Line         k - Playlist Add      D - Delete Played List"
                       echo                                                                                  
@@ -5351,7 +5356,7 @@ echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     o "$das
             echo "___________________________________________________________________________________________________________________"
             echo
 
-echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     o "$dashit" Autoplay Line     s - View Playlist     i - Info                              q - Quit"
+echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     o "$dashit" Autoplay Line     s - View Playlist     i "$dashit" Info                              q - Quit"
                       
             echo "                        j "$dashit" Play Line         k - Playlist Add      D - Delete Played List"
             echo                                                             
@@ -5366,7 +5371,7 @@ echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     o "$das
             echo " "$der" >>> PLAYED LIST"
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " p - Play Clipboard     o "$dashit" Autoplay Line     s - View Playlist     i - Info                              q - Quit"
+            echo " p - Play Clipboard     o "$dashit" Autoplay Line     s - View Playlist     i "$dashit" Info                              q - Quit"
             echo "                        j "$dashit" Play Line         k - Playlist Add      D - Delete Played List"
             echo                                                             
 fi
@@ -5811,7 +5816,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" PLAYLIST"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " p - Play Clipboard     o "$dashit" Autoplay Line     j "$dashit" Play Line     i - Info     D - Delete PLAYLIST       q - Quit"
+                      echo " p - Play Clipboard     o "$dashit" Autoplay Line     j "$dashit" Play Line     i "$dashit" Info     D - Delete Playlist          q - Quit"
                       echo         
 
                   else 
@@ -5825,7 +5830,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo "___________________________________________________________________________________________________________________"
                       echo
 
-echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     o "$dashit" Autoplay Line     j "$dashit" Play Line     i - Info     D - Delete PLAYLIST       q - Quit"
+echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     o "$dashit" Autoplay Line     j "$dashit" Play Line     i "$dashit" Info     D - Delete PLAYLIST          q - Quit"
         
                       echo                                                                                  
             fi
@@ -5841,7 +5846,7 @@ echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     o "$das
             echo "___________________________________________________________________________________________________________________"
             echo
 
-echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     o "$dashit" Autoplay Line     j "$dashit" Play Line     i - Info     D - Delete PLAYLIST       q - Quit"
+echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     o "$dashit" Autoplay Line     j "$dashit" Play Line     i "$dashit" Info     D - Delete PLAYLIST          q - Quit"
 
             echo                                                             
 
@@ -5855,7 +5860,7 @@ echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     o "$das
             echo " "$der" PLAYLIST"
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " p - Play Clipboard     o "$dashit" Autoplay Line     j "$dashit" Play Line     i - Info     D - Delete Playlist          q - Quit"
+            echo " p - Play Clipboard     o "$dashit" Autoplay Line     j "$dashit" Play Line     i "$dashit" Info     D - Delete Playlist          q - Quit"
             echo                                                             
 fi
 fi
@@ -6725,7 +6730,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" PLAYLIST"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " p - Play Clipboard     o "$dashit" Autoplay Line     j "$dashit" Play Line     i - Info     D - Delete PLAYLIST       q - Quit"
+                      echo " p - Play Clipboard     o "$dashit" Autoplay Line     j "$dashit" Play Line     i "$dashit" Info     D - Delete Playlist          q - Quit"
                       echo         
 
                   else 
@@ -6739,7 +6744,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo "___________________________________________________________________________________________________________________"
                       echo
 
-echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     o "$dashit" Autoplay Line     j "$dashit" Play Line     i - Info     D - Delete PLAYLIST       q - Quit"
+echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     o "$dashit" Autoplay Line     j "$dashit" Play Line     i "$dashit" Info     D - Delete PLAYLIST          q - Quit"
         
                       echo                                                                                  
             fi
@@ -6755,8 +6760,7 @@ echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     o "$das
             echo "___________________________________________________________________________________________________________________"
             echo
 
-echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     o "$dashit" Autoplay Line     j "$dashit" Play Line     i - Info     D - Delete PLAYLIST       q - Quit"
-
+echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     o "$dashit" Autoplay Line     j "$dashit" Play Line     i "$dashit" Info     D - Delete PLAYLIST          q - Quit"
             echo                                                             
 
         else 
@@ -6769,7 +6773,7 @@ echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     o "$das
             echo " "$der" PLAYLIST"
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " p - Play Clipboard     o "$dashit" Autoplay Line     j "$dashit" Play Line     i - Info     D - Delete Playlist          q - Quit"
+            echo " p - Play Clipboard     o "$dashit" Autoplay Line     j "$dashit" Play Line     i "$dashit" Info     D - Delete Playlist          q - Quit"
             echo                                                             
 fi
 fi
@@ -8496,7 +8500,7 @@ fi
     
 
 
-echo "Copy 1 above list to the the clipboard."
+echo "Copy 1 above list to the the clipboard. Then press enter."
 echo
 
 
