@@ -1,4 +1,4 @@
-# Videoinfox v3.4.12
+# Videoinfox v3.4.13
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -316,6 +316,8 @@ FIRST RUN
 <br />
 
 ##### Reddit /Videoinfox for discussion.
+
+###  v3.4.13 Add: Error reporting when no viedos are available in View Downloads (Default Download Directory).
 
 ###  v3.4.12 Add: Info (blinking dash) when videos are available.
 
