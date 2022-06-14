@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v3.4.12								         
+#  file : videoinfox v3.4.13								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v3.4.12"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.12")  # Version Number: with blinking dot
+ver="Videoinfox v3.4.13"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.13")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -1518,6 +1518,9 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v3.4.13 Add: Error reporting when no viedos are available in View Downloads (Default Download Directory)." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v3.4.12 Add: Info (blinking dash) when videos are available." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -5107,7 +5110,11 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
                  fi
 
         else
-            :
+            echo
+            echo
+            echo " Select Show All or use Find to acess this feature . . ."
+            sleep 1.7
+
 
             fi
 
@@ -5463,7 +5470,7 @@ rm ~/.config/videoinfox/tmp/videoinfo.number.played-list 2>/dev/null
    else
        echo
        echo
-       echo " Played List Empty"
+       echo " Played List Empty . . ."
        sleep 1.7
 fi
 
@@ -5551,7 +5558,7 @@ fi
 else
        echo
        echo
-       echo " Played List Empty"
+       echo " Played List Empty . . ."
        sleep 1.7
 fi
 
@@ -5605,7 +5612,11 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
                  fi
 
         else
-            :
+            echo
+            echo
+            echo " Play List Empty . . ."
+            sleep 1.7            
+
 
             fi
 
@@ -8054,7 +8065,6 @@ else  # IF YT-DLP IS FOUND    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 read -r ytdlpver < ~/.config/videoinfox/videoinfo.yt-dlp.version
 
-
 function menuy {
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
@@ -10003,6 +10013,23 @@ fi
 # Find video files.
 find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) > ~/.config/videoinfox/videoinfo.view-downloads
 
+# CHECK FOR FILES FOR BLINKING DASH
+istherefiles=$(find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) | wc -l)
+
+# not blinking dash
+vdash0=$(echo "-")
+# blinking dash
+vdash1=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
+
+if [ "$istherefiles" = 0 ]
+  then
+      vdash="$vdash0"
+  
+  else
+      vdash="$vdash1"
+
+fi
+
 #tac ~/.config/videoinfox/videoinfo.viewdownloads >  ~/.config/videoinfox/videoinfo.viewdownloads.tmp
 #mv ~/.config/videoinfox/videoinfo.viewdownloads.tmp ~/.config/videoinfox/videoinfo.viewdownloads
 
@@ -10114,7 +10141,7 @@ echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     d - Pla
             echo " "$der" >>> VIEW DOWNLOADS"
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " p - Play Clipboard     d - Play Directory     o - Autoplay Line     j - Play Line     i - Info           q - Quit"      
+            echo " p - Play Clipboard     d "$vdash" Play Directory     o "$vdash" Autoplay Line     j "$vdash" Play Line     i "$vdash" Info           q - Quit"      
             echo                                          
 fi
 fi
@@ -10307,6 +10334,16 @@ cd "$grabdir"
 
 
               i)  # INFO - <VIEW DOWNLOADS>
+
+
+if [ "$istherefiles" = 0 ]
+  then
+      echo
+      echo
+      echo " No video files in the current directory . . ."
+      sleep 1
+
+  else
  
       if [ -f "$pasteclip" ]
         then
@@ -10358,6 +10395,9 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
             fi
 
       fi
+
+  fi
+
 
 ;;
 
@@ -10472,6 +10512,7 @@ if [ -f ~/.config/videoinfox/tmp/videoinfox.numbered-navtree-play-directory-list
         cat ~/.config/videoinfox/tmp/videoinfox.numbered-navtree-play-directory-list 2>/dev/null
    else
        echo
+       echo
        echo " No video files in the current directory . . ."
        sleep 1.7
 fi
@@ -10544,6 +10585,17 @@ rm ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa-work 2>/dev/nu
 ###########################   AUTOPLAY LINE  o   <VIEW DOWNLOADS>  ###############################################################################
 ##################################################################################################################################################
 
+
+if [ "$istherefiles" = 0 ]
+  then
+      echo
+      echo
+      echo " No video files in the current directory . . ."
+      sleep 1
+
+  else
+
+
 if [ -f ~/.config/videoinfox/tmp/videoinfo-view-downloads.tmp ]
   then
 
@@ -10611,6 +10663,8 @@ else
     sleep 1.7
 fi
 
+fi
+
 ;;
 
 
@@ -10618,6 +10672,16 @@ fi
 ##################################################################################################################################################
 ###########################   PLAY LINE  j   <VIEW DOWNLOADS>  ###################################################################################
 ##################################################################################################################################################
+
+if [ "$istherefiles" = 0 ]
+  then
+      echo
+      echo
+      echo " No video files in the current directory . . ."
+      sleep 1
+
+  else
+
 
 if [ -f ~/.config/videoinfox/tmp/videoinfo-view-downloads.tmp ]  # if file exists goto then
   then
@@ -10679,6 +10743,8 @@ else
     echo
     echo " Select Show All or use Find to acess this feature . . ."
     sleep 1.7
+
+fi
 
 fi
 
