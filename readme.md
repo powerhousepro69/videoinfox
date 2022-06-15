@@ -1,4 +1,4 @@
-# Videoinfox v3.4.13
+# Videoinfox v3.4.14
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -316,6 +316,10 @@ FIRST RUN
 <br />
 
 ##### Reddit /Videoinfox for discussion.
+
+###  v3.4.14 Add: Error reporting on empty clipboard for (Change Directory) in Navigate Tree.
+
+MSG: Copy a directory to the clipboard to use this feature . . .
 
 ###  v3.4.13 Add: Error reporting when no viedos are available in View Downloads (Default Download Directory).
 
