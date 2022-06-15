@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v3.4.13								         
+#  file : videoinfox v3.4.14								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v3.4.13"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.13")  # Version Number: with blinking dot
+ver="Videoinfox v3.4.14"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.14")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -977,7 +977,7 @@ if [ -f ~/.config/videoinfox/yt-dlp ]  # if yt-dlp exists goto then
         echo " Yt-dlp Download Failure . . ."
         echo
 
-        sec=20           
+        sec=15           
         while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>                       
              echo -ne " $ver starting in: $sec\033[0K\r"
              let "sec=sec-1"
@@ -1518,6 +1518,11 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v3.4.14 Add: Error reporting on empty clipboard for (Change Directory) in Navigate Tree." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         MSG: Copy a directory to the clipboard to use this feature . . ." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v3.4.13 Add: Error reporting when no viedos are available in View Downloads (Default Download Directory)." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -3006,8 +3011,17 @@ echo
 
 
          c)  # CHANGE TO DIRECTORY IN CLIPBOARD
+         
          echo
-         pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content 
+         pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
+
+        
+         if [ -z "$pasteclip" ]  # if the clipboard is empty goto then
+           then
+               echo " Copy a directory to the clipboard to use this feature . . ." 
+               sleep 1
+           
+           else
 
          treelength=$(echo "$grabdirfornav2" |awk '{print length}')  # get number of characters in treetop         
          clipdat=$(echo "$pasteclip" | head -c"$treelength")  # grabbing the first  $treelength  characters
@@ -3020,6 +3034,8 @@ echo
                sleep .50
          fi
         
+         fi
+
          echo "" | xclip -sel clip  # clearing the clipboard
          pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content 
 
