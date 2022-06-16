@@ -1,4 +1,4 @@
-# Videoinfox v3.4.14
+# Videoinfox v3.4.19
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -316,6 +316,27 @@ FIRST RUN
 <br />
 
 ##### Reddit /Videoinfox for discussion.
+
+### v3.4.19 Changes in Download List.
+
+CREATER USER LIST
+
+Add: Error reporting for Create User List when enter is pressed with no user input.
+MSG: Nothing was entered . . .
+
+
+CREATE DIRECTORY
+
+Change: Create Directory not longer changes directory automatically after creation.
+
+Add: Error reporting for Create Directory when enter is pressed with no user input.
+MSG: Nothing was entered . . .
+
+Add: Error reporting for Create Directory if the directory already exists.
+MSG: Directory already exists . . .
+
+Add: Change Treetop added to Create Directory.
+
 
 ###  v3.4.14 Add: Error reporting on empty clipboard for (Change Directory) in Navigate Tree.
 
