@@ -319,7 +319,7 @@ FIRST RUN
 
 ### v3.4.19 Changes in Download List.
 
-CREATER USER LIST
+CREATE USER LIST
 
 Add: Error reporting for Create User List when enter is pressed with no user input.
 MSG: Nothing was entered . . .
