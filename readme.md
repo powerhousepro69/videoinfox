@@ -1,4 +1,4 @@
-# Videoinfox v3.4.19
+# Videoinfox v3.4.20
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -317,9 +317,19 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 
+### v3.4.20 Change: Create User List in Download List.
+
+If a list was saved with a filename that already existed, the existing list would be overwritten.
+
+Add: Error handling. If the file already exists, don't overwrite.
+MSG: File already exists . . .
+
+(At this time, there is no overwrite option.)
+
+
 ### v3.4.19 Changes in Download List.
 
-CREATE USER LIST
+CREATER USER LIST
 
 Add: Error reporting for Create User List when enter is pressed with no user input.
 MSG: Nothing was entered . . .
