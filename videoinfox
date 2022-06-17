@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v3.4.19								         
+#  file : videoinfox v3.4.20								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v3.4.19"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.19")  # Version Number: with blinking dot
+ver="Videoinfox v3.4.20"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.20")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -1514,6 +1514,16 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v3.4.20 Change: Create User List in Download List." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                 If a list was saved with a filename that alreay existed, the existing list would be overwritten." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                 Add: Error handling. If the file already exists, don't overwrite." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                 MSG: File already exists . . ." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                 (At this time, there is no overwrite option.)" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v3.4.19 Changes in Download List." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -9271,7 +9281,15 @@ if [ -z "$createulist" ]  # if enter is pressed with no entry
 
   else
 
-ulistname=""$PWD"/videoinfox-dl"$createulist""  # add user input to end of:  current directory/videoinfox-dl
+      if [ -f "videoinfox-dl""$createulist" ]
+        then
+            echo
+            echo " File already exists . . ."
+            sleep .75
+
+        else
+
+ulistname="$PWD/videoinfox-dl"$createulist""  # add user input to end of:  current directory/videoinfox-dl
 echo > "$ulistname"  #  create user list with full path and filename
 echo
 echo " User List Created: "$ulistname""
@@ -9279,6 +9297,7 @@ echo
 echo
 sleep .75
 
+      fi
 fi
 ;; 
 
