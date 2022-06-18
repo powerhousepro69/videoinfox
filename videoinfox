@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v3.4.20								         
+#  file : videoinfox v3.4.21								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v3.4.20"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.20")  # Version Number: with blinking dot
+ver="Videoinfox v3.4.21"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.21")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -949,7 +949,7 @@ echo
 dirtemp="$PWD"  # save dir for restore after ty-dlp download
 cd ~/.config/videoinfox
   
-timeout 30 wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp 2>/dev/null  # download and rename 
+wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp 2>/dev/null  # download and rename 
  
 if [ -f ~/.config/videoinfox/yt-dlp ]  # if yt-dlp exists goto then
    then
@@ -1026,7 +1026,7 @@ cd ~/.config/videoinfox/tmp
 
 # download  videoinfox  from github, extract the ver mumber and reformat it
 # if the download doesn't come in 2.4 seconds, it will be aborted.  Just for notification.  To prevent script hanging on  wget  during high traffic times.
-timeout 2.4 wget -q https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox 2>/dev/null
+wget -q https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox 2>/dev/null
 
 # make script executable to get ver number
 chmod +x ~/.config/videoinfox/tmp/videoinfox 2> /dev/null
@@ -1516,14 +1516,17 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v3.4.21 Add: Blinking dash at Playlist Add in Played List." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v3.4.20 Change: Create User List in Download List." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                 If a list was saved with a filename that alreay existed, the existing list would be overwritten." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         If a list was saved with a filename that already existed, the existing list would be overwritten." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                 Add: Error handling. If the file already exists, don't overwrite." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                 MSG: File already exists . . ." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Add: Error handling. If the file already exists, don't overwrite." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         MSG: File already exists . . ." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                 (At this time, there is no overwrite option.)" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         (At this time, there is no overwrite option.)" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v3.4.19 Changes in Download List." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -5373,7 +5376,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo "___________________________________________________________________________________________________________________"
                       echo
                       echo " p - Play Clipboard     o "$dashit" Autoplay Line     s - View Playlist     i "$dashit" Info                              q - Quit"
-                      echo "                        j "$dashit" Play Line         k - Playlist Add      D - Delete Played List"
+                      echo "                        j "$dashit" Play Line         k "$dashit" Playlist Add      D - Delete Played List"
                       echo         
 
                   else 
@@ -5389,7 +5392,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
 
 echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     o "$dashit" Autoplay Line     s - View Playlist     i "$dashit" Info                              q - Quit"
                       
-                      echo "                        j "$dashit" Play Line         k - Playlist Add      D - Delete Played List"
+                      echo "                        j "$dashit" Play Line         k "$dashit" Playlist Add      D - Delete Played List"
                       echo                                                                                  
             fi
   else
@@ -5406,7 +5409,7 @@ echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     o "$das
 
 echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     o "$dashit" Autoplay Line     s - View Playlist     i "$dashit" Info                              q - Quit"
                       
-            echo "                        j "$dashit" Play Line         k - Playlist Add      D - Delete Played List"
+            echo "                        j "$dashit" Play Line         k "$dashit" Playlist Add      D - Delete Played List"
             echo                                                             
 
         else 
@@ -5420,7 +5423,7 @@ echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     o "$das
             echo "___________________________________________________________________________________________________________________"
             echo
             echo " p - Play Clipboard     o "$dashit" Autoplay Line     s - View Playlist     i "$dashit" Info                              q - Quit"
-            echo "                        j "$dashit" Play Line         k - Playlist Add      D - Delete Played List"
+            echo "                        j "$dashit" Play Line         k "$dashit" Playlist Add      D - Delete Played List"
             echo                                                             
 fi
 fi
@@ -7738,7 +7741,7 @@ done
     dirtemp="$PWD"  # save dir for restore
     cd ~/.config/videoinfox/tmp
 
-    timeout 30 wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox 2>/dev/null
+    wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox 2>/dev/null
     chmod +x ~/.config/videoinfox/tmp/videoinfox 2>/dev/null
 
 
@@ -7894,7 +7897,7 @@ echo
 
 cd ~/.config/videoinfox/tmp
  
-timeout 30 wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp 2>/dev/null  # download yt-dlp 
+wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp 2>/dev/null  # download yt-dlp 
  
 
 if [ -f ~/.config/videoinfox/tmp/yt-dlp ]  # if yt-dlp exists goto then
