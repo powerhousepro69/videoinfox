@@ -1,4 +1,4 @@
-# Videoinfox v3.4.21
+# Videoinfox v3.4.22
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -316,6 +316,8 @@ FIRST RUN
 <br />
 
 ##### Reddit /Videoinfox for discussion.
+
+### v3.4.22 Edit: Help in Download List - Create Directory.
 
 ### v3.4.21 Add: Blinking dash at Playlist Add in Played List.
 
