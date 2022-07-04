@@ -1,4 +1,4 @@
-# Videoinfox v3.4.22
+# Videoinfox v3.5.00
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -42,7 +42,7 @@ Videoinfox is a Linux shell script that feels like an app. If you enjoy watching
 
 - Played List: &nbsp; Play Clipboard, Last Download and Play Line all write to the Played List.  
 
-##### Planned Feature: Multi Playlist Capability.
+#### Create unlimited playlists.
 
 <br />
 
@@ -71,6 +71,7 @@ FFprobe - Get codec, resolution & duration in seconds.
 
   - Check for update on startup and notifity if update is available. Download and update in Videoinfox.
   - Play a local file by entering the line number. Play single video or autoplay the entire list.
+  - Create unlimited Playlists from: Recusive search results, Recursive directory listings and the Played List
   - Play Clipboard: Blinking notification when there is a valid video url for play.
   - Play Clipboard: Download a video url that is in the clipboard via Yt-dlp and autoplay.
   - Play Clipboard is available in: Home  Played List  Play List  Yt-dlp Menu  View Downloads
@@ -316,108 +317,10 @@ FIRST RUN
 <br />
 
 ##### Reddit /Videoinfox for discussion.
-
-### v3.4.22 Edit: Help in Download List - Create Directory.
-
-### v3.4.21 Add: Blinking dash at Playlist Add in Played List.
-
-### v3.4.20 Change: Create User List in Download List.
-
-If a list was saved with a filename that already existed, the existing list would be overwritten.
-
-Add: Error handling. If the file already exists, don't overwrite.
-MSG: File already exists . . .
-
-(At this time, there is no overwrite option.)
-
-
-### v3.4.19 Changes in Download List.
-
-CREATER USER LIST
-
-Add: Error reporting for Create User List when enter is pressed with no user input.
-MSG: Nothing was entered . . .
-
-
-CREATE DIRECTORY
-
-Change: Create Directory not longer changes directory automatically after creation.
-
-Add: Error reporting for Create Directory when enter is pressed with no user input.
-MSG: Nothing was entered . . .
-
-Add: Error reporting for Create Directory if the directory already exists.
-MSG: Directory already exists . . .
-
-Add: Change Treetop added to Create Directory.
-
-
-###  v3.4.14 Add: Error reporting on empty clipboard for (Change Directory) in Navigate Tree.
-
-MSG: Copy a directory to the clipboard to use this feature . . .
-
-###  v3.4.13 Add: Error reporting when no viedos are available in View Downloads (Default Download Directory).
-
-###  v3.4.12 Add: Info (blinking dash) when videos are available.
-
-Fix: Option spacing in Play List when there was a url in the clipboard.
-
-###  v3.4.11 Edit: Home Help > Videoinfox Features:
-
-###  v3.4.10 Change: User Set List display in Download List.
-
-Add: Show message on Home Screen when Show All is selected and there are no video files to play.
-MSG: No video files recursively reachable from the current directory . . .
-
-Add: Change Treetop in Navigate Tree.
-Now the Treetop can be changed by Default Dirs or by manually entering a directory.
-
-Add: Navigate Tree info in Home Help.
-
-###  v3.4.08 Add: Error reporting when trying to set the Default List as a User Set List.
-
-MSG: The Default List can't be a User Set List. Only user created lists.
-
-Add: Download Queue removes any blank lines in each list in the queue before processing.
-
-###  v3.4.07 Add: Show Message when Set User List is slected in Yt-dlp >>> Download List.
-
-Message: User list set for option: videoinfox -l   Also, gui notification.
-
-###  v3.4.06 Fix: View Downloads in Yt-dlp Menu.
-
-Play Directory, Autoplay Line and Play Line were not being displayed when there was a url in the clipboard.
-
-### v3.4.05 Add: Error handling and reporting in Yt-dlp Menu.
-
-Download Default, Download Choose and Self Destruct. Yt-dlp won't try to process empty clipboard or invalid url.
-Error message: Clipboard is empty or contained invalid video url . . .
-
-###  v3.4.04 Fix: Error in Played List.
-
-###  v3.4.03 Fix: Last Download in Yt-dlp Menu 
-
-Directory wasn't changing back to user set directory after video play.
-
-###  v3.4.02 Updated Home Help and Version History.
-
-###  v3.4.01 Change timeout on message: Added to Playlist . . .
-
-###  v3.4.00 Added: Playlist Add in Played List.
-
-Add videos from the Played List to the Playlist.
-                
-View Playlist added to Played List.
-
-Fix: Bug in Played List
-
-Update: Home Help > Autoplay Features and Playlist.
-
-
-### v3.3.03 Fixed an error in Clear Results on Home Screen.
-
 <br />
 
+### v3.5.00 add: Multi Playlist
+<br />
 
 ![Code Stats](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/code-stats.png)
 
