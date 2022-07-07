@@ -1,4 +1,4 @@
-# Videoinfox v3.5.00
+# Videoinfox v3.5.01
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -317,6 +317,9 @@ FIRST RUN
 <br />
 
 ##### Reddit /Videoinfox for discussion.
+<br />
+
+### v3.5.01 Fix: Some of the Play Clipboard selections were writing to the Play List instead of the Played List.
 <br />
 
 ### v3.5.00 add: Multi Playlist
