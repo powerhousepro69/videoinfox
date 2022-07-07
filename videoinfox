@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v3.5.00								         
+#  file : videoinfox v3.5.01								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v3.5.00"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m5.00")  # Version Number: with blinking dot
+ver="Videoinfox v3.5.01"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m5.01")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -1511,6 +1511,9 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v3.5.01 Fix: Some of the Play Clipboard selections were writing to the Play List instead of the Played List." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v3.5.00 Add: Multi Playlist - Create unlimited playlists." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -4838,7 +4841,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               :
           else     
               notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
-              echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playlist  # write clipboard content to PLAYLIST File  
+              echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to PLAYLIST File  
               ffplay -fs -autoexit &> /dev/null "$ytdlplast"  
       fi 
       
@@ -4884,7 +4887,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       getfilenameonly=$(echo "$pasteclip" |  awk -F '/' '{print $NF}')  
       notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"
      
-      echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playlist  # write clipboard content to PLAYLIST file
+      echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to PLAYLIST file
       ffplay -fs -autoexit "$pasteclip" 2>/dev/null  # play video in clipboard
       echo "" | xclip -sel clip  # clearing out the clipboard
       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
@@ -6899,7 +6902,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               :
           else     
               notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
-              echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playlist  # write clipboard content to PLAYLIST File  
+              echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to PLAYLIST File  
               ffplay -fs -autoexit &> /dev/null "$ytdlplast"  
       fi 
       
@@ -6945,7 +6948,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       getfilenameonly=$(echo "$pasteclip" |  awk -F '/' '{print $NF}')  
       notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"
      
-      echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playlist  # write clipboard content to PLAYLIST file
+      echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to PLAYLIST file
       ffplay -fs -autoexit "$pasteclip" 2>/dev/null  # play video in clipboard
       echo "" | xclip -sel clip  # clearing out the clipboard
       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
@@ -8146,7 +8149,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               :
           else     
               notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
-              echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playlist  # write clipboard content to PLAYLIST File  
+              echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to PLAYLIST File  
               ffplay -fs -autoexit &> /dev/null "$ytdlplast"  
       fi 
       
@@ -8192,7 +8195,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       getfilenameonly=$(echo "$pasteclip" |  awk -F '/' '{print $NF}')  
       notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"
      
-      echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playlist  # write clipboard content to PLAYLIST file
+      echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to PLAYLIST file
       ffplay -fs -autoexit "$pasteclip" 2>/dev/null  # play video in clipboard
       echo "" | xclip -sel clip  # clearing out the clipboard
       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
