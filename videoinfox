@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v3.5.01								         
+#  file : videoinfox v3.5.04								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v3.5.01"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m5.01")  # Version Number: with blinking dot
+ver="Videoinfox v3.5.04"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m5.04")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -830,28 +830,7 @@ if [ -d "$direxist" ]  #  if directoty exists goto  <then>
       mkdir ~/.config/videoinfox
       mkdir ~/.config/videoinfox/tmp
       mkdir ~/.config/videoinfox/playlists
-      
-      ###############
-      # CREATE FILES
-      ###############
-      
-      # CREATE FIND RESULT MESSAGE THAT THERE ARE NO STORED RESULTS
-#echo "                                                                                                                 " > ~/.config/videoinfox/videoinfo.findwork
-#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-#echo "Select find to search for files.                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-echo > ~/.config/videoinfox/videoinfo.findwork
-
-
-      # witing header for blank Played List 
-      #echo > ~/.config/videoinfox/videoinfo.playedlist
-      #echo "PLAYED LIST" >> ~/.config/videoinfox/videoinfo.playedlist
-      #echo >> ~/.config/videoinfox/videoinfo.playedlist
-      #echo "This File was Created: $(date) by" "$USER" >> ~/.config/videoinfox/videoinfo.playedlist
-      #echo >> ~/.config/videoinfox/videoinfo.playedlist
-
+            
 
       # SET DEFAULT  LAST SEARCH  to <2> Never Save
       echo "2" > ~/.config/videoinfox/videoinfo.lastsearch-set
@@ -882,7 +861,13 @@ echo > ~/.config/videoinfox/videoinfo.findwork
       echo "This File was Created: $(date) by" "$USER" >> ~/.config/videoinfox/videoinfo.keptsearch
       echo >> ~/.config/videoinfox/videoinfo.keptsearch
 
+      
+      ###############
+      # CREATE FILES
+      ###############
+
       # CREATING EMPTY FILES SO NO ERRORS ARE PRODUCED ON FIRST RUN
+      echo > ~/.config/videoinfox/videoinfo.findwork
       echo > ~/.config/videoinfox/videoinfo.findwork2
       echo > ~/.config/videoinfox/videoinfo.findwork3
       echo > ~/.config/videoinfox/videoinfo.lastfindtime    
@@ -1231,7 +1216,7 @@ echo " DOWNLOAD QUEUE: Download multiple Videoinfox Created User Lists." >> ~/.c
 echo "                 Copy a User List to the clipboard, enter to update then select Add to Queue." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "                 When done adding User Lists to the queue, select Download Queue." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
-echo "          Notes: Pressing enter before making selection isn't necessary before selecting an option. Pressing enter" >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "          Notes: Pressing enter after making a selection isn't necessary before selecting an option. Pressing enter" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "                 after clipboard copy will update the clipboard display and show what options are available." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "                 If there is a User Set List and it gets processed by Download Queue, It will be cleared after" >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1511,6 +1496,16 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v3.5.04 Add: Number out of range message to Played List >>> Play Line." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Fix: Bug that Playline was causing on the Home Screen." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Fix: Typo in Yt-dlp >>> Download List >>> Help." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              From: Notes: Pressing enter BEFORE making a selection isn't necessary...." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              To:   Notes: Pressing enter AFTER making a selection isn't necessary...." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v3.5.01 Fix: Some of the Play Clipboard selections were writing to the Play List instead of the Played List." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2187,15 +2182,17 @@ stat -c ‘%y’ ~/.config/videoinfox/videoinfo.findwork > ~/.config/videoinfox/
 cat ~/.config/videoinfox/videoinfo.lastfindtime | awk '{ print substr( $0, 1, length($0)-17 ) }' | cut -c 4- > ~/.config/videoinfox/videoinfo.time
 mv ~/.config/videoinfox/videoinfo.time ~/.config/videoinfox/videoinfo.lastfindtime
 
-
-
 #  if search total is any number
 if [ "$searchtotal" = "" ]  # if the file <~/.config/videoinfox/videoinfo.lastsearchtotal> is empty goto then
   then
       dashj=$(echo "-")  # don't blink dash on home screen @ Play Number
       rm ~/.config/videoinfox/tmp/videoinfo-findwork.tmp 2>/dev/null
-      rm ~/.config/videoinfox/tmp/videoinfo-number-findwork.tmp 2>/dev/null 
+      rm ~/.config/videoinfox/tmp/videoinfo-number-findwork.tmp 2>/dev/null
 
+      # BELOW 3 LINES WERE ADDED TO GET RID OF PLAYLINE/HOME SCREEN SEARCH RESULTS GLITCH
+      echo "" > ~/.config/videoinfox/videoinfo.lastsearchtotal
+      echo "" > ~/.config/videoinfox/videoinfo.lastfindstring
+      echo "" > ~/.config/videoinfox/videoinfo.lastfinddir
 
   else
       dashj=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")  # blink dash on home screen @ Play Number
@@ -2213,9 +2210,8 @@ sed '/./=' ~/.config/videoinfox/tmp/videoinfo-number-findwork.tmp2 | sed '/./N; 
 rm ~/.config/videoinfox/tmp/videoinfo-number-findwork.tmp2 2>/dev/null
 
 
-
       cat ~/.config/videoinfox/tmp/videoinfo-number-findwork.tmp  # display numbered find results    
-      #echo
+
       echo      
       echo "Dir: "$(cat ~/.config/videoinfox/videoinfo.lastfinddir 2>/dev/null) # display last directory that last find was run from
       echo "Date: "$(cat ~/.config/videoinfox/videoinfo.lastfindtime 2>/dev/null) # display last find time
@@ -4571,7 +4567,7 @@ if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
         then 
             echo
             echo " Number out of range . . ."
-            sleep 1.7
+            sleep .9
 
         else
 
@@ -4626,7 +4622,7 @@ if ! [ "$linenumber" -eq "$linenumber" ] 2> /dev/null
               then 
                   echo
                   echo " Number out of range . . ."
-                  sleep 1.7
+                  sleep .9
 
               else
                   echo
@@ -5258,21 +5254,14 @@ find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -in
 
      c)  # CLEAR FIND RESULTS
      # CREATE FIND RESULT MESSAGE THAT THERE ARE NO STORED FINDS
-     echo " " > ~/.config/videoinfox/videoinfo.lastsearchtotal
-     echo " " > ~/.config/videoinfox/videoinfo.lastfindstring
-     echo " " > ~/.config/videoinfox/videoinfo.lastfinddir
+     echo > ~/.config/videoinfox/videoinfo.lastsearchtotal
+     echo > ~/.config/videoinfox/videoinfo.lastfindstring
+     echo > ~/.config/videoinfox/videoinfo.lastfinddir
 
      rm ~/.config/videoinfox/tmp/videoinfo-number-findwork.tmp 2> /dev/null
      rm ~/.config/videoinfox/tmp/videoinfo-findwork.tmp 2> /dev/null
 
-#echo "                                                                                                                 " > ~/.config/videoinfox/videoinfo.findwork
-#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-#echo "Select find to search for files.                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-
-echo > ~/.config/videoinfox/videoinfo.findwork
+     echo > ~/.config/videoinfox/videoinfo.findwork
      
      ;;
 
@@ -5519,7 +5508,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 v)                                  ##############################################################################################################    
      #  VIEW/PLAYED LIST - <HOME>   ##############################################################################################################
      
-function menuv {
+function menuvv {
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
@@ -5784,7 +5773,7 @@ read -r -n1 optionv
 
         while true
         do
-	    menuv
+	    menuvv
 	    case $optionv in
     
         q)  # QUIT
@@ -5871,87 +5860,105 @@ fi
 
         j) # PLAY LINE  (PLAYED LIST)
 
+# GETTING LINE COUNT
+linecount=$(wc -l ~/.config/videoinfox/tmp/videoinfo.number.played-list | cut -d' ' -f1)
+
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.played-list ]
    then
+       echo
+       echo
+       read -r -p " Enter Line Number: " linenumber  # waiting fot user input
 
-echo
-echo
-read -r -p " Enter Line Number: " linenumber  # waiting fot user input
 
-tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfo.playedlist-apa > ~/.config/videoinfox/tmp/videoinfo.playedlist-apa.tmp 2>/dev/null
-mv ~/.config/videoinfox/tmp/videoinfo.playedlist-apa.tmp ~/.config/videoinfox/tmp/videoinfo.playedlist-apa 2>/dev/null
 
-OLDIFS=$IFS
-IFS=$'\n'
-
-read line < ~/.config/videoinfox/tmp/videoinfo.playedlist-apa
-
-if [ -z "$line" ]
-
-  then
+if ! [ "$linenumber" -eq "$linenumber" ] 2> /dev/null
+  then  # IF ENTRY IS NOT A NUMBER
       :
 
-  else
+  else  # ENTRY IS A NUMBER
 
-#for line in $(cat "$input" 2>/dev/null)
-# do
-      clear
-      echo
-      echo "___________________________________________________________________________________________________________________"
-      echo
-      echo " ""$der"" >>> PLAYED LIST >>> PLAY LINE" 
-      echo
-      echo " [PLAY]>" "$line"
-      echo "___________________________________________________________________________________________________________________"
-      echo
+
+      if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
+        then
+            :
+
+        else
+            if [[ $linenumber -gt $linecount ]]
+
+              then 
+                  echo
+                  echo " Number out of range . . ."
+                  sleep .9
+
+              else
+
+       tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfo.playedlist-apa > ~/.config/videoinfox/tmp/videoinfo.playedlist-apa.tmp 2>/dev/null
+       mv ~/.config/videoinfox/tmp/videoinfo.playedlist-apa.tmp ~/.config/videoinfox/tmp/videoinfo.playedlist-apa 2>/dev/null
+
+       OLDIFS=$IFS
+       IFS=$'\n'
+
+       read line < ~/.config/videoinfox/tmp/videoinfo.playedlist-apa
+
+
+fi
+      fi
+            fi
+
+
+
+        if [ -z "$line" ]
+
+         then
+             :
+
+         else
+
+             clear
+             echo
+             echo "___________________________________________________________________________________________________________________"
+             echo
+             echo " ""$der"" >>> PLAYED LIST >>> PLAY LINE" 
+             echo
+             echo " [PLAY]>" "$line"
+             echo "___________________________________________________________________________________________________________________"
+             echo
 
       echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$line")  " Duration:" $(ffmpeg -i "$line" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
       
-      echo
-      echo
-      echo " Video Player Controls:"
-      echo                             
-      echo " - Fullscreen Toggle: f"
-      echo
-      echo " - Play/Pause Toggle: space bar"
-      echo
-      echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-      echo
-      echo " - Quit: q"      
-      echo -e "\n"
+             echo
+             echo
+             echo " Video Player Controls:"
+             echo                             
+             echo " - Fullscreen Toggle: f"
+             echo
+             echo " - Play/Pause Toggle: space bar"
+             echo
+             echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
+             echo
+             echo " - Quit: q"      
+             echo -e "\n"
 
-      echo " Screen will close after video player is quit."
+             echo " Screen will close after video player is quit."
 
-      ffplay -fs -autoexit "$line" 2> /dev/null
-
-      #echo " To bypass the 3 second wait press enter with no entry"
-      #echo
-      #echo -e "\033[5m 3 seconds remaining to quit Played List Autoplay\033m\033[0m\033[5m\033[5m\033[0m"      
-      #echo 
-      #read -t 3 -p " Press any key then press enter to quit : " playdir
-           
-           # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
-           #if [[ $playdir ]]                                             
-           #  then                                                        # if no input is entered within 3 seconds the next video will play
-           #      break                                                   # if enter is pressed without any input the next video will play
-           #  else                                                        
-           #      :                                                       # press any key then enter within 3 seconds to quit Play Played List
-           #fi
-# done
+             ffplay -fs -autoexit "$line" 2> /dev/null
  
-IFS=$OLDIFS
+             IFS=$OLDIFS
 
-rm ~/.config/videoinfox/tmp/videoinfo.playedlist-apa 2>/dev/null
-rm ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2 2>/dev/null
-rm ~/.config/videoinfox/tmp/videoinfo.number.played-list 2>/dev/null
+             rm ~/.config/videoinfox/tmp/videoinfo.playedlist-apa 2>/dev/null
+             rm ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2 2>/dev/null
+             rm ~/.config/videoinfox/tmp/videoinfo.number.played-list 2>/dev/null
 
-fi
+        fi
 
-else
-       echo
-       echo
-       echo " Played List Empty . . ."
-       sleep 1.7
+
+    else  # FILE IS EMPTY"
+        echo
+        echo
+        echo " Played List Empty . . ."
+        sleep 1.7
+
+
 fi
 
 ;;
@@ -6632,7 +6639,7 @@ if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
         then 
             echo
             echo " Number out of range . . ."
-            sleep 1.7
+            sleep .9
 
         else
 
@@ -6687,7 +6694,7 @@ if ! [ "$linenumber" -eq "$linenumber" ] 2> /dev/null
               then 
                   echo
                   echo " Number out of range . . ."
-                  sleep 1.7
+                  sleep .9
 
               else
                   echo
@@ -7273,7 +7280,7 @@ grabdir="$PWD"  # SAVE CURRENT DIRECTORY FOR RESTORE ON EXIT
 cd ~/.config/videoinfox/playlists
 
 
-function menuv {
+function menuvhome {
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
@@ -7555,7 +7562,7 @@ read -r -n1 optionv
 
         while true
         do
-	    menuv
+	    menuvhome
 	    case $optionv in
     
         q)  # QUIT
@@ -7879,7 +7886,7 @@ if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
         then 
             echo
             echo " Number out of range . . ."
-            sleep 1.7
+            sleep .9
 
         else
 
@@ -7934,7 +7941,7 @@ if ! [ "$linenumber" -eq "$linenumber" ] 2> /dev/null
               then 
                   echo
                   echo " Number out of range . . ."
-                  sleep 1.7
+                  sleep .9
 
               else
                   echo
