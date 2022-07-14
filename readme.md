@@ -1,4 +1,4 @@
-# Videoinfox v3.5.01
+# Videoinfox v3.5.04
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -318,6 +318,20 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+### v3.5.04 Add: Number out of range message to Played List >>> Play Line.
+
+Fix: Bug that Playline was causing on the Home Screen.
+
+Fix: Typo in Yt-dlp >>> Download List >>> Help.
+
+        From: Notes: Pressing enter BEFORE making a selection isn't necessary....
+   
+
+        To:   Notes: Pressing enter AFTER making a selection isn't necessary....
+
+<br />
+
 
 ### v3.5.01 Fix: Some of the Play Clipboard selections were writing to the Play List instead of the Played List.
 <br />
