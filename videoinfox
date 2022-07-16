@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v3.5.04								         
+#  file : videoinfox v3.5.05								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v3.5.04"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m5.04")  # Version Number: with blinking dot
+ver="Videoinfox v3.5.05"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m5.05")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -1493,14 +1493,14 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " KNOWN ISSUES: None Reported." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-
-
-
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v3.5.05 Change: Ytdlp Menu >>> Download List - Create Directory option was changed from N to M" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v3.5.04 Add: Number out of range message to Played List >>> Play Line." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Fix: Bug that Playline was causing on the Home Screen." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Fix: Bug that Play Line and Autoplay Line were causing on the Home Screen." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Fix: Typo in Yt-dlp >>> Download List >>> Help." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
@@ -1974,7 +1974,7 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Create download list(s) of video urls with your preferred text editor." >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Then use Videoinfox to download the entire list." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         The rel located in:   Download List   explains how the download list feature works." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Help located in:   Download List   explains how the download list feature works." >> ~/.config/videoinfox/videoinfo-ver-history
 echo "_________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.060  Fixed typo on Navigate Tree" >> ~/.config/videoinfox/videoinfo-ver-history 
@@ -2079,14 +2079,13 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.00   Intoroduction of Play Clipboard." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v1.99 and earlier versions:  I wasn't keeping track of version history.  At that point in time, I didn't planned on" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v1.99 and earlier versions:  I wasn't keeping track of version history.  At that point in time, I didn't plan on" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " Videoinfox having all the features it has now.  It was just a few hundred lines of code to find a video file's codec," >> ~/.config/videoinfox/videoinfo-ver-history
 echo " resolution and duration." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " Videoinfox's Start: Below was the first home screen which is now just another option (More Options) in Videoinfox. " >> ~/.config/videoinfox/videoinfo-ver-history
 echo "                     It was named Videoinfo until I found out the word Videoinfo was already in use. " >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                     The scripts main feature uses Xclip which only works on Xserver. That is why I added x to Videoinfo. " >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "                     Working Directory:" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -3064,7 +3063,7 @@ echo
          if [ -z "$pasteclip" ]  # if the clipboard is empty goto then
            then
                echo " Copy a directory to the clipboard to use this feature . . ." 
-               sleep 1
+               sleep 1.9
            
            else
 
@@ -9591,7 +9590,7 @@ echo
 echo " ""$der"" >>> DOWNLOAD LIST       Enter - Update Clipboard Display              "$dirdisp" - Default Dirs"
 echo "___________________________________________________________________________________________________________________" 
 echo
-echo " d "$finalresult2" Download List     s "$dashit2" Set User List        k - Default List       n - Create Directory               q - Quit"
+echo " d "$finalresult2" Download List     s "$dashit2" Set User List        k - Default List       m - Create Directory               q - Quit"
 echo " v "$finalresult2" View List         c - Create User List     a "$dashit2" Add to Queue       x - Clear Clipboard"    
 echo " l - View Logs         r "$dashit2" Delete User List     b - Download Queue                                        h - Help"
 echo 
@@ -9663,7 +9662,7 @@ pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard conten
 ;;
 
 
-n)
+m)
 ##################################################################################################################################################
 ###########################   CREATE DIRECTORY  n   (DOWNLOAD LIST)   ############################################################################
 ##################################################################################################################################################
