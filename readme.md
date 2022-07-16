@@ -1,4 +1,4 @@
-# Videoinfox v3.5.04
+# Videoinfox v3.5.05
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -318,6 +318,8 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+### v3.5.05 Ytdlp Menu >>> Download List - Create Directory was changed from N to M
 
 ### v3.5.04 Add: Number out of range message to Played List >>> Play Line.
 
