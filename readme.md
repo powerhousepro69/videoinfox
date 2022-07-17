@@ -1,4 +1,4 @@
-# Videoinfox v3.5.05
+# Videoinfox v3.5.06
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -318,6 +318,8 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+### v3.5.06 Fix: Play Line in Navigate Tree would try to play an out of range number.
 
 ### v3.5.05 Ytdlp Menu >>> Download List - Create Directory was changed from N to M
 
