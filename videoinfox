@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v3.5.05								         
+#  file : videoinfox v3.5.06								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v3.5.05"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m5.05")  # Version Number: with blinking dot
+ver="Videoinfox v3.5.06"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m5.06")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -283,7 +283,7 @@ if [ "$1" = "-u" ]
                         :
                    else
                         echo
-                        echo -e "\033[5m aborted\033m\033[0m: The first 4 characters on the first line don't start with http"
+                        echo -e "\033[5m error\033m\033[0m:   The first 4 characters on the first line don't start with http"
                         echo "          This is a safety feature to prevent accidental deletion of a file that is not a Download list."
                         echo
                         echo "          If this file was processed, The following lines would have been removed:"
@@ -1493,6 +1493,12 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " KNOWN ISSUES: None Reported." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
+
+
+
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v3.5.06 Fix: Play Line in Navigate Tree would try to play an out of range number." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v3.5.05 Change: Ytdlp Menu >>> Download List - Create Directory option was changed from N to M" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -3872,9 +3878,28 @@ case $optionaplist in
 
 
    j) # PLAY LINE (NAVIGATE TREE)
+
+# GETTING LINECOUNT
+linecount=$(wc -l ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa | cut -d' ' -f1)
+
 echo
 echo
 read -r -p " Autoplay Line Number: " linenumber  # waiting fot user input
+
+
+if ! [ "$linenumber" -eq "$linenumber" ] 2> /dev/null
+  then  # IF ENTRY IS NOT A NUMBER
+      :
+
+  else  # ENTRY IS A NUMBER
+
+
+if [[ $linenumber -gt $linecount ]]
+  then 
+      echo
+      echo " Number out of range . . ."
+      sleep .9
+  else
 
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa > ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa.tmp 2>/dev/null
 mv ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa.tmp ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa 2>/dev/null
@@ -3884,8 +3909,6 @@ IFS=$'\n'
 
 read line < ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa
 
-#for line in $(cat "$input" 2>/dev/null)
-# do
       clear
       echo
       echo "___________________________________________________________________________________________________________________"
@@ -3913,32 +3936,21 @@ read line < ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa
 
       echo "$line" >> ~/.config/videoinfox/videoinfo.playedlist  # write to the played list 
       ffplay -fs -autoexit "$line" 2> /dev/null
-
-      #echo " To bypass the 3 second wait press enter with no entry"
-      #echo
-      #echo -e "\033[5m 3 seconds remaining to quit Autoplay\033m\033[0m\033[5m\033[5m\033[0m"      
-      #echo 
-      #read -t 3 -p " Press any key then press enter to quit : " playdir
-           
-           # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
-           #if [[ $playdir ]]                                             
-             #then                                                        # if no input is entered within 3 seconds the next video will play
-             #    break                                                   # if enter is pressed without any input the next video will play
-             #else                                                        
-             #    :                                                       # press any key then enter within 3 seconds to quit
-           #fi
-#done
  
-IFS=$OLDIFS
+      IFS=$OLDIFS
 
-rm ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa 2>/dev/null
-rm ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2 2>/dev/null
-rm ~/.config/videoinfox/tmp/videoinfox.numbered-nt-play-directory-list 2>/dev/null
-rm ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa-work 2>/dev/null 
-          
-esac
-done
+      rm ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa 2>/dev/null
+      rm ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2 2>/dev/null
+      rm ~/.config/videoinfox/tmp/videoinfox.numbered-nt-play-directory-list 2>/dev/null
+      rm ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa-work 2>/dev/null 
+         
+ 
+      fi
+      fi
 
+
+      esac
+      done
 
 else
     echo
