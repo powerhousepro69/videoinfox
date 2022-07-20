@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v3.5.06								         
+#  file : videoinfox v3.5.07								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v3.5.06"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m5.06")  # Version Number: with blinking dot
+ver="Videoinfox v3.5.07"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m5.07")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -1498,6 +1498,18 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v3.5.07 MSG Change in Yt-dlp Menu >>> Download List >>> Create Directory  - Change Directory." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Message shows when Change Directory is selected without a valid directory in the clipboard or" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         the directory in the clipboard is outside of the Treetop." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         OLD MSG: At treetop. Can't go any higher . . ." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         NEW MSG: Copy an above directory to the clipboard to use this feature . . ." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " Notes:  Whatever the directory is when entering Create Directory or Navigate Tree is set as the Treetop." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         While in Create Directory or Navigate Tree, the Treetop can be changed with Default Dirs or Change Treetop." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v3.5.06 Fix: Play Line in Navigate Tree would try to play an out of range number." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
@@ -1949,7 +1961,7 @@ echo "         Any content that is copied to the clipboard that doesn't start wi
 echo "         A file exist check is done on the clipboard content. If the file doesn't exist," >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         the clipboard is cleared and the invalid content never makes it to the clipboard display." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         This was already done after you pressed enter.  Now it is also done before pressing enter." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         This was already done at the end of the loop. Now it is also done at the start of the loop." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         The above update doesn't include    http   because Yt-dlp validates anything that starts with   http" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -3068,7 +3080,7 @@ echo
         
          if [ -z "$pasteclip" ]  # if the clipboard is empty goto then
            then
-               echo " Copy a directory to the clipboard to use this feature . . ." 
+               echo " Copy an above directory to the clipboard to use this feature . . ." 
                sleep 1.9
            
            else
@@ -9980,8 +9992,8 @@ echo
            then
                cd "$pasteclip" 2>/dev/null  # change to the directory in the clipboard
            else
-               echo " At treetop. Can't go any higher . . ."
-               sleep .50
+               echo " Copy an above directory to the clipboard to use this feature . . ."
+               sleep 1.9
          fi
         
          echo "" | xclip -sel clip  # clearing the clipboard
