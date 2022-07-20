@@ -341,12 +341,7 @@ Fix: Bug that Playline was causing on the Home Screen.
 Fix: Typo in Yt-dlp >>> Download List >>> Help.
 
         From: Pressing enter BEFORE making a selection isn't necessary . . .
-   
-
         To:   Pressing enter AFTER making a selection isn't necessary . . .
-
-<br />
-
 
 ### v3.5.01 Fix: Some of the Play Clipboard selections were writing to the Play List instead of the Played List.
 
