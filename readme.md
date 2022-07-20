@@ -1,4 +1,4 @@
-# Videoinfox v3.5.06
+# Videoinfox v3.5.07
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -319,6 +319,17 @@ FIRST RUN
 ##### Reddit /Videoinfox for discussion.
 <br />
 
+### v3.5.07 MSG Change in Yt-dlp Menu >>> Download List >>> Create Directory  - Change Directory.
+
+Message shows when Change Directory is selected without a valid directory in the clipboard or
+the directory in the clipboard is outside of the Treetop.
+
+        OLD MSG: At treetop. Can't go any higher . . .
+        NEW MSG: Copy an above directory to the clipboard to use this feature . . .
+
+Notes:  Whatever the directory is when entering Create Directory or Navigate Tree is set as the Treetop.
+        While in Create Directory or Navigate Tree, the Treetop can be changed with Default Dirs or Change Treetop.
+
 ### v3.5.06 Fix: Play Line in Navigate Tree would try to play an out of range number.
 
 ### v3.5.05 Ytdlp Menu >>> Download List - Create Directory was changed from N to M
@@ -329,16 +340,15 @@ Fix: Bug that Playline was causing on the Home Screen.
 
 Fix: Typo in Yt-dlp >>> Download List >>> Help.
 
-        From: Notes: Pressing enter BEFORE making a selection isn't necessary....
+        From: Pressing enter BEFORE making a selection isn't necessary . . .
    
 
-        To:   Notes: Pressing enter AFTER making a selection isn't necessary....
+        To:   Pressing enter AFTER making a selection isn't necessary . . .
 
 <br />
 
 
 ### v3.5.01 Fix: Some of the Play Clipboard selections were writing to the Play List instead of the Played List.
-<br />
 
 ### v3.5.00 add: Multi Playlist
 <br />
