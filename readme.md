@@ -1,4 +1,4 @@
-# Videoinfox v3.5.07
+# Videoinfox v3.5.08
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -318,6 +318,14 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+### v3.5.08 Fix in VIEW PLAYLIST >>> CHANGE PLAYLIST - Change Playlist when the DEFAULT Playlist was deleted.
+
+When the Default Playlist was deleted it generated a script error from the cp command.
+
+The Default Playlist can't be deleted. It can only be cleared. If the Default Playlist is deleted, it is
+temporarily removed (not deleted) from CHANGE PLAYLIST. The Default Playist will show again in Change Playlist
+after another playlist is loaded. This issue in Change Playlist will be dealt with in a future update. 
 
 ### v3.5.07 MSG Change in Yt-dlp Menu >>> Download List >>> Create Directory  - Change Directory.
 
