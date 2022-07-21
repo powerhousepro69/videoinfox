@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v3.5.07								         
+#  file : videoinfox v3.5.08								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v3.5.07"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m5.07")  # Version Number: with blinking dot
+ver="Videoinfox v3.5.08"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m5.08")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -304,7 +304,7 @@ if [ "$1" = "-u" ]
                 sed -i 's%/[^/]*$%%' videoinfox-u-option-grabdir.tmp  # remove last slash and filename from the path for the cd command
                 read -r < videoinfox-u-option-grabdir.tmp whatsthepath  # read the path into the varible: $whatsthepath 
                 rm videoinfox-u-option-grabdir.tmp  # download list location is no longer needed. so it will be removed
-                cd "$whatsthepath"  # cd to the download list location. the code will let you know
+                cd "$whatsthepath"  # cd to the download list location.
 
      
                 #####  ERROR CORRECTION FOR THE USER'S LIST BEFORE DOWNLOAD.  #####
@@ -404,13 +404,10 @@ fi
 if [ "$1" = "-d" ]
    then
 
+       direxist="$HOME/.config/videoinfox/tmp"
 
-direxist="$HOME/.config/videoinfox/tmp"
-
-  if [ -d "$direxist" ]  #  if directoty exists goto  <then>
-  then
-
-
+       if [ -d "$direxist" ]  #  if directoty exists goto  <then>
+         then
 
 # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
 find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) > ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa-work 2>/dev/null
@@ -1021,7 +1018,6 @@ dirtemp="$PWD"  # save directory for restore
 cd ~/.config/videoinfox/tmp
 
 # download  videoinfox  from github, extract the ver mumber and reformat it
-# if the download doesn't come in 2.4 seconds, it will be aborted.  Just for notification.  To prevent script hanging on  wget  during high traffic times.
 wget -q https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox 2>/dev/null
 
 # make script executable to get ver number
@@ -1380,7 +1376,7 @@ echo >> ~/.config/videoinfox/videoinfo.help
 echo " videoinfox -h to see command line options." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " When you use:  Videoinfox Update in Settings (Set), the update will always be applied to: /usr/local/bin/  " >> ~/.config/videoinfox/videoinfo.help
+echo " When you use:  Videoinfox Update in Settings (Set), the update will always be applied to: /usr/local/bin" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1491,11 +1487,19 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 # KNOWN ISSUE
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " KNOWN ISSUES: None Reported." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " KNOWN ISSUES: v3.5.08 In Change Playlist when attempting to delete the Default Playlist." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v3.5.08 Fix in VIEW PLAYLIST >>> CHANGE PLAYLIST - Change Playlist when the DEFAULT Playlist was deleted." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         When the Default Playlist was deleted it generated a script error from the cp command." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         The Default Playlist can't be deleted. It can only be cleared. If the Default Playlist is deleted, it is" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         temporarily removed (not deleted) from CHANGE PLAYLIST. The Default Playist will show again in Change Playlist" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         after another playlist is loaded. This issue in Change Playlist will be dealt with in a future update. " >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v3.5.07 MSG Change in Yt-dlp Menu >>> Download List >>> Create Directory  - Change Directory." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2055,8 +2059,6 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v2.052  Added check for update on startup" >> ~/.config/videoinfox/videoinfo-ver-history
 echo  >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         If update available: Message displayed in Videoinfox only on the home screen right after the version number." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         If wget doesn't get the download in 2.4 seconds, it is aborted," >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Home screen display: update available with gui notification: Update Available & update version number" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
@@ -4685,7 +4687,7 @@ if ! [ "$linenumber" -eq "$linenumber" ] 2> /dev/null
                       if [[ "$setplaylistfull" = "$plselected" ]]  # IF DELETED PLAYLIST = ACTIVE PLAYLIST
                         then  # SET DEFAULT PLAYLIST TO ACTIVE PLAYLIST
                             echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ~/.config/videoinfox/videoinfo.playlist.current
-                            cp ~/.config/videoinfox/playlists/vplaylist.Default ~/.config/videoinfox/videoinfo.playlist
+                            cp ~/.config/videoinfox/playlists/vplaylist.Default ~/.config/videoinfox/videoinfo.playlist 2> /dev/null
                         else
                             :
                       fi
@@ -6757,7 +6759,7 @@ if ! [ "$linenumber" -eq "$linenumber" ] 2> /dev/null
                       if [[ "$setplaylistfull" = "$plselected" ]]  # IF DELETED PLAYLIST = ACTIVE PLAYLIST
                         then  # SET DEFAULT PLAYLIST TO ACTIVE PLAYLIST
                             echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ~/.config/videoinfox/videoinfo.playlist.current
-                            cp ~/.config/videoinfox/playlists/vplaylist.Default ~/.config/videoinfox/videoinfo.playlist
+                            cp ~/.config/videoinfox/playlists/vplaylist.Default ~/.config/videoinfox/videoinfo.playlist 2> /dev/null
                         else
                             :
                       fi
@@ -8004,7 +8006,7 @@ if ! [ "$linenumber" -eq "$linenumber" ] 2> /dev/null
                       if [[ "$setplaylistfull" = "$plselected" ]]  # IF DELETED PLAYLIST = ACTIVE PLAYLIST
                         then  # SET DEFAULT PLAYLIST TO ACTIVE PLAYLIST
                             echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ~/.config/videoinfox/videoinfo.playlist.current
-                            cp ~/.config/videoinfox/playlists/vplaylist.Default ~/.config/videoinfox/videoinfo.playlist
+                            cp ~/.config/videoinfox/playlists/vplaylist.Default ~/.config/videoinfox/videoinfo.playlist 2> /dev/null
                         else
                             :
                       fi
