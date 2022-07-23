@@ -1,4 +1,4 @@
-# Videoinfox v3.5.08
+# Videoinfox v3.5.09
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -48,7 +48,7 @@ Videoinfox is a Linux shell script that feels like an app. If you enjoy watching
 
 ### Harnessing the power of:
 
-Videoinfox - Over 7600 lines of code.
+Videoinfox - Over 7700 lines of code.
 
 Xclip - Interact with the clipboard.
 
@@ -318,6 +318,8 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+### v3.5.09 Moved options around in Played List.
 
 ### v3.5.08 Fix in VIEW PLAYLIST >>> CHANGE PLAYLIST - Change Playlist when the DEFAULT Playlist was deleted.
 
