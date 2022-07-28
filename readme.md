@@ -1,4 +1,4 @@
-# Videoinfox v3.5.09
+# Videoinfox v3.5.10
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -256,6 +256,10 @@ SETTINGS
 
 ![Videoinfox Settings](https://i.imgur.com/vun9YFS.png)
 
+<br />
+videoinfox -h
+
+![videoinfox -h](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/videoinfox-h.png)
 
 <br />
  
@@ -318,6 +322,8 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+### v3.5.10 Updated info on Find screen.
 
 ### v3.5.09 Moved options around in Played List.
 
