@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v3.5.10								         
+#  file : videoinfox v3.5.13								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v3.5.10"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m5.10")  # Version Number: with blinking dot
+ver="Videoinfox v3.5.13"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m5.13")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -1334,6 +1334,7 @@ echo >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Play Clipboard: Download and autoplay a video url that is in the clipboard." >> ~/.config/videoinfox/videoinfo.help
 echo "                 This option always writes to the Played List." >> ~/.config/videoinfox/videoinfo.help
+echo "                 Available in: Home Screen, Played List, Playlist, Yt-dlp Menu and View Downloads." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Play Directory: Autoplay all videos in the current directory from beginning to end of the directory listing." >> ~/.config/videoinfox/videoinfo.help
 echo "                 This option never writes to the Played List." >> ~/.config/videoinfox/videoinfo.help
@@ -1492,6 +1493,13 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v3.5.13 Moved options around in Yt-dlp Menu >>> View Downloads." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Added Clear Clipboard to Yt-dlp Menu." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Added line to HOME >>> HELP. Autoplay Features - Play Clipboard - Available in ..." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v3.5.10 Updated info on Find screen." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -9237,7 +9245,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo
                       echo " d "$dash0" Download Default     l - Last Download     v - View Downloads     p - Play Clipboard                 q - Quit"
                       echo " c "$dash0" Download Choose"
-                      echo " s "$dash0" Self Destruct        g - Download List"
+                      echo " s "$dash0" Self Destruct        g - Download List                            x - Clear Clipboard"
                       echo
                   
                       echo "" | xclip -sel clip  # clearing out the clipboard
@@ -9258,10 +9266,10 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo "___________________________________________________________________________________________________________________"
                       echo
 
-echo -e " d "$dash1" Download Default     l - Last Download     v - View Downloads     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m          q - Quit "
+echo -e " d "$dash1" Download Default     l - Last Download     v - View Downloads     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                 q - Quit "
 
                       echo " c "$dash1" Download Choose"
-                      echo " s "$dash1" Self Destruct        g - Download List"
+                      echo " s "$dash1" Self Destruct        g - Download List                            x - Clear Clipboard"
                       echo                                                                                  
             fi
   else
@@ -9279,7 +9287,7 @@ echo -e " d "$dash1" Download Default     l - Last Download     v - View Downloa
 echo -e " d - Download Default     l - Last Download     v - View Downloads     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                 q - Quit "
                                                       
             echo " c - Download Choose"
-            echo " s - Self Destruct        g - Download List"
+            echo " s - Self Destruct        g - Download List                            x - Clear Clipboard"
             echo                                                             
 
         else 
@@ -9294,7 +9302,7 @@ echo -e " d - Download Default     l - Last Download     v - View Downloads     
             echo
             echo " d - Download Default     l - Last Download     v - View Downloads     p - Play Clipboard                 q - Quit"
             echo " c - Download Choose"
-            echo " s - Self Destruct        g - Download List"
+            echo " s - Self Destruct        g - Download List                            x - Clear Clipboard"
             echo
 fi
 fi
@@ -9314,6 +9322,12 @@ read -r -n1 optiony
      q)  # QUIT
      clear
      break;;
+
+
+     x)  # CLEAR CLIPBOARD  (DOWNLOAD LIST)
+     echo "" | xclip -sel clip  # clearing out the clipboard
+     pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+     ;;
 
 
      g)  # DOWNLOAD LIST  <YT-DLP MENU>
@@ -11273,8 +11287,10 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" >>> VIEW DOWNLOADS"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " p - Play Clipboard     d - Play Directory     o - Autoplay Line     j - Play Line     i - Info           q - Quit"      
-                      echo
+                      echo " o "$vdash" Autoplay Line     d "$vdash" Play Directory    p - Play Clipboard                                           q - Quit"
+                      echo " j "$vdash" Play Line"
+                      echo " i "$vdash" Info"     
+                      echo            
 
                   else 
                       echo
@@ -11286,9 +11302,9 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" >>> VIEW DOWNLOADS"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-
-echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     d - Play Directory     o - Autoplay Line     j - Play Line     i - Info           q - Quit"             
-                      
+                      echo -e " o "$vdash" Autoplay Line     d "$vdash" Play Directory     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                                          q - Quit"
+                      echo " j "$vdash" Play Line"
+                      echo " i "$vdash" Info"     
                       echo                                                                                  
             fi
   else
@@ -11302,9 +11318,9 @@ echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     d - Pla
             echo " "$der" >>> VIEW DOWNLOADS"
             echo "___________________________________________________________________________________________________________________"
             echo
-
-echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     d - Play Directory     o - Autoplay Line     j - Play Line     i - Info           q - Quit"
-
+            echo -e " o "$vdash" Autoplay Line     d "$vdash" Play Directory     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                                          q - Quit"
+            echo " j "$vdash" Play Line"
+            echo " i "$vdash" Info"
             echo                                                             
 
         else 
@@ -11317,7 +11333,9 @@ echo -e " p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     d - Pla
             echo " "$der" >>> VIEW DOWNLOADS"
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " p - Play Clipboard     d "$vdash" Play Directory     o "$vdash" Autoplay Line     j "$vdash" Play Line     i "$vdash" Info           q - Quit"      
+            echo " o "$vdash" Autoplay Line     d "$vdash" Play Directory    p - Play Clipboard                                           q - Quit"
+            echo " j "$vdash" Play Line"
+            echo " i "$vdash" Info"     
             echo                                          
 fi
 fi
