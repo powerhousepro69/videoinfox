@@ -1,4 +1,4 @@
-# Videoinfox v3.5.10
+# Videoinfox v3.5.13
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -322,6 +322,12 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+### v3.5.13 Moved options around in Yt-dlp Menu >>> View Downloads.
+
+Added Clear Clipboard to Yt-dlp Menu.
+
+Added line to HOME >>> HELP. Autoplay Features - Play Clipboard - Available in ...
 
 ### v3.5.10 Updated info on Find screen.
 
