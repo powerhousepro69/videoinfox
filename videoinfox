@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v3.5.13								         
+#  file : videoinfox v3.7.00								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v3.5.13"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m5.13")  # Version Number: with blinking dot
+ver="Videoinfox v3.7.00"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m7.00")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -513,7 +513,7 @@ if [ -f ~/.config/videoinfox/tmp/videoinfox.numbered-optiond-play-directory-list
    else
         echo
         echo
-        echo "$der  No Playable Content in Current Directory . . ."
+        echo "$der  No playable content in the current directory . . ."
         echo
 fi
 
@@ -1056,7 +1056,7 @@ if [ "$viv2" = "$viv3" ]  # If the downloaded version = this script's version go
 
   else
       # Version numbers are not the same
-      viv4="Update Available"   # update available   notification on home screen
+      viv4="Update Available"   # Update Available   notification on home screen
       notify-send "Videoinfox messsage: Update Available" "$viv" # send gui notification with update ver number
       rm ~/.config/videoinfox/tmp/* 2> /dev/null
       cd "$dirtemp"  # restore directory
@@ -1309,9 +1309,6 @@ echo >> ~/.config/videoinfox/videoinfo.help
 echo " Loading Download List, View Logs, and Add to Queue." >> ~/.config/videoinfox/videoinfo.help
 echo " Copy a list (entire line) to the clipboard before selecting any of the above options." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " Change Directories in Navigate Tree and Create Directory in Download List." >> ~/.config/videoinfox/videoinfo.help
-echo " Copy a directory (entire line) to the clipboard before selecting any of the above options." >> ~/.config/videoinfox/videoinfo.help
-echo >> ~/.config/videoinfox/videoinfo.help
 echo " Note: Optional. Press enter after clipboard copy to update the clipboard display to see all available options." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
@@ -1493,6 +1490,14 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v3.7.00 Enter line number to change directory. No more clipboard copy to change directory on the following two screens." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         NAVIGATE TREE - Change Directory" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         YT-DLP MENU >>> DOWNLOAD LIST >>> CREATE DIRECTORY - Change Directory" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Navigate Tree and Create Directory displays updated." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v3.5.13 Moved options around in Yt-dlp Menu >>> View Downloads." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2222,7 +2227,7 @@ if [ "$searchtotal" = "" ]  # if the file <~/.config/videoinfox/videoinfo.lastse
       rm ~/.config/videoinfox/tmp/videoinfo-findwork.tmp 2>/dev/null
       rm ~/.config/videoinfox/tmp/videoinfo-number-findwork.tmp 2>/dev/null
 
-      # BELOW 3 LINES WERE ADDED TO GET RID OF PLAYLINE/HOME SCREEN SEARCH RESULTS GLITCH
+      # clear search results
       echo "" > ~/.config/videoinfox/videoinfo.lastsearchtotal
       echo "" > ~/.config/videoinfox/videoinfo.lastfindstring
       echo "" > ~/.config/videoinfox/videoinfo.lastfinddir
@@ -2818,8 +2823,17 @@ fi
 
 clear
 
-# recursive list of directories for the user to copy one to the clipboard and press  c   to change to that directory
-find "$PWD" -type d -iname "*" | sort -u 2>/dev/null
+# recursive list of directories for the user: enter line number to change to that directory
+####find "$PWD" -type d -iname "*" | sort -u 2>/dev/null
+
+find "$PWD" -type d -iname "*" | sort -u > ~/.config/videoinfox/tmp/nt-list.tmp 2>/dev/null
+
+
+# NUMBER THE LIST
+sed '/./='  ~/.config/videoinfox/tmp/nt-list.tmp | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/nt-list-number.tmp 2>/dev/null
+
+cat ~/.config/videoinfox/tmp/nt-list-number.tmp
+
 
 # recursive number of directories found
 ttotal=$(find  "$PWD" -type d -iname "*" 2>/dev/null | wc -l)   
@@ -3014,11 +3028,11 @@ echo "Total Video Files:" "$ttotalnum"
 echo
 echo "Current Directory:" "$PWD"
 echo "Video Files:" "$blinkit"
-echo
-echo "Clipboard:" "$pasteclip"
+# echo
+# echo "Clipboard:" "$pasteclip"
 echo "___________________________________________________________________________________________________________________"
 echo  
-echo " ""$der"" >>> NAVIGATE TREE          Enter - Update Clipboard Display           "$dirdisp" - Default Dirs"
+echo " ""$der"" >>> NAVIGATE TREE                                                     "$dirdisp" - Default Dirs"
 echo "___________________________________________________________________________________________________________________" 
 echo
 echo " c - "$changedir3"     d "$bdash" Play Directory     o "$bdash" Autoplay Line     s - View Playlist                  q - Quit"
@@ -3088,38 +3102,44 @@ echo
          ;;          
 
 
-         c)  # CHANGE TO DIRECTORY IN CLIPBOARD
-         
-         echo
-         pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
+         c)  # CHANGE DIRECTORY
+# GETTING LINECOUNT
+linecount=$(wc -l ~/.config/videoinfox/tmp/nt-list.tmp | cut -d' ' -f1)
+
+echo
+read -r -p " Enter line number to change directory: " linenumber  # waiting fot user input
+
+
+if ! [ "$linenumber" -eq "$linenumber" ] 2> /dev/null
+  then  # IF ENTRY IS NOT A NUMBER
+      :
+
+  else  # ENTRY IS A NUMBER
+
+
+if [[ $linenumber -gt $linecount ]]
+  then 
+      echo
+      echo " Number out of range . . ."
+      sleep .9
+  else
+
+tail -n +"$linenumber" ~/.config/videoinfox/tmp/nt-list.tmp > ~/.config/videoinfox/tmp/nt-list.tmp2 2>/dev/null
+
+OLDIFS=$IFS
+IFS=$'\n'
+
+read line < ~/.config/videoinfox/tmp/nt-list.tmp2
+
+      cd "$line" 2> /dev/null
+ 
+      IFS=$OLDIFS
+  
+      fi
+      fi
+;;
 
         
-         if [ -z "$pasteclip" ]  # if the clipboard is empty goto then
-           then
-               echo " Copy an above directory to the clipboard to use this feature . . ." 
-               sleep 1.9
-           
-           else
-
-         treelength=$(echo "$grabdirfornav2" |awk '{print length}')  # get number of characters in treetop         
-         clipdat=$(echo "$pasteclip" | head -c"$treelength")  # grabbing the first  $treelength  characters
-
-         if [ "$clipdat" = "$grabdirfornav2" ]  # if clipboard string = treetop go then
-           then
-               cd "$pasteclip" 2>/dev/null  # change to the directory in the clipboard
-           else
-               echo " At treetop. Can't go any higher . . ."
-               sleep .50
-         fi
-        
-         fi
-
-         echo "" | xclip -sel clip  # clearing the clipboard
-         pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content 
-
-         ;;
-
-
          ########################################################################################################################################
          d)  # (@PLAY DIRECTORY) NAVIGATE TREE  #################################################################################################
          ########################################################################################################################################
@@ -9734,8 +9754,17 @@ fi
 
 clear
 
+
 # recursive list of directories for the user to copy one to the clipboard and press  c   to change to that directory
-find "$PWD" -type d -iname "*" | sort -u 2>/dev/null
+#### find "$PWD" -type d -iname "*" | sort -u 2>/dev/null
+
+find "$PWD" -type d -iname "*" | sort -u > ~/.config/videoinfox/tmp/nt-list.tmp 2>/dev/null
+
+# NUMBER THE LIST
+sed '/./='  ~/.config/videoinfox/tmp/nt-list.tmp | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/nt-list-number.tmp 2>/dev/null
+
+cat ~/.config/videoinfox/tmp/nt-list-number.tmp
+
 
 # recursive number of directories found
 ttotal=$(find  "$PWD" -type d -iname "*" 2>/dev/null | wc -l)   
@@ -9931,10 +9960,10 @@ echo
 echo "Current Directory:" "$PWD"
 #echo "Video Files:" "$blinkit"
 #echo
-echo "Clipboard:" "$pasteclip"
+#echo "Clipboard:" "$pasteclip"
 echo "___________________________________________________________________________________________________________________"
 echo  
-echo " ""$der"" >>> CREATE DIRECTORY       Enter - Update Clipboard Display           "$dirdisp" - Default Dirs"
+echo " ""$der"" >>> CREATE DIRECTORY                                                  "$dirdisp" - Default Dirs"
 echo "___________________________________________________________________________________________________________________" 
 echo
 echo " c - "$changedir3"     m - Create Directory     n - Change Treetop                                     q - Quit"
@@ -10003,27 +10032,44 @@ echo
          ;;          
 
 
-         c)  # CHANGE TO DIRECTORY IN CLIPBOARD
-         echo
-         pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content 
+         c)  # CHANGE DIRECTORY
+# GETTING LINECOUNT
+linecount=$(wc -l ~/.config/videoinfox/tmp/nt-list.tmp | cut -d' ' -f1)
 
-         treelength=$(echo "$grabdirfornav2" |awk '{print length}')  # get number of characters in treetop         
-         clipdat=$(echo "$pasteclip" | head -c"$treelength")  # grabbing the first  $treelength  characters
+echo
+read -r -p " Enter line number to change directory: " linenumber  # waiting fot user input
 
-         if [ "$clipdat" = "$grabdirfornav2" ]  # if clipboard string = treetop go then
-           then
-               cd "$pasteclip" 2>/dev/null  # change to the directory in the clipboard
-           else
-               echo " Copy an above directory to the clipboard to use this feature . . ."
-               sleep 1.9
-         fi
-        
-         echo "" | xclip -sel clip  # clearing the clipboard
-         pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content 
 
-         ;;
+if ! [ "$linenumber" -eq "$linenumber" ] 2> /dev/null
+  then  # IF ENTRY IS NOT A NUMBER
+      :
 
-     
+  else  # ENTRY IS A NUMBER
+
+
+if [[ $linenumber -gt $linecount ]]
+  then 
+      echo
+      echo " Number out of range . . ."
+      sleep .9
+  else
+
+tail -n +"$linenumber" ~/.config/videoinfox/tmp/nt-list.tmp > ~/.config/videoinfox/tmp/nt-list.tmp2 2>/dev/null
+
+OLDIFS=$IFS
+IFS=$'\n'
+
+read line < ~/.config/videoinfox/tmp/nt-list.tmp2
+
+      cd "$line" 2> /dev/null
+ 
+      IFS=$OLDIFS
+  
+      fi
+      fi
+;;        
+
+ 
          m)  # CREATE DIRECTORY  (CREATE DIRECTORY)
          echo
          echo " Enter name for new directory or enter with no entry to cancel . . ."
