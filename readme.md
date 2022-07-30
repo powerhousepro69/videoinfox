@@ -1,4 +1,4 @@
-# Videoinfox v3.5.13
+# Videoinfox v3.7.00
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -322,6 +322,14 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+### v3.7.00 Enter line number to change directory. No more clipboard copy to change directory on the following two screens.
+
+NAVIGATE TREE - Change Directory
+
+YT-DLP MENU >>> DOWNLOAD LIST >>> CREATE DIRECTORY - Change Directory
+
+Navigate Tree and Create Directory displays updated.
 
 ### v3.5.13 Moved options around in Yt-dlp Menu >>> View Downloads.
 
