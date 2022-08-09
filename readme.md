@@ -1,4 +1,4 @@
-# Videoinfox v3.7.00
+# Videoinfox v3.8.00
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -323,59 +323,36 @@ FIRST RUN
 ##### Reddit /Videoinfox for discussion.
 <br />
 
-### v3.7.00 Enter line number to change directory. No more clipboard copy to change directory on the following two screens.
+### v3.8.00 Add, Move and Change
 
-NAVIGATE TREE - Change Directory
+   Add: Show All to Navigate Tree.
 
-YT-DLP MENU >>> DOWNLOAD LIST >>> CREATE DIRECTORY - Change Directory
+       Move: The following options in Navigate Tree were moved to Navigate Tree >>> Show All
+              - Autoplay Line   - Play Line   - View Playlist   - Playlist Add
 
-Navigate Tree and Create Directory displays updated.
+       Add:  - Info to Navigate Tree >>> Show All
 
-### v3.5.13 Moved options around in Yt-dlp Menu >>> View Downloads.
+       Change: Playlist Add now hides the Videoinfox Menu to gain more screen space for video listings.
 
-Added Clear Clipboard to Yt-dlp Menu.
+       Add: Error Message to Playlist Add if number entered excedes the line count.
+       MSG: Number out of range . . .
 
-Added line to HOME >>> HELP. Autoplay Features - Play Clipboard - Available in ...
 
-### v3.5.10 Updated info on Find screen.
+ Note: There are only 2 areas left in Videoinfox that still use the clipboard feature.
 
-### v3.5.09 Moved options around in Played List.
+       1. More Options >>> Find Directory
 
-### v3.5.08 Fix in VIEW PLAYLIST >>> CHANGE PLAYLIST - Change Playlist when the DEFAULT Playlist was deleted.
+       2. Yt-dlp Menu >>> Download List
 
-When the Default Playlist was deleted it generated a script error from the cp command.
+       - Download List     - Set User List
+       - View List
+       - View Logs         - Delete User List     - Add to Queue
 
-The Default Playlist can't be deleted. It can only be cleared. If the Default Playlist is deleted, it is
-temporarily removed (not deleted) from CHANGE PLAYLIST. The Default Playist will show again in Change Playlist
-after another playlist is loaded. This issue in Change Playlist will be dealt with in a future update. 
+ The above will all eventually be converted over from clipboard copy to line number for all selections.
+ Once that is finished, the only time the clipboard feature will be used is in the gui. Copying video
+ url's to the clipboard to download or when building a download list with a videoinfox keyboard shortcut.
 
-### v3.5.07 MSG Change in Yt-dlp Menu >>> Download List >>> Create Directory  - Change Directory.
 
-Message shows when Change Directory is selected without a valid directory in the clipboard or
-the directory in the clipboard is outside of the Treetop.
-
-        OLD MSG: At treetop. Can't go any higher . . .
-        NEW MSG: Copy an above directory to the clipboard to use this feature . . .
-
-Notes:  Whatever the directory is when entering Create Directory or Navigate Tree is set as the Treetop.
-        While in Create Directory or Navigate Tree, the Treetop can be changed with Default Dirs or Change Treetop.
-
-### v3.5.06 Fix: Play Line in Navigate Tree would try to play an out of range number.
-
-### v3.5.05 Ytdlp Menu >>> Download List - Create Directory was changed from N to M
-
-### v3.5.04 Add: Number out of range message to Played List >>> Play Line.
-
-Fix: Bug that Playline was causing on the Home Screen.
-
-Fix: Typo in Yt-dlp >>> Download List >>> Help.
-
-        From: Pressing enter BEFORE making a selection isn't necessary . . .
-        To:   Pressing enter AFTER making a selection isn't necessary . . .
-
-### v3.5.01 Fix: Some of the Play Clipboard selections were writing to the Play List instead of the Played List.
-
-### v3.5.00 add: Multi Playlist
 <br />
 
 ![Code Stats](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/code-stats.png)
