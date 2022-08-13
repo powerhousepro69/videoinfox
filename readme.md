@@ -23,13 +23,14 @@ sudo wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/vide
 ```
 sudo chmod +x /usr/local/bin/videoinfox
 ```
-<br />
 
+#### The next update will add option &nbsp; - Last Autoplay &nbsp; to &nbsp; - View Playlist
+Autoplay Line will keep track of the last video that was playing when quit. This option applies to all Playlists.
+
+<br />
 Download multiple URL User Lists simultaneously.
 
 You have to start Download List first then run another instance of Videoinfox to start downloading the next list.
-
-
 <br />
 
 Videoinfox is a Linux shell script that feels like an app. If you enjoy watching local videos on your PC and want the ability to download video url's, you won't be disappointed. You can also make your own URL lists to download. While downloading a list, a log file will be generated for each list. The log is each http link from your list with the downloaded video filename. If the download list is aborted before completion, Yt-dlp has you covered. Just run the Download List feature again. Yt-dlp won't re-download files that you already have. There is a Played List that keeps track of everything played by Play Clipboard, Last Download and Play Line. The Playlist will never write to the Played List. Create unlimited Playlists and autoplay. Download Queue to add unlimited Videoinfox created User Download Lists for batch processing. Videoinfox does all the error handling and reporting.
@@ -266,7 +267,7 @@ videoinfox -h
  YT-DLP is not on the dependeny list becuase Videoinfox will dowload it to: &nbsp; ~/.config/videoinfox &nbsp;
  All calls to yt-dlp are pointed to: &nbsp; ~/.config/videoinfox/yt-dlp &nbsp;
  There is an update option in: &nbsp; \<Set\>&nbsp; Settings to update yt-dlp &nbsp; (just the copy in ~/.config/videoinfox) &nbsp;
- I didn't want to overwrite anyones copy of: &nbsp; /usr/local/bin/yt-dlp &nbsp;  &nbsp;
+ I didn't want to overwrite anyones copy of: &nbsp; /user/local/bin/yt-dlp &nbsp;  &nbsp;
  Also, I wanted to make sure all new Videoinfox script installs included the most recent version of Yt-dlp 
  
 <br />
