@@ -1,4 +1,4 @@
-# Videoinfox v3.8.00
+# Videoinfox v3.9.00
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -24,8 +24,7 @@ sudo wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/vide
 sudo chmod +x /usr/local/bin/videoinfox
 ```
 
-#### The next update will add option &nbsp; - Last Autoplay &nbsp; to &nbsp; - View Playlist
-Autoplay Line will keep track of the last video that was playing when quit. This option applies to all Playlists.
+** Screenshots below still need updated.
 
 <br />
 Download multiple URL User Lists simultaneously.
@@ -40,6 +39,8 @@ Videoinfox is a Linux shell script that feels like an app. If you enjoy watching
 - Search Results: &nbsp; Find for recursive searching and Show All for recursive directory listing.
                                  
 - Directory Listings: &nbsp; Navigate Tree for current directory listing. 
+
+- Directory To Playlist: &nbsp; Add all videos in the current directory to a new Playlist.
 
 - Played List: &nbsp; Play Clipboard, Last Download and Play Line all write to the Played List.  
 
@@ -324,20 +325,37 @@ FIRST RUN
 ##### Reddit /Videoinfox for discussion.
 <br />
 
-### v3.8.00 Add, Move and Change
+###  v3.9.00 View Playlist appearance update + new options in View Playlist and Navigate Tree >>> Show All.
 
-   Add: Show All to Navigate Tree.
+         Add: Start Autoplay in View Playlist saves the last played video to Resume Autoplay.
+              Resume Autoplay will also save the last played video.
+              ** Use Start Autoplay first to begin watching **
+              ** Use Resume Autoplay after to continue watching and keep track of where you left off in the playlist **
+              More info. located in View Playlist >>> Help 
 
-       Move: The following options in Navigate Tree were moved to Navigate Tree >>> Show All
-              - Autoplay Line   - Play Line   - View Playlist   - Playlist Add
+         Add: Delete Line in View Playlist. Delete line number entered from the playlist.
 
-       Add:  - Info to Navigate Tree >>> Show All
+         Add: Directory To Playlist in Navigate Tree >>> Show All.
+              This option will write a one level deep directory listing to a new playlist.
+              Good for creating a tv show season number x playlist.
 
-       Change: Playlist Add now hides the Videoinfox Menu to gain more screen space for video listings.
+         Change: All blinking  -  changed to non blinking  ~  everywhere except the Yt-dlp Menu
+                 ** This will be updated in the Yt-dlp Menu along with selection by number instead of clipboard copy.
 
-       Add: Error Message to Playlist Add if number entered excedes the line count.
-       MSG: Number out of range . . .
+         Change: Home Screen, Played List and Playlist
+                 Clipboard: is hidden if there isn't a valid video url available in the clipboard.
 
+         Fix: Home Screen >>> View Playlist
+              After using Play Clipboard, the user set directory wasn't being restored on quit to home screen.
+
+         Fix: View Playlist >>> Change Playlist
+              The playlist name display wasn't updating if the loaded playlist was deleted.
+              Note: If the loaded playlist is deleted, the default playlist will be loaded.
+
+         Note: The loaded playlist is auto saved when another playlist is loaded.
+
+
+<br />
 
  Note: There are only 2 areas left in Videoinfox that still use the clipboard feature.
 
