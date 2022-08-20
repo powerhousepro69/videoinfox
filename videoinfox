@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v3.8.00								         
+#  file : videoinfox v3.9.00								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v3.8.00"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.00")  # Version Number: with blinking dot
+ver="Videoinfox v3.9.00"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m9.00")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -19,7 +19,7 @@ der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.00")  # V
   
 # - ffmpeg is used to extrat Duration in <hrs:min:sec> format
 # - ffprobe is used to extract Codec, Resolution and Duration in floating seconds format (x.xxxxxx)
-# - ffplay is used to play the video that is in the clipboard.                                        
+# - ffplay is used to play videos (mp4, webm, mkxv, avi, divx).                                        
   
 # - bc (already installed on most disrtros)  needed to do floating point math.
   
@@ -30,7 +30,10 @@ der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.00")  # V
 ##########  Missing dependencies will be displayed.
 
 
-# YT-DLP is not on the dependeny list becuase Videoinfox will dowload it to:   ~/.config/videoinfox   All calls to yt-dlp are pointed to:   ~/.config/videoinfox/yt-dlp   There is an update option in:   <Set>  Settings to update yt-dlp   (just the copy in ~/.config/videoinfox)   I didn't want to overwrite anyones copy of:   /user/local/bin/yt-dlp     Also, I wanted to make sure all new Videoinfox script installs included the most recent version of Yt-dlp
+# YT-DLP is not on the dependeny list becuase Videoinfox will dowload it to:   ~/.config/videoinfox   All calls to yt-dlp are pointed to:   
+# ~/.config/videoinfox/yt-dlp   There is an update option in:   <Set>  Settings to update yt-dlp   (just the copy in ~/.config/videoinfox)
+# I didn't want to overwrite anyones copy of:   /user/local/bin/yt-dlp     Also, I wanted to make sure all new Videoinfox script installs
+# included the most recent version of Yt-dlp
 
 
 # THIS SCRIPT HAS BEEN HEAVILY COMMENTED FOR ANYONE INTERESTED IN HOW IT WORKS AND TO MAKE IT EASIER TO EDIT THE CODE.
@@ -40,7 +43,7 @@ der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m8.00")  # V
 #  START COMMAND LINE OPTIONS  ###################################################################################################################
 ##################################################################################################################################################
 
-# Note: Command Line Options won't run until First Run (setup)
+# Note: Command Line Options won't run until First Run (setup):  videoinfox  with no command line options.
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------
 #  videoinfox -v     DISPLAY VERSION NUMBER THEN EXIT  
@@ -284,7 +287,7 @@ if [ "$1" = "-u" ]
                    else
                         echo
                         echo -e "\033[5m error\033m\033[0m:   The first 4 characters on the first line don't start with http"
-                        echo "          This is a safety feature to prevent accidental deletion of a file that is not a Download list."
+                        echo "          This is a safety feature to prevent accidental deletion of a file that is not a Download List."
                         echo
                         echo "          If this file was processed, The following lines would have been removed:"
                         echo
@@ -999,6 +1002,7 @@ if [ -d "$direxist5" ]  #  if directoty exists goto  <then>
        mkdir ~/.config/videoinfox/playlists
 fi
 
+#sed -i '/^$/d' ~/.config/videoinfox/videoinfo.playlist  # remove all blank lines
 
 ##################################################################################################################################################
 #####  4. CHECK FOR  (VIDEOINFOX NOTIFICATION UPDATE)                         routine to get version number from github          #################
@@ -1017,7 +1021,7 @@ echo
 dirtemp="$PWD"  # save directory for restore
 cd ~/.config/videoinfox/tmp
 
-# download  videoinfox  from github, extract the ver mumber and reformat it
+# download  videoinfox  from github
 wget -q https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox 2>/dev/null
 
 # make script executable to get ver number
@@ -1356,8 +1360,13 @@ echo " - Home Screen. Add videos from recursive search results or recursive dire
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " - Navigate Tree. Add videos from one level deep directory listings to the Playlist." >>~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
+echo " - Navigate Tree >>> Show All - Directory To Playlist. Add all videos in the current directory to a new Playlist." >>~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
 echo " - Played List. Add videos from Played List to the Playlist." >>~/.config/videoinfox/videoinfo.help
-echo "                (Play Clipboard, Last Download and Play Line all write to the Played List)." >>~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo "                Play Clipboard, Last Download and Play Line all write to the Played List." >>~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo "                Note: One exception. Play Line in View Playlist never writes to the Played List." >>~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Navigate Tree: Whatever the directory is when entering Navigate Tree will be set as the Treetop." >> ~/.config/videoinfox/videoinfo.help
@@ -1490,6 +1499,36 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v3.9.00 View Playlist appearance update + new options in View Playlist and Navigate Tree >>> Show All." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Add: Start Autoplay in View Playlist saves the last played video to Resume Autoplay." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              Resume Autoplay will also save the last played video." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              ** Use Start Autoplay first to begin watching **" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              ** Use Resume Autoplay after to continue watching and keep track of where you left off in the playlist **" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              More info. located in View Playlist >>> Help " >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Add: Delete Line in View Playlist. Delete line number entered from the playlist." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Add: Directory To Playlist in Navigate Tree >>> Show All." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              This option will write a one level deep directory listing to a new playlist." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              Good for creating a tv show season number x playlist." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Change: All blinking  -  changed to non blinking  ~  everywhere except the Yt-dlp Menu" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                 ** This will be updated in the Yt-dlp Menu along with selection by number instead of clipboard copy." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Change: Home Screen, Played List and Playlist" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                 Clipboard: is hidden if there isn't a valid video url available in the clipboard." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Fix: Home Screen >>> View Playlist" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              After using Play Clipboard, the user set directory wasn't being restored on quit to home screen." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Fix: View Playlist >>> Change Playlist" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              The playlist name display wasn't updating if the loaded playlist was deleted." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              Note: If the loaded playlist is deleted, the default playlist will be loaded." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Note: The loaded playlist is auto saved when another playlist is loaded." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v3.8.00 Add, Move and Change" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2263,7 +2302,8 @@ if [ "$searchtotal" = "" ]  # if the file <~/.config/videoinfox/videoinfo.lastse
       echo "" > ~/.config/videoinfox/videoinfo.lastfinddir
 
   else
-      dashj=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")  # blink dash on home screen @ Play Number
+      #####dashj=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")  # blink dash on home screen @ Play Number
+      dashj=$(echo "~")
 
 # cat ~/.config/videoinfox/videoinfo.findwork
 
@@ -2439,9 +2479,9 @@ dovideosexist=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -
 
 if [ $dovideosexist -ne 0 ]  # If the find result doesn't =   0   goto then
   then 
-      dash=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")  # blink dash on home screen
+      dash=$(echo "~")  
   else
-      dash=$(echo "-")  # don't blink dash on home screen
+      dash=$(echo "-")  
 fi
 
 
@@ -2455,7 +2495,7 @@ fi
 
 echo
 echo "Directory: ""$PWD"
-echo "Clipboard: ""$pasteclip"
+#echo "Clipboard: ""$pasteclip"
 
 ##################################################################################################################################################
 
@@ -2476,6 +2516,14 @@ grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st chara
 # the following code checks to see if the clipbooard has a url in it by lookin for <http> from <$grabpaste>  
 # If it is <http>, YT-DLP will get the clipboard. yt-dlp will check if its a valid link by trying to extract the name of the video file.
 # If it isn't <http>  the ytdlp loop will be skipped
+
+if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
+  then
+      echo "Clipboard: ""$pasteclip"
+  else
+      :
+fi
+
 
 if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
   then
@@ -3019,7 +3067,7 @@ playdir2=$(echo -e "\033[5mPlay Directory\033m\033[0m\033[5m\033[5m\033[0m")
 # not blinking dash
 dash0=$(echo "-")
 # blinking dash
-dash1=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
+dash1=$(echo "~")
 
 
 # get file count of videos one directory deep for blinking   Play Directory
@@ -3141,7 +3189,7 @@ echo
 read -r -p " Enter line number to change directory: " linenumber  # waiting fot user input
 
 
-if ! [ "$linenumber" -eq "$linenumber" ] 2> /dev/null
+if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
   then  # IF ENTRY IS NOT A NUMBER
       :
 
@@ -3517,7 +3565,7 @@ echo "__________________________________________________________________________
 echo
 echo " o - Autoplay Line     s - View Playlist                                                                  q - Quit"
 echo " j - Play Line         k - Playlist Add"
-echo " i - Info"
+echo " i - Info              z - Directory To Playlist"
 echo
 echo -en " Enter Option: "
 read -r -n1 optionaplist
@@ -3535,6 +3583,55 @@ q) # QUIT
    rm ~/.config/videoinfox/tmp/videoinfox.numbered-nt-play-directory-list 2>/dev/null
    rm ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa-work 2>/dev/null 
    break;;
+
+
+z) # DIRECTORY TO PAYLIST
+
+echo
+echo
+echo " If any dots are entered, they will be stripped from the playlist name."
+echo " If a space is used as the first character, it will be stripped from the playlist name."
+echo " Spaces can be used after the first character of the playlist name."
+echo
+read -r -p " Create Playlist: " createpl1  # waiting fot user input. grabbing new filename
+
+# Strip out any dots from user entry
+echo "$createpl1" > ~/.config/videoinfox/tmp/plremovedot.tmp
+sed -i -e 's/\.//g' ~/.config/videoinfox/tmp/plremovedot.tmp
+read createpl < ~/.config/videoinfox/tmp/plremovedot.tmp
+rm ~/.config/videoinfox/tmp/plremovedot.tmp
+
+if [ -z "$createpl" ]  # if enter is pressed with no entry
+  then
+      echo
+      echo " Nothing was entered . . ."
+      sleep .75
+
+  else
+
+      if [ -f ~/.config/videoinfox/playlists/vplaylist."$createpl" ]
+        then
+            echo
+            echo " File already exists . . ."
+            sleep .75
+
+        else
+
+plname="$HOME/.config/videoinfox/playlists/vplaylist.""$createpl"  # add user input as file extension
+
+# WRITE DIRECTORY TO ENTERED PLAYLIST
+cat ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa > "$plname"
+
+echo > "$HOME"/.config/videoinfox/playlists/"$createpl1".last-autoplay
+
+echo
+echo " Playlist Created: "$plname""
+echo
+sleep 1.7
+
+      fi
+fi
+;; 
 
 
      i)  # INFO - <HOME>
@@ -3725,7 +3822,7 @@ echo
 read -r -p " Play Line: " linenumber  # waiting fot user input
 
 
-if ! [ "$linenumber" -eq "$linenumber" ] 2> /dev/null
+if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
   then  # IF ENTRY IS NOT A NUMBER
       :
 
@@ -3940,7 +4037,7 @@ mv ~/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-directory-apa.tmp ~/.co
 
 
 
-if ! [ "$linenumber" -eq "$linenumber" ] 2> /dev/null
+if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
   then  # IF ENTRY IS NOT A NUMBER
       :
 
@@ -4003,7 +4100,7 @@ fi
 
 
 ##################################################################################################################################################
-s) #######################  PLAYLIST - SHOW ALL (NAVIGATE TREE)  #################################################################################
+s) #######################  @PLAYLIST - SHOW ALL (NAVIGATE TREE)  ################################################################################
 ##################################################################################################################################################
 
 grabdir="$PWD"  # SAVE CURRENT DIRECTORY FOR RESTORE ON EXIT
@@ -4011,7 +4108,9 @@ grabdir="$PWD"  # SAVE CURRENT DIRECTORY FOR RESTORE ON EXIT
 cd ~/.config/videoinfox/playlists
 
 
-function menuvnt {
+function menuvhome {
+
+sed -i '/^$/d' ~/.config/videoinfox/videoinfo.playlist  # remove all blank lines
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
@@ -4154,9 +4253,10 @@ clear
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
    then
         cat ~/.config/videoinfox/tmp/videoinfo.number.play-list 2>/dev/null
-        dashit=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
+        #dashit=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
+        dashit=$(echo "~") #
    else
-        dashit=$(echo "-") # not blinking
+        dashit=$(echo "-") # 
         echo
         echo "Playlist Empty . . ."
 fi
@@ -4180,7 +4280,6 @@ if [ "$searchtotal" = 0 ]  # if find returned no results goto <then>
       cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylist"
      
   else
-      # REMOVE PATH AND EVERTHING UP TO THE DOT. INCLUDING THE DOT. LEAVING THE FILE EXTENSION. THE PLAYLIST NAME.
       cat ~/.config/videoinfox/videoinfo.playlist.current | sed 's/.*\.//' > ~/.config/videoinfox/tmp/plread.tmp 
       
       read -r setplaylistfull < ~/.config/videoinfox/videoinfo.playlist.current
@@ -4190,10 +4289,6 @@ if [ "$searchtotal" = 0 ]  # if find returned no results goto <then>
       rm ~/.config/videoinfox/tmp/plread.tmp
 fi
 
-
-echo
-#echo "Directory: ""$PWD"
-echo "Clipboard: ""$pasteclip"
 
 ##################################################################################################################################################
 
@@ -4215,6 +4310,17 @@ grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st chara
 # If it is <http>, YT-DLP will get the clipboard. yt-dlp will check if its a valid link by trying to extract the name of the video file.
 # If it isn't <http>  the ytdlp loop will be skipped
 
+#echo "Directory: ""$PWD"
+
+if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
+  then
+      echo
+      echo "Clipboard: ""$pasteclip"
+  else
+      :
+fi
+
+
 if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
   then
       read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
@@ -4233,10 +4339,10 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " o "$dashit" Autoplay Line     c - Change Playlist     p - Play Clipboard                                         q - Quit"
+                      echo " o "$dashit" Autoplay Line     l - Last Autoplay      c - Change Playlist     p - Play Clipboard                  q - Quit"
                       echo " j "$dashit" Play Line"
-                      echo " i "$dashit" Info              d - Clear Playlist"
-                      echo      
+                      echo " i "$dashit" Info                                     d - Clear Playlist"
+                      echo           
 
                   else 
                       echo
@@ -4248,9 +4354,9 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo -e " o "$dashit" Autoplay Line     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                                         q - Quit"
+                      echo -e " o "$dashit" Autoplay Line     l - Last Autoplay     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                   q - Quit"
                       echo " j "$dashit" Play Line"
-                      echo " i "$dashit" Info              d - Clear Playlist"
+                      echo " i "$dashit" Info                                    d - Clear Playlist"
                       echo                                                                                    
             fi
   else
@@ -4264,10 +4370,10 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
             echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo -e " o "$dashit" Autoplay Line     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                                         q - Quit"
+            echo -e " o "$dashit" Autoplay Line     l - Last Autoplay     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                   q - Quit"
             echo " j "$dashit" Play Line"
-            echo " i "$dashit" Info              d - Clear Playlist"
-            echo                                                                   
+            echo " i "$dashit" Info                                    d - Clear Playlist"
+            echo                                                                     
 
         else 
 
@@ -4279,9 +4385,9 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
             echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " o "$dashit" Autoplay Line     c - Change Playlist     p - Play Clipboard                                         q - Quit"
-            echo " j "$dashit" Play Line"
-            echo " i "$dashit" Info              d - Clear Playlist"
+            echo " j - Play Line     o - Start Autoplay      c - Change Playlist     p - Play Clipboard                     q - Quit"
+            echo " i - Info          l - Resume Autoplay     r - Remove Line"
+            echo "                                           d - Clear Playlist                                             h - Help"
             echo                                                             
 fi
 fi
@@ -4294,7 +4400,7 @@ read -r -n1 optionv
 
         while true
         do
-	    menuvnt
+	    menuvhome
 	    case $optionv in
     
         q)  # QUIT
@@ -4304,16 +4410,36 @@ read -r -n1 optionv
         cd "$grabdir"
         break;;
 
+       
+        h)
+        echo
+        echo
+        echo " PLAYLIST LIST >>> HELP"        
+        echo
+        echo " Everytime Start Autoplay is used, it will write a new file for Resume Autoplay."
+        echo " Run Start Autoplay first. Then use Resume Autoplay to continue watching where you left off."
+        echo " Resume Autoplay will start with the last video that was playing when the play loop was quit."
+        echo
+        echo " Note: If the playlist is changed with Playlist Add or Remove Line after running Start Autoplay,"
+        echo "       Resume Autoplay won't get updated with the changes until Start Autoplay is run again."
+        echo
+        read -p " Press enter to Continue"
+        ;;
 
-        o) # AUTOPLAY LINE  (PLAYLIST)
+
+        o) # AUTOPLAY LINE  (HOME >>> PLAYLIST)
+
+# SET COUNTER TO ZERO. $i in below play loop to get line number from last played video
+i=0
 
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
    then
 
 echo
 echo
-read -r -p " Autoplay Line: " linenumber  # waiting fot user input
+read -r -p " Start Autoplay from line: " linenumber  # waiting fot user input
 
+# 
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfo.playlist-apa > ~/.config/videoinfox/tmp/videoinfo.playlist-apa.tmp 2>/dev/null
 mv ~/.config/videoinfox/tmp/videoinfo.playlist-apa.tmp ~/.config/videoinfox/tmp/videoinfo.playlist-apa 2>/dev/null
 
@@ -4349,6 +4475,9 @@ for line in $(cat "$input" 2>/dev/null)
 
       ffplay -fs -autoexit "$line" 2> /dev/null
 
+      # COUNTER TO KEEP TRACK OF LINE NUMBER THAT IS CURRENTLY PLAYING.
+      i=$((i+1))
+
       echo " To bypass the 3 second wait press enter with no entry"
       echo
       echo -e "\033[5m 3 seconds remaining to quit Playlist Autoplay\033m\033[0m\033[5m\033[5m\033[0m"      
@@ -4363,7 +4492,10 @@ for line in $(cat "$input" 2>/dev/null)
                  :                                                       # press any key then enter within 3 seconds to quit Play PLAYLIST
            fi
 done
- 
+
+# WRITE 2nd PLAYLIST FOR LAST AUTOPLAY OPTION . File: ~/.config/videoinfox/playlists/$playlistname.last-autoplay
+tail -n +"$i" ~/.config/videoinfox/tmp/videoinfo.playlist-apa > "$setplaylist".last-autoplay
+
 IFS=$OLDIFS
 
 rm ~/.config/videoinfox/tmp/videoinfo.playlist-apa 2>/dev/null
@@ -4373,14 +4505,183 @@ rm ~/.config/videoinfox/tmp/videoinfo.number.play-list 2>/dev/null
    else
        echo
        echo
-       echo " PLAYLIST Empty"
+       echo " Playlist Empty . . ."
+       sleep 1.7
+fi
+
+;;
+
+########################################
+r)  # REMOVE LINE  (HOME >>> PLAYLIST)
+########################################
+
+# delete a line example to remove by pattern
+#sed '\?^/mnt/MEDIA1/MOVIES/identity thief.mp4?d' videoinfo.playlist
+
+
+# REMOVE EVERYTHING FROM THE BEGINNING OF THE LINE UP TO AND INCLUDING THE DOT). LEAVING ONLY PLAYLIST NAME
+cat ~/.config/videoinfox/videoinfo.playlist.current | sed 's/.*\.//' > ~/.config/videoinfox/tmp/whatplpld.tmp 
+read -r whatplpld < ~/.config/videoinfox/tmp/whatplpld.tmp
+rm ~/.config/videoinfox/tmp/whatplpld.tmp
+
+
+if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
+  then
+      :
+  else
+      echo > ~/.config/videoinfox/videoinfo.playlist
+fi
+
+
+if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
+  then
+
+      clear
+      cat ~/.config/videoinfox/tmp/videoinfo.number.play-list 2> /dev/null
+
+      echo
+      read -r -p "Enter line number to remove video from the playlist $whatplpld: " linenumber  # waiting fot user input
+
+      # REMOVE BLANK LINES
+      ######sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfo.playedlist-apa 2>/dev/null
+
+      # GETTING NUMBER OF VIDEO FILES IN THE PLAYED LIST
+      linecount=$(wc -l ~/.config/videoinfox/tmp/videoinfo.playlist-apa 2> /dev/null | cut -d' ' -f1) # 
+
+          if ! [[ "$linenumber" -eq "$linenumber" ]] #2> /dev/null
+            then  # IF ENTRY IS NOT A NUMBER
+                :
+
+            else  # ENTRY IS A NUMBER
+
+                if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
+                  then
+                      :
+
+                  else
+
+                      if [ "$linenumber" = 0 ]
+                        then
+                            :
+
+                        else
+      
+                            if [[ $linenumber -gt $linecount ]]
+                              then 
+                                  echo
+                                  echo "Number out of range . . ."
+                                  sleep .9
+
+                              else
+
+                                  if [ -z "$linenumber" ]
+                                    then
+                                        :
+
+                                    else
+                                        # DELETE LINE NUMBER
+                                        sed -i "${linenumber}d" ~/.config/videoinfox/videoinfo.playlist 2> /dev/null 
+                                        echo
+                                        echo "Line deleted from the playlist . . ."
+                                        sleep .25
+                                  fi
+                            fi
+                      fi
+               fi
+         fi
+fi
+
+;;
+
+
+###########################################################
+l) # LAST AUTOPLAY - RESUME AUOTOPLAY (HOME >>> PLAYLIST)
+###########################################################
+
+# READ FIRST LINE TO DISPLAY VIDEO NAME BEFORE PLAY
+read < $HOME/.config/videoinfox/playlists/"$setplaylist".last-autoplay resumedisplay
+echo
+echo
+echo " Resume: ""$resumedisplay"
+sleep 3
+
+###### SET COUNTER TO ZERO. $i in below play loop to get line number from last played video
+i=0
+
+if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
+   then
+
+OLDIFS=$IFS
+IFS=$'\n'
+
+input2=$HOME/.config/videoinfox/playlists/"$setplaylist".last-autoplay
+
+
+for line in $(cat "$input2" 2>/dev/null)
+ do
+      clear
+      echo
+      echo "___________________________________________________________________________________________________________________"
+      echo
+      echo " ""$der"" >>> PLAYLIST >>> AUTOPLAY LINE" 
+      echo
+      echo " [PLAY]>" "$line"
+      echo "___________________________________________________________________________________________________________________"
+      echo
+
+      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$line")  " Duration:" $(ffmpeg -i "$line" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+      
+      echo
+      echo
+      echo " Video Player Controls:"
+      echo                             
+      echo " - Fullscreen Toggle: f"
+      echo
+      echo " - Play/Pause Toggle: space bar"
+      echo
+      echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
+      echo
+      echo " - Quit: q"      
+      echo -e "\n"
+
+      ffplay -fs -autoexit "$line" 2> /dev/null
+
+      ###### COUNTER TO KEEP TRACK OF LINE NUMBER THAT IS CURRENTLY PLAYING FOR WRITE ON EXIT.
+      i=$((i+1))
+
+      echo " To bypass the 3 second wait press enter with no entry"
+      echo
+      echo -e "\033[5m 3 seconds remaining to quit Playlist Autoplay\033m\033[0m\033[5m\033[5m\033[0m"      
+      echo 
+      read -t 3 -p " Press any key then press enter to quit : " playdir
+           
+           # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
+           if [[ $playdir ]]                                             
+             then                                                        # if no input is entered within 3 seconds the next video will play
+                 break                                                   # if enter is pressed without any input the next video will play
+             else                                                        
+                 :                                                       # press any key then enter within 3 seconds to quit Play PLAYLIST
+           fi
+done
+
+
+tail -n +"$i" ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay > ~/.config/videoinfox/playlists/pl-tmp
+mv ~/.config/videoinfox/playlists/pl-tmp ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay
+
+
+IFS=$OLDIFS
+
+   else
+       echo
+       echo
+       echo " Playlist Empty . . ."
        sleep 1.7
 fi
 
 ;;
 
 
-        j) # PLAY LINE  (PLAYLIST)
+        j) # PLAY LINE  (HOME >>> PLAYLIST)
 
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
    then
@@ -4404,8 +4705,6 @@ if [ -z "$line" ]
 
   else
 
-#for line in $(cat "$input" 2>/dev/null)
-# do
       clear
       echo
       echo "___________________________________________________________________________________________________________________"
@@ -4434,21 +4733,6 @@ if [ -z "$line" ]
       echo " Screen will close after video player is quit."
 
       ffplay -fs -autoexit "$line" 2> /dev/null
-
-      #echo " To bypass the 3 second wait press enter with no entry"
-      #echo
-      #echo -e "\033[5m 3 seconds remaining to quit PLAYLIST Autoplay\033m\033[0m\033[5m\033[5m\033[0m"      
-      #echo 
-      #read -t 3 -p " Press any key then press enter to quit : " playdir
-           
-           # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
-           #if [[ $playdir ]]                                             
-           #  then                                                        # if no input is entered within 3 seconds the next video will play
-           #      break                                                   # if enter is pressed without any input the next video will play
-           #  else                                                        
-           #      :                                                       # press any key then enter within 3 seconds to quit Play PLAYLIST
-           #fi
-# done
  
 IFS=$OLDIFS
 
@@ -4523,10 +4807,10 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 
 ;;       
 
-
+########################################################################################################################################################
           c)
           # CHANGE PLAYLIST
-
+########################################################################################################################################################
 
 function changepl {
 
@@ -4601,7 +4885,7 @@ echo
 read -r -p " Enter line number: " linenumber  # waiting fot user input
 
 
-if ! [ "$linenumber" -eq "$linenumber" ] 2> /dev/null
+if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
   then  # IF ENTRY IS NOT A NUMBER
       :
 
@@ -4657,7 +4941,7 @@ echo
 read -r -p " Enter line number to delete: " linenumber  # waiting fot user input
 
 
-if ! [ "$linenumber" -eq "$linenumber" ] 2> /dev/null
+if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
   then  # IF ENTRY IS NOT A NUMBER
       :
 
@@ -4707,13 +4991,20 @@ if ! [ "$linenumber" -eq "$linenumber" ] 2> /dev/null
 	                y)  # YES
 
                       rm "$plselected" 2> /dev/null
+
+                      echo "$plselected"| sed 's/.*\.//' > ~/.config/videoinfox/tmp/plread.tmp  # REMOVE FULL PATH ONLY LEAVING PLAYLIST NAME
+                      read -r plselectedla < ~/.config/videoinfox/tmp/plread.tmp  # READING PLAYLIST NAME ONLY INTO VARIABLE  $pselecteda
+                      rm ~/.config/videoinfox/tmp/plread.tmp  # remove temp file
+                      rm ~/.config/videoinfox/playlists/"$plselectedla".last-autoplay  # REMOVE PLAYLIST.last.autoplay  file
+ 
                       echo
                       echo  " Playlist Deleted . . ."
 
                       if [[ "$setplaylistfull" = "$plselected" ]]  # IF DELETED PLAYLIST = ACTIVE PLAYLIST
-                        then  # SET DEFAULT PLAYLIST TO ACTIVE PLAYLIST
+                        then # SET DEFAULT PLAYLIST TO ACTIVE PLAYLIST
                             echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ~/.config/videoinfox/videoinfo.playlist.current
                             cp ~/.config/videoinfox/playlists/vplaylist.Default ~/.config/videoinfox/videoinfo.playlist 2> /dev/null
+                            setplaylist="Default"
                         else
                             :
                       fi
@@ -4747,7 +5038,7 @@ echo " Spaces can be used after the first character of the playlist name."
 echo
 read -r -p " Create Playlist: " createpl1  # waiting fot user input. grabbing new filename
 
-# Strip out dots from use entry
+# Strip out any dots from user entry
 echo "$createpl1" > ~/.config/videoinfox/tmp/plremovedot.tmp
 sed -i -e 's/\.//g' ~/.config/videoinfox/tmp/plremovedot.tmp
 read createpl < ~/.config/videoinfox/tmp/plremovedot.tmp
@@ -4771,6 +5062,9 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
 
 plname="$HOME/.config/videoinfox/playlists/vplaylist.""$createpl"  # add user input as file extension
 echo > "$plname"  #  create user list with full path and filename
+
+echo > "$HOME"/.config/videoinfox/playlists/"$createpl1".last-autoplay
+
 echo
 echo " Playlist Created: "$plname""
 echo
@@ -4795,7 +5089,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
   then
       #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
    
-      grabdir="$PWD"  # storing directory to restore at the end of this function
+      grabdirz="$PWD"  # storing directory to restore at the end of this function
         
       #  DOWNLOAD LINK AND PLAY
       
@@ -4895,7 +5189,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo "" | xclip -sel clip  # clearing out the clipboard
       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
       
-      cd "$grabdir"   # restore dir prior to entering yt-dlp menu              
+      cd "$grabdirz"   # restore dir prior to entering yt-dlp menu              
 
   else
 
@@ -4949,7 +5243,9 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       fi   
   fi
   ;;  
-              
+
+
+               
 
          d)  # CLEAR PLAYLIST (VIEW PLAYLIST)
 
@@ -4975,6 +5271,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 	  y)  # YES
         rm ~/.config/videoinfox/videoinfo.playlist 2> /dev/null
         echo > ~/.config/videoinfox/videoinfo.playlist
+        echo > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay 
         echo
         echo " ""$setplaylist"" Playlist Cleared . . ."
         sleep 1.7  
@@ -4990,6 +5287,9 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
         esac
         done
         ;;
+
+
+*)
 
 esac
 done
@@ -5781,18 +6081,26 @@ clear
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.played-list ]
    then
         cat ~/.config/videoinfox/tmp/videoinfo.number.played-list 2>/dev/null
-        dashit=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
+        dashit=$(echo -e "~")
    else
-        dashit=$(echo "-") # not blinking
+        dashit=$(echo "-") 
         echo
         echo "Played List Empty . . ."
 fi
 
 #cat ~/.config/videoinfox/videoinfo.playedlist 
 
-echo
-echo "Directory: ""$PWD"
-echo "Clipboard: ""$pasteclip"
+if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
+  then
+      echo
+      echo "Clipboard: ""$pasteclip"
+  else
+      :
+fi
+
+######echo
+######echo "Directory: ""$PWD"
+######echo "Clipboard: ""$pasteclip"
 
 ##################################################################################################################################################
 
@@ -5991,7 +6299,7 @@ if [ -f ~/.config/videoinfox/tmp/videoinfo.number.played-list ]
 
 
 
-if ! [ "$linenumber" -eq "$linenumber" ] 2> /dev/null
+if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
   then  # IF ENTRY IS NOT A NUMBER
       :
 
@@ -6144,16 +6452,18 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 ;;       
 
 
-##################################################################################################################################################
-s) #######################  @PLAYLIST - (PLAYED LIST)  ########################################################################################### 
-##################################################################################################################################################
+#####################################################################################################################################
+s) # @PLAYLIST PLAYED LIST
+#####################################################################################################################################
 
 grabdir="$PWD"  # SAVE CURRENT DIRECTORY FOR RESTORE ON EXIT
 
 cd ~/.config/videoinfox/playlists
 
 
-function menuvpld {
+function menuvhome {
+
+sed -i '/^$/d' ~/.config/videoinfox/videoinfo.playlist  # remove all blank lines
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
@@ -6296,9 +6606,10 @@ clear
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
    then
         cat ~/.config/videoinfox/tmp/videoinfo.number.play-list 2>/dev/null
-        dashit=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
+        #dashit=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
+        dashit=$(echo "~") #
    else
-        dashit=$(echo "-") # not blinking
+        dashit=$(echo "-") # 
         echo
         echo "Playlist Empty . . ."
 fi
@@ -6332,10 +6643,6 @@ if [ "$searchtotal" = 0 ]  # if find returned no results goto <then>
 fi
 
 
-echo
-#echo "Directory: ""$PWD"
-echo "Clipboard: ""$pasteclip"
-
 ##################################################################################################################################################
 
 #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
@@ -6356,6 +6663,17 @@ grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st chara
 # If it is <http>, YT-DLP will get the clipboard. yt-dlp will check if its a valid link by trying to extract the name of the video file.
 # If it isn't <http>  the ytdlp loop will be skipped
 
+#echo "Directory: ""$PWD"
+
+if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
+  then
+      echo
+      echo "Clipboard: ""$pasteclip"
+  else
+      :
+fi
+
+
 if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
   then
       read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
@@ -6374,10 +6692,10 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " o "$dashit" Autoplay Line     c - Change Playlist     p - Play Clipboard                                         q - Quit"
+                      echo " o "$dashit" Autoplay Line     l - Last Autoplay      c - Change Playlist     p - Play Clipboard                  q - Quit"
                       echo " j "$dashit" Play Line"
-                      echo " i "$dashit" Info              d - Clear Playlist"
-                      echo      
+                      echo " i "$dashit" Info                                     d - Clear Playlist"
+                      echo           
 
                   else 
                       echo
@@ -6389,9 +6707,9 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo -e " o "$dashit" Autoplay Line     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                                         q - Quit"
+                      echo -e " o "$dashit" Autoplay Line     l - Last Autoplay     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                   q - Quit"
                       echo " j "$dashit" Play Line"
-                      echo " i "$dashit" Info              d - Clear Playlist"
+                      echo " i "$dashit" Info                                    d - Clear Playlist"
                       echo                                                                                    
             fi
   else
@@ -6405,10 +6723,10 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
             echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo -e " o "$dashit" Autoplay Line     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                                         q - Quit"
+            echo -e " o "$dashit" Autoplay Line     l - Last Autoplay     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                   q - Quit"
             echo " j "$dashit" Play Line"
-            echo " i "$dashit" Info              d - Clear Playlist"
-            echo                                                                   
+            echo " i "$dashit" Info                                    d - Clear Playlist"
+            echo                                                                     
 
         else 
 
@@ -6420,9 +6738,9 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
             echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " o "$dashit" Autoplay Line     c - Change Playlist     p - Play Clipboard                                         q - Quit"
-            echo " j "$dashit" Play Line"
-            echo " i "$dashit" Info              d - Clear Playlist"
+            echo " j - Play Line     o - Start Autoplay      c - Change Playlist     p - Play Clipboard                     q - Quit"
+            echo " i - Info          l - Resume Autoplay     r - Remove Line"
+            echo "                                           d - Clear Playlist                                             h - Help"
             echo                                                             
 fi
 fi
@@ -6435,7 +6753,7 @@ read -r -n1 optionv
 
         while true
         do
-	    menuvpld
+	    menuvhome
 	    case $optionv in
     
         q)  # QUIT
@@ -6445,16 +6763,36 @@ read -r -n1 optionv
         cd "$grabdir"
         break;;
 
+       
+        h)
+        echo
+        echo
+        echo " PLAYLIST LIST >>> HELP"        
+        echo
+        echo " Everytime Start Autoplay is used, it will write a new file for Resume Autoplay."
+        echo " Run Start Autoplay first. Then use Resume Autoplay to continue watching where you left off."
+        echo " Resume Autoplay will start with the last video that was playing when the play loop was quit."
+        echo
+        echo " Note: If the playlist is changed with Playlist Add or Remove Line after running Start Autoplay,"
+        echo "       Resume Autoplay won't get updated with the changes until Start Autoplay is run again."
+        echo
+        read -p " Press enter to Continue"
+        ;;
 
-        o) # AUTOPLAY LINE  (PLAYLIST)
+
+        o) # AUTOPLAY LINE  (HOME >>> PLAYLIST)
+
+# SET COUNTER TO ZERO. $i in below play loop to get line number from last played video
+i=0
 
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
    then
 
 echo
 echo
-read -r -p " Autoplay Line: " linenumber  # waiting fot user input
+read -r -p " Start Autoplay from line: " linenumber  # waiting fot user input
 
+# 
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfo.playlist-apa > ~/.config/videoinfox/tmp/videoinfo.playlist-apa.tmp 2>/dev/null
 mv ~/.config/videoinfox/tmp/videoinfo.playlist-apa.tmp ~/.config/videoinfox/tmp/videoinfo.playlist-apa 2>/dev/null
 
@@ -6490,6 +6828,9 @@ for line in $(cat "$input" 2>/dev/null)
 
       ffplay -fs -autoexit "$line" 2> /dev/null
 
+      # COUNTER TO KEEP TRACK OF LINE NUMBER THAT IS CURRENTLY PLAYING.
+      i=$((i+1))
+
       echo " To bypass the 3 second wait press enter with no entry"
       echo
       echo -e "\033[5m 3 seconds remaining to quit Playlist Autoplay\033m\033[0m\033[5m\033[5m\033[0m"      
@@ -6504,7 +6845,10 @@ for line in $(cat "$input" 2>/dev/null)
                  :                                                       # press any key then enter within 3 seconds to quit Play PLAYLIST
            fi
 done
- 
+
+# WRITE 2nd PLAYLIST FOR LAST AUTOPLAY OPTION . File: ~/.config/videoinfox/playlists/$playlistname.last-autoplay
+tail -n +"$i" ~/.config/videoinfox/tmp/videoinfo.playlist-apa > "$setplaylist".last-autoplay
+
 IFS=$OLDIFS
 
 rm ~/.config/videoinfox/tmp/videoinfo.playlist-apa 2>/dev/null
@@ -6514,14 +6858,183 @@ rm ~/.config/videoinfox/tmp/videoinfo.number.play-list 2>/dev/null
    else
        echo
        echo
-       echo " PLAYLIST Empty"
+       echo " Playlist Empty . . ."
+       sleep 1.7
+fi
+
+;;
+
+########################################
+r)  # REMOVE LINE  (HOME >>> PLAYLIST)
+########################################
+
+# delete a line example to remove by pattern
+#sed '\?^/mnt/MEDIA1/MOVIES/identity thief.mp4?d' videoinfo.playlist
+
+
+# REMOVE EVERYTHING FROM THE BEGINNING OF THE LINE UP TO AND INCLUDING THE DOT). LEAVING ONLY PLAYLIST NAME
+cat ~/.config/videoinfox/videoinfo.playlist.current | sed 's/.*\.//' > ~/.config/videoinfox/tmp/whatplpld.tmp 
+read -r whatplpld < ~/.config/videoinfox/tmp/whatplpld.tmp
+rm ~/.config/videoinfox/tmp/whatplpld.tmp
+
+
+if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
+  then
+      :
+  else
+      echo > ~/.config/videoinfox/videoinfo.playlist
+fi
+
+
+if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
+  then
+
+      clear
+      cat ~/.config/videoinfox/tmp/videoinfo.number.play-list 2> /dev/null
+
+      echo
+      read -r -p "Enter line number to remove video from the playlist $whatplpld: " linenumber  # waiting fot user input
+
+      # REMOVE BLANK LINES
+      ######sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfo.playedlist-apa 2>/dev/null
+
+      # GETTING NUMBER OF VIDEO FILES IN THE PLAYED LIST
+      linecount=$(wc -l ~/.config/videoinfox/tmp/videoinfo.playlist-apa 2> /dev/null | cut -d' ' -f1) # 
+
+          if ! [[ "$linenumber" -eq "$linenumber" ]] #2> /dev/null
+            then  # IF ENTRY IS NOT A NUMBER
+                :
+
+            else  # ENTRY IS A NUMBER
+
+                if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
+                  then
+                      :
+
+                  else
+
+                      if [ "$linenumber" = 0 ]
+                        then
+                            :
+
+                        else
+      
+                            if [[ $linenumber -gt $linecount ]]
+                              then 
+                                  echo
+                                  echo "Number out of range . . ."
+                                  sleep .9
+
+                              else
+
+                                  if [ -z "$linenumber" ]
+                                    then
+                                        :
+
+                                    else
+                                        # DELETE LINE NUMBER
+                                        sed -i "${linenumber}d" ~/.config/videoinfox/videoinfo.playlist 2> /dev/null 
+                                        echo
+                                        echo "Line deleted from the playlist . . ."
+                                        sleep .25
+                                  fi
+                            fi
+                      fi
+               fi
+         fi
+fi
+
+;;
+
+
+###########################################################
+l) # LAST AUTOPLAY - RESUME AUOTOPLAY (HOME >>> PLAYLIST)
+###########################################################
+
+# READ FIRST LINE TO DISPLAY VIDEO NAME BEFORE PLAY
+read < $HOME/.config/videoinfox/playlists/"$setplaylist".last-autoplay resumedisplay
+echo
+echo
+echo " Resume: ""$resumedisplay"
+sleep 3
+
+###### SET COUNTER TO ZERO. $i in below play loop to get line number from last played video
+i=0
+
+if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
+   then
+
+OLDIFS=$IFS
+IFS=$'\n'
+
+input2=$HOME/.config/videoinfox/playlists/"$setplaylist".last-autoplay
+
+
+for line in $(cat "$input2" 2>/dev/null)
+ do
+      clear
+      echo
+      echo "___________________________________________________________________________________________________________________"
+      echo
+      echo " ""$der"" >>> PLAYLIST >>> AUTOPLAY LINE" 
+      echo
+      echo " [PLAY]>" "$line"
+      echo "___________________________________________________________________________________________________________________"
+      echo
+
+      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$line")  " Duration:" $(ffmpeg -i "$line" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+      
+      echo
+      echo
+      echo " Video Player Controls:"
+      echo                             
+      echo " - Fullscreen Toggle: f"
+      echo
+      echo " - Play/Pause Toggle: space bar"
+      echo
+      echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
+      echo
+      echo " - Quit: q"      
+      echo -e "\n"
+
+      ffplay -fs -autoexit "$line" 2> /dev/null
+
+      ###### COUNTER TO KEEP TRACK OF LINE NUMBER THAT IS CURRENTLY PLAYING FOR WRITE ON EXIT.
+      i=$((i+1))
+
+      echo " To bypass the 3 second wait press enter with no entry"
+      echo
+      echo -e "\033[5m 3 seconds remaining to quit Playlist Autoplay\033m\033[0m\033[5m\033[5m\033[0m"      
+      echo 
+      read -t 3 -p " Press any key then press enter to quit : " playdir
+           
+           # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
+           if [[ $playdir ]]                                             
+             then                                                        # if no input is entered within 3 seconds the next video will play
+                 break                                                   # if enter is pressed without any input the next video will play
+             else                                                        
+                 :                                                       # press any key then enter within 3 seconds to quit Play PLAYLIST
+           fi
+done
+
+
+tail -n +"$i" ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay > ~/.config/videoinfox/playlists/pl-tmp
+mv ~/.config/videoinfox/playlists/pl-tmp ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay
+
+
+IFS=$OLDIFS
+
+   else
+       echo
+       echo
+       echo " Playlist Empty . . ."
        sleep 1.7
 fi
 
 ;;
 
 
-        j) # PLAY LINE  (PLAYLIST)
+        j) # PLAY LINE  (HOME >>> PLAYLIST)
 
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
    then
@@ -6545,8 +7058,6 @@ if [ -z "$line" ]
 
   else
 
-#for line in $(cat "$input" 2>/dev/null)
-# do
       clear
       echo
       echo "___________________________________________________________________________________________________________________"
@@ -6575,21 +7086,6 @@ if [ -z "$line" ]
       echo " Screen will close after video player is quit."
 
       ffplay -fs -autoexit "$line" 2> /dev/null
-
-      #echo " To bypass the 3 second wait press enter with no entry"
-      #echo
-      #echo -e "\033[5m 3 seconds remaining to quit PLAYLIST Autoplay\033m\033[0m\033[5m\033[5m\033[0m"      
-      #echo 
-      #read -t 3 -p " Press any key then press enter to quit : " playdir
-           
-           # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
-           #if [[ $playdir ]]                                             
-           #  then                                                        # if no input is entered within 3 seconds the next video will play
-           #      break                                                   # if enter is pressed without any input the next video will play
-           #  else                                                        
-           #      :                                                       # press any key then enter within 3 seconds to quit Play PLAYLIST
-           #fi
-# done
  
 IFS=$OLDIFS
 
@@ -6664,10 +7160,10 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 
 ;;       
 
-
+########################################################################################################################################################
           c)
           # CHANGE PLAYLIST
-
+########################################################################################################################################################
 
 function changepl {
 
@@ -6742,7 +7238,7 @@ echo
 read -r -p " Enter line number: " linenumber  # waiting fot user input
 
 
-if ! [ "$linenumber" -eq "$linenumber" ] 2> /dev/null
+if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
   then  # IF ENTRY IS NOT A NUMBER
       :
 
@@ -6798,7 +7294,7 @@ echo
 read -r -p " Enter line number to delete: " linenumber  # waiting fot user input
 
 
-if ! [ "$linenumber" -eq "$linenumber" ] 2> /dev/null
+if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
   then  # IF ENTRY IS NOT A NUMBER
       :
 
@@ -6824,7 +7320,7 @@ if ! [ "$linenumber" -eq "$linenumber" ] 2> /dev/null
                       # READ FIRST LINE OF FILE
                       read plselected < ~/.config/videoinfox/tmp/playlist.playlist.delete.tmp
 
-                      function menudpl {
+                      function menucpl {
                   
                       clear
                       echo
@@ -6836,25 +7332,32 @@ if ! [ "$linenumber" -eq "$linenumber" ] 2> /dev/null
                       echo " y - Yes     n - No"  
                       echo 
                       echo -en " Enter Option: "
-                      read -r -n1 optiondpl
+                      read -r -n1 optioncpl
                       echo
                       }
 
                       while true
                       do
-	                menudpl
-	                case $optiondpl in
+	                menucpl
+	                case $optioncpl in
 
 	                y)  # YES
 
                       rm "$plselected" 2> /dev/null
+
+                      echo "$plselected"| sed 's/.*\.//' > ~/.config/videoinfox/tmp/plread.tmp  # REMOVE FULL PATH ONLY LEAVING PLAYLIST NAME
+                      read -r plselectedla < ~/.config/videoinfox/tmp/plread.tmp  # READING PLAYLIST NAME ONLY INTO VARIABLE  $pselecteda
+                      rm ~/.config/videoinfox/tmp/plread.tmp  # remove temp file
+                      rm ~/.config/videoinfox/playlists/"$plselectedla".last-autoplay  # REMOVE PLAYLIST.last.autoplay  file
+ 
                       echo
                       echo  " Playlist Deleted . . ."
 
                       if [[ "$setplaylistfull" = "$plselected" ]]  # IF DELETED PLAYLIST = ACTIVE PLAYLIST
-                        then  # SET DEFAULT PLAYLIST TO ACTIVE PLAYLIST
+                        then # SET DEFAULT PLAYLIST TO ACTIVE PLAYLIST
                             echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ~/.config/videoinfox/videoinfo.playlist.current
                             cp ~/.config/videoinfox/playlists/vplaylist.Default ~/.config/videoinfox/videoinfo.playlist 2> /dev/null
+                            setplaylist="Default"
                         else
                             :
                       fi
@@ -6888,7 +7391,7 @@ echo " Spaces can be used after the first character of the playlist name."
 echo
 read -r -p " Create Playlist: " createpl1  # waiting fot user input. grabbing new filename
 
-# Strip out dots from use entry
+# Strip out any dots from user entry
 echo "$createpl1" > ~/.config/videoinfox/tmp/plremovedot.tmp
 sed -i -e 's/\.//g' ~/.config/videoinfox/tmp/plremovedot.tmp
 read createpl < ~/.config/videoinfox/tmp/plremovedot.tmp
@@ -6912,6 +7415,9 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
 
 plname="$HOME/.config/videoinfox/playlists/vplaylist.""$createpl"  # add user input as file extension
 echo > "$plname"  #  create user list with full path and filename
+
+echo > "$HOME"/.config/videoinfox/playlists/"$createpl1".last-autoplay
+
 echo
 echo " Playlist Created: "$plname""
 echo
@@ -6936,7 +7442,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
   then
       #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
    
-      grabdir="$PWD"  # storing directory to restore at the end of this function
+      grabdirz="$PWD"  # storing directory to restore at the end of this function
         
       #  DOWNLOAD LINK AND PLAY
       
@@ -7036,7 +7542,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo "" | xclip -sel clip  # clearing out the clipboard
       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
       
-      cd "$grabdir"   # restore dir prior to entering yt-dlp menu              
+      cd "$grabdirz"   # restore dir prior to entering yt-dlp menu              
 
   else
 
@@ -7118,6 +7624,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 	  y)  # YES
         rm ~/.config/videoinfox/videoinfo.playlist 2> /dev/null
         echo > ~/.config/videoinfox/videoinfo.playlist
+        echo > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay 
         echo
         echo " ""$setplaylist"" Playlist Cleared . . ."
         sleep 1.7  
@@ -7181,7 +7688,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playedlist ]  # if file exists goto then
 # GETTING NUMBER OF VIDEO FILES IN THE PLAYED LIST
 linecount=$(wc -l ~/.config/videoinfox/tmp/videoinfo.playedlist-apa | cut -d' ' -f1)
 
-if ! [ "$linenumber" -eq "$linenumber" ] 2> /dev/null
+if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
   then  # IF ENTRY IS NOT A NUMBER
       :
 
@@ -7220,10 +7727,6 @@ if ! [ "$linenumber" -eq "$linenumber" ] 2> /dev/null
 fi
 fi
 fi
-
-
-
-
 
 
 else
@@ -7435,6 +7938,8 @@ cd ~/.config/videoinfox/playlists
 
 function menuvhome {
 
+sed -i '/^$/d' ~/.config/videoinfox/videoinfo.playlist  # remove all blank lines
+
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
 grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
@@ -7576,9 +8081,10 @@ clear
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
    then
         cat ~/.config/videoinfox/tmp/videoinfo.number.play-list 2>/dev/null
-        dashit=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
+        #dashit=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
+        dashit=$(echo "~") #
    else
-        dashit=$(echo "-") # not blinking
+        dashit=$(echo "-") # 
         echo
         echo "Playlist Empty . . ."
 fi
@@ -7612,10 +8118,6 @@ if [ "$searchtotal" = 0 ]  # if find returned no results goto <then>
 fi
 
 
-echo
-#echo "Directory: ""$PWD"
-echo "Clipboard: ""$pasteclip"
-
 ##################################################################################################################################################
 
 #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
@@ -7636,6 +8138,17 @@ grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st chara
 # If it is <http>, YT-DLP will get the clipboard. yt-dlp will check if its a valid link by trying to extract the name of the video file.
 # If it isn't <http>  the ytdlp loop will be skipped
 
+#echo "Directory: ""$PWD"
+
+if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
+  then
+      echo
+      echo "Clipboard: ""$pasteclip"
+  else
+      :
+fi
+
+
 if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
   then
       read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
@@ -7654,10 +8167,10 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " o "$dashit" Autoplay Line     c - Change Playlist     p - Play Clipboard                                         q - Quit"
+                      echo " o "$dashit" Autoplay Line     l - Last Autoplay      c - Change Playlist     p - Play Clipboard                  q - Quit"
                       echo " j "$dashit" Play Line"
-                      echo " i "$dashit" Info              d - Clear Playlist"
-                      echo      
+                      echo " i "$dashit" Info                                     d - Clear Playlist"
+                      echo           
 
                   else 
                       echo
@@ -7669,9 +8182,9 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo -e " o "$dashit" Autoplay Line     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                                         q - Quit"
+                      echo -e " o "$dashit" Autoplay Line     l - Last Autoplay     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                   q - Quit"
                       echo " j "$dashit" Play Line"
-                      echo " i "$dashit" Info              d - Clear Playlist"
+                      echo " i "$dashit" Info                                    d - Clear Playlist"
                       echo                                                                                    
             fi
   else
@@ -7685,10 +8198,10 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
             echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo -e " o "$dashit" Autoplay Line     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                                         q - Quit"
+            echo -e " o "$dashit" Autoplay Line     l - Last Autoplay     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                   q - Quit"
             echo " j "$dashit" Play Line"
-            echo " i "$dashit" Info              d - Clear Playlist"
-            echo                                                                   
+            echo " i "$dashit" Info                                    d - Clear Playlist"
+            echo                                                                     
 
         else 
 
@@ -7700,9 +8213,9 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
             echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " o "$dashit" Autoplay Line     c - Change Playlist     p - Play Clipboard                                         q - Quit"
-            echo " j "$dashit" Play Line"
-            echo " i "$dashit" Info              d - Clear Playlist"
+            echo " j - Play Line     o - Start Autoplay      c - Change Playlist     p - Play Clipboard                     q - Quit"
+            echo " i - Info          l - Resume Autoplay     r - Remove Line"
+            echo "                                           d - Clear Playlist                                             h - Help"
             echo                                                             
 fi
 fi
@@ -7725,16 +8238,36 @@ read -r -n1 optionv
         cd "$grabdir"
         break;;
 
+       
+        h)
+        echo
+        echo
+        echo " PLAYLIST LIST >>> HELP"        
+        echo
+        echo " Everytime Start Autoplay is used, it will write a new file for Resume Autoplay."
+        echo " Run Start Autoplay first. Then use Resume Autoplay to continue watching where you left off."
+        echo " Resume Autoplay will start with the last video that was playing when the play loop was quit."
+        echo
+        echo " Note: If the playlist is changed with Playlist Add or Remove Line after running Start Autoplay,"
+        echo "       Resume Autoplay won't get updated with the changes until Start Autoplay is run again."
+        echo
+        read -p " Press enter to Continue"
+        ;;
 
-        o) # AUTOPLAY LINE  (PLAYLIST)
+
+        o) # AUTOPLAY LINE  (HOME >>> PLAYLIST)
+
+# SET COUNTER TO ZERO. $i in below play loop to get line number from last played video
+i=0
 
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
    then
 
 echo
 echo
-read -r -p " Autoplay Line: " linenumber  # waiting fot user input
+read -r -p " Start Autoplay from line: " linenumber  # waiting fot user input
 
+# 
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfo.playlist-apa > ~/.config/videoinfox/tmp/videoinfo.playlist-apa.tmp 2>/dev/null
 mv ~/.config/videoinfox/tmp/videoinfo.playlist-apa.tmp ~/.config/videoinfox/tmp/videoinfo.playlist-apa 2>/dev/null
 
@@ -7770,6 +8303,9 @@ for line in $(cat "$input" 2>/dev/null)
 
       ffplay -fs -autoexit "$line" 2> /dev/null
 
+      # COUNTER TO KEEP TRACK OF LINE NUMBER THAT IS CURRENTLY PLAYING.
+      i=$((i+1))
+
       echo " To bypass the 3 second wait press enter with no entry"
       echo
       echo -e "\033[5m 3 seconds remaining to quit Playlist Autoplay\033m\033[0m\033[5m\033[5m\033[0m"      
@@ -7784,7 +8320,10 @@ for line in $(cat "$input" 2>/dev/null)
                  :                                                       # press any key then enter within 3 seconds to quit Play PLAYLIST
            fi
 done
- 
+
+# WRITE 2nd PLAYLIST FOR LAST AUTOPLAY OPTION . File: ~/.config/videoinfox/playlists/$playlistname.last-autoplay
+tail -n +"$i" ~/.config/videoinfox/tmp/videoinfo.playlist-apa > "$setplaylist".last-autoplay
+
 IFS=$OLDIFS
 
 rm ~/.config/videoinfox/tmp/videoinfo.playlist-apa 2>/dev/null
@@ -7794,14 +8333,183 @@ rm ~/.config/videoinfox/tmp/videoinfo.number.play-list 2>/dev/null
    else
        echo
        echo
-       echo " PLAYLIST Empty"
+       echo " Playlist Empty . . ."
+       sleep 1.7
+fi
+
+;;
+
+########################################
+r)  # REMOVE LINE  (HOME >>> PLAYLIST)
+########################################
+
+# delete a line example to remove by pattern
+#sed '\?^/mnt/MEDIA1/MOVIES/identity thief.mp4?d' videoinfo.playlist
+
+
+# REMOVE EVERYTHING FROM THE BEGINNING OF THE LINE UP TO AND INCLUDING THE DOT). LEAVING ONLY PLAYLIST NAME
+cat ~/.config/videoinfox/videoinfo.playlist.current | sed 's/.*\.//' > ~/.config/videoinfox/tmp/whatplpld.tmp 
+read -r whatplpld < ~/.config/videoinfox/tmp/whatplpld.tmp
+rm ~/.config/videoinfox/tmp/whatplpld.tmp
+
+
+if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
+  then
+      :
+  else
+      echo > ~/.config/videoinfox/videoinfo.playlist
+fi
+
+
+if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
+  then
+
+      clear
+      cat ~/.config/videoinfox/tmp/videoinfo.number.play-list 2> /dev/null
+
+      echo
+      read -r -p "Enter line number to remove video from the playlist $whatplpld: " linenumber  # waiting fot user input
+
+      # REMOVE BLANK LINES
+      ######sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfo.playedlist-apa 2>/dev/null
+
+      # GETTING NUMBER OF VIDEO FILES IN THE PLAYED LIST
+      linecount=$(wc -l ~/.config/videoinfox/tmp/videoinfo.playlist-apa 2> /dev/null | cut -d' ' -f1) # 
+
+          if ! [[ "$linenumber" -eq "$linenumber" ]] #2> /dev/null
+            then  # IF ENTRY IS NOT A NUMBER
+                :
+
+            else  # ENTRY IS A NUMBER
+
+                if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
+                  then
+                      :
+
+                  else
+
+                      if [ "$linenumber" = 0 ]
+                        then
+                            :
+
+                        else
+      
+                            if [[ $linenumber -gt $linecount ]]
+                              then 
+                                  echo
+                                  echo "Number out of range . . ."
+                                  sleep .9
+
+                              else
+
+                                  if [ -z "$linenumber" ]
+                                    then
+                                        :
+
+                                    else
+                                        # DELETE LINE NUMBER
+                                        sed -i "${linenumber}d" ~/.config/videoinfox/videoinfo.playlist 2> /dev/null 
+                                        echo
+                                        echo "Line deleted from the playlist . . ."
+                                        sleep .25
+                                  fi
+                            fi
+                      fi
+               fi
+         fi
+fi
+
+;;
+
+
+###########################################################
+l) # LAST AUTOPLAY - RESUME AUOTOPLAY (HOME >>> PLAYLIST)
+###########################################################
+
+# READ FIRST LINE TO DISPLAY VIDEO NAME BEFORE PLAY
+read < $HOME/.config/videoinfox/playlists/"$setplaylist".last-autoplay resumedisplay
+echo
+echo
+echo " Resume: ""$resumedisplay"
+sleep 3
+
+###### SET COUNTER TO ZERO. $i in below play loop to get line number from last played video
+i=0
+
+if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
+   then
+
+OLDIFS=$IFS
+IFS=$'\n'
+
+input2=$HOME/.config/videoinfox/playlists/"$setplaylist".last-autoplay
+
+
+for line in $(cat "$input2" 2>/dev/null)
+ do
+      clear
+      echo
+      echo "___________________________________________________________________________________________________________________"
+      echo
+      echo " ""$der"" >>> PLAYLIST >>> AUTOPLAY LINE" 
+      echo
+      echo " [PLAY]>" "$line"
+      echo "___________________________________________________________________________________________________________________"
+      echo
+
+      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$line")  " Duration:" $(ffmpeg -i "$line" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+      
+      echo
+      echo
+      echo " Video Player Controls:"
+      echo                             
+      echo " - Fullscreen Toggle: f"
+      echo
+      echo " - Play/Pause Toggle: space bar"
+      echo
+      echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
+      echo
+      echo " - Quit: q"      
+      echo -e "\n"
+
+      ffplay -fs -autoexit "$line" 2> /dev/null
+
+      ###### COUNTER TO KEEP TRACK OF LINE NUMBER THAT IS CURRENTLY PLAYING FOR WRITE ON EXIT.
+      i=$((i+1))
+
+      echo " To bypass the 3 second wait press enter with no entry"
+      echo
+      echo -e "\033[5m 3 seconds remaining to quit Playlist Autoplay\033m\033[0m\033[5m\033[5m\033[0m"      
+      echo 
+      read -t 3 -p " Press any key then press enter to quit : " playdir
+           
+           # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
+           if [[ $playdir ]]                                             
+             then                                                        # if no input is entered within 3 seconds the next video will play
+                 break                                                   # if enter is pressed without any input the next video will play
+             else                                                        
+                 :                                                       # press any key then enter within 3 seconds to quit Play PLAYLIST
+           fi
+done
+
+
+tail -n +"$i" ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay > ~/.config/videoinfox/playlists/pl-tmp
+mv ~/.config/videoinfox/playlists/pl-tmp ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay
+
+
+IFS=$OLDIFS
+
+   else
+       echo
+       echo
+       echo " Playlist Empty . . ."
        sleep 1.7
 fi
 
 ;;
 
 
-        j) # PLAY LINE  (PLAYLIST)
+        j) # PLAY LINE  (HOME >>> PLAYLIST)
 
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
    then
@@ -7825,8 +8533,6 @@ if [ -z "$line" ]
 
   else
 
-#for line in $(cat "$input" 2>/dev/null)
-# do
       clear
       echo
       echo "___________________________________________________________________________________________________________________"
@@ -7855,21 +8561,6 @@ if [ -z "$line" ]
       echo " Screen will close after video player is quit."
 
       ffplay -fs -autoexit "$line" 2> /dev/null
-
-      #echo " To bypass the 3 second wait press enter with no entry"
-      #echo
-      #echo -e "\033[5m 3 seconds remaining to quit PLAYLIST Autoplay\033m\033[0m\033[5m\033[5m\033[0m"      
-      #echo 
-      #read -t 3 -p " Press any key then press enter to quit : " playdir
-           
-           # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
-           #if [[ $playdir ]]                                             
-           #  then                                                        # if no input is entered within 3 seconds the next video will play
-           #      break                                                   # if enter is pressed without any input the next video will play
-           #  else                                                        
-           #      :                                                       # press any key then enter within 3 seconds to quit Play PLAYLIST
-           #fi
-# done
  
 IFS=$OLDIFS
 
@@ -7944,10 +8635,10 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 
 ;;       
 
-
+########################################################################################################################################################
           c)
           # CHANGE PLAYLIST
-
+########################################################################################################################################################
 
 function changepl {
 
@@ -8022,7 +8713,7 @@ echo
 read -r -p " Enter line number: " linenumber  # waiting fot user input
 
 
-if ! [ "$linenumber" -eq "$linenumber" ] 2> /dev/null
+if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
   then  # IF ENTRY IS NOT A NUMBER
       :
 
@@ -8078,7 +8769,7 @@ echo
 read -r -p " Enter line number to delete: " linenumber  # waiting fot user input
 
 
-if ! [ "$linenumber" -eq "$linenumber" ] 2> /dev/null
+if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
   then  # IF ENTRY IS NOT A NUMBER
       :
 
@@ -8128,13 +8819,20 @@ if ! [ "$linenumber" -eq "$linenumber" ] 2> /dev/null
 	                y)  # YES
 
                       rm "$plselected" 2> /dev/null
+
+                      echo "$plselected"| sed 's/.*\.//' > ~/.config/videoinfox/tmp/plread.tmp  # REMOVE FULL PATH ONLY LEAVING PLAYLIST NAME
+                      read -r plselectedla < ~/.config/videoinfox/tmp/plread.tmp  # READING PLAYLIST NAME ONLY INTO VARIABLE  $pselecteda
+                      rm ~/.config/videoinfox/tmp/plread.tmp  # remove temp file
+                      rm ~/.config/videoinfox/playlists/"$plselectedla".last-autoplay  # REMOVE PLAYLIST.last.autoplay  file
+ 
                       echo
                       echo  " Playlist Deleted . . ."
 
                       if [[ "$setplaylistfull" = "$plselected" ]]  # IF DELETED PLAYLIST = ACTIVE PLAYLIST
-                        then  # SET DEFAULT PLAYLIST TO ACTIVE PLAYLIST
+                        then # SET DEFAULT PLAYLIST TO ACTIVE PLAYLIST
                             echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ~/.config/videoinfox/videoinfo.playlist.current
                             cp ~/.config/videoinfox/playlists/vplaylist.Default ~/.config/videoinfox/videoinfo.playlist 2> /dev/null
+                            setplaylist="Default"
                         else
                             :
                       fi
@@ -8168,7 +8866,7 @@ echo " Spaces can be used after the first character of the playlist name."
 echo
 read -r -p " Create Playlist: " createpl1  # waiting fot user input. grabbing new filename
 
-# Strip out dots from use entry
+# Strip out any dots from user entry
 echo "$createpl1" > ~/.config/videoinfox/tmp/plremovedot.tmp
 sed -i -e 's/\.//g' ~/.config/videoinfox/tmp/plremovedot.tmp
 read createpl < ~/.config/videoinfox/tmp/plremovedot.tmp
@@ -8192,6 +8890,9 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
 
 plname="$HOME/.config/videoinfox/playlists/vplaylist.""$createpl"  # add user input as file extension
 echo > "$plname"  #  create user list with full path and filename
+
+echo > "$HOME"/.config/videoinfox/playlists/"$createpl1".last-autoplay
+
 echo
 echo " Playlist Created: "$plname""
 echo
@@ -8216,7 +8917,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
   then
       #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
    
-      grabdir="$PWD"  # storing directory to restore at the end of this function
+      grabdirz="$PWD"  # storing directory to restore at the end of this function
         
       #  DOWNLOAD LINK AND PLAY
       
@@ -8316,7 +9017,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo "" | xclip -sel clip  # clearing out the clipboard
       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
       
-      cd "$grabdir"   # restore dir prior to entering yt-dlp menu              
+      cd "$grabdirz"   # restore dir prior to entering yt-dlp menu              
 
   else
 
@@ -8398,6 +9099,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 	  y)  # YES
         rm ~/.config/videoinfox/videoinfo.playlist 2> /dev/null
         echo > ~/.config/videoinfox/videoinfo.playlist
+        echo > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay 
         echo
         echo " ""$setplaylist"" Playlist Cleared . . ."
         sleep 1.7  
@@ -8420,7 +9122,6 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 esac
 done
 ;;
-
 
 
 k)
@@ -8457,7 +9158,7 @@ if [ -f ~/.config/videoinfox/tmp/videoinfo-findwork.tmp ]  # if file exists goto
 # GETTING NUMBER OF VIDEO FILES FROM FIND RESULTS
 linecount=$(wc -l ~/.config/videoinfox/tmp/videoinfo-findwork.tmp | cut -d' ' -f1)
 
-if ! [ "$linenumber" -eq "$linenumber" ] 2> /dev/null
+if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
   then  # IF ENTRY IS NOT A NUMBER
       :
 
@@ -10162,7 +10863,7 @@ echo
 read -r -p " Enter line number to change directory: " linenumber  # waiting fot user input
 
 
-if ! [ "$linenumber" -eq "$linenumber" ] 2> /dev/null
+if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
   then  # IF ENTRY IS NOT A NUMBER
       :
 
