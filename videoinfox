@@ -1,6 +1,5 @@
 #!/bin/bash
-
-#  file : videoinfox v3.9.00								         
+#  file : videoinfox v3.9.00
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
@@ -9,17 +8,11 @@
 
 ver="Videoinfox v3.9.00"  # Version Number: no blinking dot
 der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m9.00")  # Version Number: with blinking dot
-
-
 # YT-DLP is not on the dependeny list becuase Videoinfox will dowload it to:   ~/.config/videoinfox   All calls to yt-dlp are pointed to:   
 # ~/.config/videoinfox/yt-dlp   There is an update option in:   <Set>  Settings to update yt-dlp   (just the copy in ~/.config/videoinfox)
 # I didn't want to overwrite anyones copy of:   /user/local/bin/yt-dlp     Also, I wanted to make sure all new Videoinfox script installs
 # included the most recent version of Yt-dlp
-
-
 # THIS SCRIPT HAS BEEN HEAVILY COMMENTED FOR ANYONE INTERESTED IN HOW IT WORKS AND TO MAKE IT EASIER TO EDIT THE CODE.
-
-
 ##################################################################################################################################################
 #  START COMMAND LINE OPTIONS  ###################################################################################################################
 ##################################################################################################################################################
@@ -38,8 +31,6 @@ if [ "$1" = "-v" ]
   else
       :
 fi
-
-
 #-------------------------------------------------------------------------------------------------------------------------------------------------
 #  videoinfox -l     ADD CLIPBOARD CONTENT ON THE FLY TO:   USER SET LIST   THEN EXIT
 #-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -48,8 +39,6 @@ fi
 # It isn't necessary to have the Videoinfox running while using this feature.
 # Build your set user list on the fly without leaving the gui
 # COPY THE URL TO THE BROWSER. THEN USE YOUR SHORTCUT TO WRITE URL TO THE USER SET LIST. Rinse and repeat to keep adding to the list. 
-
-
 if [ "$1" = "-l" ]
    then
 
@@ -57,11 +46,7 @@ if [ "$1" = "-l" ]
 
        if [ -d "$direxist" ]  #  if directoty exists goto  <then>
          then
-
-
         read -r grabuserlist < ~/.config/videoinfox/videoinfox.set-user-list
-
-
              if [ -f "$grabuserlist" ]  # if file exists then 
                 then
       
@@ -96,8 +81,6 @@ if [ "$1" = "-l" ]
    else
        :
 fi
-
-
 #-------------------------------------------------------------------------------------------------------------------------------------------------
 #  videoinfox -a     ADD CLIPBOARD CONTENT  ON THE FLY TO:   DEFAULT LIST   THEN EXIT
 #-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -126,8 +109,6 @@ then
                  echo "Default Download List Empty" >> ~/.config/videoinfox/videoinfox-dl-Default
 
         fi
-
-
 # ADD TO DEFAULT LIST  <DEFAULT LIST>
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 echo "$pasteclip" >> ~/.config/videoinfox/videoinfox-dl-Default  # write url to the default download list
@@ -143,8 +124,6 @@ sed -i '/http/!d' ~/.config/videoinfox/videoinfox-dl-Default  # remove all lines
 echo "" | xclip -sel clip  # clearing out the clipboard
 
 exit
-
-
 else
     echo
     echo "Videoinfox error: Config directory not found. Run videoinfox first with no command line options to setup."
@@ -152,13 +131,9 @@ else
     notify-send "Videoinfox error: Config directory not found. Run videoinfox first with no command line options to setup."
     exit
 fi
-
-
     else
         :
 fi
-
-
 #-------------------------------------------------------------------------------------------------------------------------------------------------
 #  videoinfox -h     DISPLAY HELP THEN EXIT  
 #-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -208,8 +183,6 @@ if [ "$1" = "-h" ]
    else
       :
 fi
-
-
 #-------------------------------------------------------------------------------------------------------------------------------------------------
 #  videoinfox -u     DOWNLOAD ANY LIST THAT IS RECURSIVELY REACHABLE FROM THE CURRENT DIRECORY. ENTER FULL FILENAME ONLY. NO WILDCARD
 #-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -228,8 +201,6 @@ if [ "$1" = "-u" ]
      echo
      echo " ""$ver"" >>> Load a recursively reachable Download List for processing . . ."
      echo "___________________________________________________________________________________________________________________"    
-        
-
      if echo "$2" | grep "/" > /dev/null  # if any slashehes were entered, exit
        then
             echo
@@ -240,8 +211,6 @@ if [ "$1" = "-u" ]
        else
             :
      fi
-
-
      if echo "$2" | grep "*" > /dev/null  # if any wildcards * were entered, exit
        then
             echo
@@ -252,8 +221,6 @@ if [ "$1" = "-u" ]
        else
             :
      fi
-
-
         filecount=$(find "$PWD" -type f \( -iname "$2" \) | wc -l)
        
         if [ "$filecount" = 1 ]  # IF THE FILE IS FOUND THE COUNT WILL BE: 1
@@ -280,8 +247,6 @@ if [ "$1" = "-u" ]
                         echo 
                         exit
                 fi
-
-
                 ##### GRAB THE PATH FROM THE DOWNLOAD LIST TO CHANGE THE WORKING DIRECTORY TO THAT PATH #####
 
                 find "$PWD" -type f \( -iname "$2" \) > videoinfox-u-option-grabdir.tmp #2> /dev/null # find the list to grab the full path with filename
@@ -297,8 +262,6 @@ if [ "$1" = "-u" ]
                 sed -i '/^$/d' videoinfox-u-option.tmp  # remove all blank lines from the user's list
                 sed -i '/http/!d' videoinfox-u-option.tmp  # remove all lines not starting with: http from the user's list
                 mv videoinfox-u-option.tmp "$2"  
-               
-
                 #####  TAGGING .log ONTO THE USER'S LIST FILENAME TO CREATE A LOG FILE OF THE DOWNLOAD  #####
             
                 ulogfile="$2".log  # tag  .log  onto the filename for log creation
@@ -315,8 +278,6 @@ if [ "$1" = "-u" ]
                 #####  DOWNLOAD LIST  #####
                 
                 input="$2"  # INPUT FOR THE DOWNLOAD LOOP (the download list)
-
-
                 #####  DOWNLOAD LOOP START  #####
 
                 while read -r line  # read line by line until end of file
@@ -336,8 +297,6 @@ if [ "$1" = "-u" ]
                 done < "$input"
 
                 #####  DOWNLOAD LOOP END  #####
-
-
                 #####  REMOVE UNWANTED LOG INFO  ##### 
 
                 sed -i '/\[youtube\]/d' "$2".log &> /dev/null  # removing lines that start with  [youtube]
@@ -345,8 +304,6 @@ if [ "$1" = "-u" ]
                 sed -i 's/\[download\]//' "$2".log &> /dev/null  # remove   [download]   from the end of the line.
                 sed -i 's/has already been downloaded//' "$2".log &> /dev/null  # remove   has already been downloaded   from the end of the line.
                 sed -i -e 's/^[ \t]*//' "$2".log &> /dev/null  # remove spaces at beginning of line.
-
-
                 #####  DISPLAY AFTER THE LIST IS DONE DOWNLOADING  #####
 
                 echo
@@ -379,8 +336,6 @@ if [ "$1" = "-u" ]
    else
         :
 fi
-
-
 #-------------------------------------------------------------------------------------------------------------------------------------------------
 #  videoinfox -d     PLAY DIRECTORY.  AUTOPLAY VIDEO FILES IN THE CURRENT DIRECTORY
 #-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -487,8 +442,6 @@ else #  NO LINES START WITH A SLASH /   remove empty files
      rm ~/.config/videoinfox/tmp/videoinfox.numbered-optiond-play-directory-list 2>/dev/null
      rm ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa-work 2>/dev/null    
 fi
-
-
 clear
 
 if [ -f ~/.config/videoinfox/tmp/videoinfox.numbered-optiond-play-directory-list ]
@@ -500,8 +453,6 @@ if [ -f ~/.config/videoinfox/tmp/videoinfox.numbered-optiond-play-directory-list
         echo "$der  No playable content in the current directory . . ."
         echo
 fi
-
-
 linenumber=1
 
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa > ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa.tmp 2>/dev/null
@@ -563,8 +514,6 @@ rm ~/.config/videoinfox/tmp/videoinfox.numbered-optiond-play-directory-list 2>/d
 rm ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa-work 2>/dev/null
 
 exit
-
-
 else
   echo
   echo "Videoinfox error: Config directory not found. Run videoinfox first with no command line options to setup."
@@ -572,8 +521,6 @@ else
   notify-send "Videoinfox error: Config directory not found. Run videoinfox first with no command line options to setup."
   exit
   fi
-
-
 else
     :
 fi
@@ -581,8 +528,6 @@ fi
 ##################################################################################################################################################
 #  END COMMAND LINE OPTIONS  #####################################################################################################################
 ##################################################################################################################################################
-
-
 
 ##################################################################################################################################################
 ##################################################################################################################################################
@@ -600,8 +545,6 @@ fi
 
 ##################################################################################################################################################
 ##################################################################################################################################################
-
-
 
 ##################################################################################################################################################
 #####  1. DEPENDENCY CHECK  ###################################################################################################################### 
@@ -697,8 +640,6 @@ fi
 #                                      - One or more dependencies Not Found = Not 0 
 ####################################################################################
 depcount=$((d1 + d2 + d3 + +d4 + d5 + d6))
-
-
 if [ $depcount == 0 ]  # if all dependencies = 0 (All Found) goto then
   then
       echo
@@ -717,8 +658,6 @@ if [ $depcount == 0 ]  # if all dependencies = 0 (All Found) goto then
       echo -e "\n"
       exit
 fi
-
-
 ##################################################################################################################################################
 #####  2. START FROM ROOT CHECK  ################################################################################################################# 
 ##################################################################################################################################################
@@ -754,8 +693,6 @@ if [ "$whatdir" == $thisdir ]  # If the directory the script was run from: / <ro
            #sleep 1
            #done              
 fi
-
-
 ##################################################################################################################################################
 #####  3. DIRECTORY CHECK & FILE CREATION  ####################################################################################################### 
 ##################################################################################################################################################
@@ -811,8 +748,6 @@ if [ -d "$direxist" ]  #  if directoty exists goto  <then>
       mkdir ~/.config/videoinfox
       mkdir ~/.config/videoinfox/tmp
       mkdir ~/.config/videoinfox/playlists
-            
-
       # SET DEFAULT  LAST SEARCH  to <2> Never Save
       echo "2" > ~/.config/videoinfox/videoinfo.lastsearch-set
 
@@ -825,8 +760,6 @@ if [ -d "$direxist" ]  #  if directoty exists goto  <then>
         else
              mkdir ~/Downloads
       fi
-
-
       # SET DEFAULT  yt-dlp  DOWNLOAD DIRECTORY TO  ~/Downloads    It can be changed in the <set> menu
       echo "$HOME"/Downloads > ~/.config/videoinfox/videoinfo.yt-download-dir
 
@@ -936,8 +869,6 @@ if [ -f ~/.config/videoinfox/yt-dlp ]  # if yt-dlp exists goto then
         done
         
         rm ~/.config/videoinfox/wget-* 2> /dev/null          
-
-
    else
        
         echo
@@ -962,8 +893,6 @@ fi
 ##################################################################################################################################################
 #####  You will only see FIRST RUN >>> SETUP again if the  ~/.config/videoinfox directory doesn't exist.  ######################################## 
 ##################################################################################################################################################
-
-
 direxist3="$HOME/.config/videoinfox/tmp"
 
 if [ -d "$direxist3" ]  #  if directoty exists goto  <then>
@@ -972,8 +901,6 @@ if [ -d "$direxist3" ]  #  if directoty exists goto  <then>
   else
        mkdir ~/.config/videoinfox/tmp
 fi
-
-
 direxist5="$HOME/.config/videoinfox/playlists"
 
 if [ -d "$direxist5" ]  #  if directoty exists goto  <then>
@@ -1016,8 +943,6 @@ viv2=$(echo "$viv" | cut -c13- | sed -e 's/\.//g' 2> /dev/null) # format: whole 
 
 # script ver:   cut the first 13 characters + sed to remove the dot =  version number minus the dot 
 viv3=$(echo "$ver" | cut -c13- | sed -e 's/\.//g') # format: whole number  xxxx
-
-
 # Prevent Update Available notifications from displaying if download fails. 
 # If download fails, download version = script version
 
@@ -1028,8 +953,6 @@ if [ -f ~/.config/videoinfox/tmp/videoinfox ]  # if file exists goto then
    else # Download Failure
         viv3="$viv2"
 fi
-
-
 # for the notification just on the home screen
 
 if [ "$viv2" = "$viv3" ]  # If the downloaded version = this script's version goto then
@@ -1046,8 +969,6 @@ if [ "$viv2" = "$viv3" ]  # If the downloaded version = this script's version go
       rm ~/.config/videoinfox/tmp/* 2> /dev/null
       cd "$dirtemp"  # restore directory
 fi
-
-
 ##################################################################################################################################################
 #####  5. IF THE DEFAULT LIST DOESN'T EXIST, CREATE IT  ##########################################################################################
 ##################################################################################################################################################
@@ -1062,8 +983,6 @@ echo > ~/.config/videoinfox/videoinfox-dl-Default
 echo "Default Download List Empty" >> ~/.config/videoinfox/videoinfox-dl-Default
 
 fi
-
-
 ##################################################################################################################################################
 #####  6. CREATE DOWNLOAD LIST HELP FILE  ######################################################################################################## 
 ##################################################################################################################################################
@@ -1214,12 +1133,8 @@ echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
-
-
 #####  DOWNLOAD LIST HELP COMPLETED  ############################################################################################################# 
 ##################################################################################################################################################
-
-
 ##################################################################################################################################################
 #####  7. CREATE HELP FILE  ###################################################################################################################### 
 ##################################################################################################################################################
@@ -1452,14 +1367,8 @@ echo >> ~/.config/videoinfox/videoinfo.help
 
 #####  HELP COMPLETED  ########################################################################################################################### 
 ##################################################################################################################################################
-
-
-
-
 ##################################################################################################################################################
 #####  8. CREATE VERSION HISTORY FILE  ########################################################################################################### ################################################################################################################################################## 
-
-
 echo " _________________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " $ver  Where Video Play Is A Clipboard Copy Away                                            VERSION HISTORY" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -1471,14 +1380,10 @@ echo " q - quit                                                                 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 
-
-
 # KNOWN ISSUE
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " KNOWN ISSUES: v3.5.08 In Change Playlist when attempting to delete the Default Playlist." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-
-
 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2201,23 +2106,17 @@ echo " _________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 ###########################  END VERSION HISTORY  ################################################################################################ 
 ##################################################################################################################################################
-
-
 read -r diratexit < ~/.config/videoinfox/videoinfo.dir-at-exit
 cd "$diratexit" 2>/dev/null 
 
 #   The Line below is what gets the Codec & Resolution from a video file.
 codecres="ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1"
-
-
 if [ -f ~/.config/videoinfox/videoinfo.playlist.current ]
   then
       :
   else
       echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ~/.config/videoinfox/videoinfo.playlist.current
 fi
-
-
 ##################################################################################################################################################
 ###########################  HOME LOOP START #####################################################################################################
 ##################################################################################################################################################
@@ -2241,11 +2140,7 @@ if [ "$grabclip" = "http" ]  # if the first 4 characters = <http> go then
             pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
       fi
 fi
-
-
 # playedlist sort routine removed here
-
-
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
                         
@@ -2297,8 +2192,6 @@ sed 's/.*\///' ~/.config/videoinfox/tmp/videoinfo-findwork.tmp > ~/.config/video
 # CREATE NUMBERED lIST
 sed '/./=' ~/.config/videoinfox/tmp/videoinfo-number-findwork.tmp2 | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/videoinfo-number-findwork.tmp 2>/dev/null
 rm ~/.config/videoinfox/tmp/videoinfo-number-findwork.tmp2 2>/dev/null
-
-
       cat ~/.config/videoinfox/tmp/videoinfo-number-findwork.tmp  # display numbered find results    
 
       echo      
@@ -2306,11 +2199,7 @@ rm ~/.config/videoinfox/tmp/videoinfo-number-findwork.tmp2 2>/dev/null
       echo "Date: "$(cat ~/.config/videoinfox/videoinfo.lastfindtime 2>/dev/null) # display last find time
       echo "Search: "$(cat ~/.config/videoinfox/videoinfo.lastfindstring 2>/dev/null)  # display last find string that was used
       echo "Results: ""$searchtotal"  # number of files found
-      
-
 fi
-
-
 # LOAD DEFAULT DIRECTORIES
 read -r dir1 < ~/.config/videoinfox/videoinfo.tv-dir 2> /dev/null
 read -r dir2 < ~/.config/videoinfox/videoinfo.movies-dir 2> /dev/null
@@ -2338,8 +2227,6 @@ dirdisplay4=$(echo -e "\033[2m1 2 3 \033[0m4 \033[2m5\033[0m")
 dirdisplay5=$(echo -e "\033[2m1 2 3 4 \033[0m5\033[0m")
 # NO MATCH ALL LESS BOLD
 dirdisplayno=$(echo -e "\033[2m1 2 3 4 5\033[0m")
-
-
 # FORMAT PWD NAME FOR COMPARISON
 echo "$PWD" > ~/.config/videoinfox/videoinfox.pwd.tmp  # write PWD to a tmp file: videoinfox.pwd.tmp
 cat ~/.config/videoinfox/videoinfox.pwd.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.pwd  # remove all froward slashes / write file: videoinfox.pwd
@@ -2375,8 +2262,6 @@ echo "$dir5" > ~/.config/videoinfox/videoinfox.dir5.tmp  # write dir 5 to a tmp 
 cat ~/.config/videoinfox/videoinfox.dir5.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.dir5  # remove all froward slashes / write file: videoinfox.dir5
 rm ~/.config/videoinfox/videoinfox.dir5.tmp   # remove tmp file: videoinfox.dir5.tmp 
 sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.dir5 # remove horizontal whitespace write file: videoinfox.dir5
-
-
 # LOAD EDITED PWD AND DEFAULT DIRECTORY NAMES FOR BELOW  IF LOOPS   (all frorward slashes / and white spaces removed from the below directory names)
 
 read -r controldir < ~/.config/videoinfox/videoinfox.pwd    # load reformatted current directory name 
@@ -2385,8 +2270,6 @@ read -r dir2display < ~/.config/videoinfox/videoinfox.dir2  # load reformatted d
 read -r dir3display < ~/.config/videoinfox/videoinfox.dir3  # load reformatted default directory 3 name
 read -r dir4display < ~/.config/videoinfox/videoinfox.dir4  # load reformatted default directory 4 name
 read -r dir5display < ~/.config/videoinfox/videoinfox.dir5  # load reformatted default directory 5 name
-
-
 # DEFAULT DIR 5  DISPLAY     IF DIRECTORY ON EXIT  =  DEFAULT DIRECTORIES 1-4 then Display that directory number.
 
 if [[ "$controldir" = "$dir5display" ]]
@@ -2413,8 +2296,6 @@ if [[ "$controldir" = "$dir5display" ]]
       fi
 fi
 
-
-
 # DEFAULT DIR 5 DISPLAY
 if [[ "$controldir" = "$dir5display" ]] 
   then
@@ -2423,8 +2304,6 @@ if [[ "$controldir" = "$dir5display" ]]
   else
        dirdisp="$dirdisplayno" # if directory doesn't match  Default Dirs 1-5 : All 5 numbers are less bold.  
 fi 
-
-
 
 # DEFAULT DIR 1  DISPLAY
 if [[ "$controldir" = "$dir1display" ]]  # IF PWD = DEFAULT DIR 1 then display 1
@@ -2453,8 +2332,6 @@ fi
 ################################################################################
 ##########  END   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
 ################################################################################
-
-
 # CHECKING FOR VIDEOS IN CURRENT DIRECTORY.  if video(s) exist:  the dash @ Play Directory will blink on the home screen
 dovideosexist=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
 
@@ -2464,8 +2341,6 @@ if [ $dovideosexist -ne 0 ]  # If the find result doesn't =   0   goto then
   else
       dash=$(echo "-")  
 fi
-
-
 # if [ "$searchtotal" = "" ]  # if the file <~/.config/videoinfox/videoinfo.lastsearchtotal> is empty goto then
 #  then
 #      :
@@ -2504,8 +2379,6 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
   else
       :
 fi
-
-
 if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
   then
       read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
@@ -2582,8 +2455,6 @@ echo " a - Show All          l - Last Download     s - View Playlist      o "$da
 echo " c - Clear Results     v - Played List       k "$dashj" Playlist Add       j "$dashj" Play Line          x - Clrclp     h - Help"
 echo " m - More Options"
 echo         
-                                         
-
 fi
 fi
 
@@ -2596,27 +2467,19 @@ read -r -n1 optionf
      do
      menuf
      case $optionf in
-
-
 h)  # HELP
      #clear
      less ~/.config/videoinfox/videoinfo.help  # This help file is recreated on every start
      ;;	
-
-
 e)   # EXIT  
      echo "$PWD" > ~/.config/videoinfox/videoinfo.dir-at-exit  # SAVE DIRECTORY AT EXIT
  
      read -r lsearch < ~/.config/videoinfox/videoinfo.lastsearch-set  # load last search setting
-     
-
 
 if [ "$lsearch" = 1 ]  # ALWAYS SAVE
   then
       :
 fi
-
-
 
 if [ "$lsearch" = 2 ]  # NEVER SAVE
   then
@@ -2634,11 +2497,7 @@ if [ "$lsearch" = 2 ]  # NEVER SAVE
 #echo "Select find to search for files.                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
 #echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork     
 echo > ~/.config/videoinfox/videoinfo.findwork
-
-
 fi
-
-
 if [ "$lsearch" = 3 ]  # ASK TO SAVE
   then         
          function menuq {
@@ -2665,8 +2524,6 @@ if [ "$lsearch" = 3 ]  # ASK TO SAVE
          
          break
          ;;
-
-
          2)
          
 ######### CLEAR FIND RESULTS ##########
@@ -2683,8 +2540,6 @@ if [ "$lsearch" = 3 ]  # ASK TO SAVE
 #echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork     
 
 echo > ~/.config/videoinfox/videoinfo.findwork
-
-
 break;;
 
 *)
@@ -2708,8 +2563,6 @@ echo " Directory state SAVED for next run:" "$PWD"
 sleep .7
 
 break ;;
-
-
 o)
 ##################################################################################################################################################
 ###########################   AUTOPLAY LINE  o   <HOME>  #########################################################################################
@@ -2783,8 +2636,6 @@ else
 fi
 
 ;;
-
-
 j)
 ##################################################################################################################################################
 ###########################   PLAY LINE  j   <HOME>  #############################################################################################
@@ -2854,8 +2705,6 @@ else
 fi
 
 ;;
-
-
 n)
 ##################################################################################################################################################
 ###########################   (@NAVIGATE TREE)  n  ###############################################################################################
@@ -2863,8 +2712,6 @@ n)
 
 pasteclip2=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content   save to restore on option quit
 echo "" | xclip -sel clip  # clearing the clipboard
-
-
 function navtree {
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
@@ -2878,22 +2725,16 @@ if [ -d "$pasteclip" ]  # if the directory exists gto then
       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
      
 fi
-
-
 clear
 
 # recursive list of directories for the user: enter line number to change to that directory
 ####find "$PWD" -type d -iname "*" | sort -u 2>/dev/null
 
 find "$PWD" -type d -iname "*" | sort -u > ~/.config/videoinfox/tmp/nt-list.tmp 2>/dev/null
-
-
 # NUMBER THE LIST
 sed '/./='  ~/.config/videoinfox/tmp/nt-list.tmp | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/nt-list-number.tmp 2>/dev/null
 
 cat ~/.config/videoinfox/tmp/nt-list-number.tmp
-
-
 # recursive number of directories found
 ttotal=$(find  "$PWD" -type d -iname "*" 2>/dev/null | wc -l)   
 
@@ -2901,8 +2742,6 @@ notify-send "Videoinfox is done processing: Directory Tree" "Total Directories F
 
 # recursive number of files found
 ttotalnum=$(find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
-
-
 ##################################################################################
 ##########  START   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
 ################################################################################## 
@@ -2921,8 +2760,6 @@ dirdisplay4=$(echo -e "\033[2m1 2 3 \033[0m4 \033[2m5\033[0m")
 dirdisplay5=$(echo -e "\033[2m1 2 3 4 \033[0m5\033[0m")
 # NO MATCH ALL LESS BOLD
 dirdisplayno=$(echo -e "\033[2m1 2 3 4 5\033[0m")
-
-
 # FORMAT PWD NAME FOR COMPARISON
 echo "$PWD" > ~/.config/videoinfox/videoinfox.pwd.tmp  # write PWD to a tmp file: videoinfox.pwd.tmp
 cat ~/.config/videoinfox/videoinfox.pwd.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.pwd  # remove all froward slashes / write file: videoinfox.pwd
@@ -2958,8 +2795,6 @@ echo "$dir5" > ~/.config/videoinfox/videoinfox.dir5.tmp  # write dir 5 to a tmp 
 cat ~/.config/videoinfox/videoinfox.dir5.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.dir5  # remove all froward slashes / write file: videoinfox.dir5
 rm ~/.config/videoinfox/videoinfox.dir5.tmp   # remove tmp file: videoinfox.dir5.tmp 
 sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.dir5 # remove horizontal whitespace write file: videoinfox.dir5
-
-
 # LOAD EDITED PWD AND DEFAULT DIRECTORY NAMES FOR BELOW  IF LOOPS   (all frorward slashes / and white spaces removed from the below directory names)
 
 read -r controldir < ~/.config/videoinfox/videoinfox.pwd    # load reformatted current directory name 
@@ -2968,8 +2803,6 @@ read -r dir2display < ~/.config/videoinfox/videoinfox.dir2  # load reformatted d
 read -r dir3display < ~/.config/videoinfox/videoinfox.dir3  # load reformatted default directory 3 name
 read -r dir4display < ~/.config/videoinfox/videoinfox.dir4  # load reformatted default directory 4 name
 read -r dir5display < ~/.config/videoinfox/videoinfox.dir5  # load reformatted default directory 5 name
-
-
 # DEFAULT DIR 5  DISPLAY     IF DIRECTORY ON EXIT  =  DEFAULT DIRECTORIES 1-4 then Display that directory number.
 
 if [[ "$controldir" = "$dir5display" ]]
@@ -2996,8 +2829,6 @@ if [[ "$controldir" = "$dir5display" ]]
       fi
 fi
 
-
-
 # DEFAULT DIR 5 DISPLAY
 if [[ "$controldir" = "$dir5display" ]] 
   then
@@ -3006,8 +2837,6 @@ if [[ "$controldir" = "$dir5display" ]]
   else
        dirdisp="$dirdisplayno" # if directory doesn't match  Default Dirs 1-5 : All 5 numbers are less bold.  
 fi 
-
-
 
 # DEFAULT DIR 1  DISPLAY
 if [[ "$controldir" = "$dir1display" ]]  # IF PWD = DEFAULT DIR 1 then display 1
@@ -3036,8 +2865,6 @@ fi
 ################################################################################
 ##########  END   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
 ################################################################################
-
-
 ########## blinking routines for display ##########
 
 # not blinking Play Directory
@@ -3049,8 +2876,6 @@ playdir2=$(echo -e "\033[5mPlay Directory\033m\033[0m\033[5m\033[5m\033[0m")
 dash0=$(echo "-")
 # blinking dash
 dash1=$(echo "~")
-
-
 # get file count of videos one directory deep for blinking   Play Directory
 blinkit=$(find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
 
@@ -3063,8 +2888,6 @@ if [ "$blinkit" = 0 ]
       blinkit2="$playdir2" # not zero files. blinking  Play Directory
       bdash="$dash1"
 fi
-
-
 # not blinking
 changedir1=$(echo "Change Directory")
 # blinking
@@ -3078,8 +2901,6 @@ if [ -d "$pasteclip" ]
       changedir3="$changedir1"  # if the directory doesn't exist, non blinking  Change Directory
 fi
 ########## end blinking routines ################## 
-
-
 echo
 echo "Treetop:" "$grabdirfornav2"
 echo "Total Directories: "$ttotal" "
@@ -3115,8 +2936,6 @@ echo
          pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
          break
          ;;
-
-
          1)  # CD DIRECTORY TO TV    
           
          grabdirfornav2="$dir1"
@@ -3155,28 +2974,20 @@ echo
                cd .. &>/dev/null
          fi 
          ;;
-        
-
          t)  # TREE TOP
          cd "$grabdirfornav2" &>/dev/null
          ;;          
-
-
          c)  # CHANGE DIRECTORY
 # GETTING LINECOUNT
 linecount=$(wc -l ~/.config/videoinfox/tmp/nt-list.tmp | cut -d' ' -f1)
 
 echo
 read -r -p " Enter line number to change directory: " linenumber  # waiting fot user input
-
-
 if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
   then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
-
-
 if [[ $linenumber -gt $linecount ]]
   then 
       echo
@@ -3298,8 +3109,6 @@ else #  NO LINES START WITH A SLASH /   remove empty files
      rm ~/.config/videoinfox/tmp/videoinfox.numbered-navtree-play-directory-list 2>/dev/null
      rm ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa-work 2>/dev/null    
 fi
-
-
 ################clear
 
 if [ -f ~/.config/videoinfox/tmp/videoinfox.numbered-navtree-play-directory-list ]
@@ -3310,8 +3119,6 @@ if [ -f ~/.config/videoinfox/tmp/videoinfox.numbered-navtree-play-directory-list
        echo " No video files in the current directory . . ."
        sleep 1.7
 fi
-
-
 linenumber=1
 
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa > ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa.tmp 2>/dev/null
@@ -3372,8 +3179,6 @@ rm ~/.config/videoinfox/tmp/videoinfox.numbered-navtree-play-directory-list 2>/d
 rm ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa-work 2>/dev/null 
 
 ;;           
-
-
          ########################################################################################################################################
          n)  # CHANGE TREETOP (NAVIGATE TREE)  ##################################################################################################
          ########################################################################################################################################
@@ -3415,16 +3220,12 @@ read -r -p " " specifydir  # waiting fot user input - the directory you want to 
 echo
 
 ;;
-
-
          ########################################################################################################################################
          a)  # SHOW ALL (NAVIGATE TREE)  ########################################################################################################
          ########################################################################################################################################
 
 #checking for videos in the current directory.  if no videos exist,   Play Directory   won't execute
 dovideosexist=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
-
-
 if [ $dovideosexist -ne 0 ]  # If the find result doesn't =   0   goto then
   then  # IF VIDEOS EXIST IN THE CURRENT DIRECTORY THEN RUN PLAY LINE
 
@@ -3525,8 +3326,6 @@ else #  NO LINES START WITH A SLASH /   remove empty files
      rm ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa-work 2>/dev/null
      :    
 fi
-
-
 clear
 
 if [ -f ~/.config/videoinfox/tmp/videoinfox.numbered-nt-play-directory-list ]
@@ -3556,16 +3355,12 @@ while true
 do
 ntplaynum
 case $optionaplist in
-
-
 q) # QUIT
    rm ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa 2>/dev/null
    rm ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2 2>/dev/null
    rm ~/.config/videoinfox/tmp/videoinfox.numbered-nt-play-directory-list 2>/dev/null
    rm ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa-work 2>/dev/null 
    break;;
-
-
 z) # DIRECTORY TO PAYLIST
 
 echo
@@ -3613,8 +3408,6 @@ sleep 1.7
       fi
 fi
 ;; 
-
-
      i)  # INFO - <HOME>
  
       if [ -f "$pasteclip" ]
@@ -3641,8 +3434,6 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
              # create file moving selected line number to the top
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa > ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa.tmp 2>/dev/null
 mv ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa.tmp ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa 2>/dev/null
-                         
-
              # read first line of file for play
              read playnumber < ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa
 
@@ -3668,23 +3459,17 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
             echo
             echo " Select Show All or use Find to acess this feature . . ."
             sleep 1.7
-
-
             fi
 
       fi
 
 ;;
-
-
 ########################################################################################################################################
          j)  # PLAY LINE - SHOW ALL (NAVIGATE TREE)  ###################################################################################
 ########################################################################################################################################
 
 #checking for videos in the current directory.  if no videos exist,   Play Directory   won't execute
 dovideosexist=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
-
-
 if [ $dovideosexist -ne 0 ]  # If the find result doesn't =   0   goto then
   then  # IF VIDEOS EXIST IN THE CURRENT DIRECTORY THEN RUN PLAY LINE
 
@@ -3782,8 +3567,6 @@ else #  NO LINES START WITH A SLASH /   remove empty files
      rm ~/.config/videoinfox/tmp/videoinfox.numbered-nt-play-directory-list 2>/dev/null
      rm ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa-work 2>/dev/null    
 fi
-
-
 # clear
 
 if [ -f ~/.config/videoinfox/tmp/videoinfox.numbered-nt-play-directory-list ]
@@ -3793,23 +3576,17 @@ if [ -f ~/.config/videoinfox/tmp/videoinfox.numbered-nt-play-directory-list ]
         echo
         echo " No videos in the current directory . . ."
 fi
-
-
 # GETTING LINECOUNT
 linecount=$(wc -l ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa | cut -d' ' -f1)
 
 echo
 echo
 read -r -p " Play Line: " linenumber  # waiting fot user input
-
-
 if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
   then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
-
-
 if [[ $linenumber -gt $linecount ]]
   then 
       echo
@@ -3863,8 +3640,6 @@ read line < ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa
  
       fi
       fi
-
-
       ######esac
       ######done
 
@@ -3876,16 +3651,12 @@ else
 fi
 
 ;;
-
-
  ########################################################################################################################################
          k)  # SHOW ALL - PLAYLIST ADD (NAVIGATE TREE)  ############################################################################################
  ########################################################################################################################################
 
 #checking for videos in the current directory.  if no videos exist,   playlistaddnav Directory   won't execute
 dovideosexist=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
-
-
 if [ $dovideosexist -ne 0 ]  # If the find result doesn't =   0   goto then
   then  # IF VIDEOS EXIST IN THE CURRENT DIRECTORY 
 
@@ -3926,8 +3697,6 @@ do
 
 done < "$input"
 #  DONE WRITING ONLY VALID FILES
-
-
 #  REMOVE BLANK LINES
 sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-directory-apa2 2>/dev/null
 
@@ -3986,8 +3755,6 @@ else #  NO LINES START WITH A SLASH /   remove empty files
      rm ~/.config/videoinfox/tmp/videoinfox.numbered-nt-playlistaddnav-directory-list 2>/dev/null
      rm ~/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-directory-apa-work 2>/dev/null    
 fi
-
-
 clear
 
 if [ -f ~/.config/videoinfox/tmp/videoinfox.numbered-nt-playlistaddnav-directory-list ]
@@ -3997,8 +3764,6 @@ if [ -f ~/.config/videoinfox/tmp/videoinfox.numbered-nt-playlistaddnav-directory
         echo
         echo " No videos in the current directory . . ."
 fi
-
-
 # REMOVE EVERYTHING FROM THE BEGINNING OF THE LINE UP TO AND INCLUDING THE DOT). LEAVING ONLY PLAYLIST NAME
 cat ~/.config/videoinfox/videoinfo.playlist.current | sed 's/.*\.//' > ~/.config/videoinfox/tmp/whatplnt.tmp 
 read -r whatplnt < ~/.config/videoinfox/tmp/whatplnt.tmp
@@ -4015,8 +3780,6 @@ linecount=$(wc -l ~/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-director
 #####
 
 mv ~/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-directory-apa.tmp ~/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-directory-apa 2>/dev/null
-
-
 
 if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
   then  # IF ENTRY IS NOT A NUMBER
@@ -4036,8 +3799,6 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
                   sleep .9
 
               else
-
-
 
 OLDIFS=$IFS
 IFS=$'\n'
@@ -4060,8 +3821,6 @@ if [ -z "$linenumber" ]
 fi
 fi
 fi
-
-
  
 IFS=$OLDIFS
 
@@ -4078,8 +3837,6 @@ else
 fi
 
 ;;
-
-
 ##################################################################################################################################################
 s) #######################  @PLAYLIST - SHOW ALL (NAVIGATE TREE)  ################################################################################
 ##################################################################################################################################################
@@ -4087,8 +3844,6 @@ s) #######################  @PLAYLIST - SHOW ALL (NAVIGATE TREE)  ##############
 grabdir="$PWD"  # SAVE CURRENT DIRECTORY FOR RESTORE ON EXIT
 
 cd ~/.config/videoinfox/playlists
-
-
 function menuvhome {
 
 sed -i '/^$/d' ~/.config/videoinfox/videoinfo.playlist  # remove all blank lines
@@ -4110,8 +3865,6 @@ if [ "$grabclip" = "http" ]  # if the first 4 characters = <http> go then
             pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
       fi
 fi
-
-
 if [ -f ~/.config/videoinfox/videoinfo.playlist ]
   then
       # REMOVE DUPLICATES
@@ -4126,8 +3879,6 @@ fi
 clear
 
 cp ~/.config/videoinfox/videoinfo.playlist ~/.config/videoinfox/tmp/videoinfo.playlist-apa
-
-
 #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
 atleastone=$(grep '^/' ~/.config/videoinfox/tmp/videoinfo.playlist-apa | wc -l)
 
@@ -4161,16 +3912,10 @@ done < "$input"
 #  REMOVE BLANK LINES
 sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfo.playlist-apa2 2>/dev/null
 
-
-
 # REMOVE DUPLICATES
 cat -n ~/.config/videoinfox/tmp/videoinfo.playlist-apa2 | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfo.playlist-apa3
 
 mv ~/.config/videoinfox/tmp/videoinfo.playlist-apa3 ~/.config/videoinfox/tmp/videoinfo.playlist-apa2
-
-
-
-
 
 #  MOVE apa2 BACK TO apa
 mv ~/.config/videoinfox/tmp/videoinfo.playlist-apa2 ~/.config/videoinfox/tmp/videoinfo.playlist-apa 2>/dev/null
@@ -4226,11 +3971,7 @@ else #  NO LINES START WITH A SLASH /   remove empty files
      rm ~/.config/videoinfox/tmp/videoinfo.playlist-apa2 2>/dev/null
      rm ~/.config/videoinfox/tmp/videoinfo.number.play-list 2>/dev/null     
 fi
-
-
 clear
-
-
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
    then
         cat ~/.config/videoinfox/tmp/videoinfo.number.play-list 2>/dev/null
@@ -4269,8 +4010,6 @@ if [ "$searchtotal" = 0 ]  # if find returned no results goto <then>
 
       rm ~/.config/videoinfox/tmp/plread.tmp
 fi
-
-
 ##################################################################################################################################################
 
 #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
@@ -4300,8 +4039,6 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
   else
       :
 fi
-
-
 if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
   then
       read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
@@ -4375,8 +4112,6 @@ fi
 
 echo -en " Enter Option: "
 read -r -n1 optionv
-
-
 }
 
         while true
@@ -4406,8 +4141,6 @@ read -r -n1 optionv
         echo
         read -p " Press enter to Continue"
         ;;
-
-
         o) # AUTOPLAY LINE  (HOME >>> PLAYLIST)
 
 # SET COUNTER TO ZERO. $i in below play loop to get line number from last played video
@@ -4498,22 +4231,16 @@ r)  # REMOVE LINE  (HOME >>> PLAYLIST)
 
 # delete a line example to remove by pattern
 #sed '\?^/mnt/MEDIA1/MOVIES/identity thief.mp4?d' videoinfo.playlist
-
-
 # REMOVE EVERYTHING FROM THE BEGINNING OF THE LINE UP TO AND INCLUDING THE DOT). LEAVING ONLY PLAYLIST NAME
 cat ~/.config/videoinfox/videoinfo.playlist.current | sed 's/.*\.//' > ~/.config/videoinfox/tmp/whatplpld.tmp 
 read -r whatplpld < ~/.config/videoinfox/tmp/whatplpld.tmp
 rm ~/.config/videoinfox/tmp/whatplpld.tmp
-
-
 if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
   then
       :
   else
       echo > ~/.config/videoinfox/videoinfo.playlist
 fi
-
-
 if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
   then
 
@@ -4573,8 +4300,6 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
 fi
 
 ;;
-
-
 ###########################################################
 l) # LAST AUTOPLAY - RESUME AUOTOPLAY (HOME >>> PLAYLIST)
 ###########################################################
@@ -4596,8 +4321,6 @@ OLDIFS=$IFS
 IFS=$'\n'
 
 input2=$HOME/.config/videoinfox/playlists/"$setplaylist".last-autoplay
-
-
 for line in $(cat "$input2" 2>/dev/null)
  do
       clear
@@ -4644,12 +4367,8 @@ for line in $(cat "$input2" 2>/dev/null)
                  :                                                       # press any key then enter within 3 seconds to quit Play PLAYLIST
            fi
 done
-
-
 tail -n +"$i" ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay > ~/.config/videoinfox/playlists/pl-tmp
 mv ~/.config/videoinfox/playlists/pl-tmp ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay
-
-
 IFS=$OLDIFS
 
    else
@@ -4660,8 +4379,6 @@ IFS=$OLDIFS
 fi
 
 ;;
-
-
         j) # PLAY LINE  (HOME >>> PLAYLIST)
 
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
@@ -4731,8 +4448,6 @@ else
 fi
 
 ;;
-
-
        i)  # INFO - <PLAYLIST>
  
       if [ -f "$pasteclip" ]
@@ -4817,13 +4532,9 @@ sed 's/.*\///' ~/.config/videoinfox/videoinfo.playlist.dirlist > ~/.config/video
 # REMOVE FILENAME AND LEAVE EXTENSION
 cat ~/.config/videoinfox/tmp/playlist.dirlist.tmp | sed 's/.*\.//' > ~/.config/videoinfox/tmp/playlist.dirlist.tmp2 
 mv ~/.config/videoinfox/tmp/playlist.dirlist.tmp2 ~/.config/videoinfox/tmp/playlist.dirlist.tmp
-
-
 # CREATE NUMBERED lIST
 sed '/./=' ~/.config/videoinfox/tmp/playlist.dirlist.tmp | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/playlist.dirlist.tmp2
 mv ~/.config/videoinfox/tmp/playlist.dirlist.tmp2 ~/.config/videoinfox/tmp/playlist.dirlist.tmp 
-
-
 clear
 cat ~/.config/videoinfox/tmp/playlist.dirlist.tmp
 echo "___________________________________________________________________________________________________________________"
@@ -4837,14 +4548,10 @@ echo -en " Enter Option: "
 read -r -n1 optioncpl
 echo
 }
-
-
 while true
 do
 changepl
 case $optioncpl in
-
-
         q)  # QUIT
         ###cd "$grabdir"
         break ;;
@@ -4864,15 +4571,11 @@ linecount=$(wc -l ~/.config/videoinfox/videoinfo.playlist.dirlist | cut -d' ' -f
 # LOAD A PLAYLIST
 echo
 read -r -p " Enter line number: " linenumber  # waiting fot user input
-
-
 if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
   then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
-
-
 if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
   then
       :
@@ -4900,18 +4603,12 @@ if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
             cp "$plselected" ~/.config/videoinfox/videoinfo.playlist 2>/dev/null
     
    fi
-
-
       fi
 
 fi
-
-
 break
 
 ;;
-        
-
          d)  # DELETE PLAYLIST
 
 # GETTING NUMBER OF PLAYLISTS
@@ -4920,15 +4617,11 @@ linecount=$(wc -l ~/.config/videoinfox/videoinfo.playlist.dirlist | cut -d' ' -f
 # SELECT A PLAYLIST TO DELETE
 echo
 read -r -p " Enter line number to delete: " linenumber  # waiting fot user input
-
-
 if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
   then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
-
-
       if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
         then
             :
@@ -4993,8 +4686,6 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
                       sleep 1.7  
                       break
                       ;;
-
-
                       n)  # NO
                       break;;
 
@@ -5008,8 +4699,6 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
 fi
             
 ;;        
-
-
          a)
          # CREATE PLAYLIST
 echo
@@ -5054,13 +4743,9 @@ sleep 1.7
       fi
 fi
 ;; 
-
-
 esac
 done
 ;;
-
-
           p) 
           #  @PLAY CLIPBOARD - <PLAYLIST>        
 
@@ -5224,10 +4909,6 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       fi   
   fi
   ;;  
-
-
-               
-
          d)  # CLEAR PLAYLIST (VIEW PLAYLIST)
 
         function menucpl {
@@ -5258,8 +4939,6 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
         sleep 1.7  
         break
         ;;
-
-
         n)  # NO
         break;;
 
@@ -5268,15 +4947,11 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
         esac
         done
         ;;
-
-
 *)
 
 esac
 done
 ;;
-
-
 o) # AUTOPLAY (NAVIGATE TREE)
 echo
 echo
@@ -5341,8 +5016,6 @@ rm ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa-work 2>/dev/null
           
 esac
 done
-
-
 else
     echo
     echo " No video files in the current directory . . ."
@@ -5350,13 +5023,9 @@ else
 
 fi
 ;;
-
-
 esac
 done
 ;;
-
-
 ##################################################################################################################################################
 d)  # (@PLAY DIRECTORY) HOME   ###################################################################################################################
 ##################################################################################################################################################
@@ -5455,8 +5124,6 @@ else #  NO LINES START WITH A SLASH /   remove empty files
      rm ~/.config/videoinfox/tmp/videoinfox.numbered-home-play-directory-list 2>/dev/null
      rm ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa-work 2>/dev/null    
 fi
-
-
 ##################clear
 
 if [ -f ~/.config/videoinfox/tmp/videoinfox.numbered-home-play-directory-list ]
@@ -5467,11 +5134,7 @@ if [ -f ~/.config/videoinfox/tmp/videoinfox.numbered-home-play-directory-list ]
         echo
         echo " No video files in the current directory . . ."
         sleep 1.7
-
-
 fi
-
-
 linenumber=1
 
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa > ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa.tmp 2>/dev/null
@@ -5532,8 +5195,6 @@ rm ~/.config/videoinfox/tmp/videoinfox.numbered-home-play-directory-list 2>/dev/
 rm ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa-work 2>/dev/null 
 
 ;;           
-
-
 #####################################################################################################################################################
 l)  # PLAY LAST DOWNLOAD >>> HOME    ################################################################################################################
 #####################################################################################################################################################
@@ -5591,8 +5252,6 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
               cd "$grabdir"   # restore dir prior to entering yt-dlp menu
               ;;  
-
-
 a)  # SHOW ALL VIDEOS
 
 searchtotal=$(find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)    
@@ -5610,8 +5269,6 @@ searchtotal=$(find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname 
                        else
                            echo "*" > ~/.config/videoinfox/videoinfo.lastfindstring   # save last find string used                          
                            read -r fterm < ~/.config/videoinfox/videoinfo.lastfindstring
-                           
-
                            # save find results
 find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) | sort -u > ~/.config/videoinfox/videoinfo.findwork
                            echo "$PWD" > ~/.config/videoinfox/videoinfo.lastfinddir  # save last directory that last find was run in 
@@ -5627,8 +5284,6 @@ find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -in
      fi
      ;;
 
-
-
      1)  # CD DIRECTORY TO TV    
      cd "$dir1" 
      ;;
@@ -5636,23 +5291,15 @@ find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -in
      2)  # CD DIRECTORY TO MOVIES
      cd "$dir2" 
      ;;
-
-
      3)  # CHANGE DIRECTORY TO DOWNLOADS
      cd "$dirsaved" 
      ;;
-
-
      4)  # CHANGE DIRECTORY TO EXTRA   
      cd "$dir4" 
      ;;
-
-
      5)  # CHANGE DIRECTORY TO LAST EXIT
      cd "$dir5" 
      ;;
-
-
      c)  # CLEAR FIND RESULTS
      # CREATE FIND RESULT MESSAGE THAT THERE ARE NO STORED FINDS
      echo > ~/.config/videoinfox/videoinfo.lastsearchtotal
@@ -5665,8 +5312,6 @@ find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -in
      echo > ~/.config/videoinfox/videoinfo.findwork
      
      ;;
-
-
      x) 
        #CLEAR CLIPBOARD - <HOME> 
        echo "" | xclip -sel clip  # copy message in quotes to the clipboard. clearing out the clipboard
@@ -5709,8 +5354,6 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
 
       # rename videoinfo.lastdownload.work to videoinfox/videoinfo.lastdownload
       mv ~/.config/videoinfox/videoinfo.lastdownload.work ~/.config/videoinfox/videoinfo.lastdownload
-
-
       if [ -s ~/.config/videoinfox/videoinfo.lastdownload ]
          then
              # make a backup copy of:   ~/.config/videoinfox/videoinfo.lastdownload to restore on Play Clipboard with invalid url
@@ -5843,8 +5486,6 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 fi
 fi
 ;;  
-
-
       i)  # INFO - <HOME>
  
       if [ -f "$pasteclip" ]
@@ -5896,15 +5537,11 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
             echo
             echo " Select Show All or use Find to acess this feature . . ."
             sleep 1.7
-
-
             fi
 
       fi
 
 ;;
-
-
 ##################################################################################################################################################
 v)                                  ##############################################################################################################    
      #  VIEW/PLAYED LIST - <HOME>   ##############################################################################################################
@@ -5939,13 +5576,9 @@ clear
 
 cp ~/.config/videoinfox/videoinfo.playedlist ~/.config/videoinfox/tmp/videoinfo.playedlist-apa 2>/dev/null
 
-
-
 #  REMOVE DUPLICATES
 cat -n ~/.config/videoinfox/tmp/videoinfo.playedlist-apa | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfo.playedlist-apa3 2>/dev/null
 mv ~/.config/videoinfox/tmp/videoinfo.playedlist-apa3 cat -n ~/.config/videoinfox/tmp/videoinfo.playedlist 2>/dev/null
-
-
 
 #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
 atleastone=$(grep '^/' ~/.config/videoinfox/tmp/videoinfo.playedlist-apa | wc -l)
@@ -6023,15 +5656,9 @@ done < "$input"
 #  REMOVE BLANK LINES
 sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2 2>/dev/null
 
-
-
 #  REMOVE DUPLICATES
 cat -n ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2 | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfo.playedlist-apa3 2>/dev/null
 mv ~/.config/videoinfox/tmp/videoinfo.playedlist-apa3 ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2 2>/dev/null
-
-
-
-
 
 #  MOVE apa2 BACK TO apa
 cp ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2 ~/.config/videoinfox/tmp/videoinfo.playedlist-apa 2>/dev/null
@@ -6039,14 +5666,8 @@ cp ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2 ~/.config/videoinfox/tmp/v
 # REMOVE PATH ONLY LEAVING FILENAME
 sed -i 's/.*\///' ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2
 
-
-
-
-
 # NUMBER THE LIST
 sed '/./=' ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2 | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/videoinfo.number.played-list 2>/dev/null
-
-
 
    
 else #  NO LINES START WITH A SLASH /   remove empty files
@@ -6054,11 +5675,7 @@ else #  NO LINES START WITH A SLASH /   remove empty files
      rm ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2 2>/dev/null
      rm ~/.config/videoinfox/tmp/videoinfo.number.played-list 2>/dev/null     
 fi
-
-
 clear
-
-
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.played-list ]
    then
         cat ~/.config/videoinfox/tmp/videoinfo.number.played-list 2>/dev/null
@@ -6176,8 +5793,6 @@ fi
 
 echo -en " Enter Option: "
 read -r -n1 optionv
-
-
 }
 
         while true
@@ -6190,8 +5805,6 @@ read -r -n1 optionv
         rm ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2 2>/dev/null
         rm ~/.config/videoinfox/tmp/videoinfo.number.played-list 2>/dev/null
         break;;
-
-
         o) # AUTOPLAY LINE  (PLAYED LIST)
 
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.played-list ]
@@ -6265,8 +5878,6 @@ rm ~/.config/videoinfox/tmp/videoinfo.number.played-list 2>/dev/null
 fi
 
 ;;
-
-
         j) # PLAY LINE  (PLAYED LIST)
 
 # GETTING LINE COUNT
@@ -6278,15 +5889,11 @@ if [ -f ~/.config/videoinfox/tmp/videoinfo.number.played-list ]
        echo
        read -r -p " Play Line: " linenumber  # waiting fot user input
 
-
-
 if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
   then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
-
-
       if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
         then
             :
@@ -6308,13 +5915,9 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
        IFS=$'\n'
 
        read line < ~/.config/videoinfox/tmp/videoinfo.playedlist-apa
-
-
 fi
       fi
             fi
-
-
 
         if [ -z "$line" ]
 
@@ -6359,20 +5962,14 @@ fi
              rm ~/.config/videoinfox/tmp/videoinfo.number.played-list 2>/dev/null
 
         fi
-
-
     else  # FILE IS EMPTY"
         echo
         echo
         echo " Played List Empty . . ."
         sleep 1.7
-
-
 fi
 
 ;;
-
-
        i)  # INFO - <PLAYED LIST>
  
       if [ -f "$pasteclip" ]
@@ -6424,15 +6021,11 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
             echo
             echo " Play List Empty . . ."
             sleep 1.7            
-
-
             fi
 
       fi
 
 ;;       
-
-
 #####################################################################################################################################
 s) # @PLAYLIST PLAYED LIST
 #####################################################################################################################################
@@ -6440,8 +6033,6 @@ s) # @PLAYLIST PLAYED LIST
 grabdir="$PWD"  # SAVE CURRENT DIRECTORY FOR RESTORE ON EXIT
 
 cd ~/.config/videoinfox/playlists
-
-
 function menuvhome {
 
 sed -i '/^$/d' ~/.config/videoinfox/videoinfo.playlist  # remove all blank lines
@@ -6463,8 +6054,6 @@ if [ "$grabclip" = "http" ]  # if the first 4 characters = <http> go then
             pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
       fi
 fi
-
-
 if [ -f ~/.config/videoinfox/videoinfo.playlist ]
   then
       # REMOVE DUPLICATES
@@ -6479,8 +6068,6 @@ fi
 clear
 
 cp ~/.config/videoinfox/videoinfo.playlist ~/.config/videoinfox/tmp/videoinfo.playlist-apa
-
-
 #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
 atleastone=$(grep '^/' ~/.config/videoinfox/tmp/videoinfo.playlist-apa | wc -l)
 
@@ -6514,16 +6101,10 @@ done < "$input"
 #  REMOVE BLANK LINES
 sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfo.playlist-apa2 2>/dev/null
 
-
-
 # REMOVE DUPLICATES
 cat -n ~/.config/videoinfox/tmp/videoinfo.playlist-apa2 | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfo.playlist-apa3
 
 mv ~/.config/videoinfox/tmp/videoinfo.playlist-apa3 ~/.config/videoinfox/tmp/videoinfo.playlist-apa2
-
-
-
-
 
 #  MOVE apa2 BACK TO apa
 mv ~/.config/videoinfox/tmp/videoinfo.playlist-apa2 ~/.config/videoinfox/tmp/videoinfo.playlist-apa 2>/dev/null
@@ -6579,11 +6160,7 @@ else #  NO LINES START WITH A SLASH /   remove empty files
      rm ~/.config/videoinfox/tmp/videoinfo.playlist-apa2 2>/dev/null
      rm ~/.config/videoinfox/tmp/videoinfo.number.play-list 2>/dev/null     
 fi
-
-
 clear
-
-
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
    then
         cat ~/.config/videoinfox/tmp/videoinfo.number.play-list 2>/dev/null
@@ -6622,8 +6199,6 @@ if [ "$searchtotal" = 0 ]  # if find returned no results goto <then>
 
       rm ~/.config/videoinfox/tmp/plread.tmp
 fi
-
-
 ##################################################################################################################################################
 
 #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
@@ -6653,8 +6228,6 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
   else
       :
 fi
-
-
 if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
   then
       read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
@@ -6728,8 +6301,6 @@ fi
 
 echo -en " Enter Option: "
 read -r -n1 optionv
-
-
 }
 
         while true
@@ -6759,8 +6330,6 @@ read -r -n1 optionv
         echo
         read -p " Press enter to Continue"
         ;;
-
-
         o) # AUTOPLAY LINE  (HOME >>> PLAYLIST)
 
 # SET COUNTER TO ZERO. $i in below play loop to get line number from last played video
@@ -6851,22 +6420,16 @@ r)  # REMOVE LINE  (HOME >>> PLAYLIST)
 
 # delete a line example to remove by pattern
 #sed '\?^/mnt/MEDIA1/MOVIES/identity thief.mp4?d' videoinfo.playlist
-
-
 # REMOVE EVERYTHING FROM THE BEGINNING OF THE LINE UP TO AND INCLUDING THE DOT). LEAVING ONLY PLAYLIST NAME
 cat ~/.config/videoinfox/videoinfo.playlist.current | sed 's/.*\.//' > ~/.config/videoinfox/tmp/whatplpld.tmp 
 read -r whatplpld < ~/.config/videoinfox/tmp/whatplpld.tmp
 rm ~/.config/videoinfox/tmp/whatplpld.tmp
-
-
 if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
   then
       :
   else
       echo > ~/.config/videoinfox/videoinfo.playlist
 fi
-
-
 if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
   then
 
@@ -6926,8 +6489,6 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
 fi
 
 ;;
-
-
 ###########################################################
 l) # LAST AUTOPLAY - RESUME AUOTOPLAY (HOME >>> PLAYLIST)
 ###########################################################
@@ -6949,8 +6510,6 @@ OLDIFS=$IFS
 IFS=$'\n'
 
 input2=$HOME/.config/videoinfox/playlists/"$setplaylist".last-autoplay
-
-
 for line in $(cat "$input2" 2>/dev/null)
  do
       clear
@@ -6997,12 +6556,8 @@ for line in $(cat "$input2" 2>/dev/null)
                  :                                                       # press any key then enter within 3 seconds to quit Play PLAYLIST
            fi
 done
-
-
 tail -n +"$i" ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay > ~/.config/videoinfox/playlists/pl-tmp
 mv ~/.config/videoinfox/playlists/pl-tmp ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay
-
-
 IFS=$OLDIFS
 
    else
@@ -7013,8 +6568,6 @@ IFS=$OLDIFS
 fi
 
 ;;
-
-
         j) # PLAY LINE  (HOME >>> PLAYLIST)
 
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
@@ -7084,8 +6637,6 @@ else
 fi
 
 ;;
-
-
        i)  # INFO - <PLAYLIST>
  
       if [ -f "$pasteclip" ]
@@ -7170,13 +6721,9 @@ sed 's/.*\///' ~/.config/videoinfox/videoinfo.playlist.dirlist > ~/.config/video
 # REMOVE FILENAME AND LEAVE EXTENSION
 cat ~/.config/videoinfox/tmp/playlist.dirlist.tmp | sed 's/.*\.//' > ~/.config/videoinfox/tmp/playlist.dirlist.tmp2 
 mv ~/.config/videoinfox/tmp/playlist.dirlist.tmp2 ~/.config/videoinfox/tmp/playlist.dirlist.tmp
-
-
 # CREATE NUMBERED lIST
 sed '/./=' ~/.config/videoinfox/tmp/playlist.dirlist.tmp | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/playlist.dirlist.tmp2
 mv ~/.config/videoinfox/tmp/playlist.dirlist.tmp2 ~/.config/videoinfox/tmp/playlist.dirlist.tmp 
-
-
 clear
 cat ~/.config/videoinfox/tmp/playlist.dirlist.tmp
 echo "___________________________________________________________________________________________________________________"
@@ -7190,14 +6737,10 @@ echo -en " Enter Option: "
 read -r -n1 optioncpl
 echo
 }
-
-
 while true
 do
 changepl
 case $optioncpl in
-
-
         q)  # QUIT
         ###cd "$grabdir"
         break ;;
@@ -7217,15 +6760,11 @@ linecount=$(wc -l ~/.config/videoinfox/videoinfo.playlist.dirlist | cut -d' ' -f
 # LOAD A PLAYLIST
 echo
 read -r -p " Enter line number: " linenumber  # waiting fot user input
-
-
 if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
   then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
-
-
 if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
   then
       :
@@ -7253,18 +6792,12 @@ if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
             cp "$plselected" ~/.config/videoinfox/videoinfo.playlist 2>/dev/null
     
    fi
-
-
       fi
 
 fi
-
-
 break
 
 ;;
-        
-
          d)  # DELETE PLAYLIST
 
 # GETTING NUMBER OF PLAYLISTS
@@ -7273,15 +6806,11 @@ linecount=$(wc -l ~/.config/videoinfox/videoinfo.playlist.dirlist | cut -d' ' -f
 # SELECT A PLAYLIST TO DELETE
 echo
 read -r -p " Enter line number to delete: " linenumber  # waiting fot user input
-
-
 if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
   then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
-
-
       if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
         then
             :
@@ -7346,8 +6875,6 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
                       sleep 1.7  
                       break
                       ;;
-
-
                       n)  # NO
                       break;;
 
@@ -7361,8 +6888,6 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
 fi
             
 ;;        
-
-
          a)
          # CREATE PLAYLIST
 echo
@@ -7407,13 +6932,9 @@ sleep 1.7
       fi
 fi
 ;; 
-
-
 esac
 done
 ;;
-
-
           p) 
           #  @PLAY CLIPBOARD - <PLAYLIST>        
 
@@ -7577,10 +7098,6 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       fi   
   fi
   ;;  
-
-
-               
-
          d)  # CLEAR PLAYLIST (VIEW PLAYLIST)
 
         function menucpl {
@@ -7611,8 +7128,6 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
         sleep 1.7  
         break
         ;;
-
-
         n)  # NO
         break;;
 
@@ -7621,15 +7136,11 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
         esac
         done
         ;;
-
-
 *)
 
 esac
 done
 ;;
-
-
 k)
 ##################################################################################################################################################
 ###########################   ADD TO PLAYLIST  k   (PLAYED LIST)  ################################################################################
@@ -7639,16 +7150,12 @@ k)
 cat ~/.config/videoinfox/videoinfo.playlist.current | sed 's/.*\.//' > ~/.config/videoinfox/tmp/whatplpld.tmp 
 read -r whatplpld < ~/.config/videoinfox/tmp/whatplpld.tmp
 rm ~/.config/videoinfox/tmp/whatplpld.tmp
-
-
 if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
   then
       :
   else
       echo > ~/.config/videoinfox/videoinfo.playlist
 fi
-
-
 if [ -f ~/.config/videoinfox/videoinfo.playedlist ]  # if file exists goto then
   then
 
@@ -7660,12 +7167,8 @@ if [ -f ~/.config/videoinfox/videoinfo.playedlist ]  # if file exists goto then
 
       # REMOVE BLANK LINES
       sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfo.playedlist-apa 2>/dev/null
-
-
       # create file moving selected line number to the top
       tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfo.playedlist-apa > ~/.config/videoinfox/tmp/videoinfo.playedlist-playnumber.tmp 2>/dev/null
-
-
 # GETTING NUMBER OF VIDEO FILES IN THE PLAYED LIST
 linecount=$(wc -l ~/.config/videoinfox/tmp/videoinfo.playedlist-apa | cut -d' ' -f1)
 
@@ -7687,8 +7190,6 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
                   sleep .9
 
               else
-
-
       # read first line of file for play
       read playnumber < ~/.config/videoinfox/tmp/videoinfo.playedlist-playnumber.tmp
 
@@ -7708,8 +7209,6 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
 fi
 fi
 fi
-
-
 else
     echo
     echo
@@ -7883,8 +7382,6 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       fi   
   fi
   ;;  
-
-
                 D)  # DELETE PLAYED LIST - <find menu>
                 rm ~/.config/videoinfox/videoinfo.playedlist
                 # writing header for new Played List because new file wouldn't be created until return to main HOME
@@ -7906,8 +7403,6 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
                 esac
                 done
                 ;; 
-
-
 ##################################################################################################################################################
 s) #######################  @PLAYLIST - (HOME)  ################################################################################################### 
 ##################################################################################################################################################
@@ -7915,8 +7410,6 @@ s) #######################  @PLAYLIST - (HOME)  ################################
 grabdir="$PWD"  # SAVE CURRENT DIRECTORY FOR RESTORE ON EXIT
 
 cd ~/.config/videoinfox/playlists
-
-
 function menuvhome {
 
 sed -i '/^$/d' ~/.config/videoinfox/videoinfo.playlist  # remove all blank lines
@@ -7938,8 +7431,6 @@ if [ "$grabclip" = "http" ]  # if the first 4 characters = <http> go then
             pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
       fi
 fi
-
-
 if [ -f ~/.config/videoinfox/videoinfo.playlist ]
   then
       # REMOVE DUPLICATES
@@ -7954,8 +7445,6 @@ fi
 clear
 
 cp ~/.config/videoinfox/videoinfo.playlist ~/.config/videoinfox/tmp/videoinfo.playlist-apa
-
-
 #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
 atleastone=$(grep '^/' ~/.config/videoinfox/tmp/videoinfo.playlist-apa | wc -l)
 
@@ -7989,16 +7478,10 @@ done < "$input"
 #  REMOVE BLANK LINES
 sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfo.playlist-apa2 2>/dev/null
 
-
-
 # REMOVE DUPLICATES
 cat -n ~/.config/videoinfox/tmp/videoinfo.playlist-apa2 | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfo.playlist-apa3
 
 mv ~/.config/videoinfox/tmp/videoinfo.playlist-apa3 ~/.config/videoinfox/tmp/videoinfo.playlist-apa2
-
-
-
-
 
 #  MOVE apa2 BACK TO apa
 mv ~/.config/videoinfox/tmp/videoinfo.playlist-apa2 ~/.config/videoinfox/tmp/videoinfo.playlist-apa 2>/dev/null
@@ -8054,11 +7537,7 @@ else #  NO LINES START WITH A SLASH /   remove empty files
      rm ~/.config/videoinfox/tmp/videoinfo.playlist-apa2 2>/dev/null
      rm ~/.config/videoinfox/tmp/videoinfo.number.play-list 2>/dev/null     
 fi
-
-
 clear
-
-
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
    then
         cat ~/.config/videoinfox/tmp/videoinfo.number.play-list 2>/dev/null
@@ -8097,8 +7576,6 @@ if [ "$searchtotal" = 0 ]  # if find returned no results goto <then>
 
       rm ~/.config/videoinfox/tmp/plread.tmp
 fi
-
-
 ##################################################################################################################################################
 
 #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
@@ -8128,8 +7605,6 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
   else
       :
 fi
-
-
 if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
   then
       read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
@@ -8203,8 +7678,6 @@ fi
 
 echo -en " Enter Option: "
 read -r -n1 optionv
-
-
 }
 
         while true
@@ -8234,8 +7707,6 @@ read -r -n1 optionv
         echo
         read -p " Press enter to Continue"
         ;;
-
-
         o) # AUTOPLAY LINE  (HOME >>> PLAYLIST)
 
 # SET COUNTER TO ZERO. $i in below play loop to get line number from last played video
@@ -8326,22 +7797,16 @@ r)  # REMOVE LINE  (HOME >>> PLAYLIST)
 
 # delete a line example to remove by pattern
 #sed '\?^/mnt/MEDIA1/MOVIES/identity thief.mp4?d' videoinfo.playlist
-
-
 # REMOVE EVERYTHING FROM THE BEGINNING OF THE LINE UP TO AND INCLUDING THE DOT). LEAVING ONLY PLAYLIST NAME
 cat ~/.config/videoinfox/videoinfo.playlist.current | sed 's/.*\.//' > ~/.config/videoinfox/tmp/whatplpld.tmp 
 read -r whatplpld < ~/.config/videoinfox/tmp/whatplpld.tmp
 rm ~/.config/videoinfox/tmp/whatplpld.tmp
-
-
 if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
   then
       :
   else
       echo > ~/.config/videoinfox/videoinfo.playlist
 fi
-
-
 if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
   then
 
@@ -8401,8 +7866,6 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
 fi
 
 ;;
-
-
 ###########################################################
 l) # LAST AUTOPLAY - RESUME AUOTOPLAY (HOME >>> PLAYLIST)
 ###########################################################
@@ -8424,8 +7887,6 @@ OLDIFS=$IFS
 IFS=$'\n'
 
 input2=$HOME/.config/videoinfox/playlists/"$setplaylist".last-autoplay
-
-
 for line in $(cat "$input2" 2>/dev/null)
  do
       clear
@@ -8472,12 +7933,8 @@ for line in $(cat "$input2" 2>/dev/null)
                  :                                                       # press any key then enter within 3 seconds to quit Play PLAYLIST
            fi
 done
-
-
 tail -n +"$i" ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay > ~/.config/videoinfox/playlists/pl-tmp
 mv ~/.config/videoinfox/playlists/pl-tmp ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay
-
-
 IFS=$OLDIFS
 
    else
@@ -8488,8 +7945,6 @@ IFS=$OLDIFS
 fi
 
 ;;
-
-
         j) # PLAY LINE  (HOME >>> PLAYLIST)
 
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
@@ -8559,8 +8014,6 @@ else
 fi
 
 ;;
-
-
        i)  # INFO - <PLAYLIST>
  
       if [ -f "$pasteclip" ]
@@ -8645,13 +8098,9 @@ sed 's/.*\///' ~/.config/videoinfox/videoinfo.playlist.dirlist > ~/.config/video
 # REMOVE FILENAME AND LEAVE EXTENSION
 cat ~/.config/videoinfox/tmp/playlist.dirlist.tmp | sed 's/.*\.//' > ~/.config/videoinfox/tmp/playlist.dirlist.tmp2 
 mv ~/.config/videoinfox/tmp/playlist.dirlist.tmp2 ~/.config/videoinfox/tmp/playlist.dirlist.tmp
-
-
 # CREATE NUMBERED lIST
 sed '/./=' ~/.config/videoinfox/tmp/playlist.dirlist.tmp | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/playlist.dirlist.tmp2
 mv ~/.config/videoinfox/tmp/playlist.dirlist.tmp2 ~/.config/videoinfox/tmp/playlist.dirlist.tmp 
-
-
 clear
 cat ~/.config/videoinfox/tmp/playlist.dirlist.tmp
 echo "___________________________________________________________________________________________________________________"
@@ -8665,14 +8114,10 @@ echo -en " Enter Option: "
 read -r -n1 optioncpl
 echo
 }
-
-
 while true
 do
 changepl
 case $optioncpl in
-
-
         q)  # QUIT
         ###cd "$grabdir"
         break ;;
@@ -8692,15 +8137,11 @@ linecount=$(wc -l ~/.config/videoinfox/videoinfo.playlist.dirlist | cut -d' ' -f
 # LOAD A PLAYLIST
 echo
 read -r -p " Enter line number: " linenumber  # waiting fot user input
-
-
 if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
   then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
-
-
 if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
   then
       :
@@ -8728,18 +8169,12 @@ if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
             cp "$plselected" ~/.config/videoinfox/videoinfo.playlist 2>/dev/null
     
    fi
-
-
       fi
 
 fi
-
-
 break
 
 ;;
-        
-
          d)  # DELETE PLAYLIST
 
 # GETTING NUMBER OF PLAYLISTS
@@ -8748,15 +8183,11 @@ linecount=$(wc -l ~/.config/videoinfox/videoinfo.playlist.dirlist | cut -d' ' -f
 # SELECT A PLAYLIST TO DELETE
 echo
 read -r -p " Enter line number to delete: " linenumber  # waiting fot user input
-
-
 if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
   then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
-
-
       if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
         then
             :
@@ -8821,8 +8252,6 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
                       sleep 1.7  
                       break
                       ;;
-
-
                       n)  # NO
                       break;;
 
@@ -8836,8 +8265,6 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
 fi
             
 ;;        
-
-
          a)
          # CREATE PLAYLIST
 echo
@@ -8882,13 +8309,9 @@ sleep 1.7
       fi
 fi
 ;; 
-
-
 esac
 done
 ;;
-
-
           p) 
           #  @PLAY CLIPBOARD - <PLAYLIST>        
 
@@ -9052,10 +8475,6 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       fi   
   fi
   ;;  
-
-
-               
-
          d)  # CLEAR PLAYLIST (VIEW PLAYLIST)
 
         function menucpl {
@@ -9086,8 +8505,6 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
         sleep 1.7  
         break
         ;;
-
-
         n)  # NO
         break;;
 
@@ -9096,15 +8513,11 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
         esac
         done
         ;;
-
-
 *)
 
 esac
 done
 ;;
-
-
 k)
 ##################################################################################################################################################
 ###########################   ADD TO PLAYLIST  k   <HOME>  #######################################################################################
@@ -9114,16 +8527,12 @@ k)
 cat ~/.config/videoinfox/videoinfo.playlist.current | sed 's/.*\.//' > ~/.config/videoinfox/tmp/whatplhome.tmp 
 read -r whatplhome < ~/.config/videoinfox/tmp/whatplhome.tmp
 rm ~/.config/videoinfox/tmp/whatplhome.tmp
-
-
 if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
   then
       :
   else
       echo > ~/.config/videoinfox/videoinfo.playlist
 fi
-
-
 if [ -f ~/.config/videoinfox/tmp/videoinfo-findwork.tmp ]  # if file exists goto then
   then
 
@@ -9185,8 +8594,6 @@ else
 
 fi
 ;;
-
-
 ##################################################################################################################################################
     f)  ################  FIND ROUTINE - <HOME>  #################################################################################################
 ##################################################################################################################################################
@@ -9255,16 +8662,12 @@ find "$PWD" -type f \( -iname "$videofind.mp4" -o -iname "$videofind.mkv" -o -in
     fi              
     fi
     ;;
-
-
 ##################################################################################################################################################
 z)  # SETTINGS - <HOME>  #########################################################################################################################
 ##################################################################################################################################################
 
 function menusettings {
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-
-
 # LOAD STORED DIRECTORIES
 read -r dir1 < ~/.config/videoinfox/videoinfo.tv-dir 2> /dev/null
 read -r dir2 < ~/.config/videoinfox/videoinfo.movies-dir 2> /dev/null
@@ -9308,14 +8711,10 @@ case $optionsettings in
 
     q)  # QUIT
     break;;
-
-
     x) #  CLEAR CLIPBOARD  <DOWNLOAD LIST> 
     echo "" | xclip -sel clip  # clearing out the clipboard
     pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
     ;;
- 
-
     c)  # CODE STATS
 
 function codestats {
@@ -9336,8 +8735,6 @@ b=$(sed -n -e '/#/p' /usr/local/bin/videoinfox | wc -l 2> /dev/null)  # NUMBER O
 c=$(sed -n '$=' /usr/local/bin/videoinfox 2> /dev/null)  # TOTAL LINES
 
 d=$((c - a - b))  # CODE LINES = TOTAL LINES - BLANK LINES - COMMENT ONLY LINES
-
-
 # GET VIDEOINFOX FILE SIZE AND LOCATION AND WRITE TO FILE:  ~/.config/videoinfox/videoinfox.code-stats.tmp
 du -h /usr/local/bin/videoinfox > ~/.config/videoinfox/videoinfox.code-stats.tmp 2> /dev/null
 
@@ -9346,8 +8743,6 @@ vsize=$(sed 's:/.*::' ~/.config/videoinfox/videoinfox.code-stats.tmp)
 
 # READ FILE LOCATION
 vlocat=$(cat ~/.config/videoinfox/videoinfox.code-stats.tmp | cut -c 6-)
-
-
 printf " Code Lines .......  %s\n" "$d"
 
 echo
@@ -9371,8 +8766,6 @@ echo
 echo -en " Enter Option: "
 read -r -n1 optionstats
 }
-
-
 while true
 do
 codestats
@@ -9436,8 +8829,6 @@ done
          echo " Always Save . . ."
          sleep .7
          ;;
-
-
          2)
          echo "2" > ~/.config/videoinfox/videoinfo.lastsearch-set
          echo
@@ -9459,8 +8850,6 @@ done
          done
 
          ;;
-
-
     1)
     # SET TV DIRECTORY
     grabdir="$PWD"  # grab working directory 
@@ -9499,8 +8888,6 @@ done
           cd "$grabdir"  # restore working directory
           sleep 1.5
           ;;
-
-
     2)
     # SET MOVIES DIRECTORY
     grabdir="$PWD"  # grab working directory 
@@ -9539,8 +8926,6 @@ done
           cd "$grabdir"  # restore working directory
           sleep 1.5
           ;;
-           
-
     3)
     # SET <yt-dlp> DOWNLOAD DIRECTORY
     grabdir="$PWD"  # grab working directory 
@@ -9579,8 +8964,6 @@ done
           cd "$grabdir"  # restore working directory
           sleep 1.5
           ;;
-
-
  4)
     # SET PARENT DIRECTORY
     grabdir="$PWD"  # grab working directory 
@@ -9619,8 +9002,6 @@ done
           cd "$grabdir"  # restore working directory
           sleep 1.5
           ;;
-
-
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     
     v)  # CHECK FOR VIDEOINFOX UPDATE
@@ -9631,8 +9012,6 @@ done
 
     wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox 2>/dev/null
     chmod +x ~/.config/videoinfox/tmp/videoinfox 2>/dev/null
-
-
     if [ -f ~/.config/videoinfox/tmp/videoinfox ]  # if file exists goto then
        then
             gver=$(~/.config/videoinfox/tmp/videoinfox -v)
@@ -9640,8 +9019,6 @@ done
        else
             gver="Download Failure"
     fi
-  
-
     clear     
     clear 
     echo
@@ -9676,8 +9053,6 @@ done
          do
          menuinfox
 	   case $optioninfox in
-
-
          d)
          #  QUIT
          cd "$dirtemp" # restore directory
@@ -9705,8 +9080,6 @@ done
                       let " sec=sec-1"
                       sleep 1
                  done         
-
-
                  clear
                  echo -e "\n"
                  echo
@@ -9745,8 +9118,6 @@ done
          esac
          done
          ;;
-
-
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         
          y)  # CHECK FOR YT-DLP UPDATE
@@ -9786,13 +9157,9 @@ echo
 cd ~/.config/videoinfox/tmp
  
 wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp 2>/dev/null  # download yt-dlp 
- 
-
 if [ -f ~/.config/videoinfox/tmp/yt-dlp ]  # if yt-dlp exists goto then
    then
         chmod a+rx ~/.config/videoinfox/tmp/yt-dlp  # set <yt-dlp-fetched> execute bit  
-
-
         sec=5
              
          while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
@@ -9804,8 +9171,6 @@ if [ -f ~/.config/videoinfox/tmp/yt-dlp ]  # if yt-dlp exists goto then
     
    
 function chkytdlp {
-
-        
 
          if [ -f ~/.config/videoinfox/tmp/yt-dlp ]
             then
@@ -9846,8 +9211,6 @@ function chkytdlp {
          do
          chkytdlp
 	   case $optionytdlp in
-
-
          d)
          #  DON'T UPDATE
          rm ~/.config/videoinfox/tmp/* 2>/dev/null
@@ -9876,8 +9239,6 @@ function chkytdlp {
    
          esac
          done
-
-
    else
          rm ~/.config/videoinfox/tmp/* 2>/dev/null     
          cd "$dirtemp"  # restore directory
@@ -9889,15 +9250,11 @@ function chkytdlp {
          done     
 fi
 ;;         
-          
-
 esac
 done
 
 rm ~/.config/videoinfox/tmp/* 2>/dev/null
 ;;
-
-   
 
 ##################################################################################################################################################
 ###########################  HOME OPTION  y  Yt-dlp Menu  ########################################################################################
@@ -9907,8 +9264,6 @@ y)
 
 grabdir="$PWD"  # grab working directory
 pasteclip3=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content to restore to before this function was run
-
-
 if ! command -v ~/.config/videoinfox/yt-dlp &> /dev/null  # if <yt-dlp> isnt found goto then
 
 then
@@ -9952,8 +9307,6 @@ if [ -f ~/.config/videoinfox/yt-dlp ]  # if yt-dlp exists goto then
    then
         chmod a+rx ~/.config/videoinfox/yt-dlp  # set <yt-dlp-fetched> execute bit
         ~/.config/videoinfox/yt-dlp --version > ~/.config/videoinfox/videoinfo.yt-dlp.version # write yt-dlp ver number to file: yt-dlp.version 
-        
-
         echo
         echo " Yt-dlp Downloaded . . ."
         echo
@@ -9969,8 +9322,6 @@ if [ -f ~/.config/videoinfox/yt-dlp ]  # if yt-dlp exists goto then
 
         cd "$dirtemp"  # restore directory
         rm ~/.config/videoinfox/wget-* 2> /dev/null  
-
-
    else
        
         echo
@@ -9987,8 +9338,6 @@ if [ -f ~/.config/videoinfox/yt-dlp ]  # if yt-dlp exists goto then
         cd "$dirtemp"  # restore directory
         rm ~/.config/videoinfox/wget-* 2> /dev/null
 fi
-
-
 ############################
 
 else  # IF YT-DLP IS FOUND    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -10016,8 +9365,6 @@ if [ "$grabclip" = "http" ]  # if the first 4 characters = <http> go then
             pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
       fi
 fi
-
-
 read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir
 #######################  cd "$dirsaved" 
 
@@ -10027,8 +9374,6 @@ clear
 echo
 echo "Directory: ""$PWD"
 echo "Clipboard:" "$pasteclip"
-
-
 ##################################################################################################################################################
 #=================================================================================================================================================
 #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
@@ -10074,8 +9419,6 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                   
                       echo "" | xclip -sel clip  # clearing out the clipboard
                       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-
-
                   else 
                       
                       dash1=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
@@ -10135,33 +9478,23 @@ echo -en " Enter Option: "
 read -r -n1 optiony
 
 }
-
-
      while true
      do
      menuy
 	case $optiony in
-
-
      q)  # QUIT
      clear
      break;;
-
-
      x)  # CLEAR CLIPBOARD  (DOWNLOAD LIST)
      echo "" | xclip -sel clip  # clearing out the clipboard
      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
      ;;
-
-
      g)  # DOWNLOAD LIST  <YT-DLP MENU>
 
 rm ~/.config/videoinfox/videoinfox-dl-Default~ 2> /dev/null  # tmp fix
 
 echo "" | xclip -sel clip  # clearing out the clipboard
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null) # grab clipboard content
-
-
 function dwnlist {
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
@@ -10186,8 +9519,6 @@ sed -i '/videoinfox-dl-Default/d' ~/.config/videoinfox/videoinfox.dowload.list  
 
 # count lines file for message display below:  (Copy 1 above User List to the the clipboard to: Download or Set...) 
 copymessage=$(sed -n '$=' ~/.config/videoinfox/videoinfox.dowload.list 2> /dev/null)  # only reading, no writing
-
-
 ##################################################################################
 ##########  START   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
 ################################################################################## 
@@ -10206,8 +9537,6 @@ dirdisplay4=$(echo -e "\033[2m1 2 3 \033[0m4 \033[2m5\033[0m")
 dirdisplay5=$(echo -e "\033[2m1 2 3 4 \033[0m5\033[0m")
 # NO MATCH ALL LESS BOLD
 dirdisplayno=$(echo -e "\033[2m1 2 3 4 5\033[0m")
-
-
 # FORMAT PWD NAME FOR COMPARISON
 echo "$PWD" > ~/.config/videoinfox/videoinfox.pwd.tmp  # write PWD to a tmp file: videoinfox.pwd.tmp
 cat ~/.config/videoinfox/videoinfox.pwd.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.pwd  # remove all froward slashes / write file: videoinfox.pwd
@@ -10243,8 +9572,6 @@ echo "$dir5" > ~/.config/videoinfox/videoinfox.dir5.tmp  # write dir 5 to a tmp 
 cat ~/.config/videoinfox/videoinfox.dir5.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.dir5  # remove all froward slashes / write file: videoinfox.dir5
 rm ~/.config/videoinfox/videoinfox.dir5.tmp   # remove tmp file: videoinfox.dir5.tmp 
 sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.dir5 # remove horizontal whitespace write file: videoinfox.dir5
-
-
 # LOAD EDITED PWD AND DEFAULT DIRECTORY NAMES FOR BELOW  IF LOOPS   (all frorward slashes / and white spaces removed from the below directory names)
 
 read -r controldir < ~/.config/videoinfox/videoinfox.pwd    # load reformatted current directory name 
@@ -10253,8 +9580,6 @@ read -r dir2display < ~/.config/videoinfox/videoinfox.dir2  # load reformatted d
 read -r dir3display < ~/.config/videoinfox/videoinfox.dir3  # load reformatted default directory 3 name
 read -r dir4display < ~/.config/videoinfox/videoinfox.dir4  # load reformatted default directory 4 name
 read -r dir5display < ~/.config/videoinfox/videoinfox.dir5  # load reformatted default directory 5 name
-
-
 # DEFAULT DIR 5  DISPLAY     IF DIRECTORY ON EXIT  =  DEFAULT DIRECTORIES 1-4 then Display that directory number.
 
 if [[ "$controldir" = "$dir5display" ]]
@@ -10281,8 +9606,6 @@ if [[ "$controldir" = "$dir5display" ]]
       fi
 fi
 
-
-
 # DEFAULT DIR 5 DISPLAY
 if [[ "$controldir" = "$dir5display" ]] 
   then
@@ -10291,8 +9614,6 @@ if [[ "$controldir" = "$dir5display" ]]
   else
        dirdisp="$dirdisplayno" # if directory doesn't match  Default Dirs 1-5 : All 5 numbers are less bold.  
 fi 
-
-
 
 # DEFAULT DIR 1  DISPLAY
 if [[ "$controldir" = "$dir1display" ]]  # IF PWD = DEFAULT DIR 1 then display 1
@@ -10346,8 +9667,6 @@ if [ -f "$pasteclip" ]
 fi
 
 ########## end blinking routine #################
-
-
 #########################################################################################################################################################
 # START Routine to find out if clipboard contents  =  The default download list or a user list - dash blink or not:  Set User List and Delete User List
 #########################################################################################################################################################
@@ -10369,8 +9688,6 @@ rm ~/.config/videoinfox/videoinfox.dlname.tmp   # remove .dlname.tmp file
 sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.dlname.tmp2  # remove horizontal whitespace from file an write
 # REFORMATTED CONTROL VARIABLE
 read -r ctmp3 < ~/.config/videoinfox/videoinfox.dlname.tmp2  # default list name with full path: with slashes and spaces removed
-
-
 if [ -z "$pasteclip" ]  # if clipboard is empty goto then
    then
         dashit2="$dash0"  # no blink dash for: Set User List and Delete User List
@@ -10385,8 +9702,6 @@ if [ -z "$pasteclip" ]  # if clipboard is empty goto then
                 dashit2="$dash1"  #    blink dash for: Set User List and Delete User List
         fi
 fi
-
-
 # CONTROL VARIABLE 2  (clear Set User List filename)
 read -r chkulistset < ~/.config/videoinfox/videoinfox.set-user-list
 # REFORMAT CONTROL VARIABLE 2 FOR COMPARISON TO PASTECLIP VARIBLE
@@ -10396,8 +9711,6 @@ rm ~/.config/videoinfox/videoinfox.chkulist.tmp   # remove .dlname.tmp file
 sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.chkulist.tmp2  # remove horizontal whitespace from file an write
 # REFORMATTED CONTROL VARIABLE 2
 read -r ctmp4 < ~/.config/videoinfox/videoinfox.chkulist.tmp2  # default list name with full path: with slashes and spaces removed
-
-
 #  REMOVE TMP2 FILES
 rm ~/.config/videoinfox/videoinfox.c.tmp2
 rm ~/.config/videoinfox/videoinfox.dlname.tmp2 
@@ -10423,8 +9736,6 @@ cat ~/.config/videoinfox/videoinfox.dowload.list.default  # display default down
 
 read -r ulistset < ~/.config/videoinfox/videoinfox.set-user-list  # set user list for videoinfox -u shortcut
 echo
-
-
 # CEAR USER SET LIST IF IT GETS DELETED OUTSIDE OF THE VIDEOINFOX INTERFACE
 if [ -f "$chkulistset" ]  # if the user set list exists goto then
    then
@@ -10433,8 +9744,6 @@ if [ -f "$chkulistset" ]  # if the user set list exists goto then
        echo > ~/.config/videoinfox/videoinfox.set-user-list
        ctmp4=""
 fi
-
-
 
 if [ -z "$ctmp4" ]  # if the set user list = null goto then
     then
@@ -10445,13 +9754,9 @@ if [ -z "$ctmp4" ]  # if the set user list = null goto then
          echo "$ulistset"
          echo
 fi
-    
-
 
 echo "Copy 1 above list to the the clipboard. Then press enter."
 echo
-
-
 
 echo "Directory:" "$PWD"
 echo "Clipboard:" "$pasteclip"          #
@@ -10479,8 +9784,6 @@ if [ -z "$pasteclip" ]
    else
        :
 fi
-
-
 }
 
 while true
@@ -10498,13 +9801,9 @@ case $optiond in
 1)
 cd "$dir1"
 ;;
-
-
 2)
 cd "$dir2"
 ;;
-
-
 3)
 cd "$dirsaved"
 ;;
@@ -10512,26 +9811,18 @@ cd "$dirsaved"
 4)
 cd "$dir4"
 ;;
-
-
 5)
 cd "$dir5"
 ;;
-
-
          
 q)  # QUIT (DOWNLOAD LIST)
 echo "$pasteclip3" | xclip -sel clip  # restore clipboard
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 break;;
-
-
 x)  # CLEAR CLIPBOARD  (DOWNLOAD LIST)
 echo "" | xclip -sel clip  # clearing out the clipboard
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 ;;
-
-
 m)
 ##################################################################################################################################################
 ###########################   CREATE DIRECTORY  n   (DOWNLOAD LIST)   ############################################################################
@@ -10539,8 +9830,6 @@ m)
 
 pasteclip2=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content   save to restore on option quit
 echo "" | xclip -sel clip  # clearing the clipboard
-
-
 function navtree {
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
@@ -10554,11 +9843,7 @@ if [ -d "$pasteclip" ]  # if the directory exists gto then
       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
      
 fi
-
-
 clear
-
-
 # recursive list of directories for the user to copy one to the clipboard and press  c   to change to that directory
 #### find "$PWD" -type d -iname "*" | sort -u 2>/dev/null
 
@@ -10568,8 +9853,6 @@ find "$PWD" -type d -iname "*" | sort -u > ~/.config/videoinfox/tmp/nt-list.tmp 
 sed '/./='  ~/.config/videoinfox/tmp/nt-list.tmp | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/nt-list-number.tmp 2>/dev/null
 
 cat ~/.config/videoinfox/tmp/nt-list-number.tmp
-
-
 # recursive number of directories found
 ttotal=$(find  "$PWD" -type d -iname "*" 2>/dev/null | wc -l)   
 
@@ -10577,8 +9860,6 @@ notify-send "Videoinfox is done processing: Directory Tree" "Total Directories F
 
 # recursive number of files found
 #ttotalnum=$(find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
-
-
 ##################################################################################
 ##########  START   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
 ################################################################################## 
@@ -10597,8 +9878,6 @@ dirdisplay4=$(echo -e "\033[2m1 2 3 \033[0m4 \033[2m5\033[0m")
 dirdisplay5=$(echo -e "\033[2m1 2 3 4 \033[0m5\033[0m")
 # NO MATCH ALL LESS BOLD
 dirdisplayno=$(echo -e "\033[2m1 2 3 4 5\033[0m")
-
-
 # FORMAT PWD NAME FOR COMPARISON
 echo "$PWD" > ~/.config/videoinfox/videoinfox.pwd.tmp  # write PWD to a tmp file: videoinfox.pwd.tmp
 cat ~/.config/videoinfox/videoinfox.pwd.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.pwd  # remove all froward slashes / write file: videoinfox.pwd
@@ -10634,8 +9913,6 @@ echo "$dir5" > ~/.config/videoinfox/videoinfox.dir5.tmp  # write dir 5 to a tmp 
 cat ~/.config/videoinfox/videoinfox.dir5.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.dir5  # remove all froward slashes / write file: videoinfox.dir5
 rm ~/.config/videoinfox/videoinfox.dir5.tmp   # remove tmp file: videoinfox.dir5.tmp 
 sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.dir5 # remove horizontal whitespace write file: videoinfox.dir5
-
-
 # LOAD EDITED PWD AND DEFAULT DIRECTORY NAMES FOR BELOW  IF LOOPS   (all frorward slashes / and white spaces removed from the below directory names)
 
 read -r controldir < ~/.config/videoinfox/videoinfox.pwd    # load reformatted current directory name 
@@ -10644,8 +9921,6 @@ read -r dir2display < ~/.config/videoinfox/videoinfox.dir2  # load reformatted d
 read -r dir3display < ~/.config/videoinfox/videoinfox.dir3  # load reformatted default directory 3 name
 read -r dir4display < ~/.config/videoinfox/videoinfox.dir4  # load reformatted default directory 4 name
 read -r dir5display < ~/.config/videoinfox/videoinfox.dir5  # load reformatted default directory 5 name
-
-
 # DEFAULT DIR 5  DISPLAY     IF DIRECTORY ON EXIT  =  DEFAULT DIRECTORIES 1-4 then Display that directory number.
 
 if [[ "$controldir" = "$dir5display" ]]
@@ -10672,8 +9947,6 @@ if [[ "$controldir" = "$dir5display" ]]
       fi
 fi
 
-
-
 # DEFAULT DIR 5 DISPLAY
 if [[ "$controldir" = "$dir5display" ]] 
   then
@@ -10682,8 +9955,6 @@ if [[ "$controldir" = "$dir5display" ]]
   else
        dirdisp="$dirdisplayno" # if directory doesn't match  Default Dirs 1-5 : All 5 numbers are less bold.  
 fi 
-
-
 
 # DEFAULT DIR 1  DISPLAY
 if [[ "$controldir" = "$dir1display" ]]  # IF PWD = DEFAULT DIR 1 then display 1
@@ -10712,8 +9983,6 @@ fi
 ################################################################################
 ##########  END   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
 ################################################################################
-
-
 ########## blinking routines for display ##########
 
 # not blinking Play Directory
@@ -10725,8 +9994,6 @@ playdir2=$(echo -e "\033[5mPlay Directory\033m\033[0m\033[5m\033[5m\033[0m")
 dash0=$(echo "-")
 # blinking dash
 dash1=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
-
-
 # get file count of videos one directory deep for blinking   Play Directory
 blinkit=$(find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
 
@@ -10739,8 +10006,6 @@ if [ "$blinkit" = 0 ]
       blinkit2="$playdir2" # not zero files. blinking  Play Directory
       bdash="$dash1"
 fi
-
-
 # not blinking
 changedir1=$(echo "Change Directory")
 # blinking
@@ -10754,8 +10019,6 @@ if [ -d "$pasteclip" ]
       changedir3="$changedir1"  # if the directory doesn't exist, non blinking  Change Directory
 fi
 ########## end blinking routines ################## 
-
-
 echo
 echo "Treetop:" "$grabdirfornav2"
 echo "Total Directories: "$ttotal" "
@@ -10790,8 +10053,6 @@ echo
          pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
          break
          ;;
-
-
          1)  # CD DIRECTORY TO TV    
          cd "$dir1" 
          grabdirfornav2="$dir1"
@@ -10829,28 +10090,20 @@ echo
                cd .. &>/dev/null
          fi 
          ;;
-        
-
          t)  # TREE TOP
          cd "$grabdirfornav2" &>/dev/null
          ;;          
-
-
          c)  # CHANGE DIRECTORY
 # GETTING LINECOUNT
 linecount=$(wc -l ~/.config/videoinfox/tmp/nt-list.tmp | cut -d' ' -f1)
 
 echo
 read -r -p " Enter line number to change directory: " linenumber  # waiting fot user input
-
-
 if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
   then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
-
-
 if [[ $linenumber -gt $linecount ]]
   then 
       echo
@@ -10953,8 +10206,6 @@ echo
          done
          ;;
 
-
-
 a)  # ADD TO QUEUE (DOWNLOAD LIST)
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
@@ -10980,8 +10231,6 @@ if [ -f "$pasteclip" ]
 fi
 
 ;;
-
-
     b)   # DOWNLOAD QUEUE  (DOWNLOAD LIST)
 
 # SAVE CURRENT DIRECTORY FOR RESTORE ON FUNCTION
@@ -11019,14 +10268,10 @@ echo -en " Enter Option: "
 read -r -n1 optiondq
 echo
 }
-
-
 while true
 do
 dwnque
 case $optiondq in
-
-
         q)  # QUIT   (DOWNLOAD QUEUE)
         break ;;
 
@@ -11063,8 +10308,6 @@ case $optiondq in
         fi
         break
         ;;
-
-
         n)  # NO
         break;;
 
@@ -11073,8 +10316,6 @@ case $optiondq in
         esac
         done
         ;;
-
-
         b)  # DOWNLOAD QUEUE  (DOWNLOAD QUEUE)
 
 # READ USER SET LIST FOR REMOVAL IF IT IS IN THE DOWNLOAD QUEUE
@@ -11091,8 +10332,6 @@ clear
 
 # DOWNLOAD QUEUE FILE
 input1=~/.config/videoinfox/videoinfox-download.queue
-
-
 # LOOP 1 READ LINE BY LINE DOWNLOAD QUEUE LIST
 while read -r line
 do
@@ -11130,8 +10369,6 @@ if [ "$line" == "$usersetlist" ]
   else
       :
 fi
-
-
 # LOOP 2 READ LINE BY LINE FROM CURRENT DOWNLOAD LIST
     while read -r line  
     do
@@ -11176,8 +10413,6 @@ read -p ""
 echo "" | xclip -sel clip  # clearing out the clipboard
 
 cd "$savethedir"  # RESTORE DIRECTORY
-
-
 else
     :
 fi
@@ -11186,8 +10421,6 @@ fi
 esac
 done
 ;;
-
-
 c)  # CREATE USER LIST  <DOWNLOAD LIST>
 echo
 echo " If the name starts with any spaces they will be ignored. Spaces are fine after the first character."
@@ -11223,8 +10456,6 @@ sleep .75
       fi
 fi
 ;; 
-
-
 s)  # SET USER LIST  <DOWNLOAD LIST>
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
@@ -11249,8 +10480,6 @@ rm ~/.config/videoinfox/videoinfox.dlname.tmp   # remove .dlname.tmp file
 sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.dlname.tmp2  # remove horizontal whitespace from file an write
 # REFORMATTED CONTROL VARIABLE
 read -r ctmp3 < ~/.config/videoinfox/videoinfox.dlname.tmp2  # default list name with full path: with slashes and spaces removed
-
-
 if [ -z "$pasteclip" ]  # if clipboard is empty goto then
    then
         :
@@ -11281,8 +10510,6 @@ if [ -z "$pasteclip" ]  # if clipboard is empty goto then
    
         fi
 fi
-
-
 #  REMOVE TMP2 FILES
 rm ~/.config/videoinfox/videoinfox.c.tmp2
 rm ~/.config/videoinfox/videoinfox.dlname.tmp2
@@ -11292,8 +10519,6 @@ rm ~/.config/videoinfox/videoinfox.dlname.tmp2
 ##########################################################################################################################################################
 
 ;;
-
-
 r)  # DELETE USER LIST  <DOWNLOAD LIST>
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
@@ -11330,8 +10555,6 @@ rm ~/.config/videoinfox/videoinfox.chkulist.tmp   # remove .dlname.tmp file
 sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.chkulist.tmp2  # remove horizontal whitespace from file an write
 # REFORMATTED CONTROL VARIABLE 2
 read -r ctmp4 < ~/.config/videoinfox/videoinfox.chkulist.tmp2  # default list name with full path: with slashes and spaces removed
-
-
 if [ -z "$pasteclip" ]  # if clipboard is empty goto then
    then
         :
@@ -11373,8 +10596,6 @@ if [ -z "$pasteclip" ]  # if clipboard is empty goto then
                    else
                         :
                 fi                
-
-
                 rm "$pasteclip" 2>/dev/null
                 rm "$pasteclip".log 2>/dev/null
 
@@ -11400,8 +10621,6 @@ if [ -z "$pasteclip" ]  # if clipboard is empty goto then
                    
         fi
 fi
-
-
 #  REMOVE TMP2 FILES
 rm ~/.config/videoinfox/videoinfox.c.tmp2
 rm ~/.config/videoinfox/videoinfox.dlname.tmp2
@@ -11412,8 +10631,6 @@ rm ~/.config/videoinfox/videoinfox.chkulist.tmp2
 ##########################################################################################################################################################
 ;;
 
-
-
 k)  # DEFAULT LIST  <DOWNLOAD LIST>
 
 echo "" | xclip -sel clip  # clearing out the clipboard
@@ -11421,8 +10638,6 @@ echo "" | xclip -sel clip  # clearing out the clipboard
 function ddefault {
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-
-
 ########## start blinking and error correcting routine #################
 
 # blinking
@@ -11430,8 +10645,6 @@ addtodefault1=$(echo -e "\033[5mAdd to Default List\033m\033[0m\033[5m\033[5m\03
 
 # not blinking
 addtodefault0=$(echo "Add to Default List")
-
-
 checktheclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
 if [ "$checktheclip" = "http" ]  # if the first 4 characters = <http> go then
@@ -11482,14 +10695,10 @@ q)  # QUIT  <DEFAULT LIST>
 echo "" | xclip -sel clip  # clearing out the clipboard
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 break;;
-
-
 x) #  CLEAR CLIPBOARD  <DEFAULT LIST> 
 echo "" | xclip -sel clip  # clearing out the clipboard
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 ;;
-
-
 c)  # CLEAR DEFAULT LIST   <DEFAULT LIST>  
 function yesorno {
 echo
@@ -11543,21 +10752,15 @@ echo "$pasteclip" >> ~/.config/videoinfox/videoinfox-dl-Default
 echo "" | xclip -sel clip  # clearing out the clipboard
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 ;;
-
-
 r)  # REMOVE LAST LINE IN THE DEFAULT DOWNLOAD LIST <DEFAULT LIST>
 
 sed -i '$d' ~/.config/videoinfox/videoinfox-dl-Default
 ;;
-
-
 *)
 
 esac
 done
 ;;
-
-
 d)  # DOWNLOAD THE URL LIST <DOWNLOAD LIST>
 clear
 
@@ -11571,8 +10774,6 @@ then
 # check if   $pasteclip   contains   Default List   or   User Created list 
 find ~/.config/videoinfox/videoinfox-dl-Default > ~/.config/videoinfox/videoinfox.default2
 checkclip=$(cat ~/.config/videoinfox/videoinfox.default2)
-
-
 # PROCESSING DEFAULT LIST
 if [ "$checkclip" = "$pasteclip" ] 
 then 
@@ -11585,8 +10786,6 @@ cat -n ~/.config/videoinfox/videoinfox-dl-Default | sort -uk2 | sort -n | cut -f
 mv ~/.config/videoinfox/videoinfox-dl-Default.tmp ~/.config/videoinfox/videoinfox-dl-Default
 sed -i '/^$/d' ~/.config/videoinfox/videoinfox-dl-Default 2>/dev/null  # remove any blank lines in the list
 sed -i '/http/!d' ~/.config/videoinfox/videoinfox-dl-Default  # remove all lines not starting with  http
-
-
 else # PROCESSING USER CREATED LIST
 
 echo "$pasteclip" | sed 's|\(.*\)/.*|\1|' > ~/.config/videoinfox/videoinfox.userlist-tmp # remove last slash and filenname leaving only path
@@ -11598,8 +10797,6 @@ cat -n "$pasteclip" | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/vide
 mv ~/.config/videoinfox/videoinfox-dl-userlist.tmp "$pasteclip"
 sed -i '/^$/d' "$pasteclip" 2>/dev/null  # remove any blank lines in the list
 sed -i '/http/!d' "$pasteclip" 2>/dev/null  # remove all lines not starting with  http
-
-
 #########################################################################################################################################################
 # START Routine to find out if clipboard content  =  set user list filename  if it does, the file will be cleared from the screen after list download
 #########################################################################################################################################################
@@ -11621,8 +10818,6 @@ rm ~/.config/videoinfox/videoinfox.checku.tmp   # remove .dlname.tmp file
 sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.checku.tmp2  # remove horizontal whitespace from file an write
 # REFORMATTED CONTROL VARIABLE
 read -r ctmp5 < ~/.config/videoinfox/videoinfox.checku.tmp2  # set user list filename with full path: with slashes and spaces removed
-
-
 if [[ "$ctmp2" = "$ctmp5" ]]  # if clipbaord = Default List goto then because the default list can't: Set User List or Delete User List
            then
                 echo > ~/.config/videoinfox/videoinfox.set-user-list
@@ -11630,20 +10825,14 @@ if [[ "$ctmp2" = "$ctmp5" ]]  # if clipbaord = Default List goto then because th
            else
                 :
 fi 
-
-
 #  REMOVE TMP2 FILES
 rm ~/.config/videoinfox/videoinfox.c.tmp2
 rm ~/.config/videoinfox/videoinfox.checku.tmp2
 
 fi
-
-
 #########################################################################################################################################################
 # END Routine to find out if clipboard content  =  set user list filename  if it does, the file will be cleared from the screen after list download
 #########################################################################################################################################################
-
-
 rm videoinfox-dl*~ &> /dev/null  # duplicate lists were showing up with   ~   added onto the filename
 
 logfile="$pasteclip".log  # tag  .log  onto the users Download List  */.videoinfox-dl*.log 
@@ -11653,8 +10842,6 @@ echo >> "$logfile"
 #justfile=$(echo "$pasteclip" | sed 's|.*/||')  # ended up not using. grabs filename minus path
 
 input="$pasteclip"  # input file for download loop (clipboard contents)
-
-
 ################  DOWNLOAD LOOP START  ###################################################################################################################
 
 while read -r line  # read line by line until end from  Download List  */.videoinfox-dl*
@@ -11663,12 +10850,8 @@ do
 echo
 
 ~/.config/videoinfox/yt-dlp "$line"  # download url
-
-
 echo
 echo "Logging URL and Filename to:" "$logfile" 
-
-
 # logging yt-dlp output
 echo "$line" >> "$logfile" 
 ~/.config/videoinfox/yt-dlp "$line" | tee >> "$logfile"
@@ -11677,8 +10860,6 @@ echo >> "$logfile"
 done < "$input"
 
 ################  DOWNLOAD LOOP END  #####################################################################################################################
-
-
 ############  REMOVE UNWANTED LOG INFO  ############# 
 
 sed -i '/\[youtube\]/d' "$pasteclip".log &> /dev/null  # removing lines that start with  [youtube]
@@ -11688,8 +10869,6 @@ sed -i 's/has already been downloaded//' "$pasteclip".log &> /dev/null  # remove
 sed -i -e 's/^[ \t]*//' "$pasteclip".log &> /dev/null  # remove spaces at beginning of line.
 
 #####################################################
-
-
 echo
 echo
 echo -e "$der" "\033[5mdone processing download list . . .\033m\033[0m"
@@ -11703,19 +10882,13 @@ notify-send "Videoinfox messsage: Done Processing Download List . . ." "$pastecl
 
 read -p ""
 echo "" | xclip -sel clip  # clearing out the clipboard
-
-
 else  # File didn't exist. clipboard cleared
 
 echo "" | xclip -sel clip  # clearing out the clipboard
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 fi
-
-
 cd "$dirclip"  # restore directory to before  Download List
 ;;
-
-
 v)  # VIEW A DOWNLOAD LIST
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
@@ -11734,8 +10907,6 @@ echo "" | xclip -sel clip  # clearing out the clipboard
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 fi
 ;;
-
-
 l)  # VIEW LOGS
 
 echo "" | xclip -sel clip  # clearing out the clipboard clipboard
@@ -11743,8 +10914,6 @@ echo "" | xclip -sel clip  # clearing out the clipboard clipboard
 function viewlogs {
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-
-
 ########## blinking routine for display ##########
 
 # blinking
@@ -11762,11 +10931,7 @@ if [ -f "$pasteclip" ]
       finalresult="$viewlog0"  # if the file doesn't exist, non blinking   View Log
 fi
 ########## end blinking routine #################
-
-
 clear
-
-
 # find default download list and write to file.
 find ~/.config/videoinfox/videoinfox-dl-Default.log > ~/.config/videoinfox/videoinfox.dowload.list.default.log 2> /dev/null
 
@@ -11802,8 +10967,6 @@ q)  # QUIT
 echo "$pastecliptemp" | xclip -sel clip  # restoring clipboard clipboard
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 break;;
-
-
 l)  # VIEW LOG
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard contentclear
 
@@ -11823,8 +10986,6 @@ fi
 esac
 done
 ;;
-
-
 h) # DOWNLOAD LIST HELP
 less ~/.config/videoinfox/videoinfox.download-list-help
 ;;
@@ -11835,8 +10996,6 @@ less ~/.config/videoinfox/videoinfox.download-list-help
 esac
 done
 ;;
-
-
 #######################################################################################################################################
 ########################   (PLAY ClIPBOARD) YT-DLP MENU   #############################################################################
 #######################################################################################################################################
@@ -12016,11 +11175,7 @@ cd "$grabdir"
 clipsave=$(xclip -o -selection clipboard 2> /dev/null)  # save clipboard content         
 
 keepdir="$PWD"  # save dir for exit      
-     
-
       function menuyt {  # LIST ALL VIDEO FILES RECURSIVELY IN THE DEFAULT DOWNLOAD DIRECTORY 
-
-
 cd "$dirsaved"
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
@@ -12092,13 +11247,9 @@ sed '/./=' ~/.config/videoinfox/tmp/videoinfo-number-view-downloads.tmp2 | sed '
 rm ~/.config/videoinfox/tmp/videoinfo-number-view-downloads.tmp2 2>/dev/null
 
 cat ~/.config/videoinfox/tmp/videoinfo-number-view-downloads.tmp  # display numbered find results 
-
-
 echo
 echo "Directory: ""$PWD"
 echo "Clipboard: ""$pasteclip"
-
-
 ##################################################################################################################################################
 #=================================================================================================================================================
 #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
@@ -12199,8 +11350,6 @@ read -r -n1 optionyt
               do
               menuyt
 	         case $optionyt in
-
-
               q)  # QUIT        
               cd "$keepdir"
               rm ~/.config/videoinfox/tmp/videoinfo-number-view-downloads.tmp 2> /dev/null
@@ -12251,8 +11400,6 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
          else
              :
       fi
-
-
       read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download attempt
       read -r lastdownloadbak < ~/.config/videoinfox/videoinfo.lastdownload.bak  # reading last successful download 
              
@@ -12375,11 +11522,7 @@ fi
 
 cd "$grabdir"
 ;;  
-
-
               i)  # INFO - <VIEW DOWNLOADS>
-
-
 if [ "$istherefiles" = 0 ]
   then
       echo
@@ -12441,14 +11584,8 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       fi
 
   fi
-
-
 ;;
-
-
 ###### Check this area.  pulled possible misplaced code. test playclipboard
-
-
          ########################################################################################################################################
          d)  # (@PLAY DIRECTORY) VIEW DOWNLOADS  ################################################################################################
          ########################################################################################################################################
@@ -12547,8 +11684,6 @@ else #  NO LINES START WITH A SLASH /   remove empty files
      rm ~/.config/videoinfox/tmp/videoinfox.numbered-navtree-play-directory-list 2>/dev/null
      rm ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa-work 2>/dev/null    
 fi
-
-
 ################clear
 
 if [ -f ~/.config/videoinfox/tmp/videoinfox.numbered-navtree-play-directory-list ]
@@ -12560,8 +11695,6 @@ if [ -f ~/.config/videoinfox/tmp/videoinfox.numbered-navtree-play-directory-list
        echo " No video files in the current directory . . ."
        sleep 1.7
 fi
-
-
 linenumber=1
 
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa > ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa.tmp 2>/dev/null
@@ -12622,14 +11755,10 @@ rm ~/.config/videoinfox/tmp/videoinfox.numbered-navtree-play-directory-list 2>/d
 rm ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa-work 2>/dev/null 
 
 ;;           
-
-
               o)
 ##################################################################################################################################################
 ###########################   AUTOPLAY LINE  o   <VIEW DOWNLOADS>  ###############################################################################
 ##################################################################################################################################################
-
-
 if [ "$istherefiles" = 0 ]
   then
       echo
@@ -12638,8 +11767,6 @@ if [ "$istherefiles" = 0 ]
       sleep 1
 
   else
-
-
 if [ -f ~/.config/videoinfox/tmp/videoinfo-view-downloads.tmp ]
   then
 
@@ -12710,8 +11837,6 @@ fi
 fi
 
 ;;
-
-
               j)
 ##################################################################################################################################################
 ###########################   PLAY LINE  j   <VIEW DOWNLOADS>  ###################################################################################
@@ -12725,8 +11850,6 @@ if [ "$istherefiles" = 0 ]
       sleep 1
 
   else
-
-
 if [ -f ~/.config/videoinfox/tmp/videoinfo-view-downloads.tmp ]  # if file exists goto then
   then
       echo
@@ -12793,16 +11916,12 @@ fi
 fi
 
 ;;
-
-
                 *)
 
                 esac
                 done  
                 
               ;;
-
-
               s)  # DOWNLOAD VIDEO PLAY, THEN DELETE ON VIDEO PLAYER CLOSE 
               
               grabdir="$PWD"
@@ -12858,8 +11977,6 @@ fi
 
               cd "$grabdir" # restore dir
               ;; 
-
-
               l)  # play last download
                
               grabdir="$PWD"  # storing directory to restore at the end of this function
@@ -12880,8 +11997,6 @@ fi
                         echo "$ylast" > ~/.config/videoinfox/videoinfo.find-last-download  # write find result to file
                         read -r ytdlplast < ~/.config/videoinfox/videoinfo.find-last-download  # read first find result from file
                  fi   
-
-
               clear
               echo
               echo "___________________________________________________________________________________________________________________"
@@ -12915,8 +12030,6 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
               cd "$grabdir"   # restore dir prior to entering yt-dlp menu
               ;;  
-
-
               d)  # DOWNLOAD DEFAULT
               read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir  # reading download directory 
               cd "$dirsaved"  # change to download directory
@@ -12959,8 +12072,6 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               
               cd "$grabdir"
               ;;
-
-
               c)  # DOWNLOAD CHOOSE
               read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir  # reading download directory 
               cd "$dirsaved"   # change to download directory
@@ -13021,12 +12132,8 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
  done
 
 fi
-
-
 ################################################## cd "$grabdir"   # restore dir prior to entering yt-dlp menu
 ;; 
-
-
 
 ##################################################################################################################################################
 m)  # MORE OPTIONS   #############################################################################################################################
@@ -13052,8 +12159,6 @@ dirdisplay4=$(echo -e "\033[2m1 2 3 \033[0m4 \033[2m5\033[0m")
 dirdisplay5=$(echo -e "\033[2m1 2 3 4 \033[0m5\033[0m")
 # NO MATCH ALL LESS BOLD
 dirdisplayno=$(echo -e "\033[2m1 2 3 4 5\033[0m")
-
-
 # FORMAT PWD NAME FOR COMPARISON
 echo "$PWD" > ~/.config/videoinfox/videoinfox.pwd.tmp  # write PWD to a tmp file: videoinfox.pwd.tmp
 cat ~/.config/videoinfox/videoinfox.pwd.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.pwd  # remove all froward slashes / write file: videoinfox.pwd
@@ -13089,8 +12194,6 @@ echo "$dir5" > ~/.config/videoinfox/videoinfox.dir5.tmp  # write dir 5 to a tmp 
 cat ~/.config/videoinfox/videoinfox.dir5.tmp | tr "/" " " > ~/.config/videoinfox/videoinfox.dir5  # remove all froward slashes / write file: videoinfox.dir5
 rm ~/.config/videoinfox/videoinfox.dir5.tmp   # remove tmp file: videoinfox.dir5.tmp 
 sed -i 's/[[:blank:]]//g' ~/.config/videoinfox/videoinfox.dir5 # remove horizontal whitespace write file: videoinfox.dir5
-
-
 # LOAD EDITED PWD AND DEFAULT DIRECTORY NAMES FOR BELOW  IF LOOPS   (all frorward slashes / and white spaces removed from the below directory names)
 
 read -r controldir < ~/.config/videoinfox/videoinfox.pwd    # load reformatted current directory name 
@@ -13099,8 +12202,6 @@ read -r dir2display < ~/.config/videoinfox/videoinfox.dir2  # load reformatted d
 read -r dir3display < ~/.config/videoinfox/videoinfox.dir3  # load reformatted default directory 3 name
 read -r dir4display < ~/.config/videoinfox/videoinfox.dir4  # load reformatted default directory 4 name
 read -r dir5display < ~/.config/videoinfox/videoinfox.dir5  # load reformatted default directory 5 name
-
-
 # DEFAULT DIR 5  DISPLAY     IF DIRECTORY ON EXIT  =  DEFAULT DIRECTORIES 1-4 then Display that directory number.
 
 if [[ "$controldir" = "$dir5display" ]]
@@ -13127,8 +12228,6 @@ if [[ "$controldir" = "$dir5display" ]]
       fi
 fi
 
-
-
 # DEFAULT DIR 5 DISPLAY
 if [[ "$controldir" = "$dir5display" ]] 
   then
@@ -13137,8 +12236,6 @@ if [[ "$controldir" = "$dir5display" ]]
   else
        dirdisp="$dirdisplayno" # if directory doesn't match  Default Dirs 1-5 : All 5 numbers are less bold.  
 fi 
-
-
 
 # DEFAULT DIR 1  DISPLAY
 if [[ "$controldir" = "$dir1display" ]]  # IF PWD = DEFAULT DIR 1 then display 1
@@ -13167,8 +12264,6 @@ fi
 ################################################################################
 ##########  END   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
 ################################################################################
-
-
 clear
 echo
 echo "Directory: ""$PWD"
@@ -13191,12 +12286,8 @@ while true
 do
 	menu
 	case $option in
-
-
 q)  # QUIT - <HOME> 
 break ;;
-
-
 
 1) # CD DIRECTORY TO TV    
 cd "$dir1" 
@@ -13206,23 +12297,15 @@ cd "$dir1"
 2)  # CD DIRECTORY TO MOVIES
 cd "$dir2" 
 ;;
-
-
 3)  # CHANGE DIRECTORY TO DOWNLOADS
 cd "$dirsaved" 
 ;;
-
-
 4)  # CHANGE DIRECTORY TO EXTRA   
 cd "$dir4" 
 ;;
-
-
 5)  # CHANGE DIRECTORY TO LAST EXIT
 cd "$dir5" 
 ;;
-
-
 
 l)  # LIST DIRECTORY
 ##################################################################################################################################################
@@ -13301,8 +12384,6 @@ do
   echo
   echo >> videoinfo.List-Directory
 done
-
-
 for i in *.webm  # list all <webm> files in the current directory
 do 
   echo "$i"  # display <avi> filename
@@ -13314,8 +12395,6 @@ do
   echo
   echo >> videoinfo.List-Directory
 done
-
-
 for i in *.divx  # list all <divx> files in the current directory
 do 
   echo "$i"  # display <divx> filename
@@ -13342,8 +12421,6 @@ echo >> videoinfo.List-Directory
 echo "Working Directory: ""$PWD"  # <pwd>  print current working directory to the screen   
 echo "Working Directory: ""$PWD" >> videoinfo.List-Directory
 echo
-
-
 if [ "$currentdirfilecount" = 0 ]  # if find returned no results goto <then>
   then
       :  # the colon can be used in place of a command to 'Do Nothing'
@@ -13411,8 +12488,6 @@ find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi"
       rm ~/.config/videoinfox/videoinfo.duration.tmp
    fi
 fi
-
-
 # Everytime You Save.  The File <videoinfo.List-Directory> is saved to the directory that option 1 was run in.
 function menu1 {
 
@@ -13461,8 +12536,6 @@ do
         esac
         done
         ;;
-
-
 c)
 ##################################################################################################################################################
 ###########################   MORE OPTIONS c  CHANGE DIRECTORY  ##################################################################################
@@ -13570,14 +12643,10 @@ echo
 #read -p "Press enter to Continue"              
 
 ;;
-
-
 n)
 ##################################################################################################################################################
 ###########################   MORE OPTIONS  4  VIDEO COUNT  ######################################################################################
 ##################################################################################################################################################
-
-
 clear
 echo
 echo "Directory: ""$PWD"
@@ -13651,19 +12720,13 @@ echo
 echo -e "\033[5mProbing $alldirfilecount \033[5mVideo Files for Duration\033[0m"  #  file count of find results
 echo -e "\n"
 echo >> videoinfo.Video-Duration
-
-
 #  This is where the file <~/.config/videoinfox/videoinfo.duration.tmp> is created to store duration in seconds with the format being  (x.xxxxxx)
 #  Video files are found recursively and processed with ffprobe and written to <~/.config/videoinfox/videoinfo.duration.tmp>. 
 find . -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) -exec ffprobe -show_entries format=duration -v quiet -of csv="p=0" {} \; > ~/.config/videoinfox/videoinfo.duration.tmp 2>/dev/null
-
-
 #  ffprobe outputs video duration in seconds 6 places past the decimal point.
 #  bash can't do floating point math.  So  <bc>  is needed first to get sum of  <~/.config/videoinfox/videoinfo.duration.tmp>
 #  The  <paste -sd+ ~/.config/videoinfox/videoinfo.duration.tmp>  puts a +  between each line of the file and  <bc>  gives you the sum. 
 floatingseconds=$(paste -sd+  ~/.config/videoinfox/videoinfo.duration.tmp | bc)
-
-
 #  The total in seconds is taken from line above and the format needs changed from  (x.xxxxxx) to (x)
 #  Below, <awk> is stripping 7 characters in from the right of the sum of  <$floatingseconds>
 #  In this case, the decimal point and the 6 trailing numbers are stripped from the string.
@@ -13718,8 +12781,6 @@ notify-send  "Videoinfox is done processing: Video Duration" "$PWD"  # GUI Notif
 # The math was already performed on this file and it is no longer needed.  So it is being removed.  
 #rm ~/.config/videoinfox/videoinfo.duration.tmp
 fi
-
-
 function menu5 {
 clear
 cat videoinfo.Video-Duration
@@ -13763,8 +12824,6 @@ do
          esac
          done
          ;;
-
-
 v)
 ##################################################################################################################################################
 ###########################   MORE OPTIONS v  ENTER VIDEO FILE  ##################################################################################
@@ -13807,21 +12866,15 @@ echo " Video Info: "$(ffprobe -v error -show_entries stream=codec_name -of defau
 
     echo
     ;;
-
-
     esac
     done
     ;;
-
-
 esac    
 done
 
 ##################################################################################################################################################
 ###########################  END MAIN LOOP  ######################################################################################################
 ##################################################################################################################################################
-
-
 #  EXIT MESSAGE
 clear
 echo -e "\n"
@@ -13831,11 +12884,7 @@ echo
 echo " ""$ver"" >>> EXIT"
 echo "___________________________________________________________________________________________________________________" 
 echo -e "\n"
-
-
 # Error: target STRING not available is an xclip error
-
-
 #   FYI :
 
 #   The Line Below performs a Recursive Search and outputs ffprobe's Duration of every find in seconds format (x.xxxxxx).
