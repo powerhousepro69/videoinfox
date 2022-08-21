@@ -66,37 +66,30 @@ print_version() {
 # Create a gui keyboard shortcut for:   videoinfox -l
 # It isn't necessary to have the Videoinfox running while using this feature.
 # Build your set user list on the fly without leaving the gui
-# COPY THE URL TO THE BROWSER. THEN USE YOUR SHORTCUT TO WRITE URL TO THE USER SET LIST. Rinse and repeat to keep adding to the list. 
-if [ "$1" = "-l" ]
-   then
-        read -r grabuserlist < ${base_dir}/videoinfox.set-user-list
-             if [ -f "$grabuserlist" ]  # if file exists then 
-                then
-      
-                     pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-                     echo "$pasteclip" >> "$grabuserlist"  # write url to the user set list
-                     notify-send "Videoinfox Message: Added link to List "$grabuserlist"  . . ." ""$pasteclip"" # GUI Notification.
-                    
-                     cat -n "$grabuserlist" | sort -uk2 | sort -n | cut -f2- > ${base_dir}/videoinfox.ulistfly.tmp  # REMOVE DUPLICATES
-                     sed -i '/^$/d' ${base_dir}/videoinfox.ulistfly.tmp  # remove any blank lines in the list
-                     sed -i '/http/!d' ${base_dir}/videoinfox.ulistfly.tmp  # remove all lines not starting with  http
-                   
-                     mv ${base_dir}/videoinfox.ulistfly.tmp "$grabuserlist"
+# COPY THE URL TO THE BROWSER. THEN USE YOUR SHORTCUT TO WRITE URL TO THE USER SET LIST. Rinse and repeat to keep adding to the list.
 
-                     echo "" | xclip -sel clip  # clearing out the clipboard
- 
-                     exit
-          
-                else
-                
-                     notify-send "Videoinfox -l Error . . ." "No user list has been set for this feature.  Set User List in Videoinfox first."
-                     exit
-             fi
-       fi
+# -l  Write clipboard content to the User Set List. For instructions on use: Yt-dlp >>> Download List >>> Help
+write_user_set_list() {
+    read -r grabuserlist < "${base_dir}/videoinfox.set-user-list"
+    if [[ -f "$grabuserlist" ]]; then
+        pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+        echo "$pasteclip" >> "$grabuserlist"  # write url to the user set list
+        notify-send "Videoinfox Message: Added link to List ${grabuserlist}  . . ." "${pasteclip}" # GUI Notification.
+    
+        cat -n "$grabuserlist" | sort -uk2 | sort -n | cut -f2- > ${base_dir}/videoinfox.ulistfly.tmp  # REMOVE DUPLICATES
+        sed -i '/^$/d' ${base_dir}/videoinfox.ulistfly.tmp  # remove any blank lines in the list
+        sed -i '/http/!d' ${base_dir}/videoinfox.ulistfly.tmp  # remove all lines not starting with  http
+    
+        mv ${base_dir}/videoinfox.ulistfly.tmp "$grabuserlist"
 
-   else
-       :
-fi
+        echo "" | xclip -sel clip  # clearing out the clipboard
+        exit
+    else
+        notify-send "Videoinfox -l Error . . ." "No user list has been set for this feature.  Set User List in Videoinfox first."
+        exit
+    fi
+}
+
 #-------------------------------------------------------------------------------------------------------------------------------------------------
 #  videoinfox -a     ADD CLIPBOARD CONTENT  ON THE FLY TO:   DEFAULT LIST   THEN EXIT
 #-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -106,35 +99,31 @@ fi
 # Build your default list on the fly without leaving the gui
 # COPY THE URL TO THE BROWSER. THEN USE YOUR SHORTCUT TO WRITE URL TO THE DEFAULT DOWNLOAD LIST. Rinse and repeat to keep adding to the Default List. 
 
-if [ "$1" = "-a" ]
-   then
-        if [ -f ${base_dir}/videoinfox-dl-Default ]  # if file exists then 
-           then
-               :
+# -a  Write clipboard content to the Default List. For instructions on use: Yt-dlp >>> Download List >>> Help
+write_default_list() {
+    # This file should always exist:   ${base_dir}/videoinfox-dl-Default   if it doesn't, it will be created
+    if [[ ! -f "${base_dir}/videoinfox-dl-Default" ]]; then
+        # CREATING EMPTY DEFAULT DOWNLOAD LIST WITH LIST EMPTY MESSAGE
+        echo > ${base_dir}/videoinfox-dl-Default
+        echo "Default Download List Empty" >> ${base_dir}/videoinfox-dl-Default
+    fi
+    # ADD TO DEFAULT LIST  <DEFAULT LIST>
+    pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+    echo "$pasteclip" >> ${base_dir}/videoinfox-dl-Default  # write url to the default download list
+    notify-send "Videoinfox added link to the Default Download List . . ." ""$pasteclip"" # GUI Notification.
 
-           else  # This file should always exist:   ${base_dir}/videoinfox-dl-Default   if it doesn't, it will be created
+    # REMOVE DUPLICATES
+    cat -n ${base_dir}/videoinfox-dl-Default | sort -uk2 | sort -n | cut -f2- > ${base_dir}/videoinfox-dl-Default.tmp
+    mv ${base_dir}/videoinfox-dl-Default.tmp ${base_dir}/videoinfox-dl-Default
 
-                 # CREATING EMPTY DEFAULT DOWNLOAD LIST WITH LIST EMPTY MESSAGE
-                 echo > ${base_dir}/videoinfox-dl-Default
-                 echo "Default Download List Empty" >> ${base_dir}/videoinfox-dl-Default
+    sed -i '/^$/d' ${base_dir}/videoinfox-dl-Default 2>/dev/null  # remove any blank lines in the list
+    sed -i '/http/!d' ${base_dir}/videoinfox-dl-Default  # remove all lines not starting with  http
 
-        fi
-# ADD TO DEFAULT LIST  <DEFAULT LIST>
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-echo "$pasteclip" >> ${base_dir}/videoinfox-dl-Default  # write url to the default download list
-notify-send "Videoinfox added link to the Default Download List . . ." ""$pasteclip"" # GUI Notification.
+    echo "" | xclip -sel clip  # clearing out the clipboard
 
-# REMOVE DUPLICATES
-cat -n ${base_dir}/videoinfox-dl-Default | sort -uk2 | sort -n | cut -f2- > ${base_dir}/videoinfox-dl-Default.tmp
-mv ${base_dir}/videoinfox-dl-Default.tmp ${base_dir}/videoinfox-dl-Default
+    exit
+}
 
-sed -i '/^$/d' ${base_dir}/videoinfox-dl-Default 2>/dev/null  # remove any blank lines in the list
-sed -i '/http/!d' ${base_dir}/videoinfox-dl-Default  # remove all lines not starting with  http
-
-echo "" | xclip -sel clip  # clearing out the clipboard
-
-exit
-fi
 #-------------------------------------------------------------------------------------------------------------------------------------------------
 #  videoinfox -h     DISPLAY HELP THEN EXIT  
 #-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -172,8 +161,7 @@ exit 0
 #  videoinfox -u     DOWNLOAD ANY LIST THAT IS RECURSIVELY REACHABLE FROM THE CURRENT DIRECORY. ENTER FULL FILENAME ONLY. NO WILDCARD
 #-------------------------------------------------------------------------------------------------------------------------------------------------
 
-if [ "$1" = "-u" ]
-   then 
+if [[ "$1" = "-u" ]]; then 
        
      clear
      echo
@@ -203,14 +191,12 @@ if [ "$1" = "-u" ]
      fi
         filecount=$(find "$PWD" -type f \( -iname "$2" \) | wc -l)
        
-        if [ "$filecount" = 1 ]  # IF THE FILE IS FOUND THE COUNT WILL BE: 1
-           then
+        if [[ "$filecount" = 1 ]]; then
                 chkforhttp=$(find "$PWD" -type f \( -iname "$2" \))  # getting list name to check the first line for http
                 read chkforhttp2 < "$chkforhttp"  # reading first line into varible $chkforhhtp2
                 chkforhttp=$(echo "$chkforhttp2" | cut -c-4)   # cut everything after the 4th character
 
-                if [ "$chkforhttp" = "http" ]  # if the first 4 characters = <http> go then
-                   then
+                if [[ "$chkforhttp" = "http" ]]; then
                         :
                    else
                         echo
@@ -309,175 +295,151 @@ fi
 #  videoinfox -d     PLAY DIRECTORY.  AUTOPLAY VIDEO FILES IN THE CURRENT DIRECTORY
 #-------------------------------------------------------------------------------------------------------------------------------------------------
 
-if [ "$1" = "-d" ]
-   then
+# -d  Autoplay video files in the current directory
+play_directory() {
+    # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
+    find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) > ${tmp_dir}/videoinfox.optiond-play-directory-apa-work 2>/dev/null
 
-# WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
-find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) > ${tmp_dir}/videoinfox.optiond-play-directory-apa-work 2>/dev/null
+    # SORT BACK INTO ORDER
+    sort -u ${tmp_dir}/videoinfox.optiond-play-directory-apa-work > ${tmp_dir}/videoinfox.optiond-play-directory-apa
 
-# SORT BACK INTO ORDER
-sort -u ${tmp_dir}/videoinfox.optiond-play-directory-apa-work > ${tmp_dir}/videoinfox.optiond-play-directory-apa
+    #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
+    atleastone=$(grep '^/' ${tmp_dir}/videoinfox.optiond-play-directory-apa 2>/dev/null | wc -l)
 
-#  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
-atleastone=$(grep '^/' ${tmp_dir}/videoinfox.optiond-play-directory-apa 2>/dev/null | wc -l)
+    #  IF THE NUMBER DOESN"T = 0  THEN PROCESS AUTO PLAY OF PLAYED LIST
+    if [[ $atleastone -ne 0 ]]; then
 
-#  IF THE NUMBER DOESN"T = 0  THEN PROCESS AUTO PLAY OF PLAYED LIST
-if [ $atleastone -ne 0 ]  
-   then
+    #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
+    moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa"
 
-#  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
-moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa"
+    #  PLAYED LIST INPUT FOR LOOP
+    input="$moddedplayedlist"  
 
-#  PLAYED LIST INPUT FOR LOOP
-input="$moddedplayedlist"  
+    #  CREATE TEMP FILE NEEDED FOR LOOP 
+    echo > ${tmp_dir}/videoinfox.optiond-play-directory-apa2
 
-#  CREATE TEMP FILE NEEDED FOR LOOP 
-echo > ${tmp_dir}/videoinfox.optiond-play-directory-apa2
+    #  #  START WRITING
+    while read -r line; do
+        if [[ ! -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
+            echo "$line" >> ${tmp_dir}/videoinfox.optiond-play-directory-apa2  
+        fi
+    done < "$input"
+    #  DONE WRITING ONLY VALID FILES
 
-#  #  START WRITING
-while read -r line  # read line by line and write line by line until end of file
-do
+    #  REMOVE BLANK LINES
+    sed -i '/^$/d' ${tmp_dir}/videoinfox.optiond-play-directory-apa2 2>/dev/null
 
-   if [ -f "$line" ]
-      then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
-           echo "$line" >> ${tmp_dir}/videoinfox.optiond-play-directory-apa2  
-      else
-           :
-   fi        
+    #  MOVE apa2 BACK TO apa
+    mv ${tmp_dir}/videoinfox.optiond-play-directory-apa2 ${tmp_dir}/videoinfox.optiond-play-directory-apa 2>/dev/null
 
-done < "$input"
-#  DONE WRITING ONLY VALID FILES
+    #  CREATE FILE NEEDED FOR LOOP 
+    echo > ${tmp_dir}/videoinfox.optiond-play-directory-apa2  
 
-#  REMOVE BLANK LINES
-sed -i '/^$/d' ${tmp_dir}/videoinfox.optiond-play-directory-apa2 2>/dev/null
+    #  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
+    while read -r line; do
+        if [[ "$line" == *.mp4 ]]; then # IF FILE IS MP4, WRITE LINE TO FILE
+            echo "$line" >> ${tmp_dir}/videoinfox.optiond-play-directory-apa2  
+        elif [[ "$line" == *.webm ]]; then # IF FILE IS WEBM, WRITE LINE TO FILE
+            echo "$line" >> ${tmp_dir}/videoinfox.optiond-play-directory-apa2
+        elif [[ "$line" == *.mkv ]]; then # IF FILE IS MKV, WRITE LINE TO FILE
+            echo "$line" >> ${tmp_dir}/videoinfox.optiond-play-directory-apa2
+        elif [[ "$line" == *.avi ]]; then # IF FILE IS AVI, WRITE LINE TO FILE
+            echo "$line" >> ${tmp_dir}/videoinfox.optiond-play-directory-apa2
+        elif [[ "$line" == *.divx ]]; then  # IF FILE IS DIVX, WRITE LINE TO FILE
+            echo "$line" >> ${tmp_dir}/videoinfox.optiond-play-directory-apa2
+        fi
+    done < "$input"
+    #  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
 
-#  MOVE apa2 BACK TO apa
-mv ${tmp_dir}/videoinfox.optiond-play-directory-apa2 ${tmp_dir}/videoinfox.optiond-play-directory-apa 2>/dev/null
+    #  REMOVE BLANK LINES
+    sed -i '/^$/d' ${tmp_dir}/videoinfox.optiond-play-directory-apa2 2>/dev/null
 
-#  CREATE FILE NEEDED FOR LOOP 
-echo > ${tmp_dir}/videoinfox.optiond-play-directory-apa2  
+    #  MOVE apa2 BACK TO apa
+    cp ${tmp_dir}/videoinfox.optiond-play-directory-apa2 ${tmp_dir}/videoinfox.optiond-play-directory-apa 2>/dev/null
 
-#  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-while read -r line  # read line by line until end of file
-do
+    # REMOVE PATH ONLY LEAVING FILENAME
+    sed -i 's/.*\///' ${tmp_dir}/videoinfox.optiond-play-directory-apa2
 
-   if [[ "$line" == *.mp4 ]] 
-        then # IF FILE IS MP4, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfox.optiond-play-directory-apa2  
-     
-   elif [[ "$line" == *.webm ]]
-        then # IF FILE IS WEBM, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfox.optiond-play-directory-apa2
-      
-   elif [[ "$line" == *.mkv ]]
-        then # IF FILE IS MKV, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfox.optiond-play-directory-apa2
+    # NUMBER THE LIST
+    sed '/./='  ${tmp_dir}/videoinfox.optiond-play-directory-apa2 | sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfox.numbered-optiond-play-directory-list 2>/dev/null
 
-   elif [[ "$line" == *.avi ]]
-        then # IF FILE IS AVI, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfox.optiond-play-directory-apa2
+    
+    else #  NO LINES START WITH A SLASH /   remove empty files
+        rm ${tmp_dir}/videoinfox.optiond-play-directory-apa 2>/dev/null
+        rm ${tmp_dir}/videoinfox.optiond-play-directory-apa2 2>/dev/null
+        rm ${tmp_dir}/videoinfox.numbered-optiond-play-directory-list 2>/dev/null
+        rm ${tmp_dir}/videoinfox.optiond-play-directory-apa-work 2>/dev/null    
+    fi
+    clear
 
-   elif [[ "$line" == *.divx ]]
-        then  # IF FILE IS DIVX, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfox.optiond-play-directory-apa2
-   fi
-
-done < "$input"
-#  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-
-#  REMOVE BLANK LINES
-sed -i '/^$/d' ${tmp_dir}/videoinfox.optiond-play-directory-apa2 2>/dev/null
-
-#  MOVE apa2 BACK TO apa
-cp ${tmp_dir}/videoinfox.optiond-play-directory-apa2 ${tmp_dir}/videoinfox.optiond-play-directory-apa 2>/dev/null
-
-# REMOVE PATH ONLY LEAVING FILENAME
-sed -i 's/.*\///' ${tmp_dir}/videoinfox.optiond-play-directory-apa2
-
-# NUMBER THE LIST
-sed '/./='  ${tmp_dir}/videoinfox.optiond-play-directory-apa2 | sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfox.numbered-optiond-play-directory-list 2>/dev/null
-
-   
-else #  NO LINES START WITH A SLASH /   remove empty files
-     rm ${tmp_dir}/videoinfox.optiond-play-directory-apa 2>/dev/null
-     rm ${tmp_dir}/videoinfox.optiond-play-directory-apa2 2>/dev/null
-     rm ${tmp_dir}/videoinfox.numbered-optiond-play-directory-list 2>/dev/null
-     rm ${tmp_dir}/videoinfox.optiond-play-directory-apa-work 2>/dev/null    
-fi
-clear
-
-if [ -f ${tmp_dir}/videoinfox.numbered-optiond-play-directory-list ]
-   then
+    if [[ -f ${tmp_dir}/videoinfox.numbered-optiond-play-directory-list ]]; then
         cat ${tmp_dir}/videoinfox.numbered-optiond-play-directory-list 2>/dev/null
-   else
+    else
         echo
         echo
         echo "$der  No playable content in the current directory . . ."
         echo
-fi
-linenumber=1
+    fi
+    linenumber=1
 
-tail -n +"$linenumber" ${tmp_dir}/videoinfox.optiond-play-directory-apa > ${tmp_dir}/videoinfox.optiond-play-directory-apa.tmp 2>/dev/null
-mv ${tmp_dir}/videoinfox.optiond-play-directory-apa.tmp ${tmp_dir}/videoinfox.optiond-play-directory-apa 2>/dev/null
+    tail -n +"$linenumber" ${tmp_dir}/videoinfox.optiond-play-directory-apa > ${tmp_dir}/videoinfox.optiond-play-directory-apa.tmp 2>/dev/null
+    mv ${tmp_dir}/videoinfox.optiond-play-directory-apa.tmp ${tmp_dir}/videoinfox.optiond-play-directory-apa 2>/dev/null
 
-OLDIFS=$IFS
-IFS=$'\n'
+    OLDIFS=$IFS
+    IFS=$'\n'
 
-for line in $(cat "$input" 2>/dev/null)
- do
-      clear
-      echo
-      echo "___________________________________________________________________________________________________________________"
-      echo
-      echo " ""$der"" >>> Command Line Option -d >>> PLAY DIRECTORY" 
-      echo
-      echo " [PLAY]>" "$line"
-      echo "___________________________________________________________________________________________________________________"
-      echo
+    for line in $(cat "$input" 2>/dev/null); do
+        clear
+        echo
+        echo "___________________________________________________________________________________________________________________"
+        echo
+        echo " ""$der"" >>> Command Line Option -d >>> PLAY DIRECTORY" 
+        echo
+        echo " [PLAY]>" "$line"
+        echo "___________________________________________________________________________________________________________________"
+        echo
 
-      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$line")  " Duration:" $(ffmpeg -i "$line" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
-      
-      echo
-      echo
-      echo " Video Player Controls:"
-      echo                             
-      echo " - Fullscreen Toggle: f"
-      echo
-      echo " - Play/Pause Toggle: space bar"
-      echo
-      echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-      echo
-      echo " - Quit: q"      
-      echo -e "\n"
+        echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$line")  " Duration:" $(ffmpeg -i "$line" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+        
+        echo
+        echo
+        echo " Video Player Controls:"
+        echo                             
+        echo " - Fullscreen Toggle: f"
+        echo
+        echo " - Play/Pause Toggle: space bar"
+        echo
+        echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
+        echo
+        echo " - Quit: q"      
+        echo -e "\n"
 
-      ffplay -fs -autoexit "$line" 2> /dev/null
+        ffplay -fs -autoexit "$line" 2> /dev/null
 
-      echo " To bypass the 3 second wait press enter with no entry"
-      echo
-      echo -e "\033[5m 3 seconds remaining to quit Played List Autoplay\033m\033[0m\033[5m\033[5m\033[0m"      
-      echo 
-      read -t 3 -p " Press any key then press enter to quit : " playdir
-           
-           # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 3 seconds the next video will play
-                 clear
-                 break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 clear                                                   # press any key then enter within 3 seconds to quit Play Played List
-           fi
-done
- 
-IFS=$OLDIFS
+        echo " To bypass the 3 second wait press enter with no entry"
+        echo
+        echo -e "\033[5m 3 seconds remaining to quit Played List Autoplay\033m\033[0m\033[5m\033[5m\033[0m"      
+        echo 
+        read -t 3 -p " Press any key then press enter to quit : " playdir
+            
+        # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
+        if [[ $playdir ]]; then                                                        # if no input is entered within 3 seconds the next video will play
+            clear
+            break                                                   # if enter is pressed without any input the next video will play
+        else                                                        
+            clear                                                   # press any key then enter within 3 seconds to quit Play Played List
+        fi
+    done
+    
+    IFS=$OLDIFS
 
-rm ${tmp_dir}/videoinfox.optiond-play-directory-apa 2>/dev/null
-rm ${tmp_dir}/videoinfox.optiond-play-directory-apa2 2>/dev/null
-rm ${tmp_dir}/videoinfox.numbered-optiond-play-directory-list 2>/dev/null
-rm ${tmp_dir}/videoinfox.optiond-play-directory-apa-work 2>/dev/null
+    rm ${tmp_dir}/videoinfox.optiond-play-directory-apa 2>/dev/null
+    rm ${tmp_dir}/videoinfox.optiond-play-directory-apa2 2>/dev/null
+    rm ${tmp_dir}/videoinfox.numbered-optiond-play-directory-list 2>/dev/null
+    rm ${tmp_dir}/videoinfox.optiond-play-directory-apa-work 2>/dev/null
 
-exit
-
-fi
+    exit
+}
 
 ##################################################################################################################################################
 #  END COMMAND LINE OPTIONS  #####################################################################################################################
@@ -504,8 +466,7 @@ fi
 whatdir=$PWD  #  current working directory
 thisdir="/" #  root directory
 
-if [ "$whatdir" == $thisdir ]  # If the directory the script was run from: / <root> goto then 
-  then
+if [[ "$whatdir" == $thisdir ]]; then
       clear
       echo
       echo "__________________________________________________________________________________________________________________"
@@ -541,8 +502,7 @@ fi
 
 direxist="$HOME/.config/videoinfox"
 
-if [ ! -d "$direxist" ]  #  if directoty exists goto  <then>
-  then
+if [[ ! -d "$direxist" ]]; then
       
       clear
       echo
@@ -588,8 +548,7 @@ if [ ! -d "$direxist" ]  #  if directoty exists goto  <then>
       # CHECK FOR  ~/Downloads  If it doesn't exist, create it 
       direxist2="$HOME/Downloads"
 
-      if [ ! -d "$direxist2" ]  #  if directoty exists goto  <then>
-        then
+      if [[ ! -d "$direxist2" ]]; then
              mkdir ~/Downloads
       fi
       # SET DEFAULT  yt-dlp  DOWNLOAD DIRECTORY TO  ~/Downloads    It can be changed in the <set> menu
@@ -683,8 +642,7 @@ cd ${base_dir}
   
 wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp 2>/dev/null  # download and rename 
  
-if [ -f ${base_dir}/yt-dlp ]  # if yt-dlp exists goto then
-   then
+if [[ -f ${base_dir}/yt-dlp ]]; then
         chmod a+rx ${base_dir}/yt-dlp  # set <yt-dlp-fetched> execute bit
         ${base_dir}/yt-dlp --version > ${base_dir}/videoinfo.yt-dlp.version # write yt-dlp ver number to file: yt-dlp.version 
         echo
@@ -759,8 +717,7 @@ viv3=$(echo "$ver" | cut -c13- | sed -e 's/\.//g') # format: whole number  xxxx
 # Prevent Update Available notifications from displaying if download fails. 
 # If download fails, download version = script version
 
-if [ -f ${tmp_dir}/videoinfox ]  # if file exists goto then
-   then  # Downloaded
+if [[ -f ${tmp_dir}/videoinfox ]]; then  # Downloaded
         :
 
    else # Download Failure
@@ -768,8 +725,7 @@ if [ -f ${tmp_dir}/videoinfox ]  # if file exists goto then
 fi
 # for the notification just on the home screen
 
-if [ "$viv2" = "$viv3" ]  # If the downloaded version = this script's version goto then
-  then
+if [[ "$viv2" = "$viv3" ]]; then
       # Version numbers are the same
       viv4=$(echo -e \ "               ") # dead space place holder for when there is no Update Available in the display
       rm ${tmp_dir}/* 2> /dev/null
@@ -786,8 +742,7 @@ fi
 #####  5. IF THE DEFAULT LIST DOESN'T EXIST, CREATE IT  ##########################################################################################
 ##################################################################################################################################################
 
-if [ -f ${base_dir}/videoinfox-dl-Default ]  # if file exists then 
-then
+if [[ -f ${base_dir}/videoinfox-dl-Default ]]; then
     :
 else  # if file doesn't exist one will be created
 
@@ -952,8 +907,7 @@ echo >> ${base_dir}/videoinfox.download-list-help
 #####  7. CREATE HELP FILE  ###################################################################################################################### 
 ##################################################################################################################################################
 
-#if [ -f ${base_dir}/videoinfo.help ]
-#  then
+#if [[ -f ${base_dir}/videoinfo.help ]]; then
 #      :
 
 #  else
@@ -1924,8 +1878,7 @@ cd "$diratexit" 2>/dev/null
 
 #   The Line below is what gets the Codec & Resolution from a video file.
 codecres="ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1"
-if [ -f ${base_dir}/videoinfo.playlist.current ]
-  then
+if [[ -f ${base_dir}/videoinfo.playlist.current ]]; then
       :
   else
       echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ${base_dir}/videoinfo.playlist.current
@@ -1934,19 +1887,17 @@ fi
 ###########################  HOME LOOP START #####################################################################################################
 ##################################################################################################################################################
 
-function menuf {
+menuf() {
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
 grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
-if [ "$grabclip" = "http" ]  # if the first 4 characters = <http> go then
-  then
+if [[ "$grabclip" = "http" ]]; then
       :
 
   else      
-      if [ -f "$pasteclip" ]
-        then
+      if [[ -f "$pasteclip" ]]; then
             :
         else
             echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
@@ -1979,8 +1930,7 @@ cat ${base_dir}/videoinfo.lastfindtime | awk '{ print substr( $0, 1, length($0)-
 mv ${base_dir}/videoinfo.time ${base_dir}/videoinfo.lastfindtime
 
 #  if search total is any number
-if [ "$searchtotal" = "" ]  # if the file <${base_dir}/videoinfo.lastsearchtotal> is empty goto then
-  then
+if [[ "$searchtotal" = "" ]]; then
       dashj=$(echo "-")  # don't blink dash on home screen @ Play Number
       rm ${tmp_dir}/videoinfo-findwork.tmp 2>/dev/null
       rm ${tmp_dir}/videoinfo-number-findwork.tmp 2>/dev/null
@@ -2085,33 +2035,27 @@ read -r dir4display < ${base_dir}/videoinfox.dir4  # load reformatted default di
 read -r dir5display < ${base_dir}/videoinfox.dir5  # load reformatted default directory 5 name
 # DEFAULT DIR 5  DISPLAY     IF DIRECTORY ON EXIT  =  DEFAULT DIRECTORIES 1-4 then Display that directory number.
 
-if [[ "$controldir" = "$dir5display" ]]
-  then 
+if [[ "$controldir" = "$dir5display" ]]; then 
 
-      if [[ "$dir5display" = "$dir1display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 1 then display 1 and not 5
-        then
+      if [[ "$dir5display" = "$dir1display" ]]; then
              dirdisp="$dirdisplay1"
       fi
 
-      if [[ "$dir5display" = "$dir2display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 2 then display 2 and not 5
-        then
+      if [[ "$dir5display" = "$dir2display" ]]; then
              dirdisp="$dirdisplay2"
       fi
 
-      if [[ "$dir5display" = "$dir3display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 3 then display 3 and not 5
-        then
+      if [[ "$dir5display" = "$dir3display" ]]; then
              dirdisp="$dirdisplay3"
       fi
 
-      if [[ "$dir5display" = "$dir4display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 4 then display 4 and not 5
-        then
+      if [[ "$dir5display" = "$dir4display" ]]; then
              dirdisp="$dirdisplay4"
       fi
 fi
 
 # DEFAULT DIR 5 DISPLAY
-if [[ "$controldir" = "$dir5display" ]] 
-  then
+if [[ "$controldir" = "$dir5display" ]]; then
        dirdisp="$dirdisplay5"  # if directory is changed to  Default Dir 5 :  The number 5 is normal text and the other 4 are less bold.
         
   else
@@ -2119,26 +2063,22 @@ if [[ "$controldir" = "$dir5display" ]]
 fi 
 
 # DEFAULT DIR 1  DISPLAY
-if [[ "$controldir" = "$dir1display" ]]  # IF PWD = DEFAULT DIR 1 then display 1
-  then 
+if [[ "$controldir" = "$dir1display" ]]; then 
        dirdisp="$dirdisplay1"
 fi
 
 # DEFAULT DIR 2  DISPLAY
-if [[ "$controldir" = "$dir2display" ]]  # IF PWD = DEFAULT DIR 2 then display 2
-  then 
+if [[ "$controldir" = "$dir2display" ]]; then 
        dirdisp="$dirdisplay2"
 fi
 
 # DEFAULT DIR 3  DISPLAY
-if [[ "$controldir" = "$dir3display" ]]  # IF PWD = DEFAULT DIR 3 then display 3
-  then 
+if [[ "$controldir" = "$dir3display" ]]; then 
        dirdisp="$dirdisplay3"
 fi
 
 # DEFAULT DIR 4  DISPLAY
-if [[ "$controldir" = "$dir4display" ]]  # IF PWD = DEFAULT DIR 4 then display 4
-  then 
+if [[ "$controldir" = "$dir4display" ]]; then 
        dirdisp="$dirdisplay4"  # if directory is changed to  Default Dir 4 :  The number 4 is normal text and the other 4 are less bold.
 fi
 
@@ -2148,14 +2088,12 @@ fi
 # CHECKING FOR VIDEOS IN CURRENT DIRECTORY.  if video(s) exist:  the dash @ Play Directory will blink on the home screen
 dovideosexist=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
 
-if [ $dovideosexist -ne 0 ]  # If the find result doesn't =   0   goto then
-  then 
+if [[ $dovideosexist -ne 0 ]]; then 
       dash=$(echo "~")  
   else
       dash=$(echo "-")  
 fi
-# if [ "$searchtotal" = "" ]  # if the file <${base_dir}/videoinfo.lastsearchtotal> is empty goto then
-#  then
+# if [[ "$searchtotal" = "" ]]; then
 #      :
 #  else
 #      echo
@@ -2186,19 +2124,16 @@ grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st chara
 # If it is <http>, YT-DLP will get the clipboard. yt-dlp will check if its a valid link by trying to extract the name of the video file.
 # If it isn't <http>  the ytdlp loop will be skipped
 
-if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
-  then
+if [[ "$grabpaste" = "http" ]]; then
       echo "Clipboard: ""$pasteclip"
   else
       :
 fi
-if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
-  then
+if [[ "$grabpaste" = "http" ]]; then
       read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
       ytdlpconfirm=$(${base_dir}/yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
 
-            if [ "$ytdlpconfirm" = "" ]  # if yt-dlp couldn't extract a name goto then
-                  then
+            if [[ "$ytdlpconfirm" = "" ]]; then
   
                   echo "" | xclip -sel clip  # clearing out the clipboard
                   pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
@@ -2236,8 +2171,7 @@ echo -e " f - Find              n - Navigate Tree     p - \033[5mPlay Clipboard\
             fi
     else
 
-if [ -f "$pasteclip" ]  #  if file exists goto <then>
- then
+if [[ -f "$pasteclip" ]]; then
 echo      
 echo "Valid file in clipboard"
 echo "___________________________________________________________________________________________________________________"
@@ -2289,13 +2223,11 @@ e)   # EXIT
  
      read -r lsearch < ${base_dir}/videoinfo.lastsearch-set  # load last search setting
 
-if [ "$lsearch" = 1 ]  # ALWAYS SAVE
-  then
+if [[ "$lsearch" = 1 ]]; then
       :
 fi
 
-if [ "$lsearch" = 2 ]  # NEVER SAVE
-  then
+if [[ "$lsearch" = 2 ]]; then
      
 ######### CLEAR FIND RESULTS ##########
      echo " " > ${base_dir}/videoinfo.lastsearchtotal
@@ -2311,8 +2243,7 @@ if [ "$lsearch" = 2 ]  # NEVER SAVE
 #echo "                                                                                                                 " >> ${base_dir}/videoinfo.findwork     
 echo > ${base_dir}/videoinfo.findwork
 fi
-if [ "$lsearch" = 3 ]  # ASK TO SAVE
-  then         
+if [[ "$lsearch" = 3 ]]; then         
          function menuq {
          clear
          echo -e "\n"
@@ -2381,8 +2312,7 @@ o)
 ###########################   AUTOPLAY LINE  o   <HOME>  #########################################################################################
 ##################################################################################################################################################
 
-if [ -f ${tmp_dir}/videoinfo-findwork.tmp ]
-  then
+if [[ -f ${tmp_dir}/videoinfo-findwork.tmp ]]; then
 
 echo
 echo
@@ -2430,8 +2360,7 @@ for line in $(cat "$input" 2>/dev/null)
       read -t 3 -p " Press any key then press enter to quit : " playdir
            
            # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 3 seconds the next video will play
+           if [[ $playdir ]]; then                                                        # if no input is entered within 3 seconds the next video will play
                  break                                                   # if enter is pressed without any input the next video will play
            fi
 done
@@ -2452,8 +2381,7 @@ j)
 ###########################   PLAY LINE  j   <HOME>  #############################################################################################
 ##################################################################################################################################################
 
-if [ -f ${tmp_dir}/videoinfo-findwork.tmp ]  # if file exists goto then
-  then
+if [[ -f ${tmp_dir}/videoinfo-findwork.tmp ]]; then
       echo
       echo
       read -r -p " Play Line: " linenumber  # waiting fot user input
@@ -2464,8 +2392,7 @@ if [ -f ${tmp_dir}/videoinfo-findwork.tmp ]  # if file exists goto then
       # read first line of file for play
       read playnumber < ${tmp_dir}/videoinfo-findwork-playnumber.tmp
 
-      if [ -z "$playnumber" ]
-          then
+      if [[ -z "$playnumber" ]]; then
               :
 
           else
@@ -2527,8 +2454,7 @@ function navtree {
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
-if [ -d "$pasteclip" ]  # if the directory exists gto then
-  then
+if [[ -d "$pasteclip" ]]; then
       :
 
   else      
@@ -2616,33 +2542,27 @@ read -r dir4display < ${base_dir}/videoinfox.dir4  # load reformatted default di
 read -r dir5display < ${base_dir}/videoinfox.dir5  # load reformatted default directory 5 name
 # DEFAULT DIR 5  DISPLAY     IF DIRECTORY ON EXIT  =  DEFAULT DIRECTORIES 1-4 then Display that directory number.
 
-if [[ "$controldir" = "$dir5display" ]]
-  then 
+if [[ "$controldir" = "$dir5display" ]]; then 
 
-      if [[ "$dir5display" = "$dir1display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 1 then display 1 and not 5
-        then
+      if [[ "$dir5display" = "$dir1display" ]]; then
              dirdisp="$dirdisplay1"
       fi
 
-      if [[ "$dir5display" = "$dir2display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 2 then display 2 and not 5
-        then
+      if [[ "$dir5display" = "$dir2display" ]]; then
              dirdisp="$dirdisplay2"
       fi
 
-      if [[ "$dir5display" = "$dir3display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 3 then display 3 and not 5
-        then
+      if [[ "$dir5display" = "$dir3display" ]]; then
              dirdisp="$dirdisplay3"
       fi
 
-      if [[ "$dir5display" = "$dir4display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 4 then display 4 and not 5
-        then
+      if [[ "$dir5display" = "$dir4display" ]]; then
              dirdisp="$dirdisplay4"
       fi
 fi
 
 # DEFAULT DIR 5 DISPLAY
-if [[ "$controldir" = "$dir5display" ]] 
-  then
+if [[ "$controldir" = "$dir5display" ]]; then
        dirdisp="$dirdisplay5"  # if directory is changed to  Default Dir 5 :  The number 5 is normal text and the other 4 are less bold.
         
   else
@@ -2650,26 +2570,22 @@ if [[ "$controldir" = "$dir5display" ]]
 fi 
 
 # DEFAULT DIR 1  DISPLAY
-if [[ "$controldir" = "$dir1display" ]]  # IF PWD = DEFAULT DIR 1 then display 1
-  then 
+if [[ "$controldir" = "$dir1display" ]]; then 
        dirdisp="$dirdisplay1"
 fi
 
 # DEFAULT DIR 2  DISPLAY
-if [[ "$controldir" = "$dir2display" ]]  # IF PWD = DEFAULT DIR 2 then display 2
-  then 
+if [[ "$controldir" = "$dir2display" ]]; then 
        dirdisp="$dirdisplay2"
 fi
 
 # DEFAULT DIR 3  DISPLAY
-if [[ "$controldir" = "$dir3display" ]]  # IF PWD = DEFAULT DIR 3 then display 3
-  then 
+if [[ "$controldir" = "$dir3display" ]]; then 
        dirdisp="$dirdisplay3"
 fi
 
 # DEFAULT DIR 4  DISPLAY
-if [[ "$controldir" = "$dir4display" ]]  # IF PWD = DEFAULT DIR 4 then display 4
-  then 
+if [[ "$controldir" = "$dir4display" ]]; then 
        dirdisp="$dirdisplay4"  # if directory is changed to  Default Dir 4 :  The number 4 is normal text and the other 4 are less bold.
 fi
 
@@ -2691,8 +2607,7 @@ dash1=$(echo "~")
 blinkit=$(find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
 
 # if find results are zero goto then
-if [ "$blinkit" = 0 ]
-  then
+if [[ "$blinkit" = 0 ]]; then
       blinkit2="$playdir1"  # zero files. non bliking  Playdirectory
       bdash="$dash0"
   else
@@ -2705,8 +2620,7 @@ changedir1=$(echo "Change Directory")
 changedir2=$(echo -e "\033[5mChange Directory\033m\033[0m\033[5m\033[5m\033[0m")
 
 # if directory exists goto then
-if [ -d "$pasteclip" ]
-  then
+if [[ -d "$pasteclip" ]]; then
       changedir3="$changedir2"  # if the directory exists, blinking  Change Directory
   else
       changedir3="$changedir1"  # if the directory doesn't exist, non blinking  Change Directory
@@ -2775,8 +2689,7 @@ echo
        
        
          u)  # UP ONE LEVEL 
-         if [ "$grabdirfornav2" = "$PWD" ]  # when   Up One Level   reaches the    Treetop    no   cd..   out of the parent directory 
-           then
+         if [[ "$grabdirfornav2" = "$PWD" ]]; then
                echo
                echo " At treetop. Can't go any higher . . ."
                sleep .50
@@ -2794,13 +2707,11 @@ linecount=$(wc -l ${tmp_dir}/nt-list.tmp | cut -d' ' -f1)
 
 echo
 read -r -p " Enter line number to change directory: " linenumber  # waiting fot user input
-if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
-  then  # IF ENTRY IS NOT A NUMBER
+if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
-if [[ $linenumber -gt $linecount ]]
-  then 
+if [[ $linenumber -gt $linecount ]]; then 
       echo
       echo " Number out of range . . ."
       sleep .9
@@ -2836,8 +2747,7 @@ sort -u ${tmp_dir}/videoinfox.navtree-play-directory-apa-work > ${tmp_dir}/video
 atleastone=$(grep '^/' ${tmp_dir}/videoinfox.navtree-play-directory-apa 2>/dev/null | wc -l)
 
 #  IF THE NUMBER DOESN"T = 0  THEN PROCESS AUTO PLAY OF PLAYED LIST
-if [ $atleastone -ne 0 ]  
-   then
+if [[ $atleastone -ne 0 ]]; then
 
 #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
 moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa"
@@ -2852,8 +2762,7 @@ echo > ${tmp_dir}/videoinfox.navtree-play-directory-apa2
 while read -r line  # read line by line and write line by line until end of file
 do
 
-   if [ -f "$line" ]
-      then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
+   if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
            echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2  
       else
            :
@@ -2875,24 +2784,19 @@ echo > ${tmp_dir}/videoinfox.navtree-play-directory-apa2
 while read -r line  # read line by line until end of file
 do
 
-   if [[ "$line" == *.mp4 ]] 
-        then # IF FILE IS MP4, WRITE LINE TO FILE
+   if [[ "$line" == *.mp4 ]]; then # IF FILE IS MP4, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2  
      
-   elif [[ "$line" == *.webm ]]
-        then # IF FILE IS WEBM, WRITE LINE TO FILE
+   elif [[ "$line" == *.webm ]]; then # IF FILE IS WEBM, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2
       
-   elif [[ "$line" == *.mkv ]]
-        then # IF FILE IS MKV, WRITE LINE TO FILE
+   elif [[ "$line" == *.mkv ]]; then # IF FILE IS MKV, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2
 
-   elif [[ "$line" == *.avi ]]
-        then # IF FILE IS AVI, WRITE LINE TO FILE
+   elif [[ "$line" == *.avi ]]; then # IF FILE IS AVI, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2
 
-   elif [[ "$line" == *.divx ]]
-        then  # IF FILE IS DIVX, WRITE LINE TO FILE
+   elif [[ "$line" == *.divx ]]; then  # IF FILE IS DIVX, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2
    fi
 
@@ -2920,8 +2824,7 @@ else #  NO LINES START WITH A SLASH /   remove empty files
 fi
 ################clear
 
-if [ -f ${tmp_dir}/videoinfox.numbered-navtree-play-directory-list ]
-   then
+if [[ -f ${tmp_dir}/videoinfox.numbered-navtree-play-directory-list ]]; then
         cat ${tmp_dir}/videoinfox.numbered-navtree-play-directory-list 2>/dev/null
    else
        echo
@@ -2972,8 +2875,7 @@ for line in $(cat "$input" 2>/dev/null)
       read -t 3 -p " Press any key then press enter to quit : " playdir
            
            # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 3 seconds the next video will play
+           if [[ $playdir ]]; then                                                        # if no input is entered within 3 seconds the next video will play
                  break                                                   # if enter is pressed without any input the next video will play
            fi
 done
@@ -3006,13 +2908,11 @@ echo " Enter directory or paste directory if in clipboard."
 echo
 read -r -p " " specifydir  # waiting fot user input - the directory you want to chang to 
     
-    if [ -z "$specifydir" ]  # if no input was entered goto  <then> 
-          then
+    if [[ -z "$specifydir" ]]; then
                echo " Nothing was entered . . ."
                sleep .75
           else
-              if [ -d "$specifydir" ]  #  if directoty exists goto  <then>
-                then
+              if [[ -d "$specifydir" ]]; then
                      echo
                      grabdirfornav2="$specifydir"
                      cd "$specifydir"   # change the directory
@@ -3033,8 +2933,7 @@ echo
 
 #checking for videos in the current directory.  if no videos exist,   Play Directory   won't execute
 dovideosexist=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
-if [ $dovideosexist -ne 0 ]  # If the find result doesn't =   0   goto then
-  then  # IF VIDEOS EXIST IN THE CURRENT DIRECTORY THEN RUN PLAY LINE
+if [[ $dovideosexist -ne 0 ]]; then RUN PLAY LINE
 
 function ntplaynum {
 
@@ -3048,8 +2947,7 @@ sort -u ${tmp_dir}/videoinfox.nt-play-directory-apa-work > ${tmp_dir}/videoinfox
 atleastone=$(grep '^/' ${tmp_dir}/videoinfox.nt-play-directory-apa 2>/dev/null | wc -l)
 
 #  IF THE NUMBER DOESN"T = 0  THEN PROCESS AUTO PLAY OF PLAYED LIST
-if [ $atleastone -ne 0 ]  
-   then
+if [[ $atleastone -ne 0 ]]; then
 
 #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
 moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa"
@@ -3064,8 +2962,7 @@ echo > ${tmp_dir}/videoinfox.nt-play-directory-apa2
 while read -r line  # read line by line and write line by line until end of file
 do
 
-   if [ -f "$line" ]
-      then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
+   if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
            echo "$line" >> ${tmp_dir}/videoinfox.nt-play-directory-apa2  
       else
            :
@@ -3087,24 +2984,19 @@ echo > ${tmp_dir}/videoinfox.nt-play-directory-apa2
 while read -r line  # read line by line until end of file
 do
 
-   if [[ "$line" == *.mp4 ]] 
-        then # IF FILE IS MP4, WRITE LINE TO FILE
+   if [[ "$line" == *.mp4 ]]; then # IF FILE IS MP4, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfox.nt-play-directory-apa2  
      
-   elif [[ "$line" == *.webm ]]
-        then # IF FILE IS WEBM, WRITE LINE TO FILE
+   elif [[ "$line" == *.webm ]]; then # IF FILE IS WEBM, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfox.nt-play-directory-apa2
       
-   elif [[ "$line" == *.mkv ]]
-        then # IF FILE IS MKV, WRITE LINE TO FILE
+   elif [[ "$line" == *.mkv ]]; then # IF FILE IS MKV, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfox.nt-play-directory-apa2
 
-   elif [[ "$line" == *.avi ]]
-        then # IF FILE IS AVI, WRITE LINE TO FILE
+   elif [[ "$line" == *.avi ]]; then # IF FILE IS AVI, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfox.nt-play-directory-apa2
 
-   elif [[ "$line" == *.divx ]]
-        then  # IF FILE IS DIVX, WRITE LINE TO FILE
+   elif [[ "$line" == *.divx ]]; then  # IF FILE IS DIVX, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfox.nt-play-directory-apa2
    fi
 
@@ -3132,8 +3024,7 @@ else #  NO LINES START WITH A SLASH /   remove empty files
 fi
 clear
 
-if [ -f ${tmp_dir}/videoinfox.numbered-nt-play-directory-list ]
-   then
+if [[ -f ${tmp_dir}/videoinfox.numbered-nt-play-directory-list ]]; then
         cat ${tmp_dir}/videoinfox.numbered-nt-play-directory-list 2>/dev/null
    else
         echo
@@ -3181,16 +3072,14 @@ sed -i -e 's/\.//g' ${tmp_dir}/plremovedot.tmp
 read createpl < ${tmp_dir}/plremovedot.tmp
 rm ${tmp_dir}/plremovedot.tmp
 
-if [ -z "$createpl" ]  # if enter is pressed with no entry
-  then
+if [[ -z "$createpl" ]]; then
       echo
       echo " Nothing was entered . . ."
       sleep .75
 
   else
 
-      if [ -f ${base_dir}/playlists/vplaylist."$createpl" ]
-        then
+      if [[ -f ${base_dir}/playlists/vplaylist."$createpl" ]]; then
             echo
             echo " File already exists . . ."
             sleep .75
@@ -3214,8 +3103,7 @@ fi
 ;; 
      i)  # INFO - <HOME>
  
-      if [ -f "$pasteclip" ]
-        then
+      if [[ -f "$pasteclip" ]]; then
             pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
             echo
             echo
@@ -3229,8 +3117,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 
         else
 
-            if [ -f ${tmp_dir}/videoinfox.nt-play-directory-apa ]  # if file exists goto then
-              then
+            if [[ -f ${tmp_dir}/videoinfox.nt-play-directory-apa ]]; then
               echo
               echo
               read -r -p " Enter line number to get info: " linenumber  # waiting fot user input
@@ -3241,8 +3128,7 @@ mv ${tmp_dir}/videoinfox.nt-play-directory-apa.tmp ${tmp_dir}/videoinfox.nt-play
              # read first line of file for play
              read playnumber < ${tmp_dir}/videoinfox.nt-play-directory-apa
 
-                 if [ -z "$playnumber" ]
-                   then
+                 if [[ -z "$playnumber" ]]; then
                        :
  
                    else
@@ -3274,8 +3160,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 
 #checking for videos in the current directory.  if no videos exist,   Play Directory   won't execute
 dovideosexist=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
-if [ $dovideosexist -ne 0 ]  # If the find result doesn't =   0   goto then
-  then  # IF VIDEOS EXIST IN THE CURRENT DIRECTORY THEN RUN PLAY LINE
+if [[ $dovideosexist -ne 0 ]]; then RUN PLAY LINE
 
 # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
 find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) > ${tmp_dir}/videoinfox.nt-play-directory-apa-work 2>/dev/null
@@ -3287,8 +3172,7 @@ sort -u ${tmp_dir}/videoinfox.nt-play-directory-apa-work > ${tmp_dir}/videoinfox
 atleastone=$(grep '^/' ${tmp_dir}/videoinfox.nt-play-directory-apa 2>/dev/null | wc -l)
 
 #  IF THE NUMBER DOESN"T = 0  THEN PROCESS AUTO PLAY OF PLAYED LIST
-if [ $atleastone -ne 0 ]  
-   then
+if [[ $atleastone -ne 0 ]]; then
 
 #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
 moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa"
@@ -3303,8 +3187,7 @@ echo > ${tmp_dir}/videoinfox.nt-play-directory-apa2
 while read -r line  # read line by line and write line by line until end of file
 do
 
-   if [ -f "$line" ]
-      then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
+   if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
            echo "$line" >> ${tmp_dir}/videoinfox.nt-play-directory-apa2  
       else
            :
@@ -3326,24 +3209,19 @@ echo > ${tmp_dir}/videoinfox.nt-play-directory-apa2
 while read -r line  # read line by line until end of file
 do
 
-   if [[ "$line" == *.mp4 ]] 
-        then # IF FILE IS MP4, WRITE LINE TO FILE
+   if [[ "$line" == *.mp4 ]]; then # IF FILE IS MP4, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfox.nt-play-directory-apa2  
      
-   elif [[ "$line" == *.webm ]]
-        then # IF FILE IS WEBM, WRITE LINE TO FILE
+   elif [[ "$line" == *.webm ]]; then # IF FILE IS WEBM, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfox.nt-play-directory-apa2
       
-   elif [[ "$line" == *.mkv ]]
-        then # IF FILE IS MKV, WRITE LINE TO FILE
+   elif [[ "$line" == *.mkv ]]; then # IF FILE IS MKV, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfox.nt-play-directory-apa2
 
-   elif [[ "$line" == *.avi ]]
-        then # IF FILE IS AVI, WRITE LINE TO FILE
+   elif [[ "$line" == *.avi ]]; then # IF FILE IS AVI, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfox.nt-play-directory-apa2
 
-   elif [[ "$line" == *.divx ]]
-        then  # IF FILE IS DIVX, WRITE LINE TO FILE
+   elif [[ "$line" == *.divx ]]; then  # IF FILE IS DIVX, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfox.nt-play-directory-apa2
    fi
 
@@ -3371,8 +3249,7 @@ else #  NO LINES START WITH A SLASH /   remove empty files
 fi
 # clear
 
-if [ ! -f ${tmp_dir}/videoinfox.numbered-nt-play-directory-list ]
-   then
+if [[ ! -f ${tmp_dir}/videoinfox.numbered-nt-play-directory-list ]]; then
         echo
         echo " No videos in the current directory . . ."
 fi
@@ -3382,13 +3259,11 @@ linecount=$(wc -l ${tmp_dir}/videoinfox.nt-play-directory-apa | cut -d' ' -f1)
 echo
 echo
 read -r -p " Play Line: " linenumber  # waiting fot user input
-if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
-  then  # IF ENTRY IS NOT A NUMBER
+if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
-if [[ $linenumber -gt $linecount ]]
-  then 
+if [[ $linenumber -gt $linecount ]]; then 
       echo
       echo " Number out of range . . ."
       sleep .9
@@ -3457,8 +3332,7 @@ fi
 
 #checking for videos in the current directory.  if no videos exist,   playlistaddnav Directory   won't execute
 dovideosexist=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
-if [ $dovideosexist -ne 0 ]  # If the find result doesn't =   0   goto then
-  then  # IF VIDEOS EXIST IN THE CURRENT DIRECTORY 
+if [[ $dovideosexist -ne 0 ]]; then  # IF VIDEOS EXIST IN THE CURRENT DIRECTORY 
 
 ########################################################################################################################function ntplaylistaddnavnum {
 
@@ -3472,8 +3346,7 @@ sort -u ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa-work > ${tmp_dir}/
 atleastone=$(grep '^/' ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa 2>/dev/null | wc -l)
 
 #  IF THE NUMBER DOESN"T = 0 
-if [ $atleastone -ne 0 ]  
-   then
+if [[ $atleastone -ne 0 ]]; then
 
 #  ASSIGN playlistaddnavED LIST TO VARIABLE: $moddedplaylistaddnavedlist 
 moddedplaylistaddnavedlist="$HOME""/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-directory-apa"
@@ -3488,8 +3361,7 @@ echo > ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2
 while read -r line  # read line by line and write line by line until end of file
 do
 
-   if [ -f "$line" ]
-      then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
+   if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
            echo "$line" >> ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2  
       else
            :
@@ -3510,24 +3382,19 @@ echo > ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2
 while read -r line  # read line by line until end of file
 do
 
-   if [[ "$line" == *.mp4 ]] 
-        then # IF FILE IS MP4, WRITE LINE TO FILE
+   if [[ "$line" == *.mp4 ]]; then # IF FILE IS MP4, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2  
      
-   elif [[ "$line" == *.webm ]]
-        then # IF FILE IS WEBM, WRITE LINE TO FILE
+   elif [[ "$line" == *.webm ]]; then # IF FILE IS WEBM, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2
       
-   elif [[ "$line" == *.mkv ]]
-        then # IF FILE IS MKV, WRITE LINE TO FILE
+   elif [[ "$line" == *.mkv ]]; then # IF FILE IS MKV, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2
 
-   elif [[ "$line" == *.avi ]]
-        then # IF FILE IS AVI, WRITE LINE TO FILE
+   elif [[ "$line" == *.avi ]]; then # IF FILE IS AVI, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2
 
-   elif [[ "$line" == *.divx ]]
-        then  # IF FILE IS DIVX, WRITE LINE TO FILE
+   elif [[ "$line" == *.divx ]]; then  # IF FILE IS DIVX, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2
    fi
 
@@ -3555,8 +3422,7 @@ else #  NO LINES START WITH A SLASH /   remove empty files
 fi
 clear
 
-if [ -f ${tmp_dir}/videoinfox.numbered-nt-playlistaddnav-directory-list ]
-   then
+if [[ -f ${tmp_dir}/videoinfox.numbered-nt-playlistaddnav-directory-list ]]; then
         cat ${tmp_dir}/videoinfox.numbered-nt-playlistaddnav-directory-list 2>/dev/null
    else
         echo
@@ -3579,19 +3445,16 @@ linecount=$(wc -l ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa | cut -d
 
 mv ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa.tmp ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa 2>/dev/null
 
-if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
-  then  # IF ENTRY IS NOT A NUMBER
+if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
 
-      if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
-        then
+      if [[ -z "$linenumber" ]]; then
             :
 
         else
-            if [[ $linenumber -gt $linecount ]]
-              then 
+            if [[ $linenumber -gt $linecount ]]; then 
                   echo
                   echo "Number out of range . . ."
                   sleep .9
@@ -3603,8 +3466,7 @@ IFS=$'\n'
 
 read line < ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa
 
-if [ -z "$linenumber" ]
-          then
+if [[ -z "$linenumber" ]]; then
               :
 
           else
@@ -3650,21 +3512,18 @@ pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard conten
 
 grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
-if [ "$grabclip" = "http" ]  # if the first 4 characters = <http> go then
-  then
+if [[ "$grabclip" = "http" ]]; then
       :
 
   else      
-      if [ -f "$pasteclip" ]
-        then
+      if [[ -f "$pasteclip" ]]; then
             :
         else
             echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
             pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
       fi
 fi
-if [ -f ${base_dir}/videoinfo.playlist ]
-  then
+if [[ -f ${base_dir}/videoinfo.playlist ]]; then
       # REMOVE DUPLICATES
       cat -n ${base_dir}/videoinfo.playlist | sort -uk2 | sort -n | cut -f2- > ${tmp_dir}/videoinfo.playlist.tmp
       mv ${tmp_dir}/videoinfo.playlist.tmp ${base_dir}/videoinfo.playlist
@@ -3681,8 +3540,7 @@ cp ${base_dir}/videoinfo.playlist ${tmp_dir}/videoinfo.playlist-apa
 atleastone=$(grep '^/' ${tmp_dir}/videoinfo.playlist-apa | wc -l)
 
 #  IF THE NUMBER DOESN"T = 0  THEN PROCESS AUTO PLAY OF PLAYLIST
-if [ $atleastone -ne 0 ]  
-   then
+if [[ $atleastone -ne 0 ]]; then
 
 #  ASSIGN PLAYLIST TO VARIABLE: $moddedplaylist 
 moddedplaylist="$HOME""/.config/videoinfox/tmp/videoinfo.playlist-apa"
@@ -3697,8 +3555,7 @@ echo > ${tmp_dir}/videoinfo.playlist-apa2
 while read -r line  # read line by line and write line by line until end of file
 do
 
-   if [ -f "$line" ]
-      then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
+   if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
            echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2  
       else
            :
@@ -3725,24 +3582,19 @@ echo > ${tmp_dir}/videoinfo.playlist-apa2
 while read -r line  # read line by line until end of file
 do
 
-   if [[ "$line" == *.mp4 ]] 
-        then # IF FILE IS MP4, WRITE LINE TO FILE
+   if [[ "$line" == *.mp4 ]]; then # IF FILE IS MP4, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2  
      
-   elif [[ "$line" == *.webm ]]
-        then # IF FILE IS WEBM, WRITE LINE TO FILE
+   elif [[ "$line" == *.webm ]]; then # IF FILE IS WEBM, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2
       
-   elif [[ "$line" == *.mkv ]]
-        then # IF FILE IS MKV, WRITE LINE TO FILE
+   elif [[ "$line" == *.mkv ]]; then # IF FILE IS MKV, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2
 
-   elif [[ "$line" == *.avi ]]
-        then # IF FILE IS AVI, WRITE LINE TO FILE
+   elif [[ "$line" == *.avi ]]; then # IF FILE IS AVI, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2
 
-   elif [[ "$line" == *.divx ]]
-        then  # IF FILE IS DIVX, WRITE LINE TO FILE
+   elif [[ "$line" == *.divx ]]; then  # IF FILE IS DIVX, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2
    fi
 
@@ -3768,8 +3620,7 @@ else #  NO LINES START WITH A SLASH /   remove empty files
      rm ${tmp_dir}/videoinfo.number.play-list 2>/dev/null     
 fi
 clear
-if [ -f ${tmp_dir}/videoinfo.number.play-list ]
-   then
+if [[ -f ${tmp_dir}/videoinfo.number.play-list ]]; then
         cat ${tmp_dir}/videoinfo.number.play-list 2>/dev/null
         #dashit=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
         dashit=$(echo "~") #
@@ -3784,8 +3635,7 @@ fi
 # check if directory ${base_dir}/playlists is empty.  if it is, set playlist to Default 
 searchtotal=$(find "$PWD" -type f \( -iname "vplaylist.*" \) 2>/dev/null | wc -l)
 
-if [ "$searchtotal" = 0 ]  # if find returned no results goto <then>
-  then
+if [[ "$searchtotal" = 0 ]]; then
       echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ${base_dir}/videoinfo.playlist.current             
       cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/plread.tmp 
       read -r setplaylist < ${tmp_dir}/plread.tmp
@@ -3828,20 +3678,17 @@ grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st chara
 
 #echo "Directory: ""$PWD"
 
-if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
-  then
+if [[ "$grabpaste" = "http" ]]; then
       echo
       echo "Clipboard: ""$pasteclip"
   else
       :
 fi
-if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
-  then
+if [[ "$grabpaste" = "http" ]]; then
       read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
       ytdlpconfirm=$(${base_dir}/yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
 
-            if [ "$ytdlpconfirm" = "" ]  
-                  then
+            if [[ "$ytdlpconfirm" = "" ]]; then
 
                       echo "" | xclip -sel clip  # clearing out the clipboard
                       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
@@ -3875,8 +3722,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
             fi
   else
 
-      if [ -f "$pasteclip" ]  # 
-        then
+      if [[ -f "$pasteclip" ]]; then
             echo      
             echo "Valid file in clipboard"
             echo "___________________________________________________________________________________________________________________"
@@ -3942,8 +3788,7 @@ read -r -n1 optionv
 # SET COUNTER TO ZERO. $i in below play loop to get line number from last played video
 i=0
 
-if [ -f ${tmp_dir}/videoinfo.number.play-list ]
-   then
+if [[ -f ${tmp_dir}/videoinfo.number.play-list ]]; then
 
 echo
 echo
@@ -3995,8 +3840,7 @@ for line in $(cat "$input" 2>/dev/null)
       read -t 3 -p " Press any key then press enter to quit : " playdir
            
            # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 3 seconds the next video will play
+           if [[ $playdir ]]; then                                                        # if no input is entered within 3 seconds the next video will play
                  break                                                   # if enter is pressed without any input the next video will play
            fi
 done
@@ -4029,14 +3873,12 @@ r)  # REMOVE LINE  (HOME >>> PLAYLIST)
 cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/whatplpld.tmp 
 read -r whatplpld < ${tmp_dir}/whatplpld.tmp
 rm ${tmp_dir}/whatplpld.tmp
-if [ -f ${base_dir}/videoinfo.playlist ]  # if file exists goto then
-  then
+if [[ -f ${base_dir}/videoinfo.playlist ]]; then
       :
   else
       echo > ${base_dir}/videoinfo.playlist
 fi
-if [ -f ${base_dir}/videoinfo.playlist ]  # if file exists goto then
-  then
+if [[ -f ${base_dir}/videoinfo.playlist ]]; then
 
       clear
       cat ${tmp_dir}/videoinfo.number.play-list 2> /dev/null
@@ -4050,34 +3892,29 @@ if [ -f ${base_dir}/videoinfo.playlist ]  # if file exists goto then
       # GETTING NUMBER OF VIDEO FILES IN THE PLAYED LIST
       linecount=$(wc -l ${tmp_dir}/videoinfo.playlist-apa 2> /dev/null | cut -d' ' -f1) # 
 
-          if ! [[ "$linenumber" -eq "$linenumber" ]] #2> /dev/null
-            then  # IF ENTRY IS NOT A NUMBER
+          if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
                 :
 
             else  # ENTRY IS A NUMBER
 
-                if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
-                  then
+                if [[ -z "$linenumber" ]]; then
                       :
 
                   else
 
-                      if [ "$linenumber" = 0 ]
-                        then
+                      if [[ "$linenumber" = 0 ]]; then
                             :
 
                         else
       
-                            if [[ $linenumber -gt $linecount ]]
-                              then 
+                            if [[ $linenumber -gt $linecount ]]; then 
                                   echo
                                   echo "Number out of range . . ."
                                   sleep .9
 
                               else
 
-                                  if [ -z "$linenumber" ]
-                                    then
+                                  if [[ -z "$linenumber" ]]; then
                                         :
 
                                     else
@@ -4108,8 +3945,7 @@ sleep 3
 ###### SET COUNTER TO ZERO. $i in below play loop to get line number from last played video
 i=0
 
-if [ -f ${tmp_dir}/videoinfo.number.play-list ]
-   then
+if [[ -f ${tmp_dir}/videoinfo.number.play-list ]]; then
 
 OLDIFS=$IFS
 IFS=$'\n'
@@ -4154,8 +3990,7 @@ for line in $(cat "$input2" 2>/dev/null)
       read -t 3 -p " Press any key then press enter to quit : " playdir
            
            # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 3 seconds the next video will play
+           if [[ $playdir ]]; then                                                        # if no input is entered within 3 seconds the next video will play
                  break                                                   # if enter is pressed without any input the next video will play
            fi
 done
@@ -4173,8 +4008,7 @@ fi
 ;;
         j) # PLAY LINE  (HOME >>> PLAYLIST)
 
-if [ -f ${tmp_dir}/videoinfo.number.play-list ]
-   then
+if [[ -f ${tmp_dir}/videoinfo.number.play-list ]]; then
 
 echo
 echo
@@ -4188,7 +4022,7 @@ IFS=$'\n'
 
 read line < ${tmp_dir}/videoinfo.playlist-apa
 
-if [ -z "$line" ]
+if [[ -z "$line" ]
 
   then
       :
@@ -4242,8 +4076,7 @@ fi
 ;;
        i)  # INFO - <PLAYLIST>
  
-      if [ -f "$pasteclip" ]
-        then
+      if [[ -f "$pasteclip" ]]; then
             pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
             echo
             echo
@@ -4256,8 +4089,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
             read -r -p " Press enter to Continue" 
 
         else
-            if [ -f ${tmp_dir}/videoinfo.playlist-apa ]  # if file exists goto then
-              then
+            if [[ -f ${tmp_dir}/videoinfo.playlist-apa ]]; then
               echo
               echo
               read -r -p " Enter line number to get info: " linenumber  # waiting fot user input
@@ -4268,8 +4100,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
              # read first line of file for play
              read playnumber < ${tmp_dir}/videoinfo.playlist-apa.tmp
 
-                 if [ -z "$playnumber" ]
-                   then
+                 if [[ -z "$playnumber" ]]; then
                        :
  
                    else
@@ -4363,13 +4194,11 @@ linecount=$(wc -l ${base_dir}/videoinfo.playlist.dirlist | cut -d' ' -f1)
 # LOAD A PLAYLIST
 echo
 read -r -p " Enter line number: " linenumber  # waiting fot user input
-if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
-  then  # IF ENTRY IS NOT A NUMBER
+if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
-if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
-  then
+if [[ -z "$linenumber" ]]; then
       :
 
   else
@@ -4409,18 +4238,15 @@ linecount=$(wc -l ${base_dir}/videoinfo.playlist.dirlist | cut -d' ' -f1)
 # SELECT A PLAYLIST TO DELETE
 echo
 read -r -p " Enter line number to delete: " linenumber  # waiting fot user input
-if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
-  then  # IF ENTRY IS NOT A NUMBER
+if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
-      if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
-        then
+      if [[ -z "$linenumber" ]]; then
             :
 
         else
-            if [[ $linenumber -gt $linecount ]]
-              then 
+            if [[ $linenumber -gt $linecount ]]; then 
                   echo
                   echo " Number out of range . . ."
                   sleep .9
@@ -4466,8 +4292,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
                       echo
                       echo  " Playlist Deleted . . ."
 
-                      if [[ "$setplaylistfull" = "$plselected" ]]  # IF DELETED PLAYLIST = ACTIVE PLAYLIST
-                        then # SET DEFAULT PLAYLIST TO ACTIVE PLAYLIST
+                      if [[ "$setplaylistfull" = "$plselected" ]]; then # SET DEFAULT PLAYLIST TO ACTIVE PLAYLIST
                             echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ${base_dir}/videoinfo.playlist.current
                             cp ${base_dir}/playlists/vplaylist.Default ${base_dir}/videoinfo.playlist 2> /dev/null
                             setplaylist="Default"
@@ -4506,16 +4331,14 @@ sed -i -e 's/\.//g' ${tmp_dir}/plremovedot.tmp
 read createpl < ${tmp_dir}/plremovedot.tmp
 rm ${tmp_dir}/plremovedot.tmp
 
-if [ -z "$createpl" ]  # if enter is pressed with no entry
-  then
+if [[ -z "$createpl" ]]; then
       echo
       echo " Nothing was entered . . ."
       sleep .75
 
   else
 
-      if [ -f ${base_dir}/playlists/vplaylist."$createpl" ]
-        then
+      if [[ -f ${base_dir}/playlists/vplaylist."$createpl" ]]; then
             echo
             echo " File already exists . . ."
             sleep .75
@@ -4543,8 +4366,7 @@ done
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
-if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
-  then
+if [[ "$grabpaste" = "http" ]]; then
       #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
    
       grabdirz="$PWD"  # storing directory to restore at the end of this function
@@ -4572,8 +4394,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       # rename videoinfo.lastdownload.work to videoinfox/videoinfo.lastdownload
       mv ${base_dir}/videoinfo.lastdownload.work ${base_dir}/videoinfo.lastdownload  
       
-      if [ -s ${base_dir}/videoinfo.lastdownload ]
-         then
+      if [[ -s ${base_dir}/videoinfo.lastdownload ]]; then
              # make a backup copy of:   ${base_dir}/videoinfo.lastdownload to restore on Play Clipboard with invalid url
              cp ${base_dir}/videoinfo.lastdownload ${base_dir}/videoinfo.lastdownload.bak
          else
@@ -4592,10 +4413,8 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       # IF THERE ARE IDENTICAL FILENAMES WITH DIFFERENT FILE EXTENSIONS FIND WILL PRODUCE MORE THAN ONE RESULT      
       correcterror=$(wc -l ${base_dir}/videoinfo.find-last-download | cut -d' ' -f1)  # getting line count.
           
-             if [ "$correcterror" -gt 1 ]  # If line count is greater than 1 goto then. More than 1 was caused from Play Clipboard on invalid url.
-                then                
-                     if [[ "$lastdownload" == "$lastdownloadbak" ]]                 
-                        then
+             if [[ "$correcterror" -gt 1 ]]; then                
+                     if [[ "$lastdownload" == "$lastdownloadbak" ]]; then
                             read -r ytdlplast < ${base_dir}/videoinfo.find-last-download  # read first find result from file
                      
                         else
@@ -4635,8 +4454,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo " This screen will exit when the video player is closed."
       echo
       
-      if [ -z "$ytdlplast" ]
-          then
+      if [[ -z "$ytdlplast" ]]; then
               :
           else     
               notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
@@ -4651,8 +4469,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 
   else
 
-      if [ -f "$pasteclip" ]
-        then
+      if [[ -f "$pasteclip" ]]; then
       
       #  PLAY FILE if <$grabpaste> WAS ANYTHING BUT <HTTP> 
       clear
@@ -4791,8 +4608,7 @@ for line in $(cat "$input" 2>/dev/null)
       read -t 3 -p " Press any key then press enter to quit : " playdir
            
            # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 3 seconds the next video will play
+           if [[ $playdir ]]; then                                                        # if no input is entered within 3 seconds the next video will play
                  break                                                   # if enter is pressed without any input the next video will play
            fi
 done
@@ -4830,8 +4646,7 @@ sort -u ${tmp_dir}/videoinfox.home-play-directory-apa-work > ${tmp_dir}/videoinf
 atleastone=$(grep '^/' ${tmp_dir}/videoinfox.home-play-directory-apa 2>/dev/null | wc -l)
 
 #  IF THE NUMBER DOESN"T = 0  THEN PROCESS AUTO PLAY OF PLAYED LIST
-if [ $atleastone -ne 0 ]  
-   then
+if [[ $atleastone -ne 0 ]]; then
 
 #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
 moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfox.home-play-directory-apa"
@@ -4846,8 +4661,7 @@ echo > ${tmp_dir}/videoinfox.home-play-directory-apa2
 while read -r line  # read line by line and write line by line until end of file
 do
 
-   if [ -f "$line" ]
-      then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
+   if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
            echo "$line" >> ${tmp_dir}/videoinfox.home-play-directory-apa2  
       else
            :
@@ -4869,24 +4683,19 @@ echo > ${tmp_dir}/videoinfox.home-play-directory-apa2
 while read -r line  # read line by line until end of file
 do
 
-   if [[ "$line" == *.mp4 ]] 
-        then # IF FILE IS MP4, WRITE LINE TO FILE
+   if [[ "$line" == *.mp4 ]]; then # IF FILE IS MP4, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfox.home-play-directory-apa2  
      
-   elif [[ "$line" == *.webm ]]
-        then # IF FILE IS WEBM, WRITE LINE TO FILE
+   elif [[ "$line" == *.webm ]]; then # IF FILE IS WEBM, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfox.home-play-directory-apa2
       
-   elif [[ "$line" == *.mkv ]]
-        then # IF FILE IS MKV, WRITE LINE TO FILE
+   elif [[ "$line" == *.mkv ]]; then # IF FILE IS MKV, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfox.home-play-directory-apa2
 
-   elif [[ "$line" == *.avi ]]
-        then # IF FILE IS AVI, WRITE LINE TO FILE
+   elif [[ "$line" == *.avi ]]; then # IF FILE IS AVI, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfox.home-play-directory-apa2
 
-   elif [[ "$line" == *.divx ]]
-        then  # IF FILE IS DIVX, WRITE LINE TO FILE
+   elif [[ "$line" == *.divx ]]; then  # IF FILE IS DIVX, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfox.home-play-directory-apa2
    fi
 
@@ -4914,8 +4723,7 @@ else #  NO LINES START WITH A SLASH /   remove empty files
 fi
 ##################clear
 
-if [ -f ${tmp_dir}/videoinfox.numbered-home-play-directory-list ]
-   then
+if [[ -f ${tmp_dir}/videoinfox.numbered-home-play-directory-list ]]; then
         cat ${tmp_dir}/videoinfox.numbered-home-play-directory-list 2>/dev/null
    else
         echo
@@ -4967,8 +4775,7 @@ for line in $(cat "$input" 2>/dev/null)
       read -t 3 -p " Press any key then press enter to quit : " playdir
            
            # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 3 seconds the next video will play
+           if [[ $playdir ]]; then                                                        # if no input is entered within 3 seconds the next video will play
                  break                                                   # if enter is pressed without any input the next video will play
            fi
 done
@@ -4990,8 +4797,7 @@ l)  # PLAY LAST DOWNLOAD >>> HOME    ###########################################
               read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
               cd "$dirsaved"   # change to download directory
 
-                 if [ -s ${base_dir}/videoinfo.lastdownload ]
-                    then
+                 if [[ -s ${base_dir}/videoinfo.lastdownload ]]; then
                         read -r lastdownload < ${base_dir}/videoinfo.lastdownload  # reading last download attempt         
                         ylast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))
                         echo "$ylast" > ${base_dir}/videoinfo.find-last-download  # write find result to file
@@ -5042,7 +4848,7 @@ a)  # SHOW ALL VIDEOS
 
 searchtotal=$(find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)    
                                                                               
-                     if [ "$searchtotal" = 0 ]  # if find returned no results goto <then>
+                     if [[ "$searchtotal" = 0 ]  # if find returned no results goto <then>
       
                        then
                            echo
@@ -5114,8 +4920,7 @@ find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -in
      
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
-if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
-  then
+if [[ "$grabpaste" = "http" ]]; then
       #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
    
       grabdir="$PWD"  # storing directory to restore at the end of this function
@@ -5140,8 +4945,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
 
       # rename videoinfo.lastdownload.work to videoinfox/videoinfo.lastdownload
       mv ${base_dir}/videoinfo.lastdownload.work ${base_dir}/videoinfo.lastdownload
-      if [ -s ${base_dir}/videoinfo.lastdownload ]
-         then
+      if [[ -s ${base_dir}/videoinfo.lastdownload ]]; then
              # make a backup copy of:   ${base_dir}/videoinfo.lastdownload to restore on Play Clipboard with invalid url
              cp ${base_dir}/videoinfo.lastdownload ${base_dir}/videoinfo.lastdownload.bak
          else
@@ -5160,10 +4964,8 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       # IF THERE ARE IDENTICAL FILENAMES WITH DIFFERENT FILE EXTENSIONS FIND WILL PRODUCE MORE THAN ONE RESULT      
       correcterror=$(wc -l ${base_dir}/videoinfo.find-last-download | cut -d' ' -f1)  # getting line count.
           
-             if [ "$correcterror" -gt 1 ]  # If line count is greater than 1 goto then. More than 1 was caused from Play Clipboard on invalid url.
-                then                
-                     if [[ "$lastdownload" == "$lastdownloadbak" ]]                 
-                        then
+             if [[ "$correcterror" -gt 1 ]]; then                
+                     if [[ "$lastdownload" == "$lastdownloadbak" ]]; then
                             read -r ytdlplast < ${base_dir}/videoinfo.find-last-download  # read first find result from file
                      
                         else
@@ -5203,8 +5005,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo " This screen will exit when the video player is closed."
       echo
 
-      if [ -z "$ytdlplast" ]
-         then
+      if [[ -z "$ytdlplast" ]]; then
              :
          else     
              notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
@@ -5219,8 +5020,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 
   else
 
-      if [ -f "$pasteclip" ]
-        then
+      if [[ -f "$pasteclip" ]]; then
      
       #  PLAY FILE if <$grabpaste> WAS ANYTHING BUT <HTTP> 
       clear
@@ -5274,8 +5074,7 @@ fi
 ;;  
       i)  # INFO - <HOME>
  
-      if [ -f "$pasteclip" ]
-        then
+      if [[ -f "$pasteclip" ]]; then
             pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
             echo
             echo
@@ -5288,8 +5087,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
             read -r -p " Press enter to Continue" 
 
         else
-            if [ -f ${tmp_dir}/videoinfo-findwork.tmp ]  # if file exists goto then
-              then
+            if [[ -f ${tmp_dir}/videoinfo-findwork.tmp ]]; then
               echo
               echo
               read -r -p " Enter line number to get info: " linenumber  # waiting fot user input
@@ -5300,8 +5098,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
              # read first line of file for play
              read playnumber < ${tmp_dir}/videoinfo-findwork-playnumber.tmp
 
-                 if [ -z "$playnumber" ]
-                   then
+                 if [[ -z "$playnumber" ]]; then
                        :
  
                    else
@@ -5338,13 +5135,11 @@ pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard conten
 
 grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
-if [ "$grabclip" = "http" ]  # if the first 4 characters = <http> go then
-  then
+if [[ "$grabclip" = "http" ]]; then
       :
 
   else      
-      if [ -f "$pasteclip" ]
-        then
+      if [[ -f "$pasteclip" ]]; then
             :
         else
             echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
@@ -5370,8 +5165,7 @@ mv ${tmp_dir}/videoinfo.playedlist-apa3 cat -n ${tmp_dir}/videoinfo.playedlist 2
 atleastone=$(grep '^/' ${tmp_dir}/videoinfo.playedlist-apa | wc -l)
 
 #  IF THE NUMBER DOESN"T = 0  THEN PROCESS AUTO PLAY OF PLAYED LIST
-if [ $atleastone -ne 0 ]  
-   then
+if [[ $atleastone -ne 0 ]]; then
 
 #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
 moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfo.playedlist-apa"
@@ -5386,8 +5180,7 @@ echo > ${tmp_dir}/videoinfo.playedlist-apa2
 while read -r line  # read line by line and write line by line until end of file
 do
 
-   if [ -f "$line" ]
-      then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
+   if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
            echo "$line" >> ${tmp_dir}/videoinfo.playedlist-apa2  
       else
            :
@@ -5413,24 +5206,19 @@ echo > ${tmp_dir}/videoinfo.playedlist-apa2
 while read -r line  # read line by line until end of file
 do
 
-   if [[ "$line" == *.mp4 ]] 
-        then # IF FILE IS MP4, WRITE LINE TO FILE
+   if [[ "$line" == *.mp4 ]]; then # IF FILE IS MP4, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfo.playedlist-apa2  
      
-   elif [[ "$line" == *.webm ]]
-        then # IF FILE IS WEBM, WRITE LINE TO FILE
+   elif [[ "$line" == *.webm ]]; then # IF FILE IS WEBM, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfo.playedlist-apa2
       
-   elif [[ "$line" == *.mkv ]]
-        then # IF FILE IS MKV, WRITE LINE TO FILE
+   elif [[ "$line" == *.mkv ]]; then # IF FILE IS MKV, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfo.playedlist-apa2
 
-   elif [[ "$line" == *.avi ]]
-        then # IF FILE IS AVI, WRITE LINE TO FILE
+   elif [[ "$line" == *.avi ]]; then # IF FILE IS AVI, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfo.playedlist-apa2
 
-   elif [[ "$line" == *.divx ]]
-        then  # IF FILE IS DIVX, WRITE LINE TO FILE
+   elif [[ "$line" == *.divx ]]; then  # IF FILE IS DIVX, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfo.playedlist-apa2
    fi
 
@@ -5460,8 +5248,7 @@ else #  NO LINES START WITH A SLASH /   remove empty files
      rm ${tmp_dir}/videoinfo.number.played-list 2>/dev/null     
 fi
 clear
-if [ -f ${tmp_dir}/videoinfo.number.played-list ]
-   then
+if [[ -f ${tmp_dir}/videoinfo.number.played-list ]]; then
         cat ${tmp_dir}/videoinfo.number.played-list 2>/dev/null
         dashit=$(echo -e "~")
    else
@@ -5472,8 +5259,7 @@ fi
 
 #cat ${base_dir}/videoinfo.playedlist 
 
-if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
-  then
+if [[ "$grabpaste" = "http" ]]; then
       echo
       echo "Clipboard: ""$pasteclip"
   else
@@ -5504,13 +5290,11 @@ grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st chara
 # If it is <http>, YT-DLP will get the clipboard. yt-dlp will check if its a valid link by trying to extract the name of the video file.
 # If it isn't <http>  the ytdlp loop will be skipped
 
-if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
-  then
+if [[ "$grabpaste" = "http" ]]; then
       read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
       ytdlpconfirm=$(${base_dir}/yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
 
-            if [ "$ytdlpconfirm" = "" ]  
-                  then
+            if [[ "$ytdlpconfirm" = "" ]]; then
 
                       echo "" | xclip -sel clip  # clearing out the clipboard
                       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
@@ -5544,8 +5328,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
             fi
   else
 
-      if [ -f "$pasteclip" ]  # 
-        then
+      if [[ -f "$pasteclip" ]]; then
             echo      
             echo "Valid file in clipboard"
             echo "___________________________________________________________________________________________________________________"
@@ -5591,8 +5374,7 @@ read -r -n1 optionv
         break;;
         o) # AUTOPLAY LINE  (PLAYED LIST)
 
-if [ -f ${tmp_dir}/videoinfo.number.played-list ]
-   then
+if [[ -f ${tmp_dir}/videoinfo.number.played-list ]]; then
 
 echo
 echo
@@ -5640,8 +5422,7 @@ for line in $(cat "$input" 2>/dev/null)
       read -t 3 -p " Press any key then press enter to quit : " playdir
            
            # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 3 seconds the next video will play
+           if [[ $playdir ]]; then                                                        # if no input is entered within 3 seconds the next video will play
                  break                                                   # if enter is pressed without any input the next video will play
            fi
 done
@@ -5665,19 +5446,16 @@ fi
 # GETTING LINE COUNT
 linecount=$(wc -l ${tmp_dir}/videoinfo.number.played-list | cut -d' ' -f1)
 
-if [ -f ${tmp_dir}/videoinfo.number.played-list ]
-   then
+if [[ -f ${tmp_dir}/videoinfo.number.played-list ]]; then
        echo
        echo
        read -r -p " Play Line: " linenumber  # waiting fot user input
 
-if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
-  then  # IF ENTRY IS NOT A NUMBER
+if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
-      if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
-        then
+      if [[ -z "$linenumber" ]]; then
             :
 
         else
@@ -5701,7 +5479,7 @@ fi
       fi
             fi
 
-        if [ -z "$line" ]
+        if [[ -z "$line" ]
 
          then
              :
@@ -5754,8 +5532,7 @@ fi
 ;;
        i)  # INFO - <PLAYED LIST>
  
-      if [ -f "$pasteclip" ]
-        then
+      if [[ -f "$pasteclip" ]]; then
             pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
             echo
             echo
@@ -5768,8 +5545,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
             read -r -p " Press enter to Continue" 
 
         else
-            if [ -f ${tmp_dir}/videoinfo.playedlist-apa ]  # if file exists goto then
-              then
+            if [[ -f ${tmp_dir}/videoinfo.playedlist-apa ]]; then
               echo
               echo
               read -r -p " Enter line number to get info: " linenumber  # waiting fot user input
@@ -5780,8 +5556,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
              # read first line of file for play
              read playnumber < ${tmp_dir}/videoinfo.playedlist-apa.tmp
 
-                 if [ -z "$playnumber" ]
-                   then
+                 if [[ -z "$playnumber" ]]; then
                        :
  
                    else
@@ -5823,21 +5598,18 @@ pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard conten
 
 grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
-if [ "$grabclip" = "http" ]  # if the first 4 characters = <http> go then
-  then
+if [[ "$grabclip" = "http" ]]; then
       :
 
   else      
-      if [ -f "$pasteclip" ]
-        then
+      if [[ -f "$pasteclip" ]]; then
             :
         else
             echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
             pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
       fi
 fi
-if [ -f ${base_dir}/videoinfo.playlist ]
-  then
+if [[ -f ${base_dir}/videoinfo.playlist ]]; then
       # REMOVE DUPLICATES
       cat -n ${base_dir}/videoinfo.playlist | sort -uk2 | sort -n | cut -f2- > ${tmp_dir}/videoinfo.playlist.tmp
       mv ${tmp_dir}/videoinfo.playlist.tmp ${base_dir}/videoinfo.playlist
@@ -5854,8 +5626,7 @@ cp ${base_dir}/videoinfo.playlist ${tmp_dir}/videoinfo.playlist-apa
 atleastone=$(grep '^/' ${tmp_dir}/videoinfo.playlist-apa | wc -l)
 
 #  IF THE NUMBER DOESN"T = 0  THEN PROCESS AUTO PLAY OF PLAYLIST
-if [ $atleastone -ne 0 ]  
-   then
+if [[ $atleastone -ne 0 ]]; then
 
 #  ASSIGN PLAYLIST TO VARIABLE: $moddedplaylist 
 moddedplaylist="$HOME""/.config/videoinfox/tmp/videoinfo.playlist-apa"
@@ -5870,8 +5641,7 @@ echo > ${tmp_dir}/videoinfo.playlist-apa2
 while read -r line  # read line by line and write line by line until end of file
 do
 
-   if [ -f "$line" ]
-      then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
+   if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
            echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2  
       else
            :
@@ -5898,24 +5668,19 @@ echo > ${tmp_dir}/videoinfo.playlist-apa2
 while read -r line  # read line by line until end of file
 do
 
-   if [[ "$line" == *.mp4 ]] 
-        then # IF FILE IS MP4, WRITE LINE TO FILE
+   if [[ "$line" == *.mp4 ]]; then # IF FILE IS MP4, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2  
      
-   elif [[ "$line" == *.webm ]]
-        then # IF FILE IS WEBM, WRITE LINE TO FILE
+   elif [[ "$line" == *.webm ]]; then # IF FILE IS WEBM, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2
       
-   elif [[ "$line" == *.mkv ]]
-        then # IF FILE IS MKV, WRITE LINE TO FILE
+   elif [[ "$line" == *.mkv ]]; then # IF FILE IS MKV, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2
 
-   elif [[ "$line" == *.avi ]]
-        then # IF FILE IS AVI, WRITE LINE TO FILE
+   elif [[ "$line" == *.avi ]]; then # IF FILE IS AVI, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2
 
-   elif [[ "$line" == *.divx ]]
-        then  # IF FILE IS DIVX, WRITE LINE TO FILE
+   elif [[ "$line" == *.divx ]]; then  # IF FILE IS DIVX, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2
    fi
 
@@ -5941,8 +5706,7 @@ else #  NO LINES START WITH A SLASH /   remove empty files
      rm ${tmp_dir}/videoinfo.number.play-list 2>/dev/null     
 fi
 clear
-if [ -f ${tmp_dir}/videoinfo.number.play-list ]
-   then
+if [[ -f ${tmp_dir}/videoinfo.number.play-list ]]; then
         cat ${tmp_dir}/videoinfo.number.play-list 2>/dev/null
         #dashit=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
         dashit=$(echo "~") #
@@ -5957,8 +5721,7 @@ fi
 # check if directory ${base_dir}/playlists is empty.  if it is, set playlist to Default 
 searchtotal=$(find "$PWD" -type f \( -iname "vplaylist.*" \) 2>/dev/null | wc -l)
 
-if [ "$searchtotal" = 0 ]  # if find returned no results goto <then>
-  then
+if [[ "$searchtotal" = 0 ]]; then
       echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ${base_dir}/videoinfo.playlist.current             
       cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/plread.tmp 
       read -r setplaylist < ${tmp_dir}/plread.tmp
@@ -6001,20 +5764,17 @@ grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st chara
 
 #echo "Directory: ""$PWD"
 
-if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
-  then
+if [[ "$grabpaste" = "http" ]]; then
       echo
       echo "Clipboard: ""$pasteclip"
   else
       :
 fi
-if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
-  then
+if [[ "$grabpaste" = "http" ]]; then
       read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
       ytdlpconfirm=$(${base_dir}/yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
 
-            if [ "$ytdlpconfirm" = "" ]  
-                  then
+            if [[ "$ytdlpconfirm" = "" ]]; then
 
                       echo "" | xclip -sel clip  # clearing out the clipboard
                       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
@@ -6048,8 +5808,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
             fi
   else
 
-      if [ -f "$pasteclip" ]  # 
-        then
+      if [[ -f "$pasteclip" ]]; then
             echo      
             echo "Valid file in clipboard"
             echo "___________________________________________________________________________________________________________________"
@@ -6115,8 +5874,7 @@ read -r -n1 optionv
 # SET COUNTER TO ZERO. $i in below play loop to get line number from last played video
 i=0
 
-if [ -f ${tmp_dir}/videoinfo.number.play-list ]
-   then
+if [[ -f ${tmp_dir}/videoinfo.number.play-list ]]; then
 
 echo
 echo
@@ -6168,8 +5926,7 @@ for line in $(cat "$input" 2>/dev/null)
       read -t 3 -p " Press any key then press enter to quit : " playdir
            
            # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 3 seconds the next video will play
+           if [[ $playdir ]]; then                                                        # if no input is entered within 3 seconds the next video will play
                  break                                                   # if enter is pressed without any input the next video will play
            fi
 done
@@ -6202,14 +5959,12 @@ r)  # REMOVE LINE  (HOME >>> PLAYLIST)
 cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/whatplpld.tmp 
 read -r whatplpld < ${tmp_dir}/whatplpld.tmp
 rm ${tmp_dir}/whatplpld.tmp
-if [ -f ${base_dir}/videoinfo.playlist ]  # if file exists goto then
-  then
+if [[ -f ${base_dir}/videoinfo.playlist ]]; then
       :
   else
       echo > ${base_dir}/videoinfo.playlist
 fi
-if [ -f ${base_dir}/videoinfo.playlist ]  # if file exists goto then
-  then
+if [[ -f ${base_dir}/videoinfo.playlist ]]; then
 
       clear
       cat ${tmp_dir}/videoinfo.number.play-list 2> /dev/null
@@ -6223,34 +5978,29 @@ if [ -f ${base_dir}/videoinfo.playlist ]  # if file exists goto then
       # GETTING NUMBER OF VIDEO FILES IN THE PLAYED LIST
       linecount=$(wc -l ${tmp_dir}/videoinfo.playlist-apa 2> /dev/null | cut -d' ' -f1) # 
 
-          if ! [[ "$linenumber" -eq "$linenumber" ]] #2> /dev/null
-            then  # IF ENTRY IS NOT A NUMBER
+          if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
                 :
 
             else  # ENTRY IS A NUMBER
 
-                if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
-                  then
+                if [[ -z "$linenumber" ]]; then
                       :
 
                   else
 
-                      if [ "$linenumber" = 0 ]
-                        then
+                      if [[ "$linenumber" = 0 ]]; then
                             :
 
                         else
       
-                            if [[ $linenumber -gt $linecount ]]
-                              then 
+                            if [[ $linenumber -gt $linecount ]]; then 
                                   echo
                                   echo "Number out of range . . ."
                                   sleep .9
 
                               else
 
-                                  if [ -z "$linenumber" ]
-                                    then
+                                  if [[ -z "$linenumber" ]]; then
                                         :
 
                                     else
@@ -6281,8 +6031,7 @@ sleep 3
 ###### SET COUNTER TO ZERO. $i in below play loop to get line number from last played video
 i=0
 
-if [ -f ${tmp_dir}/videoinfo.number.play-list ]
-   then
+if [[ -f ${tmp_dir}/videoinfo.number.play-list ]]; then
 
 OLDIFS=$IFS
 IFS=$'\n'
@@ -6327,8 +6076,7 @@ for line in $(cat "$input2" 2>/dev/null)
       read -t 3 -p " Press any key then press enter to quit : " playdir
            
            # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 3 seconds the next video will play
+           if [[ $playdir ]]; then                                                        # if no input is entered within 3 seconds the next video will play
                  break                                                   # if enter is pressed without any input the next video will play
            fi
 done
@@ -6346,8 +6094,7 @@ fi
 ;;
         j) # PLAY LINE  (HOME >>> PLAYLIST)
 
-if [ -f ${tmp_dir}/videoinfo.number.play-list ]
-   then
+if [[ -f ${tmp_dir}/videoinfo.number.play-list ]]; then
 
 echo
 echo
@@ -6361,7 +6108,7 @@ IFS=$'\n'
 
 read line < ${tmp_dir}/videoinfo.playlist-apa
 
-if [ -z "$line" ]
+if [[ -z "$line" ]
 
   then
       :
@@ -6415,8 +6162,7 @@ fi
 ;;
        i)  # INFO - <PLAYLIST>
  
-      if [ -f "$pasteclip" ]
-        then
+      if [[ -f "$pasteclip" ]]; then
             pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
             echo
             echo
@@ -6429,8 +6175,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
             read -r -p " Press enter to Continue" 
 
         else
-            if [ -f ${tmp_dir}/videoinfo.playlist-apa ]  # if file exists goto then
-              then
+            if [[ -f ${tmp_dir}/videoinfo.playlist-apa ]]; then
               echo
               echo
               read -r -p " Enter line number to get info: " linenumber  # waiting fot user input
@@ -6441,8 +6186,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
              # read first line of file for play
              read playnumber < ${tmp_dir}/videoinfo.playlist-apa.tmp
 
-                 if [ -z "$playnumber" ]
-                   then
+                 if [[ -z "$playnumber" ]]; then
                        :
  
                    else
@@ -6536,13 +6280,11 @@ linecount=$(wc -l ${base_dir}/videoinfo.playlist.dirlist | cut -d' ' -f1)
 # LOAD A PLAYLIST
 echo
 read -r -p " Enter line number: " linenumber  # waiting fot user input
-if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
-  then  # IF ENTRY IS NOT A NUMBER
+if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
-if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
-  then
+if [[ -z "$linenumber" ]]; then
       :
 
   else
@@ -6582,18 +6324,15 @@ linecount=$(wc -l ${base_dir}/videoinfo.playlist.dirlist | cut -d' ' -f1)
 # SELECT A PLAYLIST TO DELETE
 echo
 read -r -p " Enter line number to delete: " linenumber  # waiting fot user input
-if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
-  then  # IF ENTRY IS NOT A NUMBER
+if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
-      if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
-        then
+      if [[ -z "$linenumber" ]]; then
             :
 
         else
-            if [[ $linenumber -gt $linecount ]]
-              then 
+            if [[ $linenumber -gt $linecount ]]; then 
                   echo
                   echo " Number out of range . . ."
                   sleep .9
@@ -6639,8 +6378,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
                       echo
                       echo  " Playlist Deleted . . ."
 
-                      if [[ "$setplaylistfull" = "$plselected" ]]  # IF DELETED PLAYLIST = ACTIVE PLAYLIST
-                        then # SET DEFAULT PLAYLIST TO ACTIVE PLAYLIST
+                      if [[ "$setplaylistfull" = "$plselected" ]]; then # SET DEFAULT PLAYLIST TO ACTIVE PLAYLIST
                             echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ${base_dir}/videoinfo.playlist.current
                             cp ${base_dir}/playlists/vplaylist.Default ${base_dir}/videoinfo.playlist 2> /dev/null
                             setplaylist="Default"
@@ -6679,16 +6417,14 @@ sed -i -e 's/\.//g' ${tmp_dir}/plremovedot.tmp
 read createpl < ${tmp_dir}/plremovedot.tmp
 rm ${tmp_dir}/plremovedot.tmp
 
-if [ -z "$createpl" ]  # if enter is pressed with no entry
-  then
+if [[ -z "$createpl" ]]; then
       echo
       echo " Nothing was entered . . ."
       sleep .75
 
   else
 
-      if [ -f ${base_dir}/playlists/vplaylist."$createpl" ]
-        then
+      if [[ -f ${base_dir}/playlists/vplaylist."$createpl" ]]; then
             echo
             echo " File already exists . . ."
             sleep .75
@@ -6716,8 +6452,7 @@ done
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
-if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
-  then
+if [[ "$grabpaste" = "http" ]]; then
       #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
    
       grabdirz="$PWD"  # storing directory to restore at the end of this function
@@ -6745,8 +6480,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       # rename videoinfo.lastdownload.work to videoinfox/videoinfo.lastdownload
       mv ${base_dir}/videoinfo.lastdownload.work ${base_dir}/videoinfo.lastdownload  
       
-      if [ -s ${base_dir}/videoinfo.lastdownload ]
-         then
+      if [[ -s ${base_dir}/videoinfo.lastdownload ]]; then
              # make a backup copy of:   ${base_dir}/videoinfo.lastdownload to restore on Play Clipboard with invalid url
              cp ${base_dir}/videoinfo.lastdownload ${base_dir}/videoinfo.lastdownload.bak
          else
@@ -6765,10 +6499,8 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       # IF THERE ARE IDENTICAL FILENAMES WITH DIFFERENT FILE EXTENSIONS FIND WILL PRODUCE MORE THAN ONE RESULT      
       correcterror=$(wc -l ${base_dir}/videoinfo.find-last-download | cut -d' ' -f1)  # getting line count.
           
-             if [ "$correcterror" -gt 1 ]  # If line count is greater than 1 goto then. More than 1 was caused from Play Clipboard on invalid url.
-                then                
-                     if [[ "$lastdownload" == "$lastdownloadbak" ]]                 
-                        then
+             if [[ "$correcterror" -gt 1 ]]; then                
+                     if [[ "$lastdownload" == "$lastdownloadbak" ]]; then
                             read -r ytdlplast < ${base_dir}/videoinfo.find-last-download  # read first find result from file
                      
                         else
@@ -6808,8 +6540,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo " This screen will exit when the video player is closed."
       echo
       
-      if [ -z "$ytdlplast" ]
-          then
+      if [[ -z "$ytdlplast" ]]; then
               :
           else     
               notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
@@ -6824,8 +6555,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 
   else
 
-      if [ -f "$pasteclip" ]
-        then
+      if [[ -f "$pasteclip" ]]; then
       
       #  PLAY FILE if <$grabpaste> WAS ANYTHING BUT <HTTP> 
       clear
@@ -6926,14 +6656,12 @@ k)
 cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/whatplpld.tmp 
 read -r whatplpld < ${tmp_dir}/whatplpld.tmp
 rm ${tmp_dir}/whatplpld.tmp
-if [ -f ${base_dir}/videoinfo.playlist ]  # if file exists goto then
-  then
+if [[ -f ${base_dir}/videoinfo.playlist ]]; then
       :
   else
       echo > ${base_dir}/videoinfo.playlist
 fi
-if [ -f ${base_dir}/videoinfo.playedlist ]  # if file exists goto then
-  then
+if [[ -f ${base_dir}/videoinfo.playedlist ]]; then
 
       clear
       cat ${tmp_dir}/videoinfo.number.played-list
@@ -6948,19 +6676,16 @@ if [ -f ${base_dir}/videoinfo.playedlist ]  # if file exists goto then
 # GETTING NUMBER OF VIDEO FILES IN THE PLAYED LIST
 linecount=$(wc -l ${tmp_dir}/videoinfo.playedlist-apa | cut -d' ' -f1)
 
-if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
-  then  # IF ENTRY IS NOT A NUMBER
+if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
 
-      if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
-        then
+      if [[ -z "$linenumber" ]]; then
             :
 
         else
-            if [[ $linenumber -gt $linecount ]]
-              then 
+            if [[ $linenumber -gt $linecount ]]; then 
                   echo
                   echo "Number out of range . . ."
                   sleep .9
@@ -6969,8 +6694,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
       # read first line of file for play
       read playnumber < ${tmp_dir}/videoinfo.playedlist-playnumber.tmp
 
-      if [ -z "$playnumber" ]
-          then
+      if [[ -z "$playnumber" ]]; then
               :
 
           else
@@ -7000,8 +6724,7 @@ fi
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
-if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
-  then
+if [[ "$grabpaste" = "http" ]]; then
       #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
    
       grabdir="$PWD"  # storing directory to restore at the end of this function
@@ -7029,8 +6752,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       # rename videoinfo.lastdownload.work to videoinfox/videoinfo.lastdownload
       mv ${base_dir}/videoinfo.lastdownload.work ${base_dir}/videoinfo.lastdownload  
       
-      if [ -s ${base_dir}/videoinfo.lastdownload ]
-         then
+      if [[ -s ${base_dir}/videoinfo.lastdownload ]]; then
              # make a backup copy of:   ${base_dir}/videoinfo.lastdownload to restore on Play Clipboard with invalid url
              cp ${base_dir}/videoinfo.lastdownload ${base_dir}/videoinfo.lastdownload.bak
          else
@@ -7049,10 +6771,8 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       # IF THERE ARE IDENTICAL FILENAMES WITH DIFFERENT FILE EXTENSIONS FIND WILL PRODUCE MORE THAN ONE RESULT      
       correcterror=$(wc -l ${base_dir}/videoinfo.find-last-download | cut -d' ' -f1)  # getting line count.
           
-             if [ "$correcterror" -gt 1 ]  # If line count is greater than 1 goto then. More than 1 was caused from Play Clipboard on invalid url.
-                then                
-                     if [[ "$lastdownload" == "$lastdownloadbak" ]]                 
-                        then
+             if [[ "$correcterror" -gt 1 ]]; then                
+                     if [[ "$lastdownload" == "$lastdownloadbak" ]]; then
                             read -r ytdlplast < ${base_dir}/videoinfo.find-last-download  # read first find result from file
                      
                         else
@@ -7092,8 +6812,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo " This screen will exit when the video player is closed."
       echo
       
-      if [ -z "$ytdlplast" ]
-          then
+      if [[ -z "$ytdlplast" ]]; then
               :
           else     
               notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
@@ -7108,8 +6827,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 
   else
 
-      if [ -f "$pasteclip" ]
-        then
+      if [[ -f "$pasteclip" ]]; then
       
       #  PLAY FILE if <$grabpaste> WAS ANYTHING BUT <HTTP> 
       clear
@@ -7194,21 +6912,18 @@ pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard conten
 
 grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
-if [ "$grabclip" = "http" ]  # if the first 4 characters = <http> go then
-  then
+if [[ "$grabclip" = "http" ]]; then
       :
 
   else      
-      if [ -f "$pasteclip" ]
-        then
+      if [[ -f "$pasteclip" ]]; then
             :
         else
             echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
             pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
       fi
 fi
-if [ -f ${base_dir}/videoinfo.playlist ]
-  then
+if [[ -f ${base_dir}/videoinfo.playlist ]]; then
       # REMOVE DUPLICATES
       cat -n ${base_dir}/videoinfo.playlist | sort -uk2 | sort -n | cut -f2- > ${tmp_dir}/videoinfo.playlist.tmp
       mv ${tmp_dir}/videoinfo.playlist.tmp ${base_dir}/videoinfo.playlist
@@ -7225,8 +6940,7 @@ cp ${base_dir}/videoinfo.playlist ${tmp_dir}/videoinfo.playlist-apa
 atleastone=$(grep '^/' ${tmp_dir}/videoinfo.playlist-apa | wc -l)
 
 #  IF THE NUMBER DOESN"T = 0  THEN PROCESS AUTO PLAY OF PLAYLIST
-if [ $atleastone -ne 0 ]  
-   then
+if [[ $atleastone -ne 0 ]]; then
 
 #  ASSIGN PLAYLIST TO VARIABLE: $moddedplaylist 
 moddedplaylist="$HOME""/.config/videoinfox/tmp/videoinfo.playlist-apa"
@@ -7241,8 +6955,7 @@ echo > ${tmp_dir}/videoinfo.playlist-apa2
 while read -r line  # read line by line and write line by line until end of file
 do
 
-   if [ -f "$line" ]
-      then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
+   if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
            echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2  
       else
            :
@@ -7269,24 +6982,19 @@ echo > ${tmp_dir}/videoinfo.playlist-apa2
 while read -r line  # read line by line until end of file
 do
 
-   if [[ "$line" == *.mp4 ]] 
-        then # IF FILE IS MP4, WRITE LINE TO FILE
+   if [[ "$line" == *.mp4 ]]; then # IF FILE IS MP4, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2  
      
-   elif [[ "$line" == *.webm ]]
-        then # IF FILE IS WEBM, WRITE LINE TO FILE
+   elif [[ "$line" == *.webm ]]; then # IF FILE IS WEBM, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2
       
-   elif [[ "$line" == *.mkv ]]
-        then # IF FILE IS MKV, WRITE LINE TO FILE
+   elif [[ "$line" == *.mkv ]]; then # IF FILE IS MKV, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2
 
-   elif [[ "$line" == *.avi ]]
-        then # IF FILE IS AVI, WRITE LINE TO FILE
+   elif [[ "$line" == *.avi ]]; then # IF FILE IS AVI, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2
 
-   elif [[ "$line" == *.divx ]]
-        then  # IF FILE IS DIVX, WRITE LINE TO FILE
+   elif [[ "$line" == *.divx ]]; then  # IF FILE IS DIVX, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2
    fi
 
@@ -7312,8 +7020,7 @@ else #  NO LINES START WITH A SLASH /   remove empty files
      rm ${tmp_dir}/videoinfo.number.play-list 2>/dev/null     
 fi
 clear
-if [ -f ${tmp_dir}/videoinfo.number.play-list ]
-   then
+if [[ -f ${tmp_dir}/videoinfo.number.play-list ]]; then
         cat ${tmp_dir}/videoinfo.number.play-list 2>/dev/null
         #dashit=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
         dashit=$(echo "~") #
@@ -7328,8 +7035,7 @@ fi
 # check if directory ${base_dir}/playlists is empty.  if it is, set playlist to Default 
 searchtotal=$(find "$PWD" -type f \( -iname "vplaylist.*" \) 2>/dev/null | wc -l)
 
-if [ "$searchtotal" = 0 ]  # if find returned no results goto <then>
-  then
+if [[ "$searchtotal" = 0 ]]; then
       echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ${base_dir}/videoinfo.playlist.current             
       cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/plread.tmp 
       read -r setplaylist < ${tmp_dir}/plread.tmp
@@ -7372,20 +7078,17 @@ grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st chara
 
 #echo "Directory: ""$PWD"
 
-if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
-  then
+if [[ "$grabpaste" = "http" ]]; then
       echo
       echo "Clipboard: ""$pasteclip"
   else
       :
 fi
-if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
-  then
+if [[ "$grabpaste" = "http" ]]; then
       read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
       ytdlpconfirm=$(${base_dir}/yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
 
-            if [ "$ytdlpconfirm" = "" ]  
-                  then
+            if [[ "$ytdlpconfirm" = "" ]]; then
 
                       echo "" | xclip -sel clip  # clearing out the clipboard
                       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
@@ -7419,8 +7122,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
             fi
   else
 
-      if [ -f "$pasteclip" ]  # 
-        then
+      if [[ -f "$pasteclip" ]]; then
             echo      
             echo "Valid file in clipboard"
             echo "___________________________________________________________________________________________________________________"
@@ -7486,8 +7188,7 @@ read -r -n1 optionv
 # SET COUNTER TO ZERO. $i in below play loop to get line number from last played video
 i=0
 
-if [ -f ${tmp_dir}/videoinfo.number.play-list ]
-   then
+if [[ -f ${tmp_dir}/videoinfo.number.play-list ]]; then
 
 echo
 echo
@@ -7539,8 +7240,7 @@ for line in $(cat "$input" 2>/dev/null)
       read -t 3 -p " Press any key then press enter to quit : " playdir
            
            # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 3 seconds the next video will play
+           if [[ $playdir ]]; then                                                        # if no input is entered within 3 seconds the next video will play
                  break                                                   # if enter is pressed without any input the next video will play
            fi
 done
@@ -7573,14 +7273,12 @@ r)  # REMOVE LINE  (HOME >>> PLAYLIST)
 cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/whatplpld.tmp 
 read -r whatplpld < ${tmp_dir}/whatplpld.tmp
 rm ${tmp_dir}/whatplpld.tmp
-if [ -f ${base_dir}/videoinfo.playlist ]  # if file exists goto then
-  then
+if [[ -f ${base_dir}/videoinfo.playlist ]]; then
       :
   else
       echo > ${base_dir}/videoinfo.playlist
 fi
-if [ -f ${base_dir}/videoinfo.playlist ]  # if file exists goto then
-  then
+if [[ -f ${base_dir}/videoinfo.playlist ]]; then
 
       clear
       cat ${tmp_dir}/videoinfo.number.play-list 2> /dev/null
@@ -7594,34 +7292,29 @@ if [ -f ${base_dir}/videoinfo.playlist ]  # if file exists goto then
       # GETTING NUMBER OF VIDEO FILES IN THE PLAYED LIST
       linecount=$(wc -l ${tmp_dir}/videoinfo.playlist-apa 2> /dev/null | cut -d' ' -f1) # 
 
-          if ! [[ "$linenumber" -eq "$linenumber" ]] #2> /dev/null
-            then  # IF ENTRY IS NOT A NUMBER
+          if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
                 :
 
             else  # ENTRY IS A NUMBER
 
-                if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
-                  then
+                if [[ -z "$linenumber" ]]; then
                       :
 
                   else
 
-                      if [ "$linenumber" = 0 ]
-                        then
+                      if [[ "$linenumber" = 0 ]]; then
                             :
 
                         else
       
-                            if [[ $linenumber -gt $linecount ]]
-                              then 
+                            if [[ $linenumber -gt $linecount ]]; then 
                                   echo
                                   echo "Number out of range . . ."
                                   sleep .9
 
                               else
 
-                                  if [ -z "$linenumber" ]
-                                    then
+                                  if [[ -z "$linenumber" ]]; then
                                         :
 
                                     else
@@ -7652,8 +7345,7 @@ sleep 3
 ###### SET COUNTER TO ZERO. $i in below play loop to get line number from last played video
 i=0
 
-if [ -f ${tmp_dir}/videoinfo.number.play-list ]
-   then
+if [[ -f ${tmp_dir}/videoinfo.number.play-list ]]; then
 
 OLDIFS=$IFS
 IFS=$'\n'
@@ -7698,8 +7390,7 @@ for line in $(cat "$input2" 2>/dev/null)
       read -t 3 -p " Press any key then press enter to quit : " playdir
            
            # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 3 seconds the next video will play
+           if [[ $playdir ]]; then                                                        # if no input is entered within 3 seconds the next video will play
                  break                                                   # if enter is pressed without any input the next video will play
            fi
 done
@@ -7717,8 +7408,7 @@ fi
 ;;
         j) # PLAY LINE  (HOME >>> PLAYLIST)
 
-if [ -f ${tmp_dir}/videoinfo.number.play-list ]
-   then
+if [[ -f ${tmp_dir}/videoinfo.number.play-list ]]; then
 
 echo
 echo
@@ -7732,7 +7422,7 @@ IFS=$'\n'
 
 read line < ${tmp_dir}/videoinfo.playlist-apa
 
-if [ -z "$line" ]
+if [[ -z "$line" ]
 
   then
       :
@@ -7786,8 +7476,7 @@ fi
 ;;
        i)  # INFO - <PLAYLIST>
  
-      if [ -f "$pasteclip" ]
-        then
+      if [[ -f "$pasteclip" ]]; then
             pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
             echo
             echo
@@ -7800,8 +7489,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
             read -r -p " Press enter to Continue" 
 
         else
-            if [ -f ${tmp_dir}/videoinfo.playlist-apa ]  # if file exists goto then
-              then
+            if [[ -f ${tmp_dir}/videoinfo.playlist-apa ]]; then
               echo
               echo
               read -r -p " Enter line number to get info: " linenumber  # waiting fot user input
@@ -7812,8 +7500,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
              # read first line of file for play
              read playnumber < ${tmp_dir}/videoinfo.playlist-apa.tmp
 
-                 if [ -z "$playnumber" ]
-                   then
+                 if [[ -z "$playnumber" ]]; then
                        :
  
                    else
@@ -7907,13 +7594,11 @@ linecount=$(wc -l ${base_dir}/videoinfo.playlist.dirlist | cut -d' ' -f1)
 # LOAD A PLAYLIST
 echo
 read -r -p " Enter line number: " linenumber  # waiting fot user input
-if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
-  then  # IF ENTRY IS NOT A NUMBER
+if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
-if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
-  then
+if [[ -z "$linenumber" ]]; then
       :
 
   else
@@ -7953,18 +7638,15 @@ linecount=$(wc -l ${base_dir}/videoinfo.playlist.dirlist | cut -d' ' -f1)
 # SELECT A PLAYLIST TO DELETE
 echo
 read -r -p " Enter line number to delete: " linenumber  # waiting fot user input
-if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
-  then  # IF ENTRY IS NOT A NUMBER
+if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
-      if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
-        then
+      if [[ -z "$linenumber" ]]; then
             :
 
         else
-            if [[ $linenumber -gt $linecount ]]
-              then 
+            if [[ $linenumber -gt $linecount ]]; then 
                   echo
                   echo " Number out of range . . ."
                   sleep .9
@@ -8010,8 +7692,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
                       echo
                       echo  " Playlist Deleted . . ."
 
-                      if [[ "$setplaylistfull" = "$plselected" ]]  # IF DELETED PLAYLIST = ACTIVE PLAYLIST
-                        then # SET DEFAULT PLAYLIST TO ACTIVE PLAYLIST
+                      if [[ "$setplaylistfull" = "$plselected" ]]; then # SET DEFAULT PLAYLIST TO ACTIVE PLAYLIST
                             echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ${base_dir}/videoinfo.playlist.current
                             cp ${base_dir}/playlists/vplaylist.Default ${base_dir}/videoinfo.playlist 2> /dev/null
                             setplaylist="Default"
@@ -8050,16 +7731,14 @@ sed -i -e 's/\.//g' ${tmp_dir}/plremovedot.tmp
 read createpl < ${tmp_dir}/plremovedot.tmp
 rm ${tmp_dir}/plremovedot.tmp
 
-if [ -z "$createpl" ]  # if enter is pressed with no entry
-  then
+if [[ -z "$createpl" ]]; then
       echo
       echo " Nothing was entered . . ."
       sleep .75
 
   else
 
-      if [ -f ${base_dir}/playlists/vplaylist."$createpl" ]
-        then
+      if [[ -f ${base_dir}/playlists/vplaylist."$createpl" ]]; then
             echo
             echo " File already exists . . ."
             sleep .75
@@ -8087,8 +7766,7 @@ done
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
-if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
-  then
+if [[ "$grabpaste" = "http" ]]; then
       #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
    
       grabdirz="$PWD"  # storing directory to restore at the end of this function
@@ -8116,8 +7794,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       # rename videoinfo.lastdownload.work to videoinfox/videoinfo.lastdownload
       mv ${base_dir}/videoinfo.lastdownload.work ${base_dir}/videoinfo.lastdownload  
       
-      if [ -s ${base_dir}/videoinfo.lastdownload ]
-         then
+      if [[ -s ${base_dir}/videoinfo.lastdownload ]]; then
              # make a backup copy of:   ${base_dir}/videoinfo.lastdownload to restore on Play Clipboard with invalid url
              cp ${base_dir}/videoinfo.lastdownload ${base_dir}/videoinfo.lastdownload.bak
          else
@@ -8136,10 +7813,8 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       # IF THERE ARE IDENTICAL FILENAMES WITH DIFFERENT FILE EXTENSIONS FIND WILL PRODUCE MORE THAN ONE RESULT      
       correcterror=$(wc -l ${base_dir}/videoinfo.find-last-download | cut -d' ' -f1)  # getting line count.
           
-             if [ "$correcterror" -gt 1 ]  # If line count is greater than 1 goto then. More than 1 was caused from Play Clipboard on invalid url.
-                then                
-                     if [[ "$lastdownload" == "$lastdownloadbak" ]]                 
-                        then
+             if [[ "$correcterror" -gt 1 ]]; then                
+                     if [[ "$lastdownload" == "$lastdownloadbak" ]]; then
                             read -r ytdlplast < ${base_dir}/videoinfo.find-last-download  # read first find result from file
                      
                         else
@@ -8179,8 +7854,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo " This screen will exit when the video player is closed."
       echo
       
-      if [ -z "$ytdlplast" ]
-          then
+      if [[ -z "$ytdlplast" ]]; then
               :
           else     
               notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
@@ -8195,8 +7869,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 
   else
 
-      if [ -f "$pasteclip" ]
-        then
+      if [[ -f "$pasteclip" ]]; then
       
       #  PLAY FILE if <$grabpaste> WAS ANYTHING BUT <HTTP> 
       clear
@@ -8297,14 +7970,12 @@ k)
 cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/whatplhome.tmp 
 read -r whatplhome < ${tmp_dir}/whatplhome.tmp
 rm ${tmp_dir}/whatplhome.tmp
-if [ -f ${base_dir}/videoinfo.playlist ]  # if file exists goto then
-  then
+if [[ -f ${base_dir}/videoinfo.playlist ]]; then
       :
   else
       echo > ${base_dir}/videoinfo.playlist
 fi
-if [ -f ${tmp_dir}/videoinfo-findwork.tmp ]  # if file exists goto then
-  then
+if [[ -f ${tmp_dir}/videoinfo-findwork.tmp ]]; then
 
       clear
       cat ${tmp_dir}/videoinfo-number-findwork.tmp
@@ -8318,19 +7989,16 @@ if [ -f ${tmp_dir}/videoinfo-findwork.tmp ]  # if file exists goto then
 # GETTING NUMBER OF VIDEO FILES FROM FIND RESULTS
 linecount=$(wc -l ${tmp_dir}/videoinfo-findwork.tmp | cut -d' ' -f1)
 
-if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
-  then  # IF ENTRY IS NOT A NUMBER
+if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
 
-      if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
-        then
+      if [[ -z "$linenumber" ]]; then
             :
 
         else
-            if [[ $linenumber -gt $linecount ]]
-              then 
+            if [[ $linenumber -gt $linecount ]]; then 
                   echo
                   echo "Number out of range . . ."
                   sleep .9
@@ -8340,8 +8008,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
       # read first line of file for play
       read playnumber < ${tmp_dir}/videoinfo-findwork-playnumber.tmp
 
-      if [ -z "$playnumber" ]
-          then
+      if [[ -z "$playnumber" ]]; then
               :
 
           else
@@ -8385,8 +8052,7 @@ fi
 
     searchtotal=$(find "$PWD" -type f \( -iname "$videofind.mp4" -o -iname "$videofind.mkv" -o -iname "$videofind.avi" -o -iname "$videofind.webm" -o -iname "$videofind.divx" \) 2>/dev/null | wc -l)    
                                                                                                       
-    if [ -z "$videofind" ]  # if no input was entered goto  <then>  
-          then
+    if [[ -z "$videofind" ]]; then
                echo
                echo " error: Nothing was entered."
                echo
@@ -8401,7 +8067,7 @@ fi
                     sleep .7 
                 else
                                 
-                     if [ "$searchtotal" = 0 ]  # if find returned no results goto <then>
+                     if [[ "$searchtotal" = 0 ]  # if find returned no results goto <then>
       
                        then
                            #cp ${base_dir}/videoinfo.findwork3 ${base_dir}/videoinfo.findwork
@@ -8637,13 +8303,11 @@ done
     echo
     read -r -p " Enter Directory: " specifydir2  # waiting fot user input - the directory you want to chang to 
     
-         if [ -z "$specifydir2" ]  # if no input was entered goto  <then> 
-            then
+         if [[ -z "$specifydir2" ]]; then
                 echo
                 echo " error: Nothing was entered"
             else
-                if [ -d "$specifydir2" ]  #  if directoty exists goto  <then>
-                  then
+                if [[ -d "$specifydir2" ]]; then
                       echo
                       echo "$specifydir2" > ${base_dir}/videoinfo.tv-dir
                       read -r dir1 < ${base_dir}/videoinfo.tv-dir
@@ -8675,13 +8339,11 @@ done
     echo
     read -r -p " Enter Directory: " specifydir2  # waiting fot user input - the directory you want to chang to 
     
-         if [ -z "$specifydir2" ]  # if no input was entered goto  <then> 
-            then
+         if [[ -z "$specifydir2" ]]; then
                 echo
                 echo " error: Nothing was entered"
             else
-                if [ -d "$specifydir2" ]  #  if directoty exists goto  <then>
-                  then
+                if [[ -d "$specifydir2" ]]; then
                       echo
                       echo "$specifydir2" > ${base_dir}/videoinfo.movies-dir
                       read -r dir2 < ${base_dir}/videoinfo.movies-dir
@@ -8713,13 +8375,11 @@ done
     echo
     read -r -p " Enter Directory: " specifydir2  # waiting fot user input - the directory you want to chang to 
     
-         if [ -z "$specifydir2" ]  # if no input was entered goto  <then> 
-            then
+         if [[ -z "$specifydir2" ]]; then
                 echo
                 echo " error: Nothing was entered"
             else
-                if [ -d "$specifydir2" ]  #  if directoty exists goto  <then>
-                  then
+                if [[ -d "$specifydir2" ]]; then
                       echo
                       echo "$specifydir2" > ${base_dir}/videoinfo.yt-download-dir
                       read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir
@@ -8751,13 +8411,11 @@ done
     echo
     read -r -p " Enter Directory: " specifydir2  # waiting fot user input - the directory you want to chang to 
     
-         if [ -z "$specifydir2" ]  # if no input was entered goto  <then> 
-            then
+         if [[ -z "$specifydir2" ]]; then
                 echo
                 echo " error: Nothing was entered"
             else
-                if [ -d "$specifydir2" ]  #  if directoty exists goto  <then>
-                  then
+                if [[ -d "$specifydir2" ]]; then
                       echo
                       echo "$specifydir2" > ${base_dir}/videoinfo.parent-dir
                       read -r dir4 < ${base_dir}/videoinfo.parent-dir
@@ -8782,8 +8440,7 @@ done
 
     wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox 2>/dev/null
     chmod +x ${tmp_dir}/videoinfox 2>/dev/null
-    if [ -f ${tmp_dir}/videoinfox ]  # if file exists goto then
-       then
+    if [[ -f ${tmp_dir}/videoinfox ]]; then
             gver=$(${tmp_dir}/videoinfox -v)
 
        else
@@ -8835,8 +8492,7 @@ done
          u)
          # UPDATE VIDEOINFOX
      
-         if [ -f ${tmp_dir}/videoinfox ]  # if file exists goto then
-            then
+         if [[ -f ${tmp_dir}/videoinfox ]]; then
                  echo
                  sudo mv ${tmp_dir}/videoinfox /usr/local/bin/videoinfox 2> /dev/null
                  rm ${tmp_dir}/* 2> /dev/null
@@ -8927,8 +8583,7 @@ echo
 cd ${tmp_dir}
  
 wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp 2>/dev/null  # download yt-dlp 
-if [ -f ${tmp_dir}/yt-dlp ]  # if yt-dlp exists goto then
-   then
+if [[ -f ${tmp_dir}/yt-dlp ]]; then
         chmod a+rx ${tmp_dir}/yt-dlp  # set <yt-dlp-fetched> execute bit  
         sec=5
              
@@ -8942,8 +8597,7 @@ if [ -f ${tmp_dir}/yt-dlp ]  # if yt-dlp exists goto then
    
 function chkytdlp {
 
-         if [ -f ${tmp_dir}/yt-dlp ]
-            then
+         if [[ -f ${tmp_dir}/yt-dlp ]]; then
                  ytexist=$(${base_dir}/yt-dlp --version)
             else
                  ytexist="Not installed"
@@ -9073,8 +8727,7 @@ cd ${base_dir}
 
 wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp 2>/dev/null  # download yt-dlp 
  
-if [ -f ${base_dir}/yt-dlp ]  # if yt-dlp exists goto then
-   then
+if [[ -f ${base_dir}/yt-dlp ]]; then
         chmod a+rx ${base_dir}/yt-dlp  # set <yt-dlp-fetched> execute bit
         ${base_dir}/yt-dlp --version > ${base_dir}/videoinfo.yt-dlp.version # write yt-dlp ver number to file: yt-dlp.version 
         echo
@@ -9122,13 +8775,11 @@ pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard conten
 
 grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
-if [ "$grabclip" = "http" ]  # if the first 4 characters = <http> go then
-  then
+if [[ "$grabclip" = "http" ]]; then
       :
 
   else      
-      if [ -f "$pasteclip" ]
-        then
+      if [[ -f "$pasteclip" ]]; then
             :
         else
             echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
@@ -9164,13 +8815,11 @@ grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st chara
 # If it is <http>, YT-DLP will get the clipboard. yt-dlp will check if its a valid link by trying to extract the name of the video file.
 # If it isn't <http>  the ytdlp loop will be skipped
 
-if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
-  then
+if [[ "$grabpaste" = "http" ]]; then
       read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
       ytdlpconfirm=$(${base_dir}/yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
 
-            if [ "$ytdlpconfirm" = "" ]  
-                  then
+            if [[ "$ytdlpconfirm" = "" ]]; then
 
                       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
                       dash0=$(echo "-") # not blinking
@@ -9211,8 +8860,7 @@ echo -e " d "$dash1" Download Default     l - Last Download     v - View Downloa
             fi
   else
 
-      if [ -f "$pasteclip" ]  # Valid file in the clipboard
-        then
+      if [[ -f "$pasteclip" ]]; then
             echo      
             echo "Valid file in clipboard"
             echo "___________________________________________________________________________________________________________________"
@@ -9269,8 +8917,7 @@ function dwnlist {
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
-if [ -f "$pasteclip" ]
-then
+if [[ -f "$pasteclip" ]]; then
 :
 else
 echo "" | xclip -sel clip  # clearing out the clipboard
@@ -9352,33 +8999,27 @@ read -r dir4display < ${base_dir}/videoinfox.dir4  # load reformatted default di
 read -r dir5display < ${base_dir}/videoinfox.dir5  # load reformatted default directory 5 name
 # DEFAULT DIR 5  DISPLAY     IF DIRECTORY ON EXIT  =  DEFAULT DIRECTORIES 1-4 then Display that directory number.
 
-if [[ "$controldir" = "$dir5display" ]]
-  then 
+if [[ "$controldir" = "$dir5display" ]]; then 
 
-      if [[ "$dir5display" = "$dir1display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 1 then display 1 and not 5
-        then
+      if [[ "$dir5display" = "$dir1display" ]]; then
              dirdisp="$dirdisplay1"
       fi
 
-      if [[ "$dir5display" = "$dir2display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 2 then display 2 and not 5
-        then
+      if [[ "$dir5display" = "$dir2display" ]]; then
              dirdisp="$dirdisplay2"
       fi
 
-      if [[ "$dir5display" = "$dir3display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 3 then display 3 and not 5
-        then
+      if [[ "$dir5display" = "$dir3display" ]]; then
              dirdisp="$dirdisplay3"
       fi
 
-      if [[ "$dir5display" = "$dir4display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 4 then display 4 and not 5
-        then
+      if [[ "$dir5display" = "$dir4display" ]]; then
              dirdisp="$dirdisplay4"
       fi
 fi
 
 # DEFAULT DIR 5 DISPLAY
-if [[ "$controldir" = "$dir5display" ]] 
-  then
+if [[ "$controldir" = "$dir5display" ]]; then
        dirdisp="$dirdisplay5"  # if directory is changed to  Default Dir 5 :  The number 5 is normal text and the other 4 are less bold.
         
   else
@@ -9386,26 +9027,22 @@ if [[ "$controldir" = "$dir5display" ]]
 fi 
 
 # DEFAULT DIR 1  DISPLAY
-if [[ "$controldir" = "$dir1display" ]]  # IF PWD = DEFAULT DIR 1 then display 1
-  then 
+if [[ "$controldir" = "$dir1display" ]]; then 
        dirdisp="$dirdisplay1"
 fi
 
 # DEFAULT DIR 2  DISPLAY
-if [[ "$controldir" = "$dir2display" ]]  # IF PWD = DEFAULT DIR 2 then display 2
-  then 
+if [[ "$controldir" = "$dir2display" ]]; then 
        dirdisp="$dirdisplay2"
 fi
 
 # DEFAULT DIR 3  DISPLAY
-if [[ "$controldir" = "$dir3display" ]]  # IF PWD = DEFAULT DIR 3 then display 3
-  then 
+if [[ "$controldir" = "$dir3display" ]]; then 
        dirdisp="$dirdisplay3"
 fi
 
 # DEFAULT DIR 4  DISPLAY
-if [[ "$controldir" = "$dir4display" ]]  # IF PWD = DEFAULT DIR 4 then display 4
-  then 
+if [[ "$controldir" = "$dir4display" ]]; then 
        dirdisp="$dirdisplay4"  # if directory is changed to  Default Dir 4 :  The number 4 is normal text and the other 4 are less bold.
 fi
 
@@ -9427,8 +9064,7 @@ dash1=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
 dash0=$(echo "-")
 
 # if file exists goto then
-if [ -f "$pasteclip" ]
-  then
+if [[ -f "$pasteclip" ]]; then
       finalresult="$downloadlist1"  # if the file exists: blinking   DOWNLOAD LIST
       finalresult2="$dash1"  #                            blinking   -
   else
@@ -9458,14 +9094,12 @@ rm ${base_dir}/videoinfox.dlname.tmp   # remove .dlname.tmp file
 sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dlname.tmp2  # remove horizontal whitespace from file an write
 # REFORMATTED CONTROL VARIABLE
 read -r ctmp3 < ${base_dir}/videoinfox.dlname.tmp2  # default list name with full path: with slashes and spaces removed
-if [ -z "$pasteclip" ]  # if clipboard is empty goto then
-   then
+if [[ -z "$pasteclip" ]]; then
         dashit2="$dash0"  # no blink dash for: Set User List and Delete User List
 
    else
    
-        if [[ "$ctmp2" = "$ctmp3" ]]  # if clipbaord  = Default List goto then because the default list can't: Set User List or Delete User List
-           then
+        if [[ "$ctmp2" = "$ctmp3" ]]; then
                 dashit2="$dash0"  # no blink dash for: Set User List and Delete User List
 
            else
@@ -9495,8 +9129,7 @@ echo
 echo "Default List:" 
 cat ${base_dir}/videoinfox.dowload.list.default  # display default download list name with full path
 
-#if [ -z "$copymessage" ]  # if the count is null, then the below message won't display 
-#  then  # empty user list  (no user lists recursively reachable from the curent directory)
+#if [[ -z "$copymessage" ]]; then  # empty user list  (no user lists recursively reachable from the curent directory)
 #       :
 
 #  else  # at least 1 list  (1 or more user lists recursively reachable from the curent directory)        
@@ -9507,16 +9140,14 @@ cat ${base_dir}/videoinfox.dowload.list.default  # display default download list
 read -r ulistset < ${base_dir}/videoinfox.set-user-list  # set user list for videoinfox -u shortcut
 echo
 # CEAR USER SET LIST IF IT GETS DELETED OUTSIDE OF THE VIDEOINFOX INTERFACE
-if [ -f "$chkulistset" ]  # if the user set list exists goto then
-   then
+if [[ -f "$chkulistset" ]]; then
        :
    else  # if the user set list doesn't exist, clear the user set list.
        echo > ${base_dir}/videoinfox.set-user-list
        ctmp4=""
 fi
 
-if [ ! -z "$ctmp4" ]  # if the set user list = null goto then
-    then
+if [[ ! -z "$ctmp4" ]]; then
          echo "User Set List:"   # display if there is at least one line
          echo "$ulistset"
          echo
@@ -9542,8 +9173,7 @@ echo
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
-if [ -z "$pasteclip" ]
-   then
+if [[ -z "$pasteclip" ]]; then
        echo
        echo " Clipboard is empty . . ."
        sleep .18
@@ -9601,8 +9231,7 @@ function navtree {
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
-if [ -d "$pasteclip" ]  # if the directory exists gto then
-  then
+if [[ -d "$pasteclip" ]]; then
       :
 
   else      
@@ -9690,33 +9319,27 @@ read -r dir4display < ${base_dir}/videoinfox.dir4  # load reformatted default di
 read -r dir5display < ${base_dir}/videoinfox.dir5  # load reformatted default directory 5 name
 # DEFAULT DIR 5  DISPLAY     IF DIRECTORY ON EXIT  =  DEFAULT DIRECTORIES 1-4 then Display that directory number.
 
-if [[ "$controldir" = "$dir5display" ]]
-  then 
+if [[ "$controldir" = "$dir5display" ]]; then 
 
-      if [[ "$dir5display" = "$dir1display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 1 then display 1 and not 5
-        then
+      if [[ "$dir5display" = "$dir1display" ]]; then
              dirdisp="$dirdisplay1"
       fi
 
-      if [[ "$dir5display" = "$dir2display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 2 then display 2 and not 5
-        then
+      if [[ "$dir5display" = "$dir2display" ]]; then
              dirdisp="$dirdisplay2"
       fi
 
-      if [[ "$dir5display" = "$dir3display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 3 then display 3 and not 5
-        then
+      if [[ "$dir5display" = "$dir3display" ]]; then
              dirdisp="$dirdisplay3"
       fi
 
-      if [[ "$dir5display" = "$dir4display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 4 then display 4 and not 5
-        then
+      if [[ "$dir5display" = "$dir4display" ]]; then
              dirdisp="$dirdisplay4"
       fi
 fi
 
 # DEFAULT DIR 5 DISPLAY
-if [[ "$controldir" = "$dir5display" ]] 
-  then
+if [[ "$controldir" = "$dir5display" ]]; then
        dirdisp="$dirdisplay5"  # if directory is changed to  Default Dir 5 :  The number 5 is normal text and the other 4 are less bold.
         
   else
@@ -9724,26 +9347,22 @@ if [[ "$controldir" = "$dir5display" ]]
 fi 
 
 # DEFAULT DIR 1  DISPLAY
-if [[ "$controldir" = "$dir1display" ]]  # IF PWD = DEFAULT DIR 1 then display 1
-  then 
+if [[ "$controldir" = "$dir1display" ]]; then 
        dirdisp="$dirdisplay1"
 fi
 
 # DEFAULT DIR 2  DISPLAY
-if [[ "$controldir" = "$dir2display" ]]  # IF PWD = DEFAULT DIR 2 then display 2
-  then 
+if [[ "$controldir" = "$dir2display" ]]; then 
        dirdisp="$dirdisplay2"
 fi
 
 # DEFAULT DIR 3  DISPLAY
-if [[ "$controldir" = "$dir3display" ]]  # IF PWD = DEFAULT DIR 3 then display 3
-  then 
+if [[ "$controldir" = "$dir3display" ]]; then 
        dirdisp="$dirdisplay3"
 fi
 
 # DEFAULT DIR 4  DISPLAY
-if [[ "$controldir" = "$dir4display" ]]  # IF PWD = DEFAULT DIR 4 then display 4
-  then 
+if [[ "$controldir" = "$dir4display" ]]; then 
        dirdisp="$dirdisplay4"  # if directory is changed to  Default Dir 4 :  The number 4 is normal text and the other 4 are less bold.
 fi
 
@@ -9765,8 +9384,7 @@ dash1=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
 blinkit=$(find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
 
 # if find results are zero goto then
-if [ "$blinkit" = 0 ]
-  then
+if [[ "$blinkit" = 0 ]]; then
       blinkit2="$playdir1"  # zero files. non bliking  Playdirectory
       bdash="$dash0"
   else
@@ -9779,8 +9397,7 @@ changedir1=$(echo "Change Directory")
 changedir2=$(echo -e "\033[5mChange Directory\033m\033[0m\033[5m\033[5m\033[0m")
 
 # if directory exists goto then
-if [ -d "$pasteclip" ]
-  then
+if [[ -d "$pasteclip" ]]; then
       changedir3="$changedir2"  # if the directory exists, blinking  Change Directory
   else
       changedir3="$changedir1"  # if the directory doesn't exist, non blinking  Change Directory
@@ -9847,8 +9464,7 @@ echo
        
        
          u)  # UP ONE LEVEL 
-         if [ "$grabdirfornav2" = "$PWD" ]  # when   Up One Level   reaches the    Treetop    no   cd..   out of the parent directory 
-           then
+         if [[ "$grabdirfornav2" = "$PWD" ]]; then
                echo
                echo " At treetop. Can't go any higher . . ."
                sleep .50
@@ -9866,13 +9482,11 @@ linecount=$(wc -l ${tmp_dir}/nt-list.tmp | cut -d' ' -f1)
 
 echo
 read -r -p " Enter line number to change directory: " linenumber  # waiting fot user input
-if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
-  then  # IF ENTRY IS NOT A NUMBER
+if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
-if [[ $linenumber -gt $linecount ]]
-  then 
+if [[ $linenumber -gt $linecount ]]; then 
       echo
       echo " Number out of range . . ."
       sleep .9
@@ -9902,15 +9516,13 @@ read line < ${tmp_dir}/nt-list.tmp2
 
          direxist4="$PWD""/""$newdir"
 
-         if [ -z "$newdir" ]
-           then
+         if [[ -z "$newdir" ]]; then
                echo
                echo " Nothing was entered . . ."
                sleep 1.2
 
            else
-               if [ -d "$direxist4" ] 
-                 then
+               if [[ -d "$direxist4" ]]; then
                      echo
                      echo " Directory already exists . . ."
                      sleep 1.2
@@ -9946,14 +9558,12 @@ echo " Enter directory or paste directory if in clipboard."
 echo
 read -r -p " " specifydir  # waiting fot user input - the directory you want to chang to 
     
-    if [ -z "$specifydir" ]  # if no input was entered goto  <then> 
-          then
+    if [[ -z "$specifydir" ]]; then
                echo
                echo " Nothing was entered . . ."
                sleep .75
           else
-              if [ -d "$specifydir" ]  #  if directoty exists goto  <then>
-                then
+              if [[ -d "$specifydir" ]]; then
                      echo
                      grabdirfornav2="$specifydir"
                      cd "$specifydir"   # change the directory
@@ -9978,10 +9588,8 @@ pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard conten
 
 ddlist=${base_dir}/videoinfox-dl-Default
 
-if [ -f "$pasteclip" ]
-  then
-      if [[ "$pasteclip" == "$ddlist" ]]
-        then
+if [[ -f "$pasteclip" ]]; then
+      if [[ "$pasteclip" == "$ddlist" ]]; then
             :
         else
             echo "$pasteclip" >> ${base_dir}/videoinfox-download.queue
@@ -10007,8 +9615,7 @@ function dwnque {
 
 clear
 
-if [ -f ${base_dir}/videoinfox-download.queue ]
-  then
+if [[ -f ${base_dir}/videoinfox-download.queue ]]; then
       # REMOVE DUPLICATES
       cat -n ${base_dir}/videoinfox-download.queue | sort -uk2 | sort -n | cut -f2- > ${base_dir}/videoinfox-download.queue.tmp
       mv ${base_dir}/videoinfox-download.queue.tmp ${base_dir}/videoinfox-download.queue
@@ -10062,8 +9669,7 @@ case $optiondq in
       case $optiondelq in
 
       y)  # YES
-        if [ -f ${base_dir}/videoinfox-download.queue ]
-          then
+        if [[ -f ${base_dir}/videoinfox-download.queue ]]; then
               rm ${base_dir}/videoinfox-download.queue 2> /dev/null
               echo
               echo " Download Queue Deleted . . ."
@@ -10092,8 +9698,7 @@ read usersetlist < ${base_dir}/videoinfox.set-user-list
 ##########  START DOWNLOAD QUEUE LOOP  ########## 
 #################################################
 
-if [ -f ${base_dir}/videoinfox-download.queue ]
-  then
+if [[ -f ${base_dir}/videoinfox-download.queue ]]; then
 
 clear
 
@@ -10130,8 +9735,7 @@ echo ""$ver" >>> DOWNLOAD LIST >>> Logfile:" "$line"".log" > "$logfile"  # creat
 echo >> "$logfile"
 
 # IF DOWNLOAD LIST = SET USER LIST THEN REMOVE
-if [ "$line" == "$usersetlist" ]
-  then
+if [[ "$line" == "$usersetlist" ]]; then
       echo > ${base_dir}/videoinfox.set-user-list
   else
       :
@@ -10196,16 +9800,14 @@ echo " The first character for the filename can be:  a dash -  or  an underscore
 echo
 read -r -p " Create New List: " createulist  # waiting fot user input. grabbing new filename
 
-if [ -z "$createulist" ]  # if enter is pressed with no entry
-  then
+if [[ -z "$createulist" ]]; then
       echo
       echo " Nothing was entered . . ."
       sleep .7
 
   else
 
-      if [ -f "videoinfox-dl""$createulist" ]
-        then
+      if [[ -f "videoinfox-dl""$createulist" ]]; then
             echo
             echo " File already exists . . ."
             sleep .75
@@ -10247,14 +9849,12 @@ rm ${base_dir}/videoinfox.dlname.tmp   # remove .dlname.tmp file
 sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dlname.tmp2  # remove horizontal whitespace from file an write
 # REFORMATTED CONTROL VARIABLE
 read -r ctmp3 < ${base_dir}/videoinfox.dlname.tmp2  # default list name with full path: with slashes and spaces removed
-if [ -z "$pasteclip" ]  # if clipboard is empty goto then
-   then
+if [[ -z "$pasteclip" ]]; then
         :
 
    else
    
-        if [[ "$ctmp2" = "$ctmp3" ]]  # if clipbaord = Default List goto then because the default list can't: Set User List or Delete User List
-           then
+        if [[ "$ctmp2" = "$ctmp3" ]]; then
                echo 
                echo " The Default List can't be a User Set List. Only user created lists . . ."
                echo
@@ -10322,14 +9922,12 @@ rm ${base_dir}/videoinfox.chkulist.tmp   # remove .dlname.tmp file
 sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.chkulist.tmp2  # remove horizontal whitespace from file an write
 # REFORMATTED CONTROL VARIABLE 2
 read -r ctmp4 < ${base_dir}/videoinfox.chkulist.tmp2  # default list name with full path: with slashes and spaces removed
-if [ -z "$pasteclip" ]  # if clipboard is empty goto then
-   then
+if [[ -z "$pasteclip" ]]; then
         :
 
    else
    
-        if [[ "$ctmp2" = "$ctmp3" ]]  # if clipbaord = Default List goto then because the default list can't: Set User List or Delete User List
-           then
+        if [[ "$ctmp2" = "$ctmp3" ]]; then
                 :
 
            else  # clipbaord = User List
@@ -10354,8 +9952,7 @@ if [ -z "$pasteclip" ]  # if clipboard is empty goto then
     
                 y)  # YES
   
-                if [[ "$ctmp2" = "$ctmp4" ]]  # if clipbaord = Set User List goto then
-                   then
+                if [[ "$ctmp2" = "$ctmp4" ]]; then
                         echo > ${base_dir}/videoinfox.set-user-list
                         echo "" | xclip -sel clip  # clearing out the clipboard
                         pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
@@ -10414,8 +10011,7 @@ addtodefault1=$(echo -e "\033[5mAdd to Default List\033m\033[0m\033[5m\033[5m\03
 addtodefault0=$(echo "Add to Default List")
 checktheclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
-if [ "$checktheclip" = "http" ]  # if the first 4 characters = <http> go then
-  then
+if [[ "$checktheclip" = "http" ]]; then
       atd="$addtodefault1"
       
   else      
@@ -10535,15 +10131,13 @@ dirclip="$PWD"
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
-if [ -f "$pasteclip" ]  # continue if file exists  
-then
+if [[ -f "$pasteclip" ]]; then
 
 # check if   $pasteclip   contains   Default List   or   User Created list 
 find ${base_dir}/videoinfox-dl-Default > ${base_dir}/videoinfox.default2
 checkclip=$(cat ${base_dir}/videoinfox.default2)
 # PROCESSING DEFAULT LIST
-if [ "$checkclip" = "$pasteclip" ] 
-then 
+if [[ "$checkclip" = "$pasteclip" ]]; then 
 
 read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null
 cd "$dirsaved" # Change directory to default download directory
@@ -10585,8 +10179,7 @@ rm ${base_dir}/videoinfox.checku.tmp   # remove .dlname.tmp file
 sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.checku.tmp2  # remove horizontal whitespace from file an write
 # REFORMATTED CONTROL VARIABLE
 read -r ctmp5 < ${base_dir}/videoinfox.checku.tmp2  # set user list filename with full path: with slashes and spaces removed
-if [[ "$ctmp2" = "$ctmp5" ]]  # if clipbaord = Default List goto then because the default list can't: Set User List or Delete User List
-           then
+if [[ "$ctmp2" = "$ctmp5" ]]; then
                 echo > ${base_dir}/videoinfox.set-user-list
            
            else
@@ -10660,8 +10253,7 @@ v)  # VIEW A DOWNLOAD LIST
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
-if [ -f "$pasteclip" ]  # continue if file exists  
-then
+if [[ -f "$pasteclip" ]]; then
 
 clear
 cat "$pasteclip" 2>/dev/null
@@ -10690,8 +10282,7 @@ viewlog1=$(echo -e "\033[5mView Log\033m\033[0m\033[5m\033[5m\033[0m")
 viewlog0=$(echo "View Log")
 
 # if file exists goto then
-if [ -f "$pasteclip" ]
-  then
+if [[ -f "$pasteclip" ]]; then
       finalresult="$viewlog1"  # if the file exists, blinking   View Log
 
   else
@@ -10737,8 +10328,7 @@ break;;
 l)  # VIEW LOG
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard contentclear
 
-if [ -f "$pasteclip" ]
-then
+if [[ -f "$pasteclip" ]]; then
 
 clear
 cat "$pasteclip" 2>/dev/null
@@ -10772,8 +10362,7 @@ done
           
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
-if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
-  then
+if [[ "$grabpaste" = "http" ]]; then
       #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
    
      ################# grabdir="$PWD"  # storing directory to restore at the end of this function
@@ -10801,8 +10390,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       # rename videoinfo.lastdownload.work to videoinfox/videoinfo.lastdownload
       mv ${base_dir}/videoinfo.lastdownload.work ${base_dir}/videoinfo.lastdownload
       
-      if [ -s ${base_dir}/videoinfo.lastdownload ]
-         then
+      if [[ -s ${base_dir}/videoinfo.lastdownload ]]; then
              # make a backup copy of:   ${base_dir}/videoinfo.lastdownload to restore on Play Clipboard with invalid url
              cp ${base_dir}/videoinfo.lastdownload ${base_dir}/videoinfo.lastdownload.bak
          else
@@ -10821,10 +10409,8 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       # IF THERE ARE IDENTICAL FILENAMES WITH DIFFERENT FILE EXTENSIONS FIND WILL PRODUCE MORE THAN ONE RESULT      
       correcterror=$(wc -l ${base_dir}/videoinfo.find-last-download | cut -d' ' -f1)  # getting line count.
           
-             if [ "$correcterror" -gt 1 ]  # If line count is greater than 1 goto then. More than 1 was caused from Play Clipboard on invalid url.
-                then                
-                     if [[ "$lastdownload" == "$lastdownloadbak" ]]                 
-                        then
+             if [[ "$correcterror" -gt 1 ]]; then                
+                     if [[ "$lastdownload" == "$lastdownloadbak" ]]; then
                             read -r ytdlplast < ${base_dir}/videoinfo.find-last-download  # read first find result from file
                      
                         else
@@ -10863,8 +10449,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo " This screen will exit when the video player is closed."
       echo
       
-      if [ -z "$ytdlplast" ]
-         then
+      if [[ -z "$ytdlplast" ]]; then
              :
          else     
              notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
@@ -10879,8 +10464,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 
   else
 
-      if [ -f "$pasteclip" ]
-        then
+      if [[ -f "$pasteclip" ]]; then
       
       #  PLAY FILE if <$grabpaste> WAS ANYTHING BUT <HTTP> 
       clear
@@ -10949,13 +10533,11 @@ pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard conten
 
 grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
-if [ "$grabclip" = "http" ]  # if the first 4 characters = <http> go then
-  then
+if [[ "$grabclip" = "http" ]]; then
       :
 
   else      
-      if [ -f "$pasteclip" ]
-        then
+      if [[ -f "$pasteclip" ]]; then
             :
         else
             echo "" | xclip -sel clip  # clearing out the clipboaed
@@ -10983,8 +10565,7 @@ vdash0=$(echo "-")
 # blinking dash
 vdash1=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
 
-if [ "$istherefiles" = 0 ]
-  then
+if [[ "$istherefiles" = 0 ]]; then
       vdash="$vdash0"
   
   else
@@ -11037,13 +10618,11 @@ grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st chara
 # If it is <http>, YT-DLP will get the clipboard. yt-dlp will check if its a valid link by trying to extract the name of the video file.
 # If it isn't <http>  the ytdlp loop will be skipped
 
-if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
-  then
+if [[ "$grabpaste" = "http" ]]; then
       read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
       ytdlpconfirm=$(${base_dir}/yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
 
-            if [ "$ytdlpconfirm" = "" ]  
-                  then
+            if [[ "$ytdlpconfirm" = "" ]]; then
 
                       echo "" | xclip -sel clip  # clearing out the clipboard
                       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
@@ -11077,8 +10656,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
             fi
   else
 
-      if [ -f "$pasteclip" ]  # 
-        then
+      if [[ -f "$pasteclip" ]]; then
             echo      
             echo "Valid file in clipboard"
             echo "___________________________________________________________________________________________________________________"
@@ -11131,8 +10709,7 @@ read -r -n1 optionyt
           
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
-if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
-  then
+if [[ "$grabpaste" = "http" ]]; then
       #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
    
       grabdir="$PWD"  # storing directory to restore at the end of this function
@@ -11160,8 +10737,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       # rename videoinfo.lastdownload.work to videoinfox/videoinfo.lastdownload
       mv ${base_dir}/videoinfo.lastdownload.work ${base_dir}/videoinfo.lastdownload
       
-      if [ -s ${base_dir}/videoinfo.lastdownload ]
-         then
+      if [[ -s ${base_dir}/videoinfo.lastdownload ]]; then
              # make a backup copy of:   ${base_dir}/videoinfo.lastdownload to restore on Play Clipboard with invalid url
              cp ${base_dir}/videoinfo.lastdownload ${base_dir}/videoinfo.lastdownload.bak
          else
@@ -11178,10 +10754,8 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       # IF THERE ARE IDENTICAL FILENAMES WITH DIFFERENT FILE EXTENSIONS FIND WILL PRODUCE MORE THAN ONE RESULT      
       correcterror=$(wc -l ${base_dir}/videoinfo.find-last-download | cut -d' ' -f1)  # getting line count.
           
-             if [ "$correcterror" -gt 1 ]  # If line count is greater than 1 goto then. More than 1 was caused from Play Clipboard on invalid url.
-                then                
-                     if [[ "$lastdownload" == "$lastdownloadbak" ]]                 
-                        then
+             if [[ "$correcterror" -gt 1 ]]; then                
+                     if [[ "$lastdownload" == "$lastdownloadbak" ]]; then
                             read -r ytdlplast < ${base_dir}/videoinfo.find-last-download  # read first find result from file
                      
                         else
@@ -11220,8 +10794,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo " This screen will exit when the video player is closed."
       echo
       
-      if [ -z "$ytdlplast" ]
-         then
+      if [[ -z "$ytdlplast" ]]; then
              :
          else     
              notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
@@ -11236,8 +10809,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 
   else
       
-      if [ -f "$pasteclip" ]
-        then
+      if [[ -f "$pasteclip" ]]; then
 
       #  PLAY FILE if <$grabpaste> WAS ANYTHING BUT <HTTP> 
       clear
@@ -11290,8 +10862,7 @@ fi
 cd "$grabdir"
 ;;  
               i)  # INFO - <VIEW DOWNLOADS>
-if [ "$istherefiles" = 0 ]
-  then
+if [[ "$istherefiles" = 0 ]]; then
       echo
       echo
       echo " No video files in the current directory . . ."
@@ -11299,8 +10870,7 @@ if [ "$istherefiles" = 0 ]
 
   else
  
-      if [ -f "$pasteclip" ]
-        then
+      if [[ -f "$pasteclip" ]]; then
             pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
             echo
             echo
@@ -11313,8 +10883,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
             read -r -p " Press enter to Continue" 
 
         else
-            if [ -f ${tmp_dir}/videoinfo-view-downloads.tmp ]  # if file exists goto then
-              then
+            if [[ -f ${tmp_dir}/videoinfo-view-downloads.tmp ]]; then
               echo
               echo
               read -r -p " Enter line number to get info: " linenumber  # waiting fot user input
@@ -11325,8 +10894,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
              # read first line of file for play
              read playnumber < ${tmp_dir}/videoinfo-view-downloads-autoplay.tmp
 
-                 if [ -z "$playnumber" ]
-                   then
+                 if [[ -z "$playnumber" ]]; then
                        :
  
                    else
@@ -11367,8 +10935,7 @@ sort -u ${tmp_dir}/videoinfox.navtree-play-directory-apa-work > ${tmp_dir}/video
 atleastone=$(grep '^/' ${tmp_dir}/videoinfox.navtree-play-directory-apa 2>/dev/null | wc -l)
 
 #  IF THE NUMBER DOESN"T = 0  THEN PROCESS AUTO PLAY OF PLAYED LIST
-if [ $atleastone -ne 0 ]  
-   then
+if [[ $atleastone -ne 0 ]]; then
 
 #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
 moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa"
@@ -11383,8 +10950,7 @@ echo > ${tmp_dir}/videoinfox.navtree-play-directory-apa2
 while read -r line  # read line by line and write line by line until end of file
 do
 
-   if [ -f "$line" ]
-      then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
+   if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
            echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2  
       else
            :
@@ -11406,24 +10972,19 @@ echo > ${tmp_dir}/videoinfox.navtree-play-directory-apa2
 while read -r line  # read line by line until end of file
 do
 
-   if [[ "$line" == *.mp4 ]] 
-        then # IF FILE IS MP4, WRITE LINE TO FILE
+   if [[ "$line" == *.mp4 ]]; then # IF FILE IS MP4, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2  
      
-   elif [[ "$line" == *.webm ]]
-        then # IF FILE IS WEBM, WRITE LINE TO FILE
+   elif [[ "$line" == *.webm ]]; then # IF FILE IS WEBM, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2
       
-   elif [[ "$line" == *.mkv ]]
-        then # IF FILE IS MKV, WRITE LINE TO FILE
+   elif [[ "$line" == *.mkv ]]; then # IF FILE IS MKV, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2
 
-   elif [[ "$line" == *.avi ]]
-        then # IF FILE IS AVI, WRITE LINE TO FILE
+   elif [[ "$line" == *.avi ]]; then # IF FILE IS AVI, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2
 
-   elif [[ "$line" == *.divx ]]
-        then  # IF FILE IS DIVX, WRITE LINE TO FILE
+   elif [[ "$line" == *.divx ]]; then  # IF FILE IS DIVX, WRITE LINE TO FILE
              echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2
    fi
 
@@ -11451,8 +11012,7 @@ else #  NO LINES START WITH A SLASH /   remove empty files
 fi
 ################clear
 
-if [ -f ${tmp_dir}/videoinfox.numbered-navtree-play-directory-list ]
-   then
+if [[ -f ${tmp_dir}/videoinfox.numbered-navtree-play-directory-list ]]; then
         cat ${tmp_dir}/videoinfox.numbered-navtree-play-directory-list 2>/dev/null
    else
        echo
@@ -11504,8 +11064,7 @@ for line in $(cat "$input" 2>/dev/null)
       read -t 3 -p " Press any key then press enter to quit : " playdir
            
            # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 3 seconds the next video will play
+           if [[ $playdir ]]; then                                                        # if no input is entered within 3 seconds the next video will play
                  break                                                   # if enter is pressed without any input the next video will play
            fi
 done
@@ -11522,16 +11081,14 @@ rm ${tmp_dir}/videoinfox.navtree-play-directory-apa-work 2>/dev/null
 ##################################################################################################################################################
 ###########################   AUTOPLAY LINE  o   <VIEW DOWNLOADS>  ###############################################################################
 ##################################################################################################################################################
-if [ "$istherefiles" = 0 ]
-  then
+if [[ "$istherefiles" = 0 ]]; then
       echo
       echo
       echo " No video files in the current directory . . ."
       sleep 1
 
   else
-if [ -f ${tmp_dir}/videoinfo-view-downloads.tmp ]
-  then
+if [[ -f ${tmp_dir}/videoinfo-view-downloads.tmp ]]; then
 
 echo
 echo
@@ -11579,8 +11136,7 @@ for line in $(cat "$input" 2>/dev/null)
       read -t 3 -p " Press any key then press enter to quit : " playdir
            
            # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 3 seconds the next video will play
+           if [[ $playdir ]]; then                                                        # if no input is entered within 3 seconds the next video will play
                  break                                                   # if enter is pressed without any input the next video will play
            fi
 done
@@ -11603,16 +11159,14 @@ fi
 ###########################   PLAY LINE  j   <VIEW DOWNLOADS>  ###################################################################################
 ##################################################################################################################################################
 
-if [ "$istherefiles" = 0 ]
-  then
+if [[ "$istherefiles" = 0 ]]; then
       echo
       echo
       echo " No video files in the current directory . . ."
       sleep 1
 
   else
-if [ -f ${tmp_dir}/videoinfo-view-downloads.tmp ]  # if file exists goto then
-  then
+if [[ -f ${tmp_dir}/videoinfo-view-downloads.tmp ]]; then
       echo
       echo
       read -r -p " Play Line: " linenumber  # waiting fot user input
@@ -11623,8 +11177,7 @@ if [ -f ${tmp_dir}/videoinfo-view-downloads.tmp ]  # if file exists goto then
       # read first line of file for play
       read playnumber < ${tmp_dir}/videoinfo-view-downloads-playnumber.tmp
 
-      if [ -z "$playnumber" ]
-          then
+      if [[ -z "$playnumber" ]]; then
               :
 
           else
@@ -11694,8 +11247,7 @@ fi
               
               grabpaste3=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
-              if [ "$grabpaste3" = "http" ]  # if the 4 characters = <http> go then
-                then
+              if [[ "$grabpaste3" = "http" ]]; then
          
               clear
               ${base_dir}/yt-dlp "$pasteclip" -o "$dirsaved"/download.tmp  # downloading temporary video
@@ -11745,8 +11297,7 @@ fi
               read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
               cd "$dirsaved"   # change to download directory
 
-                 if [ -s ${base_dir}/videoinfo.lastdownload ]
-                    then
+                 if [[ -s ${base_dir}/videoinfo.lastdownload ]]; then
                         read -r lastdownload < ${base_dir}/videoinfo.lastdownload  # reading last download attempt         
                         ylast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))
                         echo "$ylast" > ${base_dir}/videoinfo.find-last-download  # write find result to file
@@ -11799,8 +11350,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 #!!!
               grabpaste3=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
-              if [ "$grabpaste3" = "http" ]  # if the 4 characters = <http> go then
-                then
+              if [[ "$grabpaste3" = "http" ]]; then
                   
               clear
       
@@ -11841,8 +11391,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 
               grabpaste3=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
-              if [ "$grabpaste3" = "http" ]  # if the 4 characters = <http> go then
-                then
+              if [[ "$grabpaste3" = "http" ]]; then
               
               clear
               echo
@@ -11965,33 +11514,27 @@ read -r dir4display < ${base_dir}/videoinfox.dir4  # load reformatted default di
 read -r dir5display < ${base_dir}/videoinfox.dir5  # load reformatted default directory 5 name
 # DEFAULT DIR 5  DISPLAY     IF DIRECTORY ON EXIT  =  DEFAULT DIRECTORIES 1-4 then Display that directory number.
 
-if [[ "$controldir" = "$dir5display" ]]
-  then 
+if [[ "$controldir" = "$dir5display" ]]; then 
 
-      if [[ "$dir5display" = "$dir1display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 1 then display 1 and not 5
-        then
+      if [[ "$dir5display" = "$dir1display" ]]; then
              dirdisp="$dirdisplay1"
       fi
 
-      if [[ "$dir5display" = "$dir2display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 2 then display 2 and not 5
-        then
+      if [[ "$dir5display" = "$dir2display" ]]; then
              dirdisp="$dirdisplay2"
       fi
 
-      if [[ "$dir5display" = "$dir3display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 3 then display 3 and not 5
-        then
+      if [[ "$dir5display" = "$dir3display" ]]; then
              dirdisp="$dirdisplay3"
       fi
 
-      if [[ "$dir5display" = "$dir4display" ]]  # IF DIRECTORY ON EXIT = DEFAULT DIR 4 then display 4 and not 5
-        then
+      if [[ "$dir5display" = "$dir4display" ]]; then
              dirdisp="$dirdisplay4"
       fi
 fi
 
 # DEFAULT DIR 5 DISPLAY
-if [[ "$controldir" = "$dir5display" ]] 
-  then
+if [[ "$controldir" = "$dir5display" ]]; then
        dirdisp="$dirdisplay5"  # if directory is changed to  Default Dir 5 :  The number 5 is normal text and the other 4 are less bold.
         
   else
@@ -11999,26 +11542,22 @@ if [[ "$controldir" = "$dir5display" ]]
 fi 
 
 # DEFAULT DIR 1  DISPLAY
-if [[ "$controldir" = "$dir1display" ]]  # IF PWD = DEFAULT DIR 1 then display 1
-  then 
+if [[ "$controldir" = "$dir1display" ]]; then 
        dirdisp="$dirdisplay1"
 fi
 
 # DEFAULT DIR 2  DISPLAY
-if [[ "$controldir" = "$dir2display" ]]  # IF PWD = DEFAULT DIR 2 then display 2
-  then 
+if [[ "$controldir" = "$dir2display" ]]; then 
        dirdisp="$dirdisplay2"
 fi
 
 # DEFAULT DIR 3  DISPLAY
-if [[ "$controldir" = "$dir3display" ]]  # IF PWD = DEFAULT DIR 3 then display 3
-  then 
+if [[ "$controldir" = "$dir3display" ]]; then 
        dirdisp="$dirdisplay3"
 fi
 
 # DEFAULT DIR 4  DISPLAY
-if [[ "$controldir" = "$dir4display" ]]  # IF PWD = DEFAULT DIR 4 then display 4
-  then 
+if [[ "$controldir" = "$dir4display" ]]; then 
        dirdisp="$dirdisplay4"  # if directory is changed to  Default Dir 4 :  The number 4 is normal text and the other 4 are less bold.
 fi
 
@@ -12077,8 +11616,7 @@ l)  # LIST DIRECTORY
 currentdirfilecount=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
     
 
-if [ -f "videoinfo.List-Directory" ]  #  if file <videoinfo.List-Directory> exists goto <then>
-  then
+if [[ -f "videoinfo.List-Directory" ]]; then
 #     >>>>>>>>>>>>>>>>>>>>>>>>>> DISPLAY LAST DIRECTORY LISTING >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
 
       less videoinfo.List-Directory  # display in <less>
@@ -12182,8 +11720,7 @@ echo >> videoinfo.List-Directory
 echo "Working Directory: ""$PWD"  # <pwd>  print current working directory to the screen   
 echo "Working Directory: ""$PWD" >> videoinfo.List-Directory
 echo
-if [ "$currentdirfilecount" != 0 ]  # if find returned no results goto <then>
-  then
+if [[ "$currentdirfilecount" != 0 ]]; then
       echo "$rer"
       echo
       echo -e "\033[5mProbing $currentdirfilecount \033[5mVideo Files for Duration\033[0m"  #  file count of find results
@@ -12314,14 +11851,12 @@ echo " No quotations needed for paths with spaces. Case sensative."
 echo 
 read -r -p " Enter Directory: " specifydir  # waiting fot user input - the directory you want to chang to 
     
-    if [ -z "$specifydir" ]  # if no input was entered goto  <then> 
-          then
+    if [[ -z "$specifydir" ]]; then
                echo
                echo " error: Nothing was entered"
                sleep .75
           else
-              if [ -d "$specifydir" ]  #  if directoty exists goto  <then>
-                then
+              if [[ -d "$specifydir" ]]; then
                      echo
                      cd "$specifydir"   # change the directory
                      echo " Working Driectory changed to: $PWD"  # <pwd>  print current working directory to the screen
@@ -12356,8 +11891,7 @@ read -r -p " Directory Name: " dirfind  # waiting fot user input - dierectory th
 findmeadir=$(find . -type d -iname "$dirfind" 2>/dev/null | wc -l)   # number of files found
        
                                                                                        
-    if [ -z "$dirfind" ]  # if no input was entered goto  <then>  
-          then
+    if [[ -z "$dirfind" ]]; then
                echo
                echo " error: Nothing was entered"  
                sleep .75  # EXIT THIS LOOP
@@ -12376,8 +11910,7 @@ findmeadir=$(find . -type d -iname "$dirfind" 2>/dev/null | wc -l)   # number of
                       echo " Total Directories Found:" "$findmeadir"  # number of files found
       
                   
-                 if [ "$findmeadir" = 0 ]  # if find returned no results goto <then>
-                   then
+                 if [[ "$findmeadir" = 0 ]]; then
                        sleep .75
                         :  # the colon can be used in place of a command to 'Do Nothing'  Exit this nested loop
                    else                         
@@ -12442,8 +11975,7 @@ d)
 ###########################  MORE OPTIONS  d  VIDEO DURATION  ####################################################################################
 ##################################################################################################################################################
 
-if [ -f "videoinfo.Video-Duration" ]  #  if <videoinfo.Video-Durationy> exists goto <then>
-  then
+if [[ -f "videoinfo.Video-Duration" ]]; then
 #     >>>>>>>>>>>>>>>>>>>>>>>>>> DISPLAY Saved RESULTS >>>>>>>>>>>>>>>>>>>>>>>>>> 
       cat videoinfo.Video-Duration
   else
@@ -12602,13 +12134,11 @@ echo
 read -r -p " Video File: " specifyfile  # waiting fot user input - video file to display
 echo
 
-        if [ -z "$specifyfile" ]  # if no input was entered goto  <then>
-          then
+        if [[ -z "$specifyfile" ]]; then
               echo " error: Nothing was entered"
               sleep .7
           else  
-               if [ -f "$specifyfile" ]  # if file exists goto  <then>
-                then
+               if [[ -f "$specifyfile" ]]; then
                        echo "$specifyfile"  | xclip -sel clip  # copy valid file to the cilpboard for play
                        pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
                        
@@ -12667,10 +12197,10 @@ main() {
     # Parse our given args
     while getopts ":adhluv" opts; do
         case "${opts}" in
-            (a)     : ;;
-            (d)     : ;;
+            (a)     write_default_list ;;
+            (d)     play_directory ;;
             (h)     print_help ;;
-            (l)     : ;;
+            (l)     write_user_set_list ;;
             (u)     : ;;
             (v)     print_version ;;
             (\?)    printf -- '%s\n' "ERROR: Invalid option: ${OPTARG}." >&2; exit 1 ;;
