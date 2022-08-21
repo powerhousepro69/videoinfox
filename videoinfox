@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v3.9.00								         
+#  file : videoinfox v3.9.02								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v3.9.00"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m9.00")  # Version Number: with blinking dot
+ver="Videoinfox v3.9.02"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m9.02")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -1499,6 +1499,14 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v3.9.02 Fix: Option display in View Playlist with a valid http video link in the clipboard." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Fix: Resume Autoplay would error on a new Playlist without initially running Start Autoplay." >> ~/.config/videoinfox/videoinfo-ver-history               
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Added below line to Playlist >>> Help" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         When Resume Autoplay reaches the end of the playlist, it will remain there until Start Autoplay is run again." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v3.9.00 View Playlist appearance update + new options in View Playlist and Navigate Tree >>> Show All." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -4339,10 +4347,10 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " o "$dashit" Autoplay Line     l - Last Autoplay      c - Change Playlist     p - Play Clipboard                  q - Quit"
-                      echo " j "$dashit" Play Line"
-                      echo " i "$dashit" Info                                     d - Clear Playlist"
-                      echo           
+                      echo " j - Play Line     o - Start Autoplay      c - Change Playlist     p - Play Clipboard                     q - Quit"
+                      echo " i - Info          l - Resume Autoplay     r - Remove Line"
+                      echo "                                           d - Clear Playlist                                             h - Help"
+                      echo                         
 
                   else 
                       echo
@@ -4354,26 +4362,26 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo -e " o "$dashit" Autoplay Line     l - Last Autoplay     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                   q - Quit"
-                      echo " j "$dashit" Play Line"
-                      echo " i "$dashit" Info                                    d - Clear Playlist"
+                      echo -e " j - Play Line     o - Start Autoplay      c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                     q - Quit"
+                      echo " i - Info          l - Resume Autoplay     r - Remove Line"
+                      echo "                                           d - Clear Playlist                                             h - Help"
                       echo                                                                                    
             fi
   else
 
       if [ -f "$pasteclip" ]  # 
         then
-            echo      
-            echo "Valid file in clipboard"
-            echo "___________________________________________________________________________________________________________________"
-            echo
-            echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
-            echo "___________________________________________________________________________________________________________________"
-            echo
-            echo -e " o "$dashit" Autoplay Line     l - Last Autoplay     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                   q - Quit"
-            echo " j "$dashit" Play Line"
-            echo " i "$dashit" Info                                    d - Clear Playlist"
-            echo                                                                     
+                      echo      
+                      echo "Valid file in clipboard"
+                      echo "___________________________________________________________________________________________________________________"
+                      echo
+                      echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
+                      echo "___________________________________________________________________________________________________________________"
+                      echo
+                      echo -e " j - Play Line     o - Start Autoplay      c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                     q - Quit"
+                      echo " i - Info          l - Resume Autoplay     r - Remove Line"
+                      echo "                                           d - Clear Playlist                                             h - Help"
+                      echo                                                           
 
         else 
 
@@ -4388,7 +4396,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
             echo " j - Play Line     o - Start Autoplay      c - Change Playlist     p - Play Clipboard                     q - Quit"
             echo " i - Info          l - Resume Autoplay     r - Remove Line"
             echo "                                           d - Clear Playlist                                             h - Help"
-            echo                                                             
+            echo                                                         
 fi
 fi
 
@@ -4414,11 +4422,12 @@ read -r -n1 optionv
         h)
         echo
         echo
-        echo " PLAYLIST LIST >>> HELP"        
+        echo " PLAYLIST >>> HELP"        
         echo
         echo " Everytime Start Autoplay is used, it will write a new file for Resume Autoplay."
         echo " Run Start Autoplay first. Then use Resume Autoplay to continue watching where you left off."
         echo " Resume Autoplay will start with the last video that was playing when the play loop was quit."
+        echo " When Resume Autoplay reaches the end of the playlist, it will remain there until Start Autoplay is run again."
         echo
         echo " Note: If the playlist is changed with Playlist Add or Remove Line after running Start Autoplay,"
         echo "       Resume Autoplay won't get updated with the changes until Start Autoplay is run again."
@@ -4594,28 +4603,37 @@ fi
 ;;
 
 
-###########################################################
-l) # LAST AUTOPLAY - RESUME AUOTOPLAY (HOME >>> PLAYLIST)
-###########################################################
-
-# READ FIRST LINE TO DISPLAY VIDEO NAME BEFORE PLAY
-read < $HOME/.config/videoinfox/playlists/"$setplaylist".last-autoplay resumedisplay
-echo
-echo
-echo " Resume: ""$resumedisplay"
-sleep 3
+##################################################################
+l) # LAST AUTOPLAY - RESUME AUOTOPLAY (NAVIGATE TREE >>> PLAYLIST)
+##################################################################
 
 ###### SET COUNTER TO ZERO. $i in below play loop to get line number from last played video
 i=0
 
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
    then
+        read < $HOME/.config/videoinfox/playlists/"$setplaylist".last-autoplay resumedisplay
 
-OLDIFS=$IFS
-IFS=$'\n'
+        if [ -z "$resumedisplay" ]
+          then
+              echo
+              echo
+              echo " Run Start Autoplay first to enable this feature . . ."
+              sleep 1.7
 
+          else
+
+              OLDIFS=$IFS
+              FS=$'\n'
+
+              # READ FIRST LINE TO DISPLAY VIDEO NAME BEFORE PLAY
+              
+              echo
+              echo
+              echo " Resume: ""$resumedisplay"
+              sleep 3
+          
 input2=$HOME/.config/videoinfox/playlists/"$setplaylist".last-autoplay
-
 
 for line in $(cat "$input2" 2>/dev/null)
  do
@@ -4664,23 +4682,23 @@ for line in $(cat "$input2" 2>/dev/null)
            fi
 done
 
-
 tail -n +"$i" ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay > ~/.config/videoinfox/playlists/pl-tmp
 mv ~/.config/videoinfox/playlists/pl-tmp ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay
 
-
 IFS=$OLDIFS
+
+fi
 
    else
        echo
        echo
        echo " Playlist Empty . . ."
        sleep 1.7
-fi
 
+fi
 ;;
 
-
+      
         j) # PLAY LINE  (HOME >>> PLAYLIST)
 
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
@@ -6692,10 +6710,10 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " o "$dashit" Autoplay Line     l - Last Autoplay      c - Change Playlist     p - Play Clipboard                  q - Quit"
-                      echo " j "$dashit" Play Line"
-                      echo " i "$dashit" Info                                     d - Clear Playlist"
-                      echo           
+                      echo " j - Play Line     o - Start Autoplay      c - Change Playlist     p - Play Clipboard                     q - Quit"
+                      echo " i - Info          l - Resume Autoplay     r - Remove Line"
+                      echo "                                           d - Clear Playlist                                             h - Help"
+                      echo                         
 
                   else 
                       echo
@@ -6707,26 +6725,26 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo -e " o "$dashit" Autoplay Line     l - Last Autoplay     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                   q - Quit"
-                      echo " j "$dashit" Play Line"
-                      echo " i "$dashit" Info                                    d - Clear Playlist"
+                      echo -e " j - Play Line     o - Start Autoplay      c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                     q - Quit"
+                      echo " i - Info          l - Resume Autoplay     r - Remove Line"
+                      echo "                                           d - Clear Playlist                                             h - Help"
                       echo                                                                                    
             fi
   else
 
       if [ -f "$pasteclip" ]  # 
         then
-            echo      
-            echo "Valid file in clipboard"
-            echo "___________________________________________________________________________________________________________________"
-            echo
-            echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
-            echo "___________________________________________________________________________________________________________________"
-            echo
-            echo -e " o "$dashit" Autoplay Line     l - Last Autoplay     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                   q - Quit"
-            echo " j "$dashit" Play Line"
-            echo " i "$dashit" Info                                    d - Clear Playlist"
-            echo                                                                     
+                      echo      
+                      echo "Valid file in clipboard"
+                      echo "___________________________________________________________________________________________________________________"
+                      echo
+                      echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
+                      echo "___________________________________________________________________________________________________________________"
+                      echo
+                      echo -e " j - Play Line     o - Start Autoplay      c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                     q - Quit"
+                      echo " i - Info          l - Resume Autoplay     r - Remove Line"
+                      echo "                                           d - Clear Playlist                                             h - Help"
+                      echo                                                           
 
         else 
 
@@ -6741,7 +6759,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
             echo " j - Play Line     o - Start Autoplay      c - Change Playlist     p - Play Clipboard                     q - Quit"
             echo " i - Info          l - Resume Autoplay     r - Remove Line"
             echo "                                           d - Clear Playlist                                             h - Help"
-            echo                                                             
+            echo                                                                
 fi
 fi
 
@@ -6767,11 +6785,12 @@ read -r -n1 optionv
         h)
         echo
         echo
-        echo " PLAYLIST LIST >>> HELP"        
+        echo " PLAYLIST >>> HELP"        
         echo
         echo " Everytime Start Autoplay is used, it will write a new file for Resume Autoplay."
         echo " Run Start Autoplay first. Then use Resume Autoplay to continue watching where you left off."
         echo " Resume Autoplay will start with the last video that was playing when the play loop was quit."
+        echo " When Resume Autoplay reaches the end of the playlist, it will remain there until Start Autoplay is run again."
         echo
         echo " Note: If the playlist is changed with Playlist Add or Remove Line after running Start Autoplay,"
         echo "       Resume Autoplay won't get updated with the changes until Start Autoplay is run again."
@@ -6947,28 +6966,37 @@ fi
 ;;
 
 
-###########################################################
-l) # LAST AUTOPLAY - RESUME AUOTOPLAY (HOME >>> PLAYLIST)
-###########################################################
-
-# READ FIRST LINE TO DISPLAY VIDEO NAME BEFORE PLAY
-read < $HOME/.config/videoinfox/playlists/"$setplaylist".last-autoplay resumedisplay
-echo
-echo
-echo " Resume: ""$resumedisplay"
-sleep 3
+############################################################
+l) # LAST AUTOPLAY - RESUME AUOTOPLAY (HOME >>> PLAYED LIST)
+############################################################
 
 ###### SET COUNTER TO ZERO. $i in below play loop to get line number from last played video
 i=0
 
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
    then
+        read < $HOME/.config/videoinfox/playlists/"$setplaylist".last-autoplay resumedisplay
 
-OLDIFS=$IFS
-IFS=$'\n'
+        if [ -z "$resumedisplay" ]
+          then
+              echo
+              echo
+              echo " Run Start Autoplay first to enable this feature . . ."
+              sleep 1.7
 
+          else
+
+              OLDIFS=$IFS
+              FS=$'\n'
+
+              # READ FIRST LINE TO DISPLAY VIDEO NAME BEFORE PLAY
+              
+              echo
+              echo
+              echo " Resume: ""$resumedisplay"
+              sleep 3
+          
 input2=$HOME/.config/videoinfox/playlists/"$setplaylist".last-autoplay
-
 
 for line in $(cat "$input2" 2>/dev/null)
  do
@@ -7017,22 +7045,21 @@ for line in $(cat "$input2" 2>/dev/null)
            fi
 done
 
-
 tail -n +"$i" ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay > ~/.config/videoinfox/playlists/pl-tmp
 mv ~/.config/videoinfox/playlists/pl-tmp ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay
 
-
 IFS=$OLDIFS
+
+fi
 
    else
        echo
        echo
        echo " Playlist Empty . . ."
        sleep 1.7
+
 fi
-
 ;;
-
 
         j) # PLAY LINE  (HOME >>> PLAYLIST)
 
@@ -8167,10 +8194,10 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " o "$dashit" Autoplay Line     l - Last Autoplay      c - Change Playlist     p - Play Clipboard                  q - Quit"
-                      echo " j "$dashit" Play Line"
-                      echo " i "$dashit" Info                                     d - Clear Playlist"
-                      echo           
+                      echo " j - Play Line     o - Start Autoplay      c - Change Playlist     p - Play Clipboard                     q - Quit"
+                      echo " i - Info          l - Resume Autoplay     r - Remove Line"
+                      echo "                                           d - Clear Playlist                                             h - Help"
+                      echo                         
 
                   else 
                       echo
@@ -8182,26 +8209,26 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo -e " o "$dashit" Autoplay Line     l - Last Autoplay     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                   q - Quit"
-                      echo " j "$dashit" Play Line"
-                      echo " i "$dashit" Info                                    d - Clear Playlist"
+                      echo -e " j - Play Line     o - Start Autoplay      c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                     q - Quit"
+                      echo " i - Info          l - Resume Autoplay     r - Remove Line"
+                      echo "                                           d - Clear Playlist                                             h - Help"
                       echo                                                                                    
             fi
   else
 
       if [ -f "$pasteclip" ]  # 
         then
-            echo      
-            echo "Valid file in clipboard"
-            echo "___________________________________________________________________________________________________________________"
-            echo
-            echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
-            echo "___________________________________________________________________________________________________________________"
-            echo
-            echo -e " o "$dashit" Autoplay Line     l - Last Autoplay     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                   q - Quit"
-            echo " j "$dashit" Play Line"
-            echo " i "$dashit" Info                                    d - Clear Playlist"
-            echo                                                                     
+                      echo      
+                      echo "Valid file in clipboard"
+                      echo "___________________________________________________________________________________________________________________"
+                      echo
+                      echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
+                      echo "___________________________________________________________________________________________________________________"
+                      echo
+                      echo -e " j - Play Line     o - Start Autoplay      c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                     q - Quit"
+                      echo " i - Info          l - Resume Autoplay     r - Remove Line"
+                      echo "                                           d - Clear Playlist                                             h - Help"
+                      echo                                                           
 
         else 
 
@@ -8242,11 +8269,12 @@ read -r -n1 optionv
         h)
         echo
         echo
-        echo " PLAYLIST LIST >>> HELP"        
+        echo " PLAYLIST >>> HELP"        
         echo
         echo " Everytime Start Autoplay is used, it will write a new file for Resume Autoplay."
         echo " Run Start Autoplay first. Then use Resume Autoplay to continue watching where you left off."
         echo " Resume Autoplay will start with the last video that was playing when the play loop was quit."
+        echo " When Resume Autoplay reaches the end of the playlist, it will remain there until Start Autoplay is run again."
         echo
         echo " Note: If the playlist is changed with Playlist Add or Remove Line after running Start Autoplay,"
         echo "       Resume Autoplay won't get updated with the changes until Start Autoplay is run again."
@@ -8426,24 +8454,33 @@ fi
 l) # LAST AUTOPLAY - RESUME AUOTOPLAY (HOME >>> PLAYLIST)
 ###########################################################
 
-# READ FIRST LINE TO DISPLAY VIDEO NAME BEFORE PLAY
-read < $HOME/.config/videoinfox/playlists/"$setplaylist".last-autoplay resumedisplay
-echo
-echo
-echo " Resume: ""$resumedisplay"
-sleep 3
-
 ###### SET COUNTER TO ZERO. $i in below play loop to get line number from last played video
 i=0
 
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
    then
+        read < $HOME/.config/videoinfox/playlists/"$setplaylist".last-autoplay resumedisplay
 
-OLDIFS=$IFS
-IFS=$'\n'
+        if [ -z "$resumedisplay" ]
+          then
+              echo
+              echo
+              echo " Run Start Autoplay first to enable this feature . . ."
+              sleep 1.7
 
+          else
+
+              OLDIFS=$IFS
+              FS=$'\n'
+
+              # READ FIRST LINE TO DISPLAY VIDEO NAME BEFORE PLAY
+              
+              echo
+              echo
+              echo " Resume: ""$resumedisplay"
+              sleep 3
+          
 input2=$HOME/.config/videoinfox/playlists/"$setplaylist".last-autoplay
-
 
 for line in $(cat "$input2" 2>/dev/null)
  do
@@ -8492,22 +8529,21 @@ for line in $(cat "$input2" 2>/dev/null)
            fi
 done
 
-
 tail -n +"$i" ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay > ~/.config/videoinfox/playlists/pl-tmp
 mv ~/.config/videoinfox/playlists/pl-tmp ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay
 
-
 IFS=$OLDIFS
+
+fi
 
    else
        echo
        echo
        echo " Playlist Empty . . ."
        sleep 1.7
+
 fi
-
 ;;
-
 
         j) # PLAY LINE  (HOME >>> PLAYLIST)
 
