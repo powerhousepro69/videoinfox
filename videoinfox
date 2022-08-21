@@ -416,8 +416,6 @@ do
    elif [[ "$line" == *.divx ]]
         then  # IF FILE IS DIVX, WRITE LINE TO FILE
              echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa2
-   else
-        :  # IF THERE IS NO FILE MATCH, THERE IS NO WRITE
    fi
 
 done < "$input"
@@ -702,10 +700,8 @@ fi
 
 direxist="$HOME/.config/videoinfox"
 
-if [ -d "$direxist" ]  #  if directoty exists goto  <then>
+if [ ! -d "$direxist" ]  #  if directoty exists goto  <then>
   then
-      :  #  goto CHECK FOR  (VIDEOINFOX NOTIFICATION UPDATE)
-  else
       
       clear
       echo
@@ -754,10 +750,8 @@ if [ -d "$direxist" ]  #  if directoty exists goto  <then>
       # CHECK FOR  ~/Downloads  If it doesn't exist, create it 
       direxist2="$HOME/Downloads"
 
-      if [ -d "$direxist2" ]  #  if directoty exists goto  <then>
+      if [ ! -d "$direxist2" ]  #  if directoty exists goto  <then>
         then
-             : 
-        else
              mkdir ~/Downloads
       fi
       # SET DEFAULT  yt-dlp  DOWNLOAD DIRECTORY TO  ~/Downloads    It can be changed in the <set> menu
@@ -2470,7 +2464,7 @@ read -r -n1 optionf
 h)  # HELP
      #clear
      less ~/.config/videoinfox/videoinfo.help  # This help file is recreated on every start
-     ;;	
+     ;;    
 e)   # EXIT  
      echo "$PWD" > ~/.config/videoinfox/videoinfo.dir-at-exit  # SAVE DIRECTORY AT EXIT
  
@@ -2517,7 +2511,7 @@ if [ "$lsearch" = 3 ]  # ASK TO SAVE
          while true
          do
          menuq
-	   case $optionq in
+       case $optionq in
          
   
          1)  # DO NOTHING SEARCH IS ALREADY SAVED
@@ -2620,8 +2614,6 @@ for line in $(cat "$input" 2>/dev/null)
            if [[ $playdir ]]                                             
              then                                                        # if no input is entered within 3 seconds the next video will play
                  break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 3 seconds to quit                      
            fi
 done
  
@@ -2904,7 +2896,7 @@ fi
 echo
 echo "Treetop:" "$grabdirfornav2"
 echo "Total Directories: "$ttotal" "
-echo "Total Video Files:" "$ttotalnum"                                                               	                                         
+echo "Total Video Files:" "$ttotalnum"                                                                                                            
 echo
 echo "Current Directory:" "$PWD"
 echo "Video Files:" "$blinkit"
@@ -2928,7 +2920,7 @@ echo
          while true
          do
          navtree
-	    case $option in
+        case $option in
          
          q)  # QUIT
     ##############################     cd "$grabdirfornav2" &>/dev/null   # restore directory
@@ -3083,8 +3075,6 @@ do
    elif [[ "$line" == *.divx ]]
         then  # IF FILE IS DIVX, WRITE LINE TO FILE
              echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2
-   else
-        :  # IF THERE IS NO FILE MATCH, THERE IS NO WRITE
    fi
 
 done < "$input"
@@ -3166,8 +3156,6 @@ for line in $(cat "$input" 2>/dev/null)
            if [[ $playdir ]]                                             
              then                                                        # if no input is entered within 3 seconds the next video will play
                  break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 3 seconds to quit Play Played List
            fi
 done
  
@@ -3198,8 +3186,8 @@ echo
 echo " Enter directory or paste directory if in clipboard."
 echo
 read -r -p " " specifydir  # waiting fot user input - the directory you want to chang to 
-	
-	if [ -z "$specifydir" ]  # if no input was entered goto  <then> 
+    
+    if [ -z "$specifydir" ]  # if no input was entered goto  <then> 
           then
                echo " Nothing was entered . . ."
                sleep .75
@@ -3299,8 +3287,6 @@ do
    elif [[ "$line" == *.divx ]]
         then  # IF FILE IS DIVX, WRITE LINE TO FILE
              echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2
-   else
-        :  # IF THERE IS NO FILE MATCH, THERE IS NO WRITE
    fi
 
 done < "$input"
@@ -3324,7 +3310,6 @@ else #  NO LINES START WITH A SLASH /   remove empty files
      rm ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2 2>/dev/null
      rm ~/.config/videoinfox/tmp/videoinfox.numbered-nt-play-directory-list 2>/dev/null
      rm ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa-work 2>/dev/null
-     :    
 fi
 clear
 
@@ -3541,8 +3526,6 @@ do
    elif [[ "$line" == *.divx ]]
         then  # IF FILE IS DIVX, WRITE LINE TO FILE
              echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2
-   else
-        :  # IF THERE IS NO FILE MATCH, THERE IS NO WRITE
    fi
 
 done < "$input"
@@ -3569,10 +3552,8 @@ else #  NO LINES START WITH A SLASH /   remove empty files
 fi
 # clear
 
-if [ -f ~/.config/videoinfox/tmp/videoinfox.numbered-nt-play-directory-list ]
+if [ ! -f ~/.config/videoinfox/tmp/videoinfox.numbered-nt-play-directory-list ]
    then
-        : #cat ~/.config/videoinfox/tmp/videoinfox.numbered-nt-play-directory-list 2>/dev/null
-   else
         echo
         echo " No videos in the current directory . . ."
 fi
@@ -3729,8 +3710,6 @@ do
    elif [[ "$line" == *.divx ]]
         then  # IF FILE IS DIVX, WRITE LINE TO FILE
              echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-directory-apa2
-   else
-        :  # IF THERE IS NO FILE MATCH, THERE IS NO WRITE
    fi
 
 done < "$input"
@@ -3946,8 +3925,6 @@ do
    elif [[ "$line" == *.divx ]]
         then  # IF FILE IS DIVX, WRITE LINE TO FILE
              echo "$line" >> ~/.config/videoinfox/tmp/videoinfo.playlist-apa2
-   else
-        :  # IF THERE IS NO FILE MATCH, THERE IS NO WRITE
    fi
 
 done < "$input"
@@ -4116,8 +4093,8 @@ read -r -n1 optionv
 
         while true
         do
-	    menuvhome
-	    case $optionv in
+        menuvhome
+        case $optionv in
     
         q)  # QUIT
         rm ~/.config/videoinfox/tmp/videoinfo.playlist-apa 2>/dev/null
@@ -4202,8 +4179,6 @@ for line in $(cat "$input" 2>/dev/null)
            if [[ $playdir ]]                                             
              then                                                        # if no input is entered within 3 seconds the next video will play
                  break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 3 seconds to quit Play PLAYLIST
            fi
 done
 
@@ -4363,8 +4338,6 @@ for line in $(cat "$input2" 2>/dev/null)
            if [[ $playdir ]]                                             
              then                                                        # if no input is entered within 3 seconds the next video will play
                  break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 3 seconds to quit Play PLAYLIST
            fi
 done
 tail -n +"$i" ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay > ~/.config/videoinfox/playlists/pl-tmp
@@ -4659,10 +4632,10 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
 
                       while true
                       do
-	                menucpl
-	                case $optioncpl in
+                    menucpl
+                    case $optioncpl in
 
-	                y)  # YES
+                    y)  # YES
 
                       rm "$plselected" 2> /dev/null
 
@@ -4927,10 +4900,10 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 
         while true
         do
-	  menucpl
-	  case $optioncpl in
+      menucpl
+      case $optioncpl in
 
-	  y)  # YES
+      y)  # YES
         rm ~/.config/videoinfox/videoinfo.playlist 2> /dev/null
         echo > ~/.config/videoinfox/videoinfo.playlist
         echo > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay 
@@ -5002,8 +4975,6 @@ for line in $(cat "$input" 2>/dev/null)
            if [[ $playdir ]]                                             
              then                                                        # if no input is entered within 3 seconds the next video will play
                  break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 3 seconds to quit Play Played List
            fi
 done
  
@@ -5098,8 +5069,6 @@ do
    elif [[ "$line" == *.divx ]]
         then  # IF FILE IS DIVX, WRITE LINE TO FILE
              echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa2
-   else
-        :  # IF THERE IS NO FILE MATCH, THERE IS NO WRITE
    fi
 
 done < "$input"
@@ -5182,8 +5151,6 @@ for line in $(cat "$input" 2>/dev/null)
            if [[ $playdir ]]                                             
              then                                                        # if no input is entered within 3 seconds the next video will play
                  break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 3 seconds to quit Play Played List
            fi
 done
  
@@ -5255,7 +5222,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 a)  # SHOW ALL VIDEOS
 
 searchtotal=$(find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)    
-                                           	                               
+                                                                              
                      if [ "$searchtotal" = 0 ]  # if find returned no results goto <then>
       
                        then
@@ -5318,7 +5285,7 @@ find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -in
        pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
        ;;
 
-#############################################################################################################################################	
+#############################################################################################################################################    
 #############################################################################################################################################
      p) 
      #  @PLAY CLIPBOARD - <HOME> !!!!!    MASTER TEMPLATE  This is the one that gets the edits then copied to other places in the code.
@@ -5646,8 +5613,6 @@ do
    elif [[ "$line" == *.divx ]]
         then  # IF FILE IS DIVX, WRITE LINE TO FILE
              echo "$line" >> ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2
-   else
-        :  # IF THERE IS NO FILE MATCH, THERE IS NO WRITE
    fi
 
 done < "$input"
@@ -5797,8 +5762,8 @@ read -r -n1 optionv
 
         while true
         do
-	    menuvv
-	    case $optionv in
+        menuvv
+        case $optionv in
     
         q)  # QUIT
         rm ~/.config/videoinfox/tmp/videoinfo.playedlist-apa 2>/dev/null
@@ -5859,8 +5824,6 @@ for line in $(cat "$input" 2>/dev/null)
            if [[ $playdir ]]                                             
              then                                                        # if no input is entered within 3 seconds the next video will play
                  break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 3 seconds to quit Play Played List
            fi
 done
  
@@ -6135,8 +6098,6 @@ do
    elif [[ "$line" == *.divx ]]
         then  # IF FILE IS DIVX, WRITE LINE TO FILE
              echo "$line" >> ~/.config/videoinfox/tmp/videoinfo.playlist-apa2
-   else
-        :  # IF THERE IS NO FILE MATCH, THERE IS NO WRITE
    fi
 
 done < "$input"
@@ -6305,8 +6266,8 @@ read -r -n1 optionv
 
         while true
         do
-	    menuvhome
-	    case $optionv in
+        menuvhome
+        case $optionv in
     
         q)  # QUIT
         rm ~/.config/videoinfox/tmp/videoinfo.playlist-apa 2>/dev/null
@@ -6391,8 +6352,6 @@ for line in $(cat "$input" 2>/dev/null)
            if [[ $playdir ]]                                             
              then                                                        # if no input is entered within 3 seconds the next video will play
                  break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 3 seconds to quit Play PLAYLIST
            fi
 done
 
@@ -6552,8 +6511,6 @@ for line in $(cat "$input2" 2>/dev/null)
            if [[ $playdir ]]                                             
              then                                                        # if no input is entered within 3 seconds the next video will play
                  break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 3 seconds to quit Play PLAYLIST
            fi
 done
 tail -n +"$i" ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay > ~/.config/videoinfox/playlists/pl-tmp
@@ -6848,10 +6805,10 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
 
                       while true
                       do
-	                menucpl
-	                case $optioncpl in
+                    menucpl
+                    case $optioncpl in
 
-	                y)  # YES
+                    y)  # YES
 
                       rm "$plselected" 2> /dev/null
 
@@ -7116,10 +7073,10 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 
         while true
         do
-	  menucpl
-	  case $optioncpl in
+      menucpl
+      case $optioncpl in
 
-	  y)  # YES
+      y)  # YES
         rm ~/.config/videoinfox/videoinfo.playlist 2> /dev/null
         echo > ~/.config/videoinfox/videoinfo.playlist
         echo > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay 
@@ -7512,8 +7469,6 @@ do
    elif [[ "$line" == *.divx ]]
         then  # IF FILE IS DIVX, WRITE LINE TO FILE
              echo "$line" >> ~/.config/videoinfox/tmp/videoinfo.playlist-apa2
-   else
-        :  # IF THERE IS NO FILE MATCH, THERE IS NO WRITE
    fi
 
 done < "$input"
@@ -7682,8 +7637,8 @@ read -r -n1 optionv
 
         while true
         do
-	    menuvhome
-	    case $optionv in
+        menuvhome
+        case $optionv in
     
         q)  # QUIT
         rm ~/.config/videoinfox/tmp/videoinfo.playlist-apa 2>/dev/null
@@ -7768,8 +7723,6 @@ for line in $(cat "$input" 2>/dev/null)
            if [[ $playdir ]]                                             
              then                                                        # if no input is entered within 3 seconds the next video will play
                  break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 3 seconds to quit Play PLAYLIST
            fi
 done
 
@@ -7929,8 +7882,6 @@ for line in $(cat "$input2" 2>/dev/null)
            if [[ $playdir ]]                                             
              then                                                        # if no input is entered within 3 seconds the next video will play
                  break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 3 seconds to quit Play PLAYLIST
            fi
 done
 tail -n +"$i" ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay > ~/.config/videoinfox/playlists/pl-tmp
@@ -8225,10 +8176,10 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
 
                       while true
                       do
-	                menucpl
-	                case $optioncpl in
+                    menucpl
+                    case $optioncpl in
 
-	                y)  # YES
+                    y)  # YES
 
                       rm "$plselected" 2> /dev/null
 
@@ -8493,10 +8444,10 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 
         while true
         do
-	  menucpl
-	  case $optioncpl in
+      menucpl
+      case $optioncpl in
 
-	  y)  # YES
+      y)  # YES
         rm ~/.config/videoinfox/videoinfo.playlist 2> /dev/null
         echo > ~/.config/videoinfox/videoinfo.playlist
         echo > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay 
@@ -8614,7 +8565,7 @@ fi
     read -r -p " File Name: " videofind  # waiting fot user input - video file that you want to find
 
     searchtotal=$(find "$PWD" -type f \( -iname "$videofind.mp4" -o -iname "$videofind.mkv" -o -iname "$videofind.avi" -o -iname "$videofind.webm" -o -iname "$videofind.divx" \) 2>/dev/null | wc -l)    
-                                                                                                  	
+                                                                                                      
     if [ -z "$videofind" ]  # if no input was entered goto  <then>  
           then
                echo
@@ -8817,7 +8768,7 @@ done
          while true
          do
          lastsearch
-	    case $optionz in
+        case $optionz in
 
          q)
          break;;
@@ -8866,8 +8817,8 @@ done
     echo " No quotations needed for paths with spaces. Case sensative."
     echo
     read -r -p " Enter Directory: " specifydir2  # waiting fot user input - the directory you want to chang to 
-	
-	     if [ -z "$specifydir2" ]  # if no input was entered goto  <then> 
+    
+         if [ -z "$specifydir2" ]  # if no input was entered goto  <then> 
             then
                 echo
                 echo " error: Nothing was entered"
@@ -8904,8 +8855,8 @@ done
     echo " No quotations needed for paths with spaces. Case sensative."
     echo
     read -r -p " Enter Directory: " specifydir2  # waiting fot user input - the directory you want to chang to 
-	
-	     if [ -z "$specifydir2" ]  # if no input was entered goto  <then> 
+    
+         if [ -z "$specifydir2" ]  # if no input was entered goto  <then> 
             then
                 echo
                 echo " error: Nothing was entered"
@@ -8942,8 +8893,8 @@ done
     echo " No quotations needed for paths with spaces. Case sensative."
     echo
     read -r -p " Enter Directory: " specifydir2  # waiting fot user input - the directory you want to chang to 
-	
-	     if [ -z "$specifydir2" ]  # if no input was entered goto  <then> 
+    
+         if [ -z "$specifydir2" ]  # if no input was entered goto  <then> 
             then
                 echo
                 echo " error: Nothing was entered"
@@ -8980,8 +8931,8 @@ done
     echo " No quotations needed for paths with spaces. Case sensative."
     echo
     read -r -p " Enter Directory: " specifydir2  # waiting fot user input - the directory you want to chang to 
-	
-	     if [ -z "$specifydir2" ]  # if no input was entered goto  <then> 
+    
+         if [ -z "$specifydir2" ]  # if no input was entered goto  <then> 
             then
                 echo
                 echo " error: Nothing was entered"
@@ -9052,7 +9003,7 @@ done
          while true
          do
          menuinfox
-	   case $optioninfox in
+       case $optioninfox in
          d)
          #  QUIT
          cd "$dirtemp" # restore directory
@@ -9210,7 +9161,7 @@ function chkytdlp {
          while true
          do
          chkytdlp
-	   case $optionytdlp in
+       case $optionytdlp in
          d)
          #  DON'T UPDATE
          rm ~/.config/videoinfox/tmp/* 2>/dev/null
@@ -9481,7 +9432,7 @@ read -r -n1 optiony
      while true
      do
      menuy
-	case $optiony in
+    case $optiony in
      q)  # QUIT
      clear
      break;;
@@ -9745,11 +9696,8 @@ if [ -f "$chkulistset" ]  # if the user set list exists goto then
        ctmp4=""
 fi
 
-if [ -z "$ctmp4" ]  # if the set user list = null goto then
+if [ ! -z "$ctmp4" ]  # if the set user list = null goto then
     then
-         :  # don't display anything
-
-    else
          echo "User Set List:"   # display if there is at least one line
          echo "$ulistset"
          echo
@@ -10022,7 +9970,7 @@ fi
 echo
 echo "Treetop:" "$grabdirfornav2"
 echo "Total Directories: "$ttotal" "
-#echo "Total Video Files:" "$ttotalnum"                                                               	                                         
+#echo "Total Video Files:" "$ttotalnum"                                                                                                            
 echo
 echo "Current Directory:" "$PWD"
 #echo "Video Files:" "$blinkit"
@@ -10045,7 +9993,7 @@ echo
          while true
          do
          navtree
-	    case $option in
+        case $option in
          
          q)  # QUIT
     ##############################     cd "$grabdirfornav2" &>/dev/null   # restore directory
@@ -10178,8 +10126,8 @@ echo
 echo " Enter directory or paste directory if in clipboard."
 echo
 read -r -p " " specifydir  # waiting fot user input - the directory you want to chang to 
-	
-	if [ -z "$specifydir" ]  # if no input was entered goto  <then> 
+    
+    if [ -z "$specifydir" ]  # if no input was entered goto  <then> 
           then
                echo
                echo " Nothing was entered . . ."
@@ -10291,10 +10239,10 @@ case $optiondq in
 
         while true
         do
-	  menudelq
-	  case $optiondelq in
+      menudelq
+      case $optiondelq in
 
-	  y)  # YES
+      y)  # YES
         if [ -f ~/.config/videoinfox/videoinfox-download.queue ]
           then
               rm ~/.config/videoinfox/videoinfox-download.queue 2> /dev/null
@@ -10581,10 +10529,10 @@ if [ -z "$pasteclip" ]  # if clipboard is empty goto then
 
                 while true
                 do
-	          menudul
-	          case $option in
+              menudul
+              case $option in
 
-	
+    
                 y)  # YES
   
                 if [[ "$ctmp2" = "$ctmp4" ]]  # if clipbaord = Set User List goto then
@@ -10715,7 +10663,7 @@ while true
 do
     yesorno
     case $optionyn in
-	
+    
     y) 
     # CREATING EMPTY DEFAULT DOWNLOAD LIST WITH LIST EMPTY MESSAGE
     echo > ~/.config/videoinfox/videoinfox-dl-Default
@@ -11349,7 +11297,7 @@ read -r -n1 optionyt
               while true
               do
               menuyt
-	         case $optionyt in
+             case $optionyt in
               q)  # QUIT        
               cd "$keepdir"
               rm ~/.config/videoinfox/tmp/videoinfo-number-view-downloads.tmp 2> /dev/null
@@ -11658,8 +11606,6 @@ do
    elif [[ "$line" == *.divx ]]
         then  # IF FILE IS DIVX, WRITE LINE TO FILE
              echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2
-   else
-        :  # IF THERE IS NO FILE MATCH, THERE IS NO WRITE
    fi
 
 done < "$input"
@@ -11742,8 +11688,6 @@ for line in $(cat "$input" 2>/dev/null)
            if [[ $playdir ]]                                             
              then                                                        # if no input is entered within 3 seconds the next video will play
                  break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 3 seconds to quit Play Played List
            fi
 done
  
@@ -11819,8 +11763,6 @@ for line in $(cat "$input" 2>/dev/null)
            if [[ $playdir ]]                                             
              then                                                        # if no input is entered within 3 seconds the next video will play
                  break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 3 seconds to quit                      
            fi
 done
  
@@ -12284,8 +12226,8 @@ read -r -n1 option
   
 while true
 do
-	menu
-	case $option in
+    menu
+    case $option in
 q)  # QUIT - <HOME> 
 break ;;
 
@@ -12314,7 +12256,7 @@ l)  # LIST DIRECTORY
 
 #   The Line below gives a total count of all mp4, mkv, avi, & divx in Current Directory.
 currentdirfilecount=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
-	
+    
 
 if [ -f "videoinfo.List-Directory" ]  #  if file <videoinfo.List-Directory> exists goto <then>
   then
@@ -12406,7 +12348,7 @@ do
   echo
   echo >> videoinfo.List-Directory
 done
- 	
+     
 # echo >> videoinfo.List-Directory
 echo "Total Video Files:" "$currentdirfilecount"
 echo >> videoinfo.List-Directory
@@ -12421,10 +12363,8 @@ echo >> videoinfo.List-Directory
 echo "Working Directory: ""$PWD"  # <pwd>  print current working directory to the screen   
 echo "Working Directory: ""$PWD" >> videoinfo.List-Directory
 echo
-if [ "$currentdirfilecount" = 0 ]  # if find returned no results goto <then>
+if [ "$currentdirfilecount" != 0 ]  # if find returned no results goto <then>
   then
-      :  # the colon can be used in place of a command to 'Do Nothing'
-  else 
       echo "$rer"
       echo
       echo -e "\033[5mProbing $currentdirfilecount \033[5mVideo Files for Duration\033[0m"  #  file count of find results
@@ -12511,9 +12451,9 @@ echo
 
 while true
 do
-	menu1
-	case $option1 in
-	
+    menu1
+    case $option1 in
+    
     s) 
     echo
     echo " Results SAVED . . ."
@@ -12554,8 +12494,8 @@ echo
 echo " No quotations needed for paths with spaces. Case sensative."
 echo 
 read -r -p " Enter Directory: " specifydir  # waiting fot user input - the directory you want to chang to 
-	
-	if [ -z "$specifydir" ]  # if no input was entered goto  <then> 
+    
+    if [ -z "$specifydir" ]  # if no input was entered goto  <then> 
           then
                echo
                echo " error: Nothing was entered"
@@ -12576,9 +12516,9 @@ read -r -p " Enter Directory: " specifydir  # waiting fot user input - the direc
 echo
 #read -p "     Press enter to Continue" 
 ;;
-	
+    
 
-f)	 
+f)     
 ##################################################################################################################################################
 ###########################   MORE OPTIONS f  FIND DIRECTORY  ####################################################################################
 ##################################################################################################################################################
@@ -12596,8 +12536,8 @@ echo
 read -r -p " Directory Name: " dirfind  # waiting fot user input - dierectory that you want to find
 findmeadir=$(find . -type d -iname "$dirfind" 2>/dev/null | wc -l)   # number of files found
        
-                                                                                   	
-	if [ -z "$dirfind" ]  # if no input was entered goto  <then>  
+                                                                                       
+    if [ -z "$dirfind" ]  # if no input was entered goto  <then>  
           then
                echo
                echo " error: Nothing was entered"  
@@ -12612,24 +12552,24 @@ findmeadir=$(find . -type d -iname "$dirfind" 2>/dev/null | wc -l)   # number of
                       sleep .75  # EXIT THIS LOOP  
                  else
                       echo
-		             find . -type d -iname "$dirfind" | sort -u 2>/dev/null  # directory(s) found   
-	                  echo
-	                  echo " Total Directories Found:" "$findmeadir"  # number of files found
-	  
-	              
-	             if [ "$findmeadir" = 0 ]  # if find returned no results goto <then>
-	               then
-	                   sleep .75
+                     find . -type d -iname "$dirfind" | sort -u 2>/dev/null  # directory(s) found   
+                      echo
+                      echo " Total Directories Found:" "$findmeadir"  # number of files found
+      
+                  
+                 if [ "$findmeadir" = 0 ]  # if find returned no results goto <then>
+                   then
+                       sleep .75
                         :  # the colon can be used in place of a command to 'Do Nothing'  Exit this nested loop
-	               else 	                    
+                   else                         
                         pastetemp=$(xclip -o -selection clipboard 2>/dev/null)  # perserve clipboard content prioir to runnin this function
                         notify-send "Videoinfox is done processing: Find Directory" "Total Directories Found: $findmeadir" # GUI Notification.
                         echo       
-	                   echo " Chang the directory: Copy 1 line (including the dot) to the Clipboard then press enter"
-                        echo     		                
+                       echo " Chang the directory: Copy 1 line (including the dot) to the Clipboard then press enter"
+                        echo                             
                         echo " Stay in current directory: enter without copy."
-		              read -r -p " "
-		              pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
+                      read -r -p " "
+                      pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
                         cd "$pasteclip" 2>/dev/null 
                         echo " Working Driectory: ""$PWD"""  # <pwd>  print current working directory to the screen 
                         echo "$pastetemp" | xclip -sel clip 2>/dev/null  #  reload clipboard content prior to running this function
@@ -12676,7 +12616,7 @@ notify-send  "Videoinfox is done processing Video File Count " "Total Video File
 echo
 read -r -p " Press enter to Continue" 
 ;;
-	
+    
 
 d)
 ##################################################################################################################################################
@@ -12799,9 +12739,9 @@ echo
 
 while true
 do
-	menu5
-	case $option5 in
-	
+    menu5
+    case $option5 in
+    
     s) 
     echo
     echo " Results SAVED . . ."
@@ -12861,7 +12801,7 @@ echo " Video Info: "$(ffprobe -v error -show_entries stream=codec_name -of defau
                 else
                        echo " error: No such file or directory"
                        sleep .7
-          fi	  
+          fi      
           fi
 
     echo
