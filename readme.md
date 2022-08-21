@@ -24,7 +24,7 @@ sudo wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/vide
 sudo chmod +x /usr/local/bin/videoinfox
 ```
 
-** Screenshots below still need updated.
+** Features List and Screenshots below still need updated.
 
 <br />
 Download multiple URL User Lists simultaneously.
