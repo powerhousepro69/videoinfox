@@ -1,4 +1,4 @@
-# Videoinfox v3.9.00
+# Videoinfox v3.9.02
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -324,6 +324,13 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+###  v3.9.02 Fix: Option display in View Playlist with a valid http video link in the clipboard.
+
+         Fix: Resume Autoplay would error on a new Playlist without initially running Start Autoplay.
+
+         Added below line to Playlist >>> Help
+         When Resume Autoplay reaches the end of the playlist, it will remain there until Start Autoplay is run again.
 
 ###  v3.9.00 View Playlist appearance update + new options in View Playlist and Navigate Tree >>> Show All.
 
