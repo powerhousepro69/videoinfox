@@ -23,6 +23,11 @@ der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m9.00")  # V
 #  videoinfox -v     DISPLAY VERSION NUMBER THEN EXIT  
 #-------------------------------------------------------------------------------------------------------------------------------------------------
 
+print_version() {
+    printf -- '%s\n' "${ver}"
+    exit 0
+}
+
 if [ "$1" = "-v" ]
   then
       echo "$ver"
@@ -12841,3 +12846,20 @@ echo -e "\n"
 #   NOTE :  Save Double Quotes around the filename. 
 #   ffmpeg -i "filename" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//
 #
+
+main() {
+    while getopts ":adhluv" opts; do
+        case "${opts}" in
+            (a)     : ;;
+            (d)     : ;;
+            (h)     : ;;
+            (l)     : ;;
+            (u)     : ;;
+            (v)     print_version ;;
+            (\?)    printf -- '%s\n' "ERROR: Invalid option: ${OPTARG}." >&2; exit 1 ;;
+            (:)     printf -- '%s\n' "Option '-${OPTARG}' requires an argument, e.g. '-${OPTARG} 5'." >&2; exit 1 ;;
+        esac
+    done
+}
+
+main "${@}"
