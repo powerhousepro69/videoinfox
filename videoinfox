@@ -28,14 +28,6 @@ print_version() {
     exit 0
 }
 
-if [ "$1" = "-v" ]
-  then
-      echo "$ver"
-      exit
-
-  else
-      :
-fi
 #-------------------------------------------------------------------------------------------------------------------------------------------------
 #  videoinfox -l     ADD CLIPBOARD CONTENT ON THE FLY TO:   USER SET LIST   THEN EXIT
 #-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -143,51 +135,54 @@ fi
 #  videoinfox -h     DISPLAY HELP THEN EXIT  
 #-------------------------------------------------------------------------------------------------------------------------------------------------
 
-if [ "$1" = "-h" ]
-  then
-
-      direxist="$HOME/.config/videoinfox/tmp"
-
-      if [ -d "$direxist" ]  #  if directoty exists goto  <then>
-        then
-
-       echo
-       echo "___________________________________________________________________________________________________________________"
+print_help() {
+cat << EOF
+___________________________________________________________________________________________________________________
        echo  
-       echo " ""$ver"" >>> COMMAND LINE OPTIONS >>> HELP              Where Video Play is a Clipboard Copy Away . . ."    
-       echo "___________________________________________________________________________________________________________________" 
-       echo
-       echo " Note: Videoinfox won't accept multiple options. Only one option per instance."
-       echo
-       echo
-       echo "   -h  This help screen."
-       echo
-       echo "   -v  Display the version number."
-       echo
-       echo "   -a  Write clipboard content to the Default List. For instructions on use: Yt-dlp >>> Download List >>> Help"
-       echo
-       echo "   -l  Write clipboard content to the User Set List. For instructions on use: Yt-dlp >>> Download List >>> Help"
-       echo
-       echo "   -u  This option can be used with your own ready to download url list that can be any name and location."
-       echo "       There is no need to use the Videoinfox interface with this option. Videos will be downloaded to the"
-       echo "       directory of the list location.  Example: videoinfox -u mylist  Only enter the list filename."
-       echo "       The list must be recursively reachable from the current directory."
-       echo "       The first line in the list must begin with http to be processed."
-       echo
-       echo "   -d  Autoplay video files in the current directory."
-       echo -e "\n"     
-       exit
-  
-      else
-          echo
-          echo "Videoinfox error: Config directory not found. Run videoinfox first with no command line options to setup."
-          echo
-          exit
-      fi
+ "${ver}" >>> COMMAND LINE OPTIONS >>> HELP              Where Video Play is a Clipboard Copy Away . . .
+___________________________________________________________________________________________________________________ 
 
-   else
-      :
-fi
+ Note: Videoinfox won't accept multiple options. Only one option per instance.
+
+   -h  This help screen.
+
+   -v  Display the version number.
+
+   -a  Write clipboard content to the Default List. For instructions on use: Yt-dlp >>> Download List >>> Help
+
+   -l  Write clipboard content to the User Set List. For instructions on use: Yt-dlp >>> Download List >>> Help
+
+   -u  This option can be used with your own ready to download url list that can be any name and location.
+       There is no need to use the Videoinfox interface with this option. Videos will be downloaded to the
+       directory of the list location.  Example: videoinfox -u mylist  Only enter the list filename.
+       The list must be recursively reachable from the current directory.
+       The first line in the list must begin with http to be processed.
+
+   -d  Autoplay video files in the current directory.
+
+EOF
+exit 0
+}
+
+
+# if [ "$1" = "-h" ]
+#   then
+
+#       direxist="$HOME/.config/videoinfox/tmp"
+
+#       if [ -d "$direxist" ]  #  if directoty exists goto  <then>
+#         then
+  
+#       else
+#           echo
+#           echo "Videoinfox error: Config directory not found. Run videoinfox first with no command line options to setup."
+#           echo
+#           exit
+#       fi
+
+#    else
+#       :
+# fi
 #-------------------------------------------------------------------------------------------------------------------------------------------------
 #  videoinfox -u     DOWNLOAD ANY LIST THAT IS RECURSIVELY REACHABLE FROM THE CURRENT DIRECORY. ENTER FULL FILENAME ONLY. NO WILDCARD
 #-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -12852,7 +12847,7 @@ main() {
         case "${opts}" in
             (a)     : ;;
             (d)     : ;;
-            (h)     : ;;
+            (h)     print_help ;;
             (l)     : ;;
             (u)     : ;;
             (v)     print_version ;;
