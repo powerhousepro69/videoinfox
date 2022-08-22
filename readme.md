@@ -1,4 +1,4 @@
-# Videoinfox v3.9.02
+# Videoinfox v3.9.03
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -324,6 +324,8 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+###  v3.9.03 Fix: Unknowingly deleted 1 charater on 1 line and broke Resume Autoplay with the last update.
 
 ###  v3.9.02 Fix: Option display in View Playlist with a valid http video link in the clipboard.
 
