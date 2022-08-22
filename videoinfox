@@ -61,6 +61,11 @@ init() {
     [[ -d "${playlist_dir}" ]] || mkdir -p "${playlist_dir}"
 }
 
+# Remove empty lines from a given file
+squash() {
+    sed -i '/^$/d' "${1:?No file specified}"
+}
+
 #-------------------------------------------------------------------------------------------------------------------------------------------------
 #  videoinfox -v     DISPLAY VERSION NUMBER THEN EXIT  
 #-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -87,7 +92,7 @@ write_user_set_list() {
         notify-send "Videoinfox Message: Added link to List ${grabuserlist}  . . ." "${pasteclip}" # GUI Notification.
     
         cat -n "$grabuserlist" | sort -uk2 | sort -n | cut -f2- > "${base_dir}/videoinfox.ulistfly.tmp"  # REMOVE DUPLICATES
-        sed -i '/^$/d' "${base_dir}/videoinfox.ulistfly.tmp"  # remove any blank lines in the list
+        squash "${base_dir}/videoinfox.ulistfly.tmp"  # remove any blank lines in the list
         sed -i '/http/!d' "${base_dir}/videoinfox.ulistfly.tmp"  # remove all lines not starting with  http
     
         mv "${base_dir}/videoinfox.ulistfly.tmp" "${grabuserlist}"
@@ -126,7 +131,7 @@ write_default_list() {
     cat -n "${base_dir}/videoinfox-dl-Default" | sort -uk2 | sort -n | cut -f2- > "${base_dir}/videoinfox-dl-Default.tmp"
     mv "${base_dir}/videoinfox-dl-Default.tmp" "${base_dir}/videoinfox-dl-Default"
 
-    sed -i '/^$/d' "${base_dir}/videoinfox-dl-Default" 2>/dev/null  # remove any blank lines in the list
+    squash "${base_dir}/videoinfox-dl-Default" 2>/dev/null  # remove any blank lines in the list
     sed -i '/http/!d' "${base_dir}/videoinfox-dl-Default"  # remove all lines not starting with  http
 
     echo "" | xclip -sel clip  # clearing out the clipboard
@@ -224,7 +229,7 @@ use_custom_list() {
         #####  ERROR CORRECTION FOR THE USER'S LIST BEFORE DOWNLOAD.  #####
 
         cat -n "$2" | sort -uk2 | sort -n | cut -f2- > videoinfox-u-option.tmp  # remove duplicates from the user's list
-        sed -i '/^$/d' videoinfox-u-option.tmp  # remove all blank lines from the user's list
+        squash videoinfox-u-option.tmp  # remove all blank lines from the user's list
         sed -i '/http/!d' videoinfox-u-option.tmp  # remove all lines not starting with: http from the user's list
         mv videoinfox-u-option.tmp "$2"  
         #####  TAGGING .log ONTO THE USER'S LIST FILENAME TO CREATE A LOG FILE OF THE DOWNLOAD  #####
@@ -296,61 +301,52 @@ use_custom_list() {
 # -d  Autoplay video files in the current directory
 play_directory() {
     # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
-    find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) > ${tmp_dir}/videoinfox.optiond-play-directory-apa-work 2>/dev/null
-
-    # SORT BACK INTO ORDER
-    sort -u ${tmp_dir}/videoinfox.optiond-play-directory-apa-work > ${tmp_dir}/videoinfox.optiond-play-directory-apa
+    find "${PWD}" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null |
+        sort -u > "${tmp_dir}/videoinfox.optiond-play-directory-apa"
 
     #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
-    atleastone=$(grep '^/' ${tmp_dir}/videoinfox.optiond-play-directory-apa 2>/dev/null | wc -l)
+    atleastone=$(grep -c '^/' "${tmp_dir}/videoinfox.optiond-play-directory-apa" 2>/dev/null)
 
     #  IF THE NUMBER DOESN"T = 0  THEN PROCESS AUTO PLAY OF PLAYED LIST
-    if [[ $atleastone -ne 0 ]]; then
+    if (( atleastone > 0 )); then
+        #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
+        moddedplayedlist="${HOME}/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa"
 
-    #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
-    moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa"
+        #  PLAYED LIST INPUT FOR LOOP
+        input="$moddedplayedlist"  
 
-    #  PLAYED LIST INPUT FOR LOOP
-    input="$moddedplayedlist"  
+        #  CREATE TEMP FILE NEEDED FOR LOOP 
+        touch "${tmp_dir}/videoinfox.optiond-play-directory-apa2"
 
-    #  CREATE TEMP FILE NEEDED FOR LOOP 
-    echo > ${tmp_dir}/videoinfox.optiond-play-directory-apa2
+        #  #  START WRITING
+        while read -r line; do
+            if [[ ! -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
+                printf -- '%s\n' "$line" >> "${tmp_dir}/videoinfox.optiond-play-directory-apa2"
+            fi
+        done < "${input}"
+        #  DONE WRITING ONLY VALID FILES
 
-    #  #  START WRITING
-    while read -r line; do
-        if [[ ! -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
-            echo "$line" >> ${tmp_dir}/videoinfox.optiond-play-directory-apa2  
-        fi
-    done < "$input"
-    #  DONE WRITING ONLY VALID FILES
+        #  REMOVE BLANK LINES
+        squash "${tmp_dir}/videoinfox.optiond-play-directory-apa2" 2>/dev/null
 
-    #  REMOVE BLANK LINES
-    sed -i '/^$/d' ${tmp_dir}/videoinfox.optiond-play-directory-apa2 2>/dev/null
+        #  MOVE apa2 BACK TO apa
+        mv "${tmp_dir}/videoinfox.optiond-play-directory-apa2" "${tmp_dir}/videoinfox.optiond-play-directory-apa" 2>/dev/null
 
-    #  MOVE apa2 BACK TO apa
-    mv ${tmp_dir}/videoinfox.optiond-play-directory-apa2 ${tmp_dir}/videoinfox.optiond-play-directory-apa 2>/dev/null
+        #  CREATE FILE NEEDED FOR LOOP 
+        touch "${tmp_dir}/videoinfox.optiond-play-directory-apa2"
 
-    #  CREATE FILE NEEDED FOR LOOP 
-    echo > ${tmp_dir}/videoinfox.optiond-play-directory-apa2  
-
-    #  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-    while read -r line; do
-        if [[ "$line" == *.mp4 ]]; then # IF FILE IS MP4, WRITE LINE TO FILE
-            echo "$line" >> ${tmp_dir}/videoinfox.optiond-play-directory-apa2  
-        elif [[ "$line" == *.webm ]]; then # IF FILE IS WEBM, WRITE LINE TO FILE
-            echo "$line" >> ${tmp_dir}/videoinfox.optiond-play-directory-apa2
-        elif [[ "$line" == *.mkv ]]; then # IF FILE IS MKV, WRITE LINE TO FILE
-            echo "$line" >> ${tmp_dir}/videoinfox.optiond-play-directory-apa2
-        elif [[ "$line" == *.avi ]]; then # IF FILE IS AVI, WRITE LINE TO FILE
-            echo "$line" >> ${tmp_dir}/videoinfox.optiond-play-directory-apa2
-        elif [[ "$line" == *.divx ]]; then  # IF FILE IS DIVX, WRITE LINE TO FILE
-            echo "$line" >> ${tmp_dir}/videoinfox.optiond-play-directory-apa2
-        fi
-    done < "$input"
-    #  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
+        #  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
+        while read -r line; do
+            case "${line}" in
+                (*.mp4|*.webm|*.mkv|*.avi|*.divx)
+                    printf -- '%s\n' "${line}" >> "${tmp_dir}/videoinfox.optiond-play-directory-apa2"
+                ;;
+            esac
+        done < "${input}"
+        #  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
 
     #  REMOVE BLANK LINES
-    sed -i '/^$/d' ${tmp_dir}/videoinfox.optiond-play-directory-apa2 2>/dev/null
+    squash "${tmp_dir}/videoinfox.optiond-play-directory-apa2" 2>/dev/null
 
     #  MOVE apa2 BACK TO apa
     cp ${tmp_dir}/videoinfox.optiond-play-directory-apa2 ${tmp_dir}/videoinfox.optiond-play-directory-apa 2>/dev/null
@@ -366,7 +362,6 @@ play_directory() {
         rm ${tmp_dir}/videoinfox.optiond-play-directory-apa 2>/dev/null
         rm ${tmp_dir}/videoinfox.optiond-play-directory-apa2 2>/dev/null
         rm ${tmp_dir}/videoinfox.numbered-optiond-play-directory-list 2>/dev/null
-        rm ${tmp_dir}/videoinfox.optiond-play-directory-apa-work 2>/dev/null    
     fi
     clear
 
@@ -434,7 +429,6 @@ play_directory() {
     rm ${tmp_dir}/videoinfox.optiond-play-directory-apa 2>/dev/null
     rm ${tmp_dir}/videoinfox.optiond-play-directory-apa2 2>/dev/null
     rm ${tmp_dir}/videoinfox.numbered-optiond-play-directory-list 2>/dev/null
-    rm ${tmp_dir}/videoinfox.optiond-play-directory-apa-work 2>/dev/null
 
     exit
 }
@@ -641,7 +635,7 @@ fi
 fi
 
 
-#sed -i '/^$/d' ${base_dir}/videoinfo.playlist  # remove all blank lines
+#squash ${base_dir}/videoinfo.playlist  # remove all blank lines
 
 ##################################################################################################################################################
 #####  4. CHECK FOR  (VIDEOINFOX NOTIFICATION UPDATE)                         routine to get version number from github          #################
@@ -2677,7 +2671,7 @@ while true; do
                                 #  DONE WRITING ONLY VALID FILES
 
                                 #  REMOVE BLANK LINES
-                                sed -i '/^$/d' ${tmp_dir}/videoinfox.navtree-play-directory-apa2 2>/dev/null
+                                squash "${tmp_dir}/videoinfox.navtree-play-directory-apa2" 2>/dev/null
 
                                 #  MOVE apa2 BACK TO apa
                                 mv ${tmp_dir}/videoinfox.navtree-play-directory-apa2 ${tmp_dir}/videoinfox.navtree-play-directory-apa 2>/dev/null
@@ -2702,7 +2696,7 @@ while true; do
                                 #  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
 
                                 #  REMOVE BLANK LINES
-                                sed -i '/^$/d' ${tmp_dir}/videoinfox.navtree-play-directory-apa2 2>/dev/null
+                                squash "${tmp_dir}/videoinfox.navtree-play-directory-apa2" 2>/dev/null
 
                                 #  MOVE apa2 BACK TO apa
                                 cp ${tmp_dir}/videoinfox.navtree-play-directory-apa2 ${tmp_dir}/videoinfox.navtree-play-directory-apa 2>/dev/null
@@ -2843,7 +2837,7 @@ while true; do
                     sort -u ${tmp_dir}/videoinfox.nt-play-directory-apa-work > ${tmp_dir}/videoinfox.nt-play-directory-apa
 
                     #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
-                    atleastone=$(grep '^/' ${tmp_dir}/videoinfox.nt-play-directory-apa 2>/dev/null | wc -l)
+                    atleastone=$(grep -c '^/' ${tmp_dir}/videoinfox.nt-play-directory-apa 2>/dev/null)
 
                     #  IF THE NUMBER DOESN"T = 0  THEN PROCESS AUTO PLAY OF PLAYED LIST
                     if [[ $atleastone -ne 0 ]]; then
@@ -2866,7 +2860,7 @@ while true; do
                         #  DONE WRITING ONLY VALID FILES
 
                         #  REMOVE BLANK LINES
-                        sed -i '/^$/d' ${tmp_dir}/videoinfox.nt-play-directory-apa2 2>/dev/null
+                        squash ${tmp_dir}/videoinfox.nt-play-directory-apa2 2>/dev/null
 
                         #  MOVE apa2 BACK TO apa
                         mv ${tmp_dir}/videoinfox.nt-play-directory-apa2 ${tmp_dir}/videoinfox.nt-play-directory-apa 2>/dev/null
@@ -2897,7 +2891,7 @@ while true; do
                         #  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
 
                         #  REMOVE BLANK LINES
-                        sed -i '/^$/d' ${tmp_dir}/videoinfox.nt-play-directory-apa2 2>/dev/null
+                        squash ${tmp_dir}/videoinfox.nt-play-directory-apa2 2>/dev/null
 
                         #  MOVE apa2 BACK TO apa
                         cp ${tmp_dir}/videoinfox.nt-play-directory-apa2 ${tmp_dir}/videoinfox.nt-play-directory-apa 2>/dev/null
@@ -3080,7 +3074,7 @@ while true; do
                                     #  DONE WRITING ONLY VALID FILES
 
                                     #  REMOVE BLANK LINES
-                                    sed -i '/^$/d' ${tmp_dir}/videoinfox.nt-play-directory-apa2 2>/dev/null
+                                    squash ${tmp_dir}/videoinfox.nt-play-directory-apa2 2>/dev/null
 
                                     #  MOVE apa2 BACK TO apa
                                     mv ${tmp_dir}/videoinfox.nt-play-directory-apa2 ${tmp_dir}/videoinfox.nt-play-directory-apa 2>/dev/null
@@ -3107,7 +3101,7 @@ while true; do
                                     #  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
 
                                     #  REMOVE BLANK LINES
-                                    sed -i '/^$/d' ${tmp_dir}/videoinfox.nt-play-directory-apa2 2>/dev/null
+                                    squash ${tmp_dir}/videoinfox.nt-play-directory-apa2 2>/dev/null
 
                                     #  MOVE apa2 BACK TO apa
                                     cp ${tmp_dir}/videoinfox.nt-play-directory-apa2 ${tmp_dir}/videoinfox.nt-play-directory-apa 2>/dev/null
@@ -3242,7 +3236,7 @@ while read -r line; do
 done < "$input"
 #  DONE WRITING ONLY VALID FILES
 #  REMOVE BLANK LINES
-sed -i '/^$/d' ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 2>/dev/null
+squash ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 2>/dev/null
 
 #  MOVE apa2 BACK TO apa
 mv ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa 2>/dev/null
@@ -3273,7 +3267,7 @@ done < "$input"
 #  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
 
 #  REMOVE BLANK LINES
-sed -i '/^$/d' ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 2>/dev/null
+squash ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 2>/dev/null
 
 #  MOVE apa2 BACK TO apa
 cp ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa 2>/dev/null
@@ -3373,7 +3367,7 @@ grabdir="$PWD"  # SAVE CURRENT DIRECTORY FOR RESTORE ON EXIT
 cd ${base_dir}/playlists
 function menuvhome {
 
-sed -i '/^$/d' ${base_dir}/videoinfo.playlist  # remove all blank lines
+squash ${base_dir}/videoinfo.playlist  # remove all blank lines
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
@@ -3431,7 +3425,7 @@ done < "$input"
 #  DONE WRITING ONLY VALID FILES
 
 #  REMOVE BLANK LINES
-sed -i '/^$/d' ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
+squash ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
 
 # REMOVE DUPLICATES
 cat -n ${tmp_dir}/videoinfo.playlist-apa2 | sort -uk2 | sort -n | cut -f2- > ${tmp_dir}/videoinfo.playlist-apa3
@@ -3467,7 +3461,7 @@ done < "$input"
 #  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
 
 #  REMOVE BLANK LINES
-sed -i '/^$/d' ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
+squash ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
 
 #  MOVE apa2 BACK TO apa
 cp ${tmp_dir}/videoinfo.playlist-apa2 ${tmp_dir}/videoinfo.playlist-apa 2>/dev/null
@@ -3752,7 +3746,7 @@ if [[ -f ${base_dir}/videoinfo.playlist ]]; then
       read -r -p "Enter line number to remove video from the playlist $whatplpld: " linenumber  # waiting fot user input
 
       # REMOVE BLANK LINES
-      ######sed -i '/^$/d' ${tmp_dir}/videoinfo.playedlist-apa 2>/dev/null
+      ######squash ${tmp_dir}/videoinfo.playedlist-apa 2>/dev/null
 
       # GETTING NUMBER OF VIDEO FILES IN THE PLAYED LIST
       linecount=$(wc -l ${tmp_dir}/videoinfo.playlist-apa 2> /dev/null | cut -d' ' -f1) # 
@@ -4534,7 +4528,7 @@ done < "$input"
 #  DONE WRITING ONLY VALID FILES
 
 #  REMOVE BLANK LINES
-sed -i '/^$/d' ${tmp_dir}/videoinfox.home-play-directory-apa2 2>/dev/null
+squash ${tmp_dir}/videoinfox.home-play-directory-apa2 2>/dev/null
 
 #  MOVE apa2 BACK TO apa
 mv ${tmp_dir}/videoinfox.home-play-directory-apa2 ${tmp_dir}/videoinfox.home-play-directory-apa 2>/dev/null
@@ -4565,7 +4559,7 @@ done < "$input"
 #  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
 
 #  REMOVE BLANK LINES
-sed -i '/^$/d' ${tmp_dir}/videoinfox.home-play-directory-apa2 2>/dev/null
+squash ${tmp_dir}/videoinfox.home-play-directory-apa2 2>/dev/null
 
 #  MOVE apa2 BACK TO apa
 cp ${tmp_dir}/videoinfox.home-play-directory-apa2 ${tmp_dir}/videoinfox.home-play-directory-apa 2>/dev/null
@@ -5051,7 +5045,7 @@ done < "$input"
 #  DONE WRITING ONLY VALID FILES
 
 #  REMOVE BLANK LINES
-###############################################################################sed -i '/^$/d' ${tmp_dir}/videoinfo.playedlist-apa2 2>/dev/null
+###############################################################################squash ${tmp_dir}/videoinfo.playedlist-apa2 2>/dev/null
 
 # REMOVE DUPLICATES
 #############cat -n ${tmp_dir}/videoinfo.playedlist-apa2 | sort -uk2 | sort -n | cut -f2- > ${tmp_dir}/videoinfo.playedlist-apa3
@@ -5086,7 +5080,7 @@ done < "$input"
 #  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
 
 #  REMOVE BLANK LINES
-sed -i '/^$/d' ${tmp_dir}/videoinfo.playedlist-apa2 2>/dev/null
+squash ${tmp_dir}/videoinfo.playedlist-apa2 2>/dev/null
 
 #  REMOVE DUPLICATES
 cat -n ${tmp_dir}/videoinfo.playedlist-apa2 | sort -uk2 | sort -n | cut -f2- > ${tmp_dir}/videoinfo.playedlist-apa3 2>/dev/null
@@ -5452,7 +5446,7 @@ grabdir="$PWD"  # SAVE CURRENT DIRECTORY FOR RESTORE ON EXIT
 cd ${base_dir}/playlists
 function menuvhome {
 
-sed -i '/^$/d' ${base_dir}/videoinfo.playlist  # remove all blank lines
+squash ${base_dir}/videoinfo.playlist  # remove all blank lines
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
@@ -5510,7 +5504,7 @@ done < "$input"
 #  DONE WRITING ONLY VALID FILES
 
 #  REMOVE BLANK LINES
-sed -i '/^$/d' ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
+squash ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
 
 # REMOVE DUPLICATES
 cat -n ${tmp_dir}/videoinfo.playlist-apa2 | sort -uk2 | sort -n | cut -f2- > ${tmp_dir}/videoinfo.playlist-apa3
@@ -5546,7 +5540,7 @@ done < "$input"
 #  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
 
 #  REMOVE BLANK LINES
-sed -i '/^$/d' ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
+squash ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
 
 #  MOVE apa2 BACK TO apa
 cp ${tmp_dir}/videoinfo.playlist-apa2 ${tmp_dir}/videoinfo.playlist-apa 2>/dev/null
@@ -5831,7 +5825,7 @@ if [[ -f ${base_dir}/videoinfo.playlist ]]; then
       read -r -p "Enter line number to remove video from the playlist $whatplpld: " linenumber  # waiting fot user input
 
       # REMOVE BLANK LINES
-      ######sed -i '/^$/d' ${tmp_dir}/videoinfo.playedlist-apa 2>/dev/null
+      ######squash ${tmp_dir}/videoinfo.playedlist-apa 2>/dev/null
 
       # GETTING NUMBER OF VIDEO FILES IN THE PLAYED LIST
       linecount=$(wc -l ${tmp_dir}/videoinfo.playlist-apa 2> /dev/null | cut -d' ' -f1) # 
@@ -6527,7 +6521,7 @@ if [[ -f ${base_dir}/videoinfo.playedlist ]]; then
       read -r -p "Enter line number to add video to playlist $whatplpld: " linenumber  # waiting fot user input
 
       # REMOVE BLANK LINES
-      sed -i '/^$/d' ${tmp_dir}/videoinfo.playedlist-apa 2>/dev/null
+      squash ${tmp_dir}/videoinfo.playedlist-apa 2>/dev/null
       # create file moving selected line number to the top
       tail -n +"$linenumber" ${tmp_dir}/videoinfo.playedlist-apa > ${tmp_dir}/videoinfo.playedlist-playnumber.tmp 2>/dev/null
 # GETTING NUMBER OF VIDEO FILES IN THE PLAYED LIST
@@ -6763,7 +6757,7 @@ grabdir="$PWD"  # SAVE CURRENT DIRECTORY FOR RESTORE ON EXIT
 cd ${base_dir}/playlists
 function menuvhome {
 
-sed -i '/^$/d' ${base_dir}/videoinfo.playlist  # remove all blank lines
+squash ${base_dir}/videoinfo.playlist  # remove all blank lines
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
@@ -6821,7 +6815,7 @@ done < "$input"
 #  DONE WRITING ONLY VALID FILES
 
 #  REMOVE BLANK LINES
-sed -i '/^$/d' ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
+squash ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
 
 # REMOVE DUPLICATES
 cat -n ${tmp_dir}/videoinfo.playlist-apa2 | sort -uk2 | sort -n | cut -f2- > ${tmp_dir}/videoinfo.playlist-apa3
@@ -6857,7 +6851,7 @@ done < "$input"
 #  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
 
 #  REMOVE BLANK LINES
-sed -i '/^$/d' ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
+squash ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
 
 #  MOVE apa2 BACK TO apa
 cp ${tmp_dir}/videoinfo.playlist-apa2 ${tmp_dir}/videoinfo.playlist-apa 2>/dev/null
@@ -7138,7 +7132,7 @@ if [[ -f ${base_dir}/videoinfo.playlist ]]; then
       read -r -p "Enter line number to remove video from the playlist $whatplpld: " linenumber  # waiting fot user input
 
       # REMOVE BLANK LINES
-      ######sed -i '/^$/d' ${tmp_dir}/videoinfo.playedlist-apa 2>/dev/null
+      ######squash ${tmp_dir}/videoinfo.playedlist-apa 2>/dev/null
 
       # GETTING NUMBER OF VIDEO FILES IN THE PLAYED LIST
       linecount=$(wc -l ${tmp_dir}/videoinfo.playlist-apa 2> /dev/null | cut -d' ' -f1) # 
@@ -9462,7 +9456,7 @@ if [[ -f ${base_dir}/videoinfox-download.queue ]]; then
       mv ${base_dir}/videoinfox-download.queue.tmp ${base_dir}/videoinfox-download.queue
       
       # REMOVE BLANK LINES
-      sed -i '/^$/d' ${base_dir}/videoinfox-download.queue
+      squash ${base_dir}/videoinfox-download.queue
       
       cat ${base_dir}/videoinfox-download.queue
 
@@ -9554,7 +9548,7 @@ echo
 echo -e "Processing Download List:" "\033[5m"$line"\033m\033[0m"
 
 # REMOVE BLANK LINES IN CURRENT DOWNLOAD LIST
-sed -i '/^$/d' "$line"
+squash "$line"
 
 # WRITE LINE TO TEMP FILE.  DOWNLOAD LIST WITH FULL PATH
 echo "$line" > ${tmp_dir}/videoinfox-queue.tmp
@@ -9866,7 +9860,7 @@ fi
 cat -n ${base_dir}/videoinfox-dl-Default | sort -uk2 | sort -n | cut -f2- > ${base_dir}/videoinfox-dl-Default.tmp
 mv ${base_dir}/videoinfox-dl-Default.tmp ${base_dir}/videoinfox-dl-Default
 
-sed -i '/^$/d' ${base_dir}/videoinfox-dl-Default 2>/dev/null  # remove any blank lines in the list
+squash ${base_dir}/videoinfox-dl-Default 2>/dev/null  # remove any blank lines in the list
 sed -i '/http/!d' ${base_dir}/videoinfox-dl-Default  # remove all lines not starting with  http
 
 clear
@@ -9982,7 +9976,7 @@ cd "$dirsaved" # Change directory to default download directory
 # DEFAULT LIST - REMOVE DUPLICATES, BLANK LINES and ANY LINES NOT STARTING WITH HTTP
 cat -n ${base_dir}/videoinfox-dl-Default | sort -uk2 | sort -n | cut -f2- > ${base_dir}/videoinfox-dl-Default.tmp
 mv ${base_dir}/videoinfox-dl-Default.tmp ${base_dir}/videoinfox-dl-Default
-sed -i '/^$/d' ${base_dir}/videoinfox-dl-Default 2>/dev/null  # remove any blank lines in the list
+squash ${base_dir}/videoinfox-dl-Default 2>/dev/null  # remove any blank lines in the list
 sed -i '/http/!d' ${base_dir}/videoinfox-dl-Default  # remove all lines not starting with  http
 else # PROCESSING USER CREATED LIST
 
@@ -9993,7 +9987,7 @@ cd "$grablistdir"  # change directory to list location
 # USER CREATED LIST - REMOVE DUPLICATES, BLANK LINES and ANY LINES NOT STARTING WITH HTTP
 cat -n "$pasteclip" | sort -uk2 | sort -n | cut -f2- > ${base_dir}/videoinfox-dl-userlist.tmp  # remove duplicates
 mv ${base_dir}/videoinfox-dl-userlist.tmp "$pasteclip"
-sed -i '/^$/d' "$pasteclip" 2>/dev/null  # remove any blank lines in the list
+squash "$pasteclip" 2>/dev/null  # remove any blank lines in the list
 sed -i '/http/!d' "$pasteclip" 2>/dev/null  # remove all lines not starting with  http
 #########################################################################################################################################################
 # START Routine to find out if clipboard content  =  set user list filename  if it does, the file will be cleared from the screen after list download
@@ -10788,7 +10782,7 @@ done < "$input"
 #  DONE WRITING ONLY VALID FILES
 
 #  REMOVE BLANK LINES
-sed -i '/^$/d' ${tmp_dir}/videoinfox.navtree-play-directory-apa2 2>/dev/null
+squash ${tmp_dir}/videoinfox.navtree-play-directory-apa2 2>/dev/null
 
 #  MOVE apa2 BACK TO apa
 mv ${tmp_dir}/videoinfox.navtree-play-directory-apa2 ${tmp_dir}/videoinfox.navtree-play-directory-apa 2>/dev/null
@@ -10819,7 +10813,7 @@ done < "$input"
 #  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
 
 #  REMOVE BLANK LINES
-sed -i '/^$/d' ${tmp_dir}/videoinfox.navtree-play-directory-apa2 2>/dev/null
+squash ${tmp_dir}/videoinfox.navtree-play-directory-apa2 2>/dev/null
 
 #  MOVE apa2 BACK TO apa
 cp ${tmp_dir}/videoinfox.navtree-play-directory-apa2 ${tmp_dir}/videoinfox.navtree-play-directory-apa 2>/dev/null
