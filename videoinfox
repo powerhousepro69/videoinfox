@@ -10,7 +10,7 @@ ver="Videoinfox v3.9.00"
 # Version Number: with blinking dot
 der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m9.00")
 
-# YT-DLP is not on the dependency list becuase Videoinfox will dowload it to:   ${base_dir}   All calls to yt-dlp are pointed to:   
+# YT-DLP is not on the dependency list becuase Videoinfox will download it to:   ${base_dir}   All calls to yt-dlp are pointed to:   
 # ${base_dir}/yt-dlp   There is an update option in:   <Set>  Settings to update yt-dlp   (just the copy in ${base_dir})
 # I didn't want to overwrite anyones copy of:   /user/local/bin/yt-dlp     Also, I wanted to make sure all new Videoinfox script installs
 # included the most recent version of Yt-dlp
@@ -19,6 +19,15 @@ dependency_failmsg=''
 
 base_url="https://raw.githubusercontent.com/powerhousepro69/videoinfox/main"
 ytdlp_url="https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp"
+
+ffprobe_opts=(
+    "-v error"
+    "-show_entries stream=codec_name"
+    "-of default=noprint_wrappers=1:nokey=1"
+    "-select_streams v:0"
+    "-show_entries stream=width,height"
+    "-of default=nw=1"
+)
 
 base_dir="${HOME}/.config/videoinfox"
 playlist_dir="${base_dir}/playlists"
@@ -58,10 +67,10 @@ init() {
     # Disallow usage in /
     [[ "${PWD}" = "/" ]] && die "Videoinfox must not be run within /"
 
-    # TODO: Add error handling for mkdir failures via a die() function
-    [[ -d "${base_dir}" ]] || mkdir -p "${base_dir}"
-    [[ -d "${tmp_dir}" ]] || mkdir -p "${tmp_dir}"
-    [[ -d "${playlist_dir}" ]] || mkdir -p "${playlist_dir}"
+    # Create our required directories
+    mkdir -p "${base_dir}" || die "Could not create ${base_dir}"
+    mkdir -p "${tmp_dir}" || die "Could not create ${tmp_dir}"
+    mkdir -p "${playlist_dir}" || die "Could not create ${playlist_dir}"
 
     # Define names to be used in the loop below
     filenames=(
@@ -88,12 +97,28 @@ init() {
         touch "${base_dir}/${filename}"
     done
 
+    # Create empty Default Download List if one doesn't already exist.
     if [[ ! -f "${base_dir}/videoinfox-dl-Default" ]]; then
-        # CREATING EMPTY DEFAULT DOWNLOAD LIST WITH LIST EMPTY MESSAGE
         touch "${base_dir}/videoinfox-dl-Default"
         printf -- '%s\n' "Default Download List Empty" >> "${base_dir}/videoinfox-dl-Default"
     fi
 
+    # Check for an updated version of videoinfox
+    videoinfox_update
+
+    #####  CREATE DOWNLOAD LIST HELP FILE  ########################################################
+    retrieve_url "${base_url}/docs/download-list-help" "${base_dir}/videoinfox.download-list-help"
+
+    #####  CREATE HELP FILE  ######################################################################
+    retrieve_url "${base_url}/docs/videoinfo-help" "${base_dir}/videoinfo.help"
+
+    #####  CREATE VERSION HISTORY FILE  ###########################################################
+    retrieve_url "${base_url}/docs/version-history" "${base_dir}/videoinfo-ver-history"
+
+}
+
+file_contains() {
+    grep -q "${1:?No search parameters given}" "${2:?No file to search defined}"
 }
 
 find_supported_files() {
@@ -109,6 +134,15 @@ find_supported_files() {
     esac
 }
 
+# Get codec, width, height & duration
+get_file_stats() {
+    local target_file
+    target_file="${1:?No target specified}"
+    printf -- 'Video Info: %s Duration: %s\n' \
+        "$(ffprobe "${ffprobe_opts[@]}" "${target_file}")" \ 
+        "$(ffmpeg -i "${target_file}" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)"
+}
+
 write_supported_list() {
     while read -r line; do
         case "${line}" in
@@ -120,8 +154,18 @@ write_supported_list() {
 }
 
 retrieve_url() {
-    # TBD
-    :
+    local remote_source local_destination
+    remote_source="${1:?No url defined}"
+    local_destination="${2:?No output path defined}"
+    if command -v curl >/dev/null 2>&1; then
+        printf -- '%s' "Downloading with curl..."
+        curl -s "${remote_source}" > "${local_destination}"
+    elif command -v wget >/dev/null 2>&1; then
+        printf -- '%s' "Downloading with wget..."
+        wget "${remote_source}" > "${local_destination}"
+    else
+        die "This function requires 'wget' or 'curl', but neither were found in PATH"
+    fi
 }
 
 # Remove empty lines from a given file
@@ -367,10 +411,7 @@ play_directory() {
     find_supported_files > "${tmp_dir}/videoinfox.optiond-play-directory-apa"
 
     #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
-    atleastone=$(grep -c '^/' "${tmp_dir}/videoinfox.optiond-play-directory-apa" 2>/dev/null)
-
-    #  IF THE NUMBER = 0 THEN CLEANUP
-    if (( atleastone == 0 )); then
+    if ! file_contains '^/' "${tmp_dir}/videoinfox.optiond-play-directory-apa"; then
         rm "${tmp_dir}/videoinfox.optiond-play-directory-apa" 2>/dev/null
         rm "${tmp_dir}/videoinfox.optiond-play-directory-apa2" 2>/dev/null
         rm "${tmp_dir}/videoinfox.numbered-optiond-play-directory-list" 2>/dev/null
@@ -450,7 +491,7 @@ play_directory() {
         echo "___________________________________________________________________________________________________________________"
         echo
 
-        echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$line")  " Duration:" $(ffmpeg -i "$line" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+        get_file_stats "${line}"
         
         echo
         echo
@@ -496,18 +537,6 @@ play_directory() {
 ##################################################################################################################################################
 
 ##################################################################################################################################################
-##################################################################################################################################################
-
-#  THE BELOW 7 FUNCTIONS RUN ONCE ON EVERY STARTUP THEN INTO THE MAIN LOOP.
-
-#  3. Configuration directory check and file creation. If  ${base_dir}  doesn't exist, directory will be crated along with config files.
-#  4. Check for Videoinfox Update and Notify if update is available.
-#  5. Create empty Default Download List if one doesn't already exist.
-#  6. Created Download List Help file.
-#  7. Create Main Help file.
-#  8. Create Version History file.
-
-##################################################################################################################################################
 #####  3. DIRECTORY CHECK & FILE CREATION  ####################################################################################################### 
 ##################################################################################################################################################
 
@@ -517,76 +546,72 @@ play_directory() {
 direxist="$HOME/.config/videoinfox"
 
 if [[ ! -d "$direxist" ]]; then
-      
-      clear
-      echo
-      echo "___________________________________________________________________________________________________________________"
-      echo  
-      echo " $ver >>> FIRST RUN >>> SETUP"
-      echo
-      echo " Directory and file creation"
-      echo "___________________________________________________________________________________________________________________"
-      echo "___________________________________________________________________________________________________________________"
-      echo         
-      echo " Created config directory: "$HOME"/.config/videoinfox and required files "
-      echo "___________________________________________________________________________________________________________________"
-      echo
-      echo " NOTE: Do not randomly paste in Videoinfox.  It will cause unwanted code to run producing"  
-      echo " undesired results and can corrupt Videoinfox's data integrity and retention."
-      echo
-      echo " Everywhere the dot is blinking in the version number, don't paste and Videoinfox will function as intended."
-      echo
-      echo " ""$der"
-      echo "__________________________________________________________________________________________________________________"
-      echo
-      echo " Yt-dlp will be downloaded to: "$HOME"/.config/videoinfox  "
-      echo "__________________________________________________________________________________________________________________"
-      echo
-      echo -e " A sample video url was copied to the clipboard to show how the \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m feature works."
-      echo
-      echo " Video playing:  [ f - toggle fullscreen ]   [ spacebar - play/pause ]   [ l/r arrows - fwd/rew ]   [ q -quit ]"
-      echo
-      echo " Press  p  when Videoinfox starts up. That will download the video url that is in the clipboard and auto play it."
-      echo "__________________________________________________________________________________________________________________"
-      echo -e "\n" 
-      echo " Setup for the first run or if the videoinfox directory gets deleted anytime after the first run."
-      
-                                        
- 
-      #####################
-      # CREATE DIRECTORIES
-      ####################
-      # SET DEFAULT  LAST SEARCH  to <2> Never Save
-      echo "2" > ${base_dir}/videoinfo.lastsearch-set
+    clear
+    echo
+    echo "___________________________________________________________________________________________________________________"
+    echo  
+    echo " $ver >>> FIRST RUN >>> SETUP"
+    echo
+    echo " Directory and file creation"
+    echo "___________________________________________________________________________________________________________________"
+    echo "___________________________________________________________________________________________________________________"
+    echo         
+    echo " Created config directory: "$HOME"/.config/videoinfox and required files "
+    echo "___________________________________________________________________________________________________________________"
+    echo
+    echo " NOTE: Do not randomly paste in Videoinfox.  It will cause unwanted code to run producing"  
+    echo " undesired results and can corrupt Videoinfox's data integrity and retention."
+    echo
+    echo " Everywhere the dot is blinking in the version number, don't paste and Videoinfox will function as intended."
+    echo
+    echo " ""$der"
+    echo "__________________________________________________________________________________________________________________"
+    echo
+    echo " Yt-dlp will be downloaded to: "$HOME"/.config/videoinfox  "
+    echo "__________________________________________________________________________________________________________________"
+    echo
+    echo -e " A sample video url was copied to the clipboard to show how the \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m feature works."
+    echo
+    echo " Video playing:  [ f - toggle fullscreen ]   [ spacebar - play/pause ]   [ l/r arrows - fwd/rew ]   [ q -quit ]"
+    echo
+    echo " Press  p  when Videoinfox starts up. That will download the video url that is in the clipboard and auto play it."
+    echo "__________________________________________________________________________________________________________________"
+    echo -e "\n" 
+    echo " Setup for the first run or if the videoinfox directory gets deleted anytime after the first run."
+    
+                                    
 
-      # CHECK FOR  ~/Downloads  If it doesn't exist, create it 
-      direxist2="$HOME/Downloads"
+    #####################
+    # CREATE DIRECTORIES
+    ####################
+    # SET DEFAULT  LAST SEARCH  to <2> Never Save
+    printf -- '%d\n' "2" > "${base_dir}/videoinfo.lastsearch-set"
 
-      if [[ ! -d "$direxist2" ]]; then
-             mkdir ~/Downloads
-      fi
-      # SET DEFAULT  yt-dlp  DOWNLOAD DIRECTORY TO  ~/Downloads    It can be changed in the <set> menu
-      echo "$HOME"/Downloads > ${base_dir}/videoinfo.yt-download-dir
+    # Ensure that ~/Downloads exists 
+    mkdir -p "${HOME}/Downloads"
 
-      # SET DIR AT EXIT TO THE DEFAULT DOWNLOAD DIRECTORY SO DEFAULT DIR DISPLAY #3 LIGHTS UP ON FIRST RUN 
-      echo "$HOME"/Downloads > ${base_dir}/videoinfo.dir-at-exit
-      read -r diratexit < ${base_dir}/videoinfo.dir-at-exit
-      cd "$diratexit" 2>/dev/null 
+    # SET DEFAULT  yt-dlp  DOWNLOAD DIRECTORY TO  ~/Downloads    It can be changed in the <set> menu
+    printf -- '%s\n' "${HOME}/Downloads" > "${base_dir}/videoinfo.yt-download-dir"
 
-      # Writing header for new blank Saved Search  playlist  ++++++++ this was added to get around a bug until the bug gets squashed.       
-      touch ${base_dir}/videoinfo.keptsearch
-      echo "PLAYlIST" >> ${base_dir}/videoinfo.keptsearch
-      echo >> ${base_dir}/videoinfo.keptsearch
-      echo "This File was Created: $(date) by" "$USER" >> ${base_dir}/videoinfo.keptsearch
-      echo >> ${base_dir}/videoinfo.keptsearch
+    # SET DIR AT EXIT TO THE DEFAULT DOWNLOAD DIRECTORY SO DEFAULT DIR DISPLAY #3 LIGHTS UP ON FIRST RUN 
+    printf -- '%s\n' "${HOME}/Downloads" > "${base_dir}/videoinfo.dir-at-exit"
+    read -r diratexit < "${base_dir}/videoinfo.dir-at-exit"
+    cd "$diratexit" 2>/dev/null 
+
+    # Writing header for new blank Saved Search  playlist  ++++++++ this was added to get around a bug until the bug gets squashed.       
+    touch ${base_dir}/videoinfo.keptsearch
+    echo "PLAYlIST" >> ${base_dir}/videoinfo.keptsearch
+    echo >> ${base_dir}/videoinfo.keptsearch
+    echo "This File was Created: $(date) by" "$USER" >> ${base_dir}/videoinfo.keptsearch
+    echo >> ${base_dir}/videoinfo.keptsearch
 
    
-      # SAMPLE URL DOWLOAD LIST BEING CREATED WITH 3 VIDEO URL'S
-      echo "https://www.youtube.com/watch?v=d59H0UxhyaY" > $HOME/Downloads/videoinfox-dl-sample-list
-      echo "https://www.youtube.com/watch?v=5tSAKS8LRj0" >> $HOME/Downloads/videoinfox-dl-sample-list
-      echo "https://www.youtube.com/watch?v=DAPkOxRnh4c" >> $HOME/Downloads/videoinfox-dl-sample-list
+    # SAMPLE URL DOWLOAD LIST BEING CREATED WITH 3 VIDEO URL'S
+    echo "https://www.youtube.com/watch?v=d59H0UxhyaY" > $HOME/Downloads/videoinfox-dl-sample-list
+    echo "https://www.youtube.com/watch?v=5tSAKS8LRj0" >> $HOME/Downloads/videoinfox-dl-sample-list
+    echo "https://www.youtube.com/watch?v=DAPkOxRnh4c" >> $HOME/Downloads/videoinfox-dl-sample-list
 
-      echo
+    echo
 
     sec=36
     while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
@@ -595,43 +620,43 @@ if [[ ! -d "$direxist" ]]; then
         sleep 1
     done
 
- 
-# Yt-dlp initial download attempt on the first run. If it fails, download will be re-attempted when you select the Yt-dlp Menu.
-clear
-echo
-echo 
-echo 
-echo "___________________________________________________________________________________________________________________"
-echo  
-echo " $der >>> Attempting to download the most recent version of Yt-dlp"
-echo "___________________________________________________________________________________________________________________" 
-echo
-echo " If Yt-dlp can't be downloaded, the download attempt will be aborted."
-echo
-echo " If the download fails, it is most likely due to at least 1 of the following reasons:"
-echo
-echo "    - Your internet connection is down."
-echo
-echo "    - Github isn't reachable due to technical issues on their end."
-echo
-echo "    - There is no Yt-dlp release available in:  https://github.com/yt-dlp/yt-dlp/releases/latest/download"
-echo
-echo
-echo " If this download fails, the download attempt will be tried again when you select the Yt-dlp Menu in Videoinfox."
-echo
-echo
-echo " Note: The Yt-dlp Menu will not work until there is a copy of yt-dlp in:"
-echo
-echo " "$HOME"/.config/videoinfox"
-echo
-echo
+ytdlp_update() {
+    # Yt-dlp initial download attempt on the first run. If it fails, download will be re-attempted when you select the Yt-dlp Menu.
+    clear
+    echo
+    echo 
+    echo 
+    echo "___________________________________________________________________________________________________________________"
+    echo  
+    echo " $der >>> Attempting to download the most recent version of Yt-dlp"
+    echo "___________________________________________________________________________________________________________________" 
+    echo
+    echo " If Yt-dlp can't be downloaded, the download attempt will be aborted."
+    echo
+    echo " If the download fails, it is most likely due to at least 1 of the following reasons:"
+    echo
+    echo "    - Your internet connection is down."
+    echo
+    echo "    - Github isn't reachable due to technical issues on their end."
+    echo
+    echo "    - There is no Yt-dlp release available in:  https://github.com/yt-dlp/yt-dlp/releases/latest/download"
+    echo
+    echo
+    echo " If this download fails, the download attempt will be tried again when you select the Yt-dlp Menu in Videoinfox."
+    echo
+    echo
+    echo " Note: The Yt-dlp Menu will not work until there is a copy of yt-dlp in:"
+    echo
+    echo " "$HOME"/.config/videoinfox"
+    echo
+    echo
 
-dirtemp="$PWD"  # save dir for restore after ty-dlp download
-cd ${base_dir}
+    dirtemp="$PWD"  # save dir for restore after ty-dlp download
+    cd ${base_dir}
   
-wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp 2>/dev/null  # download and rename 
- 
-if [[ -f ${base_dir}/yt-dlp ]]; then
+    retrieve_url "${ytdlp_url}" "${base_dir}/yt-dlp" 2>/dev/null
+    
+    if [[ -f ${base_dir}/yt-dlp ]]; then
         chmod a+rx ${base_dir}/yt-dlp  # set <yt-dlp-fetched> execute bit
         ${base_dir}/yt-dlp --version > ${base_dir}/videoinfo.yt-dlp.version # write yt-dlp ver number to file: yt-dlp.version 
         echo
@@ -642,122 +667,70 @@ if [[ -f ${base_dir}/yt-dlp ]]; then
 
         sec=5           
         while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>                       
-             echo -ne " $ver starting in: $sec\033[0K\r"
-             let "sec=sec-1"
-             sleep 1
+            echo -ne " $ver starting in: $sec\033[0K\r"
+            let "sec=sec-1"
+            sleep 1
         done
         
         rm ${base_dir}/wget-* 2> /dev/null          
-   else
-       
+    else
         echo
         echo " Yt-dlp Download Failure . . ."
         echo
 
         sec=15           
         while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>                       
-             echo -ne " $ver starting in: $sec\033[0K\r"
-             let "sec=sec-1"
-             sleep 1
+            echo -ne " $ver starting in: $sec\033[0K\r"
+            let "sec=sec-1"
+            sleep 1
         done 
 
         rm ${base_dir}/wget-* 2> /dev/null    
 
-cd "$dirtemp"  # restore directory
-
+        cd "$dirtemp"  # restore directory
+    fi
+}
 fi
 
-fi
-
 ##################################################################################################################################################
-#####  4. CHECK FOR  (VIDEOINFOX NOTIFICATION UPDATE)                         routine to get version number from github          #################
-########################################################################      and compare it to this scripts version number      #################
+##### CHECK FOR VIDEOINFOX UPDATE ################################################################################################################
+videoinfox_update() {
+    clear
+    printf -- '%s\n' "" "" "" \
+        "___________________________________________________________________________________________________________________" \
+        " ${ver} >>> Checking for update . . ." \
+        "___________________________________________________________________________________________________________________" \
+        ""
+    # Start a subshell, which will return us from whence we came when it closes
+    # (i.e. no need for pushd/popd or other 'take me back' logic)
+    (
+        cd "${tmp_dir}" || die "Unable to enter ${tmp_dir}"
+        # Try to retrieve the latest version from the web, quietly return on failure
+        retrieve_url "${base_url}/videoinfox" "${tmp_dir}/videoinfox" 2>/dev/null || return
 
-clear  # Display while downloading videoinfox from github on startup
-echo
-echo
-echo
-echo "___________________________________________________________________________________________________________________"
-echo  
-echo " $ver >>> Checking for update . . ."
-echo "___________________________________________________________________________________________________________________"
-echo
+        # If the latest downloaded file differs from the one on-disk, then there's an update available
+        if cmp -s "${tmp_dir}/videoinfox" /usr/local/bin/videoinfox; then
+            printf -- '%s\n' "videoinfox is up to date."
+        else
+            videoinfox_latest_version="$(bash "${tmp_dir}"/videoinfox -v)"
+            # send gui notification with update ver number
+            notify-send "Videoinfox messsage: Update Available (${videoinfox_latest_version})"
+        fi
 
-dirtemp="$PWD"  # save directory for restore
-cd ${tmp_dir}
+        # Update to latest
+        sudo mv "${tmp_dir}/videoinfox" /usr/local/bin/videoinfox 2> /dev/null
+        # Remove our temporary file
+        rm "${tmp_dir}/videoinfox"
 
-# download  videoinfox  from github
-wget -q "${base_url}/videoinfox" 2>/dev/null
+        printf -- '%s\n' "Latest version of videoinfox (${videoinfox_latest_version}) installed into /usr/local/bin"
+        printf -- '%s\n' "Restart to use updated version.  Exiting..."
+        exit 0
+    )
+}
 
-# make script executable to get ver number
-chmod +x ${tmp_dir}/videoinfox 2> /dev/null
-
-# get ver number of download
-viv=$(${tmp_dir}/videoinfox -v 2> /dev/null)  
-
-# download ver: cut the first 13 characters + sed to remove the dot =  version number minus the dot 
-viv2=$(echo "$viv" | cut -c13- | sed -e 's/\.//g' 2> /dev/null) # format: whole number  xxxx
-
-# script ver:   cut the first 13 characters + sed to remove the dot =  version number minus the dot 
-viv3=$(echo "$ver" | cut -c13- | sed -e 's/\.//g') # format: whole number  xxxx
-# Prevent Update Available notifications from displaying if download fails. 
-# If download fails, download version = script version
-
-if [[ ! -f ${tmp_dir}/videoinfox ]]; then  # Downloaded
-    viv3="$viv2"
-fi
-# for the notification just on the home screen
-
-if [[ "$viv2" = "$viv3" ]]; then
-    # Version numbers are the same
-    viv4=$(echo -e \ "               ") # dead space place holder for when there is no Update Available in the display
-    rm ${tmp_dir}/* 2> /dev/null
-    cd "$dirtemp"  # restore directory
-else
-    # Version numbers are not the same
-    viv4="Update Available"   # Update Available   notification on home screen
-    notify-send "Videoinfox messsage: Update Available" "$viv" # send gui notification with update ver number
-    rm ${tmp_dir}/* 2> /dev/null
-    cd "$dirtemp"  # restore directory
-fi
-##################################################################################################################################################
-#####  5. IF THE DEFAULT LIST DOESN'T EXIST, CREATE IT  ##########################################################################################
-##################################################################################################################################################
-
-if [[ ! -f ${base_dir}/videoinfox-dl-Default ]]; then
-    # CREATING EMPTY DEFAULT DOWNLOAD LIST WITH LIST EMPTY MESSAGE
-    touch "${base_dir}/videoinfox-dl-Default"
-    echo "Default Download List Empty" >> ${base_dir}/videoinfox-dl-Default
-fi
-##################################################################################################################################################
-#####  6. CREATE DOWNLOAD LIST HELP FILE  ######################################################################################################## 
-##################################################################################################################################################
-
-retrieve_url "${base_url}/docs/download-list-help" "${base_dir}/videoinfox.download-list-help"
-
-#####  DOWNLOAD LIST HELP COMPLETED  ############################################################################################################# 
-##################################################################################################################################################
-##################################################################################################################################################
-#####  7. CREATE HELP FILE  ###################################################################################################################### 
-##################################################################################################################################################
-
-retrieve_url "${base_url}/docs/videoinfo-help" "${base_dir}/videoinfo.help"
-
-
-#####  HELP COMPLETED  ########################################################################################################################### 
-##################################################################################################################################################
-##################################################################################################################################################
-#####  8. CREATE VERSION HISTORY FILE  ########################################################################################################### ################################################################################################################################################## 
-retrieve_url "${base_url}/docs/version-history" "${base_dir}/videoinfo-ver-history"
-
-
-###########################  END VERSION HISTORY  ################################################################################################ 
-##################################################################################################################################################
-read -r diratexit < ${base_dir}/videoinfo.dir-at-exit
+read -r diratexit < "${base_dir}/videoinfo.dir-at-exit"
 cd "$diratexit" 2>/dev/null 
 
-#   The Line below is what gets the Codec & Resolution from a video file.
-codecres="ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1"
 if [[ ! -f ${base_dir}/videoinfo.playlist.current ]]; then
     echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ${base_dir}/videoinfo.playlist.current
 fi
@@ -916,30 +889,22 @@ menuf() {
 
     # DEFAULT DIR 5 DISPLAY
     if [[ "$controldir" = "$dir5display" ]]; then
-        dirdisp="$dirdisplay5"  # if directory is changed to  Default Dir 5 :  The number 5 is normal text and the other 4 are less bold.
+        # if directory is changed to  Default Dir 5 :  The number 5 is normal text and the other 4 are less bold.
+        dirdisp="$dirdisplay5"
     else
-        dirdisp="$dirdisplayno" # if directory doesn't match  Default Dirs 1-5 : All 5 numbers are less bold.  
+        # if directory doesn't match  Default Dirs 1-5 : All 5 numbers are less bold.  
+        dirdisp="$dirdisplayno"
     fi 
 
     # DEFAULT DIR 1  DISPLAY
-    if [[ "$controldir" = "$dir1display" ]]; then 
-        dirdisp="$dirdisplay1"
-    fi
-
+    [[ "$controldir" = "$dir1display" ]] && dirdisp="$dirdisplay1"
     # DEFAULT DIR 2  DISPLAY
-    if [[ "$controldir" = "$dir2display" ]]; then 
-        dirdisp="$dirdisplay2"
-    fi
-
+    [[ "$controldir" = "$dir2display" ]] && dirdisp="$dirdisplay2"
     # DEFAULT DIR 3  DISPLAY
-    if [[ "$controldir" = "$dir3display" ]]; then 
-        dirdisp="$dirdisplay3"
-    fi
-
+    [[ "$controldir" = "$dir3display" ]] && dirdisp="$dirdisplay3"
     # DEFAULT DIR 4  DISPLAY
-    if [[ "$controldir" = "$dir4display" ]]; then 
-        dirdisp="$dirdisplay4"  # if directory is changed to  Default Dir 4 :  The number 4 is normal text and the other 4 are less bold.
-    fi
+    # if directory is changed to  Default Dir 4 :  The number 4 is normal text and the other 4 are less bold.
+    [[ "$controldir" = "$dir4display" ]] && dirdisp="$dirdisplay4"
 
     ################################################################################
     ##########  END   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
@@ -1182,7 +1147,7 @@ while true; do
                     echo "___________________________________________________________________________________________________________________"
                     echo
 
-                    echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$line")  " Duration:" $(ffmpeg -i "$line" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+                    get_file_stats "${line}"
                     
                     echo
                     echo
@@ -1249,7 +1214,7 @@ while true; do
                         echo "___________________________________________________________________________________________________________________"
                         echo
 
-                        echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$playnumber")  " Duration:" $(ffmpeg -i "$playnumber" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height & duration
+                        get_file_stats "${playnumber}"
                         echo
                         echo
                         echo " Video Player Controls:"
@@ -1377,51 +1342,30 @@ while true; do
                     # DEFAULT DIR 5  DISPLAY     IF DIRECTORY ON EXIT  =  DEFAULT DIRECTORIES 1-4 then Display that directory number.
 
                     if [[ "$controldir" = "$dir5display" ]]; then 
-
-                        if [[ "$dir5display" = "$dir1display" ]]; then
-                                dirdisp="$dirdisplay1"
-                        fi
-
-                        if [[ "$dir5display" = "$dir2display" ]]; then
-                                dirdisp="$dirdisplay2"
-                        fi
-
-                        if [[ "$dir5display" = "$dir3display" ]]; then
-                                dirdisp="$dirdisplay3"
-                        fi
-
-                        if [[ "$dir5display" = "$dir4display" ]]; then
-                                dirdisp="$dirdisplay4"
-                        fi
+                        [[ "$dir5display" = "$dir1display" ]] && dirdisp="$dirdisplay1"
+                        [[ "$dir5display" = "$dir2display" ]] && dirdisp="$dirdisplay2"
+                        [[ "$dir5display" = "$dir3display" ]] && dirdisp="$dirdisplay3"
+                        [[ "$dir5display" = "$dir4display" ]] && dirdisp="$dirdisplay4"
                     fi
 
                     # DEFAULT DIR 5 DISPLAY
                     if [[ "$controldir" = "$dir5display" ]]; then
-                        dirdisp="$dirdisplay5"  # if directory is changed to  Default Dir 5 :  The number 5 is normal text and the other 4 are less bold.
-                            
+                        # if directory is changed to  Default Dir 5 :  The number 5 is normal text and the other 4 are less bold.
+                        dirdisp="$dirdisplay5"
                     else
-                        dirdisp="$dirdisplayno" # if directory doesn't match  Default Dirs 1-5 : All 5 numbers are less bold.  
+                        # if directory doesn't match  Default Dirs 1-5 : All 5 numbers are less bold.  
+                        dirdisp="$dirdisplayno"
                     fi 
 
                     # DEFAULT DIR 1  DISPLAY
-                    if [[ "$controldir" = "$dir1display" ]]; then 
-                        dirdisp="$dirdisplay1"
-                    fi
-
+                    [[ "$controldir" = "$dir1display" ]] && dirdisp="$dirdisplay1"
                     # DEFAULT DIR 2  DISPLAY
-                    if [[ "$controldir" = "$dir2display" ]]; then 
-                        dirdisp="$dirdisplay2"
-                    fi
-
+                    [[ "$controldir" = "$dir2display" ]] && dirdisp="$dirdisplay2"
                     # DEFAULT DIR 3  DISPLAY
-                    if [[ "$controldir" = "$dir3display" ]]; then 
-                        dirdisp="$dirdisplay3"
-                    fi
-
+                    [[ "$controldir" = "$dir3display" ]] && dirdisp="$dirdisplay3"
                     # DEFAULT DIR 4  DISPLAY
-                    if [[ "$controldir" = "$dir4display" ]]; then 
-                        dirdisp="$dirdisplay4"  # if directory is changed to  Default Dir 4 :  The number 4 is normal text and the other 4 are less bold.
-                    fi
+                    # if directory is changed to  Default Dir 4 :  The number 4 is normal text and the other 4 are less bold.
+                    [[ "$controldir" = "$dir4display" ]] && dirdisp="$dirdisplay4"
 
                     ################################################################################
                     ##########  END   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
@@ -1557,10 +1501,7 @@ while true; do
                             find_supported_files "${tmp_dir}/videoinfox.navtree-play-directory-apa"
 
                             #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
-                            atleastone=$(grep '^/' ${tmp_dir}/videoinfox.navtree-play-directory-apa 2>/dev/null | wc -l)
-
-                            #  IF THE NUMBER DOESN"T = 0  THEN PROCESS AUTO PLAY OF PLAYED LIST
-                            if [[ $atleastone -ne 0 ]]; then
+                            if file_contains '^/' ${tmp_dir}/videoinfox.navtree-play-directory-apa; then
                                 #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
                                 moddedplayedlist="${HOME}/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa"
 
@@ -1634,7 +1575,7 @@ while true; do
                                 echo "___________________________________________________________________________________________________________________"
                                 echo
 
-                                echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$line")  " Duration:" $(ffmpeg -i "$line" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+                                get_file_stats "${line}"
                                 
                                 echo
                                 echo
@@ -1725,10 +1666,7 @@ while true; do
                     find_supported_files > "${tmp_dir}/videoinfox.nt-play-directory-apa"
 
                     #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
-                    atleastone=$(grep -c '^/' ${tmp_dir}/videoinfox.nt-play-directory-apa 2>/dev/null)
-
-                    #  IF THE NUMBER DOESN"T = 0  THEN PROCESS AUTO PLAY OF PLAYED LIST
-                    if [[ $atleastone -ne 0 ]]; then
+                    if file_contains '^/' ${tmp_dir}/videoinfox.nt-play-directory-apa; then
 
                         #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
                         moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa"
@@ -1859,7 +1797,7 @@ while true; do
                                 echo " ""$pasteclip"
                                 echo  
 
-                                echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+                                get_file_stats "${pasteclip}"
 
                                 echo
                                 read -r -p " Press enter to Continue" 
@@ -1882,7 +1820,7 @@ while true; do
                                         echo "$playnumber"
                                         echo
             
-                                        echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$playnumber")  " Duration:" $(ffmpeg -i "$playnumber" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height & duration
+                                        get_file_stats "${playnumber}"
 
                                         echo
                                         read -r -p " Press enter to Continue" 
@@ -1913,56 +1851,52 @@ while true; do
                                 find_supported_files > "${tmp_dir}/videoinfox.nt-play-directory-apa"
 
                                 #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
-                                atleastone=$(grep '^/' ${tmp_dir}/videoinfox.nt-play-directory-apa 2>/dev/null | wc -l)
-
-                                #  IF THE NUMBER DOESN"T = 0  THEN PROCESS AUTO PLAY OF PLAYED LIST
-                                if [[ $atleastone -ne 0 ]]; then
-
-                                    #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
-                                    moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa"
-
-                                    #  CREATE TEMP FILE NEEDED FOR LOOP 
-                                    touch ${tmp_dir}/videoinfox.nt-play-directory-apa2
-
-                                    #  #  START WRITING
-                                    while read -r line; do
-                                        if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
-                                            echo "$line" >> ${tmp_dir}/videoinfox.nt-play-directory-apa2  
-                                        fi
-                                    done < "${moddedplayedlist}"
-                                    #  DONE WRITING ONLY VALID FILES
-
-                                    #  REMOVE BLANK LINES
-                                    squash ${tmp_dir}/videoinfox.nt-play-directory-apa2 2>/dev/null
-
-                                    #  MOVE apa2 BACK TO apa
-                                    mv ${tmp_dir}/videoinfox.nt-play-directory-apa2 ${tmp_dir}/videoinfox.nt-play-directory-apa 2>/dev/null
-
-                                    #  CREATE FILE NEEDED FOR LOOP 
-                                    touch "${tmp_dir}/videoinfox.nt-play-directory-apa2"
-
-                                    #  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-                                    write_supported_list "${moddedplayedlist}" "${tmp_dir}/videoinfox.nt-play-directory-apa2"
-
-                                    #  REMOVE BLANK LINES
-                                    squash ${tmp_dir}/videoinfox.nt-play-directory-apa2 2>/dev/null
-
-                                    #  MOVE apa2 BACK TO apa
-                                    cp ${tmp_dir}/videoinfox.nt-play-directory-apa2 ${tmp_dir}/videoinfox.nt-play-directory-apa 2>/dev/null
-
-                                    # REMOVE PATH ONLY LEAVING FILENAME
-                                    sed -i 's/.*\///' ${tmp_dir}/videoinfox.nt-play-directory-apa2
-
-                                    # NUMBER THE LIST
-                                    sed '/./='  ${tmp_dir}/videoinfox.nt-play-directory-apa2 | sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfox.numbered-nt-play-directory-list 2>/dev/null
-
-                                
-                                else #  NO LINES START WITH A SLASH /   remove empty files
-                                    rm ${tmp_dir}/videoinfox.nt-play-directory-apa 2>/dev/null
-                                    rm ${tmp_dir}/videoinfox.nt-play-directory-apa2 2>/dev/null
-                                    rm ${tmp_dir}/videoinfox.numbered-nt-play-directory-list 2>/dev/null
-                                    rm ${tmp_dir}/videoinfox.nt-play-directory-apa-work 2>/dev/null    
+                                if ! file_contains '^/' "${tmp_dir}/videoinfox.nt-play-directory-apa"; then
+                                    {
+                                        rm "${tmp_dir}/videoinfox.nt-play-directory-apa"
+                                        rm "${tmp_dir}/videoinfox.nt-play-directory-apa2"
+                                        rm "${tmp_dir}/videoinfox.numbered-nt-play-directory-list"
+                                        rm "${tmp_dir}/videoinfox.nt-play-directory-apa-work"
+                                    } 2>/dev/null
+                                    return
                                 fi
+                                #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
+                                moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa"
+
+                                #  CREATE TEMP FILE NEEDED FOR LOOP 
+                                touch ${tmp_dir}/videoinfox.nt-play-directory-apa2
+
+                                #  #  START WRITING
+                                while read -r line; do
+                                    if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
+                                        printf -- '%s\n' "$line" >> "${tmp_dir}/videoinfox.nt-play-directory-apa2"
+                                    fi
+                                done < "${moddedplayedlist}"
+
+                                #  REMOVE BLANK LINES
+                                squash ${tmp_dir}/videoinfox.nt-play-directory-apa2 2>/dev/null
+
+                                #  MOVE apa2 BACK TO apa
+                                mv ${tmp_dir}/videoinfox.nt-play-directory-apa2 ${tmp_dir}/videoinfox.nt-play-directory-apa 2>/dev/null
+
+                                #  CREATE FILE NEEDED FOR LOOP 
+                                touch "${tmp_dir}/videoinfox.nt-play-directory-apa2"
+
+                                #  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
+                                write_supported_list "${moddedplayedlist}" "${tmp_dir}/videoinfox.nt-play-directory-apa2"
+
+                                #  REMOVE BLANK LINES
+                                squash ${tmp_dir}/videoinfox.nt-play-directory-apa2 2>/dev/null
+
+                                #  MOVE apa2 BACK TO apa
+                                cp ${tmp_dir}/videoinfox.nt-play-directory-apa2 ${tmp_dir}/videoinfox.nt-play-directory-apa 2>/dev/null
+
+                                # REMOVE PATH ONLY LEAVING FILENAME
+                                sed -i 's/.*\///' ${tmp_dir}/videoinfox.nt-play-directory-apa2
+
+                                # NUMBER THE LIST
+                                sed '/./='  ${tmp_dir}/videoinfox.nt-play-directory-apa2 | sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfox.numbered-nt-play-directory-list 2>/dev/null
+
                                 # clear
 
                                 if [[ ! -f ${tmp_dir}/videoinfox.numbered-nt-play-directory-list ]]; then
@@ -2000,7 +1934,7 @@ while true; do
                                         echo "___________________________________________________________________________________________________________________"
                                         echo
 
-                                        echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$line")  " Duration:" $(ffmpeg -i "$line" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+                                        get_file_stats "${line}"
                                         
                                         echo
                                         echo
@@ -2037,148 +1971,139 @@ while true; do
                             fi
 
                         ;;
- ########################################################################################################################################
-         k)  # SHOW ALL - PLAYLIST ADD (NAVIGATE TREE)  ############################################################################################
- ########################################################################################################################################
+                        k)
+                            ########################################################################################################################################
+                            # SHOW ALL - PLAYLIST ADD (NAVIGATE TREE)  ############################################################################################
+                            ########################################################################################################################################
 
-#checking for videos in the current directory.  if no videos exist,   playlistaddnav Directory   won't execute
-dovideosexist=$(find_supported_files --count)
-if [[ $dovideosexist -ne 0 ]]; then  # IF VIDEOS EXIST IN THE CURRENT DIRECTORY 
+                            #checking for videos in the current directory.  if no videos exist,   playlistaddnav Directory   won't execute
+                            dovideosexist=$(find_supported_files --count)
+                            if [[ $dovideosexist -ne 0 ]]; then  # IF VIDEOS EXIST IN THE CURRENT DIRECTORY 
 
-########################################################################################################################function ntplaylistaddnavnum {
+                            ########################################################################################################################function ntplaylistaddnavnum {
 
-# WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-playlistaddnav-directory-apa 
-find_supported_files > "${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa"
+                            # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-playlistaddnav-directory-apa 
+                            find_supported_files > "${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa"
 
-#  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
-atleastone=$(grep '^/' ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa 2>/dev/null | wc -l)
+                            #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
+                            if file_contains '^/' "${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa"; then
+                                #  ASSIGN playlistaddnavED LIST TO VARIABLE: $moddedplaylistaddnavedlist 
+                                moddedplaylistaddnavedlist="${HOME}/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-directory-apa"
 
-#  IF THE NUMBER DOESN"T = 0 
-if [[ $atleastone -ne 0 ]]; then
+                                #  playlistaddnavED LIST INPUT FOR LOOP
+                                input="$moddedplaylistaddnavedlist"  
 
-#  ASSIGN playlistaddnavED LIST TO VARIABLE: $moddedplaylistaddnavedlist 
-moddedplaylistaddnavedlist="$HOME""/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-directory-apa"
+                                #  CREATE TEMP FILE NEEDED FOR LOOP 
+                                touch ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2
 
-#  playlistaddnavED LIST INPUT FOR LOOP
-input="$moddedplaylistaddnavedlist"  
+                                #  #  START WRITING
+                                while read -r line; do
 
-#  CREATE TEMP FILE NEEDED FOR LOOP 
-touch ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2
+                                if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
+                                    echo "$line" >> ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2  
+                                fi
 
-#  #  START WRITING
-while read -r line; do
+                                done < "$input"
+                                #  DONE WRITING ONLY VALID FILES
+                                #  REMOVE BLANK LINES
+                                squash ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 2>/dev/null
 
-   if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
-           echo "$line" >> ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2  
-   fi        
+                                #  MOVE apa2 BACK TO apa
+                                mv ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa 2>/dev/null
 
-done < "$input"
-#  DONE WRITING ONLY VALID FILES
-#  REMOVE BLANK LINES
-squash ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 2>/dev/null
+                                #  CREATE FILE NEEDED FOR LOOP 
+                                touch ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2  
 
-#  MOVE apa2 BACK TO apa
-mv ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa 2>/dev/null
+                                #  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
+                                write_supported_list "${moddedplaylistaddnavedlist}" "${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2"
 
-#  CREATE FILE NEEDED FOR LOOP 
-touch ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2  
+                                #  REMOVE BLANK LINES
+                                squash ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 2>/dev/null
 
-#  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-write_supported_list "${moddedplaylistaddnavedlist}" "${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2"
+                                #  MOVE apa2 BACK TO apa
+                                cp ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa 2>/dev/null
 
-#  REMOVE BLANK LINES
-squash ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 2>/dev/null
+                                # REMOVE PATH ONLY LEAVING FILENAME
+                                sed -i 's/.*\///' ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2
 
-#  MOVE apa2 BACK TO apa
-cp ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa 2>/dev/null
+                                # NUMBER THE LIST
+                                sed '/./='  ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 |
+                                    sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfox.numbered-nt-playlistaddnav-directory-list 2>/dev/null
 
-# REMOVE PATH ONLY LEAVING FILENAME
-sed -i 's/.*\///' ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2
+                            
+                            else #  NO LINES START WITH A SLASH /   remove empty files
+                                rm ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa 2>/dev/null
+                                rm ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 2>/dev/null
+                                rm ${tmp_dir}/videoinfox.numbered-nt-playlistaddnav-directory-list 2>/dev/null
+                                rm ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa-work 2>/dev/null    
+                            fi
+                            clear
 
-# NUMBER THE LIST
-sed '/./='  ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 |
-    sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfox.numbered-nt-playlistaddnav-directory-list 2>/dev/null
+                            if [[ -f ${tmp_dir}/videoinfox.numbered-nt-playlistaddnav-directory-list ]]; then
+                                cat ${tmp_dir}/videoinfox.numbered-nt-playlistaddnav-directory-list 2>/dev/null
+                            else
+                                echo
+                                echo " No videos in the current directory . . ."
+                            fi
+                            # REMOVE EVERYTHING FROM THE BEGINNING OF THE LINE UP TO AND INCLUDING THE DOT). LEAVING ONLY PLAYLIST NAME
+                            cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/whatplnt.tmp 
+                            read -r whatplnt < ${tmp_dir}/whatplnt.tmp
+                            rm ${tmp_dir}/whatplnt.tmp
 
-   
-else #  NO LINES START WITH A SLASH /   remove empty files
-     rm ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa 2>/dev/null
-     rm ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 2>/dev/null
-     rm ${tmp_dir}/videoinfox.numbered-nt-playlistaddnav-directory-list 2>/dev/null
-     rm ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa-work 2>/dev/null    
-fi
-clear
+                            echo
+                            read -r -p "Enter line number to add video to playlist $whatplnt: " linenumber  # waiting fot user input
 
-if [[ -f ${tmp_dir}/videoinfox.numbered-nt-playlistaddnav-directory-list ]]; then
-        cat ${tmp_dir}/videoinfox.numbered-nt-playlistaddnav-directory-list 2>/dev/null
-   else
-        echo
-        echo " No videos in the current directory . . ."
-fi
-# REMOVE EVERYTHING FROM THE BEGINNING OF THE LINE UP TO AND INCLUDING THE DOT). LEAVING ONLY PLAYLIST NAME
-cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/whatplnt.tmp 
-read -r whatplnt < ${tmp_dir}/whatplnt.tmp
-rm ${tmp_dir}/whatplnt.tmp
+                            tail -n +"$linenumber" ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa > ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa.tmp 2>/dev/null
 
-echo
-read -r -p "Enter line number to add video to playlist $whatplnt: " linenumber  # waiting fot user input
+                            #####
+                            # GETTING NUMBER OF VIDEO FILES IN THE PLAYED LIST
+                            linecount=$(wc -l ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa | cut -d' ' -f1)
+                            #####
 
-tail -n +"$linenumber" ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa > ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa.tmp 2>/dev/null
+                            mv ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa.tmp ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa 2>/dev/null
 
-#####
-# GETTING NUMBER OF VIDEO FILES IN THE PLAYED LIST
-linecount=$(wc -l ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa | cut -d' ' -f1)
-#####
+                            if [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
+                                if [[ ! -z "$linenumber" ]]; then
+                                    if [[ $linenumber -gt $linecount ]]; then 
+                                        echo
+                                        echo "Number out of range . . ."
+                                        sleep .9
 
-mv ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa.tmp ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa 2>/dev/null
+                                    else
 
-if [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
-      if [[ -z "$linenumber" ]]; then
-            :
+                                        OLDIFS=$IFS
+                                        IFS=$'\n'
 
-        else
-            if [[ $linenumber -gt $linecount ]]; then 
-                  echo
-                  echo "Number out of range . . ."
-                  sleep .9
+                                        read line < ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa
 
-              else
+                                        if [[ ! -z "$linenumber" ]]; then
+                                            echo "$line" >> ${base_dir}/videoinfo.playlist
+                                            echo
+                                            echo " ""$line" 
+                                            echo
+                                            echo " Added to Playlist . . ."
+                                            sleep .25
+                                        fi
 
-OLDIFS=$IFS
-IFS=$'\n'
+                                    fi
+                                fi
+                            fi
+                            
+                            IFS=$OLDIFS
 
-read line < ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa
+                            rm ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa 2>/dev/null
+                            rm ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 2>/dev/null
+                            rm ${tmp_dir}/videoinfox.numbered-nt-playlistaddnav-directory-list 2>/dev/null
+                            rm ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa-work 2>/dev/null 
+                                    
+                            else
+                                echo
+                                echo " No video files in the current directory . . ."
+                                sleep 1.7
 
-if [[ -z "$linenumber" ]]; then
-              :
+                            fi
 
-          else
-              echo "$line" >> ${base_dir}/videoinfo.playlist
-              echo
-              echo " ""$line" 
-              echo
-              echo " Added to Playlist . . ."
-              sleep .25
-      fi
-
-fi
-fi
-fi
- 
-IFS=$OLDIFS
-
-rm ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa 2>/dev/null
-rm ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 2>/dev/null
-rm ${tmp_dir}/videoinfox.numbered-nt-playlistaddnav-directory-list 2>/dev/null
-rm ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa-work 2>/dev/null 
-          
-else
-    echo
-    echo " No video files in the current directory . . ."
-    sleep 1.7
-
-fi
-
-;;
+                            ;;
 ##################################################################################################################################################
 s) #######################  @PLAYLIST - SHOW ALL (NAVIGATE TREE)  ################################################################################
 ##################################################################################################################################################
@@ -2186,7 +2111,7 @@ s) #######################  @PLAYLIST - SHOW ALL (NAVIGATE TREE)  ##############
 grabdir="$PWD"  # SAVE CURRENT DIRECTORY FOR RESTORE ON EXIT
 
 cd ${base_dir}/playlists
-function menuvhome {
+menuvhome() {
 
 squash ${base_dir}/videoinfo.playlist  # remove all blank lines
 
@@ -2194,13 +2119,8 @@ pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard conten
 
 grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
-if [[ "$grabclip" = "http" ]]; then
-      :
-
-  else      
-      if [[ -f "$pasteclip" ]]; then
-            :
-        else
+if ! [[ "$grabclip" = "http" ]]; then
+      if ! [[ -f "$pasteclip" ]]; then
             echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
             pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
       fi
@@ -2209,20 +2129,16 @@ if [[ -f ${base_dir}/videoinfo.playlist ]]; then
       # REMOVE DUPLICATES
       cat -n ${base_dir}/videoinfo.playlist | sort -uk2 | sort -n | cut -f2- > ${tmp_dir}/videoinfo.playlist.tmp
       mv ${tmp_dir}/videoinfo.playlist.tmp ${base_dir}/videoinfo.playlist
-
   else
       touch ${base_dir}/videoinfo.playlist
 fi
 
-                
+
 clear
 
 cp ${base_dir}/videoinfo.playlist ${tmp_dir}/videoinfo.playlist-apa
 #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
-atleastone=$(grep '^/' ${tmp_dir}/videoinfo.playlist-apa | wc -l)
-
-#  IF THE NUMBER DOESN"T = 0  THEN PROCESS AUTO PLAY OF PLAYLIST
-if [[ $atleastone -ne 0 ]]; then
+if file_contains '^/' "${tmp_dir}/videoinfo.playlist-apa"; then
 
 #  ASSIGN PLAYLIST TO VARIABLE: $moddedplaylist 
 moddedplaylist="$HOME""/.config/videoinfox/tmp/videoinfo.playlist-apa"
@@ -2338,8 +2254,6 @@ grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st chara
 if [[ "$grabpaste" = "http" ]]; then
       echo
       echo "Clipboard: ""$pasteclip"
-  else
-      :
 fi
 if [[ "$grabpaste" = "http" ]]; then
     read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
@@ -2470,7 +2384,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo "___________________________________________________________________________________________________________________"
       echo
 
-      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$line")  " Duration:" $(ffmpeg -i "$line" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+      get_file_stats "${line}"
       
       echo
       echo
@@ -2620,7 +2534,7 @@ for line in $(cat "$input2" 2>/dev/null)
       echo "___________________________________________________________________________________________________________________"
       echo
 
-      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$line")  " Duration:" $(ffmpeg -i "$line" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+      get_file_stats "${line}"
       
       echo
       echo
@@ -2696,7 +2610,7 @@ if [[ -z "$line" ]
       echo "___________________________________________________________________________________________________________________"
       echo
 
-      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$line")  " Duration:" $(ffmpeg -i "$line" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+      get_file_stats "${line}"
       
       echo
       echo
@@ -2740,7 +2654,7 @@ fi
             echo " ""$pasteclip"
             echo  
 
-echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+get_file_stats "${pasteclip}"
 
             echo
             read -r -p " Press enter to Continue" 
@@ -2766,7 +2680,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
                        echo "$playnumber"
                        echo
            
-echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$playnumber")  " Duration:" $(ffmpeg -i "$playnumber" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height & duration
+get_file_stats "${playnumber}"
 
                        echo
                        read -r -p " Press enter to Continue" 
@@ -3094,7 +3008,7 @@ if [[ "$grabpaste" = "http" ]]; then
       echo "___________________________________________________________________________________________________________________"         
       echo
               
-echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$ytdlplast")  " Duration:" $(ffmpeg -i "$ytdlplast" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+      get_file_stats "${ytdlplast}"
 
       echo
       echo " Video Player Controls:"
@@ -3138,7 +3052,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo "___________________________________________________________________________________________________________________"
       echo
 
-      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+      get_file_stats "${pasteclip}"
       echo
       echo
       echo " Video Player Controls:"
@@ -3240,7 +3154,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo "___________________________________________________________________________________________________________________"
       echo
 
-      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$line")  " Duration:" $(ffmpeg -i "$line" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+      get_file_stats "${line}"
       
       echo
       echo
@@ -3296,10 +3210,7 @@ d)  # (@PLAY DIRECTORY) HOME   #################################################
 find_supported_files > "${tmp_dir}/videoinfox.home-play-directory-apa"
 
 #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
-atleastone=$(grep '^/' ${tmp_dir}/videoinfox.home-play-directory-apa 2>/dev/null | wc -l)
-
-#  IF THE NUMBER DOESN"T = 0  THEN PROCESS AUTO PLAY OF PLAYED LIST
-if [[ $atleastone -ne 0 ]]; then
+if file_contains '^/' "${tmp_dir}/videoinfox.home-play-directory-apa"; then
 
 #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
 moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfox.home-play-directory-apa"
@@ -3383,7 +3294,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo "___________________________________________________________________________________________________________________"
       echo
 
-      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$line")  " Duration:" $(ffmpeg -i "$line" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+      get_file_stats "${line}"
       
       echo
       echo
@@ -3453,7 +3364,7 @@ l)  # PLAY LAST DOWNLOAD >>> HOME    ###########################################
               echo "___________________________________________________________________________________________________________________"         
               echo
               
-echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$ytdlplast")  " Duration:" $(ffmpeg -i "$ytdlplast" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+get_file_stats "${ytdlplast}"
 
               echo
               echo " Video Player Controls:"
@@ -3621,7 +3532,7 @@ if [[ "$grabpaste" = "http" ]]; then
       echo "___________________________________________________________________________________________________________________"         
       echo
               
-echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$ytdlplast")  " Duration:" $(ffmpeg -i "$ytdlplast" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+get_file_stats "${ytdlplast}"
 
       echo
       echo " Video Player Controls:"
@@ -3665,7 +3576,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo "___________________________________________________________________________________________________________________"
       echo
 
-      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+      get_file_stats "${pasteclip}"
       echo
       echo
       echo " Video Player Controls:"
@@ -3713,7 +3624,7 @@ fi
             echo " ""$pasteclip"
             echo  
 
-echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+get_file_stats "${pasteclip}"
 
             echo
             read -r -p " Press enter to Continue" 
@@ -3739,7 +3650,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
                        echo "$playnumber"
                        echo
            
-echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$playnumber")  " Duration:" $(ffmpeg -i "$playnumber" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height & duration
+get_file_stats "${playnumber}"
 
                        echo
                        read -r -p " Press enter to Continue" 
@@ -3794,10 +3705,7 @@ cat -n ${tmp_dir}/videoinfo.playedlist-apa | sort -uk2 | sort -n | cut -f2- > ${
 mv ${tmp_dir}/videoinfo.playedlist-apa3 cat -n ${tmp_dir}/videoinfo.playedlist 2>/dev/null
 
 #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
-atleastone=$(grep '^/' ${tmp_dir}/videoinfo.playedlist-apa | wc -l)
-
-#  IF THE NUMBER DOESN"T = 0  THEN PROCESS AUTO PLAY OF PLAYED LIST
-if [[ $atleastone -ne 0 ]]; then
+if file_contains '^/' "${tmp_dir}/videoinfo.playedlist-apa"; then
 
 #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
 moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfo.playedlist-apa"
@@ -3810,13 +3718,9 @@ touch ${tmp_dir}/videoinfo.playedlist-apa2
 
 #  #  START WRITING
 while read -r line; do
-
-   if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
-           echo "$line" >> ${tmp_dir}/videoinfo.playedlist-apa2  
-      else
-           :
-   fi        
-
+    if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
+        echo "$line" >> ${tmp_dir}/videoinfo.playedlist-apa2  
+    fi
 done < "$input"
 #  DONE WRITING ONLY VALID FILES
 
@@ -4009,7 +3913,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo "___________________________________________________________________________________________________________________"
       echo
 
-      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$line")  " Duration:" $(ffmpeg -i "$line" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+      get_file_stats "${line}"
       
       echo
       echo
@@ -4107,7 +4011,7 @@ fi
              echo "___________________________________________________________________________________________________________________"
              echo
 
-      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$line")  " Duration:" $(ffmpeg -i "$line" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+      get_file_stats "${line}"
       
              echo
              echo
@@ -4150,7 +4054,7 @@ fi
             echo " ""$pasteclip"
             echo  
 
-echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+get_file_stats "${pasteclip}"
 
             echo
             read -r -p " Press enter to Continue" 
@@ -4176,7 +4080,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
                        echo "$playnumber"
                        echo
            
-echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$playnumber")  " Duration:" $(ffmpeg -i "$playnumber" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height & duration
+get_file_stats "${playnumber}"
 
                        echo
                        read -r -p " Press enter to Continue" 
@@ -4234,10 +4138,7 @@ clear
 
 cp ${base_dir}/videoinfo.playlist ${tmp_dir}/videoinfo.playlist-apa
 #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
-atleastone=$(grep '^/' ${tmp_dir}/videoinfo.playlist-apa | wc -l)
-
-#  IF THE NUMBER DOESN"T = 0  THEN PROCESS AUTO PLAY OF PLAYLIST
-if [[ $atleastone -ne 0 ]]; then
+if file_contains '^/' "${tmp_dir}/videoinfo.playlist-apa"; then
 
 #  ASSIGN PLAYLIST TO VARIABLE: $moddedplaylist 
 moddedplaylist="$HOME""/.config/videoinfox/tmp/videoinfo.playlist-apa"
@@ -4489,7 +4390,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo "___________________________________________________________________________________________________________________"
       echo
 
-      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$line")  " Duration:" $(ffmpeg -i "$line" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+      get_file_stats "${line}"
       
       echo
       echo
@@ -4639,7 +4540,7 @@ for line in $(cat "$input2" 2>/dev/null)
       echo "___________________________________________________________________________________________________________________"
       echo
 
-      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$line")  " Duration:" $(ffmpeg -i "$line" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+      get_file_stats "${line}"
       
       echo
       echo
@@ -4715,7 +4616,7 @@ if [[ -z "$line" ]
       echo "___________________________________________________________________________________________________________________"
       echo
 
-      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$line")  " Duration:" $(ffmpeg -i "$line" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+      get_file_stats "${line}"
       
       echo
       echo
@@ -4759,7 +4660,7 @@ fi
             echo " ""$pasteclip"
             echo  
 
-echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+get_file_stats "${pasteclip}"
 
             echo
             read -r -p " Press enter to Continue" 
@@ -4785,7 +4686,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
                        echo "$playnumber"
                        echo
            
-echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$playnumber")  " Duration:" $(ffmpeg -i "$playnumber" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height & duration
+get_file_stats "${playnumber}"
 
                        echo
                        read -r -p " Press enter to Continue" 
@@ -5113,7 +5014,7 @@ if [[ "$grabpaste" = "http" ]]; then
       echo "___________________________________________________________________________________________________________________"         
       echo
               
-echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$ytdlplast")  " Duration:" $(ffmpeg -i "$ytdlplast" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+get_file_stats "${ytdlplast}"
 
       echo
       echo " Video Player Controls:"
@@ -5157,7 +5058,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo "___________________________________________________________________________________________________________________"
       echo
 
-      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+      get_file_stats "${pasteclip}"
       echo
       echo
       echo " Video Player Controls:"
@@ -5385,7 +5286,7 @@ if [[ "$grabpaste" = "http" ]]; then
       echo "___________________________________________________________________________________________________________________"         
       echo
               
-echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$ytdlplast")  " Duration:" $(ffmpeg -i "$ytdlplast" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+get_file_stats "${ytdlplast}"
 
       echo
       echo " Video Player Controls:"
@@ -5429,7 +5330,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo "___________________________________________________________________________________________________________________"
       echo
 
-      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+      get_file_stats "${pasteclip}"
       echo
       echo
       echo " Video Player Controls:"
@@ -5493,43 +5394,42 @@ s) #######################  @PLAYLIST - (HOME)  ################################
 grabdir="$PWD"  # SAVE CURRENT DIRECTORY FOR RESTORE ON EXIT
 
 cd ${base_dir}/playlists
-function menuvhome {
+menuvhome() {
 
-squash ${base_dir}/videoinfo.playlist  # remove all blank lines
+squash "${base_dir}/videoinfo.playlist"  # remove all blank lines
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
 grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
-if [[ "$grabclip" = "http" ]]; then
-      :
-
-  else      
-      if [[ -f "$pasteclip" ]]; then
-            :
-        else
-            echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
-            pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-      fi
+if [[ ! "$grabclip" = "http" ]]; then
+    if [[ ! -f "$pasteclip" ]]; then
+        echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
+        pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+    fi
 fi
 if [[ -f ${base_dir}/videoinfo.playlist ]]; then
-      # REMOVE DUPLICATES
-      cat -n ${base_dir}/videoinfo.playlist | sort -uk2 | sort -n | cut -f2- > ${tmp_dir}/videoinfo.playlist.tmp
-      mv ${tmp_dir}/videoinfo.playlist.tmp ${base_dir}/videoinfo.playlist
+    # REMOVE DUPLICATES
+    cat -n ${base_dir}/videoinfo.playlist | sort -uk2 | sort -n | cut -f2- > ${tmp_dir}/videoinfo.playlist.tmp
+    mv ${tmp_dir}/videoinfo.playlist.tmp ${base_dir}/videoinfo.playlist
 
-  else
-      touch ${base_dir}/videoinfo.playlist
+else
+    touch ${base_dir}/videoinfo.playlist
 fi
 
-                
 clear
 
 cp ${base_dir}/videoinfo.playlist ${tmp_dir}/videoinfo.playlist-apa
-#  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
-atleastone=$(grep '^/' ${tmp_dir}/videoinfo.playlist-apa | wc -l)
 
-#  IF THE NUMBER DOESN"T = 0  THEN PROCESS AUTO PLAY OF PLAYLIST
-if [[ $atleastone -ne 0 ]]; then
+#  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
+if ! file_contains '^/' "${tmp_dir}/videoinfo.playlist-apa"; then
+    {
+        rm "${tmp_dir}/videoinfo.playlist-apa"
+        rm "${tmp_dir}/videoinfo.playlist-apa2"
+        rm "${tmp_dir}/videoinfo.number.play-list"
+    } 2>/dev/null
+    return
+fi
 
 #  ASSIGN PLAYLIST TO VARIABLE: $moddedplaylist 
 moddedplaylist="$HOME""/.config/videoinfox/tmp/videoinfo.playlist-apa"
@@ -5542,15 +5442,10 @@ touch ${tmp_dir}/videoinfo.playlist-apa2
 
 #  #  START WRITING
 while read -r line; do
-
-   if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
-           echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2  
-      else
-           :
-   fi        
-
+    if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
+        echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2  
+    fi
 done < "$input"
-#  DONE WRITING ONLY VALID FILES
 
 #  REMOVE BLANK LINES
 squash ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
@@ -5581,21 +5476,15 @@ sed -i 's/.*\///' ${tmp_dir}/videoinfo.playlist-apa2
 # NUMBER THE LIST
 sed '/./=' ${tmp_dir}/videoinfo.playlist-apa2 | sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfo.number.play-list 2>/dev/null
 
-   
-else #  NO LINES START WITH A SLASH /   remove empty files
-     rm ${tmp_dir}/videoinfo.playlist-apa 2>/dev/null
-     rm ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
-     rm ${tmp_dir}/videoinfo.number.play-list 2>/dev/null     
-fi
 clear
 if [[ -f ${tmp_dir}/videoinfo.number.play-list ]]; then
-        cat ${tmp_dir}/videoinfo.number.play-list 2>/dev/null
-        #dashit=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
-        dashit=$(echo "~") #
-   else
-        dashit=$(echo "-") # 
-        echo
-        echo "Playlist Empty . . ."
+    cat ${tmp_dir}/videoinfo.number.play-list 2>/dev/null
+    #dashit=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
+    dashit=$(echo "~") #
+else
+    dashit=$(echo "-") # 
+    echo
+    echo "Playlist Empty . . ."
 fi
 
 #cat ${base_dir}/videoinfo.playlist 
@@ -5651,79 +5540,78 @@ if [[ "$grabpaste" = "http" ]]; then
       echo "Clipboard: ""$pasteclip"
 fi
 if [[ "$grabpaste" = "http" ]]; then
-      read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
-      ytdlpconfirm=$(${base_dir}/yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
+    read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
+    ytdlpconfirm=$(${base_dir}/yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
 
-            if [[ "$ytdlpconfirm" = "" ]]; then
+    if [[ "$ytdlpconfirm" = "" ]]; then
 
-                      echo "" | xclip -sel clip  # clearing out the clipboard
-                      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+        echo "" | xclip -sel clip  # clearing out the clipboard
+        pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
-                           # Videoinfox v2.00________________________________________ Videoinfox v2.00_________________________________________
-                           #________________x________________________________________ _________________________________________________________
-                      echo "___________________________________________________________________________________________________________________"
-                      echo
-                      echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
-                      echo "___________________________________________________________________________________________________________________"
-                      echo
-                      echo " o "$dashit" Autoplay Line     l - Last Autoplay      c - Change Playlist     p - Play Clipboard                  q - Quit"
-                      echo " j "$dashit" Play Line"
-                      echo " i "$dashit" Info                                     d - Clear Playlist"
-                      echo           
+        # Videoinfox v2.00________________________________________ Videoinfox v2.00_________________________________________
+        #________________x________________________________________ _________________________________________________________
+        echo "___________________________________________________________________________________________________________________"
+        echo
+        echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
+        echo "___________________________________________________________________________________________________________________"
+        echo
+        echo " o "$dashit" Autoplay Line     l - Last Autoplay      c - Change Playlist     p - Play Clipboard                  q - Quit"
+        echo " j "$dashit" Play Line"
+        echo " i "$dashit" Info                                     d - Clear Playlist"
+        echo           
 
-                  else 
-                      echo
-                      echo "YT-DLP Confirmed: "$ytdlpconfirm""
-                      echo
-                      echo "Download Directory: $dirsaved"  # dislpay default download directory
-                      echo "___________________________________________________________________________________________________________________"
-                      echo
-                      echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
-                      echo "___________________________________________________________________________________________________________________"
-                      echo
-                      echo -e " o "$dashit" Autoplay Line     l - Last Autoplay     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                   q - Quit"
-                      echo " j "$dashit" Play Line"
-                      echo " i "$dashit" Info                                    d - Clear Playlist"
-                      echo                                                                                    
-            fi
-  else
+    else 
+        echo
+        echo "YT-DLP Confirmed: "$ytdlpconfirm""
+        echo
+        echo "Download Directory: $dirsaved"  # dislpay default download directory
+        echo "___________________________________________________________________________________________________________________"
+        echo
+        echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
+        echo "___________________________________________________________________________________________________________________"
+        echo
+        echo -e " o "$dashit" Autoplay Line     l - Last Autoplay     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                   q - Quit"
+        echo " j "$dashit" Play Line"
+        echo " i "$dashit" Info                                    d - Clear Playlist"
+        echo                                                                                    
+    fi
+else
 
-      if [[ -f "$pasteclip" ]]; then
-            echo      
-            echo "Valid file in clipboard"
-            echo "___________________________________________________________________________________________________________________"
-            echo
-            echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
-            echo "___________________________________________________________________________________________________________________"
-            echo
-            echo -e " o "$dashit" Autoplay Line     l - Last Autoplay     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                   q - Quit"
-            echo " j "$dashit" Play Line"
-            echo " i "$dashit" Info                                    d - Clear Playlist"
-            echo                                                                     
+    if [[ -f "$pasteclip" ]]; then
+        echo      
+        echo "Valid file in clipboard"
+        echo "___________________________________________________________________________________________________________________"
+        echo
+        echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
+        echo "___________________________________________________________________________________________________________________"
+        echo
+        echo -e " o "$dashit" Autoplay Line     l - Last Autoplay     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                   q - Quit"
+        echo " j "$dashit" Play Line"
+        echo " i "$dashit" Info                                    d - Clear Playlist"
+        echo                                                                     
 
-        else 
+    else
 
-            echo "" | xclip -sel clip  # clearing out the clipboard
-            pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+        echo "" | xclip -sel clip  # clearing out the clipboard
+        pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
-            echo "___________________________________________________________________________________________________________________"
-            echo
-            echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
-            echo "___________________________________________________________________________________________________________________"
-            echo
-            echo " j - Play Line     o - Start Autoplay      c - Change Playlist     p - Play Clipboard                     q - Quit"
-            echo " i - Info          l - Resume Autoplay     r - Remove Line"
-            echo "                                           d - Clear Playlist                                             h - Help"
-            echo                                                             
-fi
+        echo "___________________________________________________________________________________________________________________"
+        echo
+        echo " "$der" >>> PLAYLIST >>>" "$setplaylist"
+        echo "___________________________________________________________________________________________________________________"
+        echo
+        echo " j - Play Line     o - Start Autoplay      c - Change Playlist     p - Play Clipboard                     q - Quit"
+        echo " i - Info          l - Resume Autoplay     r - Remove Line"
+        echo "                                           d - Clear Playlist                                             h - Help"
+        echo
+    fi
 fi
 
 echo -en " Enter Option: "
 read -r -n1 optionv
 }
 
-        while true
-        do
+        while true; do
         menuvhome
         case $optionv in
     
@@ -5767,48 +5655,47 @@ mv ${tmp_dir}/videoinfo.playlist-apa.tmp ${tmp_dir}/videoinfo.playlist-apa 2>/de
 OLDIFS=$IFS
 IFS=$'\n'
 
-for line in $(cat "$input" 2>/dev/null)
- do
-      clear
-      echo
-      echo "___________________________________________________________________________________________________________________"
-      echo
-      echo " ""$der"" >>> PLAYLIST >>> AUTOPLAY LINE" 
-      echo
-      echo " [PLAY]>" "$line"
-      echo "___________________________________________________________________________________________________________________"
-      echo
+for line in $(cat "$input" 2>/dev/null); do
+    clear
+    echo
+    echo "___________________________________________________________________________________________________________________"
+    echo
+    echo " ""$der"" >>> PLAYLIST >>> AUTOPLAY LINE" 
+    echo
+    echo " [PLAY]>" "$line"
+    echo "___________________________________________________________________________________________________________________"
+    echo
 
-      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$line")  " Duration:" $(ffmpeg -i "$line" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
-      
-      echo
-      echo
-      echo " Video Player Controls:"
-      echo                             
-      echo " - Fullscreen Toggle: f"
-      echo
-      echo " - Play/Pause Toggle: space bar"
-      echo
-      echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-      echo
-      echo " - Quit: q"      
-      echo -e "\n"
+    get_file_stats "${line}"
+    
+    echo
+    echo
+    echo " Video Player Controls:"
+    echo                             
+    echo " - Fullscreen Toggle: f"
+    echo
+    echo " - Play/Pause Toggle: space bar"
+    echo
+    echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
+    echo
+    echo " - Quit: q"      
+    echo -e "\n"
 
-      ffplay -fs -autoexit "$line" 2> /dev/null
+    ffplay -fs -autoexit "$line" 2> /dev/null
 
-      # COUNTER TO KEEP TRACK OF LINE NUMBER THAT IS CURRENTLY PLAYING.
-      i=$((i+1))
+    # COUNTER TO KEEP TRACK OF LINE NUMBER THAT IS CURRENTLY PLAYING.
+    i=$((i+1))
 
-      echo " To bypass the 3 second wait press enter with no entry"
-      echo
-      echo -e "\033[5m 3 seconds remaining to quit Playlist Autoplay\033m\033[0m\033[5m\033[5m\033[0m"      
-      echo 
-      read -t 3 -p " Press any key then press enter to quit : " playdir
+    echo " To bypass the 3 second wait press enter with no entry"
+    echo
+    echo -e "\033[5m 3 seconds remaining to quit Playlist Autoplay\033m\033[0m\033[5m\033[5m\033[0m"      
+    echo 
+    read -t 3 -p " Press any key then press enter to quit : " playdir
            
-           # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
-           if [[ $playdir ]]; then                                                        # if no input is entered within 3 seconds the next video will play
-                 break                                                   # if enter is pressed without any input the next video will play
-           fi
+    # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
+    if [[ $playdir ]]; then                                                        # if no input is entered within 3 seconds the next video will play
+            break                                                   # if enter is pressed without any input the next video will play
+    fi
 done
 
 # WRITE 2nd PLAYLIST FOR LAST AUTOPLAY OPTION . File: ${base_dir}/playlists/$playlistname.last-autoplay
@@ -5843,51 +5730,43 @@ if [[ -f ${base_dir}/videoinfo.playlist ]]; then
     touch ${base_dir}/videoinfo.playlist
 fi
 if [[ -f ${base_dir}/videoinfo.playlist ]]; then
+    clear
+    cat ${tmp_dir}/videoinfo.number.play-list 2> /dev/null
 
-      clear
-      cat ${tmp_dir}/videoinfo.number.play-list 2> /dev/null
+    echo
+    read -r -p "Enter line number to remove video from the playlist $whatplpld: " linenumber  # waiting fot user input
 
-      echo
-      read -r -p "Enter line number to remove video from the playlist $whatplpld: " linenumber  # waiting fot user input
+    # REMOVE BLANK LINES
+    ######squash ${tmp_dir}/videoinfo.playedlist-apa 2>/dev/null
 
-      # REMOVE BLANK LINES
-      ######squash ${tmp_dir}/videoinfo.playedlist-apa 2>/dev/null
+    # GETTING NUMBER OF VIDEO FILES IN THE PLAYED LIST
+    linecount=$(wc -l ${tmp_dir}/videoinfo.playlist-apa 2> /dev/null | cut -d' ' -f1) # 
 
-      # GETTING NUMBER OF VIDEO FILES IN THE PLAYED LIST
-      linecount=$(wc -l ${tmp_dir}/videoinfo.playlist-apa 2> /dev/null | cut -d' ' -f1) # 
-
-          if [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
-                if [[ -z "$linenumber" ]]; then
-                      :
-
-                  else
-
-                      if [[ "$linenumber" = 0 ]]; then
-                            :
-
-                        else
-      
-                            if [[ $linenumber -gt $linecount ]]; then 
-                                  echo
-                                  echo "Number out of range . . ."
-                                  sleep .9
-
-                              else
-
-                                  if [[ -z "$linenumber" ]]; then
-                                        :
-
-                                    else
-                                        # DELETE LINE NUMBER
-                                        sed -i "${linenumber}d" ${base_dir}/videoinfo.playlist 2> /dev/null 
-                                        echo
-                                        echo "Line deleted from the playlist . . ."
-                                        sleep .25
-                                  fi
-                            fi
-                      fi
-               fi
-         fi
+    if [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
+        if [[ -z "$linenumber" ]]; then
+            :
+        else
+            if [[ "$linenumber" = 0 ]]; then
+                :
+            else
+                if [[ $linenumber -gt $linecount ]]; then 
+                    echo
+                    echo "Number out of range . . ."
+                    sleep .9
+                else
+                    if [[ -z "$linenumber" ]]; then
+                        :
+                    else
+                        # DELETE LINE NUMBER
+                        sed -i "${linenumber}d" ${base_dir}/videoinfo.playlist 2> /dev/null 
+                        echo
+                        echo "Line deleted from the playlist . . ."
+                        sleep .25
+                    fi
+                fi
+            fi
+        fi
+    fi
 fi
 
 ;;
@@ -5923,7 +5802,7 @@ for line in $(cat "$input2" 2>/dev/null)
       echo "___________________________________________________________________________________________________________________"
       echo
 
-      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$line")  " Duration:" $(ffmpeg -i "$line" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+      get_file_stats "${line}"
       
       echo
       echo
@@ -5997,7 +5876,7 @@ if [[ -z "$line" ]]; then
       echo "___________________________________________________________________________________________________________________"
       echo
 
-      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$line")  " Duration:" $(ffmpeg -i "$line" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+      get_file_stats "${line}"
       
       echo
       echo
@@ -6041,7 +5920,7 @@ fi
             echo " ""$pasteclip"
             echo  
 
-echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+            get_file_stats "${pasteclip}"
 
             echo
             read -r -p " Press enter to Continue" 
@@ -6067,7 +5946,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
                        echo "$playnumber"
                        echo
            
-echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$playnumber")  " Duration:" $(ffmpeg -i "$playnumber" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height & duration
+                        get_file_stats "${playnumber}"
 
                        echo
                        read -r -p " Press enter to Continue" 
@@ -6089,46 +5968,46 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
           # CHANGE PLAYLIST
 ########################################################################################################################################################
 
-function changepl {
+changepl() {
+    #read -r savepl < ${base_dir}/videoinfo.playlist.current
+    #cp ${base_dir}/videoinfo.playlist "$savepl"
 
-#read -r savepl < ${base_dir}/videoinfo.playlist.current
-#cp ${base_dir}/videoinfo.playlist "$savepl"
+    # cd ${base_dir}/playlists
 
-# cd ${base_dir}/playlists
+    # FIND PLAYLISTS
+    find "$PWD" -type f \( -iname "vplaylist.*" \) > ${base_dir}/videoinfo.playlist.dirlist
 
-# FIND PLAYLISTS
-find "$PWD" -type f \( -iname "vplaylist.*" \) > ${base_dir}/videoinfo.playlist.dirlist
+    # SORT BACK INTO ORDER
+    sort -u ${base_dir}/videoinfo.playlist.dirlist > ${tmp_dir}/playlist.dirlist.tmp
+    mv ${tmp_dir}/playlist.dirlist.tmp ${base_dir}/videoinfo.playlist.dirlist 
 
-# SORT BACK INTO ORDER
-sort -u ${base_dir}/videoinfo.playlist.dirlist > ${tmp_dir}/playlist.dirlist.tmp
-mv ${tmp_dir}/playlist.dirlist.tmp ${base_dir}/videoinfo.playlist.dirlist 
+    #  REMOVE BLANK LINES
+    sed '/^$/d' ${base_dir}/videoinfo.playlist.dirlist > ${tmp_dir}/playlist.dirlist.tmp
+    mv ${tmp_dir}/playlist.dirlist.tmp ${base_dir}/videoinfo.playlist.dirlist
 
-#  REMOVE BLANK LINES
-sed '/^$/d' ${base_dir}/videoinfo.playlist.dirlist > ${tmp_dir}/playlist.dirlist.tmp
-mv ${tmp_dir}/playlist.dirlist.tmp ${base_dir}/videoinfo.playlist.dirlist
+    # REMOVE PATH
+    sed 's/.*\///' ${base_dir}/videoinfo.playlist.dirlist > ${tmp_dir}/playlist.dirlist.tmp
 
-# REMOVE PATH
-sed 's/.*\///' ${base_dir}/videoinfo.playlist.dirlist > ${tmp_dir}/playlist.dirlist.tmp
-
-# REMOVE FILENAME AND LEAVE EXTENSION
-cat ${tmp_dir}/playlist.dirlist.tmp | sed 's/.*\.//' > ${tmp_dir}/playlist.dirlist.tmp2 
-mv ${tmp_dir}/playlist.dirlist.tmp2 ${tmp_dir}/playlist.dirlist.tmp
-# CREATE NUMBERED lIST
-sed '/./=' ${tmp_dir}/playlist.dirlist.tmp | sed '/./N; s/\n/ /' > ${tmp_dir}/playlist.dirlist.tmp2
-mv ${tmp_dir}/playlist.dirlist.tmp2 ${tmp_dir}/playlist.dirlist.tmp 
-clear
-cat ${tmp_dir}/playlist.dirlist.tmp
-echo "___________________________________________________________________________________________________________________"
-echo
-echo " ""$der"" >>> CHANGE PLAYLIST >>>" "$setplaylist"        
-echo "___________________________________________________________________________________________________________________"
-echo
-echo " c - Change Playlist     a - Create Playlist     d - Delete Playlist                                      q - Quit"
-echo 
-echo -en " Enter Option: "
-read -r -n1 optioncpl
-echo
+    # REMOVE FILENAME AND LEAVE EXTENSION
+    cat ${tmp_dir}/playlist.dirlist.tmp | sed 's/.*\.//' > ${tmp_dir}/playlist.dirlist.tmp2 
+    mv ${tmp_dir}/playlist.dirlist.tmp2 ${tmp_dir}/playlist.dirlist.tmp
+    # CREATE NUMBERED lIST
+    sed '/./=' ${tmp_dir}/playlist.dirlist.tmp | sed '/./N; s/\n/ /' > ${tmp_dir}/playlist.dirlist.tmp2
+    mv ${tmp_dir}/playlist.dirlist.tmp2 ${tmp_dir}/playlist.dirlist.tmp 
+    clear
+    cat ${tmp_dir}/playlist.dirlist.tmp
+    echo "___________________________________________________________________________________________________________________"
+    echo
+    echo " ""$der"" >>> CHANGE PLAYLIST >>>" "$setplaylist"        
+    echo "___________________________________________________________________________________________________________________"
+    echo
+    echo " c - Change Playlist     a - Create Playlist     d - Delete Playlist                                      q - Quit"
+    echo 
+    echo -en " Enter Option: "
+    read -r -n1 optioncpl
+    echo
 }
+
 while true; do
 changepl
 case $optioncpl in
@@ -6395,7 +6274,7 @@ if [[ "$grabpaste" = "http" ]]; then
       echo "___________________________________________________________________________________________________________________"         
       echo
               
-echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$ytdlplast")  " Duration:" $(ffmpeg -i "$ytdlplast" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+get_file_stats "${ytdlplast}"
 
       echo
       echo " Video Player Controls:"
@@ -6439,7 +6318,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo "___________________________________________________________________________________________________________________"
       echo
 
-      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+      get_file_stats "${pasteclip}"
       echo
       echo
       echo " Video Player Controls:"
@@ -6985,121 +6864,6 @@ done
           cd "$grabdir"  # restore working directory
           sleep 1.5
           ;;
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-    
-    v)  # CHECK FOR VIDEOINFOX UPDATE
-    function menuinfox {
-
-    dirtemp="$PWD"  # save dir for restore
-    cd ${tmp_dir}
-
-    wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox 2>/dev/null
-    chmod +x ${tmp_dir}/videoinfox 2>/dev/null
-    if [[ -f ${tmp_dir}/videoinfox ]]; then
-            gver=$(${tmp_dir}/videoinfox -v)
-
-       else
-            gver="Download Failure"
-    fi
-    clear     
-    clear 
-    echo
-    echo
-    echo
-    echo "___________________________________________________________________________________________________________________"
-    echo
-    echo " ""$der"" >>> CHECK VIDEOINFOX UPDATE"
-    echo "___________________________________________________________________________________________________________________"
-    echo
-    echo " videoinfox Home: https://github.com/powerhousepro69/videoinfox"
-    echo 
-    echo " Downloaded From: https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox"
-    echo
-    echo
-    echo " Version Check Complete"
-    echo
-    echo " Downloaded: ""$gver"
-    echo
-    echo " Installed: " "$ver" 
-    echo
-    echo
-    echo " u - Update     d - Don't Update"  
-    echo
-    echo -en " Enter Option: "
-    read -r -n1 optioninfox
-    echo
-    }
-        
-              
-         while true
-         do
-         menuinfox
-       case $optioninfox in
-         d)
-         #  QUIT
-         cd "$dirtemp" # restore directory
-         rm ${tmp_dir}/* 2> /dev/null
-         echo
-         echo " Not Updated . . ."
-         sleep .6
-         break;;
-      
-         u)
-         # UPDATE VIDEOINFOX
-     
-         if [[ -f ${tmp_dir}/videoinfox ]]; then
-                 echo
-                 sudo mv ${tmp_dir}/videoinfox /usr/local/bin/videoinfox 2> /dev/null
-                 rm ${tmp_dir}/* 2> /dev/null
-                 echo
-                 echo " Downloaded videoinfox copied to: /usr/local/bin"
-                 echo   
-    
-                 sec=3
-                 while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
-                      echo -ne " UPDATED . . . $sec\033[0K\r"
-                      let " sec=sec-1"
-                      sleep 1
-                 done         
-                 clear
-                 echo -e "\n"
-                 echo
-                 echo "___________________________________________________________________________________________________________________"  
-                 echo
-                 echo " $der >>> EXIT"
-                 echo "___________________________________________________________________________________________________________________" 
-                 echo
-                 echo
-                 echo " Videoinfox Updated . . ."
-                 sleep 1.5
-       
-  
-                 clear
-                 echo -e "\n"
-                 echo
-                 echo "___________________________________________________________________________________________________________________"
-                 echo  
-                 echo " $der >>> EXIT >>> Updated to: "$gver"                    Restart to use updated version."
-                 echo "___________________________________________________________________________________________________________________" 
-                 echo -e "\n"
-                
-                 cd "$dirtemp"  # restore directory
-                 exit
-                
-            else 
-                 :
-
-         fi
-
-      
-         cd "$dirtemp"  # restore directory
-         ;;
-
-          
-         esac
-         done
-         ;;
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         
          y)  # CHECK FOR YT-DLP UPDATE
 
@@ -7139,18 +6903,17 @@ cd ${tmp_dir}
  
 wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp 2>/dev/null  # download yt-dlp 
 if [[ -f ${tmp_dir}/yt-dlp ]]; then
-        chmod a+rx ${tmp_dir}/yt-dlp  # set <yt-dlp-fetched> execute bit  
-        sec=5
-             
-         while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
-              echo -ne " Yt-dlp Downloaded . . . $sec\033[0K\r"
-              let " sec=sec-1"
-              sleep 1
-         done
+    chmod a+rx ${tmp_dir}/yt-dlp  # set <yt-dlp-fetched> execute bit  
+    sec=5
+            
+        while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
+        echo -ne " Yt-dlp Downloaded . . . $sec\033[0K\r"
+        let " sec=sec-1"
+        sleep 1
+        done
 
-    
    
-function chkytdlp {
+chkytdlp() {
 
          if [[ -f ${tmp_dir}/yt-dlp ]]; then
                  ytexist=$(${base_dir}/yt-dlp --version)
@@ -7186,39 +6949,38 @@ function chkytdlp {
          echo         
 }        
               
-         while true
-         do
-         chkytdlp
-       case $optionytdlp in
-         d)
-         #  DON'T UPDATE
-         rm ${tmp_dir}/* 2>/dev/null
-         cd "$dirtemp"  # restore directory
-         echo
-         echo " Yt-dlp Not Updated . . ."
-         sleep .7
-         break;;
-      
-         u)
-         # UPDATE
-         rm ${base_dir}/yt-dlp 2> /dev/null
-         mv ${tmp_dir}/yt-dlp ${base_dir} 2> /dev/null       
-         ${base_dir}/yt-dlp --version > ${base_dir}/videoinfo.yt-dlp.version
-         rm ${tmp_dir}/* 2>/dev/null
-         cd "$dirtemp"  # restore directory
-         echo
-                 
-         sec=3
-              while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
-              echo -ne " Yt-dlp UPDATED . . . $sec\033[0K\r"
-              let " sec=sec-1"
-              sleep 1
-              done         
-              break;;
-   
-         esac
+         while true; do
+             chkytdlp
+            case $optionytdlp in
+                d)
+                    #  DON'T UPDATE
+                    rm ${tmp_dir}/* 2>/dev/null
+                    cd "$dirtemp"  # restore directory
+                    echo
+                    echo " Yt-dlp Not Updated . . ."
+                    sleep .7
+                    break
+                ;;
+                u)
+                    # UPDATE
+                    rm ${base_dir}/yt-dlp 2> /dev/null
+                    mv ${tmp_dir}/yt-dlp ${base_dir} 2> /dev/null       
+                    ${base_dir}/yt-dlp --version > ${base_dir}/videoinfo.yt-dlp.version
+                    rm ${tmp_dir}/* 2>/dev/null
+                    cd "$dirtemp"  # restore directory
+                    echo
+                            
+                    sec=3
+                    while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
+                        echo -ne " Yt-dlp UPDATED . . . $sec\033[0K\r"
+                        let " sec=sec-1"
+                        sleep 1
+                    done         
+                    break
+                ;;
+            esac
          done
-   else
+    else
          rm ${tmp_dir}/* 2>/dev/null     
          cd "$dirtemp"  # restore directory
          sec=20           
@@ -7227,7 +6989,7 @@ function chkytdlp {
               let "sec=sec-1"
               sleep 1
          done     
-fi
+    fi
 ;;         
 esac
 done
@@ -7330,16 +7092,11 @@ pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard conten
 
 grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
-if [[ "$grabclip" = "http" ]]; then
-      :
-
-  else      
-      if [[ -f "$pasteclip" ]]; then
-            :
-        else
-            echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
-            pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-      fi
+if ! [[ "$grabclip" = "http" ]]; then
+    if ! [[ -f "$pasteclip" ]]; then
+        echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
+        pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+    fi
 fi
 read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir
 #######################  cd "$dirsaved" 
@@ -7468,7 +7225,7 @@ rm ${base_dir}/videoinfox-dl-Default~ 2> /dev/null  # tmp fix
 
 echo "" | xclip -sel clip  # clearing out the clipboard
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null) # grab clipboard content
-function dwnlist {
+dwnlist() {
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
@@ -7555,51 +7312,31 @@ read -r dir5display < ${base_dir}/videoinfox.dir5  # load reformatted default di
 # DEFAULT DIR 5  DISPLAY     IF DIRECTORY ON EXIT  =  DEFAULT DIRECTORIES 1-4 then Display that directory number.
 
 if [[ "$controldir" = "$dir5display" ]]; then 
-
-      if [[ "$dir5display" = "$dir1display" ]]; then
-             dirdisp="$dirdisplay1"
-      fi
-
-      if [[ "$dir5display" = "$dir2display" ]]; then
-             dirdisp="$dirdisplay2"
-      fi
-
-      if [[ "$dir5display" = "$dir3display" ]]; then
-             dirdisp="$dirdisplay3"
-      fi
-
-      if [[ "$dir5display" = "$dir4display" ]]; then
-             dirdisp="$dirdisplay4"
-      fi
+    [[ "$dir5display" = "$dir1display" ]] && dirdisp="$dirdisplay1"
+    [[ "$dir5display" = "$dir2display" ]] && dirdisp="$dirdisplay2"
+    [[ "$dir5display" = "$dir3display" ]] && dirdisp="$dirdisplay3"
+    [[ "$dir5display" = "$dir4display" ]] && dirdisp="$dirdisplay4"
 fi
 
 # DEFAULT DIR 5 DISPLAY
 if [[ "$controldir" = "$dir5display" ]]; then
-       dirdisp="$dirdisplay5"  # if directory is changed to  Default Dir 5 :  The number 5 is normal text and the other 4 are less bold.
-        
-  else
-       dirdisp="$dirdisplayno" # if directory doesn't match  Default Dirs 1-5 : All 5 numbers are less bold.  
+    # if directory is changed to  Default Dir 5 :  The number 5 is normal text and the other 4 are less bold.
+    dirdisp="$dirdisplay5"
+else
+    # if directory doesn't match  Default Dirs 1-5 : All 5 numbers are less bold.  
+    dirdisp="$dirdisplayno"
 fi 
 
 # DEFAULT DIR 1  DISPLAY
-if [[ "$controldir" = "$dir1display" ]]; then 
-       dirdisp="$dirdisplay1"
-fi
-
+[[ "$controldir" = "$dir1display" ]] && dirdisp="$dirdisplay1"
 # DEFAULT DIR 2  DISPLAY
-if [[ "$controldir" = "$dir2display" ]]; then 
-       dirdisp="$dirdisplay2"
-fi
-
+[[ "$controldir" = "$dir2display" ]] && dirdisp="$dirdisplay2"
 # DEFAULT DIR 3  DISPLAY
-if [[ "$controldir" = "$dir3display" ]]; then 
-       dirdisp="$dirdisplay3"
-fi
-
+[[ "$controldir" = "$dir3display" ]] && dirdisp="$dirdisplay3"
 # DEFAULT DIR 4  DISPLAY
-if [[ "$controldir" = "$dir4display" ]]; then 
-       dirdisp="$dirdisplay4"  # if directory is changed to  Default Dir 4 :  The number 4 is normal text and the other 4 are less bold.
-fi
+# if directory is changed to  Default Dir 4 :  The number 4 is normal text and the other 4 are less bold.
+[[ "$controldir" = "$dir4display" ]] && dirdisp="$dirdisplay4"
+
 
 ################################################################################
 ##########  END   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
@@ -7620,11 +7357,11 @@ dash0=$(echo "-")
 
 # if file exists goto then
 if [[ -f "$pasteclip" ]]; then
-      finalresult="$downloadlist1"  # if the file exists: blinking   DOWNLOAD LIST
-      finalresult2="$dash1"  #                            blinking   -
-  else
-      finalresult="$downloadlist0"  # if the file doesn't exist: non blinking   DOWNLOAD LIST
-      finalresult2="$dash0"  # if                                non blinking   -
+    finalresult="$downloadlist1"  # if the file exists: blinking   DOWNLOAD LIST
+    finalresult2="$dash1"  #                            blinking   -
+else
+    finalresult="$downloadlist0"  # if the file doesn't exist: non blinking   DOWNLOAD LIST
+    finalresult2="$dash0"  # if                                non blinking   -
 fi
 
 ########## end blinking routine #################
@@ -7650,16 +7387,13 @@ sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dlname.tmp2  # remove horizonta
 # REFORMATTED CONTROL VARIABLE
 read -r ctmp3 < ${base_dir}/videoinfox.dlname.tmp2  # default list name with full path: with slashes and spaces removed
 if [[ -z "$pasteclip" ]]; then
-        dashit2="$dash0"  # no blink dash for: Set User List and Delete User List
-
-   else
-   
-        if [[ "$ctmp2" = "$ctmp3" ]]; then
-                dashit2="$dash0"  # no blink dash for: Set User List and Delete User List
-
-           else
-                dashit2="$dash1"  #    blink dash for: Set User List and Delete User List
-        fi
+    dashit2="$dash0"  # no blink dash for: Set User List and Delete User List
+else
+    if [[ "$ctmp2" = "$ctmp3" ]]; then
+            dashit2="$dash0"  # no blink dash for: Set User List and Delete User List
+    else
+        dashit2="$dash1"  #    blink dash for: Set User List and Delete User List
+    fi
 fi
 # CONTROL VARIABLE 2  (clear Set User List filename)
 read -r chkulistset < ${base_dir}/videoinfox.set-user-list
@@ -7874,51 +7608,30 @@ read -r dir5display < ${base_dir}/videoinfox.dir5  # load reformatted default di
 # DEFAULT DIR 5  DISPLAY     IF DIRECTORY ON EXIT  =  DEFAULT DIRECTORIES 1-4 then Display that directory number.
 
 if [[ "$controldir" = "$dir5display" ]]; then 
-
-      if [[ "$dir5display" = "$dir1display" ]]; then
-             dirdisp="$dirdisplay1"
-      fi
-
-      if [[ "$dir5display" = "$dir2display" ]]; then
-             dirdisp="$dirdisplay2"
-      fi
-
-      if [[ "$dir5display" = "$dir3display" ]]; then
-             dirdisp="$dirdisplay3"
-      fi
-
-      if [[ "$dir5display" = "$dir4display" ]]; then
-             dirdisp="$dirdisplay4"
-      fi
+    [[ "$dir5display" = "$dir1display" ]] && dirdisp="$dirdisplay1"
+    [[ "$dir5display" = "$dir2display" ]] && dirdisp="$dirdisplay2"
+    [[ "$dir5display" = "$dir3display" ]] && dirdisp="$dirdisplay3"
+    [[ "$dir5display" = "$dir4display" ]] && dirdisp="$dirdisplay4"
 fi
 
 # DEFAULT DIR 5 DISPLAY
 if [[ "$controldir" = "$dir5display" ]]; then
-       dirdisp="$dirdisplay5"  # if directory is changed to  Default Dir 5 :  The number 5 is normal text and the other 4 are less bold.
-        
-  else
-       dirdisp="$dirdisplayno" # if directory doesn't match  Default Dirs 1-5 : All 5 numbers are less bold.  
+    # if directory is changed to  Default Dir 5 :  The number 5 is normal text and the other 4 are less bold.
+    dirdisp="$dirdisplay5"
+else
+    # if directory doesn't match  Default Dirs 1-5 : All 5 numbers are less bold.  
+    dirdisp="$dirdisplayno"
 fi 
 
 # DEFAULT DIR 1  DISPLAY
-if [[ "$controldir" = "$dir1display" ]]; then 
-       dirdisp="$dirdisplay1"
-fi
-
+[[ "$controldir" = "$dir1display" ]] && dirdisp="$dirdisplay1"
 # DEFAULT DIR 2  DISPLAY
-if [[ "$controldir" = "$dir2display" ]]; then 
-       dirdisp="$dirdisplay2"
-fi
-
+[[ "$controldir" = "$dir2display" ]] && dirdisp="$dirdisplay2"
 # DEFAULT DIR 3  DISPLAY
-if [[ "$controldir" = "$dir3display" ]]; then 
-       dirdisp="$dirdisplay3"
-fi
-
+[[ "$controldir" = "$dir3display" ]] && dirdisp="$dirdisplay3"
 # DEFAULT DIR 4  DISPLAY
-if [[ "$controldir" = "$dir4display" ]]; then 
-       dirdisp="$dirdisplay4"  # if directory is changed to  Default Dir 4 :  The number 4 is normal text and the other 4 are less bold.
-fi
+# if directory is changed to  Default Dir 4 :  The number 4 is normal text and the other 4 are less bold.
+[[ "$controldir" = "$dir4display" ]] && dirdisp="$dirdisplay4"
 
 ################################################################################
 ##########  END   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
@@ -8981,7 +8694,7 @@ if [[ "$grabpaste" = "http" ]]; then
       echo "___________________________________________________________________________________________________________________"         
       echo
               
-echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$ytdlplast")  " Duration:" $(ffmpeg -i "$ytdlplast" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+get_file_stats "${ytdlplast}"
 
       echo
       echo " Video Player Controls:"
@@ -9025,7 +8738,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo "___________________________________________________________________________________________________________________"
       echo
 
-      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+      get_file_stats "${pasteclip}"
       echo
       echo
       echo " Video Player Controls:"
@@ -9326,7 +9039,7 @@ if [[ "$grabpaste" = "http" ]]; then
       echo "___________________________________________________________________________________________________________________"         
       echo
               
-echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$ytdlplast")  " Duration:" $(ffmpeg -i "$ytdlplast" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+get_file_stats "${ytdlplast}"
 
       echo
       echo " Video Player Controls:"
@@ -9370,7 +9083,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       echo "___________________________________________________________________________________________________________________"
       echo
 
-      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+      get_file_stats "${pasteclip}"
       echo
       echo
       echo " Video Player Controls:"
@@ -9425,7 +9138,7 @@ if [[ "$istherefiles" = 0 ]]; then
             echo " ""$pasteclip"
             echo  
 
-echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip")  " Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+get_file_stats "${pasteclip}"
 
             echo
             read -r -p " Press enter to Continue" 
@@ -9448,7 +9161,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
                        echo "$playnumber"
                        echo
            
-echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$playnumber")  " Duration:" $(ffmpeg -i "$playnumber" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height & duration
+get_file_stats "${playnumber}"
 
                        echo
                        read -r -p " Press enter to Continue" 
@@ -9471,14 +9184,14 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 find_supported_files > ${tmp_dir}/videoinfox.navtree-play-directory-apa
 
 #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
-atleastone=$(grep '^/' ${tmp_dir}/videoinfox.navtree-play-directory-apa 2>/dev/null | wc -l)
-
-#  IF THE NUMBER DOESN"T = 0  THEN PROCESS AUTO PLAY OF PLAYED LIST
-if (( atleastone == 0 )); then
-    rm ${tmp_dir}/videoinfox.navtree-play-directory-apa 2>/dev/null
-    rm ${tmp_dir}/videoinfox.navtree-play-directory-apa2 2>/dev/null
-    rm ${tmp_dir}/videoinfox.numbered-navtree-play-directory-list 2>/dev/null
-    rm ${tmp_dir}/videoinfox.navtree-play-directory-apa-work 2>/dev/null    
+if ! file_contains '^/' "${tmp_dir}/videoinfox.navtree-play-directory-apa"; then
+    {
+        rm "${tmp_dir}/videoinfox.navtree-play-directory-apa"
+        rm "${tmp_dir}/videoinfox.navtree-play-directory-apa2"
+        rm "${tmp_dir}/videoinfox.numbered-navtree-play-directory-list"
+        rm "${tmp_dir}/videoinfox.navtree-play-directory-apa-work"
+    } 2>/dev/null
+    return
 fi
 
 #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
@@ -9488,15 +9201,14 @@ moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfox.navtree-play-directo
 input="$moddedplayedlist"  
 
 #  CREATE TEMP FILE NEEDED FOR LOOP 
-touch ${tmp_dir}/videoinfox.navtree-play-directory-apa2
+touch "${tmp_dir}/videoinfox.navtree-play-directory-apa2"
 
 #  #  START WRITING
 while read -r line; do
     if [[ -f "${line}" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
-            printf -- '%s\n' "$line" >> "${tmp_dir}/videoinfox.navtree-play-directory-apa2"
+        printf -- '%s\n' "$line" >> "${tmp_dir}/videoinfox.navtree-play-directory-apa2"
     fi
 done < "${moddedplayedlist}"
-#  DONE WRITING ONLY VALID FILES
 
 #  REMOVE BLANK LINES
 squash ${tmp_dir}/videoinfox.navtree-play-directory-apa2 2>/dev/null
@@ -9552,7 +9264,7 @@ for line in $(cat "$input" 2>/dev/null); do
     echo "___________________________________________________________________________________________________________________"
     echo
 
-    echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$line")  " Duration:" $(ffmpeg -i "$line" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+    get_file_stats "${line}"
     
     echo
     echo
@@ -9624,7 +9336,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo "___________________________________________________________________________________________________________________"
       echo
 
-      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$line")  " Duration:" $(ffmpeg -i "$line" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+      get_file_stats "${line}"
       
       echo
       echo
@@ -9689,10 +9401,7 @@ if [[ -f ${tmp_dir}/videoinfo-view-downloads.tmp ]]; then
       # read first line of file for play
       read playnumber < ${tmp_dir}/videoinfo-view-downloads-playnumber.tmp
 
-      if [[ -z "$playnumber" ]]; then
-              :
-
-          else
+      if ! [[ -z "$playnumber" ]]; then
 
       clear
       echo
@@ -9704,7 +9413,7 @@ if [[ -f ${tmp_dir}/videoinfo-view-downloads.tmp ]]; then
       echo "___________________________________________________________________________________________________________________"
       echo
 
-      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$playnumber")  " Duration:" $(ffmpeg -i "$playnumber" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height & duration
+      get_file_stats "${playnumber}"
       echo
       echo
       echo " Video Player Controls:"
@@ -9831,7 +9540,7 @@ fi
               echo "___________________________________________________________________________________________________________________"         
               echo
               
-echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$ytdlplast")  " Duration:" $(ffmpeg -i "$ytdlplast" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+get_file_stats "${ytdlplast}"
 
               echo
               echo " Video Player Controls:"
@@ -10027,50 +9736,30 @@ read -r dir5display < ${base_dir}/videoinfox.dir5  # load reformatted default di
 # DEFAULT DIR 5  DISPLAY     IF DIRECTORY ON EXIT  =  DEFAULT DIRECTORIES 1-4 then Display that directory number.
 
 if [[ "$controldir" = "$dir5display" ]]; then 
-
-      if [[ "$dir5display" = "$dir1display" ]]; then
-             dirdisp="$dirdisplay1"
-      fi
-
-      if [[ "$dir5display" = "$dir2display" ]]; then
-             dirdisp="$dirdisplay2"
-      fi
-
-      if [[ "$dir5display" = "$dir3display" ]]; then
-             dirdisp="$dirdisplay3"
-      fi
-
-      if [[ "$dir5display" = "$dir4display" ]]; then
-             dirdisp="$dirdisplay4"
-      fi
+    [[ "$dir5display" = "$dir1display" ]] && dirdisp="$dirdisplay1"
+    [[ "$dir5display" = "$dir2display" ]] && dirdisp="$dirdisplay2"
+    [[ "$dir5display" = "$dir3display" ]] && dirdisp="$dirdisplay3"
+    [[ "$dir5display" = "$dir4display" ]] && dirdisp="$dirdisplay4"
 fi
 
 # DEFAULT DIR 5 DISPLAY
 if [[ "$controldir" = "$dir5display" ]]; then
-       dirdisp="$dirdisplay5"  # if directory is changed to  Default Dir 5 :  The number 5 is normal text and the other 4 are less bold.
-  else
-       dirdisp="$dirdisplayno" # if directory doesn't match  Default Dirs 1-5 : All 5 numbers are less bold.  
+    # if directory is changed to  Default Dir 5 :  The number 5 is normal text and the other 4 are less bold.
+    dirdisp="$dirdisplay5"
+else
+    # if directory doesn't match  Default Dirs 1-5 : All 5 numbers are less bold.  
+    dirdisp="$dirdisplayno"
 fi 
 
 # DEFAULT DIR 1  DISPLAY
-if [[ "$controldir" = "$dir1display" ]]; then 
-       dirdisp="$dirdisplay1"
-fi
-
+[[ "$controldir" = "$dir1display" ]] && dirdisp="$dirdisplay1"
 # DEFAULT DIR 2  DISPLAY
-if [[ "$controldir" = "$dir2display" ]]; then 
-       dirdisp="$dirdisplay2"
-fi
-
+[[ "$controldir" = "$dir2display" ]] && dirdisp="$dirdisplay2"
 # DEFAULT DIR 3  DISPLAY
-if [[ "$controldir" = "$dir3display" ]]; then 
-       dirdisp="$dirdisplay3"
-fi
-
+[[ "$controldir" = "$dir3display" ]] && dirdisp="$dirdisplay3"
 # DEFAULT DIR 4  DISPLAY
-if [[ "$controldir" = "$dir4display" ]]; then 
-       dirdisp="$dirdisplay4"  # if directory is changed to  Default Dir 4 :  The number 4 is normal text and the other 4 are less bold.
-fi
+# if directory is changed to  Default Dir 4 :  The number 4 is normal text and the other 4 are less bold.
+[[ "$controldir" = "$dir4display" ]] && dirdisp="$dirdisplay4"
 
 ################################################################################
 ##########  END   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
@@ -10096,27 +9785,30 @@ read -r -n1 option
 while true; do
     menu
     case $option in
-q)  # QUIT - <HOME> 
-break ;;
-
-1) # CD DIRECTORY TO TV    
-cd "$dir1" 
-;;
-
-    
-2)  # CD DIRECTORY TO MOVIES
-cd "$dir2" 
-;;
-3)  # CHANGE DIRECTORY TO DOWNLOADS
-cd "$dirsaved" 
-;;
-4)  # CHANGE DIRECTORY TO EXTRA   
-cd "$dir4" 
-;;
-5)  # CHANGE DIRECTORY TO LAST EXIT
-cd "$dir5" 
-;;
-
+        q)
+            # QUIT - <HOME> 
+            break
+        ;;
+        1)
+            # CD DIRECTORY TO TV    
+            cd "$dir1" 
+        ;;
+        2)
+            # CD DIRECTORY TO MOVIES
+            cd "$dir2" 
+        ;;
+        3)
+            # CHANGE DIRECTORY TO DOWNLOADS
+            cd "$dirsaved" 
+        ;;
+        4)
+            # CHANGE DIRECTORY TO EXTRA   
+            cd "$dir4" 
+        ;;
+        5)
+            # CHANGE DIRECTORY TO LAST EXIT
+            cd "$dir5" 
+        ;;
 l)  # LIST DIRECTORY
 ##################################################################################################################################################
 ###########################   MORE OPTIONS l  LIST DIRECTORY  ####################################################################################
@@ -10157,60 +9849,17 @@ echo  >> videoinfo.List-Directory
 #                                                              - ffmpeg for Duration in (hrs:min)
 clear
 
-for i in *.mp4; do 
-  echo "$i";  # display <mp4> filename
-  echo "$i" >> videoinfo.List-Directory  
-  $codecres "$i"  # display <mp4> Codec & Resolution
-  $codecres "$i" >> videoinfo.List-Directory
-  ffmpeg -i "$i" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//  # grep out duration, cut everything after "," then remove the ","
-  ffmpeg -i "$i" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,// >> videoinfo.List-Directory  # writing the same thing to a file
-  echo
-  echo >> videoinfo.List-Directory
+for video_file in *.mp4 *.mkv *.avi *.webm *.divx; do 
+    {
+        printf -- '%s\n' "${video_file}"
+        ffprobe "${ffprobe_opts[@]}" "${video_file}"
+        # grep out duration, cut everything after "," then remove the ","
+        # TODO: Test if "grep Duration | cut -d ' ' -f 4" can be replaced by "awk '/Duration/{print $4}'"
+        ffmpeg -i "${video_file}" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//
+        printf -- '%s\n' ""
+    } | tee -a videoinfo.List-Directory
 done
 
-for i in *.mkv; do 
-  echo "$i"  # display <mkv> filename
-  echo "$i" >> videoinfo.List-Directory
-  $codecres "$i"  # display <mkv> Codec & Resolution$
-  $codecres "$i" >> videoinfo.List-Directory
-  ffmpeg -i "$i" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//  # grep out duration, cut everything after "," then remove the ","
-  ffmpeg -i "$i" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,// >> videoinfo.List-Directory  # writing the same thing to a file
-  echo
-  echo
-  echo >> videoinfo.List-Directory
-  done
-
-for i in *.avi; do 
-  echo "$i"  # display <avi> filename
-  echo "$i" >> videoinfo.List-Directory
-  $codecres "$i"  # display <avi> Codec & Resolution
-  $codecres "$i" >> videoinfo.List-Directory  
-  ffmpeg -i "$i" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//  # grep out duration, cut everything after "," then remove the ","
-  ffmpeg -i "$i" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,// >> videoinfo.List-Directory  # writing the same thing to a file
-  echo
-  echo >> videoinfo.List-Directory
-done
-for i in *.webm; do 
-  echo "$i"  # display <avi> filename
-  echo "$i" >> videoinfo.List-Directory
-  $codecres "$i"  # display <avi> Codec & Resolution
-  $codecres "$i" >> videoinfo.List-Directory  
-  ffmpeg -i "$i" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//  # grep out duration, cut everything after "," then remove the ","
-  ffmpeg -i "$i" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,// >> videoinfo.List-Directory  # writing the same thing to a file
-  echo
-  echo >> videoinfo.List-Directory
-done
-for i in *.divx; do 
-  echo "$i"  # display <divx> filename
-  echo "$i" >> videoinfo.List-Directory
-  $codecres "$i"  # display <divx> Codec & Resolution
-  $codecres "$i" >> videoinfo.List-Directory
-  ffmpeg -i "$i" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//  # grep out duration, cut everything after "," then remove the ","
-  ffmpeg -i "$i" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,// >> videoinfo.List-Directory  # writing the same thing to a file
-  echo
-  echo >> videoinfo.List-Directory
-done
-     
 # echo >> videoinfo.List-Directory
 echo "Total Video Files:" "$currentdirfilecount"
 echo >> videoinfo.List-Directory
@@ -10290,50 +9939,48 @@ find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi"
    fi
 fi
 # Everytime You Save.  The File <videoinfo.List-Directory> is saved to the directory that option 1 was run in.
-function menu1 {
-
-clear
-less videoinfo.List-Directory  # view results from file
-echo
-echo " Directory: ""$PWD"
-echo "___________________________________________________________________________________________________________________"
-echo
-echo " ""$der"" >>> LIST DIRECTORY"                                                  
-echo "___________________________________________________________________________________________________________________"
-echo
-echo " Save or Delete Directory Listing"
-echo
-echo " s - Save     d - Delete"  
-echo 
-echo -en " Enter Option: "
-read -r -n1 option1
-echo
+menu1() {
+    clear
+    less videoinfo.List-Directory  # view results from file
+    echo
+    echo " Directory: ""$PWD"
+    echo "___________________________________________________________________________________________________________________"
+    echo
+    echo " ""$der"" >>> LIST DIRECTORY"                                                  
+    echo "___________________________________________________________________________________________________________________"
+    echo
+    echo " Save or Delete Directory Listing"
+    echo
+    echo " s - Save     d - Delete"  
+    echo 
+    echo -en " Enter Option: "
+    read -r -n1 option1
+    echo
 }
 
-while true; do
-    menu1
-    case $option1 in
-    
-    s) 
-    echo
-    echo " Results SAVED . . ."
-    echo 
-    #read -p "Press enter to Continue"
-    sleep .75
-    break;; 
-        
-    d) 
-    rm videoinfo.List-Directory
-    echo
-    echo " Results DELETED . . ."
-    echo 
-    #read -p "Press enter to Continue"    
-    sleep .75
-    break;;
-      
-        *)
-    
-        esac
+        while true; do
+            menu1
+            case $option1 in
+                s) 
+                    echo
+                    echo " Results SAVED . . ."
+                    echo 
+                    #read -p "Press enter to Continue"
+                    sleep .75
+                    break
+                ;; 
+                d) 
+                    rm videoinfo.List-Directory
+                    echo
+                    echo " Results DELETED . . ."
+                    echo 
+                    #read -p "Press enter to Continue"    
+                    sleep .75
+                    break
+                ;;
+                *)
+                ;;
+            esac
         done
         ;;
 c)
@@ -10356,25 +10003,25 @@ echo
 read -r -p " Enter Directory: " specifydir  # waiting fot user input - the directory you want to chang to 
     
     if [[ -z "$specifydir" ]]; then
-               echo
-               echo " error: Nothing was entered"
-               sleep .75
-          else
-              if [[ -d "$specifydir" ]]; then
-                     echo
-                     cd "$specifydir"   # change the directory
-                     echo " Working Driectory changed to: $PWD"  # <pwd>  print current working directory to the screen
-                     sleep 1.5                   
-                else
-                     echo
-                     echo " error:  No such file or directory"
-                     sleep 1.5                   
-          fi
-    fi       
+        echo
+        echo " error: Nothing was entered"
+        sleep .75
+    else
+        if [[ -d "$specifydir" ]]; then
+            echo
+            cd "$specifydir"   # change the directory
+            echo " Working Driectory changed to: $PWD"  # <pwd>  print current working directory to the screen
+            sleep 1.5
+        else
+            echo
+            echo " error:  No such file or directory"
+            sleep 1.5
+        fi
+    fi
 echo
 #read -p "     Press enter to Continue" 
 ;;
-    
+
 
 f)     
 ##################################################################################################################################################
@@ -10396,47 +10043,43 @@ findmeadir=$(find . -type d -iname "$dirfind" 2>/dev/null | wc -l)   # number of
        
                                                                                        
     if [[ -z "$dirfind" ]]; then
-               echo
-               echo " error: Nothing was entered"  
-               sleep .75  # EXIT THIS LOOP
-          else
-               
-               
-               if echo "$dirfind" | grep "/" > /dev/null 2>/dev/null  # if any slashes were entered goto <then>
-                 then
-                      echo
-                      echo " error: No slashes directory name only"
-                      sleep .75  # EXIT THIS LOOP  
-                 else
-                      echo
-                     find . -type d -iname "$dirfind" | sort -u 2>/dev/null  # directory(s) found   
-                      echo
-                      echo " Total Directories Found:" "$findmeadir"  # number of files found
-      
+        echo
+        echo " error: Nothing was entered"  
+        sleep .75  # EXIT THIS LOOP
+    else
+        if echo "$dirfind" | grep -q "/"; then
+            echo
+            echo " error: No slashes directory name only"
+            sleep .75  # EXIT THIS LOOP  
+        else
+            echo
+            find . -type d -iname "$dirfind" | sort -u 2>/dev/null  # directory(s) found   
+            echo
+            echo " Total Directories Found:" "$findmeadir"  # number of files found
                   
-                 if [[ "$findmeadir" = 0 ]]; then
-                       sleep .75
-                        :  # the colon can be used in place of a command to 'Do Nothing'  Exit this nested loop
-                   else                         
-                        pastetemp=$(xclip -o -selection clipboard 2>/dev/null)  # perserve clipboard content prioir to runnin this function
-                        notify-send "Videoinfox is done processing: Find Directory" "Total Directories Found: $findmeadir" # GUI Notification.
-                        echo       
-                       echo " Chang the directory: Copy 1 line (including the dot) to the Clipboard then press enter"
-                        echo                             
-                        echo " Stay in current directory: enter without copy."
-                      read -r -p " "
-                      pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
-                        cd "$pasteclip" 2>/dev/null 
-                        echo " Working Driectory: ""$PWD"""  # <pwd>  print current working directory to the screen 
-                        echo "$pastetemp" | xclip -sel clip 2>/dev/null  #  reload clipboard content prior to running this function
-                        pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
-                        sleep 1.5            
+            if [[ "$findmeadir" = 0 ]]; then
+                sleep .75
+                :  # the colon can be used in place of a command to 'Do Nothing'  Exit this nested loop
+            else                         
+                pastetemp=$(xclip -o -selection clipboard 2>/dev/null)  # perserve clipboard content prioir to runnin this function
+                notify-send "Videoinfox is done processing: Find Directory" "Total Directories Found: $findmeadir" # GUI Notification.
+                echo       
+                echo " Chang the directory: Copy 1 line (including the dot) to the Clipboard then press enter"
+                echo                             
+                echo " Stay in current directory: enter without copy."
+                read -r -p " "
+                pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
+                cd "$pasteclip" 2>/dev/null 
+                echo " Working Driectory: ""$PWD"""  # <pwd>  print current working directory to the screen 
+                echo "$pastetemp" | xclip -sel clip 2>/dev/null  #  reload clipboard content prior to running this function
+                pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
+                sleep 1.5
+            fi
         fi
-        fi
-        fi              
+    fi
 echo
 
-#read -p "Press enter to Continue"              
+#read -p "Press enter to Continue"
 
 ;;
 n)
@@ -10576,48 +10219,48 @@ notify-send  "Videoinfox is done processing: Video Duration" "$PWD"  # GUI Notif
 # The math was already performed on this file and it is no longer needed.  So it is being removed.  
 #rm ${base_dir}/videoinfo.duration.tmp
 fi
-function menu5 {
-clear
-cat videoinfo.Video-Duration
-echo
-echo "___________________________________________________________________________________________________________________" 
-echo
-echo " ""$der"" >>> VIDEO DURATION - Recursive"
-echo "___________________________________________________________________________________________________________________" 
-echo
-echo " s - Save     d - Delete"  
-echo 
-echo -en " Enter Option: "
-read -r -n1 option5
-echo
+
+menu5() {
+    clear
+    cat videoinfo.Video-Duration
+    echo
+    echo "___________________________________________________________________________________________________________________" 
+    echo
+    echo " ""$der"" >>> VIDEO DURATION - Recursive"
+    echo "___________________________________________________________________________________________________________________" 
+    echo
+    echo " s - Save     d - Delete"  
+    echo 
+    echo -en " Enter Option: "
+    read -r -n1 option5
+    echo
 }
 
 while true; do
     menu5
     case $option5 in
-    
-    s) 
-    echo
-    echo " Results SAVED . . ."
-    echo 
-    #read -p "Press enter to Continue"
-     .75
-    break;; 
-        
-    d) 
-    rm videoinfo.Video-Duration
-    echo
-    echo " Results DELETED . . ."
-    echo 
-    #read -p "Press enter to Continue"    
-    sleep .75
-    break;;
-
-         *)
-
-         esac
-         done
-         ;;
+        s) 
+            echo
+            echo " Results SAVED . . ."
+            echo 
+            #read -p "Press enter to Continue"
+            .75
+            break
+        ;; 
+        d) 
+            rm videoinfo.Video-Duration
+            echo
+            echo " Results DELETED . . ."
+            echo 
+            #read -p "Press enter to Continue"    
+            sleep .75
+            break
+        ;;
+        *)
+        ;;
+    esac
+done
+;;
 v)
 ##################################################################################################################################################
 ###########################   MORE OPTIONS v  ENTER VIDEO FILE  ##################################################################################
@@ -10638,23 +10281,23 @@ read -r -p " Video File: " specifyfile  # waiting fot user input - video file to
 echo
 
         if [[ -z "$specifyfile" ]]; then
-              echo " error: Nothing was entered"
-              sleep .7
-          else  
-               if [[ -f "$specifyfile" ]]; then
-                       echo "$specifyfile"  | xclip -sel clip  # copy valid file to the cilpboard for play
-                       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-                       
-echo " Video Info: "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$pasteclip") "Duration:" $(ffmpeg -i "$pasteclip" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
-                       echo
-                       echo " Filename copied to clipboard for play"
-                       echo
-                       read -r -p " Press enter to Continue" 
-                else
-                       echo " error: No such file or directory"
-                       sleep .7
-          fi      
-          fi
+            echo " error: Nothing was entered"
+            sleep .7
+        else  
+            if [[ -f "$specifyfile" ]]; then
+                echo "$specifyfile"  | xclip -sel clip  # copy valid file to the cilpboard for play
+                pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+
+                get_file_stats "${pasteclip}"
+                echo
+                echo " Filename copied to clipboard for play"
+                echo
+                read -r -p " Press enter to Continue" 
+            else
+                echo " error: No such file or directory"
+                sleep .7
+            fi
+        fi
 
     echo
     ;;
@@ -10687,7 +10330,7 @@ echo -e "\n"
 
 #   The Line Below gets the Codec & Resolution from a video file.
 #   NOTE : Do NOT include  <  >   around the filename. 
-#   ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 <filename>
+#   ffprobe "${ffprobe_opts[@]}" <filename>
 
 #   The Line Below gets the Duration from video file and dsiplays in  <Days:Hours:Minutes:Seconds>
 #   NOTE :  Save Double Quotes around the filename. 
