@@ -68,11 +68,11 @@ write_user_set_list() {
         echo "$pasteclip" >> "$grabuserlist"  # write url to the user set list
         notify-send "Videoinfox Message: Added link to List ${grabuserlist}  . . ." "${pasteclip}" # GUI Notification.
     
-        cat -n "$grabuserlist" | sort -uk2 | sort -n | cut -f2- > ${base_dir}/videoinfox.ulistfly.tmp  # REMOVE DUPLICATES
-        sed -i '/^$/d' ${base_dir}/videoinfox.ulistfly.tmp  # remove any blank lines in the list
-        sed -i '/http/!d' ${base_dir}/videoinfox.ulistfly.tmp  # remove all lines not starting with  http
+        cat -n "$grabuserlist" | sort -uk2 | sort -n | cut -f2- > "${base_dir}/videoinfox.ulistfly.tmp"  # REMOVE DUPLICATES
+        sed -i '/^$/d' "${base_dir}/videoinfox.ulistfly.tmp"  # remove any blank lines in the list
+        sed -i '/http/!d' "${base_dir}/videoinfox.ulistfly.tmp"  # remove all lines not starting with  http
     
-        mv ${base_dir}/videoinfox.ulistfly.tmp "$grabuserlist"
+        mv "${base_dir}/videoinfox.ulistfly.tmp" "${grabuserlist}"
 
         echo "" | xclip -sel clip  # clearing out the clipboard
         exit
@@ -96,20 +96,20 @@ write_default_list() {
     # This file should always exist:   ${base_dir}/videoinfox-dl-Default   if it doesn't, it will be created
     if [[ ! -f "${base_dir}/videoinfox-dl-Default" ]]; then
         # CREATING EMPTY DEFAULT DOWNLOAD LIST WITH LIST EMPTY MESSAGE
-        echo > ${base_dir}/videoinfox-dl-Default
-        echo "Default Download List Empty" >> ${base_dir}/videoinfox-dl-Default
+        touch "${base_dir}/videoinfox-dl-Default"
+        echo "Default Download List Empty" >> "${base_dir}/videoinfox-dl-Default"
     fi
     # ADD TO DEFAULT LIST  <DEFAULT LIST>
     pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-    echo "$pasteclip" >> ${base_dir}/videoinfox-dl-Default  # write url to the default download list
-    notify-send "Videoinfox added link to the Default Download List . . ." ""$pasteclip"" # GUI Notification.
+    echo "$pasteclip" >> "${base_dir}/videoinfox-dl-Default"  # write url to the default download list
+    notify-send "Videoinfox added link to the Default Download List . . ." "${pasteclip}" # GUI Notification.
 
     # REMOVE DUPLICATES
-    cat -n ${base_dir}/videoinfox-dl-Default | sort -uk2 | sort -n | cut -f2- > ${base_dir}/videoinfox-dl-Default.tmp
-    mv ${base_dir}/videoinfox-dl-Default.tmp ${base_dir}/videoinfox-dl-Default
+    cat -n "${base_dir}/videoinfox-dl-Default" | sort -uk2 | sort -n | cut -f2- > "${base_dir}/videoinfox-dl-Default.tmp"
+    mv "${base_dir}/videoinfox-dl-Default.tmp" "${base_dir}/videoinfox-dl-Default"
 
-    sed -i '/^$/d' ${base_dir}/videoinfox-dl-Default 2>/dev/null  # remove any blank lines in the list
-    sed -i '/http/!d' ${base_dir}/videoinfox-dl-Default  # remove all lines not starting with  http
+    sed -i '/^$/d' "${base_dir}/videoinfox-dl-Default" 2>/dev/null  # remove any blank lines in the list
+    sed -i '/http/!d' "${base_dir}/videoinfox-dl-Default"  # remove all lines not starting with  http
 
     echo "" | xclip -sel clip  # clearing out the clipboard
 
@@ -153,7 +153,7 @@ exit 0
 #-------------------------------------------------------------------------------------------------------------------------------------------------
 
 # -u  This option can be used with your own ready to download url list that can be any name and location
-if [[ "$1" = "-u" ]]; then 
+use_custom_list() {
     clear
     echo
     echo "___________________________________________________________________________________________________________________"
@@ -269,8 +269,8 @@ if [[ "$1" = "-u" ]]; then
         echo
         exit
     fi    
+}
 
-fi
 #-------------------------------------------------------------------------------------------------------------------------------------------------
 #  videoinfox -d     PLAY DIRECTORY.  AUTOPLAY VIDEO FILES IN THE CURRENT DIRECTORY
 #-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -579,12 +579,10 @@ if [[ ! -d "$direxist" ]]; then
 
            sec=36
            while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
-                                
                 echo -ne " Downloading Yt-dlp in: $sec\033[0K\r"
                 let "sec=sec-1"
                 sleep 1
-              
-           done                  
+           done
 
  
 # Yt-dlp initial download attempt on the first run. If it fails, download will be re-attempted when you select the Yt-dlp Menu.
@@ -727,152 +725,151 @@ fi
 #####  6. CREATE DOWNLOAD LIST HELP FILE  ######################################################################################################## 
 ##################################################################################################################################################
 
-echo  > ${base_dir}/videoinfox.download-list-help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help 
-echo " "$ver" >>> DOWNLOAD LIST >>> HELP                                                            q - Quit" >> ${base_dir}/videoinfox.download-list-help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo " There is a Default List and User Created Lists.  If a list is deleted, it's log file will also be deleted." >> ${base_dir}/videoinfox.download-list-help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo " DEFAULT LIST:  - There is just one Default List." >> ${base_dir}/videoinfox.download-list-help
-echo "                - The list resides in Videoinfox's .config directory and is maintained by the script." >> ${base_dir}/videoinfox.download-list-help
-echo "                - Script Directory location is irrelevant.  The Default List will follow the user." >> ${base_dir}/videoinfox.download-list-help
-echo "                - Video URL's' are always downloaded to the default Download Directory." >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "                  Default List Companion: videoinfox -a" >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "                  TO SETUP:  Make a gui shortcut for  videoinfox -a  (no space after the a)" >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "                  The shortcut varies per terminal. I use Mate Terminal and this is my shortcut command:" >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "                  mate-terminal --command=\"videoinfox -a\"" >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "                  TO USE:  Copy a Video URL to the clipboard then use the  videoinfox -a  shortcut." >> ${base_dir}/videoinfox.download-list-help
-echo "                           That will add the URL to the Default List.  Rinse and repeat until done." >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "                  Keep pasting your clipboard copies on the fly to the Default List without running Videoinfox." >> ${base_dir}/videoinfox.download-list-help
-echo "                  When done making the list, start Videoinfox. Load the list and Download." >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "                  Note: Clipboard will be cleared everytime you run the shortcut." >> ${base_dir}/videoinfox.download-list-help
-echo "                        Videoinfox doesn't need to be running to use the shortcut." >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo " USER LISTS:    - Unlimited User Lists." >> ${base_dir}/videoinfox.download-list-help
-echo "                - Lists can be put anywhere and named." >> ${base_dir}/videoinfox.download-list-help
-echo "                - Script Directory location is relavant to having access to the User Lists in Videoinfox." >> ${base_dir}/videoinfox.download-list-help
-echo "                - Video URL's are always downloaded to the directory of the list's location." >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "                  User Set List Companion: videoinfox -l" >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "                  TO SETUP:  Make a gui shortcut for  videoinfox -l  (no space after the l)" >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "                  The shortcut varies per terminal. I use Mate Terminal and this is my shortcut command:" >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "                  mate-terminal --command=\"videoinfox -l\"" >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "                  TO USE:  Copy a Video URL to the clipboard then use the  videoinfox -l  shortcut." >> ${base_dir}/videoinfox.download-list-help
-echo "                           That will add the URL to the User Set List.  Rinse and repeat until done." >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "                  Keep pasting your clipboard copies on the fly to the User Set List without running Videoinfox." >> ${base_dir}/videoinfox.download-list-help
-echo "                  When done making the list, start Videoinfox. Load the list and Download." >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "                  *** A User List must be set first for the  videoinfox -l  shortcut to work ***" >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "                  Create an empty User List.  Select: Create User List.  Give the list a name." >> ${base_dir}/videoinfox.download-list-help
-echo "                  The new list will be displayed at the top of the screen.  Copy the entire line to the clipboard." >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "                  Then select: Set User List.  Your all set and ready to go.  You can exit Videoinfox if you want." >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "                  Note: Clipboard will be cleared everytime you run the shortcut." >> ${base_dir}/videoinfox.download-list-help
-echo "                        Videoinfox doesn't need to be running to use the shortcut." >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "   *** The User Lists can be anywhere so lists need to be recursively reachable from the current directory ***" >> ${base_dir}/videoinfox.download-list-help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "                  When a User List is set," >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "                  It will be stored until 1 of the 3 events happen:  - The list is downloaded" >> ${base_dir}/videoinfox.download-list-help
-echo "                                                                     - The list is deleted" >> ${base_dir}/videoinfox.download-list-help
-echo "                                                                     - Another list is set" >> ${base_dir}/videoinfox.download-list-help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "                  You can also make a list with your preferred text editor." >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "                  The download list name always has to beigin with: videoinfox-dl to be accessed by Videoinfox." >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "                  Add anything to the end of the filename." >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "                  Sample download list name: videoinfox-dl-funny-videos" >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "                  One video URL per line starting at line 1. No Spaces." >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo " COMMAND LINE OPTION: videoinfox -u" >> ${base_dir}/videoinfox.download-list-help       
-echo >> ${base_dir}/videoinfox.download-list-help
-echo " This option can be used with your own ready to download url list that can be any name and location." >> ${base_dir}/videoinfox.download-list-help 
-echo " There is no need to use the Videoinfox interface with this option. Videos will be downloaded to the" >> ${base_dir}/videoinfox.download-list-help 
-echo " directory of the list location.  Example: videoinfox -u mylist  Only enter the list filename." >> ${base_dir}/videoinfox.download-list-help 
-echo " The list must be recursively reachable from the current directory." >> ${base_dir}/videoinfox.download-list-help       
-echo " The first line in the list must begin with http to be processed." >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo " videoinfox -h  will also display the above instuctions for: videoinfox -u" >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo " Erorr correction on all Download Lists:  - remove all lines that don't start with  http" >> ${base_dir}/videoinfox.download-list-help
-echo "                                          - remove all duplicate lines." >> ${base_dir}/videoinfox.download-list-help
-echo "                                          - remove all empty lines." >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "                                          * Download lists will be edited if they contain any of the above errors." >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo " DOWNLOAD QUEUE: Batch download multiple Videoinfox Created User Lists." >> ${base_dir}/videoinfox.download-list-help
-echo "                 Copy a User List to the clipboard, enter to update then select Add to Queue." >> ${base_dir}/videoinfox.download-list-help
-echo "                 When done adding User Lists to the queue, select Download Queue." >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "          Notes: Pressing enter after making a selection isn't necessary before selecting an option. Pressing enter" >> ${base_dir}/videoinfox.download-list-help
-echo "                 after clipboard copy will update the clipboard display and show what options are available." >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "                 If there is a User Set List and it gets processed by Download Queue, It will be cleared after" >> ${base_dir}/videoinfox.download-list-help
-echo "                 download. The list will be left untouched. It will just be cleard from User Set List." >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "                 User Lists will always be downloaded to the directory of the list's location." >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo " CREATE DIRECTORY: Easily create directories for your Download Lists with Navigate Tree & Default Dirs Interface." >> ${base_dir}/videoinfox.download-list-help
-echo "                   After directory creation, Change to directory. Then Create User List." >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
-echo >> ${base_dir}/videoinfox.download-list-help
+cat << EOF > "${base_dir}/videoinfox.download-list-help"
+___________________________________________________________________________________________________________________
+ 
+ "$ver" >>> DOWNLOAD LIST >>> HELP                                                            q - Quit
+___________________________________________________________________________________________________________________
+
+ There is a Default List and User Created Lists.  If a list is deleted, it's log file will also be deleted.
+___________________________________________________________________________________________________________________
+
+
+ DEFAULT LIST:  - There is just one Default List.
+                - The list resides in Videoinfox's .config directory and is maintained by the script.
+                - Script Directory location is irrelevant.  The Default List will follow the user.
+                - Video URL's' are always downloaded to the default Download Directory.
+
+
+                  Default List Companion: videoinfox -a
+
+                  TO SETUP:  Make a gui shortcut for  videoinfox -a  (no space after the a)
+
+
+                  The shortcut varies per terminal. I use Mate Terminal and this is my shortcut command:
+
+                  mate-terminal --command=\"videoinfox -a\"
+
+
+                  TO USE:  Copy a Video URL to the clipboard then use the  videoinfox -a  shortcut.
+                           That will add the URL to the Default List.  Rinse and repeat until done.
+
+
+                  Keep pasting your clipboard copies on the fly to the Default List without running Videoinfox.
+                  When done making the list, start Videoinfox. Load the list and Download.
+
+                  Note: Clipboard will be cleared everytime you run the shortcut.
+                        Videoinfox doesn't need to be running to use the shortcut.
+
+___________________________________________________________________________________________________________________
+
+
+ USER LISTS:    - Unlimited User Lists.
+                - Lists can be put anywhere and named.
+                - Script Directory location is relavant to having access to the User Lists in Videoinfox.
+                - Video URL's are always downloaded to the directory of the list's location.
+
+
+                  User Set List Companion: videoinfox -l
+
+                  TO SETUP:  Make a gui shortcut for  videoinfox -l  (no space after the l)
+
+
+                  The shortcut varies per terminal. I use Mate Terminal and this is my shortcut command:
+
+                  mate-terminal --command=\"videoinfox -l\"
+
+
+                  TO USE:  Copy a Video URL to the clipboard then use the  videoinfox -l  shortcut.
+                           That will add the URL to the User Set List.  Rinse and repeat until done.
+
+
+                  Keep pasting your clipboard copies on the fly to the User Set List without running Videoinfox.
+                  When done making the list, start Videoinfox. Load the list and Download.
+
+
+                  *** A User List must be set first for the  videoinfox -l  shortcut to work ***
+
+                  Create an empty User List.  Select: Create User List.  Give the list a name.
+                  The new list will be displayed at the top of the screen.  Copy the entire line to the clipboard.
+
+                  Then select: Set User List.  Your all set and ready to go.  You can exit Videoinfox if you want.
+
+                  Note: Clipboard will be cleared everytime you run the shortcut.
+                        Videoinfox doesn't need to be running to use the shortcut.
+
+
+___________________________________________________________________________________________________________________
+
+   *** The User Lists can be anywhere so lists need to be recursively reachable from the current directory ***
+___________________________________________________________________________________________________________________
+
+
+                  When a User List is set,
+
+                  It will be stored until 1 of the 3 events happen:  - The list is downloaded
+                                                                     - The list is deleted
+                                                                     - Another list is set
+___________________________________________________________________________________________________________________
+
+
+                  You can also make a list with your preferred text editor.
+
+                  The download list name always has to beigin with: videoinfox-dl to be accessed by Videoinfox.
+
+                  Add anything to the end of the filename.
+
+
+                  Sample download list name: videoinfox-dl-funny-videos
+
+
+                  One video URL per line starting at line 1. No Spaces.
+
+___________________________________________________________________________________________________________________
+
+
+ COMMAND LINE OPTION: videoinfox -u       
+
+ This option can be used with your own ready to download url list that can be any name and location. 
+ There is no need to use the Videoinfox interface with this option. Videos will be downloaded to the 
+ directory of the list location.  Example: videoinfox -u mylist  Only enter the list filename. 
+ The list must be recursively reachable from the current directory.       
+ The first line in the list must begin with http to be processed.
+
+ videoinfox -h  will also display the above instuctions for: videoinfox -u
+
+___________________________________________________________________________________________________________________
+
+
+ Erorr correction on all Download Lists:  - remove all lines that don't start with  http
+                                          - remove all duplicate lines.
+                                          - remove all empty lines.
+
+                                          * Download lists will be edited if they contain any of the above errors.
+
+___________________________________________________________________________________________________________________
+
+
+ DOWNLOAD QUEUE: Batch download multiple Videoinfox Created User Lists.
+                 Copy a User List to the clipboard, enter to update then select Add to Queue.
+                 When done adding User Lists to the queue, select Download Queue.
+
+          Notes: Pressing enter after making a selection isn't necessary before selecting an option. Pressing enter
+                 after clipboard copy will update the clipboard display and show what options are available.
+
+                 If there is a User Set List and it gets processed by Download Queue, It will be cleared after
+                 download. The list will be left untouched. It will just be cleard from User Set List.
+
+                 User Lists will always be downloaded to the directory of the list's location.
+
+___________________________________________________________________________________________________________________
+
+
+ CREATE DIRECTORY: Easily create directories for your Download Lists with Navigate Tree & Default Dirs Interface.
+                   After directory creation, Change to directory. Then Create User List.
+
+___________________________________________________________________________________________________________________
+EOF
 #####  DOWNLOAD LIST HELP COMPLETED  ############################################################################################################# 
 ##################################################################################################################################################
 ##################################################################################################################################################
@@ -884,223 +881,225 @@ echo >> ${base_dir}/videoinfox.download-list-help
 
 #  else
 
-echo "___________________________________________________________________________________________________________________" > ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " $ver  Where Video Play Is A Clipboard Copy Away" >> ${base_dir}/videoinfo.help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo.help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " Up & Down Arrows or Mouse wheel - scroll                                                             Home - top" >> ${base_dir}/videoinfo.help
-echo " q - quit                                                                                             End - bottom" >> ${base_dir}/videoinfo.help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo.help
-echo  >> ${base_dir}/videoinfo.help
-echo " Find local Video Files fast and watch immediately. Download Video URL's effortlessly and watch immediately." >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " Add URL's to The Default Download list on the fly without leaving your gui or starting up Videoinfox." >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " Add URL's to any User Set List on the fly without leaving your gui or starting up Videoinfox." >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " Batch download all of your User Created url Lists with Yt-dlp and Videoinfox's Download Queue." >> ${base_dir}/videoinfo.help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " Version History is located in:  Settings (set)" >> ${base_dir}/videoinfo.help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " Find videos to play or get info on: Change to a parent directory of your video library and select Find." >> ${base_dir}/videoinfo.help
-echo " You can also select Show All to display all videos recursively." >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " Search Tips:  The files you search for have to be in the path of the current directory." >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " Using example filename:   The Reunion Show   and what searches would find it." >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " the*      would find files starting with:  the" >> ${base_dir}/videoinfo.help     
-echo >> ${base_dir}/videoinfo.help
-echo " *ion*     would find files with:  ion  anywhere in the file name from the beginning to the end." >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " *show     would find files that ended with:  show" >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " With search results on the screen, select Play Line and enter the number that you want to play." >> ${base_dir}/videoinfo.help  
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " 1 2 3 4 5 - Default Dirs  One keypress to change default directories. <Set> to set default directories" >> ${base_dir}/videoinfo.help     
-echo >> ${base_dir}/videoinfo.help
-echo " Default 1-4 have display priority over 5. So if your directory on last exit (5) equals 1-4,  1-4 gets the display.  " >> ${base_dir}/videoinfo.help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " Last Search  <set>  If search results are not manually deleted <Clear Results> before exit," >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo "                     Three Choices:     1 - Always Save     2 - Never Save     3 - Ask on Exit" >> ${base_dir}/videoinfo.help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " To use Play Clipboard:" >> ${base_dir}/videoinfo.help 
-echo >> ${base_dir}/videoinfo.help 
-echo " Copy a video url to the clipboard and press enter to verify the url is valid." >> ${base_dir}/videoinfo.help  
-echo " Then  p  to Download and Autoplay Fullscreen." >> ${base_dir}/videoinfo.help 
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help 
-echo >> ${base_dir}/videoinfo.help
-echo " Clipboard copy is used to interact with Videoinfox in the following areas:" >> ${base_dir}/videoinfo.help 
-echo >> ${base_dir}/videoinfo.help
-echo " Download video url's (yt-dlp) with Play Clipboard, Download Default, Download Choose and Self Destruct." >> ${base_dir}/videoinfo.help 
-echo " Copy a url link (entire line) to the clipboard before selecting any of the above options." >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " Loading Download List, View Logs, and Add to Queue." >> ${base_dir}/videoinfo.help
-echo " Copy a list (entire line) to the clipboard before selecting any of the above options." >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " Note: Optional. Press enter after clipboard copy to update the clipboard display to see all available options." >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " Yt-dlp Menu    d - Download Default... Yt-dlp with no arguements." >> ${base_dir}/videoinfo.help
-echo "                c - Download Choose.... Choose video type and quality before download." >> ${base_dir}/videoinfo.help
-echo "                s - Self Destruct...... Download, auto play then delete when the video player is quit." >> ${base_dir}/videoinfo.help
-echo "                g - Download List...... Instructions are located in Help on the Download List screen." >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " Last Download works with Play Clipboard, Download Default and Download Choose." >> ${base_dir}/videoinfo.help
-echo " Self Destruct isn't written to Last Download because the video is deleted after closing the player."  >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " Note: Vidoeinfox keeps its own yt-dlp copy in:  ${base_dir}" >> ${base_dir}/videoinfo.help
-echo "       On every start of Videoinfox, it will check for its own update and notify if an update is available." >> ${base_dir}/videoinfo.help
-echo "       No auto update checks are done for Yt-dlp.  To check for a Yt-dlp update and install update: Settings (Set)"  >> ${base_dir}/videoinfo.help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " Autoplay Features:" >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " Play Clipboard: Download and autoplay a video url that is in the clipboard." >> ${base_dir}/videoinfo.help
-echo "                 This option always writes to the Played List." >> ${base_dir}/videoinfo.help
-echo "                 Available in: Home Screen, Played List, Playlist, Yt-dlp Menu and View Downloads." >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " Play Directory: Autoplay all videos in the current directory from beginning to end of the directory listing." >> ${base_dir}/videoinfo.help
-echo "                 This option never writes to the Played List." >> ${base_dir}/videoinfo.help
-echo "                 Available in: Home Screen, Navigate Tree and View Downloads." >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " Autoplay Line:  Autoplay from line number entered to the end of the list." >> ${base_dir}/videoinfo.help
-echo "                 This option never writes to the Played List." >> ${base_dir}/videoinfo.help
-echo "                 Available in: Home Screen, Navigate Tree, Played List, Play List and View Downloads." >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " Play Line:      Only play the line number entered." >> ${base_dir}/videoinfo.help
-echo "                 This option always writes to the Played List." >> ${base_dir}/videoinfo.help
-echo "                 Available in: Home Screen, Navigate Tree, Played List. Play List and View Downloads" >> ${base_dir}/videoinfo.help
-echo "                 Note: One exception. The Playlist will never write to the Played List." >> ${base_dir}/videoinfo.help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " Create Unlimited Playlists." >>${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " Playlist Add: Add videos to a playlist from the 3 below sources." >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " - Home Screen. Add videos from recursive search results or recursive directory listings to the Playlist." >>${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " - Navigate Tree. Add videos from one level deep directory listings to the Playlist." >>${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " - Navigate Tree >>> Show All - Directory To Playlist. Add all videos in the current directory to a new Playlist." >>${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " - Played List. Add videos from Played List to the Playlist." >>${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo "                Play Clipboard, Last Download and Play Line all write to the Played List." >>${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo "                Note: One exception. Play Line in View Playlist never writes to the Played List." >>${base_dir}/videoinfo.help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " Navigate Tree: Whatever the directory is when entering Navigate Tree will be set as the Treetop." >> ${base_dir}/videoinfo.help
-echo "                Recursive Navigation from the Treetop." >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo "                While in Navigate Tree, there are two ways to change the Treetop." >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo "                - Default Dirs" >> ${base_dir}/videoinfo.help
-echo "                - Change Treetop" >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " videoinfox -h to see command line options." >> ${base_dir}/videoinfo.help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " When you use:  Videoinfox Update in Settings (Set), the update will always be applied to: /usr/local/bin" >> ${base_dir}/videoinfo.help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo.help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo "  Play Clipboard voodoo wouldn't have been possible without XCLIP" >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo "  Download feature wouldn't have been possible without YT-DLP" >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo "  Videoinfox Features:" >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo "  - Navigation was designed to be robust and efficient. One keypress for all menu selections." >> ${base_dir}/videoinfo.help 
-echo "  - Check for update on startup and notifity if update is available. Download and update in Videoinfox." >> ${base_dir}/videoinfo.help
-echo "  - Play a local file by entering the line number. Play single video or autoplay the entire list." >> ${base_dir}/videoinfo.help
-echo "  - Create unlimited Playlists from: Recusive search results, Recursive directory listings and the Played List" >> ${base_dir}/videoinfo.help
-echo "  - Play Clipboard: Blinking notification when there is a valid video url for play." >> ${base_dir}/videoinfo.help
-echo "  - Play Clipboard: Download a video url that is in the clipboard via Yt-dlp and autoplay." >> ${base_dir}/videoinfo.help
-echo "  - Play Clipboard is available in: Home  Played List  Play List  Yt-dlp Menu  View Downloads" >> ${base_dir}/videoinfo.help
-echo "  - See codec, resolution and duration on the playing video." >> ${base_dir}/videoinfo.help
-echo "  - Play Directory autoplay available in: Home Screen, Navigate Tree and View Downloads." >> ${base_dir}/videoinfo.help
-echo "  - Autoplay video files in the current directory with option to quit. videoinfox -d" >> ${base_dir}/videoinfo.help
-echo "  - Blinking Play Directory otification when there are video files in the current directory." >> ${base_dir}/videoinfo.help
-echo "  - Navigate Tree Blinking Change Directory notification when there is a valid directory in the clipboard." >> ${base_dir}/videoinfo.help
-echo "  - Navigate Tree with Play Directory autoplay and Play Line with autoplay. Select line number to start play." >> ${base_dir}/videoinfo.help
-echo "  - Video Player (ffplay) auto closes when the video ends." >> ${base_dir}/videoinfo.help
-echo "  - Auto clear the clipboard after the video player is closed." >> ${base_dir}/videoinfo.help
-echo "  - To watch the last download after Play Clipboard cleared the link select Last Download." >> ${base_dir}/videoinfo.help
-echo "  - Auto clear the clipboard of invalid files and urls." >> ${base_dir}/videoinfo.help
-echo "  - Press enter after your copy to the clipboard to validate clipboard content." >> ${base_dir}/videoinfo.help
-echo "  - File types searched for: .webm   .mp4   .mkv   .avi   .divx" >> ${base_dir}/videoinfo.help
-echo "  - Rapid directory changing by setting default directories (4) in Settings. The 5th is dir at last exit." >> ${base_dir}/videoinfo.help
-echo "  - Default Dirs - 1 2 3 4 5  available in: Home  Navigate Tree  Download List  More Options" >> ${base_dir}/videoinfo.help
-echo "  - Play Line option. Only play the line number entered and write to Played List." >> ${base_dir}/videoinfo.help
-echo "  - Autoplay Line option. Start autoplay from any line in the Played List by entering the line number." >> ${base_dir}/videoinfo.help
-echo "  - Played List will keep track of everything played except for Play Directory and Autoplay Line." >> ${base_dir}/videoinfo.help
-echo "  - Played List: Play All option that will auto play the entire list with option to quit." >> ${base_dir}/videoinfo.help
-echo "  - Playlist: Save a list of videos from search results, directory listings and Played List." >> ${base_dir}/videoinfo.help
-echo "  - Remove duplicates from the Playlist and Played List." >> ${base_dir}/videoinfo.help
-echo "  - Enter a video file with full path to get info on and play." >> ${base_dir}/videoinfo.help
-echo "  - Auto save last find result(s) and autoload until deleted. Defaulted to never save. Change in Settings." >> ${base_dir}/videoinfo.help
-echo "  - Yt-dlp integration for easy download and play of single url's or entire lists." >> ${base_dir}/videoinfo.help
-echo "  - Download Queue: Add unlimited Videoinfox User Download Lists to the queue for download." >> ${base_dir}/videoinfo.help
-echo "  - Download Default: Yt-dlp with no arguments. Download only. No auto play." >> ${base_dir}/videoinfo.help
-echo "  - Download Choose: Choose video type and quality before download. Download only. No auto play." >> ${base_dir}/videoinfo.help
-echo "  - Self Destruct: Download, auto play, delete when the player is closed." >> ${base_dir}/videoinfo.help
-echo "  - Last Download available in: Home and Yt-dlp Menu for: Play Clipboard, Download Default and Download Choose." >> ${base_dir}/videoinfo.help
-echo "  - Download List: Blinking notification on list load." >> ${base_dir}/videoinfo.help
-echo "  - View Logs: Blinking notification on log load." >> ${base_dir}/videoinfo.help
-echo "  - Default List: Keep pasting Video URL's on the fly from the clipboard to the Default List." >> ${base_dir}/videoinfo.help
-echo "  - Default List companion: Create a gui shortcut for: videoinfox -a  to add to the Default List." >> ${base_dir}/videoinfo.help
-echo "  - Unlimited User Lists: Keep pasting Video URL's on the fly from the clipboard to the User Set List." >> ${base_dir}/videoinfo.help
-echo "  - User Set List companion: Create a gui shortcut for: videoinfox -l  to add to the User Set list." >> ${base_dir}/videoinfo.help
-echo "  - Download any list. Any name and location. No need to use the Videoinfox interface: videoinfox -u listname" >> ${base_dir}/videoinfo.help
-echo "  - Download and update Yt-dlp in Videoinfox." >> ${base_dir}/videoinfo.help
-echo "  - Save directory state on exit to load on next run." >> ${base_dir}/videoinfo.help
-echo "  - Change directory by entering full path." >> ${base_dir}/videoinfo.help
-echo "  - Find directory and change to it by copying it to clipboard." >> ${base_dir}/videoinfo.help
-echo "  - List video info one directory deep. Save per directory." >> ${base_dir}/videoinfo.help
-echo "  - Recursive count of videos broken down by video type." >> ${base_dir}/videoinfo.help
-echo "  - Recursive duration (days:hrs:min:sec) Save per directory." >> ${base_dir}/videoinfo.help
-echo "  - GUI notifications." >> ${base_dir}/videoinfo.help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo.help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " Privacy Policy: Videoinfox will never collect or attempt to transmit any information on it's users." >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo "                 Internet activity will only happen under the following circumstances:" >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo "                 - On First Run, Github will be contacted to download Yt-dlp." >> ${base_dir}/videoinfo.help
-echo "                 - On every start, Github will be contacted to download Videoinfox for Update Available Check." >> ${base_dir}/videoinfo.help
-echo "                 - Everytime Videoinfox Update or Yt-dlp Update is selected in Settings, Github will be contacted." >> ${base_dir}/videoinfo.help
-echo "                 - If there isn't a copy of Yt-dlp in Videoinfox's config directory, Github will be contacted" >> ${base_dir}/videoinfo.help
-echo "                   everytime you select the Yt-dlp Menu to attempt a download of Yt-dlp." >> ${base_dir}/videoinfo.help
-echo "                 - Everytime Yt-dlp is used to download a video url." >> ${base_dir}/videoinfo.help
-echo "                   Refer to Yt-dlp's site for their privacy policy. https://github.com/yt-dlp/yt-dlp" >> ${base_dir}/videoinfo.help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " Thanks for checking out Videoinfox!  If you encounter any issues: Reddit /videoinfox" >> ${base_dir}/videoinfo.help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
-echo " If Videoinfox is removed, the directory  ${base_dir}  will have to be manually deleted." >> ${base_dir}/videoinfo.help
-echo "___________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo.help
-echo >> ${base_dir}/videoinfo.help
+cat << EOF > "${base_dir}/videoinfo.help"
+___________________________________________________________________________________________________________________
+
+ $ver  Where Video Play Is A Clipboard Copy Away
+___________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________
+
+ Up & Down Arrows or Mouse wheel - scroll                                                             Home - top
+ q - quit                                                                                             End - bottom
+___________________________________________________________________________________________________________________
+
+ Find local Video Files fast and watch immediately. Download Video URL's effortlessly and watch immediately.
+
+ Add URL's to The Default Download list on the fly without leaving your gui or starting up Videoinfox.
+
+ Add URL's to any User Set List on the fly without leaving your gui or starting up Videoinfox.
+
+ Batch download all of your User Created url Lists with Yt-dlp and Videoinfox's Download Queue.
+___________________________________________________________________________________________________________________
+
+ Version History is located in:  Settings (set)
+___________________________________________________________________________________________________________________
+
+ Find videos to play or get info on: Change to a parent directory of your video library and select Find.
+ You can also select Show All to display all videos recursively.
+
+ Search Tips:  The files you search for have to be in the path of the current directory.
+
+ Using example filename:   The Reunion Show   and what searches would find it.
+
+ the*      would find files starting with:  the     
+
+ *ion*     would find files with:  ion  anywhere in the file name from the beginning to the end.
+
+ *show     would find files that ended with:  show
+
+
+ With search results on the screen, select Play Line and enter the number that you want to play.  
+___________________________________________________________________________________________________________________
+
+ 1 2 3 4 5 - Default Dirs  One keypress to change default directories. <Set> to set default directories     
+
+ Default 1-4 have display priority over 5. So if your directory on last exit (5) equals 1-4,  1-4 gets the display.  
+___________________________________________________________________________________________________________________
+
+ Last Search  <set>  If search results are not manually deleted <Clear Results> before exit,
+
+                     Three Choices:     1 - Always Save     2 - Never Save     3 - Ask on Exit
+___________________________________________________________________________________________________________________
+
+ To use Play Clipboard: 
+ 
+ Copy a video url to the clipboard and press enter to verify the url is valid.  
+ Then  p  to Download and Autoplay Fullscreen. 
+___________________________________________________________________________________________________________________
+ 
+
+ Clipboard copy is used to interact with Videoinfox in the following areas: 
+
+ Download video url's (yt-dlp) with Play Clipboard, Download Default, Download Choose and Self Destruct. 
+ Copy a url link (entire line) to the clipboard before selecting any of the above options.
+
+ Loading Download List, View Logs, and Add to Queue.
+ Copy a list (entire line) to the clipboard before selecting any of the above options.
+
+ Note: Optional. Press enter after clipboard copy to update the clipboard display to see all available options.
+
+___________________________________________________________________________________________________________________
+
+ Yt-dlp Menu    d - Download Default... Yt-dlp with no arguements.
+                c - Download Choose.... Choose video type and quality before download.
+                s - Self Destruct...... Download, auto play then delete when the video player is quit.
+                g - Download List...... Instructions are located in Help on the Download List screen.
+
+ Last Download works with Play Clipboard, Download Default and Download Choose.
+ Self Destruct isn't written to Last Download because the video is deleted after closing the player."  >> ${base_dir}/videoinfo.help
+
+ Note: Vidoeinfox keeps its own yt-dlp copy in:  ${base_dir}
+       On every start of Videoinfox, it will check for its own update and notify if an update is available.
+       No auto update checks are done for Yt-dlp.  To check for a Yt-dlp update and install update: Settings (Set)"  >> ${base_dir}/videoinfo.help
+___________________________________________________________________________________________________________________
+
+ Autoplay Features:
+
+
+ Play Clipboard: Download and autoplay a video url that is in the clipboard.
+                 This option always writes to the Played List.
+                 Available in: Home Screen, Played List, Playlist, Yt-dlp Menu and View Downloads.
+
+ Play Directory: Autoplay all videos in the current directory from beginning to end of the directory listing.
+                 This option never writes to the Played List.
+                 Available in: Home Screen, Navigate Tree and View Downloads.
+
+ Autoplay Line:  Autoplay from line number entered to the end of the list.
+                 This option never writes to the Played List.
+                 Available in: Home Screen, Navigate Tree, Played List, Play List and View Downloads.
+
+ Play Line:      Only play the line number entered.
+                 This option always writes to the Played List.
+                 Available in: Home Screen, Navigate Tree, Played List. Play List and View Downloads
+                 Note: One exception. The Playlist will never write to the Played List.
+___________________________________________________________________________________________________________________
+
+ Create Unlimited Playlists." >>${base_dir}/videoinfo.help
+
+
+ Playlist Add: Add videos to a playlist from the 3 below sources.
+
+ - Home Screen. Add videos from recursive search results or recursive directory listings to the Playlist." >>${base_dir}/videoinfo.help
+
+ - Navigate Tree. Add videos from one level deep directory listings to the Playlist." >>${base_dir}/videoinfo.help
+
+ - Navigate Tree >>> Show All - Directory To Playlist. Add all videos in the current directory to a new Playlist." >>${base_dir}/videoinfo.help
+
+ - Played List. Add videos from Played List to the Playlist." >>${base_dir}/videoinfo.help
+
+                Play Clipboard, Last Download and Play Line all write to the Played List." >>${base_dir}/videoinfo.help
+
+                Note: One exception. Play Line in View Playlist never writes to the Played List." >>${base_dir}/videoinfo.help
+___________________________________________________________________________________________________________________
+
+ Navigate Tree: Whatever the directory is when entering Navigate Tree will be set as the Treetop.
+                Recursive Navigation from the Treetop.
+
+
+                While in Navigate Tree, there are two ways to change the Treetop.
+
+                - Default Dirs
+                - Change Treetop
+
+___________________________________________________________________________________________________________________
+
+ videoinfox -h to see command line options.
+___________________________________________________________________________________________________________________
+
+ When you use:  Videoinfox Update in Settings (Set), the update will always be applied to: /usr/local/bin
+___________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________
+
+  Play Clipboard voodoo wouldn't have been possible without XCLIP
+
+  Download feature wouldn't have been possible without YT-DLP
+
+
+  Videoinfox Features:
+
+  - Navigation was designed to be robust and efficient. One keypress for all menu selections. 
+  - Check for update on startup and notifity if update is available. Download and update in Videoinfox.
+  - Play a local file by entering the line number. Play single video or autoplay the entire list.
+  - Create unlimited Playlists from: Recusive search results, Recursive directory listings and the Played List
+  - Play Clipboard: Blinking notification when there is a valid video url for play.
+  - Play Clipboard: Download a video url that is in the clipboard via Yt-dlp and autoplay.
+  - Play Clipboard is available in: Home  Played List  Play List  Yt-dlp Menu  View Downloads
+  - See codec, resolution and duration on the playing video.
+  - Play Directory autoplay available in: Home Screen, Navigate Tree and View Downloads.
+  - Autoplay video files in the current directory with option to quit. videoinfox -d
+  - Blinking Play Directory otification when there are video files in the current directory.
+  - Navigate Tree Blinking Change Directory notification when there is a valid directory in the clipboard.
+  - Navigate Tree with Play Directory autoplay and Play Line with autoplay. Select line number to start play.
+  - Video Player (ffplay) auto closes when the video ends.
+  - Auto clear the clipboard after the video player is closed.
+  - To watch the last download after Play Clipboard cleared the link select Last Download.
+  - Auto clear the clipboard of invalid files and urls.
+  - Press enter after your copy to the clipboard to validate clipboard content.
+  - File types searched for: .webm   .mp4   .mkv   .avi   .divx
+  - Rapid directory changing by setting default directories (4) in Settings. The 5th is dir at last exit.
+  - Default Dirs - 1 2 3 4 5  available in: Home  Navigate Tree  Download List  More Options
+  - Play Line option. Only play the line number entered and write to Played List.
+  - Autoplay Line option. Start autoplay from any line in the Played List by entering the line number.
+  - Played List will keep track of everything played except for Play Directory and Autoplay Line.
+  - Played List: Play All option that will auto play the entire list with option to quit.
+  - Playlist: Save a list of videos from search results, directory listings and Played List.
+  - Remove duplicates from the Playlist and Played List.
+  - Enter a video file with full path to get info on and play.
+  - Auto save last find result(s) and autoload until deleted. Defaulted to never save. Change in Settings.
+  - Yt-dlp integration for easy download and play of single url's or entire lists.
+  - Download Queue: Add unlimited Videoinfox User Download Lists to the queue for download.
+  - Download Default: Yt-dlp with no arguments. Download only. No auto play.
+  - Download Choose: Choose video type and quality before download. Download only. No auto play.
+  - Self Destruct: Download, auto play, delete when the player is closed.
+  - Last Download available in: Home and Yt-dlp Menu for: Play Clipboard, Download Default and Download Choose.
+  - Download List: Blinking notification on list load.
+  - View Logs: Blinking notification on log load.
+  - Default List: Keep pasting Video URL's on the fly from the clipboard to the Default List.
+  - Default List companion: Create a gui shortcut for: videoinfox -a  to add to the Default List.
+  - Unlimited User Lists: Keep pasting Video URL's on the fly from the clipboard to the User Set List.
+  - User Set List companion: Create a gui shortcut for: videoinfox -l  to add to the User Set list.
+  - Download any list. Any name and location. No need to use the Videoinfox interface: videoinfox -u listname
+  - Download and update Yt-dlp in Videoinfox.
+  - Save directory state on exit to load on next run.
+  - Change directory by entering full path.
+  - Find directory and change to it by copying it to clipboard.
+  - List video info one directory deep. Save per directory.
+  - Recursive count of videos broken down by video type.
+  - Recursive duration (days:hrs:min:sec) Save per directory.
+  - GUI notifications.
+___________________________________________________________________________________________________________________
+___________________________________________________________________________________________________________________
+
+ Privacy Policy: Videoinfox will never collect or attempt to transmit any information on it's users.
+
+                 Internet activity will only happen under the following circumstances:
+
+                 - On First Run, Github will be contacted to download Yt-dlp.
+                 - On every start, Github will be contacted to download Videoinfox for Update Available Check.
+                 - Everytime Videoinfox Update or Yt-dlp Update is selected in Settings, Github will be contacted.
+                 - If there isn't a copy of Yt-dlp in Videoinfox's config directory, Github will be contacted
+                   everytime you select the Yt-dlp Menu to attempt a download of Yt-dlp.
+                 - Everytime Yt-dlp is used to download a video url.
+                   Refer to Yt-dlp's site for their privacy policy. https://github.com/yt-dlp/yt-dlp
+___________________________________________________________________________________________________________________
+
+ Thanks for checking out Videoinfox!  If you encounter any issues: Reddit /videoinfox
+___________________________________________________________________________________________________________________
+
+ If Videoinfox is removed, the directory  ${base_dir}  will have to be manually deleted.
+___________________________________________________________________________________________________________________
+EOF
+
 
 #fi
 
@@ -1108,749 +1107,751 @@ echo >> ${base_dir}/videoinfo.help
 ##################################################################################################################################################
 ##################################################################################################################################################
 #####  8. CREATE VERSION HISTORY FILE  ########################################################################################################### ################################################################################################################################################## 
-echo " _________________________________________________________________________________________________________________________" > ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " $ver  Where Video Play Is A Clipboard Copy Away                                            VERSION HISTORY" >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " Up & Down Arrows or Mouse wheel - scroll                                                                    Home - top" >> ${base_dir}/videoinfo-ver-history
-echo " q - quit                                                                                                    End - bottom" >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
+cat << EOF > "${base_dir}/videoinfo-ver-history"
+_________________________________________________________________________________________________________________________
+
+$ver  Where Video Play Is A Clipboard Copy Away                                            VERSION HISTORY
+_________________________________________________________________________________________________________________________
+_________________________________________________________________________________________________________________________
+
+Up & Down Arrows or Mouse wheel - scroll                                                                    Home - top
+q - quit                                                                                                    End - bottom
+_________________________________________________________________________________________________________________________
+
 
 # KNOWN ISSUE
-echo >> ${base_dir}/videoinfo-ver-history
-echo " KNOWN ISSUES: v3.5.08 In Change Playlist when attempting to delete the Default Playlist." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
 
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.9.02 Fix: Option display in View Playlist with a valid http video link in the clipboard." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Fix: Resume Autoplay would error on a new Playlist without initially running Start Autoplay." >> ~/.config/videoinfox/videoinfo-ver-history               
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Added below line to Playlist >>> Help" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         When Resume Autoplay reaches the end of the playlist, it will remain there until Start Autoplay is run again." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.9.00 View Playlist appearance update + new options in View Playlist and Navigate Tree >>> Show All." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Add: Start Autoplay in View Playlist saves the last played video to Resume Autoplay." >> ${base_dir}/videoinfo-ver-history
-echo "              Resume Autoplay will also save the last played video." >> ${base_dir}/videoinfo-ver-history
-echo "              ** Use Start Autoplay first to begin watching **" >> ${base_dir}/videoinfo-ver-history
-echo "              ** Use Resume Autoplay after to continue watching and keep track of where you left off in the playlist **" >> ${base_dir}/videoinfo-ver-history
-echo "              More info. located in View Playlist >>> Help " >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Add: Delete Line in View Playlist. Delete line number entered from the playlist." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Add: Directory To Playlist in Navigate Tree >>> Show All." >> ${base_dir}/videoinfo-ver-history
-echo "              This option will write a one level deep directory listing to a new playlist." >> ${base_dir}/videoinfo-ver-history
-echo "              Good for creating a tv show season number x playlist." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Change: All blinking  -  changed to non blinking  ~  everywhere except the Yt-dlp Menu" >> ${base_dir}/videoinfo-ver-history
-echo "                 ** This will be updated in the Yt-dlp Menu along with selection by number instead of clipboard copy." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Change: Home Screen, Played List and Playlist" >> ${base_dir}/videoinfo-ver-history
-echo "                 Clipboard: is hidden if there isn't a valid video url available in the clipboard." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Fix: Home Screen >>> View Playlist" >> ${base_dir}/videoinfo-ver-history
-echo "              After using Play Clipboard, the user set directory wasn't being restored on quit to home screen." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Fix: View Playlist >>> Change Playlist" >> ${base_dir}/videoinfo-ver-history
-echo "              The playlist name display wasn't updating if the loaded playlist was deleted." >> ${base_dir}/videoinfo-ver-history
-echo "              Note: If the loaded playlist is deleted, the default playlist will be loaded." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Note: The loaded playlist is auto saved when another playlist is loaded." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.8.00 Add, Move and Change" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Add: Show All to Navigate Tree." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Move: The following options in Navigate Tree were moved to Navigate Tree >>> Show All" >> ${base_dir}/videoinfo-ver-history
-echo "               - Autoplay Line   - Play Line   - View Playlist   - Playlist Add" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Add: - Info to Navigate Tree >>> Show All" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Change: Playlist Add now hides the Videoinfox Menu to gain more screen space for video listings." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Add: Error Message to Playlist Add if number entered excedes the line count." >> ${base_dir}/videoinfo-ver-history 
-echo "         MSG: Number out of range . . ." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Note: There are only 2 areas left in Videoinfox that still use the clipboard feature." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         1. More Options >>> Find Directory" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         2. Yt-dlp Menu >>> Download List" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history     
-echo "         - Download List     - Set User List" >> ${base_dir}/videoinfo-ver-history
-echo "         - View List" >> ${base_dir}/videoinfo-ver-history
-echo "         - View Logs         - Delete User List     - Add to Queue" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         The above will all eventually be converted over from clipboard copy to line number for all selections." >> ${base_dir}/videoinfo-ver-history
-echo "         Once that is finished, the only time the clipboard feature will be used is in the gui. Copying video" >> ${base_dir}/videoinfo-ver-history
-echo "         url's to the clipboard to download or when building a download list with a videoinfox keyboard shortcut." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.7.00 Enter line number to change directory. No more clipboard copy to change directory on the following two screens." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         NAVIGATE TREE - Change Directory" >> ${base_dir}/videoinfo-ver-history
-echo "         YT-DLP MENU >>> DOWNLOAD LIST >>> CREATE DIRECTORY - Change Directory" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Navigate Tree and Create Directory displays updated." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.5.13 Moved options around in Yt-dlp Menu >>> View Downloads." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Added: Clear Clipboard to Yt-dlp Menu." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Added: Line to HOME >>> HELP. Autoplay Features - Play Clipboard - Available in ..." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.5.10 Updated info on Find screen." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.5.09 Moved options around in Played List." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.5.08 Fix in VIEW PLAYLIST >>> CHANGE PLAYLIST - Change Playlist when the DEFAULT Playlist was deleted." >> ${base_dir}/videoinfo-ver-history
-echo "         When the Default Playlist was deleted it generated a script error from the cp command." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         The Default Playlist can't be deleted. It can only be cleared. If the Default Playlist is deleted, it is" >> ${base_dir}/videoinfo-ver-history
-echo "         temporarily removed (not deleted) from CHANGE PLAYLIST. The Default Playlist will show again in Change Playlist" >> ${base_dir}/videoinfo-ver-history
-echo "         after another playlist is loaded. This issue in Change Playlist will be dealt with in a future update. " >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.5.07 MSG Change in Yt-dlp Menu >>> Download List >>> Create Directory  - Change Directory." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Message shows when Change Directory is selected without a valid directory in the clipboard or" >> ${base_dir}/videoinfo-ver-history
-echo "         the directory in the clipboard is outside of the Treetop." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         OLD MSG: At treetop. Can't go any higher . . ." >> ${base_dir}/videoinfo-ver-history
-echo "         NEW MSG: Copy an above directory to the clipboard to use this feature . . ." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " Notes:  Whatever the directory is when entering Create Directory or Navigate Tree is set as the Treetop." >> ${base_dir}/videoinfo-ver-history
-echo "         While in Create Directory or Navigate Tree, the Treetop can be changed with Default Dirs or Change Treetop." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.5.06 Fix: Play Line in Navigate Tree would try to play an out of range number." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.5.05 Change: Ytdlp Menu >>> Download List - Create Directory option was changed from N to M" >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.5.04 Add: Number out of range message to Played List >>> Play Line." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Fix: Bug that Play Line and Autoplay Line were causing on the Home Screen." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Fix: Typo in Yt-dlp >>> Download List >>> Help." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "              From: Notes: Pressing enter BEFORE making a selection isn't necessary...." >> ${base_dir}/videoinfo-ver-history
-echo "              To:   Notes: Pressing enter AFTER making a selection isn't necessary...." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.5.01 Fix: Some of the Play Clipboard selections were writing to the Play List instead of the Played List." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.5.00 Add: Multi Playlist - Create unlimited playlists." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "              Add videos to a playlist from the 3 below sources." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "               - Home Screen. Add videos from recursive search results or recursive directory listings to the Playlist." >> ${base_dir}/videoinfo-ver-history
-echo "               - Navigate Tree. Add videos from one level deep directory listings to the Playlist." >> ${base_dir}/videoinfo-ver-history
-echo "               - Played List. Add videos from Played List to the Playlist." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "               (Play Clipboard, Last Download and Play Line all write to the Played List)." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.4.22 Edit: Help in Download List - Create Directory." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.4.21 Add: Blinking dash at Playlist Add in Played List." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.4.20 Change: Create User List in Download List." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         If a list was saved with a filename that already existed, the existing list would be overwritten." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Add: Error handling. If the file already exists, don't overwrite." >> ${base_dir}/videoinfo-ver-history
-echo "         MSG: File already exists . . ." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         (At this time, there is no overwrite option.)" >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.4.19 Changes in Download List." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         CREATER USER LIST" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Add: Error reporting for Create User List when enter is pressed with no user input." >> ${base_dir}/videoinfo-ver-history
-echo "         MSG: Nothing was entered . . ." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         CREATE DIRECTORY" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Change: Create Directory not longer changes directory automatically after creation." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Add: Error reporting for Create Directory when enter is pressed with no user input." >> ${base_dir}/videoinfo-ver-history
-echo "         MSG: Nothing was entered . . ." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Add: Error reporting for Create Directory if the directory already exists." >> ${base_dir}/videoinfo-ver-history
-echo "         MSG: Directory already exists . . ." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Add: Change Treetop added to Create Directory." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.4.14 Add: Error reporting on empty clipboard for (Change Directory) in Navigate Tree." >> ${base_dir}/videoinfo-ver-history
-echo "         MSG: Copy a directory to the clipboard to use this feature . . ." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.4.13 Add: Error reporting when no viedos are available in View Downloads (Default Download Directory)." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.4.12 Add: Info (blinking dash) when videos are available." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Fix: Option spacing in Play List when there was a url in the clipboard." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.4.11 Edit: Home Help > Videoinfox Features:"  >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.4.10 Change: User Set List display in Download List."  >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Add: Show message on Home Screen when Show All is selected and there are no video files to play." >> ${base_dir}/videoinfo-ver-history
-echo "         MSG: No video files recursively reachable from the current directory . . ." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Add: Change Treetop in Navigate Tree." >> ${base_dir}/videoinfo-ver-history
-echo "              Now the Treetop can be changed by Default Dirs or by manually entering a directory." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Add: Navigate Tree info in Home Help." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.4.08 Add: Download List error reporting when trying to set the Default List as a User Set List."  >> ${base_dir}/videoinfo-ver-history
-echo "         MSG: The Default List can't be a User Set List. Only user created lists . . ."  >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Add: Download Queue removes any blank lines in each list in the queue before processing."  >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.4.07 Add: Show Message when Set User List is slected in Yt-dlp >>> Download List." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Message: User list set for option: videoinfox -l   Also, gui notification." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.4.06 Fix: View Downloads in Yt-dlp Menu." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "              Play Directory, Autoplay Line and Play Line were not being displayed when there was a url in the clipboard." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.4.05 Add: Error handling and reporting in Yt-dlp Menu." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Download Default, Download Choose and Self Destruct. Yt-dlp won't try to process empty clipboard or invalid url." >> ${base_dir}/videoinfo-ver-history
-echo "         Error message: Clipboard is empty or contained invalid video url . . ." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.4.04 Fix: Error in Played List." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.4.03 Fix: Last Download in Yt-dlp Menu wasn't changing back to user set directory after video play." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.4.02 Updated Home Help and Version History." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.4.01 Change timeout on message: Added to Playlist . . ." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.4.00 Added: Playlist Add in Played List. Add videos from the Played List to the Playlist." >> ${base_dir}/videoinfo-ver-history
-echo "                View Playlist added to Played List." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "           Fix: Bug in Played List" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "        Update: Home Help > Autoplay Features and Playlist." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.3.03 Fixed an error in Clear Results on Home Screen." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.3.02 Switched 2 lines around in Yt-dlp >>> Download List" >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.3.01 Add: Remove duplicates from the Play List." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.3.00 Additions and Changes" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         New feature: PlayList Add: add video selection to the Playlist by entering line number." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history              
-echo "         Playlist Add: added to the Home Screen. Add to the Playlist from Search Results." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Playlist Add: added to Navigate Tree. Add to the Playlist from directory listings." >> ${base_dir}/videoinfo-ver-history
-echo "                       View Playlist was added to Navigate Tree." >> ${base_dir}/videoinfo-ver-history 
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         No more coying to the clipboard to play selections from the Playlist." >> ${base_dir}/videoinfo-ver-history
-echo "         View Playlist look and function was updated to maintain user interface continuity." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Added to View Playlist: Autoplay Line and Play Line. Neither will write to the Played List." >> ${base_dir}/videoinfo-ver-history
-echo "         Removed error correction routine for clipboard copy errors. It was no longer needed." >> ${base_dir}/videoinfo-ver-history
-echo "         Added error correction to verify file validity before adding selection to the Playlist." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Notes:" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Local video files can no longer be added to the Playlist from the Clipboard." >> ${base_dir}/videoinfo-ver-history
-echo "         Local video files played with Play Clipboard will still be added to the Played List." >> ${base_dir}/videoinfo-ver-history
-echo "         All Local video play and autoplay is now done by entering the line number or using Play Directory." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history 
-echo >> ${base_dir}/videoinfo-ver-history    
-echo "         The clipboard feature is still used to:" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Download video url's (yt-dlp) with Play Clipboard, Download Default, Download Choose and Self Destruct." >> ${base_dir}/videoinfo-ver-history
-echo "         Loading Download List, View Logs, and Add to Queue." >> ${base_dir}/videoinfo-ver-history
-echo "         Change Directories in Navigate Tree and Create Directory." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Updated Home Help." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v3.0.00 New features in Yt-dlp >>> Download List. Added: Add to Queue, Download Queue and Create Directory." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.9.52 Updated header in View Downloads." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.9.51 Updated Autoplay Features in Home Help." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.9.50 Fixed Major Faux Pas with Autoplay Line and Play Line." >> ${base_dir}/videoinfo-ver-history
-echo "         I was referencing the absolute path on my machine with the last 2 added features." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Added Play Directory, Autoplay Line and Play Line to View Downloads." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.9.41 Removed play loop exit in Play Line." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.9.40 Played List Menu Updated. No more copying to the clipboard to play a local file. Enter line number to play." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.9.30 Change, Add and Fix." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Change: Renamed Play Line to Autoplay Line. Autoplay from entered line number to end of list." >> ${base_dir}/videoinfo-ver-history
-echo "                 - Home Screen: Moved a few things around. Autoplay Line will not write to the Played List." >> ${base_dir}/videoinfo-ver-history
-echo "                 - Navigate Tree: Moved a few things around. Autoplay Line will not write to the Played List." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "            Add: - Play Line to Home Screen. Only Play Line number entered. This feature will write to the Played List." >> ${base_dir}/videoinfo-ver-history
-echo "                 - Play Line to Navigate Tree. Only Play Line number entered. This feature will write to the Played List." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "                 - Autoplay Features added to Home Help." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "            Fix: Last Search Setting (Ask On Exit) was freezing script on invalid selection." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.9.01 Fix: Video Info on Home Screen. Get info on video in clipboard or by entering the line number." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.9.00 Add: Play Number on Home Screen." >> ${base_dir}/videoinfo-ver-history
-echo "              No more copying a find result to the clipboard to play. Select Play Number and enter the number to play." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.8.44 Add: Error reporting added to command line options. User notified if videoinfox's config directory is missing." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.8.42 Add: videoinfox -d  Autoplay video files in the current directory." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.8.41 Fix: Play Directory alphabetical sorting for directories that include multiple file extensions." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.8.40 Added: Navigate Tree >>> Play Line. Select line number to start autoplay from directory listing." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Fix: Find results needed sorted alphabetically in: Find Directory and Home Find." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.8.30 Added: Played List >>> Play Line. Start Autoplay from any line in the Played List by entering the line number." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.8.26 Fixed: Play Clipboard play notificaton displaying when processing an invalid url." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.8.25 Fixed: Flawed logic in Last Download and http side of Play Clipboard keeping track of last sucessful download." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.8.24 Fixed: Play Clipboard and Last download were breaking with file names that contained a [" >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.8.23 Updated: Home Help. Last Download will work with Play Clipboard, Download Default and Download Choose.." >> ${base_dir}/videoinfo-ver-history
-echo "                  I fixed this many updates ago and forgot to update it in help." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.8.22 Added: Error Reporting for Play Clipboard and Play Directory." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "                If Play Clipboard is selected with no playable content available in the clipboard," >> ${base_dir}/videoinfo-ver-history
-echo "                Error Message Displayed: No playable content in the clipboard . . ." >> ${base_dir}/videoinfo-ver-history
-echo "                With Play Clipboard, you will also see this message right after a Yt-dlp download completes." >> ${base_dir}/videoinfo-ver-history
-echo "                The error shows there because the clipboard is cleared immediately after the download is completed." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "                If Play Directory is selected with no playable content available in the current directory," >> ${base_dir}/videoinfo-ver-history
-echo "                Error Message Displayed: No playable content in the current directory . . ." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Fix: If a User Set List was deleted outside of Videoinfox, It would still display as a Set User List." >> ${base_dir}/videoinfo-ver-history
-echo "              Now when download Download List menu is selected, if a list doesn't exist, it is cleared from User Set List." >> ${base_dir}/videoinfo-ver-history
-echo "              The gui notification will also notify if the user download list is not set or missing when using the" >> ${base_dir}/videoinfo-ver-history
-echo "              videoinfox -l shortcut. " >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.8.20 Added: Play All option for Played List. Auto play the entire list with option to quit." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.8.14 Fix: Directory at exit was not auto loading on next run." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.8.13 Added: Privacy Policy added to Home Help" >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.8.12 Edited: Version History. Posted known issue." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "                 If Play Clipboard is selected with an invalid video url in the clipboard, the gui play notification" >> ${base_dir}/videoinfo-ver-history
-echo "                 still displays. This only happens if Play Clipboard is selected before pressing enter." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.8.11 Updated: Home Help and Download List Help." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.8.10 Added: Command line option -u" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "                This option can be used with your own ready to download url list that can be any name and location." >> ${base_dir}/videoinfo-ver-history
-echo "                There is no need to use the Videoinfox interface with this option. Videos will be downloaded to the" >> ${base_dir}/videoinfo-ver-history
-echo "                directory of the list location.  Example: videoinfox -u mylist  Only enter the list filename." >> ${base_dir}/videoinfo-ver-history
-echo "                The list must be recursively reachable from the current directory." >> ${base_dir}/videoinfo-ver-history
-echo "                The first line in the list must begin with http to be processed." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "                videoinfox -h  will display the above instructions." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.8.05 Fixed issues from v2.8.03 and v2.8.04 Had a mess going on here for a minute." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.8.04 Fix: I was unaware that my cat edited the last update before commit. Forgot to lock the keyboard and auto save" >> ${base_dir}/videoinfo-ver-history
-echo "              got the cat's edit.  The dog really did eat my homework. lol" >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.8.03 Fix: Videoinfox Update Available was showing on download fail." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "              I went back through the download and update routines and found more errors." >> ${base_dir}/videoinfo-ver-history
-echo "              Fixed error checking and reporting. Tested all possible scenarios with download success vs. download fail." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.8.02 Fix: Videoinfox and Yt-dlp download and update routines." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "              On download fail, notification given." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.8.01 Fix: a mistake that was in command line option: videoinfox -h" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Error:       -u Write clipboard content to User Set List." >> ${base_dir}/videoinfo-ver-history
-echo "         Correction:  -l Write clipboard content to User Set List." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.8.00 Feature Added: videoinfox -l shortcut for User Lists." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Copy your links on the fly without needing to have Videoinfox running." >> ${base_dir}/videoinfo-ver-history
-echo "         Complete instructions located in: Yt-dlp >>> Download List >>> Help" >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.7.15 Updated: Features List In Help" >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.7.14 Added: Command line option -h" >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.7.13 Change: Videoinfo Update exit message appearance." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.7.12 Bug Squashed: Download List" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Fix: After downloading a user list, the directory wasn't changing back to what is was before downloading list." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.7.11 Completed Version History." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         It has been a month of heavy coding since I started writing Videoinfox. I initially wrote it because I wanted" >> ${base_dir}/videoinfo-ver-history
-echo "         to learn more about the Linux Shell.  I have been a Linux only user for 18 years.  I have learned more about" >> ${base_dir}/videoinfo-ver-history
-echo "         Linux in the last 30 days than I have in the past 18 years.  Screenshot of first script at bottom of page." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.7.10 Added:  Code Stats  to Settings (set)  Edited Help on home screen.  Cleaned up some comments." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.7.00 Changes, Additions and Bug Squashing." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Cosmetic update on  1 2 3 4 5 - Default Dirs  display." >> ${base_dir}/videoinfo-ver-history
-echo "         When a default directory is selected that number stays normal while the other 4 numbers will be less bold." >> ${base_dir}/videoinfo-ver-history
-echo "         If you change to a directory that is not a default directory 1-5: All 5 numbers will be less bold." >> ${base_dir}/videoinfo-ver-history
-echo "         If directory on exit (5) matches any of the default directories 1-4: 1-4 gets the display." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Download List  - Added:  1 2 3 4 5 - Default Dirs  selector." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         More Options   - Changed look to maintain continuity.  " >> ${base_dir}/videoinfo-ver-history
-echo "                        - Changed options from numbers to letters" >> ${base_dir}/videoinfo-ver-history
-echo "                        - Added:  1 2 3 4 5 - Default Dirs  selector." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Home Screen    - Changed Navigate Tree option from  t  to  n" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         View Downloads - Directory is saved on the way in because the dir is changed to the Default Download Directory." >> ${base_dir}/videoinfo-ver-history
-echo "                          Directory is restored on quit." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Fix: View Downloads   Valid clipboard content was being lost on quit." >> ${base_dir}/videoinfo-ver-history
-echo "                               Valid clipboard content should only be cleared after Video Player exit." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Fix: Navigate Tree -  Directory was getting changed when quitting to the Home screen." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Fix: Self Destruct - After copying to the clipboard, you had to press enter first." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Fix: Download List - After a list was downloaded the directory was changed back to what it was pre download." >> ${base_dir}/videoinfo-ver-history 
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         First Run now checks for the directory: ~/Downloads  If the directory doesn't exist, it is created." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Directory Policy: Directory will only be change when the user changes the directory." >> ${base_dir}/videoinfo-ver-history 
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.1.00 Added Default Download List and a command line option  -a  for making a gui shortcut" >> ${base_dir}/videoinfo-ver-history
-echo "         to keep pasting your clipboard copies on the fly to the Default List without needing to run Videoinfox." >> ${base_dir}/videoinfo-ver-history
-echo "         Videoinfox will run, paste your clipboard content to the Default List and exit.  Make Shortcut:  "videoinfox -a"  " >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         New feature located in:  Yt-dlp Menu >>> Download List >>> Default List           Help -  Download List >>> Help" >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.0.73 Added done downloading gui notification to Download Default.">> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.0.72 View Downloads  and  Last Download.">> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Fix: Valid clipboard content was being cleared after the above options were run then quit.">> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Clipboard Policy: There are only 2 circumstances when valid clipboard content will be cleared.">> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "                           1. User copies to clipboard.     2. Clipboard has been played.">> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.0.71 Play Clipboard handling of invalid urls and an empty clipboard.">> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Fix: Running Play Clipboard with an invalid url would play the Last Download.">> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Add: Play Clipboard won't run if the clipboard is empty.">> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.0.70 Download List menu fixes and change to download Log.">> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Fix: If you would try to Download List with an empty clipboard, it would throw an error.">> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Add: View List won't run if the clipboard is empty.">> ${base_dir}/videoinfo-ver-history
-echo "         Add: View Log  won't run if the clipboard is empty.">> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Change: Download log only shows url and matching filename." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.0.69 Added another decimal to the version number be compliant with Semantic Versioning.">> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.068  Fixed auto play failing with urls in Play Clipboard. This issue also caused Last Download auto play to fail. ">> ${base_dir}/videoinfo-ver-history
-echo "         Below is what would cause the failure." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Only with a URL. If you download a video file and you already have a filename with the same name but a" >> ${base_dir}/videoinfo-ver-history
-echo "         different video extension in the current directory, it would cause Play Clipboard auto play to fail." >> ${base_dir}/videoinfo-ver-history
-echo "         Last Download would also fail to play in this situation." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.067  Play Directory will only execute if video files exist in the current directory." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         On the Home Screen, the dash at Play Directory will blink if video files exist in the current directory." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.066  Version History added to Settings  Version History is still under construction." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.065  Auto clear clipboard content after player quit script wide." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history      
-echo "         Before Update:  Yty-dlp Menu  Valid video url in the clipboard causes Play Clipboard to blink." >> ${base_dir}/videoinfo-ver-history
-echo "         After Update: Blinking along with Play Clipboard, (just -)  Download Default, Download Choose and Self Destruct" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         They are all available options with a valid video url in the clipboard." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.064  More error handling with clipboard content" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Affected areas: Anywhere there is Play Clipboard. Also, Navigate Tree and Download List" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Any content that is copied to the clipboard that doesn't start with   http   was addressed with this update." >> ${base_dir}/videoinfo-ver-history
-echo "         A file exist check is done on the clipboard content. If the file doesn't exist," >> ${base_dir}/videoinfo-ver-history
-echo "         the clipboard is cleared and the invalid content never makes it to the clipboard display." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         This was already done at the end of the loop. Now it is also done at the start of the loop." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         The above update doesn't include    http   because Yt-dlp validates anything that starts with   http" >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.063  Download List Menu fix." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         I forgot to refresh the clipboard variable   pasteclip   in the following options:" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         d - Download List     v - View List     l - View Logs" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         The user was forced to press enter after copying to the clipboard for the above options to work." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Now those 3 features refresh the clipboard variable upon entering those options." >> ${base_dir}/videoinfo-ver-history
-echo "         No need to press enter after copy unless you want to update the clipboard display first." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.062  Bug Squashed in Play Clipboard and Last Download." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         If you downloaded a video file and you already had the same filename in another directory, find was returning" >> ${base_dir}/videoinfo-ver-history
-echo "         more than one result .  This caused Play Clipboard to fail on auto play." >> ${base_dir}/videoinfo-ver-history
-echo "         It also caused Last Download play to fail." >> ${base_dir}/videoinfo-ver-history 
-echo "         FIX: -maxdepth 1 was added to those find lines in Play Clipboard and Last Download." >> ${base_dir}/videoinfo-ver-history
+KNOWN ISSUES: v3.5.08 In Change Playlist when attempting to delete the Default Playlist.
 
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.061  Download List added to the Yt-dlp Menu." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Create download list(s) of video urls with your preferred text editor." >> ${base_dir}/videoinfo-ver-history
-echo "         Then use Videoinfox to download the entire list." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Help located in:   Download List   explains how the download list feature works." >> ${base_dir}/videoinfo-ver-history
-echo "_________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.060  Fixed typo on Navigate Tree" >> ${base_dir}/videoinfo-ver-history 
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.059  Blinking Change Directory in Navigate Tree." >> ${base_dir}/videoinfo-ver-history
-echo>> ${base_dir}/videoinfo-ver-history
-echo "         Change Directory blink when valid directory is in clipboard." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Also added a loop to Change Directory in Navigate Tree." >> ${base_dir}/videoinfo-ver-history
-echo "         To prevent changing to clipboard copied directories outside of the Treetop." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.058  Yt-dlp menu update. Now 2 download choices:" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         d - Download Default - Yt-dlp with no arguments." >> ${base_dir}/videoinfo-ver-history
-echo "         c - Download Choose  - Choose video type and quality before download." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.057  1 2 3 4 5 - Default Dirs added to Navigate Tree." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Total Files: added  (file count 1 dir deep)  Navigate Tree" >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history 
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.056  Added missing features in Navigate Tree" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Clipboard content is now saved when entering Navigate Tree and restored on quit." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Total Files: (recursive) Was added to the display." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         When navigating in or out of a directory," >> ${base_dir}/videoinfo-ver-history 
-echo "         Play Directory will blink when video files are available in the current directory." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Yt-dlp menu - Clear clipboard after download." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.055  Added Navigate Tree with Play Directory:" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history   
-echo "         Change Directory, Up one Level and Treetop" >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.054  Play Directory" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Play Directory - Auto play with option to quit every time a video ends (played to end or quit by user)." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Moved options around on the home screen.  The blank space will be for another feature." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         (set) was changed from  d  to  z        - d  is now for Play Directory" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         all  (x - Clear Clipboard) have been removed because Play Clipboard will clear the clipboard" >> ${base_dir}/videoinfo-ver-history
-echo "         everytime there is an invalid valid file or url in the clipboard.  If it is a vald url but not a video url," >> ${base_dir}/videoinfo-ver-history
-echo "         yt-dlp will catch that and the clipboard will be cleared." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.053  Video Player (ffplay) auto closes when the video ends." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Auto exit was added to all ffplay lines." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.052  Added check for update on startup" >> ${base_dir}/videoinfo-ver-history
-echo  >> ${base_dir}/videoinfo-ver-history
-echo "         If update available: Message displayed in Videoinfox only on the home screen right after the version number." >> ${base_dir}/videoinfo-ver-history
-echo "         Home screen display: update available with gui notification: Update Available & update version number" >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.051  Added digit after decimal on version number." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         fix: Help file wasn't  getting updated for existing users." >> ${base_dir}/videoinfo-ver-history 
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.05   Some code comments fixed. Sample video url loaded for first run." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.04   Play Clipboard now on all content screens." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Squashed a bug in Play Clipboard." >> ${base_dir}/videoinfo-ver-history 
-echo "         That feature would fail when url had a video filename that had a dot before the .ext" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         New feature added in  >>> SETTINGS >>> LAST SEARCH" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         If there are search results on the the home screen on exit, the below always applies to your next run." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         1 - Always Save     2 - Never Save     3 - Ask on Exit" >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.03   Added space below prompt at (play list deleted) and (played list deleted)." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.02   Major Layout changes to remove interface redundancy. + more features." >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "         Home, playlist and played list screens are aware if the clipboard contains a valid file or a valid url link in" >> ${base_dir}/videoinfo-ver-history
-echo "         it and act accordingly. Yt-dlp now tries to extract a fliename from the link in the clipboard. If it is" >> ${base_dir}/videoinfo-ver-history
-echo "         successful, the videos name will be displayed.  Now every time there is a valid file or a valid url in the" >> ${base_dir}/videoinfo-ver-history 
-echo "         clipboard... <Play Clipboard> will blink to let the user know there is playable content in the clipboard." >> ${base_dir}/videoinfo-ver-history 
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.01   Had to change the timeout on the first run screen from 3 seconds back to 30 seconds." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v2.00   Intoroduction of Play Clipboard." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " v1.99 and earlier versions:  I wasn't keeping track of version history.  At that point in time, I didn't plan on" >> ${base_dir}/videoinfo-ver-history
-echo " Videoinfox having all the features it has now.  It was just a few hundred lines of code to find a video file's codec," >> ${base_dir}/videoinfo-ver-history
-echo " resolution and duration." >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " Videoinfox's Start: Below was the first home screen which is now just another option (More Options) in Videoinfox. " >> ${base_dir}/videoinfo-ver-history
-echo "                     It was named Videoinfo until I found out the word Videoinfo was already in use. " >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "                     Working Directory:" >> ${base_dir}/videoinfo-ver-history
-echo "                     Clipboard Content:" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "                     Videoinfo" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history               
-echo "                     1. List Directory" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "                     2. Change Directory" >> ${base_dir}/videoinfo-ver-history
-echo "                     3. Find Directory" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "                     4. Enter Video File" >> ${base_dir}/videoinfo-ver-history
-echo "                     5. Find Video File" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "                     6. Video Count" >> ${base_dir}/videoinfo-ver-history
-echo "                     7. Video Duration" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo "                     Enter an Option: " >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ${base_dir}/videoinfo-ver-history
-echo >> ${base_dir}/videoinfo-ver-history
+
+_________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+v3.9.02 Fix: Option display in View Playlist with a valid http video link in the clipboard." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+        Fix: Resume Autoplay would error on a new Playlist without initially running Start Autoplay." >> ~/.config/videoinfox/videoinfo-ver-history               
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+        Added below line to Playlist >>> Help" >> ~/.config/videoinfox/videoinfo-ver-history
+        When Resume Autoplay reaches the end of the playlist, it will remain there until Start Autoplay is run again." >> ~/.config/videoinfox/videoinfo-ver-history
+_________________________________________________________________________________________________________________________
+
+v3.9.00 View Playlist appearance update + new options in View Playlist and Navigate Tree >>> Show All.
+
+        Add: Start Autoplay in View Playlist saves the last played video to Resume Autoplay.
+             Resume Autoplay will also save the last played video.
+             ** Use Start Autoplay first to begin watching **
+             ** Use Resume Autoplay after to continue watching and keep track of where you left off in the playlist **
+             More info. located in View Playlist >>> Help 
+
+        Add: Delete Line in View Playlist. Delete line number entered from the playlist.
+
+        Add: Directory To Playlist in Navigate Tree >>> Show All.
+             This option will write a one level deep directory listing to a new playlist.
+             Good for creating a tv show season number x playlist.
+
+        Change: All blinking  -  changed to non blinking  ~  everywhere except the Yt-dlp Menu
+                ** This will be updated in the Yt-dlp Menu along with selection by number instead of clipboard copy.
+
+        Change: Home Screen, Played List and Playlist
+                Clipboard: is hidden if there isn't a valid video url available in the clipboard.
+
+        Fix: Home Screen >>> View Playlist
+             After using Play Clipboard, the user set directory wasn't being restored on quit to home screen.
+
+        Fix: View Playlist >>> Change Playlist
+             The playlist name display wasn't updating if the loaded playlist was deleted.
+             Note: If the loaded playlist is deleted, the default playlist will be loaded.
+
+        Note: The loaded playlist is auto saved when another playlist is loaded.
+_________________________________________________________________________________________________________________________
+
+v3.8.00 Add, Move and Change
+
+        Add: Show All to Navigate Tree.
+
+        Move: The following options in Navigate Tree were moved to Navigate Tree >>> Show All
+              - Autoplay Line   - Play Line   - View Playlist   - Playlist Add
+
+        Add: - Info to Navigate Tree >>> Show All
+
+        Change: Playlist Add now hides the Videoinfox Menu to gain more screen space for video listings.
+
+        Add: Error Message to Playlist Add if number entered excedes the line count. 
+        MSG: Number out of range . . .
+
+
+        Note: There are only 2 areas left in Videoinfox that still use the clipboard feature.
+
+        1. More Options >>> Find Directory
+
+        2. Yt-dlp Menu >>> Download List
+     
+        - Download List     - Set User List
+        - View List
+        - View Logs         - Delete User List     - Add to Queue
+
+        The above will all eventually be converted over from clipboard copy to line number for all selections.
+        Once that is finished, the only time the clipboard feature will be used is in the gui. Copying video
+        url's to the clipboard to download or when building a download list with a videoinfox keyboard shortcut.
+_________________________________________________________________________________________________________________________
+
+v3.7.00 Enter line number to change directory. No more clipboard copy to change directory on the following two screens.
+
+        NAVIGATE TREE - Change Directory
+        YT-DLP MENU >>> DOWNLOAD LIST >>> CREATE DIRECTORY - Change Directory
+
+        Navigate Tree and Create Directory displays updated.
+_________________________________________________________________________________________________________________________
+
+v3.5.13 Moved options around in Yt-dlp Menu >>> View Downloads.
+
+        Added: Clear Clipboard to Yt-dlp Menu.
+
+        Added: Line to HOME >>> HELP. Autoplay Features - Play Clipboard - Available in ...
+_________________________________________________________________________________________________________________________
+
+v3.5.10 Updated info on Find screen.
+_________________________________________________________________________________________________________________________
+
+v3.5.09 Moved options around in Played List.
+_________________________________________________________________________________________________________________________
+
+v3.5.08 Fix in VIEW PLAYLIST >>> CHANGE PLAYLIST - Change Playlist when the DEFAULT Playlist was deleted.
+        When the Default Playlist was deleted it generated a script error from the cp command.
+
+        The Default Playlist can't be deleted. It can only be cleared. If the Default Playlist is deleted, it is
+        temporarily removed (not deleted) from CHANGE PLAYLIST. The Default Playlist will show again in Change Playlist
+        after another playlist is loaded. This issue in Change Playlist will be dealt with in a future update. 
+_________________________________________________________________________________________________________________________
+
+v3.5.07 MSG Change in Yt-dlp Menu >>> Download List >>> Create Directory  - Change Directory.
+
+        Message shows when Change Directory is selected without a valid directory in the clipboard or
+        the directory in the clipboard is outside of the Treetop.
+
+        OLD MSG: At treetop. Can't go any higher . . .
+        NEW MSG: Copy an above directory to the clipboard to use this feature . . .
+
+Notes:  Whatever the directory is when entering Create Directory or Navigate Tree is set as the Treetop.
+        While in Create Directory or Navigate Tree, the Treetop can be changed with Default Dirs or Change Treetop.
+_________________________________________________________________________________________________________________________
+
+v3.5.06 Fix: Play Line in Navigate Tree would try to play an out of range number.
+_________________________________________________________________________________________________________________________
+
+v3.5.05 Change: Ytdlp Menu >>> Download List - Create Directory option was changed from N to M
+_________________________________________________________________________________________________________________________
+
+v3.5.04 Add: Number out of range message to Played List >>> Play Line.
+
+        Fix: Bug that Play Line and Autoplay Line were causing on the Home Screen.
+
+        Fix: Typo in Yt-dlp >>> Download List >>> Help.
+
+             From: Notes: Pressing enter BEFORE making a selection isn't necessary....
+             To:   Notes: Pressing enter AFTER making a selection isn't necessary....
+_________________________________________________________________________________________________________________________
+
+v3.5.01 Fix: Some of the Play Clipboard selections were writing to the Play List instead of the Played List.
+_________________________________________________________________________________________________________________________
+
+v3.5.00 Add: Multi Playlist - Create unlimited playlists.
+
+             Add videos to a playlist from the 3 below sources.
+
+              - Home Screen. Add videos from recursive search results or recursive directory listings to the Playlist.
+              - Navigate Tree. Add videos from one level deep directory listings to the Playlist.
+              - Played List. Add videos from Played List to the Playlist.
+
+              (Play Clipboard, Last Download and Play Line all write to the Played List).
+_________________________________________________________________________________________________________________________
+
+v3.4.22 Edit: Help in Download List - Create Directory.
+_________________________________________________________________________________________________________________________
+
+v3.4.21 Add: Blinking dash at Playlist Add in Played List.
+_________________________________________________________________________________________________________________________
+
+v3.4.20 Change: Create User List in Download List.
+
+        If a list was saved with a filename that already existed, the existing list would be overwritten.
+
+        Add: Error handling. If the file already exists, don't overwrite.
+        MSG: File already exists . . .
+
+        (At this time, there is no overwrite option.)
+_________________________________________________________________________________________________________________________
+
+v3.4.19 Changes in Download List.
+
+        CREATER USER LIST
+
+        Add: Error reporting for Create User List when enter is pressed with no user input.
+        MSG: Nothing was entered . . .
+
+
+        CREATE DIRECTORY
+
+        Change: Create Directory not longer changes directory automatically after creation.
+
+        Add: Error reporting for Create Directory when enter is pressed with no user input.
+        MSG: Nothing was entered . . .
+
+        Add: Error reporting for Create Directory if the directory already exists.
+        MSG: Directory already exists . . .
+
+        Add: Change Treetop added to Create Directory.
+_________________________________________________________________________________________________________________________
+
+v3.4.14 Add: Error reporting on empty clipboard for (Change Directory) in Navigate Tree.
+        MSG: Copy a directory to the clipboard to use this feature . . .
+_________________________________________________________________________________________________________________________
+
+v3.4.13 Add: Error reporting when no viedos are available in View Downloads (Default Download Directory).
+_________________________________________________________________________________________________________________________
+
+v3.4.12 Add: Info (blinking dash) when videos are available.
+
+        Fix: Option spacing in Play List when there was a url in the clipboard.
+_________________________________________________________________________________________________________________________
+
+v3.4.11 Edit: Home Help > Videoinfox Features:"  
+_________________________________________________________________________________________________________________________
+
+v3.4.10 Change: User Set List display in Download List."  
+
+        Add: Show message on Home Screen when Show All is selected and there are no video files to play.
+        MSG: No video files recursively reachable from the current directory . . .
+
+        Add: Change Treetop in Navigate Tree.
+             Now the Treetop can be changed by Default Dirs or by manually entering a directory.
+
+        Add: Navigate Tree info in Home Help.
+_________________________________________________________________________________________________________________________
+
+v3.4.08 Add: Download List error reporting when trying to set the Default List as a User Set List."  
+        MSG: The Default List can't be a User Set List. Only user created lists . . ."  
+
+        Add: Download Queue removes any blank lines in each list in the queue before processing."  
+_________________________________________________________________________________________________________________________
+
+v3.4.07 Add: Show Message when Set User List is slected in Yt-dlp >>> Download List.
+
+        Message: User list set for option: videoinfox -l   Also, gui notification.
+_________________________________________________________________________________________________________________________
+
+v3.4.06 Fix: View Downloads in Yt-dlp Menu.
+
+             Play Directory, Autoplay Line and Play Line were not being displayed when there was a url in the clipboard.
+_________________________________________________________________________________________________________________________
+
+v3.4.05 Add: Error handling and reporting in Yt-dlp Menu.
+
+        Download Default, Download Choose and Self Destruct. Yt-dlp won't try to process empty clipboard or invalid url.
+        Error message: Clipboard is empty or contained invalid video url . . .
+_________________________________________________________________________________________________________________________
+
+v3.4.04 Fix: Error in Played List.
+_________________________________________________________________________________________________________________________
+
+v3.4.03 Fix: Last Download in Yt-dlp Menu wasn't changing back to user set directory after video play.
+_________________________________________________________________________________________________________________________
+
+v3.4.02 Updated Home Help and Version History.
+_________________________________________________________________________________________________________________________
+
+v3.4.01 Change timeout on message: Added to Playlist . . .
+_________________________________________________________________________________________________________________________
+
+v3.4.00 Added: Playlist Add in Played List. Add videos from the Played List to the Playlist.
+               View Playlist added to Played List.
+
+          Fix: Bug in Played List
+
+       Update: Home Help > Autoplay Features and Playlist.
+_________________________________________________________________________________________________________________________
+
+v3.3.03 Fixed an error in Clear Results on Home Screen.
+_________________________________________________________________________________________________________________________
+
+v3.3.02 Switched 2 lines around in Yt-dlp >>> Download List
+_________________________________________________________________________________________________________________________
+
+v3.3.01 Add: Remove duplicates from the Play List.
+_________________________________________________________________________________________________________________________
+
+v3.3.00 Additions and Changes
+
+        New feature: PlayList Add: add video selection to the Playlist by entering line number.
+              
+        Playlist Add: added to the Home Screen. Add to the Playlist from Search Results.
+
+        Playlist Add: added to Navigate Tree. Add to the Playlist from directory listings.
+                      View Playlist was added to Navigate Tree. 
+
+        No more coying to the clipboard to play selections from the Playlist.
+        View Playlist look and function was updated to maintain user interface continuity.
+
+        Added to View Playlist: Autoplay Line and Play Line. Neither will write to the Played List.
+        Removed error correction routine for clipboard copy errors. It was no longer needed.
+        Added error correction to verify file validity before adding selection to the Playlist.
+
+
+        Notes:
+
+        Local video files can no longer be added to the Playlist from the Clipboard.
+        Local video files played with Play Clipboard will still be added to the Played List.
+        All Local video play and autoplay is now done by entering the line number or using Play Directory.
+ 
+    
+        The clipboard feature is still used to:
+
+        Download video url's (yt-dlp) with Play Clipboard, Download Default, Download Choose and Self Destruct.
+        Loading Download List, View Logs, and Add to Queue.
+        Change Directories in Navigate Tree and Create Directory.
+
+        Updated Home Help.
+_________________________________________________________________________________________________________________________
+
+v3.0.00 New features in Yt-dlp >>> Download List. Added: Add to Queue, Download Queue and Create Directory.
+_________________________________________________________________________________________________________________________
+
+v2.9.52 Updated header in View Downloads.
+_________________________________________________________________________________________________________________________
+
+v2.9.51 Updated Autoplay Features in Home Help.
+_________________________________________________________________________________________________________________________
+
+v2.9.50 Fixed Major Faux Pas with Autoplay Line and Play Line.
+        I was referencing the absolute path on my machine with the last 2 added features.
+
+        Added Play Directory, Autoplay Line and Play Line to View Downloads.
+_________________________________________________________________________________________________________________________
+
+v2.9.41 Removed play loop exit in Play Line.
+_________________________________________________________________________________________________________________________
+
+v2.9.40 Played List Menu Updated. No more copying to the clipboard to play a local file. Enter line number to play.
+_________________________________________________________________________________________________________________________
+
+v2.9.30 Change, Add and Fix.
+
+        Change: Renamed Play Line to Autoplay Line. Autoplay from entered line number to end of list.
+                - Home Screen: Moved a few things around. Autoplay Line will not write to the Played List.
+                - Navigate Tree: Moved a few things around. Autoplay Line will not write to the Played List.
+
+           Add: - Play Line to Home Screen. Only Play Line number entered. This feature will write to the Played List.
+                - Play Line to Navigate Tree. Only Play Line number entered. This feature will write to the Played List.
+
+                - Autoplay Features added to Home Help.
+
+           Fix: Last Search Setting (Ask On Exit) was freezing script on invalid selection.
+_________________________________________________________________________________________________________________________
+
+v2.9.01 Fix: Video Info on Home Screen. Get info on video in clipboard or by entering the line number.
+_________________________________________________________________________________________________________________________
+
+v2.9.00 Add: Play Number on Home Screen.
+             No more copying a find result to the clipboard to play. Select Play Number and enter the number to play.
+_________________________________________________________________________________________________________________________
+
+v2.8.44 Add: Error reporting added to command line options. User notified if videoinfox's config directory is missing.
+_________________________________________________________________________________________________________________________
+
+v2.8.42 Add: videoinfox -d  Autoplay video files in the current directory.
+_________________________________________________________________________________________________________________________
+
+v2.8.41 Fix: Play Directory alphabetical sorting for directories that include multiple file extensions.
+_________________________________________________________________________________________________________________________
+
+v2.8.40 Added: Navigate Tree >>> Play Line. Select line number to start autoplay from directory listing.
+
+        Fix: Find results needed sorted alphabetically in: Find Directory and Home Find.
+_________________________________________________________________________________________________________________________
+
+v2.8.30 Added: Played List >>> Play Line. Start Autoplay from any line in the Played List by entering the line number.
+_________________________________________________________________________________________________________________________
+
+v2.8.26 Fixed: Play Clipboard play notificaton displaying when processing an invalid url.
+_________________________________________________________________________________________________________________________
+
+v2.8.25 Fixed: Flawed logic in Last Download and http side of Play Clipboard keeping track of last sucessful download.
+_________________________________________________________________________________________________________________________
+
+v2.8.24 Fixed: Play Clipboard and Last download were breaking with file names that contained a [
+_________________________________________________________________________________________________________________________
+
+v2.8.23 Updated: Home Help. Last Download will work with Play Clipboard, Download Default and Download Choose..
+                 I fixed this many updates ago and forgot to update it in help.
+_________________________________________________________________________________________________________________________
+
+v2.8.22 Added: Error Reporting for Play Clipboard and Play Directory.
+
+               If Play Clipboard is selected with no playable content available in the clipboard,
+               Error Message Displayed: No playable content in the clipboard . . .
+               With Play Clipboard, you will also see this message right after a Yt-dlp download completes.
+               The error shows there because the clipboard is cleared immediately after the download is completed.
+
+               If Play Directory is selected with no playable content available in the current directory,
+               Error Message Displayed: No playable content in the current directory . . .
+
+        Fix: If a User Set List was deleted outside of Videoinfox, It would still display as a Set User List.
+             Now when download Download List menu is selected, if a list doesn't exist, it is cleared from User Set List.
+             The gui notification will also notify if the user download list is not set or missing when using the
+             videoinfox -l shortcut. 
+_________________________________________________________________________________________________________________________
+
+v2.8.20 Added: Play All option for Played List. Auto play the entire list with option to quit.
+_________________________________________________________________________________________________________________________
+
+v2.8.14 Fix: Directory at exit was not auto loading on next run.
+_________________________________________________________________________________________________________________________
+
+v2.8.13 Added: Privacy Policy added to Home Help
+_________________________________________________________________________________________________________________________
+
+v2.8.12 Edited: Version History. Posted known issue.
+
+                If Play Clipboard is selected with an invalid video url in the clipboard, the gui play notification
+                still displays. This only happens if Play Clipboard is selected before pressing enter.
+_________________________________________________________________________________________________________________________
+
+v2.8.11 Updated: Home Help and Download List Help.
+_________________________________________________________________________________________________________________________
+
+v2.8.10 Added: Command line option -u
+
+               This option can be used with your own ready to download url list that can be any name and location.
+               There is no need to use the Videoinfox interface with this option. Videos will be downloaded to the
+               directory of the list location.  Example: videoinfox -u mylist  Only enter the list filename.
+               The list must be recursively reachable from the current directory.
+               The first line in the list must begin with http to be processed.
+
+               videoinfox -h  will display the above instructions.
+_________________________________________________________________________________________________________________________
+
+v2.8.05 Fixed issues from v2.8.03 and v2.8.04 Had a mess going on here for a minute.
+_________________________________________________________________________________________________________________________
+
+v2.8.04 Fix: I was unaware that my cat edited the last update before commit. Forgot to lock the keyboard and auto save
+             got the cat's edit.  The dog really did eat my homework. lol
+_________________________________________________________________________________________________________________________
+
+v2.8.03 Fix: Videoinfox Update Available was showing on download fail.
+
+             I went back through the download and update routines and found more errors.
+             Fixed error checking and reporting. Tested all possible scenarios with download success vs. download fail.
+_________________________________________________________________________________________________________________________
+
+v2.8.02 Fix: Videoinfox and Yt-dlp download and update routines.
+
+             On download fail, notification given.
+_________________________________________________________________________________________________________________________
+
+v2.8.01 Fix: a mistake that was in command line option: videoinfox -h
+
+        Error:       -u Write clipboard content to User Set List.
+        Correction:  -l Write clipboard content to User Set List.
+_________________________________________________________________________________________________________________________
+
+v2.8.00 Feature Added: videoinfox -l shortcut for User Lists.
+
+        Copy your links on the fly without needing to have Videoinfox running.
+        Complete instructions located in: Yt-dlp >>> Download List >>> Help
+_________________________________________________________________________________________________________________________
+
+v2.7.15 Updated: Features List In Help
+_________________________________________________________________________________________________________________________
+
+v2.7.14 Added: Command line option -h
+_________________________________________________________________________________________________________________________
+
+v2.7.13 Change: Videoinfo Update exit message appearance.
+_________________________________________________________________________________________________________________________
+
+v2.7.12 Bug Squashed: Download List
+
+        Fix: After downloading a user list, the directory wasn't changing back to what is was before downloading list.
+_________________________________________________________________________________________________________________________
+
+v2.7.11 Completed Version History.
+
+        It has been a month of heavy coding since I started writing Videoinfox. I initially wrote it because I wanted
+        to learn more about the Linux Shell.  I have been a Linux only user for 18 years.  I have learned more about
+        Linux in the last 30 days than I have in the past 18 years.  Screenshot of first script at bottom of page.
+_________________________________________________________________________________________________________________________
+
+v2.7.10 Added:  Code Stats  to Settings (set)  Edited Help on home screen.  Cleaned up some comments.
+_________________________________________________________________________________________________________________________
+
+v2.7.00 Changes, Additions and Bug Squashing.
+
+        Cosmetic update on  1 2 3 4 5 - Default Dirs  display.
+        When a default directory is selected that number stays normal while the other 4 numbers will be less bold.
+        If you change to a directory that is not a default directory 1-5: All 5 numbers will be less bold.
+        If directory on exit (5) matches any of the default directories 1-4: 1-4 gets the display.
+
+        Download List  - Added:  1 2 3 4 5 - Default Dirs  selector.
+
+        More Options   - Changed look to maintain continuity.  
+                       - Changed options from numbers to letters
+                       - Added:  1 2 3 4 5 - Default Dirs  selector.
+
+        Home Screen    - Changed Navigate Tree option from  t  to  n
+
+        View Downloads - Directory is saved on the way in because the dir is changed to the Default Download Directory.
+                         Directory is restored on quit.
+
+        Fix: View Downloads   Valid clipboard content was being lost on quit.
+                              Valid clipboard content should only be cleared after Video Player exit.
+
+        Fix: Navigate Tree -  Directory was getting changed when quitting to the Home screen.
+
+        Fix: Self Destruct - After copying to the clipboard, you had to press enter first.
+
+        Fix: Download List - After a list was downloaded the directory was changed back to what it was pre download. 
+
+        First Run now checks for the directory: ~/Downloads  If the directory doesn't exist, it is created.
+
+        Directory Policy: Directory will only be change when the user changes the directory. 
+_________________________________________________________________________________________________________________________
+
+v2.1.00 Added Default Download List and a command line option  -a  for making a gui shortcut
+        to keep pasting your clipboard copies on the fly to the Default List without needing to run Videoinfox.
+        Videoinfox will run, paste your clipboard content to the Default List and exit.  Make Shortcut:  "videoinfox -a"  
+
+        New feature located in:  Yt-dlp Menu >>> Download List >>> Default List           Help -  Download List >>> Help
+_________________________________________________________________________________________________________________________
+
+v2.0.73 Added done downloading gui notification to Download Default."
+_________________________________________________________________________________________________________________________
+
+v2.0.72 View Downloads  and  Last Download."
+
+        Fix: Valid clipboard content was being cleared after the above options were run then quit."
+
+        Clipboard Policy: There are only 2 circumstances when valid clipboard content will be cleared."
+
+                          1. User copies to clipboard.     2. Clipboard has been played."
+_________________________________________________________________________________________________________________________
+
+v2.0.71 Play Clipboard handling of invalid urls and an empty clipboard."
+
+        Fix: Running Play Clipboard with an invalid url would play the Last Download."
+
+        Add: Play Clipboard won't run if the clipboard is empty."
+_________________________________________________________________________________________________________________________
+
+v2.0.70 Download List menu fixes and change to download Log."
+
+        Fix: If you would try to Download List with an empty clipboard, it would throw an error."
+
+        Add: View List won't run if the clipboard is empty."
+        Add: View Log  won't run if the clipboard is empty."
+
+        Change: Download log only shows url and matching filename.
+_________________________________________________________________________________________________________________________
+
+v2.0.69 Added another decimal to the version number be compliant with Semantic Versioning."
+_________________________________________________________________________________________________________________________
+
+v2.068  Fixed auto play failing with urls in Play Clipboard. This issue also caused Last Download auto play to fail. "
+        Below is what would cause the failure.
+
+        Only with a URL. If you download a video file and you already have a filename with the same name but a
+        different video extension in the current directory, it would cause Play Clipboard auto play to fail.
+        Last Download would also fail to play in this situation.
+_________________________________________________________________________________________________________________________
+
+v2.067  Play Directory will only execute if video files exist in the current directory.
+
+        On the Home Screen, the dash at Play Directory will blink if video files exist in the current directory.
+_________________________________________________________________________________________________________________________
+
+v2.066  Version History added to Settings  Version History is still under construction.
+_________________________________________________________________________________________________________________________
+
+v2.065  Auto clear clipboard content after player quit script wide.
+      
+        Before Update:  Yty-dlp Menu  Valid video url in the clipboard causes Play Clipboard to blink.
+        After Update: Blinking along with Play Clipboard, (just -)  Download Default, Download Choose and Self Destruct
+
+        They are all available options with a valid video url in the clipboard.
+_________________________________________________________________________________________________________________________
+
+v2.064  More error handling with clipboard content
+
+        Affected areas: Anywhere there is Play Clipboard. Also, Navigate Tree and Download List
+
+        Any content that is copied to the clipboard that doesn't start with   http   was addressed with this update.
+        A file exist check is done on the clipboard content. If the file doesn't exist,
+        the clipboard is cleared and the invalid content never makes it to the clipboard display.
+
+        This was already done at the end of the loop. Now it is also done at the start of the loop.
+
+        The above update doesn't include    http   because Yt-dlp validates anything that starts with   http
+_________________________________________________________________________________________________________________________
+
+v2.063  Download List Menu fix.
+
+        I forgot to refresh the clipboard variable   pasteclip   in the following options:
+
+        d - Download List     v - View List     l - View Logs
+
+        The user was forced to press enter after copying to the clipboard for the above options to work.
+
+        Now those 3 features refresh the clipboard variable upon entering those options.
+        No need to press enter after copy unless you want to update the clipboard display first.
+_________________________________________________________________________________________________________________________
+
+v2.062  Bug Squashed in Play Clipboard and Last Download.
+
+        If you downloaded a video file and you already had the same filename in another directory, find was returning
+        more than one result .  This caused Play Clipboard to fail on auto play.
+        It also caused Last Download play to fail. 
+        FIX: -maxdepth 1 was added to those find lines in Play Clipboard and Last Download.
+
+_________________________________________________________________________________________________________________________
+
+v2.061  Download List added to the Yt-dlp Menu.
+
+        Create download list(s) of video urls with your preferred text editor.
+        Then use Videoinfox to download the entire list.
+
+        Help located in:   Download List   explains how the download list feature works.
+echo "_________________________________________________________________________________________________________________________
+
+v2.060  Fixed typo on Navigate Tree 
+_________________________________________________________________________________________________________________________
+
+v2.059  Blinking Change Directory in Navigate Tree.
+echo
+        Change Directory blink when valid directory is in clipboard.
+
+        Also added a loop to Change Directory in Navigate Tree.
+        To prevent changing to clipboard copied directories outside of the Treetop.
+_________________________________________________________________________________________________________________________
+
+v2.058  Yt-dlp menu update. Now 2 download choices:
+
+        d - Download Default - Yt-dlp with no arguments.
+        c - Download Choose  - Choose video type and quality before download.
+_________________________________________________________________________________________________________________________
+
+v2.057  1 2 3 4 5 - Default Dirs added to Navigate Tree.
+
+        Total Files: added  (file count 1 dir deep)  Navigate Tree
+_________________________________________________________________________________________________________________________ 
+
+v2.056  Added missing features in Navigate Tree
+
+        Clipboard content is now saved when entering Navigate Tree and restored on quit.
+
+        Total Files: (recursive) Was added to the display.
+
+        When navigating in or out of a directory, 
+        Play Directory will blink when video files are available in the current directory.
+
+        Yt-dlp menu - Clear clipboard after download.
+_________________________________________________________________________________________________________________________
+
+v2.055  Added Navigate Tree with Play Directory:
+   
+        Change Directory, Up one Level and Treetop
+_________________________________________________________________________________________________________________________
+
+v2.054  Play Directory
+
+        Play Directory - Auto play with option to quit every time a video ends (played to end or quit by user).
+
+        Moved options around on the home screen.  The blank space will be for another feature.
+
+        (set) was changed from  d  to  z        - d  is now for Play Directory
+
+        all  (x - Clear Clipboard) have been removed because Play Clipboard will clear the clipboard
+        everytime there is an invalid valid file or url in the clipboard.  If it is a vald url but not a video url,
+        yt-dlp will catch that and the clipboard will be cleared.
+_________________________________________________________________________________________________________________________
+
+v2.053  Video Player (ffplay) auto closes when the video ends.
+
+        Auto exit was added to all ffplay lines.
+_________________________________________________________________________________________________________________________
+
+v2.052  Added check for update on startup
+echo  
+        If update available: Message displayed in Videoinfox only on the home screen right after the version number.
+        Home screen display: update available with gui notification: Update Available & update version number
+_________________________________________________________________________________________________________________________
+
+v2.051  Added digit after decimal on version number.
+
+        fix: Help file wasn't  getting updated for existing users. 
+_________________________________________________________________________________________________________________________
+
+v2.05   Some code comments fixed. Sample video url loaded for first run.
+_________________________________________________________________________________________________________________________
+
+v2.04   Play Clipboard now on all content screens.
+
+        Squashed a bug in Play Clipboard. 
+        That feature would fail when url had a video filename that had a dot before the .ext
+
+        New feature added in  >>> SETTINGS >>> LAST SEARCH
+
+        If there are search results on the the home screen on exit, the below always applies to your next run.
+
+        1 - Always Save     2 - Never Save     3 - Ask on Exit
+_________________________________________________________________________________________________________________________
+
+v2.03   Added space below prompt at (play list deleted) and (played list deleted).
+_________________________________________________________________________________________________________________________
+
+v2.02   Major Layout changes to remove interface redundancy. + more features.
+
+        Home, playlist and played list screens are aware if the clipboard contains a valid file or a valid url link in
+        it and act accordingly. Yt-dlp now tries to extract a fliename from the link in the clipboard. If it is
+        successful, the videos name will be displayed.  Now every time there is a valid file or a valid url in the 
+        clipboard... <Play Clipboard> will blink to let the user know there is playable content in the clipboard. 
+_________________________________________________________________________________________________________________________
+
+v2.01   Had to change the timeout on the first run screen from 3 seconds back to 30 seconds.
+_________________________________________________________________________________________________________________________
+
+v2.00   Intoroduction of Play Clipboard.
+_________________________________________________________________________________________________________________________
+
+v1.99 and earlier versions:  I wasn't keeping track of version history.  At that point in time, I didn't plan on
+Videoinfox having all the features it has now.  It was just a few hundred lines of code to find a video file's codec,
+resolution and duration.
+_________________________________________________________________________________________________________________________
+
+Videoinfox's Start: Below was the first home screen which is now just another option (More Options) in Videoinfox. 
+                    It was named Videoinfo until I found out the word Videoinfo was already in use. 
+
+
+                    Working Directory:
+                    Clipboard Content:
+
+                    Videoinfo
+
+               
+                    1. List Directory
+
+                    2. Change Directory
+                    3. Find Directory
+
+                    4. Enter Video File
+                    5. Find Video File
+
+                    6. Video Count
+                    7. Video Duration
+
+
+                    Enter an Option: 
+
+_________________________________________________________________________________________________________________________
+EOF
+
 ###########################  END VERSION HISTORY  ################################################################################################ 
 ##################################################################################################################################################
 read -r diratexit < ${base_dir}/videoinfo.dir-at-exit
@@ -12037,13 +12038,13 @@ main() {
     # Run our initialisation tasks
     init
     # Parse our given args
-    while getopts ":adhluv" opts; do
+    while getopts ":adhlu:v" opts; do
         case "${opts}" in
             (a)     write_default_list ;;
             (d)     play_directory ;;
             (h)     print_help ;;
             (l)     write_user_set_list ;;
-            (u)     : ;;
+            (u)     use_custom_list "${OPTARG}" ;;
             (v)     print_version ;;
             (\?)    printf -- '%s\n' "ERROR: Invalid option: ${OPTARG}." >&2; exit 1 ;;
             (:)     printf -- '%s\n' "Option '-${OPTARG}' requires an argument, e.g. '-${OPTARG} 5'." >&2; exit 1 ;;
