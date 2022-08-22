@@ -61,6 +61,19 @@ init() {
     [[ -d "${playlist_dir}" ]] || mkdir -p "${playlist_dir}"
 }
 
+find_supported_files() {
+    case "${1}" in
+        (--count)
+            find "${PWD}" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) |
+                wc -l
+        ;;
+        (*)
+            find "${PWD}" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) |
+                sort -u
+        ;;
+    esac
+}
+
 write_supported_list() {
     while read -r line; do
         case "${line}" in
@@ -311,8 +324,7 @@ use_custom_list() {
 # -d  Autoplay video files in the current directory
 play_directory() {
     # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
-    find "${PWD}" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null |
-        sort -u > "${tmp_dir}/videoinfox.optiond-play-directory-apa"
+    find_supported_files > "${tmp_dir}/videoinfox.optiond-play-directory-apa"
 
     #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
     atleastone=$(grep -c '^/' "${tmp_dir}/videoinfox.optiond-play-directory-apa" 2>/dev/null)
@@ -2045,7 +2057,7 @@ menuf() {
     ##########  END   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
     ################################################################################
     # CHECKING FOR VIDEOS IN CURRENT DIRECTORY.  if video(s) exist:  the dash @ Play Directory will blink on the home screen
-    dovideosexist=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
+    dovideosexist=$(find_supported_files --count)
 
     if [[ $dovideosexist -ne 0 ]]; then 
         dash=$(echo "~")  
@@ -2538,7 +2550,7 @@ while true; do
                     # blinking dash
                     dash1=$(echo "~")
                     # get file count of videos one directory deep for blinking   Play Directory
-                    blinkit=$(find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
+                    blinkit=$(find_supported_files --count)
 
                     # if find results are zero goto then
                     if [[ "$blinkit" = 0 ]]; then
@@ -2654,10 +2666,7 @@ while true; do
                             ####################################################################################################################################
 
                             # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
-                            find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) > ${tmp_dir}/videoinfox.navtree-play-directory-apa-work 2>/dev/null
-
-                            # SORT BACK INTO ORDER
-                            sort -u ${tmp_dir}/videoinfox.navtree-play-directory-apa-work > ${tmp_dir}/videoinfox.navtree-play-directory-apa
+                            find_supported_files "${tmp_dir}/videoinfox.navtree-play-directory-apa"
 
                             #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
                             atleastone=$(grep '^/' ${tmp_dir}/videoinfox.navtree-play-directory-apa 2>/dev/null | wc -l)
@@ -2823,16 +2832,13 @@ while true; do
             ####################################################################################################################################
 
             #checking for videos in the current directory.  if no videos exist,   Play Directory   won't execute
-            dovideosexist=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
+            dovideosexist=$(find_supported_files --count)
             if [[ $dovideosexist -ne 0 ]]; then RUN PLAY LINE
 
                 ntplaynum() {
 
                     # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
-                    find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) > ${tmp_dir}/videoinfox.nt-play-directory-apa-work 2>/dev/null
-
-                    # SORT BACK INTO ORDER
-                    sort -u ${tmp_dir}/videoinfox.nt-play-directory-apa-work > ${tmp_dir}/videoinfox.nt-play-directory-apa
+                    find_supported_files > "${tmp_dir}/videoinfox.nt-play-directory-apa"
 
                     #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
                     atleastone=$(grep -c '^/' ${tmp_dir}/videoinfox.nt-play-directory-apa 2>/dev/null)
@@ -3020,14 +3026,11 @@ while true; do
                             ###########################################################################################################################
 
                             #checking for videos in the current directory.  if no videos exist,   Play Directory   won't execute
-                            dovideosexist=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
+                            dovideosexist=$(find_supported_files --count)
                             if [[ $dovideosexist -ne 0 ]]; then RUN PLAY LINE
 
                                 # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
-                                find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) > ${tmp_dir}/videoinfox.nt-play-directory-apa-work 2>/dev/null
-
-                                # SORT BACK INTO ORDER
-                                sort -u ${tmp_dir}/videoinfox.nt-play-directory-apa-work > ${tmp_dir}/videoinfox.nt-play-directory-apa
+                                find_supported_files > "${tmp_dir}/videoinfox.nt-play-directory-apa"
 
                                 #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
                                 atleastone=$(grep '^/' ${tmp_dir}/videoinfox.nt-play-directory-apa 2>/dev/null | wc -l)
@@ -3162,16 +3165,13 @@ while true; do
  ########################################################################################################################################
 
 #checking for videos in the current directory.  if no videos exist,   playlistaddnav Directory   won't execute
-dovideosexist=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
+dovideosexist=$(find_supported_files --count)
 if [[ $dovideosexist -ne 0 ]]; then  # IF VIDEOS EXIST IN THE CURRENT DIRECTORY 
 
 ########################################################################################################################function ntplaylistaddnavnum {
 
 # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-playlistaddnav-directory-apa 
-find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) > ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa-work 2>/dev/null
-
-# SORT BACK INTO ORDER
-sort -u ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa-work > ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa
+find_supported_files > "${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa"
 
 #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
 atleastone=$(grep '^/' ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa 2>/dev/null | wc -l)
@@ -4416,10 +4416,7 @@ d)  # (@PLAY DIRECTORY) HOME   #################################################
 ##################################################################################################################################################
 
 # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
-find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) > ${tmp_dir}/videoinfox.home-play-directory-apa-work 2>/dev/null
-
-# SORT BACK INTO ORDER
-sort -u ${tmp_dir}/videoinfox.home-play-directory-apa-work > ${tmp_dir}/videoinfox.home-play-directory-apa
+find_supported_files > "${tmp_dir}/videoinfox.home-play-directory-apa"
 
 #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
 atleastone=$(grep '^/' ${tmp_dir}/videoinfox.home-play-directory-apa 2>/dev/null | wc -l)
@@ -9061,7 +9058,7 @@ dash0=$(echo "-")
 # blinking dash
 dash1=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
 # get file count of videos one directory deep for blinking   Play Directory
-blinkit=$(find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
+blinkit=$(find_supported_files --count)
 
 # if find results are zero goto then
 if [[ "$blinkit" = 0 ]]; then
@@ -10594,16 +10591,18 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
          ########################################################################################################################################
 
 # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
-find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) > ${tmp_dir}/videoinfox.navtree-play-directory-apa-work 2>/dev/null
-
-# SORT BACK INTO ORDER
-sort -u ${tmp_dir}/videoinfox.navtree-play-directory-apa-work > ${tmp_dir}/videoinfox.navtree-play-directory-apa
+find_supported_files > ${tmp_dir}/videoinfox.navtree-play-directory-apa
 
 #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
 atleastone=$(grep '^/' ${tmp_dir}/videoinfox.navtree-play-directory-apa 2>/dev/null | wc -l)
 
 #  IF THE NUMBER DOESN"T = 0  THEN PROCESS AUTO PLAY OF PLAYED LIST
-if [[ $atleastone -ne 0 ]]; then
+if (( atleastone == 0 )); then
+    rm ${tmp_dir}/videoinfox.navtree-play-directory-apa 2>/dev/null
+    rm ${tmp_dir}/videoinfox.navtree-play-directory-apa2 2>/dev/null
+    rm ${tmp_dir}/videoinfox.numbered-navtree-play-directory-list 2>/dev/null
+    rm ${tmp_dir}/videoinfox.navtree-play-directory-apa-work 2>/dev/null    
+fi
 
 #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
 moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa"
@@ -10616,10 +10615,10 @@ echo > ${tmp_dir}/videoinfox.navtree-play-directory-apa2
 
 #  #  START WRITING
 while read -r line; do
-   if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
-        echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2  
-   fi
-done < "$input"
+    if [[ -f "${line}" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
+            printf -- '%s\n' "$line" >> "${tmp_dir}/videoinfox.navtree-play-directory-apa2"
+    fi
+done < "${moddedplayedlist}"
 #  DONE WRITING ONLY VALID FILES
 
 #  REMOVE BLANK LINES
@@ -10646,13 +10645,7 @@ sed -i 's/.*\///' ${tmp_dir}/videoinfox.navtree-play-directory-apa2
 # NUMBER THE LIST
 sed '/./='  ${tmp_dir}/videoinfox.navtree-play-directory-apa2 | sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfox.numbered-navtree-play-directory-list 2>/dev/null
 
-   
-else #  NO LINES START WITH A SLASH /   remove empty files
-     rm ${tmp_dir}/videoinfox.navtree-play-directory-apa 2>/dev/null
-     rm ${tmp_dir}/videoinfox.navtree-play-directory-apa2 2>/dev/null
-     rm ${tmp_dir}/videoinfox.numbered-navtree-play-directory-list 2>/dev/null
-     rm ${tmp_dir}/videoinfox.navtree-play-directory-apa-work 2>/dev/null    
-fi
+
 ################clear
 
 if [[ -f ${tmp_dir}/videoinfox.numbered-navtree-play-directory-list ]]; then
@@ -11253,7 +11246,7 @@ l)  # LIST DIRECTORY
 ##################################################################################################################################################
 
 #   The Line below gives a total count of all mp4, mkv, avi, & divx in Current Directory.
-currentdirfilecount=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
+currentdirfilecount=$(find_supported_files --count)
     
 
 if [[ -f "videoinfo.List-Directory" ]]; then
