@@ -61,6 +61,16 @@ init() {
     [[ -d "${playlist_dir}" ]] || mkdir -p "${playlist_dir}"
 }
 
+write_supported_list() {
+    while read -r line; do
+        case "${line}" in
+            (*.mp4|*.webm|*.mkv|*.avi|*.divx)
+                printf -- '%s\n' "${line}" >> "${2?No output file defined}"
+            ;;
+        esac
+    done < "${1:?No input file defined}"
+}
+
 # Remove empty lines from a given file
 squash() {
     sed -i '/^$/d' "${1:?No file specified}"
@@ -345,28 +355,29 @@ play_directory() {
         done < "${input}"
         #  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
 
-    #  REMOVE BLANK LINES
-    squash "${tmp_dir}/videoinfox.optiond-play-directory-apa2" 2>/dev/null
+        #  REMOVE BLANK LINES
+        squash "${tmp_dir}/videoinfox.optiond-play-directory-apa2" 2>/dev/null
 
-    #  MOVE apa2 BACK TO apa
-    cp ${tmp_dir}/videoinfox.optiond-play-directory-apa2 ${tmp_dir}/videoinfox.optiond-play-directory-apa 2>/dev/null
+        #  MOVE apa2 BACK TO apa
+        cp "${tmp_dir}/videoinfox.optiond-play-directory-apa2" "${tmp_dir}/videoinfox.optiond-play-directory-apa" 2>/dev/null
 
-    # REMOVE PATH ONLY LEAVING FILENAME
-    sed -i 's/.*\///' ${tmp_dir}/videoinfox.optiond-play-directory-apa2
+        # REMOVE PATH ONLY LEAVING FILENAME
+        sed -i 's/.*\///' "${tmp_dir}/videoinfox.optiond-play-directory-apa2"
 
-    # NUMBER THE LIST
-    sed '/./='  ${tmp_dir}/videoinfox.optiond-play-directory-apa2 | sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfox.numbered-optiond-play-directory-list 2>/dev/null
+        # NUMBER THE LIST
+        sed '/./=' "${tmp_dir}/videoinfox.optiond-play-directory-apa2" |
+            sed '/./N; s/\n/ /' > "${tmp_dir}/videoinfox.numbered-optiond-play-directory-list" 2>/dev/null
 
     
     else #  NO LINES START WITH A SLASH /   remove empty files
-        rm ${tmp_dir}/videoinfox.optiond-play-directory-apa 2>/dev/null
-        rm ${tmp_dir}/videoinfox.optiond-play-directory-apa2 2>/dev/null
-        rm ${tmp_dir}/videoinfox.numbered-optiond-play-directory-list 2>/dev/null
+        rm "${tmp_dir}/videoinfox.optiond-play-directory-apa" 2>/dev/null
+        rm "${tmp_dir}/videoinfox.optiond-play-directory-apa2" 2>/dev/null
+        rm "${tmp_dir}/videoinfox.numbered-optiond-play-directory-list" 2>/dev/null
     fi
     clear
 
-    if [[ -f ${tmp_dir}/videoinfox.numbered-optiond-play-directory-list ]]; then
-        cat ${tmp_dir}/videoinfox.numbered-optiond-play-directory-list 2>/dev/null
+    if [[ -f "${tmp_dir}/videoinfox.numbered-optiond-play-directory-list" ]]; then
+        cat "${tmp_dir}/videoinfox.numbered-optiond-play-directory-list" 2>/dev/null
     else
         echo
         echo
@@ -375,8 +386,8 @@ play_directory() {
     fi
     linenumber=1
 
-    tail -n +"$linenumber" ${tmp_dir}/videoinfox.optiond-play-directory-apa > ${tmp_dir}/videoinfox.optiond-play-directory-apa.tmp 2>/dev/null
-    mv ${tmp_dir}/videoinfox.optiond-play-directory-apa.tmp ${tmp_dir}/videoinfox.optiond-play-directory-apa 2>/dev/null
+    tail -n +"$linenumber" "${tmp_dir}/videoinfox.optiond-play-directory-apa" > "${tmp_dir}/videoinfox.optiond-play-directory-apa.tmp" 2>/dev/null
+    mv "${tmp_dir}/videoinfox.optiond-play-directory-apa.tmp" "${tmp_dir}/videoinfox.optiond-play-directory-apa" 2>/dev/null
 
     OLDIFS=$IFS
     IFS=$'\n'
@@ -2654,46 +2665,33 @@ while true; do
                             #  IF THE NUMBER DOESN"T = 0  THEN PROCESS AUTO PLAY OF PLAYED LIST
                             if [[ $atleastone -ne 0 ]]; then
                                 #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
-                                moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa"
+                                moddedplayedlist="${HOME}/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa"
 
                                 #  PLAYED LIST INPUT FOR LOOP
                                 input="$moddedplayedlist"  
 
                                 #  CREATE TEMP FILE NEEDED FOR LOOP 
-                                echo > ${tmp_dir}/videoinfox.navtree-play-directory-apa2
+                                touch "${tmp_dir}/videoinfox.navtree-play-directory-apa2"
 
                                 #  #  START WRITING
                                 while read -r line; do
                                     if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
-                                        echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2  
+                                        echo "$line" >> "${tmp_dir}/videoinfox.navtree-play-directory-apa2"
                                     fi
-                                done < "$input"
+                                done < "${moddedplayedlist}"
                                 #  DONE WRITING ONLY VALID FILES
 
                                 #  REMOVE BLANK LINES
                                 squash "${tmp_dir}/videoinfox.navtree-play-directory-apa2" 2>/dev/null
 
                                 #  MOVE apa2 BACK TO apa
-                                mv ${tmp_dir}/videoinfox.navtree-play-directory-apa2 ${tmp_dir}/videoinfox.navtree-play-directory-apa 2>/dev/null
+                                mv "${tmp_dir}/videoinfox.navtree-play-directory-apa2" "${tmp_dir}/videoinfox.navtree-play-directory-apa" 2>/dev/null
 
                                 #  CREATE FILE NEEDED FOR LOOP 
-                                echo > ${tmp_dir}/videoinfox.navtree-play-directory-apa2  
+                                touch "${tmp_dir}/videoinfox.navtree-play-directory-apa2"
 
-                                #  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-                                while read -r line; do
-                                    if [[ "$line" == *.mp4 ]]; then # IF FILE IS MP4, WRITE LINE TO FILE
-                                        echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2  
-                                    elif [[ "$line" == *.webm ]]; then # IF FILE IS WEBM, WRITE LINE TO FILE
-                                        echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2
-                                    elif [[ "$line" == *.mkv ]]; then # IF FILE IS MKV, WRITE LINE TO FILE
-                                        echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2
-                                    elif [[ "$line" == *.avi ]]; then # IF FILE IS AVI, WRITE LINE TO FILE
-                                        echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2
-                                    elif [[ "$line" == *.divx ]]; then  # IF FILE IS DIVX, WRITE LINE TO FILE
-                                        echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2
-                                    fi
-                                done < "$input"
-                                #  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
+                                #  WRITE FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
+                                write_supported_list "${moddedplayedlist}" "${tmp_dir}/videoinfox.navtree-play-directory-apa2"
 
                                 #  REMOVE BLANK LINES
                                 squash "${tmp_dir}/videoinfox.navtree-play-directory-apa2" 2>/dev/null
@@ -2869,26 +2867,7 @@ while true; do
                         echo > ${tmp_dir}/videoinfox.nt-play-directory-apa2  
 
                         #  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-                        while read -r line; do
-
-                            if [[ "$line" == *.mp4 ]]; then # IF FILE IS MP4, WRITE LINE TO FILE
-                                    echo "$line" >> ${tmp_dir}/videoinfox.nt-play-directory-apa2  
-                                
-                            elif [[ "$line" == *.webm ]]; then # IF FILE IS WEBM, WRITE LINE TO FILE
-                                    echo "$line" >> ${tmp_dir}/videoinfox.nt-play-directory-apa2
-                                
-                            elif [[ "$line" == *.mkv ]]; then # IF FILE IS MKV, WRITE LINE TO FILE
-                                    echo "$line" >> ${tmp_dir}/videoinfox.nt-play-directory-apa2
-
-                            elif [[ "$line" == *.avi ]]; then # IF FILE IS AVI, WRITE LINE TO FILE
-                                    echo "$line" >> ${tmp_dir}/videoinfox.nt-play-directory-apa2
-
-                            elif [[ "$line" == *.divx ]]; then  # IF FILE IS DIVX, WRITE LINE TO FILE
-                                    echo "$line" >> ${tmp_dir}/videoinfox.nt-play-directory-apa2
-                            fi
-
-                        done < "$input"
-                        #  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
+                        write_supported_list "${moddedplaylist}" "${tmp_dir}/videoinfox.nt-play-directory-apa2"
 
                         #  REMOVE BLANK LINES
                         squash ${tmp_dir}/videoinfox.nt-play-directory-apa2 2>/dev/null
@@ -3080,25 +3059,10 @@ while true; do
                                     mv ${tmp_dir}/videoinfox.nt-play-directory-apa2 ${tmp_dir}/videoinfox.nt-play-directory-apa 2>/dev/null
 
                                     #  CREATE FILE NEEDED FOR LOOP 
-                                    echo > ${tmp_dir}/videoinfox.nt-play-directory-apa2  
+                                    touch "${tmp_dir}/videoinfox.nt-play-directory-apa2"
 
                                     #  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-                                    while read -r line; do
-
-                                        if [[ "$line" == *.mp4 ]]; then # IF FILE IS MP4, WRITE LINE TO FILE
-                                            echo "$line" >> ${tmp_dir}/videoinfox.nt-play-directory-apa2  
-                                        elif [[ "$line" == *.webm ]]; then # IF FILE IS WEBM, WRITE LINE TO FILE
-                                            echo "$line" >> ${tmp_dir}/videoinfox.nt-play-directory-apa2
-                                        elif [[ "$line" == *.mkv ]]; then # IF FILE IS MKV, WRITE LINE TO FILE
-                                            echo "$line" >> ${tmp_dir}/videoinfox.nt-play-directory-apa2
-                                        elif [[ "$line" == *.avi ]]; then # IF FILE IS AVI, WRITE LINE TO FILE
-                                            echo "$line" >> ${tmp_dir}/videoinfox.nt-play-directory-apa2
-                                        elif [[ "$line" == *.divx ]]; then  # IF FILE IS DIVX, WRITE LINE TO FILE
-                                            echo "$line" >> ${tmp_dir}/videoinfox.nt-play-directory-apa2
-                                        fi
-
-                                    done < "$input"
-                                    #  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
+                                    write_supported_list "${moddedplaylist}" "${tmp_dir}/videoinfox.nt-play-directory-apa2"
 
                                     #  REMOVE BLANK LINES
                                     squash ${tmp_dir}/videoinfox.nt-play-directory-apa2 2>/dev/null
@@ -3229,8 +3193,6 @@ while read -r line; do
 
    if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
            echo "$line" >> ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2  
-      else
-           :
    fi        
 
 done < "$input"
@@ -3245,26 +3207,7 @@ mv ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 ${tmp_dir}/videoinfox.
 echo > ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2  
 
 #  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-while read -r line; do
-
-   if [[ "$line" == *.mp4 ]]; then # IF FILE IS MP4, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2  
-     
-   elif [[ "$line" == *.webm ]]; then # IF FILE IS WEBM, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2
-      
-   elif [[ "$line" == *.mkv ]]; then # IF FILE IS MKV, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2
-
-   elif [[ "$line" == *.avi ]]; then # IF FILE IS AVI, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2
-
-   elif [[ "$line" == *.divx ]]; then  # IF FILE IS DIVX, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2
-   fi
-
-done < "$input"
-#  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
+write_supported_list "${moddedplaylistaddnavedlist}" "${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2"
 
 #  REMOVE BLANK LINES
 squash ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 2>/dev/null
@@ -3276,7 +3219,8 @@ cp ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 ${tmp_dir}/videoinfox.
 sed -i 's/.*\///' ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2
 
 # NUMBER THE LIST
-sed '/./='  ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 | sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfox.numbered-nt-playlistaddnav-directory-list 2>/dev/null
+sed '/./='  ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 |
+    sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfox.numbered-nt-playlistaddnav-directory-list 2>/dev/null
 
    
 else #  NO LINES START WITH A SLASH /   remove empty files
@@ -3414,13 +3358,9 @@ echo > ${tmp_dir}/videoinfo.playlist-apa2
 
 #  #  START WRITING
 while read -r line; do
-
    if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
            echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2  
-      else
-           :
-   fi        
-
+   fi
 done < "$input"
 #  DONE WRITING ONLY VALID FILES
 
@@ -3439,26 +3379,7 @@ mv ${tmp_dir}/videoinfo.playlist-apa2 ${tmp_dir}/videoinfo.playlist-apa 2>/dev/n
 echo > ${tmp_dir}/videoinfo.playlist-apa2  
 
 #  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-while read -r line; do
-
-   if [[ "$line" == *.mp4 ]]; then # IF FILE IS MP4, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2  
-     
-   elif [[ "$line" == *.webm ]]; then # IF FILE IS WEBM, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2
-      
-   elif [[ "$line" == *.mkv ]]; then # IF FILE IS MKV, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2
-
-   elif [[ "$line" == *.avi ]]; then # IF FILE IS AVI, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2
-
-   elif [[ "$line" == *.divx ]]; then  # IF FILE IS DIVX, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2
-   fi
-
-done < "$input"
-#  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
+write_supported_list "${moddedplaylist}" "${tmp_dir}/videoinfox.playlist-apa2"
 
 #  REMOVE BLANK LINES
 squash ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
@@ -4537,26 +4458,7 @@ mv ${tmp_dir}/videoinfox.home-play-directory-apa2 ${tmp_dir}/videoinfox.home-pla
 echo > ${tmp_dir}/videoinfox.home-play-directory-apa2  
 
 #  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-while read -r line; do
-
-   if [[ "$line" == *.mp4 ]]; then # IF FILE IS MP4, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfox.home-play-directory-apa2  
-     
-   elif [[ "$line" == *.webm ]]; then # IF FILE IS WEBM, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfox.home-play-directory-apa2
-      
-   elif [[ "$line" == *.mkv ]]; then # IF FILE IS MKV, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfox.home-play-directory-apa2
-
-   elif [[ "$line" == *.avi ]]; then # IF FILE IS AVI, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfox.home-play-directory-apa2
-
-   elif [[ "$line" == *.divx ]]; then  # IF FILE IS DIVX, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfox.home-play-directory-apa2
-   fi
-
-done < "$input"
-#  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
+write_supported_list "${moddedplayedlist}" "${tmp_dir}/videoinfox.home-play-directory-apa2"
 
 #  REMOVE BLANK LINES
 squash ${tmp_dir}/videoinfox.home-play-directory-apa2 2>/dev/null
@@ -5058,26 +4960,7 @@ mv ${tmp_dir}/videoinfo.playedlist-apa2 ${tmp_dir}/videoinfo.playedlist-apa 2>/d
 echo > ${tmp_dir}/videoinfo.playedlist-apa2  
 
 #  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-while read -r line; do
-
-   if [[ "$line" == *.mp4 ]]; then # IF FILE IS MP4, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfo.playedlist-apa2  
-     
-   elif [[ "$line" == *.webm ]]; then # IF FILE IS WEBM, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfo.playedlist-apa2
-      
-   elif [[ "$line" == *.mkv ]]; then # IF FILE IS MKV, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfo.playedlist-apa2
-
-   elif [[ "$line" == *.avi ]]; then # IF FILE IS AVI, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfo.playedlist-apa2
-
-   elif [[ "$line" == *.divx ]]; then  # IF FILE IS DIVX, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfo.playedlist-apa2
-   fi
-
-done < "$input"
-#  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
+write_supported_list "${moddedplayedlist}" "${tmp_dir}/videoinfo.playedlist-apa2"
 
 #  REMOVE BLANK LINES
 squash ${tmp_dir}/videoinfo.playedlist-apa2 2>/dev/null
@@ -5518,26 +5401,7 @@ mv ${tmp_dir}/videoinfo.playlist-apa2 ${tmp_dir}/videoinfo.playlist-apa 2>/dev/n
 echo > ${tmp_dir}/videoinfo.playlist-apa2  
 
 #  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-while read -r line; do
-
-   if [[ "$line" == *.mp4 ]]; then # IF FILE IS MP4, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2  
-     
-   elif [[ "$line" == *.webm ]]; then # IF FILE IS WEBM, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2
-      
-   elif [[ "$line" == *.mkv ]]; then # IF FILE IS MKV, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2
-
-   elif [[ "$line" == *.avi ]]; then # IF FILE IS AVI, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2
-
-   elif [[ "$line" == *.divx ]]; then  # IF FILE IS DIVX, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2
-   fi
-
-done < "$input"
-#  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
+write_supported_list "${moddedplaylist}" "${tmp_dir}/videoinfo.playlist-apa2"
 
 #  REMOVE BLANK LINES
 squash ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
@@ -6829,26 +6693,7 @@ mv ${tmp_dir}/videoinfo.playlist-apa2 ${tmp_dir}/videoinfo.playlist-apa 2>/dev/n
 echo > ${tmp_dir}/videoinfo.playlist-apa2  
 
 #  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-while read -r line; do
-
-   if [[ "$line" == *.mp4 ]]; then # IF FILE IS MP4, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2  
-     
-   elif [[ "$line" == *.webm ]]; then # IF FILE IS WEBM, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2
-      
-   elif [[ "$line" == *.mkv ]]; then # IF FILE IS MKV, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2
-
-   elif [[ "$line" == *.avi ]]; then # IF FILE IS AVI, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2
-
-   elif [[ "$line" == *.divx ]]; then  # IF FILE IS DIVX, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2
-   fi
-
-done < "$input"
-#  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
+write_supported_list "${moddedplaylist}" "${tmp_dir}/videoinfo.playlist-apa2"
 
 #  REMOVE BLANK LINES
 squash ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
@@ -10771,13 +10616,9 @@ echo > ${tmp_dir}/videoinfox.navtree-play-directory-apa2
 
 #  #  START WRITING
 while read -r line; do
-
    if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
-           echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2  
-      else
-           :
-   fi        
-
+        echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2  
+   fi
 done < "$input"
 #  DONE WRITING ONLY VALID FILES
 
@@ -10791,26 +10632,7 @@ mv ${tmp_dir}/videoinfox.navtree-play-directory-apa2 ${tmp_dir}/videoinfox.navtr
 echo > ${tmp_dir}/videoinfox.navtree-play-directory-apa2  
 
 #  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-while read -r line; do
-
-   if [[ "$line" == *.mp4 ]]; then # IF FILE IS MP4, WRITE LINE TO FILE
-        echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2  
-     
-   elif [[ "$line" == *.webm ]]; then # IF FILE IS WEBM, WRITE LINE TO FILE
-        echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2
-      
-   elif [[ "$line" == *.mkv ]]; then # IF FILE IS MKV, WRITE LINE TO FILE
-        echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2
-
-   elif [[ "$line" == *.avi ]]; then # IF FILE IS AVI, WRITE LINE TO FILE
-        echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2
-
-   elif [[ "$line" == *.divx ]]; then  # IF FILE IS DIVX, WRITE LINE TO FILE
-        echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2
-   fi
-
-done < "$input"
-#  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
+write_supported_list "${moddedplayedlist}" "${tmp_dir}/videoinfox.navtree-play-directory-apa2"
 
 #  REMOVE BLANK LINES
 squash ${tmp_dir}/videoinfox.navtree-play-directory-apa2 2>/dev/null
@@ -10849,45 +10671,44 @@ mv ${tmp_dir}/videoinfox.navtree-play-directory-apa.tmp ${tmp_dir}/videoinfox.na
 OLDIFS=$IFS
 IFS=$'\n'
 
-for line in $(cat "$input" 2>/dev/null)
- do
-      clear
-      echo
-      echo "___________________________________________________________________________________________________________________"
-      echo
-      echo " ""$der"" >>> VIEW DOWNLOADS >>> PLAY DIRECTORY" 
-      echo
-      echo " [PLAY]>" "$line"
-      echo "___________________________________________________________________________________________________________________"
-      echo
+for line in $(cat "$input" 2>/dev/null); do
+    clear
+    echo
+    echo "___________________________________________________________________________________________________________________"
+    echo
+    echo " ""$der"" >>> VIEW DOWNLOADS >>> PLAY DIRECTORY" 
+    echo
+    echo " [PLAY]>" "$line"
+    echo "___________________________________________________________________________________________________________________"
+    echo
 
-      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$line")  " Duration:" $(ffmpeg -i "$line" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
-      
-      echo
-      echo
-      echo " Video Player Controls:"
-      echo                             
-      echo " - Fullscreen Toggle: f"
-      echo
-      echo " - Play/Pause Toggle: space bar"
-      echo
-      echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-      echo
-      echo " - Quit: q"      
-      echo -e "\n"
+    echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$line")  " Duration:" $(ffmpeg -i "$line" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
+    
+    echo
+    echo
+    echo " Video Player Controls:"
+    echo                             
+    echo " - Fullscreen Toggle: f"
+    echo
+    echo " - Play/Pause Toggle: space bar"
+    echo
+    echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
+    echo
+    echo " - Quit: q"      
+    echo -e "\n"
 
-      ffplay -fs -autoexit "$line" 2> /dev/null
+    ffplay -fs -autoexit "$line" 2> /dev/null
 
-      echo " To bypass the 3 second wait press enter with no entry"
-      echo
-      echo -e "\033[5m 3 seconds remaining to quit Played List Autoplay\033m\033[0m\033[5m\033[5m\033[0m"      
-      echo 
-      read -t 3 -p " Press any key then press enter to quit : " playdir
+    echo " To bypass the 3 second wait press enter with no entry"
+    echo
+    echo -e "\033[5m 3 seconds remaining to quit Played List Autoplay\033m\033[0m\033[5m\033[5m\033[0m"      
+    echo 
+    read -t 3 -p " Press any key then press enter to quit : " playdir
            
-           # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
-           if [[ $playdir ]]; then                                                        # if no input is entered within 3 seconds the next video will play
-                 break                                                   # if enter is pressed without any input the next video will play
-           fi
+    # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
+    if [[ $playdir ]]; then                                                        # if no input is entered within 3 seconds the next video will play
+            break                                                   # if enter is pressed without any input the next video will play
+    fi
 done
  
 IFS=$OLDIFS
