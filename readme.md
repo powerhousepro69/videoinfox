@@ -24,7 +24,7 @@ sudo wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/vide
 sudo chmod +x /usr/local/bin/videoinfox
 ```
 
-** Screenshots below still need updated.
+** Features List and Screenshots below still need updated.
 
 <br />
 Download multiple URL User Lists simultaneously.
@@ -324,6 +324,13 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+###  v3.9.02 Fix: Option display in View Playlist with a valid http video link in the clipboard.
+
+         Fix: Resume Autoplay would error on a new Playlist without initially running Start Autoplay.
+
+         Added below line to Playlist >>> Help
+         When Resume Autoplay reaches the end of the playlist, it will remain there until Start Autoplay is run again.
 
 ###  v3.9.00 View Playlist appearance update + new options in View Playlist and Navigate Tree >>> Show All.
 
