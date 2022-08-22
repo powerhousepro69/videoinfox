@@ -153,6 +153,21 @@ write_supported_list() {
     done < "${1:?No input file defined}"
 }
 
+# This pauses the execution.  It displays and counts down the seconds set in <$sec>
+noisy_timeout() {
+    local sec msg
+    noisy_timeout "${1:?No timeout defined}"
+    shift 1
+    msg="${*}"
+    for (( i=sec; i>=0; i-- )); do
+        tput sc
+        printf -- '%s' "${msg:-Timeout} in: ${i}"
+        tput rc
+        sleep 1
+    done
+    printf -- '%s\n' ""
+}
+
 retrieve_url() {
     local remote_source local_destination
     remote_source="${1:?No url defined}"
@@ -612,14 +627,12 @@ if [[ ! -d "$direxist" ]]; then
     echo "https://www.youtube.com/watch?v=DAPkOxRnh4c" >> $HOME/Downloads/videoinfox-dl-sample-list
 
     echo
+    
+    noisy_timeout 36 "Downloading Yt-dlp"
+fi
 
-    sec=36
-    while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
-        echo -ne " Downloading Yt-dlp in: $sec\033[0K\r"
-        let "sec=sec-1"
-        sleep 1
-    done
-
+##################################################################################################################################################
+##### CHECK FOR YT-DLP UPDATE ####################################################################################################################
 ytdlp_update() {
     # Yt-dlp initial download attempt on the first run. If it fails, download will be re-attempted when you select the Yt-dlp Menu.
     clear
@@ -663,14 +676,9 @@ ytdlp_update() {
         echo " Yt-dlp Downloaded . . ."
         echo
         # SAMPLE VIDEO URL BEING COPIED TO CLIPBOARD
-        echo "https://www.youtube.com/watch?v=rNWPqfCJDnc" | xclip -sel clip 
+        echo "https://www.youtube.com/watch?v=rNWPqfCJDnc" | xclip -sel clip
 
-        sec=5           
-        while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>                       
-            echo -ne " $ver starting in: $sec\033[0K\r"
-            let "sec=sec-1"
-            sleep 1
-        done
+        noisy_timeout 5 " $ver starting"
         
         rm ${base_dir}/wget-* 2> /dev/null          
     else
@@ -678,19 +686,13 @@ ytdlp_update() {
         echo " Yt-dlp Download Failure . . ."
         echo
 
-        sec=15           
-        while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>                       
-            echo -ne " $ver starting in: $sec\033[0K\r"
-            let "sec=sec-1"
-            sleep 1
-        done 
+        noisy_timeout 15 " $ver starting"
 
         rm ${base_dir}/wget-* 2> /dev/null    
 
         cd "$dirtemp"  # restore directory
     fi
 }
-fi
 
 ##################################################################################################################################################
 ##### CHECK FOR VIDEOINFOX UPDATE ################################################################################################################
@@ -6903,50 +6905,43 @@ cd ${tmp_dir}
  
 wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp 2>/dev/null  # download yt-dlp 
 if [[ -f ${tmp_dir}/yt-dlp ]]; then
-    chmod a+rx ${tmp_dir}/yt-dlp  # set <yt-dlp-fetched> execute bit  
-    sec=5
-            
-        while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
-        echo -ne " Yt-dlp Downloaded . . . $sec\033[0K\r"
-        let " sec=sec-1"
-        sleep 1
-        done
-
+    chmod a+rx ${tmp_dir}/yt-dlp  # set <yt-dlp-fetched> execute bit
+    noisy_timeout 5 " Yt-dlp Downloaded . . ."
    
 chkytdlp() {
 
-         if [[ -f ${tmp_dir}/yt-dlp ]]; then
-                 ytexist=$(${base_dir}/yt-dlp --version)
-            else
-                 ytexist="Not installed"
-         fi
+    if [[ -f ${tmp_dir}/yt-dlp ]]; then
+        ytexist=$(${base_dir}/yt-dlp --version)
+    else
+        ytexist="Not installed"
+    fi
 
-         clear 
-         echo
-         echo
-         echo
-         echo "___________________________________________________________________________________________________________________"
-         echo
-         echo " ""$der"" >>> CHECK YT-DLP UPDATE"
-         echo "___________________________________________________________________________________________________________________"
-         echo
-         echo " Yt-dlp Home: https://github.com/yt-dlp/yt-dlp"
-         echo
-         echo " Downloaded From: https://github.com/yt-dlp/yt-dlp/releases/latest/download"
-         echo
-         echo
-         echo " Version Check Complete"
-         echo
-         echo " Downloaded:" $(${tmp_dir}/yt-dlp --version)
-         echo
-         echo " Installed: " "$ytexist"
-         echo
-         echo
-         echo " u - Update     d - Don't Update"  
-         echo
-         echo -en " Enter Option: "
-         read -r -n1 optionytdlp
-         echo         
+    clear 
+    echo
+    echo
+    echo
+    echo "___________________________________________________________________________________________________________________"
+    echo
+    echo " ""$der"" >>> CHECK YT-DLP UPDATE"
+    echo "___________________________________________________________________________________________________________________"
+    echo
+    echo " Yt-dlp Home: https://github.com/yt-dlp/yt-dlp"
+    echo
+    echo " Downloaded From: https://github.com/yt-dlp/yt-dlp/releases/latest/download"
+    echo
+    echo
+    echo " Version Check Complete"
+    echo
+    echo " Downloaded:" $(${tmp_dir}/yt-dlp --version)
+    echo
+    echo " Installed: " "$ytexist"
+    echo
+    echo
+    echo " u - Update     d - Don't Update"  
+    echo
+    echo -en " Enter Option: "
+    read -r -n1 optionytdlp
+    echo         
 }        
               
          while true; do
@@ -6970,12 +6965,7 @@ chkytdlp() {
                     cd "$dirtemp"  # restore directory
                     echo
                             
-                    sec=3
-                    while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
-                        echo -ne " Yt-dlp UPDATED . . . $sec\033[0K\r"
-                        let " sec=sec-1"
-                        sleep 1
-                    done         
+                    noisy_timeout 3 " Yt-dlp UPDATED . . ."
                     break
                 ;;
             esac
@@ -6983,12 +6973,8 @@ chkytdlp() {
     else
          rm ${tmp_dir}/* 2>/dev/null     
          cd "$dirtemp"  # restore directory
-         sec=20           
-         while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>                       
-              echo -ne " Yt-dlp Download Failure . . . $sec\033[0K\r"
-              let "sec=sec-1"
-              sleep 1
-         done     
+
+         noisy_timeout 20 " Yt-dlp Download Failure . . ."
     fi
 ;;         
 esac
@@ -7053,12 +7039,7 @@ if [[ -f ${base_dir}/yt-dlp ]]; then
         # SAMPLE VIDEO URL BEING COPIED TO CLIPBOARD
         echo "https://www.youtube.com/watch?v=rNWPqfCJDnc" | xclip -sel clip 
 
-        sec=5           
-        while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>                       
-             echo -ne " $ver starting in: $sec\033[0K\r"
-             let "sec=sec-1"
-             sleep 1
-        done
+        noisy_timeout 5 " $ver starting"
 
         cd "$dirtemp"  # restore directory
         rm ${base_dir}/wget-* 2> /dev/null  
@@ -7068,12 +7049,7 @@ if [[ -f ${base_dir}/yt-dlp ]]; then
         echo " Yt-dlp Download Failure . . ."
         echo
 
-        sec=20           
-        while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>                       
-             echo -ne " $ver starting in: $sec\033[0K\r"
-             let "sec=sec-1"
-             sleep 1
-        done     
+        noisy_timeout 20 " $ver starting"
 
         cd "$dirtemp"  # restore directory
         rm ${base_dir}/wget-* 2> /dev/null
