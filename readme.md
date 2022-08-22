@@ -1,4 +1,4 @@
-# Videoinfox v3.9.00
+# Videoinfox v3.9.02
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
