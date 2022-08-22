@@ -22,6 +22,21 @@ playlist_dir="${base_dir}/playlists"
 tmp_dir="${base_dir}/tmp"
 readonly base_dir playlist_dir tmp_dir
 
+# Get the top level PID and setup a trap so that we can call die() within subshells
+trap "exit 1" TERM
+_self_pid="${$}"
+export _self_pid
+
+die() {
+    if [ -t 0 ]; then
+        printf '\e[31;1m====>%s\e[0m\n' "${0}:(${LINENO}): ${*}" >&2
+    else
+        printf -- '====>%s\n' "${0}:(${LINENO}): ${*}" >&2
+    fi
+    # Send a TERM signal to the top level PID, this is trapped and exit 1 is forced
+    kill -s TERM "${_self_pid}"
+}
+
 init() {
     # Check for dependencies and output anything missing to stderr
     for dependency in ${dependencies}; do
@@ -36,6 +51,9 @@ init() {
             "${dependency_failmsg/,/}" >&2
         exit 1
     fi
+
+    # Disallow usage in /
+    [[ "${PWD}" = "/" ]] && die "Videoinfox must not be run within /"
 
     # TODO: Add error handling for mkdir failures via a die() function
     [[ -d "${base_dir}" ]] || mkdir -p "${base_dir}"
@@ -430,7 +448,6 @@ play_directory() {
 
 #  THE BELOW 7 FUNCTIONS RUN ONCE ON EVERY STARTUP THEN INTO THE MAIN LOOP.
 
-#  2. Start from root check and change to home dir if started from the root directory.   
 #  3. Configuration directory check and file creation. If  ${base_dir}  doesn't exist, directory will be crated along with config files.
 #  4. Check for Videoinfox Update and Notify if update is available.
 #  5. Create empty Default Download List if one doesn't already exist.
@@ -438,41 +455,6 @@ play_directory() {
 #  7. Create Main Help file.
 #  8. Create Version History file.
 
-
-##################################################################################################################################################
-#####  2. START FROM ROOT CHECK  ################################################################################################################# 
-##################################################################################################################################################
-
-whatdir=$PWD  #  current working directory
-thisdir="/" #  root directory
-
-if [[ "$whatdir" == $thisdir ]]; then
-      clear
-      echo
-      echo "__________________________________________________________________________________________________________________"
-      echo  
-      echo " $ver >>> Videoinfox was started in root"
-      echo
-      echo " Working Directory: ""$PWD"
-      echo "__________________________________________________________________________________________________________________" 
-      echo      
-      cd "$HOME" 
-      echo " This script was started in root. Videoinfo will throw ERRORS when run from ROOT"
-      echo
-      echo " This Script's Working Directory Was Changed to: $PWD"
-      echo
-      echo " Change to a Parent Directory of your Video Library"
-      echo
-
-      # Timeout was disabled because there was no point in seeing this display.  I ended up just neeeding the <cd> execution from the loop.
-      
-      #sec=3
-           #while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
-           #echo -ne "     Message Expiring in: $sec\033[0K\r"
-           #let "sec=sec-1"
-           #sleep 1
-           #done              
-fi
 ##################################################################################################################################################
 #####  3. DIRECTORY CHECK & FILE CREATION  ####################################################################################################### 
 ##################################################################################################################################################
@@ -10747,10 +10729,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
              # read first line of file for play
              read playnumber < ${tmp_dir}/videoinfo-view-downloads-autoplay.tmp
 
-                 if [[ -z "$playnumber" ]]; then
-                       :
- 
-                   else
+                 if ! [[ -z "$playnumber" ]]; then
                        #echo
                        echo
                        echo "$playnumber"
@@ -10763,9 +10742,6 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
                        rm ${tmp_dir}/videoinfo-view-downloads-autoplay.tmp 2>/dev/null
 
                  fi
-
-        else
-            :
 
             fi
 
@@ -10824,19 +10800,19 @@ echo > ${tmp_dir}/videoinfox.navtree-play-directory-apa2
 while read -r line; do
 
    if [[ "$line" == *.mp4 ]]; then # IF FILE IS MP4, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2  
+        echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2  
      
    elif [[ "$line" == *.webm ]]; then # IF FILE IS WEBM, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2
+        echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2
       
    elif [[ "$line" == *.mkv ]]; then # IF FILE IS MKV, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2
+        echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2
 
    elif [[ "$line" == *.avi ]]; then # IF FILE IS AVI, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2
+        echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2
 
    elif [[ "$line" == *.divx ]]; then  # IF FILE IS DIVX, WRITE LINE TO FILE
-             echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2
+        echo "$line" >> ${tmp_dir}/videoinfox.navtree-play-directory-apa2
    fi
 
 done < "$input"
@@ -11300,7 +11276,7 @@ fi
 m)  # MORE OPTIONS   #############################################################################################################################
 ##################################################################################################################################################
 
-function menu {
+menu() {
 
 ##################################################################################
 ##########  START   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
@@ -11387,7 +11363,6 @@ fi
 # DEFAULT DIR 5 DISPLAY
 if [[ "$controldir" = "$dir5display" ]]; then
        dirdisp="$dirdisplay5"  # if directory is changed to  Default Dir 5 :  The number 5 is normal text and the other 4 are less bold.
-        
   else
        dirdisp="$dirdisplayno" # if directory doesn't match  Default Dirs 1-5 : All 5 numbers are less bold.  
 fi 
