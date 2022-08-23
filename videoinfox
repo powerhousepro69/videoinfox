@@ -153,6 +153,11 @@ noisy_timeout() {
     printf -- '%s\n' ""
 }
 
+# Assign clipboard content to the var "$pasteclip"
+pasteclip() {
+    pasteclip=$(xclip -o -selection clipboard 2> /dev/null)
+}
+
 #-------------------------------------------------------------------------------------------------------------------------------------------------
 #  videoinfox -h     DISPLAY HELP THEN EXIT  
 #-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -287,7 +292,7 @@ write_default_list() {
         echo "Default Download List Empty" >> "${base_dir}/videoinfox-dl-Default"
     fi
     # ADD TO DEFAULT LIST  <DEFAULT LIST>
-    pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+    pasteclip  # grab clipboard content
     echo "$pasteclip" >> "${base_dir}/videoinfox-dl-Default"  # write url to the default download list
     notify-send "Videoinfox added link to the Default Download List . . ." "${pasteclip}" # GUI Notification.
 
@@ -326,7 +331,7 @@ write_supported_list() {
 write_user_set_list() {
     read -r grabuserlist < "${base_dir}/videoinfox.set-user-list"
     if [[ -f "$grabuserlist" ]]; then
-        pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+        pasteclip  # grab clipboard content
         echo "$pasteclip" >> "$grabuserlist"  # write url to the user set list
         notify-send "Videoinfox Message: Added link to List ${grabuserlist}  . . ." "${pasteclip}" # GUI Notification.
     
@@ -781,19 +786,19 @@ fi
 ##################################################################################################################################################
 
 menuf() {
-    pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+    pasteclip  # grab clipboard content
 
     grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
     if [[ "$grabclip" != "http" ]]; then
         if [[ ! -f "$pasteclip" ]]; then
             echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
-            pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+            pasteclip  # grab clipboard content
         fi
     fi
     # playedlist sort routine removed here
 
-    pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+    pasteclip  # grab clipboard content
 
     dirinhome="$PWD" 
 
@@ -857,7 +862,7 @@ menuf() {
     read -r dir4 < ${base_dir}/videoinfo.parent-dir 2> /dev/null
     read -r dir5 < ${base_dir}/videoinfo.dir-at-exit 2> /dev/null
 
-    pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+    pasteclip  # grab clipboard content
 
     ##################################################################################
     ##########  START   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
@@ -1000,7 +1005,7 @@ menuf() {
         if [[ "$ytdlpconfirm" = "" ]]; then
 
             echo "" | xclip -sel clip  # clearing out the clipboard
-            pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+            pasteclip  # grab clipboard content
 
             # Videoinfox v2.00________________________________________ Videoinfox v2.00_________________________________________
             #________________x________________________________________ _________________________________________________________
@@ -1053,7 +1058,7 @@ menuf() {
         else  # file does not exist
 
             echo "" | xclip -sel clip  # clearing out the clipboard
-            pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+            pasteclip  # grab clipboard content
 
             echo "___________________________________________________________________________________________________________________"
             echo 
@@ -1284,11 +1289,11 @@ while true; do
                 pasteclip2=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content   save to restore on option quit
                 echo "" | xclip -sel clip  # clearing the clipboard
                 navtree() {
-                    pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+                    pasteclip  # grab clipboard content
 
                     if [[ ! -d "$pasteclip" ]]; then
                         echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
-                        pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+                        pasteclip  # grab clipboard content
                     fi
                     clear
 
@@ -1644,7 +1649,7 @@ while true; do
                             # CHANGE TREETOP (NAVIGATE TREE)  ##################################################################################################
                             ####################################################################################################################################
 
-                            pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+                            pasteclip  # grab clipboard content
                             clear
                             echo
                             echo "Directory: ""$PWD"
@@ -2140,14 +2145,14 @@ menuvhome() {
 
 squash ${base_dir}/videoinfo.playlist  # remove all blank lines
 
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 
 grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
 if ! [[ "$grabclip" = "http" ]]; then
       if ! [[ -f "$pasteclip" ]]; then
             echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
-            pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+            pasteclip  # grab clipboard content
       fi
 fi
 if [[ -f ${base_dir}/videoinfo.playlist ]]; then
@@ -2287,7 +2292,7 @@ if [[ "$grabpaste" = "http" ]]; then
     if [[ "$ytdlpconfirm" = "" ]]; then
 
         echo "" | xclip -sel clip  # clearing out the clipboard
-        pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+        pasteclip  # grab clipboard content
 
         # Videoinfox v2.00________________________________________ Videoinfox v2.00_________________________________________
         #________________x________________________________________ _________________________________________________________
@@ -2334,7 +2339,7 @@ if [[ "$grabpaste" = "http" ]]; then
     else 
 
         echo "" | xclip -sel clip  # clearing out the clipboard
-        pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+        pasteclip  # grab clipboard content
 
         echo "___________________________________________________________________________________________________________________"
         echo
@@ -2959,7 +2964,7 @@ done
           p) 
           #  @PLAY CLIPBOARD - <PLAYLIST>        
 
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 
 if [[ "$grabpaste" = "http" ]]; then
       #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
@@ -2971,7 +2976,7 @@ if [[ "$grabpaste" = "http" ]]; then
       read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
       cd "$dirsaved"   # change to download directory
  
-      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+      pasteclip  # grab clipboard content
       clear
     
       # make a backup copy of:   ${base_dir}/videoinfo.lastdownload   to restore on Play Clipboard with invalid url
@@ -3058,7 +3063,7 @@ if [[ "$grabpaste" = "http" ]]; then
       fi 
       
       echo "" | xclip -sel clip  # clearing out the clipboard
-      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+      pasteclip  # grab clipboard content
       
       cd "$grabdirz"   # restore dir prior to entering yt-dlp menu              
 
@@ -3101,7 +3106,7 @@ if [[ "$grabpaste" = "http" ]]; then
       echo "$pasteclip" >> ${base_dir}/videoinfo.playedlist  # write clipboard content to PLAYLIST file
       ffplay -fs -autoexit "$pasteclip" 2>/dev/null  # play video in clipboard
       echo "" | xclip -sel clip  # clearing out the clipboard
-      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+      pasteclip  # grab clipboard content
       echo " PLAYLIST Closed"
   
         else
@@ -3409,7 +3414,7 @@ get_file_stats "${ytdlplast}"
                        
               echo "$ytdlplast" >> ${base_dir}/videoinfo.playedlist  # write clipboard content to file  
               ffplay -fs -autoexit &> /dev/null "$ytdlplast"
-              pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+              pasteclip  # grab clipboard content
               cd "$grabdir"   # restore dir prior to entering yt-dlp menu
               ;;  
 a)  # SHOW ALL VIDEOS
@@ -3475,7 +3480,7 @@ find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -in
      x) 
        #CLEAR CLIPBOARD - <HOME> 
        echo "" | xclip -sel clip  # copy message in quotes to the clipboard. clearing out the clipboard
-       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+       pasteclip  # grab clipboard content
        ;;
 
 #############################################################################################################################################    
@@ -3486,7 +3491,7 @@ find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -in
 #############################################################################################################################################
 #############################################################################################################################################
      
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 
 if [[ "$grabpaste" = "http" ]]; then
       #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
@@ -3498,7 +3503,7 @@ if [[ "$grabpaste" = "http" ]]; then
       read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
       cd "$dirsaved"   # change to download directory
  
-      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+      pasteclip  # grab clipboard content
       clear
    
       yt-dlp --get-filename -o "%(title)s" "${pasteclip}" > "${base_dir}/videoinfo.lastdownload" 
@@ -3582,7 +3587,7 @@ get_file_stats "${ytdlplast}"
       fi
       
       echo "" | xclip -sel clip  # clearing out the clipboard
-      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+      pasteclip  # grab clipboard content
       
       cd "$grabdir"   # restore dir prior to entering yt-dlp menu              
 
@@ -3627,7 +3632,7 @@ get_file_stats "${ytdlplast}"
       echo "$pasteclip" >> ${base_dir}/videoinfo.playedlist  # write clipboard content to Played List file
       ffplay -fs -autoexit "$pasteclip" 2>/dev/null  # play video in clipboard
       echo "" | xclip -sel clip  # clearing out the clipboard
-      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+      pasteclip  # grab clipboard content
 
       echo " Played List Closed"
 
@@ -3699,7 +3704,7 @@ v)                                  ############################################
      
 function menuvv {
 
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 
 grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
@@ -3711,13 +3716,13 @@ if [[ "$grabclip" = "http" ]]; then
             :
         else
             echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
-            pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+            pasteclip  # grab clipboard content
       fi
 fi
 
 ########################### removed sort routine #########################
 
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content                  
+pasteclip  # grab clipboard content                  
 clear
 
 #  REMOVE PLAYED LIST HEADER AND WRITE NEW FILE FOR PROCESSING: ${tmp_dir}/videoinfo.playedlist-auto-play-all
@@ -3837,7 +3842,7 @@ if [[ "$grabpaste" = "http" ]]; then
             if [[ "$ytdlpconfirm" = "" ]]; then
 
                       echo "" | xclip -sel clip  # clearing out the clipboard
-                      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+                      pasteclip  # grab clipboard content
 
                            # Videoinfox v2.00________________________________________ Videoinfox v2.00_________________________________________
                            #________________x________________________________________ _________________________________________________________
@@ -3884,7 +3889,7 @@ if [[ "$grabpaste" = "http" ]]; then
         else 
 
             echo "" | xclip -sel clip  # clearing out the clipboard
-            pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+            pasteclip  # grab clipboard content
 
             echo "___________________________________________________________________________________________________________________"
             echo
@@ -4134,7 +4139,7 @@ function menuvhome {
 
 squash ${base_dir}/videoinfo.playlist  # remove all blank lines
 
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 
 grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
@@ -4146,7 +4151,7 @@ if [[ "$grabclip" = "http" ]]; then
             :
         else
             echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
-            pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+            pasteclip  # grab clipboard content
       fi
 fi
 if [[ -f ${base_dir}/videoinfo.playlist ]]; then
@@ -4293,7 +4298,7 @@ if [[ "$grabpaste" = "http" ]]; then
             if [[ "$ytdlpconfirm" = "" ]]; then
 
                       echo "" | xclip -sel clip  # clearing out the clipboard
-                      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+                      pasteclip  # grab clipboard content
 
                            # Videoinfox v2.00________________________________________ Videoinfox v2.00_________________________________________
                            #________________x________________________________________ _________________________________________________________
@@ -4340,7 +4345,7 @@ if [[ "$grabpaste" = "http" ]]; then
         else 
 
             echo "" | xclip -sel clip  # clearing out the clipboard
-            pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+            pasteclip  # grab clipboard content
 
             echo "___________________________________________________________________________________________________________________"
             echo
@@ -4965,7 +4970,7 @@ done
           p) 
           #  @PLAY CLIPBOARD - <PLAYLIST>        
 
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 
 if [[ "$grabpaste" = "http" ]]; then
       #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
@@ -4977,7 +4982,7 @@ if [[ "$grabpaste" = "http" ]]; then
       read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
       cd "$dirsaved"   # change to download directory
  
-      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+      pasteclip  # grab clipboard content
       clear
     
       # make a backup copy of:   ${base_dir}/videoinfo.lastdownload   to restore on Play Clipboard with invalid url
@@ -5064,7 +5069,7 @@ get_file_stats "${ytdlplast}"
       fi 
       
       echo "" | xclip -sel clip  # clearing out the clipboard
-      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+      pasteclip  # grab clipboard content
       
       cd "$grabdirz"   # restore dir prior to entering yt-dlp menu              
 
@@ -5107,7 +5112,7 @@ get_file_stats "${ytdlplast}"
       echo "$pasteclip" >> ${base_dir}/videoinfo.playedlist  # write clipboard content to PLAYLIST file
       ffplay -fs -autoexit "$pasteclip" 2>/dev/null  # play video in clipboard
       echo "" | xclip -sel clip  # clearing out the clipboard
-      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+      pasteclip  # grab clipboard content
       echo " PLAYLIST Closed"
   
         else
@@ -5237,7 +5242,7 @@ fi
           p) 
           #  @PLAY CLIPBOARD - <PLAYED LIST>        
 
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 
 if [[ "$grabpaste" = "http" ]]; then
       #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
@@ -5249,7 +5254,7 @@ if [[ "$grabpaste" = "http" ]]; then
       read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
       cd "$dirsaved"   # change to download directory
  
-      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+      pasteclip  # grab clipboard content
       clear
     
       # make a backup copy of:   ${base_dir}/videoinfo.lastdownload   to restore on Play Clipboard with invalid url
@@ -5336,7 +5341,7 @@ get_file_stats "${ytdlplast}"
       fi 
       
       echo "" | xclip -sel clip  # clearing out the clipboard
-      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+      pasteclip  # grab clipboard content
       
       cd "$grabdir"   # restore dir prior to entering yt-dlp menu              
 
@@ -5379,7 +5384,7 @@ get_file_stats "${ytdlplast}"
       echo "$pasteclip" >> ${base_dir}/videoinfo.playedlist  # write clipboard content to Played List file
       ffplay -fs -autoexit "$pasteclip" 2>/dev/null  # play video in clipboard
       echo "" | xclip -sel clip  # clearing out the clipboard
-      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+      pasteclip  # grab clipboard content
       echo " Played List Closed"
   
         else
@@ -5423,14 +5428,14 @@ menuvhome() {
 
 squash "${base_dir}/videoinfo.playlist"  # remove all blank lines
 
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 
 grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
 if [[ ! "$grabclip" = "http" ]]; then
     if [[ ! -f "$pasteclip" ]]; then
         echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
-        pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+        pasteclip  # grab clipboard content
     fi
 fi
 if [[ -f ${base_dir}/videoinfo.playlist ]]; then
@@ -5571,7 +5576,7 @@ if [[ "$grabpaste" = "http" ]]; then
     if [[ "$ytdlpconfirm" = "" ]]; then
 
         echo "" | xclip -sel clip  # clearing out the clipboard
-        pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+        pasteclip  # grab clipboard content
 
         # Videoinfox v2.00________________________________________ Videoinfox v2.00_________________________________________
         #________________x________________________________________ _________________________________________________________
@@ -5618,7 +5623,7 @@ else
     else
 
         echo "" | xclip -sel clip  # clearing out the clipboard
-        pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+        pasteclip  # grab clipboard content
 
         echo "___________________________________________________________________________________________________________________"
         echo
@@ -6225,7 +6230,7 @@ done
           p) 
           #  @PLAY CLIPBOARD - <PLAYLIST>        
 
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 
 if [[ "$grabpaste" = "http" ]]; then
       #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
@@ -6237,7 +6242,7 @@ if [[ "$grabpaste" = "http" ]]; then
       read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
       cd "$dirsaved"   # change to download directory
  
-      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+      pasteclip  # grab clipboard content
       clear
     
       # make a backup copy of:   ${base_dir}/videoinfo.lastdownload   to restore on Play Clipboard with invalid url
@@ -6324,7 +6329,7 @@ get_file_stats "${ytdlplast}"
       fi 
       
       echo "" | xclip -sel clip  # clearing out the clipboard
-      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+      pasteclip  # grab clipboard content
       
       cd "$grabdirz"   # restore dir prior to entering yt-dlp menu              
 
@@ -6367,7 +6372,7 @@ get_file_stats "${ytdlplast}"
       echo "$pasteclip" >> ${base_dir}/videoinfo.playedlist  # write clipboard content to PLAYLIST file
       ffplay -fs -autoexit "$pasteclip" 2>/dev/null  # play video in clipboard
       echo "" | xclip -sel clip  # clearing out the clipboard
-      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+      pasteclip  # grab clipboard content
       echo " PLAYLIST Closed"
   
         else
@@ -6496,7 +6501,7 @@ fi
     f)  ################  FIND ROUTINE - <HOME>  #################################################################################################
 ##################################################################################################################################################
 
-    pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+    pasteclip  # grab clipboard content
 
     clear
     echo
@@ -6562,7 +6567,7 @@ z)  # SETTINGS - <HOME>  #######################################################
 ##################################################################################################################################################
 
 function menusettings {
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 # LOAD STORED DIRECTORIES
 read -r dir1 < ${base_dir}/videoinfo.tv-dir 2> /dev/null
 read -r dir2 < ${base_dir}/videoinfo.movies-dir 2> /dev/null
@@ -6605,7 +6610,7 @@ case $optionsettings in
     break;;
     x) #  CLEAR CLIPBOARD  <DOWNLOAD LIST> 
     echo "" | xclip -sel clip  # clearing out the clipboard
-    pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+    pasteclip  # grab clipboard content
     ;;
     c)  # CODE STATS
 
@@ -6728,7 +6733,7 @@ done
     1)
     # SET TV DIRECTORY
     grabdir="$PWD"  # grab working directory 
-    pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+    pasteclip  # grab clipboard content
     clear
     echo
     echo "Working Directory: ""$PWD"  # <pwd>  print current working directory to the screen 
@@ -6762,7 +6767,7 @@ done
     2)
     # SET MOVIES DIRECTORY
     grabdir="$PWD"  # grab working directory 
-    pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content 
+    pasteclip  # grab clipboard content 
     clear
     echo
     echo "Working Directory: ""$PWD"  # <pwd>  print current working directory to the screen 
@@ -6796,7 +6801,7 @@ done
     3)
     # SET <yt-dlp> DOWNLOAD DIRECTORY
     grabdir="$PWD"  # grab working directory 
-    pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+    pasteclip  # grab clipboard content
     clear
     echo
     echo "Working Directory: ""$PWD"  # <pwd>  print current working directory to the screen 
@@ -6830,7 +6835,7 @@ done
  4)
     # SET PARENT DIRECTORY
     grabdir="$PWD"  # grab working directory 
-    pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+    pasteclip  # grab clipboard content
     clear
     echo
     echo "Working Directory: ""$PWD"  # <pwd>  print current working directory to the screen 
@@ -6916,20 +6921,20 @@ read -r ytdlpver < <(yt-dlp --version)
 
 menuy() {
 
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 
 grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
 if ! [[ "$grabclip" = "http" ]]; then
     if ! [[ -f "$pasteclip" ]]; then
         echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
-        pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+        pasteclip  # grab clipboard content
     fi
 fi
 read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir
 #######################  cd "$dirsaved" 
 
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 
 clear
 echo
@@ -6961,7 +6966,7 @@ if [[ "$grabpaste" = "http" ]]; then
 
             if [[ "$ytdlpconfirm" = "" ]]; then
 
-                      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+                      pasteclip  # grab clipboard content
                       dash0=$(echo "-") # not blinking
 
                            # Videoinfox v2.00________________________________________ Videoinfox v2.00_________________________________________
@@ -6977,7 +6982,7 @@ if [[ "$grabpaste" = "http" ]]; then
                       echo
                   
                       echo "" | xclip -sel clip  # clearing out the clipboard
-                      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+                      pasteclip  # grab clipboard content
                   else 
                       
                       dash1=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
@@ -7018,7 +7023,7 @@ echo -e " d - Download Default     l - Last Download     v - View Downloads     
         else 
 
             echo "" | xclip -sel clip  # clearing out the clipboard
-            pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+            pasteclip  # grab clipboard content
 
             echo "___________________________________________________________________________________________________________________"
             echo
@@ -7045,23 +7050,23 @@ read -r -n1 optiony
      break;;
      x)  # CLEAR CLIPBOARD  (DOWNLOAD LIST)
      echo "" | xclip -sel clip  # clearing out the clipboard
-     pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+     pasteclip  # grab clipboard content
      ;;
      g)  # DOWNLOAD LIST  <YT-DLP MENU>
 
 rm ${base_dir}/videoinfox-dl-Default~ 2> /dev/null  # tmp fix
 
 echo "" | xclip -sel clip  # clearing out the clipboard
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null) # grab clipboard content
+pasteclip # grab clipboard content
 dwnlist() {
 
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 
 if [[ -f "$pasteclip" ]]; then
 :
 else
 echo "" | xclip -sel clip  # clearing out the clipboard
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 fi
  
 # find default download list and write to file.
@@ -7288,7 +7293,7 @@ echo -en " Enter Option: "
 read -r -n1 optiond
 echo
 
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 
 if [[ -z "$pasteclip" ]]; then
        echo
@@ -7330,11 +7335,11 @@ cd "$dir5"
          
 q)  # QUIT (DOWNLOAD LIST)
 echo "$pasteclip3" | xclip -sel clip  # restore clipboard
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 break;;
 x)  # CLEAR CLIPBOARD  (DOWNLOAD LIST)
 echo "" | xclip -sel clip  # clearing out the clipboard
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 ;;
 m)
 ##################################################################################################################################################
@@ -7345,14 +7350,14 @@ pasteclip2=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard conte
 echo "" | xclip -sel clip  # clearing the clipboard
 function navtree {
 
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 
 if [[ -d "$pasteclip" ]]; then
       :
 
   else      
       echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
-      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+      pasteclip  # grab clipboard content
      
 fi
 clear
@@ -7637,7 +7642,7 @@ read line < ${tmp_dir}/nt-list.tmp2
          n)  # CHANGE TREETOP (CREATE DIRECTORY)  ###############################################################################################
          ########################################################################################################################################
 
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 clear
 echo
 echo "Directory: ""$PWD"
@@ -7677,7 +7682,7 @@ echo
          ;;
 
 a)  # ADD TO QUEUE (DOWNLOAD LIST)
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 
 ddlist=${base_dir}/videoinfox-dl-Default
 
@@ -7915,7 +7920,7 @@ sleep .75
 fi
 ;; 
 s)  # SET USER LIST  <DOWNLOAD LIST>
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 
 ###########################################################################################################################################################
 # START Routine to find out if clipboard contents  =  The default download list or a user list.  only a user list can:  Set User List and Delete User List
@@ -7962,7 +7967,7 @@ if [[ -z "$pasteclip" ]]; then
                 read -p " Press enter to Continue"
 
                 echo "" | xclip -sel clip  # clearing out the clipboard
-                pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content 
+                pasteclip  # grab clipboard content 
    
         fi
 fi
@@ -7976,7 +7981,7 @@ rm ${base_dir}/videoinfox.dlname.tmp2
 
 ;;
 r)  # DELETE USER LIST  <DOWNLOAD LIST>
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 
 ###########################################################################################################################################################
 # START Routine to find out if clipboard contents  =  The default download list or a user list.  only a user list can:  Set User List and Delete User List
@@ -8032,7 +8037,7 @@ if ! [[ -z "$pasteclip" ]]; then
                     if [[ "$ctmp2" = "$ctmp4" ]]; then
                             touch ${base_dir}/videoinfox.set-user-list
                             echo "" | xclip -sel clip  # clearing out the clipboard
-                            pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+                            pasteclip  # grab clipboard content
                     fi
                     rm "$pasteclip" 2>/dev/null
                     rm "$pasteclip".log 2>/dev/null
@@ -8071,7 +8076,7 @@ k)  # DEFAULT LIST  <DOWNLOAD LIST>
 echo "" | xclip -sel clip  # clearing out the clipboard
 
 ddefault() {
-    pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+    pasteclip  # grab clipboard content
     ########## start blinking and error correcting routine #################
 
     # blinking
@@ -8087,7 +8092,7 @@ ddefault() {
     else      
         atd="$addtodefault0"
         echo "" | xclip -sel clip  # clearing out the clipboard
-        pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content      
+        pasteclip  # grab clipboard content      
 
     fi
 
@@ -8123,11 +8128,11 @@ case $optiondd in
          
 q)  # QUIT  <DEFAULT LIST>
 echo "" | xclip -sel clip  # clearing out the clipboard
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 break;;
 x) #  CLEAR CLIPBOARD  <DEFAULT LIST> 
 echo "" | xclip -sel clip  # clearing out the clipboard
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 ;;
 c)  # CLEAR DEFAULT LIST   <DEFAULT LIST>  
 yesorno() {
@@ -8175,11 +8180,11 @@ done
 
 a)  # ADD TO DEFAULT LIST  <DEFAULT LIST>
 
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 echo "$pasteclip" >> ${base_dir}/videoinfox-dl-Default
 # notify-send "Videoinfox Message: Added to Default Download List." ""$pasteclip"" # GUI Notification.
 echo "" | xclip -sel clip  # clearing out the clipboard
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 ;;
 r)  # REMOVE LAST LINE IN THE DEFAULT DOWNLOAD LIST <DEFAULT LIST>
 
@@ -8195,7 +8200,7 @@ clear
 
 dirclip="$PWD"
 
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 
 if [[ -f "$pasteclip" ]]; then
 
@@ -8310,13 +8315,13 @@ echo "" | xclip -sel clip  # clearing out the clipboard
 else  # File didn't exist. clipboard cleared
 
 echo "" | xclip -sel clip  # clearing out the clipboard
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 fi
 cd "$dirclip"  # restore directory to before  Download List
 ;;
 v)  # VIEW A DOWNLOAD LIST
 
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 
 if [[ -f "$pasteclip" ]]; then
 
@@ -8328,7 +8333,7 @@ read -p "Up/Down arrows or mouse to scroll.  Press enter to quit"
 else  # File didn't exist. clipboard cleared
 
 echo "" | xclip -sel clip  # clearing out the clipboard
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 fi
 ;;
 l)  # VIEW LOGS
@@ -8337,7 +8342,7 @@ echo "" | xclip -sel clip  # clearing out the clipboard clipboard
 
 function viewlogs {
 
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 ########## blinking routine for display ##########
 
 # blinking
@@ -8385,10 +8390,10 @@ case $optionvl in
          
 q)  # QUIT
 echo "$pastecliptemp" | xclip -sel clip  # restoring clipboard clipboard
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 break;;
 l)  # VIEW LOG
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard contentclear
+pasteclip  # grab clipboard contentclear
 
 if [[ -f "$pasteclip" ]]; then
 
@@ -8399,7 +8404,7 @@ echo "" | xclip -sel clip  # clearing out the clipboard clipboard
 
 else
 echo "" | xclip -sel clip  # clearing out the clipboard
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 fi
 
 esac
@@ -8422,7 +8427,7 @@ done
      p) 
      #  @PLAY CLIPBOARD - <VIEW DOWNLOADS>
           
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 
 if [[ "$grabpaste" = "http" ]]; then
       #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
@@ -8434,7 +8439,7 @@ if [[ "$grabpaste" = "http" ]]; then
       read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
       cd "$dirsaved"   # change to download directory
  
-      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+      pasteclip  # grab clipboard content
       clear
     
       # make a backup copy of:   ${base_dir}/videoinfo.lastdownload   to restore on Play Clipboard with invalid url
@@ -8520,7 +8525,7 @@ get_file_stats "${ytdlplast}"
       fi 
       
       echo "" | xclip -sel clip  # clearing out the clipboard
-      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+      pasteclip  # grab clipboard content
       
       cd "$grabdir"   # restore dir prior to entering yt-dlp menu              
 
@@ -8564,7 +8569,7 @@ get_file_stats "${ytdlplast}"
       ffplay -fs -autoexit "$pasteclip" 2>/dev/null  # play video in clipboard
 
       echo "" | xclip -sel clip  # clearing out the clipboard
-      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+      pasteclip  # grab clipboard content
 
       echo " Played List Closed"
       
@@ -8591,7 +8596,7 @@ keepdir="$PWD"  # save dir for exit
       function menuyt {  # LIST ALL VIDEO FILES RECURSIVELY IN THE DEFAULT DOWNLOAD DIRECTORY 
 cd "$dirsaved"
 
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 
 grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
@@ -8603,7 +8608,7 @@ if [[ "$grabclip" = "http" ]]; then
             :
         else
             echo "" | xclip -sel clip  # clearing out the clipboaed
-            pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+            pasteclip  # grab clipboard content
       fi
 fi
 
@@ -8638,7 +8643,7 @@ fi
 #tac ${base_dir}/videoinfo.viewdownloads >  ${base_dir}/videoinfo.viewdownloads.tmp
 #mv ${base_dir}/videoinfo.viewdownloads.tmp ${base_dir}/videoinfo.viewdownloads
 
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content                  
+pasteclip  # grab clipboard content                  
 clear
 #cat ${base_dir}/videoinfo.view-downloads
 
@@ -8687,7 +8692,7 @@ if [[ "$grabpaste" = "http" ]]; then
             if [[ "$ytdlpconfirm" = "" ]]; then
 
                       echo "" | xclip -sel clip  # clearing out the clipboard
-                      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+                      pasteclip  # grab clipboard content
 
                            # Videoinfox v2.00________________________________________ Videoinfox v2.00_________________________________________
                            #________________x________________________________________ _________________________________________________________
@@ -8728,7 +8733,7 @@ if [[ "$grabpaste" = "http" ]]; then
         else 
 
             echo "" | xclip -sel clip  # clearing out the clipboard
-            pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+            pasteclip  # grab clipboard content
 
 
            print_header " ${der} >>> VIEW DOWNLOADS"
@@ -8760,7 +8765,7 @@ read -r -n1 optionyt
  
           #  @PLAY CLIPBOARD - <VIEW DOWNLOADS>
           
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 
 if [[ "$grabpaste" = "http" ]]; then
       #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
@@ -8772,7 +8777,7 @@ if [[ "$grabpaste" = "http" ]]; then
       read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
       cd "$dirsaved"   # change to download directory
  
-      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+      pasteclip  # grab clipboard content
       clear
     
       # make a backup copy of:   ${base_dir}/videoinfo.lastdownload   to restore on Play Clipboard with invalid url
@@ -8856,7 +8861,7 @@ get_file_stats "${ytdlplast}"
       fi 
       
       echo "" | xclip -sel clip  # clearing out the clipboard
-      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+      pasteclip  # grab clipboard content
       
       cd "$grabdir"   # restore dir prior to entering yt-dlp menu              
 
@@ -8899,7 +8904,7 @@ get_file_stats "${ytdlplast}"
       echo "$pasteclip" >> ${base_dir}/videoinfo.playedlist  # write clipboard content to Played List file
       ffplay -fs -autoexit "$pasteclip" 2>/dev/null  # play video in clipboard
       echo "" | xclip -sel clip  # clearing out the clipboard
-      pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+      pasteclip  # grab clipboard content
 
       echo " Played List Closed"
  
@@ -9256,7 +9261,7 @@ fi
               read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
               cd "$dirsaved"   # change to download directory              
 
-              pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+              pasteclip  # grab clipboard content
               
               grabpaste3=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
@@ -9292,7 +9297,7 @@ fi
               ffplay -fs -autoexit &> /dev/null "$dirsaved"/download.tmp*  # play temporary video
               rm "$dirsaved"/download.tmp*  # on player close, delete temporary video
               echo "" | xclip -sel clip  # clearing out the clipboard
-              pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+              pasteclip  # grab clipboard content
              
               else 
                     echo
@@ -9352,14 +9357,14 @@ get_file_stats "${ytdlplast}"
                        
               echo "$ytdlplast" >> ${base_dir}/videoinfo.playedlist  # write clipboard content to file  
               ffplay -fs -autoexit &> /dev/null "$ytdlplast"
-              pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+              pasteclip  # grab clipboard content
               cd "$grabdir"   # restore dir prior to entering yt-dlp menu
               ;;  
               d)  # DOWNLOAD DEFAULT
               read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
               cd "$dirsaved"  # change to download directory
  
-              pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content              
+              pasteclip  # grab clipboard content              
 #!!!
               grabpaste3=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
@@ -9384,7 +9389,7 @@ get_file_stats "${ytdlplast}"
               notify-send "Videoinfox messsage: YT-DLP done downloading . . ." "$lastdownload"
               
               echo "" | xclip -sel clip  # clearing out the clipboard
-              pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+              pasteclip  # grab clipboard content
 
               
                 else 
@@ -9400,7 +9405,7 @@ get_file_stats "${ytdlplast}"
               read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
               cd "$dirsaved"   # change to download directory
 
-              pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+              pasteclip  # grab clipboard content
 
               grabpaste3=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
@@ -9437,7 +9442,7 @@ get_file_stats "${ytdlplast}"
               notify-send "Videoinfox messsage: YT-DLP done downloading . . ." "$lastdownload"              
               
               echo "" | xclip -sel clip  # clearing out the clipboard
-              pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+              pasteclip  # grab clipboard content
               
               else 
                     echo
@@ -9776,7 +9781,7 @@ c)
 ###########################   MORE OPTIONS c  CHANGE DIRECTORY  ##################################################################################
 ##################################################################################################################################################
  
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+pasteclip  # grab clipboard content
 clear
 echo
 echo "Directory: ""$PWD"
@@ -10059,7 +10064,7 @@ echo
         else  
             if [[ -f "$specifyfile" ]]; then
                 echo "$specifyfile"  | xclip -sel clip  # copy valid file to the cilpboard for play
-                pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+                pasteclip  # grab clipboard content
 
                 get_file_stats "${pasteclip}"
                 echo
