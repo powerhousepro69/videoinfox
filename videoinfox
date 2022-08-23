@@ -625,10 +625,6 @@ play_directory() {
 }
 
 ##################################################################################################################################################
-#  END COMMAND LINE OPTIONS  #####################################################################################################################
-##################################################################################################################################################
-
-##################################################################################################################################################
 #####  3. DIRECTORY CHECK & FILE CREATION  ####################################################################################################### 
 ##################################################################################################################################################
 
@@ -748,7 +744,6 @@ ytdlp_update() {
     
     if [[ -f ${base_dir}/yt-dlp ]]; then
         chmod a+rx ${base_dir}/yt-dlp  # set <yt-dlp-fetched> execute bit
-        ${base_dir}/yt-dlp --version > ${base_dir}/videoinfo.yt-dlp.version # write yt-dlp ver number to file: yt-dlp.version 
         echo
         echo " Yt-dlp Downloaded . . ."
         echo
@@ -7001,7 +6996,6 @@ chkytdlp() {
                     # UPDATE
                     rm ${base_dir}/yt-dlp 2> /dev/null
                     mv ${tmp_dir}/yt-dlp ${base_dir} 2> /dev/null       
-                    ${base_dir}/yt-dlp --version > ${base_dir}/videoinfo.yt-dlp.version
                     rm ${tmp_dir}/* 2>/dev/null
                     cd "$dirtemp"  # restore directory
                     echo
@@ -7039,7 +7033,6 @@ if ! command -v ${base_dir}/yt-dlp > /dev/null 2>&1; then  # if <yt-dlp> isnt fo
 
     if [[ -f ${base_dir}/yt-dlp ]]; then
         chmod a+rx ${base_dir}/yt-dlp  # set <yt-dlp-fetched> execute bit
-        ${base_dir}/yt-dlp --version > ${base_dir}/videoinfo.yt-dlp.version # write yt-dlp ver number to file: yt-dlp.version 
         echo
         echo " Yt-dlp Downloaded . . ."
         echo
@@ -7066,9 +7059,9 @@ else  # IF YT-DLP IS FOUND    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 ###########################
 
-read -r ytdlpver < ${base_dir}/videoinfo.yt-dlp.version
+read -r ytdlpver < <(${base_dir}/yt-dlp --version)
 
-function menuy {
+menuy() {
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
