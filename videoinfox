@@ -47,7 +47,7 @@ cleanup() {
 # Stops reading after one character, meaning only 'y' or 'Y' will return 0
 # _anything_ else will return 1
 confirm() {
-    read -rn 1 -p "${*:-Continue} [y/N]? "
+    read -r -n 1 -p "${*:-Continue} [y/N]? "
     printf -- '%s\n' ""
     case "${REPLY}" in
         ([yY]) return 0 ;;
@@ -455,14 +455,12 @@ ytdlp_check_version() {
     [[ "${ytdlp_cur_version}" = "${ytdlp_latest_version}" ]] && return 0
 
     # If we're at this point, then we need to update ytdlp
-    read -r -n 1 -p "Upgrade yt-dlp [y/N]? " upgrade_bool
-    case "${upgrade_bool}" in
-        (y|Y) ytdlp_install --update ;;
-        (n|N)
-            printf -- '%s\n' " Yt-dlp Not Updated . . ."
-            sleep .7
-        ;;
-    esac
+    if confirm "Upgrade yt-dlp"; then
+        ytdlp_install --update
+    else
+        printf -- '%s\n' " Yt-dlp Not Updated . . ."
+        sleep .7
+    fi
 }
 
 ytdlp_install() {
@@ -1195,10 +1193,8 @@ while true; do
                             #echo "                                                                                                                 " >> ${base_dir}/videoinfo.findwork     
 
                             touch ${base_dir}/videoinfo.findwork
-                            break;;
-
-                        *)
-
+                            break
+                        ;;
                     esac
                 done
             fi
@@ -2688,7 +2684,7 @@ fi
             echo " ""$pasteclip"
             echo  
 
-get_file_stats "${pasteclip}"
+            get_file_stats "${pasteclip}"
 
             echo
             read -r -p " Press enter to Continue" 
@@ -2714,7 +2710,7 @@ get_file_stats "${pasteclip}"
                        echo "$playnumber"
                        echo
            
-get_file_stats "${playnumber}"
+                        get_file_stats "${playnumber}"
 
                        echo
                        read -r -p " Press enter to Continue" 
@@ -2857,54 +2853,36 @@ if ! is_integer "${linenumber}"; then  # IF ENTRY IS NOT A NUMBER
                       # READ FIRST LINE OF FILE
                       read plselected < ${tmp_dir}/playlist.playlist.delete.tmp
 
-                    menucpl() {
-                        clear
-                        echo
-                        echo
-                        echo " Delete Playlist . . ."
-                        echo
-                        echo " $plselected"
-                        echo
-                        echo " y - Yes     n - No"  
-                        echo 
-                        echo -en " Enter Option: "
-                        read -r -n1 optioncpl
-                        echo
-                    }
+                    if confirm " Delete playlist: ${plselected}"; then
+                        optioncpl="y"
+                    else
+                        optioncpl="n"
+                    fi
 
-                      while true; do
-                    menucpl
                     case $optioncpl in
+                        y)  # YES
+                            rm "$plselected" 2> /dev/null
 
-                    y)  # YES
-
-                      rm "$plselected" 2> /dev/null
-
-                      echo "$plselected"| sed 's/.*\.//' > ${tmp_dir}/plread.tmp  # REMOVE FULL PATH ONLY LEAVING PLAYLIST NAME
-                      read -r plselectedla < ${tmp_dir}/plread.tmp  # READING PLAYLIST NAME ONLY INTO VARIABLE  $pselecteda
-                                            rm ${base_dir}/playlists/"$plselectedla".last-autoplay  # REMOVE PLAYLIST.last.autoplay  file
- 
-                      echo
-                      echo  " Playlist Deleted . . ."
-
-                      if [[ "$setplaylistfull" = "$plselected" ]]; then # SET DEFAULT PLAYLIST TO ACTIVE PLAYLIST
-                            echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ${base_dir}/videoinfo.playlist.current
-                            cp ${base_dir}/playlists/vplaylist.Default ${base_dir}/videoinfo.playlist 2> /dev/null
-                            setplaylist="Default"
-                        else
-                            :
-                      fi
-
-                      sleep 1.7  
-                      break
-                      ;;
-                      n)  # NO
-                      break;;
-
-                      *)
+                            echo "$plselected"| sed 's/.*\.//' > ${tmp_dir}/plread.tmp  # REMOVE FULL PATH ONLY LEAVING PLAYLIST NAME
+                            read -r plselectedla < ${tmp_dir}/plread.tmp  # READING PLAYLIST NAME ONLY INTO VARIABLE  $pselecteda
+                                                    rm ${base_dir}/playlists/"$plselectedla".last-autoplay  # REMOVE PLAYLIST.last.autoplay  file
         
-                      esac
-                      done
+                            echo
+                            echo  " Playlist Deleted . . ."
+
+                            if [[ "$setplaylistfull" = "$plselected" ]]; then # SET DEFAULT PLAYLIST TO ACTIVE PLAYLIST
+                                    echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ${base_dir}/videoinfo.playlist.current
+                                    cp ${base_dir}/playlists/vplaylist.Default ${base_dir}/videoinfo.playlist 2> /dev/null
+                                    setplaylist="Default"
+                            fi
+
+                            sleep 1.7  
+                            break
+                        ;;
+                        n)  # NO
+                            break
+                        ;;
+                    esac
         
             fi
       fi
@@ -3114,43 +3092,28 @@ if [[ "$grabpaste" = "http" ]]; then
   ;;  
          d)  # CLEAR PLAYLIST (VIEW PLAYLIST)
 
-        menucpl() {
-            clear
-            echo
-            echo
-            echo " Clear current playlist: ""$setplaylist""?"
-            echo
-            echo " y - Yes     n - No"  
-            echo 
-            echo -en " Enter Option: "
-            read -r -n1 optioncpl
-            echo
-        }
+            if confirm " Clear current playlist: ${setplaylist}"; then
+                optioncpl="y"
+            else
+                optioncpl="n"
+            fi
 
-        while true; do
+            case $optioncpl in
+                y)  # YES
+                    rm ${base_dir}/videoinfo.playlist 2> /dev/null
+                    touch ${base_dir}/videoinfo.playlist
+                    touch ${base_dir}/playlists/"$setplaylist".last-autoplay 
+                    echo
+                    echo " ""$setplaylist"" Playlist Cleared . . ."
+                    sleep 1.7  
+                    break
+                ;;
+                n)  # NO
+                    break
+                ;;
+            esac
 
-      menucpl
-      case $optioncpl in
-
-      y)  # YES
-        rm ${base_dir}/videoinfo.playlist 2> /dev/null
-        touch ${base_dir}/videoinfo.playlist
-        touch ${base_dir}/playlists/"$setplaylist".last-autoplay 
-        echo
-        echo " ""$setplaylist"" Playlist Cleared . . ."
-        sleep 1.7  
-        break
         ;;
-        n)  # NO
-        break;;
-
-        *)
-        
-        esac
-        done
-        ;;
-*)
-
 esac
 done
 ;;
@@ -4779,73 +4742,50 @@ linecount=$(wc -l ${base_dir}/videoinfo.playlist.dirlist | cut -d' ' -f1)
 # SELECT A PLAYLIST TO DELETE
 echo
 read -r -p " Enter line number to delete: " linenumber  # waiting fot user input
-if ! is_integer "${linenumber}"; then  # IF ENTRY IS NOT A NUMBER
-      :
+if is_integer "${linenumber}"; then
+    if ! [[ -z "$linenumber" ]]; then
+        if [[ $linenumber -gt $linecount ]]; then 
+                echo
+                echo " Number out of range . . ."
+                sleep .9
 
-  else  # ENTRY IS A NUMBER
-      if ! [[ -z "$linenumber" ]]; then
-            if [[ $linenumber -gt $linecount ]]; then 
-                  echo
-                  echo " Number out of range . . ."
-                  sleep .9
+            else
+                echo
+                # CREATE FILE MOVING SELECTION TO THE TOP
+                tail -n +"$linenumber" ${base_dir}/videoinfo.playlist.dirlist > ${tmp_dir}/playlist.playlist.delete.tmp
 
-              else
-                  echo
-                      # CREATE FILE MOVING SELECTION TO THE TOP
-                      tail -n +"$linenumber" ${base_dir}/videoinfo.playlist.dirlist > ${tmp_dir}/playlist.playlist.delete.tmp
+                # READ FIRST LINE OF FILE
+                read plselected < ${tmp_dir}/playlist.playlist.delete.tmp
 
-                      # READ FIRST LINE OF FILE
-                      read plselected < ${tmp_dir}/playlist.playlist.delete.tmp
-
-                      menucpl() {
-                        clear
-                        echo
-                        echo
-                        echo " Delete Playlist . . ."
-                        echo
-                        echo " $plselected"
-                        echo
-                        echo " y - Yes     n - No"  
-                        echo 
-                        echo -en " Enter Option: "
-                        read -r -n1 optioncpl
-                        echo
-                      }
-
-                      while true; do
-                    menucpl
-                    case $optioncpl in
-
+                if confirm " Delete playlist: ${plselected}"; then
+                    optioncpl="y"
+                else
+                    optioncpl="n"
+                fi
+                case $optioncpl in
                     y)  # YES
+                        rm "$plselected" 2> /dev/null
 
-                      rm "$plselected" 2> /dev/null
+                        echo "$plselected"| sed 's/.*\.//' > ${tmp_dir}/plread.tmp  # REMOVE FULL PATH ONLY LEAVING PLAYLIST NAME
+                        read -r plselectedla < ${tmp_dir}/plread.tmp  # READING PLAYLIST NAME ONLY INTO VARIABLE  $pselecteda
+                                                rm ${base_dir}/playlists/"$plselectedla".last-autoplay  # REMOVE PLAYLIST.last.autoplay  file
+    
+                        echo
+                        echo  " Playlist Deleted . . ."
 
-                      echo "$plselected"| sed 's/.*\.//' > ${tmp_dir}/plread.tmp  # REMOVE FULL PATH ONLY LEAVING PLAYLIST NAME
-                      read -r plselectedla < ${tmp_dir}/plread.tmp  # READING PLAYLIST NAME ONLY INTO VARIABLE  $pselecteda
-                                            rm ${base_dir}/playlists/"$plselectedla".last-autoplay  # REMOVE PLAYLIST.last.autoplay  file
- 
-                      echo
-                      echo  " Playlist Deleted . . ."
+                        if [[ "$setplaylistfull" = "$plselected" ]]; then # SET DEFAULT PLAYLIST TO ACTIVE PLAYLIST
+                                echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ${base_dir}/videoinfo.playlist.current
+                                cp ${base_dir}/playlists/vplaylist.Default ${base_dir}/videoinfo.playlist 2> /dev/null
+                                setplaylist="Default"
+                        fi
 
-                      if [[ "$setplaylistfull" = "$plselected" ]]; then # SET DEFAULT PLAYLIST TO ACTIVE PLAYLIST
-                            echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ${base_dir}/videoinfo.playlist.current
-                            cp ${base_dir}/playlists/vplaylist.Default ${base_dir}/videoinfo.playlist 2> /dev/null
-                            setplaylist="Default"
-                        else
-                            :
-                      fi
-
-                      sleep 1.7  
-                      break
-                      ;;
-                      n)  # NO
-                      break;;
-
-                      *)
-        
-                      esac
-                      done
-        
+                        sleep 1.7  
+                        break
+                    ;;
+                    n)  # NO
+                        break
+                    ;;
+                esac
             fi
       fi
 fi
@@ -5054,43 +4994,27 @@ get_file_stats "${ytdlplast}"
   ;;  
          d)  # CLEAR PLAYLIST (VIEW PLAYLIST)
 
-        menucpl() {
-            clear
-            echo
-            echo
-            echo " Clear current playlist: ""$setplaylist""?"
-            echo
-            echo " y - Yes     n - No"  
-            echo 
-            echo -en " Enter Option: "
-            read -r -n1 optioncpl
-            echo
-        }
+            if confirm " Clear current playlist: ${setplaylist}"; then
+                optioncpl="y"
+            else
+                optioncpl="n"
+            fi
 
-        while true
-        do
-      menucpl
-      case $optioncpl in
-
-      y)  # YES
-        rm ${base_dir}/videoinfo.playlist 2> /dev/null
-        touch ${base_dir}/videoinfo.playlist
-        touch ${base_dir}/playlists/"$setplaylist".last-autoplay 
-        echo
-        echo " ""$setplaylist"" Playlist Cleared . . ."
-        sleep 1.7  
-        break
+            case $optioncpl in
+                y)  # YES
+                    rm ${base_dir}/videoinfo.playlist 2> /dev/null
+                    touch ${base_dir}/videoinfo.playlist
+                    touch ${base_dir}/playlists/"$setplaylist".last-autoplay 
+                    echo
+                    echo " ""$setplaylist"" Playlist Cleared . . ."
+                    sleep 1.7  
+                    break
+                ;;
+                n)  # NO
+                    break
+                ;;
+            esac
         ;;
-        n)  # NO
-        break;;
-
-        *)
-        
-        esac
-        done
-        ;;
-*)
-
 esac
 done
 ;;
@@ -5337,9 +5261,6 @@ get_file_stats "${ytdlplast}"
                     #read -p " Press enter to Continue"    
                     sleep .7
                 ;;
-
-                *)
-
                 esac
                 done
                 ;; 
@@ -6017,75 +5938,52 @@ linecount=$(wc -l ${base_dir}/videoinfo.playlist.dirlist | cut -d' ' -f1)
 # SELECT A PLAYLIST TO DELETE
 echo
 read -r -p " Enter line number to delete: " linenumber  # waiting fot user input
-if ! is_integer "${linenumber}"; then  # IF ENTRY IS NOT A NUMBER
-      :
+if is_integer "${linenumber}"; then  # IF ENTRY IS NOT A NUMBER
+    if ! [[ -z "$linenumber" ]]; then
+        if [[ $linenumber -gt $linecount ]]; then 
+            echo
+            echo " Number out of range . . ."
+            sleep .9
+        else
+            echo
+            # CREATE FILE MOVING SELECTION TO THE TOP
+            tail -n +"$linenumber" ${base_dir}/videoinfo.playlist.dirlist > ${tmp_dir}/playlist.playlist.delete.tmp
 
-  else  # ENTRY IS A NUMBER
-      if ! [[ -z "$linenumber" ]]; then
-            if [[ $linenumber -gt $linecount ]]; then 
-                  echo
-                  echo " Number out of range . . ."
-                  sleep .9
+            # READ FIRST LINE OF FILE
+            read plselected < ${tmp_dir}/playlist.playlist.delete.tmp
 
-              else
-                  echo
-                      # CREATE FILE MOVING SELECTION TO THE TOP
-                      tail -n +"$linenumber" ${base_dir}/videoinfo.playlist.dirlist > ${tmp_dir}/playlist.playlist.delete.tmp
-
-                      # READ FIRST LINE OF FILE
-                      read plselected < ${tmp_dir}/playlist.playlist.delete.tmp
-
-                      menucpl() {
-                        clear
-                        echo
-                        echo
-                        echo " Delete Playlist . . ."
-                        echo
-                        echo " $plselected"
-                        echo
-                        echo " y - Yes     n - No"  
-                        echo 
-                        echo -en " Enter Option: "
-                        read -r -n1 optioncpl
-                        echo
-                      }
-
-                      while true; do
-                    menucpl
-                    case $optioncpl in
-
-                    y)  # YES
-
-                      rm "$plselected" 2> /dev/null
-
-                      echo "$plselected"| sed 's/.*\.//' > ${tmp_dir}/plread.tmp  # REMOVE FULL PATH ONLY LEAVING PLAYLIST NAME
-                      read -r plselectedla < ${tmp_dir}/plread.tmp  # READING PLAYLIST NAME ONLY INTO VARIABLE  $pselecteda
-                                            rm ${base_dir}/playlists/"$plselectedla".last-autoplay  # REMOVE PLAYLIST.last.autoplay  file
- 
-                      echo
-                      echo  " Playlist Deleted . . ."
-
-                      if [[ "$setplaylistfull" = "$plselected" ]]; then # SET DEFAULT PLAYLIST TO ACTIVE PLAYLIST
-                            echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ${base_dir}/videoinfo.playlist.current
-                            cp ${base_dir}/playlists/vplaylist.Default ${base_dir}/videoinfo.playlist 2> /dev/null
-                            setplaylist="Default"
-                        else
-                            :
-                      fi
-
-                      sleep 1.7  
-                      break
-                      ;;
-                      n)  # NO
-                      break;;
-
-                      *)
-        
-                      esac
-                      done
-        
+            if confirm " Delete playlist: ${plselected}"; then
+                optioncpl="y"
+            else
+                optioncpl="n"
             fi
-      fi
+
+            case $optioncpl in
+                y)  # YES
+                    rm "$plselected" 2> /dev/null
+
+                    echo "$plselected"| sed 's/.*\.//' > ${tmp_dir}/plread.tmp  # REMOVE FULL PATH ONLY LEAVING PLAYLIST NAME
+                    read -r plselectedla < ${tmp_dir}/plread.tmp  # READING PLAYLIST NAME ONLY INTO VARIABLE  $pselecteda
+                    rm ${base_dir}/playlists/"$plselectedla".last-autoplay  # REMOVE PLAYLIST.last.autoplay  file
+
+                    echo
+                    echo  " Playlist Deleted . . ."
+
+                    if [[ "$setplaylistfull" = "$plselected" ]]; then # SET DEFAULT PLAYLIST TO ACTIVE PLAYLIST
+                        echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ${base_dir}/videoinfo.playlist.current
+                        cp ${base_dir}/playlists/vplaylist.Default ${base_dir}/videoinfo.playlist 2> /dev/null
+                        setplaylist="Default"
+                    fi
+
+                    sleep 1.7  
+                    break
+                ;;
+                n)  # NO
+                    break
+                ;;
+            esac
+        fi
+    fi
 fi
             
 ;;        
@@ -6291,43 +6189,27 @@ get_file_stats "${ytdlplast}"
   fi
   ;;  
          d)  # CLEAR PLAYLIST (VIEW PLAYLIST)
+            if confirm " Clear current playlist: ${setplaylist}"; then
+                optioncpl="y"
+            else
+                optioncpl="n"
+            fi
 
-        menucpl() {
-            clear
-            echo
-            echo
-            echo " Clear current playlist: ""$setplaylist""?"
-            echo
-            echo " y - Yes     n - No"  
-            echo 
-            echo -en " Enter Option: "
-            read -r -n1 optioncpl
-            echo
-        }
-
-        while true; do
-      menucpl
-      case $optioncpl in
-
-      y)  # YES
-        rm ${base_dir}/videoinfo.playlist 2> /dev/null
-        touch ${base_dir}/videoinfo.playlist
-        touch ${base_dir}/playlists/"$setplaylist".last-autoplay 
-        echo
-        echo " ""$setplaylist"" Playlist Cleared . . ."
-        sleep 1.7  
-        break
+            case $optioncpl in
+                y)  # YES
+                    rm ${base_dir}/videoinfo.playlist 2> /dev/null
+                    touch ${base_dir}/videoinfo.playlist
+                    touch ${base_dir}/playlists/"$setplaylist".last-autoplay 
+                    echo
+                    echo " ""$setplaylist"" Playlist Cleared . . ."
+                    sleep 1.7  
+                    break
+                ;;
+                n)  # NO
+                    break
+                ;;
+            esac
         ;;
-        n)  # NO
-        break;;
-
-        *)
-        
-        esac
-        done
-        ;;
-*)
-
 esac
 done
 ;;
@@ -6561,15 +6443,13 @@ codestats() {
     read -r -n1 optionstats
 }
 while true; do
-codestats
-case $optionstats in
-
-    q)  # QUIT
-    break;;
-
-*)
-
-esac
+    codestats
+    case $optionstats in
+        q)
+            # QUIT
+            break
+        ;;
+    esac
 done
 ;;
 
@@ -6626,8 +6506,6 @@ done
                     echo
                     echo " Ask on Exit . . ."
                     sleep .7
-                ;;
-                *)
                 ;;
             esac
          done
@@ -7656,28 +7534,25 @@ case $optiondq in
         }
 
         while true; do
-      menudelq
-      case $optiondelq in
-
-      y)  # YES
-        if [[ -f ${base_dir}/videoinfox-download.queue ]]; then
-              rm ${base_dir}/videoinfox-download.queue 2> /dev/null
-              echo
-              echo " Download Queue Deleted . . ."
-              sleep 1.7
-          else
-              echo
-              echo " Download Queue Was Already Deleted . . ."
-              sleep 1.7
-        fi
-        break
-        ;;
-        n)  # NO
-        break;;
-
-        *)
-        
-        esac
+            menudelq
+            case $optiondelq in
+                y)  # YES
+                    if [[ -f ${base_dir}/videoinfox-download.queue ]]; then
+                        rm ${base_dir}/videoinfox-download.queue 2> /dev/null
+                        echo
+                        echo " Download Queue Deleted . . ."
+                        sleep 1.7
+                    else
+                        echo
+                        echo " Download Queue Was Already Deleted . . ."
+                        sleep 1.7
+                    fi
+                    break
+                ;;
+                n)  # NO
+                    break
+                ;;
+            esac
         done
         ;;
         b)  # DOWNLOAD QUEUE  (DOWNLOAD QUEUE)
@@ -7936,8 +7811,6 @@ if ! [[ -z "$pasteclip" ]]; then
                     sleep .75
                     break
                 ;;
-                *)
-                ;;
             esac
         done
     fi
@@ -8030,32 +7903,28 @@ yesorno() {
 while true; do
     yesorno
     case $optionyn in
-    
-    y) 
-    # CREATING EMPTY DEFAULT DOWNLOAD LIST WITH LIST EMPTY MESSAGE
-    touch ${base_dir}/videoinfox-dl-Default
-    echo "Default Download List Empty" >> ${base_dir}/videoinfox-dl-Default
- 
-    rm ${base_dir}/videoinfox-dl-Default.log 2> /dev/null    
- 
-    echo
-    echo " Default List CLEARED . . ."
-    echo 
-    sleep .75
-    break;; 
- 
-       
-    n) 
-    echo
-    echo " Default List SAVED . . ."
-    echo     
-    sleep .75
+        y) 
+            # CREATING EMPTY DEFAULT DOWNLOAD LIST WITH LIST EMPTY MESSAGE
+            touch ${base_dir}/videoinfox-dl-Default
+            echo "Default Download List Empty" >> ${base_dir}/videoinfox-dl-Default
+        
+            rm ${base_dir}/videoinfox-dl-Default.log 2> /dev/null    
+        
+            echo
+            echo " Default List CLEARED . . ."
+            echo 
+            sleep .75
+            break
+        ;; 
+        n) 
+            echo
+            echo " Default List SAVED . . ."
+            echo     
+            sleep .75
 
-    break;;
-
-*)
-          
-esac
+            break
+        ;;
+    esac
 done
 ;;
 
@@ -8071,8 +7940,6 @@ r)  # REMOVE LAST LINE IN THE DEFAULT DOWNLOAD LIST <DEFAULT LIST>
 
 sed -i '$d' ${base_dir}/videoinfox-dl-Default
 ;;
-*)
-
 esac
 done
 ;;
@@ -8275,27 +8142,21 @@ l)  # VIEW LOG
 pasteclip  # grab clipboard contentclear
 
 if [[ -f "$pasteclip" ]]; then
-
-clear
-cat "$pasteclip" 2>/dev/null
-read -p "Up/Down arrows or mouse to scroll.  Press enter to quit"
-echo "" | xclip -sel clip  # clearing out the clipboard clipboard
-
+    clear
+    cat "$pasteclip" 2>/dev/null
+    read -p "Up/Down arrows or mouse to scroll.  Press enter to quit"
+    echo "" | xclip -sel clip  # clearing out the clipboard clipboard
 else
-echo "" | xclip -sel clip  # clearing out the clipboard
-pasteclip  # grab clipboard content
+    echo "" | xclip -sel clip  # clearing out the clipboard
+    pasteclip  # grab clipboard content
 fi
 
 esac
 done
 ;;
-h) # DOWNLOAD LIST HELP
-less ${base_dir}/videoinfox.download-list-help
-;;
-
-*)
-;;
-
+    h) # DOWNLOAD LIST HELP
+        less ${base_dir}/videoinfox.download-list-help
+    ;;
 esac
 done
 ;;
@@ -9117,8 +8978,6 @@ fi
 fi
 
 ;;
-                *)
-
                 esac
                 done  
                 
@@ -9322,18 +9181,15 @@ get_file_stats "${ytdlplast}"
               
               cd "$grabdir"
               ;; 
-
-*)
-
  esac
  done
 
 fi
-################################################## cd "$grabdir"   # restore dir prior to entering yt-dlp menu
+################### cd "$grabdir"   # restore dir prior to entering yt-dlp menu
 ;; 
 
 ###############################################################################
-m)  # MORE OPTIONS   #############################################################################################################################
+m)  # MORE OPTIONS   ##########################################################
 ###############################################################################
 
 menu() {
@@ -9640,8 +9496,6 @@ menu1() {
                     sleep .75
                     break
                 ;;
-                *)
-                ;;
             esac
         done
         ;;
@@ -9904,8 +9758,6 @@ while true; do
             #read -p "Press enter to Continue"    
             sleep .75
             break
-        ;;
-        *)
         ;;
     esac
 done
