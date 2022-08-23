@@ -148,6 +148,46 @@ noisy_timeout() {
     printf -- '%s\n' ""
 }
 
+#-------------------------------------------------------------------------------------------------------------------------------------------------
+#  videoinfox -h     DISPLAY HELP THEN EXIT  
+#-------------------------------------------------------------------------------------------------------------------------------------------------
+print_help() {
+cat << EOF
+___________________________________________________________________________________________________________________
+       echo  
+ "${ver}" >>> COMMAND LINE OPTIONS >>> HELP              Where Video Play is a Clipboard Copy Away . . .
+___________________________________________________________________________________________________________________ 
+
+ Note: Videoinfox won't accept multiple options. Only one option per instance.
+
+   -h  This help screen.
+
+   -v  Display the version number.
+
+   -a  Write clipboard content to the Default List. For instructions on use: Yt-dlp >>> Download List >>> Help
+
+   -l  Write clipboard content to the User Set List. For instructions on use: Yt-dlp >>> Download List >>> Help
+
+   -u  This option can be used with your own ready to download url list that can be any name and location.
+       There is no need to use the Videoinfox interface with this option. Videos will be downloaded to the
+       directory of the list location.  Example: videoinfox -u mylist  Only enter the list filename.
+       The list must be recursively reachable from the current directory.
+       The first line in the list must begin with http to be processed.
+
+   -d  Autoplay video files in the current directory.
+
+EOF
+exit 0
+}
+
+#-------------------------------------------------------------------------------------------------------------------------------------------------
+#  videoinfox -v     DISPLAY VERSION NUMBER THEN EXIT  
+#-------------------------------------------------------------------------------------------------------------------------------------------------
+print_version() {
+    printf -- '%s\n' "${ver}"
+    exit 0
+}
+
 retrieve_url() {
     local remote_source local_destination
     remote_source="${1:?No url defined}"
@@ -168,6 +208,85 @@ squash() {
     sed -i '/^$/d' "${1:?No file specified}"
 }
 
+##################################################################################################################################################
+##### CHECK FOR VIDEOINFOX UPDATE ################################################################################################################
+videoinfox_update() {
+    clear
+    printf -- '%s\n' "" "" "" \
+        "___________________________________________________________________________________________________________________" \
+        " ${ver} >>> Checking for update . . ." \
+        "___________________________________________________________________________________________________________________" \
+        ""
+    # Start a subshell, which will return us from whence we came when it closes
+    # (i.e. no need for pushd/popd or other 'take me back' logic)
+    (
+        cd "${tmp_dir}" || die "Unable to enter ${tmp_dir}"
+        # Try to retrieve the latest version from the web, quietly return on failure
+        retrieve_url "${base_url}/videoinfox" "${tmp_dir}/videoinfox" 2>/dev/null || return
+
+        # If the latest downloaded file differs from the one on-disk, then there's an update available
+        if cmp -s "${tmp_dir}/videoinfox" /usr/local/bin/videoinfox; then
+            printf -- '%s\n' "videoinfox is up to date."
+        else
+            videoinfox_latest_version="$(bash "${tmp_dir}"/videoinfox -v)"
+            # send gui notification with update ver number
+            notify-send "Videoinfox messsage: Update Available (${videoinfox_latest_version})"
+        fi
+
+        # Update to latest
+        sudo mv "${tmp_dir}/videoinfox" /usr/local/bin/videoinfox 2> /dev/null
+        # Remove our temporary file
+        rm "${tmp_dir}/videoinfox"
+
+        #####  CREATE DOWNLOAD LIST HELP FILE  ########################################################
+        retrieve_url "${base_url}/docs/download-list-help" "${base_dir}/videoinfox.download-list-help"
+
+        #####  CREATE HELP FILE  ######################################################################
+        retrieve_url "${base_url}/docs/videoinfo-help" "${base_dir}/videoinfo.help"
+
+        #####  CREATE VERSION HISTORY FILE  ###########################################################
+        retrieve_url "${base_url}/docs/version-history" "${base_dir}/videoinfo-ver-history"
+
+        printf -- '%s\n' "Latest version of videoinfox (${videoinfox_latest_version}) installed into /usr/local/bin"
+        printf -- '%s\n' "Restart to use updated version.  Exiting..."
+        exit 0
+    )
+}
+
+#-------------------------------------------------------------------------------------------------------------------------------------------------
+#  videoinfox -a     ADD CLIPBOARD CONTENT  ON THE FLY TO:   DEFAULT LIST   THEN EXIT
+#-------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Create a gui keyboard shortcut for:   videoinfox -a
+# It isn't necessary to have the Videoinfox running while using this feature.
+# Build your default list on the fly without leaving the gui
+# COPY THE URL TO THE BROWSER. THEN USE YOUR SHORTCUT TO WRITE URL TO THE DEFAULT DOWNLOAD LIST. Rinse and repeat to keep adding to the Default List. 
+
+# -a  Write clipboard content to the Default List. For instructions on use: Yt-dlp >>> Download List >>> Help
+write_default_list() {
+    # This file should always exist:   ${base_dir}/videoinfox-dl-Default   if it doesn't, it will be created
+    if [[ ! -f "${base_dir}/videoinfox-dl-Default" ]]; then
+        # CREATING EMPTY DEFAULT DOWNLOAD LIST WITH LIST EMPTY MESSAGE
+        touch "${base_dir}/videoinfox-dl-Default"
+        echo "Default Download List Empty" >> "${base_dir}/videoinfox-dl-Default"
+    fi
+    # ADD TO DEFAULT LIST  <DEFAULT LIST>
+    pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+    echo "$pasteclip" >> "${base_dir}/videoinfox-dl-Default"  # write url to the default download list
+    notify-send "Videoinfox added link to the Default Download List . . ." "${pasteclip}" # GUI Notification.
+
+    # REMOVE DUPLICATES
+    cat -n "${base_dir}/videoinfox-dl-Default" | sort -uk2 | sort -n | cut -f2- > "${base_dir}/videoinfox-dl-Default.tmp"
+    mv "${base_dir}/videoinfox-dl-Default.tmp" "${base_dir}/videoinfox-dl-Default"
+
+    squash "${base_dir}/videoinfox-dl-Default" 2>/dev/null  # remove any blank lines in the list
+    sed -i '/http/!d' "${base_dir}/videoinfox-dl-Default"  # remove all lines not starting with  http
+
+    echo "" | xclip -sel clip  # clearing out the clipboard
+
+    exit
+}
+
 write_supported_list() {
     while read -r line; do
         case "${line}" in
@@ -176,6 +295,37 @@ write_supported_list() {
             ;;
         esac
     done < "${1:?No input file defined}"
+}
+
+#-------------------------------------------------------------------------------------------------------------------------------------------------
+#  videoinfox -l     ADD CLIPBOARD CONTENT ON THE FLY TO:   USER SET LIST   THEN EXIT
+#-------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Create a gui keyboard shortcut for:   videoinfox -l
+# It isn't necessary to have the Videoinfox running while using this feature.
+# Build your set user list on the fly without leaving the gui
+# COPY THE URL TO THE BROWSER. THEN USE YOUR SHORTCUT TO WRITE URL TO THE USER SET LIST. Rinse and repeat to keep adding to the list.
+
+# -l  Write clipboard content to the User Set List. For instructions on use: Yt-dlp >>> Download List >>> Help
+write_user_set_list() {
+    read -r grabuserlist < "${base_dir}/videoinfox.set-user-list"
+    if [[ -f "$grabuserlist" ]]; then
+        pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+        echo "$pasteclip" >> "$grabuserlist"  # write url to the user set list
+        notify-send "Videoinfox Message: Added link to List ${grabuserlist}  . . ." "${pasteclip}" # GUI Notification.
+    
+        cat -n "$grabuserlist" | sort -uk2 | sort -n | cut -f2- > "${base_dir}/videoinfox.ulistfly.tmp"  # REMOVE DUPLICATES
+        squash "${base_dir}/videoinfox.ulistfly.tmp"  # remove any blank lines in the list
+        sed -i '/http/!d' "${base_dir}/videoinfox.ulistfly.tmp"  # remove all lines not starting with  http
+    
+        mv "${base_dir}/videoinfox.ulistfly.tmp" "${grabuserlist}"
+
+        echo "" | xclip -sel clip  # clearing out the clipboard
+        exit
+    else
+        notify-send "Videoinfox -l Error . . ." "No user list has been set for this feature.  Set User List in Videoinfox first."
+        exit
+    fi
 }
 
 # Retrieve the latest available version number for yt-dlp
@@ -219,112 +369,6 @@ ytdlp_check_version() {
     ytdlp_install --update
 }
 
-
-
-#-------------------------------------------------------------------------------------------------------------------------------------------------
-#  videoinfox -v     DISPLAY VERSION NUMBER THEN EXIT  
-#-------------------------------------------------------------------------------------------------------------------------------------------------
-print_version() {
-    printf -- '%s\n' "${ver}"
-    exit 0
-}
-
-#-------------------------------------------------------------------------------------------------------------------------------------------------
-#  videoinfox -l     ADD CLIPBOARD CONTENT ON THE FLY TO:   USER SET LIST   THEN EXIT
-#-------------------------------------------------------------------------------------------------------------------------------------------------
-
-# Create a gui keyboard shortcut for:   videoinfox -l
-# It isn't necessary to have the Videoinfox running while using this feature.
-# Build your set user list on the fly without leaving the gui
-# COPY THE URL TO THE BROWSER. THEN USE YOUR SHORTCUT TO WRITE URL TO THE USER SET LIST. Rinse and repeat to keep adding to the list.
-
-# -l  Write clipboard content to the User Set List. For instructions on use: Yt-dlp >>> Download List >>> Help
-write_user_set_list() {
-    read -r grabuserlist < "${base_dir}/videoinfox.set-user-list"
-    if [[ -f "$grabuserlist" ]]; then
-        pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-        echo "$pasteclip" >> "$grabuserlist"  # write url to the user set list
-        notify-send "Videoinfox Message: Added link to List ${grabuserlist}  . . ." "${pasteclip}" # GUI Notification.
-    
-        cat -n "$grabuserlist" | sort -uk2 | sort -n | cut -f2- > "${base_dir}/videoinfox.ulistfly.tmp"  # REMOVE DUPLICATES
-        squash "${base_dir}/videoinfox.ulistfly.tmp"  # remove any blank lines in the list
-        sed -i '/http/!d' "${base_dir}/videoinfox.ulistfly.tmp"  # remove all lines not starting with  http
-    
-        mv "${base_dir}/videoinfox.ulistfly.tmp" "${grabuserlist}"
-
-        echo "" | xclip -sel clip  # clearing out the clipboard
-        exit
-    else
-        notify-send "Videoinfox -l Error . . ." "No user list has been set for this feature.  Set User List in Videoinfox first."
-        exit
-    fi
-}
-
-#-------------------------------------------------------------------------------------------------------------------------------------------------
-#  videoinfox -a     ADD CLIPBOARD CONTENT  ON THE FLY TO:   DEFAULT LIST   THEN EXIT
-#-------------------------------------------------------------------------------------------------------------------------------------------------
-
-# Create a gui keyboard shortcut for:   videoinfox -a
-# It isn't necessary to have the Videoinfox running while using this feature.
-# Build your default list on the fly without leaving the gui
-# COPY THE URL TO THE BROWSER. THEN USE YOUR SHORTCUT TO WRITE URL TO THE DEFAULT DOWNLOAD LIST. Rinse and repeat to keep adding to the Default List. 
-
-# -a  Write clipboard content to the Default List. For instructions on use: Yt-dlp >>> Download List >>> Help
-write_default_list() {
-    # This file should always exist:   ${base_dir}/videoinfox-dl-Default   if it doesn't, it will be created
-    if [[ ! -f "${base_dir}/videoinfox-dl-Default" ]]; then
-        # CREATING EMPTY DEFAULT DOWNLOAD LIST WITH LIST EMPTY MESSAGE
-        touch "${base_dir}/videoinfox-dl-Default"
-        echo "Default Download List Empty" >> "${base_dir}/videoinfox-dl-Default"
-    fi
-    # ADD TO DEFAULT LIST  <DEFAULT LIST>
-    pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-    echo "$pasteclip" >> "${base_dir}/videoinfox-dl-Default"  # write url to the default download list
-    notify-send "Videoinfox added link to the Default Download List . . ." "${pasteclip}" # GUI Notification.
-
-    # REMOVE DUPLICATES
-    cat -n "${base_dir}/videoinfox-dl-Default" | sort -uk2 | sort -n | cut -f2- > "${base_dir}/videoinfox-dl-Default.tmp"
-    mv "${base_dir}/videoinfox-dl-Default.tmp" "${base_dir}/videoinfox-dl-Default"
-
-    squash "${base_dir}/videoinfox-dl-Default" 2>/dev/null  # remove any blank lines in the list
-    sed -i '/http/!d' "${base_dir}/videoinfox-dl-Default"  # remove all lines not starting with  http
-
-    echo "" | xclip -sel clip  # clearing out the clipboard
-
-    exit
-}
-
-#-------------------------------------------------------------------------------------------------------------------------------------------------
-#  videoinfox -h     DISPLAY HELP THEN EXIT  
-#-------------------------------------------------------------------------------------------------------------------------------------------------
-print_help() {
-cat << EOF
-___________________________________________________________________________________________________________________
-       echo  
- "${ver}" >>> COMMAND LINE OPTIONS >>> HELP              Where Video Play is a Clipboard Copy Away . . .
-___________________________________________________________________________________________________________________ 
-
- Note: Videoinfox won't accept multiple options. Only one option per instance.
-
-   -h  This help screen.
-
-   -v  Display the version number.
-
-   -a  Write clipboard content to the Default List. For instructions on use: Yt-dlp >>> Download List >>> Help
-
-   -l  Write clipboard content to the User Set List. For instructions on use: Yt-dlp >>> Download List >>> Help
-
-   -u  This option can be used with your own ready to download url list that can be any name and location.
-       There is no need to use the Videoinfox interface with this option. Videos will be downloaded to the
-       directory of the list location.  Example: videoinfox -u mylist  Only enter the list filename.
-       The list must be recursively reachable from the current directory.
-       The first line in the list must begin with http to be processed.
-
-   -d  Autoplay video files in the current directory.
-
-EOF
-exit 0
-}
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------
 #  videoinfox -u     DOWNLOAD ANY LIST THAT IS RECURSIVELY REACHABLE FROM THE CURRENT DIRECORY. ENTER FULL FILENAME ONLY. NO WILDCARD
@@ -725,51 +769,6 @@ ytdlp_update() {
 
         cd "$dirtemp"  # restore directory
     fi
-}
-
-##################################################################################################################################################
-##### CHECK FOR VIDEOINFOX UPDATE ################################################################################################################
-videoinfox_update() {
-    clear
-    printf -- '%s\n' "" "" "" \
-        "___________________________________________________________________________________________________________________" \
-        " ${ver} >>> Checking for update . . ." \
-        "___________________________________________________________________________________________________________________" \
-        ""
-    # Start a subshell, which will return us from whence we came when it closes
-    # (i.e. no need for pushd/popd or other 'take me back' logic)
-    (
-        cd "${tmp_dir}" || die "Unable to enter ${tmp_dir}"
-        # Try to retrieve the latest version from the web, quietly return on failure
-        retrieve_url "${base_url}/videoinfox" "${tmp_dir}/videoinfox" 2>/dev/null || return
-
-        # If the latest downloaded file differs from the one on-disk, then there's an update available
-        if cmp -s "${tmp_dir}/videoinfox" /usr/local/bin/videoinfox; then
-            printf -- '%s\n' "videoinfox is up to date."
-        else
-            videoinfox_latest_version="$(bash "${tmp_dir}"/videoinfox -v)"
-            # send gui notification with update ver number
-            notify-send "Videoinfox messsage: Update Available (${videoinfox_latest_version})"
-        fi
-
-        # Update to latest
-        sudo mv "${tmp_dir}/videoinfox" /usr/local/bin/videoinfox 2> /dev/null
-        # Remove our temporary file
-        rm "${tmp_dir}/videoinfox"
-
-        #####  CREATE DOWNLOAD LIST HELP FILE  ########################################################
-        retrieve_url "${base_url}/docs/download-list-help" "${base_dir}/videoinfox.download-list-help"
-
-        #####  CREATE HELP FILE  ######################################################################
-        retrieve_url "${base_url}/docs/videoinfo-help" "${base_dir}/videoinfo.help"
-
-        #####  CREATE VERSION HISTORY FILE  ###########################################################
-        retrieve_url "${base_url}/docs/version-history" "${base_dir}/videoinfo-ver-history"
-
-        printf -- '%s\n' "Latest version of videoinfox (${videoinfox_latest_version}) installed into /usr/local/bin"
-        printf -- '%s\n' "Restart to use updated version.  Exiting..."
-        exit 0
-    )
 }
 
 read -r diratexit < "${base_dir}/videoinfo.dir-at-exit"
