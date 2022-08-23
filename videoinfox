@@ -105,16 +105,6 @@ init() {
 
     # Check for an updated version of videoinfox
     videoinfox_update
-
-    #####  CREATE DOWNLOAD LIST HELP FILE  ########################################################
-    retrieve_url "${base_url}/docs/download-list-help" "${base_dir}/videoinfox.download-list-help"
-
-    #####  CREATE HELP FILE  ######################################################################
-    retrieve_url "${base_url}/docs/videoinfo-help" "${base_dir}/videoinfo.help"
-
-    #####  CREATE VERSION HISTORY FILE  ###########################################################
-    retrieve_url "${base_url}/docs/version-history" "${base_dir}/videoinfo-ver-history"
-
 }
 
 file_contains() {
@@ -764,6 +754,15 @@ videoinfox_update() {
         sudo mv "${tmp_dir}/videoinfox" /usr/local/bin/videoinfox 2> /dev/null
         # Remove our temporary file
         rm "${tmp_dir}/videoinfox"
+
+        #####  CREATE DOWNLOAD LIST HELP FILE  ########################################################
+        retrieve_url "${base_url}/docs/download-list-help" "${base_dir}/videoinfox.download-list-help"
+
+        #####  CREATE HELP FILE  ######################################################################
+        retrieve_url "${base_url}/docs/videoinfo-help" "${base_dir}/videoinfo.help"
+
+        #####  CREATE VERSION HISTORY FILE  ###########################################################
+        retrieve_url "${base_url}/docs/version-history" "${base_dir}/videoinfo-ver-history"
 
         printf -- '%s\n' "Latest version of videoinfox (${videoinfox_latest_version}) installed into /usr/local/bin"
         printf -- '%s\n' "Restart to use updated version.  Exiting..."
