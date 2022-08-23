@@ -143,16 +143,6 @@ get_file_stats() {
         "$(ffmpeg -i "${target_file}" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)"
 }
 
-write_supported_list() {
-    while read -r line; do
-        case "${line}" in
-            (*.mp4|*.webm|*.mkv|*.avi|*.divx)
-                printf -- '%s\n' "${line}" >> "${2?No output file defined}"
-            ;;
-        esac
-    done < "${1:?No input file defined}"
-}
-
 # This pauses the execution.  It displays and counts down the seconds set in <$sec>
 noisy_timeout() {
     local sec msg
@@ -174,13 +164,64 @@ retrieve_url() {
     local_destination="${2:?No output path defined}"
     if command -v curl >/dev/null 2>&1; then
         printf -- '%s' "Downloading with curl..."
-        curl -s "${remote_source}" > "${local_destination}"
+        curl -s -L "${remote_source}" > "${local_destination}"
     elif command -v wget >/dev/null 2>&1; then
         printf -- '%s' "Downloading with wget..."
         wget "${remote_source}" > "${local_destination}"
     else
         die "This function requires 'wget' or 'curl', but neither were found in PATH"
     fi
+}
+
+write_supported_list() {
+    while read -r line; do
+        case "${line}" in
+            (*.mp4|*.webm|*.mkv|*.avi|*.divx)
+                printf -- '%s\n' "${line}" >> "${2?No output file defined}"
+            ;;
+        esac
+    done < "${1:?No input file defined}"
+}
+
+# Retrieve the latest available version number for yt-dlp
+ytdlp_get_latest_version_number() {
+    # If we have 'jq' present, then our life is a lot easier
+    if command -v jq >/dev/null 2>&1; then
+        curl -s -L "https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest" | jq -r '.tag_name'
+    # Manually parsing JSON in shell is a fool's game.
+    # Fortunately this is a case we can get away with.
+    else
+        local raw_version
+        raw_version="$(
+            curl -s -L "https://api.github.com/repos/yt-dlp/yt-dlp/releases/latest" | awk -F ': ' '/tag_name/{print $2}'
+        )"
+        # Remove surrounding speech marks e.g. "2022.08.19", ==> 2022.08.19,
+        raw_version="${raw_version//\"/}"
+        # Remove trailing comma e.g. 2022.08.19, ==> 2022.08.19
+        raw_version="${raw_version/,/}"
+        # Output the cleaned up result
+        printf -- '%s\n' "${raw_version}"
+    fi
+}
+
+ytdlp_check_version() {
+    # If it doesn't exist at all in PATH, then download it
+    if ! command -v yt-dlp >/dev/null 2>&1; then
+        ytdlp_install
+        return 0
+    fi
+
+    # If it does exist in path, then get its version number
+    ytdlp_cur_version="$(yt-dlp --version)"
+
+    # And get the latest available version number
+    ytdlp_latest_version="$(ytdlp_get_latest_version_number)"
+
+    # If the versions match, then there's nothing to do here
+    [[ "${ytdlp_cur_version}" = "${ytdlp_latest_version}" ]] && return 0
+
+    # If we're at this point, then we need to update ytdlp
+    ytdlp_install --update
 }
 
 # Remove empty lines from a given file
@@ -6991,46 +7032,12 @@ y)
 
 grabdir="$PWD"  # grab working directory
 pasteclip3=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content to restore to before this function was run
-if ! command -v ${base_dir}/yt-dlp &> /dev/null  # if <yt-dlp> isnt found goto then
+if ! command -v ${base_dir}/yt-dlp > /dev/null 2>&1; then  # if <yt-dlp> isnt found goto then
 
-then
+    # Yt-dlp download attempt.  Yt-dlp Menu won't start untl Yt-dlp is downloaded to: ${base_dir}/yt-dlp
+    [[ -x "${base_dir}/yt-dlp" ]] && ytdlp_update
 
-# Yt-dlp download attempt.  Yt-dlp Menu won't start untl Yt-dlp is downloaded to: ${base_dir}/yt-dlp
-clear
-echo
-echo 
-echo 
-echo "___________________________________________________________________________________________________________________"
-echo  
-echo " $der >>> Attempting to download the most recent version of Yt-dlp"
-echo "___________________________________________________________________________________________________________________" 
-echo
-echo " If Yt-dlp can't be downloaded, the download attempt will be aborted."
-echo
-echo " If the download fails, it is most likely due to at least 1 of the following reasons:"
-echo
-echo "    - Your internet connection is down."
-echo
-echo "    - Github isn't reachable due to technical issues on their end."
-echo
-echo "    - There is no Yt-dlp release available in:  https://github.com/yt-dlp/yt-dlp/releases/latest/download"
-echo
-echo
-echo " If this download fails, the download attempt will be tried again when you select the Yt-dlp Menu in Videoinfox."
-echo
-echo
-echo " Note: The Yt-dlp Menu will not work until there is a copy of yt-dlp in:"
-echo
-echo " "$HOME"/.config/videoinfox"
-echo
-echo
-
-dirtemp="$PWD"  # save dir for restore after ty-dlp download
-cd ${base_dir}
-
-wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp 2>/dev/null  # download yt-dlp 
- 
-if [[ -f ${base_dir}/yt-dlp ]]; then
+    if [[ -f ${base_dir}/yt-dlp ]]; then
         chmod a+rx ${base_dir}/yt-dlp  # set <yt-dlp-fetched> execute bit
         ${base_dir}/yt-dlp --version > ${base_dir}/videoinfo.yt-dlp.version # write yt-dlp ver number to file: yt-dlp.version 
         echo
@@ -7043,8 +7050,7 @@ if [[ -f ${base_dir}/yt-dlp ]]; then
 
         cd "$dirtemp"  # restore directory
         rm ${base_dir}/wget-* 2> /dev/null  
-   else
-       
+    else
         echo
         echo " Yt-dlp Download Failure . . ."
         echo
@@ -7053,7 +7059,7 @@ if [[ -f ${base_dir}/yt-dlp ]]; then
 
         cd "$dirtemp"  # restore directory
         rm ${base_dir}/wget-* 2> /dev/null
-fi
+    fi
 ############################
 
 else  # IF YT-DLP IS FOUND    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
