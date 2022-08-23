@@ -35,10 +35,19 @@ ffprobe_opts=(
     "-of default=nw=1"
 )
 
+cleanup() {
+    # !!! It's very important for this variable to include ':?'
+    # !!! If '$tmp_dir' is empty or unset, this would evaulate out to 'rm -rf /*'
+    rm -rf "${tmp_dir:?}/*" 2>/dev/null
+}
+
 # Get the top level PID and setup a trap so that we can call die() within subshells
-trap "exit 1" TERM
+trap "cleanup; exit 1" TERM
 _self_pid="${$}"
 export _self_pid
+
+# Ensure cleanup on any exit
+#trap "cleanup" EXIT
 
 die() {
     if [ -t 0 ]; then
@@ -129,14 +138,34 @@ file_contains() {
 find_supported_files() {
     case "${1}" in
         (--count)
-            find "${PWD}" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) |
+            find "${2:-$PWD}" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) |
                 wc -l
         ;;
         (*)
-            find "${PWD}" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) |
+            find "${1:-$PWD}" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) |
                 sort -u
         ;;
     esac
+}
+
+generate_playlist() {
+    local playlist
+    playlist="${1:?No playlist defined}"
+
+    # find_supported_files() should generate us a set of supported files
+    # Nonetheless, we ensure that we have read permissions
+    # and double check that we have a recognised file extension
+    # TODO: File extensions suck.  Use 'file' instead for heuristics.
+    while read -r line; do
+        if [[ -r "${line}" ]]; then
+            case "${line}" in
+                (*.mp4|*.webm|*.mkv|*.avi|*.divx)
+                    printf -- '%s\n' "${line}" >> "${playlist}"
+                ;;
+            esac
+        fi
+    done < <(find_supported_files)
+
 }
 
 # Get codec, width, height & duration
@@ -593,7 +622,7 @@ play_directory() {
     fi
 
     #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
-    moddedplayedlist="${HOME}/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa"
+    moddedplayedlist="${tmp_dir}/videoinfox.optiond-play-directory-apa"
 
     #  CREATE TEMP FILE NEEDED FOR LOOP 
     touch "${tmp_dir}/videoinfox.optiond-play-directory-apa2"
@@ -1543,53 +1572,52 @@ while true; do
                             find_supported_files "${tmp_dir}/videoinfox.navtree-play-directory-apa"
 
                             #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
-                            if file_contains '^/' ${tmp_dir}/videoinfox.navtree-play-directory-apa; then
-                                #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
-                                moddedplayedlist="${HOME}/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa"
+                            if ! file_contains '^/' ${tmp_dir}/videoinfox.navtree-play-directory-apa; then
+                                {
+                                    rm "${tmp_dir}/videoinfox.navtree-play-directory-apa"
+                                    rm "${tmp_dir}/videoinfox.navtree-play-directory-apa2"
+                                    rm "${tmp_dir}/videoinfox.numbered-navtree-play-directory-list"
+                                    rm "${tmp_dir}/videoinfox.navtree-play-directory-apa-work"
+                                } 2>/dev/null
 
-                                #  CREATE TEMP FILE NEEDED FOR LOOP 
-                                touch "${tmp_dir}/videoinfox.navtree-play-directory-apa2"
-
-                                #  #  START WRITING
-                                while read -r line; do
-                                    if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
-                                        echo "$line" >> "${tmp_dir}/videoinfox.navtree-play-directory-apa2"
-                                    fi
-                                done < "${moddedplayedlist}"
-                                #  DONE WRITING ONLY VALID FILES
-
-                                #  REMOVE BLANK LINES
-                                squash "${tmp_dir}/videoinfox.navtree-play-directory-apa2" 2>/dev/null
-
-                                #  MOVE apa2 BACK TO apa
-                                mv "${tmp_dir}/videoinfox.navtree-play-directory-apa2" "${tmp_dir}/videoinfox.navtree-play-directory-apa" 2>/dev/null
-
-                                #  CREATE FILE NEEDED FOR LOOP 
-                                touch "${tmp_dir}/videoinfox.navtree-play-directory-apa2"
-
-                                #  WRITE FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-                                write_supported_list "${moddedplayedlist}" "${tmp_dir}/videoinfox.navtree-play-directory-apa2"
-
-                                #  REMOVE BLANK LINES
-                                squash "${tmp_dir}/videoinfox.navtree-play-directory-apa2" 2>/dev/null
-
-                                #  MOVE apa2 BACK TO apa
-                                cp ${tmp_dir}/videoinfox.navtree-play-directory-apa2 ${tmp_dir}/videoinfox.navtree-play-directory-apa 2>/dev/null
-
-                                # REMOVE PATH ONLY LEAVING FILENAME
-                                sed -i 's/.*\///' ${tmp_dir}/videoinfox.navtree-play-directory-apa2
-
-                                # NUMBER THE LIST
-                                sed '/./='  ${tmp_dir}/videoinfox.navtree-play-directory-apa2 | sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfox.numbered-navtree-play-directory-list 2>/dev/null
-
-                            
-                            else #  NO LINES START WITH A SLASH /   remove empty files
-                                rm ${tmp_dir}/videoinfox.navtree-play-directory-apa 2>/dev/null
-                                rm ${tmp_dir}/videoinfox.navtree-play-directory-apa2 2>/dev/null
-                                rm ${tmp_dir}/videoinfox.numbered-navtree-play-directory-list 2>/dev/null
-                                rm ${tmp_dir}/videoinfox.navtree-play-directory-apa-work 2>/dev/null    
                             fi
-                            ################clear
+                            #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
+                            moddedplayedlist="${tmp_dir}/videoinfox.navtree-play-directory-apa"
+
+                            #  CREATE TEMP FILE NEEDED FOR LOOP 
+                            touch "${tmp_dir}/videoinfox.navtree-play-directory-apa2"
+
+                            #  START WRITING
+                            while read -r line; do
+                                if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
+                                    echo "$line" >> "${tmp_dir}/videoinfox.navtree-play-directory-apa2"
+                                fi
+                            done < "${moddedplayedlist}"
+
+                            #  REMOVE BLANK LINES
+                            squash "${tmp_dir}/videoinfox.navtree-play-directory-apa2" 2>/dev/null
+
+                            #  MOVE apa2 BACK TO apa
+                            mv "${tmp_dir}/videoinfox.navtree-play-directory-apa2" "${tmp_dir}/videoinfox.navtree-play-directory-apa" 2>/dev/null
+
+                            #  CREATE FILE NEEDED FOR LOOP 
+                            touch "${tmp_dir}/videoinfox.navtree-play-directory-apa2"
+
+                            #  WRITE FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
+                            write_supported_list "${moddedplayedlist}" "${tmp_dir}/videoinfox.navtree-play-directory-apa2"
+
+                            #  REMOVE BLANK LINES
+                            squash "${tmp_dir}/videoinfox.navtree-play-directory-apa2" 2>/dev/null
+
+                            #  MOVE apa2 BACK TO apa
+                            cp ${tmp_dir}/videoinfox.navtree-play-directory-apa2 ${tmp_dir}/videoinfox.navtree-play-directory-apa 2>/dev/null
+
+                            # REMOVE PATH ONLY LEAVING FILENAME
+                            sed -i 's/.*\///' "${tmp_dir}/videoinfox.navtree-play-directory-apa2"
+
+                            # NUMBER THE LIST
+                            sed '/./='  ${tmp_dir}/videoinfox.navtree-play-directory-apa2 |
+                                sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfox.numbered-navtree-play-directory-list 2>/dev/null
 
                             if [[ -f ${tmp_dir}/videoinfox.numbered-navtree-play-directory-list ]]; then
                                 cat ${tmp_dir}/videoinfox.numbered-navtree-play-directory-list 2>/dev/null
@@ -2028,7 +2056,7 @@ while true; do
                             #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
                             if file_contains '^/' "${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa"; then
                                 #  ASSIGN playlistaddnavED LIST TO VARIABLE: $moddedplaylistaddnavedlist 
-                                moddedplaylistaddnavedlist="${HOME}/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-directory-apa"
+                                moddedplaylistaddnavedlist="${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa"
 
                                 #  playlistaddnavED LIST INPUT FOR LOOP
                                 input="$moddedplaylistaddnavedlist"  
@@ -3263,15 +3291,10 @@ touch ${tmp_dir}/videoinfox.home-play-directory-apa2
 
 #  #  START WRITING
 while read -r line; do
-
    if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
            echo "$line" >> ${tmp_dir}/videoinfox.home-play-directory-apa2  
-      else
-           :
-   fi        
-
+   fi
 done < "$input"
-#  DONE WRITING ONLY VALID FILES
 
 #  REMOVE BLANK LINES
 squash ${tmp_dir}/videoinfox.home-play-directory-apa2 2>/dev/null
@@ -3732,7 +3755,7 @@ fi
 
 ########################### removed sort routine #########################
 
-pasteclip  # grab clipboard content                  
+pasteclip  # grab clipboard content
 clear
 
 #  REMOVE PLAYED LIST HEADER AND WRITE NEW FILE FOR PROCESSING: ${tmp_dir}/videoinfo.playedlist-auto-play-all
@@ -3762,7 +3785,6 @@ while read -r line; do
         echo "$line" >> ${tmp_dir}/videoinfo.playedlist-apa2  
     fi
 done < "$input"
-#  DONE WRITING ONLY VALID FILES
 
 #  REMOVE BLANK LINES
 ###############################################################################squash ${tmp_dir}/videoinfo.playedlist-apa2 2>/dev/null
@@ -4191,15 +4213,10 @@ touch ${tmp_dir}/videoinfo.playlist-apa2
 
 #  #  START WRITING
 while read -r line; do
-
    if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
-           echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2  
-      else
-           :
-   fi        
-
+        echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2  
+   fi
 done < "$input"
-#  DONE WRITING ONLY VALID FILES
 
 #  REMOVE BLANK LINES
 squash ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
