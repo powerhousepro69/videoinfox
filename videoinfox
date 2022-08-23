@@ -10,15 +10,21 @@ ver="Videoinfox v3.9.00"
 # Version Number: with blinking dot
 der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m9.00")
 
-# YT-DLP is not on the dependency list becuase Videoinfox will download it to:   ${base_dir}   All calls to yt-dlp are pointed to:   
-# ${base_dir}/yt-dlp   There is an update option in:   <Set>  Settings to update yt-dlp   (just the copy in ${base_dir})
-# I didn't want to overwrite anyones copy of:   /user/local/bin/yt-dlp     Also, I wanted to make sure all new Videoinfox script installs
-# included the most recent version of Yt-dlp
-dependencies='notify-send bc ffmpeg ffprobe ffplay xclip'
-dependency_failmsg=''
-
+base_dir="${HOME}/.config/videoinfox"
+playlist_dir="${base_dir}/playlists"
+tmp_dir="${base_dir}/tmp"
 base_url="https://raw.githubusercontent.com/powerhousepro69/videoinfox/main"
 ytdlp_url="https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp"
+readonly base_url ytdlp_url base_dir playlist_dir tmp_dir
+
+# Ensure that base_dir is at the start of PATH, so that our preferred yt-dlp is used
+# We don't want to clobber anybody else's /usr/local/bin/yt-dlp
+PATH="${base_dir}:${PATH}"
+export PATH
+
+# yt-dlp is not in the dependency list as this script handles it specifically
+dependencies='notify-send bc ffmpeg ffprobe ffplay xclip'
+dependency_failmsg=''
 
 ffprobe_opts=(
     "-v error"
@@ -28,11 +34,6 @@ ffprobe_opts=(
     "-show_entries stream=width,height"
     "-of default=nw=1"
 )
-
-base_dir="${HOME}/.config/videoinfox"
-playlist_dir="${base_dir}/playlists"
-tmp_dir="${base_dir}/tmp"
-readonly base_url ytdlp_url base_dir playlist_dir tmp_dir
 
 # Get the top level PID and setup a trap so that we can call die() within subshells
 trap "exit 1" TERM
@@ -63,6 +64,10 @@ init() {
             "${dependency_failmsg/,/}" >&2
         exit 1
     fi
+
+    # Check that yt-dlp is up to date
+    # This will invoke ytdlp-install() if it isn't
+    ytdlp_check_version
 
     # Disallow usage in /
     [[ "${PWD}" = "/" ]] && die "Videoinfox must not be run within /"
@@ -361,6 +366,7 @@ ytdlp_get_latest_version_number() {
 }
 
 ytdlp_check_version() {
+    print_header " ${der} >>> CHECK YT-DLP UPDATE"
     # If it doesn't exist at all in PATH, then download it
     if ! command -v yt-dlp >/dev/null 2>&1; then
         ytdlp_install
@@ -373,11 +379,15 @@ ytdlp_check_version() {
     # And get the latest available version number
     ytdlp_latest_version="$(ytdlp_get_latest_version_number)"
 
+    # Output our findings
+    printf -- '%s\n' \
+        "Version Check Complete" \
+        "Current yt-dlp version is: ${ytdlp_cur_version}, latest is: ${ytdlp_latest_version}"
+
     # If the versions match, then there's nothing to do here
     [[ "${ytdlp_cur_version}" = "${ytdlp_latest_version}" ]] && return 0
 
     # If we're at this point, then we need to update ytdlp
-    printf -- '%s\n' "Current yt-dlp version is: ${ytdlp_cur_version}, latest is: ${ytdlp_latest_version}"
     read -r -n 1 -p "Upgrade yt-dlp [y/N]? " upgrade_bool
     case "${upgrade_bool}" in
         (y|Y) ytdlp_install --update ;;
@@ -386,6 +396,47 @@ ytdlp_check_version() {
             sleep .7
         ;;
     esac
+}
+
+ytdlp_install() {
+    clear
+    case "${1}" in
+        (--update)
+            printf -- '%s\n' "Backing up yt-dlp . . ."
+            # Backup and remove the current version e.g. yt-dlp ==> yt-dlp.2022.08.19
+            mv "${base_dir}/yt-dlp" "${base_dir}/yt-dlp.$("${base_dir}"/yt-dlp --version)"
+        ;;
+    esac
+
+    # Pull down the latest version
+    print_header " ${der} >>> Attempting to download the most recent version of Yt-dlp"
+    printf -- '%s\n' "Yt-dlp Home: https://github.com/yt-dlp/yt-dlp"
+    retrieve_url "${ytdlp_url}" "${base_dir}/yt-dlp" 2>/dev/null
+
+    # If there's no file present, or an empty one with the expected name, fail out
+    if ! file "${base_dir}/yt-dlp" 2>&1 | grep -q python; then
+        printf -- '\n%s\n\n' " Yt-dlp Download Failure . . ." \
+            "If the download fails, it is most likely due to at least 1 of the following reasons:" \
+            "" \
+            "    - Your internet connection is down." \
+            "    - Github isn't reachable due to technical issues on their end." \
+            "    - There is no Yt-dlp release available in:  https://github.com/yt-dlp/yt-dlp/releases/latest/download" \
+            "" \
+            "If this download fails, the download attempt will be tried again when you next run videoinfox."
+
+        noisy_timeout 15 " ${ver} starting"
+    fi
+
+    # If we're here, then we can proclaim that a download has occured!
+    printf -- '\n%s\n\n' " Yt-dlp Downloaded from https://github.com/yt-dlp/yt-dlp/releases/latest/download"
+
+    # Ensure that it has correct permissions
+    chmod a+rx "${base_dir}/yt-dlp"
+
+    # SAMPLE VIDEO URL BEING COPIED TO CLIPBOARD
+    printf -- '%s\n' "https://www.youtube.com/watch?v=rNWPqfCJDnc" | xclip -sel clip
+
+    noisy_timeout 3 " Yt-dlp INSTALLED . . ."
 }
 
 
@@ -468,14 +519,14 @@ use_custom_list() {
         while read -r line; do
 
             echo
-            ${base_dir}/yt-dlp "$line"  # download url
+            yt-dlp "${line}"  # download url
             echo
             echo "Logging URL and Filename to:" "$PWD/""$ulogfile" 
 
             # logging yt-dlp output to the log file
 
             echo "$line" >> "$ulogfile" 
-            ${base_dir}/yt-dlp "$line" | tee >> "$PWD/""$ulogfile"
+            yt-dlp "${line}" | tee >> "$PWD/""$ulogfile"
             echo >> "$ulogfile" 
 
         done < "$input"
@@ -683,7 +734,6 @@ if [[ ! -d "$direxist" ]]; then
     echo -e "\n" 
     echo " Setup for the first run or if the videoinfox directory gets deleted anytime after the first run."
     
-                                    
 
     #####################
     # CREATE DIRECTORIES
@@ -719,68 +769,6 @@ if [[ ! -d "$direxist" ]]; then
     
     noisy_timeout 36 "Downloading Yt-dlp"
 fi
-
-##################################################################################################################################################
-##### CHECK FOR YT-DLP UPDATE ####################################################################################################################
-ytdlp_update() {
-    # Yt-dlp initial download attempt on the first run. If it fails, download will be re-attempted when you select the Yt-dlp Menu.
-    clear
-    echo
-    echo 
-    echo 
-    echo "___________________________________________________________________________________________________________________"
-    echo  
-    echo " ${der} >>> Attempting to download the most recent version of Yt-dlp"
-    echo "___________________________________________________________________________________________________________________" 
-    echo
-    echo " If Yt-dlp can't be downloaded, the download attempt will be aborted."
-    echo
-    echo " If the download fails, it is most likely due to at least 1 of the following reasons:"
-    echo
-    echo "    - Your internet connection is down."
-    echo
-    echo "    - Github isn't reachable due to technical issues on their end."
-    echo
-    echo "    - There is no Yt-dlp release available in:  https://github.com/yt-dlp/yt-dlp/releases/latest/download"
-    echo
-    echo
-    echo " If this download fails, the download attempt will be tried again when you select the Yt-dlp Menu in Videoinfox."
-    echo
-    echo
-    echo " Note: The Yt-dlp Menu will not work until there is a copy of yt-dlp in:"
-    echo
-    echo " "$HOME"/.config/videoinfox"
-    echo
-    echo
-
-    dirtemp="$PWD"  # save dir for restore after ty-dlp download
-    cd ${base_dir}
-  
-    retrieve_url "${ytdlp_url}" "${base_dir}/yt-dlp" 2>/dev/null
-    
-    if [[ -f ${base_dir}/yt-dlp ]]; then
-        chmod a+rx ${base_dir}/yt-dlp  # set <yt-dlp-fetched> execute bit
-        echo
-        echo " Yt-dlp Downloaded . . ."
-        echo
-        # SAMPLE VIDEO URL BEING COPIED TO CLIPBOARD
-        echo "https://www.youtube.com/watch?v=rNWPqfCJDnc" | xclip -sel clip
-
-        noisy_timeout 5 " ${ver} starting"
-        
-        rm ${base_dir}/wget-* 2> /dev/null          
-    else
-        echo
-        echo " Yt-dlp Download Failure . . ."
-        echo
-
-        noisy_timeout 15 " ${ver} starting"
-
-        rm ${base_dir}/wget-* 2> /dev/null    
-
-        cd "$dirtemp"  # restore directory
-    fi
-}
 
 read -r diratexit < "${base_dir}/videoinfo.dir-at-exit"
 cd "$diratexit" 2>/dev/null 
@@ -1007,7 +995,7 @@ menuf() {
     fi
     if [[ "$grabpaste" = "http" ]]; then
         read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
-        ytdlpconfirm=$(${base_dir}/yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
+        ytdlpconfirm=$(yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
 
         if [[ "$ytdlpconfirm" = "" ]]; then
 
@@ -2294,7 +2282,7 @@ if [[ "$grabpaste" = "http" ]]; then
 fi
 if [[ "$grabpaste" = "http" ]]; then
     read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
-    ytdlpconfirm=$(${base_dir}/yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
+    ytdlpconfirm=$(yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
 
     if [[ "$ytdlpconfirm" = "" ]]; then
 
@@ -2989,8 +2977,8 @@ if [[ "$grabpaste" = "http" ]]; then
       # make a backup copy of:   ${base_dir}/videoinfo.lastdownload   to restore on Play Clipboard with invalid url
       cp ${base_dir}/videoinfo.lastdownload ${base_dir}/videoinfo.lastdownload.bak
    
-      ${base_dir}/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ${base_dir}/videoinfo.lastdownload 
-      ${base_dir}/yt-dlp "$pasteclip"     
+      yt-dlp --get-filename -o "%(title)s" "${pasteclip}" > "${base_dir}/videoinfo.lastdownload" 
+      yt-dlp "${pasteclip}"
       
       # remove first dot and everything after it in filename. this was done because file names with dots before the extension were breking find results
       sed "s/\..*//" ${base_dir}/videoinfo.lastdownload > ${base_dir}/videoinfo.lastdownload.work
@@ -3513,8 +3501,8 @@ if [[ "$grabpaste" = "http" ]]; then
       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
       clear
    
-      ${base_dir}/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ${base_dir}/videoinfo.lastdownload 
-      ${base_dir}/yt-dlp "$pasteclip"    
+      yt-dlp --get-filename -o "%(title)s" "${pasteclip}" > "${base_dir}/videoinfo.lastdownload" 
+      yt-dlp "${pasteclip}"
 
       
       # remove first dot and everything after it in filename. this was done because file names with dots before the extension were breking find results
@@ -3844,7 +3832,7 @@ grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st chara
 
 if [[ "$grabpaste" = "http" ]]; then
       read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
-      ytdlpconfirm=$(${base_dir}/yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
+      ytdlpconfirm=$(yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
 
             if [[ "$ytdlpconfirm" = "" ]]; then
 
@@ -4300,7 +4288,7 @@ if [[ "$grabpaste" = "http" ]]; then
 fi
 if [[ "$grabpaste" = "http" ]]; then
       read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
-      ytdlpconfirm=$(${base_dir}/yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
+      ytdlpconfirm=$(yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
 
             if [[ "$ytdlpconfirm" = "" ]]; then
 
@@ -4995,8 +4983,8 @@ if [[ "$grabpaste" = "http" ]]; then
       # make a backup copy of:   ${base_dir}/videoinfo.lastdownload   to restore on Play Clipboard with invalid url
       cp ${base_dir}/videoinfo.lastdownload ${base_dir}/videoinfo.lastdownload.bak
    
-      ${base_dir}/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ${base_dir}/videoinfo.lastdownload 
-      ${base_dir}/yt-dlp "$pasteclip"     
+      yt-dlp --get-filename -o "%(title)s" "${pasteclip}" > "${base_dir}/videoinfo.lastdownload" 
+      yt-dlp "${pasteclip}"
       
       # remove first dot and everything after it in filename. this was done because file names with dots before the extension were breking find results
       sed "s/\..*//" ${base_dir}/videoinfo.lastdownload > ${base_dir}/videoinfo.lastdownload.work
@@ -5267,8 +5255,8 @@ if [[ "$grabpaste" = "http" ]]; then
       # make a backup copy of:   ${base_dir}/videoinfo.lastdownload   to restore on Play Clipboard with invalid url
       cp ${base_dir}/videoinfo.lastdownload ${base_dir}/videoinfo.lastdownload.bak
    
-      ${base_dir}/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ${base_dir}/videoinfo.lastdownload 
-      ${base_dir}/yt-dlp "$pasteclip"     
+      yt-dlp --get-filename -o "%(title)s" "${pasteclip}" > "${base_dir}/videoinfo.lastdownload" 
+      yt-dlp "${pasteclip}"
       
       # remove first dot and everything after it in filename. this was done because file names with dots before the extension were breking find results
       sed "s/\..*//" ${base_dir}/videoinfo.lastdownload > ${base_dir}/videoinfo.lastdownload.work
@@ -5578,7 +5566,7 @@ if [[ "$grabpaste" = "http" ]]; then
 fi
 if [[ "$grabpaste" = "http" ]]; then
     read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
-    ytdlpconfirm=$(${base_dir}/yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
+    ytdlpconfirm=$(yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
 
     if [[ "$ytdlpconfirm" = "" ]]; then
 
@@ -6255,8 +6243,8 @@ if [[ "$grabpaste" = "http" ]]; then
       # make a backup copy of:   ${base_dir}/videoinfo.lastdownload   to restore on Play Clipboard with invalid url
       cp ${base_dir}/videoinfo.lastdownload ${base_dir}/videoinfo.lastdownload.bak
    
-      ${base_dir}/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ${base_dir}/videoinfo.lastdownload 
-      ${base_dir}/yt-dlp "$pasteclip"     
+      yt-dlp --get-filename -o "%(title)s" "${pasteclip}" > "${base_dir}/videoinfo.lastdownload" 
+      yt-dlp "${pasteclip}"
       
       # remove first dot and everything after it in filename. this was done because file names with dots before the extension were breking find results
       sed "s/\..*//" ${base_dir}/videoinfo.lastdownload > ${base_dir}/videoinfo.lastdownload.work
@@ -6876,104 +6864,8 @@ done
         
          y)  # CHECK FOR YT-DLP UPDATE
 
-dirtemp="$PWD"  # save dir for restore after yt-dlp download      
-
-# Yt-dlp download attempt.
-clear
-
-print_header " ${der} >>> Attempting to download the most recent version of Yt-dlp"
-
-echo " If Yt-dlp can't be downloaded, the download attempt will be aborted."
-echo
-echo " If the download fails, it is most likely due to at least 1 of the following reasons:"
-echo
-echo "    - Your internet connection is down."
-echo
-echo "    - Github isn't reachable due to technical issues on their end."
-echo
-echo "    - There is no Yt-dlp release available in:  https://github.com/yt-dlp/yt-dlp/releases/latest/download"
-echo
-echo
-echo " If this download fails, the download attempt will be tried again when you select the Yt-dlp Menu in Videoinfox."
-echo
-echo
-echo " Note: The Yt-dlp Menu will not work until there is a copy of yt-dlp in:"
-echo
-echo " "$HOME"/.config/videoinfox"
-echo
-echo
-
-cd ${tmp_dir}
- 
-wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp 2>/dev/null  # download yt-dlp 
-if [[ -f ${tmp_dir}/yt-dlp ]]; then
-    chmod a+rx ${tmp_dir}/yt-dlp  # set <yt-dlp-fetched> execute bit
-    noisy_timeout 5 " Yt-dlp Downloaded . . ."
-   
-chkytdlp() {
-
-    if [[ -f ${tmp_dir}/yt-dlp ]]; then
-        ytexist=$(${base_dir}/yt-dlp --version)
-    else
-        ytexist="Not installed"
-    fi
-
-    clear 
-
-    print_header " ${der} >>> CHECK YT-DLP UPDATE"
-
-    echo " Yt-dlp Home: https://github.com/yt-dlp/yt-dlp"
-    echo
-    echo " Downloaded From: https://github.com/yt-dlp/yt-dlp/releases/latest/download"
-    echo
-    echo
-    echo " Version Check Complete"
-    echo
-    echo " Downloaded:" $(${tmp_dir}/yt-dlp --version)
-    echo
-    echo " Installed: " "$ytexist"
-    echo
-    echo
-    echo " u - Update     d - Don't Update"  
-    echo
-    echo -en " Enter Option: "
-    read -r -n1 optionytdlp
-    echo         
-}        
-              
-         while true; do
-             chkytdlp
-            case $optionytdlp in
-                d)
-                    #  DON'T UPDATE
-                    rm ${tmp_dir}/* 2>/dev/null
-                    cd "$dirtemp"  # restore directory
-                    echo
-                    echo " Yt-dlp Not Updated . . ."
-                    sleep .7
-                    break
-                ;;
-                u)
-                    # UPDATE
-                    rm ${base_dir}/yt-dlp 2> /dev/null
-                    mv ${tmp_dir}/yt-dlp ${base_dir} 2> /dev/null       
-                    rm ${tmp_dir}/* 2>/dev/null
-                    cd "$dirtemp"  # restore directory
-                    echo
-                            
-                    noisy_timeout 3 " Yt-dlp UPDATED . . ."
-                    break
-                ;;
-            esac
-         done
-    else
-         rm ${tmp_dir}/* 2>/dev/null     
-         cd "$dirtemp"  # restore directory
-
-         noisy_timeout 20 " Yt-dlp Download Failure . . ."
-    fi
-;;         
-esac
+        ;;         
+    esac
 done
 
 rm ${tmp_dir}/* 2>/dev/null
@@ -6987,13 +6879,13 @@ y)
 
 grabdir="$PWD"  # grab working directory
 pasteclip3=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content to restore to before this function was run
-if ! command -v ${base_dir}/yt-dlp > /dev/null 2>&1; then  # if <yt-dlp> isnt found goto then
+if ! command -v yt-dlp > /dev/null 2>&1; then  # if <yt-dlp> isnt found goto then
 
-    # Yt-dlp download attempt.  Yt-dlp Menu won't start untl Yt-dlp is downloaded to: ${base_dir}/yt-dlp
-    [[ -x "${base_dir}/yt-dlp" ]] && ytdlp_update
+    # Yt-dlp download attempt.  Yt-dlp Menu won't start untl Yt-dlp is downloaded to: yt-dlp
+    [[ -x "yt-dlp" ]] && ytdlp_update
 
-    if [[ -f ${base_dir}/yt-dlp ]]; then
-        chmod a+rx ${base_dir}/yt-dlp  # set <yt-dlp-fetched> execute bit
+    if [[ -f yt-dlp ]]; then
+        chmod a+rx yt-dlp  # set <yt-dlp-fetched> execute bit
         echo
         echo " Yt-dlp Downloaded . . ."
         echo
@@ -7020,7 +6912,7 @@ else  # IF YT-DLP IS FOUND    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 ###########################
 
-read -r ytdlpver < <(${base_dir}/yt-dlp --version)
+read -r ytdlpver < <(yt-dlp --version)
 
 menuy() {
 
@@ -7065,7 +6957,7 @@ grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st chara
 
 if [[ "$grabpaste" = "http" ]]; then
       read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
-      ytdlpconfirm=$(${base_dir}/yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
+      ytdlpconfirm=$(yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
 
             if [[ "$ytdlpconfirm" = "" ]]; then
 
@@ -7943,14 +7835,14 @@ fi
 
     echo
 
-    ${base_dir}/yt-dlp "$line"  # download url
+    yt-dlp "${line}"  # download url
 
     echo
     echo "Logging URL and Filename to:" "$logfile"
 
     # logging yt-dlp output
     echo "$line" >> "$logfile" 
-    ${base_dir}/yt-dlp "$line" | tee >> "$logfile"
+    yt-dlp "${line}" | tee >> "$logfile"
     echo >> "$logfile" 
 
     ############  REMOVE UNWANTED LOG INFO  ############# 
@@ -8382,12 +8274,12 @@ while read -r line; do
 
 echo
 
-${base_dir}/yt-dlp "$line"  # download url
+yt-dlp "${line}"  # download url
 echo
 echo "Logging URL and Filename to:" "$logfile" 
 # logging yt-dlp output
 echo "$line" >> "$logfile" 
-${base_dir}/yt-dlp "$line" | tee >> "$logfile"
+yt-dlp "${line}" | tee >> "$logfile"
 echo >> "$logfile" 
 
 done < "$input"
@@ -8548,8 +8440,8 @@ if [[ "$grabpaste" = "http" ]]; then
       # make a backup copy of:   ${base_dir}/videoinfo.lastdownload   to restore on Play Clipboard with invalid url
       cp ${base_dir}/videoinfo.lastdownload ${base_dir}/videoinfo.lastdownload.bak
    
-      ${base_dir}/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ${base_dir}/videoinfo.lastdownload 
-      ${base_dir}/yt-dlp "$pasteclip"     
+      yt-dlp --get-filename -o "%(title)s" "${pasteclip}" > "${base_dir}/videoinfo.lastdownload" 
+      yt-dlp "${pasteclip}"
       
       # remove first dot and everything after it in filename. this was done because file names with dots before the extension were breking find results
       sed "s/\..*//" ${base_dir}/videoinfo.lastdownload > ${base_dir}/videoinfo.lastdownload.work
@@ -8790,7 +8682,7 @@ grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st chara
 
 if [[ "$grabpaste" = "http" ]]; then
       read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
-      ytdlpconfirm=$(${base_dir}/yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
+      ytdlpconfirm=$(yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
 
             if [[ "$ytdlpconfirm" = "" ]]; then
 
@@ -8886,8 +8778,8 @@ if [[ "$grabpaste" = "http" ]]; then
       # make a backup copy of:   ${base_dir}/videoinfo.lastdownload   to restore on Play Clipboard with invalid url
       cp ${base_dir}/videoinfo.lastdownload ${base_dir}/videoinfo.lastdownload.bak
    
-      ${base_dir}/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ${base_dir}/videoinfo.lastdownload 
-      ${base_dir}/yt-dlp "$pasteclip"     
+      yt-dlp --get-filename -o "%(title)s" "${pasteclip}" > "${base_dir}/videoinfo.lastdownload" 
+      yt-dlp "${pasteclip}"
       
       # remove first dot and everything after it in filename. this was done because file names with dots before the extension were breking find results
       sed "s/\..*//" ${base_dir}/videoinfo.lastdownload > ${base_dir}/videoinfo.lastdownload.work
@@ -9371,7 +9263,7 @@ fi
               if [[ "$grabpaste3" = "http" ]]; then
          
               clear
-              ${base_dir}/yt-dlp "$pasteclip" -o "$dirsaved"/download.tmp  # downloading temporary video
+              yt-dlp "${pasteclip}" -o "$dirsaved"/download.tmp  # downloading temporary video
               notify-send "Videoinfox messsage: YT-DLP is done downloading . . ." "$pasteclip" 
 
               clear
@@ -9475,8 +9367,8 @@ get_file_stats "${ytdlplast}"
                   
               clear
       
-              ${base_dir}/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ${base_dir}/videoinfo.lastdownload 
-              ${base_dir}/yt-dlp "$pasteclip"     
+              yt-dlp --get-filename -o "%(title)s" "${pasteclip}" > "${base_dir}/videoinfo.lastdownload" 
+              yt-dlp "${pasteclip}"
       
               # remove first dot and everything after it in filename. file names with dots before the extension were breking find results
               sed "s/\..*//" ${base_dir}/videoinfo.lastdownload > ${base_dir}/videoinfo.lastdownload.work
@@ -9519,10 +9411,10 @@ get_file_stats "${ytdlplast}"
               echo
               
               # <yt-dlp> gets the filename minus the extension. this is done becuase the user can pick different video file types to download.
-              ${base_dir}/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ${base_dir}/videoinfo.lastdownload
+              yt-dlp --get-filename -o "%(title)s" "${pasteclip}" > "${base_dir}/videoinfo.lastdownload"
  
               # <yt-dlp> giving options for quality and file type to download
-              ${base_dir}/yt-dlp -F "$pasteclip"
+              yt-dlp -F "${pasteclip}"
               
               echo
               echo
@@ -9530,7 +9422,7 @@ get_file_stats "${ytdlplast}"
               read -r -p "Enter that Code and Press enter : " svrcode
               echo
               clear
-              ${base_dir}/yt-dlp -f "$svrcode" "$pasteclip"
+              yt-dlp -f "$svrcode" "$pasteclip"
 
               # remove first dot and everything after it in filename. file names with dots before the extension were breking find results
               sed "s/\..*//" ${base_dir}/videoinfo.lastdownload > ${base_dir}/videoinfo.lastdownload.work
