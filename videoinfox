@@ -163,6 +163,11 @@ retrieve_url() {
     fi
 }
 
+# Remove empty lines from a given file
+squash() {
+    sed -i '/^$/d' "${1:?No file specified}"
+}
+
 write_supported_list() {
     while read -r line; do
         case "${line}" in
@@ -214,10 +219,7 @@ ytdlp_check_version() {
     ytdlp_install --update
 }
 
-# Remove empty lines from a given file
-squash() {
-    sed -i '/^$/d' "${1:?No file specified}"
-}
+
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------
 #  videoinfox -v     DISPLAY VERSION NUMBER THEN EXIT  
