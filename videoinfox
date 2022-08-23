@@ -47,7 +47,7 @@ _self_pid="${$}"
 export _self_pid
 
 # Ensure cleanup on any exit
-#trap "cleanup" EXIT
+trap "cleanup" EXIT
 
 die() {
     if [ -t 0 ]; then
@@ -728,10 +728,7 @@ play_directory() {
     
     IFS=$OLDIFS
 
-    rm ${tmp_dir}/videoinfox.optiond-play-directory-apa 2>/dev/null
-    rm ${tmp_dir}/videoinfox.optiond-play-directory-apa2 2>/dev/null
-    rm ${tmp_dir}/videoinfox.numbered-optiond-play-directory-list 2>/dev/null
-
+            
     exit
 }
 
@@ -863,9 +860,7 @@ menuf() {
     #  if search total is any number
     if [[ "$searchtotal" = "" ]]; then
         dashj=$(echo "-")  # don't blink dash on home screen @ Play Number
-        rm ${tmp_dir}/videoinfo-findwork.tmp 2>/dev/null
-        rm ${tmp_dir}/videoinfo-number-findwork.tmp 2>/dev/null
-
+                
         # clear search results
         echo "" > ${base_dir}/videoinfo.lastsearchtotal
         echo "" > ${base_dir}/videoinfo.lastfindstring
@@ -885,8 +880,7 @@ menuf() {
 
         # CREATE NUMBERED lIST
         sed '/./=' ${tmp_dir}/videoinfo-number-findwork.tmp2 | sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfo-number-findwork.tmp 2>/dev/null
-        rm ${tmp_dir}/videoinfo-number-findwork.tmp2 2>/dev/null
-        cat ${tmp_dir}/videoinfo-number-findwork.tmp  # display numbered find results    
+                cat ${tmp_dir}/videoinfo-number-findwork.tmp  # display numbered find results    
 
         echo      
         echo "Dir: "$(cat ${base_dir}/videoinfo.lastfinddir 2>/dev/null) # display last directory that last find was run from
@@ -1249,8 +1243,7 @@ while true; do
                     fi
                 done
  
-                rm ${tmp_dir}/videoinfo-home-autoplay.tmp 2> /dev/null
-                IFS=$OLDIFS
+                                IFS=$OLDIFS
 
                 else
                     echo
@@ -1310,8 +1303,7 @@ while true; do
 
                         echo "$playnumber" >> ${base_dir}/videoinfo.playedlist  # write clipboard content to Played List file
                         ffplay -fs -autoexit "$playnumber" 2>/dev/null  # play video
-                        rm ${tmp_dir}/videoinfo-findwork-playnumber.tmp 2>/dev/null
-
+                        
                     fi
                 else
                     echo
@@ -1676,11 +1668,7 @@ while true; do
                             
                             IFS=$OLDIFS
 
-                            rm ${tmp_dir}/videoinfox.navtree-play-directory-apa 2>/dev/null
-                            rm ${tmp_dir}/videoinfox.navtree-play-directory-apa2 2>/dev/null
-                            rm ${tmp_dir}/videoinfox.numbered-navtree-play-directory-list 2>/dev/null
-                            rm ${tmp_dir}/videoinfox.navtree-play-directory-apa-work 2>/dev/null 
-
+                                                                                                                
                         ;;
                         n)
                             ####################################################################################################################################
@@ -1775,11 +1763,7 @@ while true; do
 
         
                     else #  NO LINES START WITH A SLASH /   remove empty files
-                        rm ${tmp_dir}/videoinfox.nt-play-directory-apa 2>/dev/null
-                        rm ${tmp_dir}/videoinfox.nt-play-directory-apa2 2>/dev/null
-                        rm ${tmp_dir}/videoinfox.numbered-nt-play-directory-list 2>/dev/null
-                        rm ${tmp_dir}/videoinfox.nt-play-directory-apa-work 2>/dev/null
-                    fi
+                                                                                                                    fi
                     clear
 
                     if [[ -f ${tmp_dir}/videoinfox.numbered-nt-play-directory-list ]]; then
@@ -1808,11 +1792,7 @@ while true; do
                     ntplaynum
                     case $optionaplist in
                         q) # QUIT
-                            rm ${tmp_dir}/videoinfox.nt-play-directory-apa 2>/dev/null
-                            rm ${tmp_dir}/videoinfox.nt-play-directory-apa2 2>/dev/null
-                            rm ${tmp_dir}/videoinfox.numbered-nt-play-directory-list 2>/dev/null
-                            rm ${tmp_dir}/videoinfox.nt-play-directory-apa-work 2>/dev/null 
-                            break
+                                                                                                                                            break
                         ;;
                         z) # DIRECTORY TO PAYLIST
 
@@ -1828,8 +1808,7 @@ while true; do
                             echo "$createpl1" > ${tmp_dir}/plremovedot.tmp
                             sed -i -e 's/\.//g' ${tmp_dir}/plremovedot.tmp
                             read createpl < ${tmp_dir}/plremovedot.tmp
-                            rm ${tmp_dir}/plremovedot.tmp
-
+                            
                             if [[ -z "$createpl" ]]; then
                                 echo
                                 echo " Nothing was entered . . ."
@@ -1892,8 +1871,7 @@ while true; do
 
                                         echo
                                         read -r -p " Press enter to Continue" 
-                                        ######rm ${tmp_dir}/videoinfo-findwork-playnumber.tmp 2>/dev/null
-
+                                        ######
                                     fi
 
                                 else
@@ -2022,11 +2000,7 @@ while true; do
                                     
                                         IFS=$OLDIFS
 
-                                        rm ${tmp_dir}/videoinfox.nt-play-directory-apa 2>/dev/null
-                                        rm ${tmp_dir}/videoinfox.nt-play-directory-apa2 2>/dev/null
-                                        rm ${tmp_dir}/videoinfox.numbered-nt-play-directory-list 2>/dev/null
-                                        rm ${tmp_dir}/videoinfox.nt-play-directory-apa-work 2>/dev/null 
-                                    fi
+                                                                                                                                                                                                    fi
                                 fi
                                 ######esac
                                 ######done
@@ -2100,11 +2074,7 @@ while true; do
 
                             
                             else #  NO LINES START WITH A SLASH /   remove empty files
-                                rm ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa 2>/dev/null
-                                rm ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 2>/dev/null
-                                rm ${tmp_dir}/videoinfox.numbered-nt-playlistaddnav-directory-list 2>/dev/null
-                                rm ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa-work 2>/dev/null    
-                            fi
+                                                                                                                                                            fi
                             clear
 
                             if [[ -f ${tmp_dir}/videoinfox.numbered-nt-playlistaddnav-directory-list ]]; then
@@ -2116,8 +2086,7 @@ while true; do
                             # REMOVE EVERYTHING FROM THE BEGINNING OF THE LINE UP TO AND INCLUDING THE DOT). LEAVING ONLY PLAYLIST NAME
                             cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/whatplnt.tmp 
                             read -r whatplnt < ${tmp_dir}/whatplnt.tmp
-                            rm ${tmp_dir}/whatplnt.tmp
-
+                            
                             echo
                             read -r -p "Enter line number to add video to playlist $whatplnt: " linenumber  # waiting fot user input
 
@@ -2159,11 +2128,7 @@ while true; do
                             
                             IFS=$OLDIFS
 
-                            rm ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa 2>/dev/null
-                            rm ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 2>/dev/null
-                            rm ${tmp_dir}/videoinfox.numbered-nt-playlistaddnav-directory-list 2>/dev/null
-                            rm ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa-work 2>/dev/null 
-                                    
+                                                                                                                                                    
                             else
                                 echo
                                 echo " No video files in the current directory . . ."
@@ -2256,10 +2221,7 @@ sed '/./=' ${tmp_dir}/videoinfo.playlist-apa2 | sed '/./N; s/\n/ /' > ${tmp_dir}
 
    
 else #  NO LINES START WITH A SLASH /   remove empty files
-     rm ${tmp_dir}/videoinfo.playlist-apa 2>/dev/null
-     rm ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
-     rm ${tmp_dir}/videoinfo.number.play-list 2>/dev/null     
-fi
+               fi
 clear
 if [[ -f ${tmp_dir}/videoinfo.number.play-list ]]; then
         cat ${tmp_dir}/videoinfo.number.play-list 2>/dev/null
@@ -2280,8 +2242,7 @@ if [[ "$searchtotal" = 0 ]]; then
       echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ${base_dir}/videoinfo.playlist.current             
       cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/plread.tmp 
       read -r setplaylist < ${tmp_dir}/plread.tmp
-      rm ${tmp_dir}/plread.tmp
-      # GET CURRENT PLAYLIST
+            # GET CURRENT PLAYLIST
       read -r activeplaylist < ${base_dir}/videoinfo.playlist.current
       read -r setplaylistfull < ${base_dir}/videoinfo.playlist.current
 
@@ -2295,8 +2256,7 @@ if [[ "$searchtotal" = 0 ]]; then
 
       read -r setplaylist < ${tmp_dir}/plread.tmp
 
-      rm ${tmp_dir}/plread.tmp
-fi
+      fi
 ###############################################################################
 
 #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
@@ -2401,10 +2361,7 @@ read -r -n1 optionv
         case $optionv in
     
         q)  # QUIT
-        rm ${tmp_dir}/videoinfo.playlist-apa 2>/dev/null
-        rm ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
-        rm ${tmp_dir}/videoinfo.number.play-list 2>/dev/null
-        cd "$grabdir"
+                                cd "$grabdir"
         break;;
 
        
@@ -2489,9 +2446,6 @@ tail -n +"$i" ${tmp_dir}/videoinfo.playlist-apa > "$setplaylist".last-autoplay
 
 IFS=$OLDIFS
 
-rm ${tmp_dir}/videoinfo.playlist-apa 2>/dev/null
-rm ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
-rm ${tmp_dir}/videoinfo.number.play-list 2>/dev/null
 
    else
        echo
@@ -2511,7 +2465,6 @@ r)  # REMOVE LINE  (HOME >>> PLAYLIST)
 # REMOVE EVERYTHING FROM THE BEGINNING OF THE LINE UP TO AND INCLUDING THE DOT). LEAVING ONLY PLAYLIST NAME
 cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/whatplpld.tmp 
 read -r whatplpld < ${tmp_dir}/whatplpld.tmp
-rm ${tmp_dir}/whatplpld.tmp
 if [[ -f ${base_dir}/videoinfo.playlist ]]; then
       :
   else
@@ -2699,9 +2652,6 @@ if [[ -z "$line" ]
  
 IFS=$OLDIFS
 
-rm ${tmp_dir}/videoinfo.playlist-apa 2>/dev/null
-rm ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
-rm ${tmp_dir}/videoinfo.number.play-list 2>/dev/null
 
 fi
 
@@ -2752,8 +2702,7 @@ get_file_stats "${playnumber}"
 
                        echo
                        read -r -p " Press enter to Continue" 
-                       rm ${tmp_dir}/videoinfo.playlist-apa.tmp 2>/dev/null
-
+                       
                  fi
 
         else
@@ -2924,8 +2873,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
 
                       echo "$plselected"| sed 's/.*\.//' > ${tmp_dir}/plread.tmp  # REMOVE FULL PATH ONLY LEAVING PLAYLIST NAME
                       read -r plselectedla < ${tmp_dir}/plread.tmp  # READING PLAYLIST NAME ONLY INTO VARIABLE  $pselecteda
-                      rm ${tmp_dir}/plread.tmp  # remove temp file
-                      rm ${base_dir}/playlists/"$plselectedla".last-autoplay  # REMOVE PLAYLIST.last.autoplay  file
+                                            rm ${base_dir}/playlists/"$plselectedla".last-autoplay  # REMOVE PLAYLIST.last.autoplay  file
  
                       echo
                       echo  " Playlist Deleted . . ."
@@ -2967,7 +2915,6 @@ read -r -p " Create Playlist: " createpl1  # waiting fot user input. grabbing ne
 echo "$createpl1" > ${tmp_dir}/plremovedot.tmp
 sed -i -e 's/\.//g' ${tmp_dir}/plremovedot.tmp
 read createpl < ${tmp_dir}/plremovedot.tmp
-rm ${tmp_dir}/plremovedot.tmp
 
 if [[ -z "$createpl" ]]; then
       echo
@@ -3253,10 +3200,6 @@ done
  
 IFS=$OLDIFS
 
-rm ${tmp_dir}/videoinfox.nt-play-directory-apa 2>/dev/null
-rm ${tmp_dir}/videoinfox.nt-play-directory-apa2 2>/dev/null
-rm ${tmp_dir}/videoinfox.numbered-nt-play-directory-list 2>/dev/null
-rm ${tmp_dir}/videoinfox.nt-play-directory-apa-work 2>/dev/null 
           
 esac
 done
@@ -3322,11 +3265,7 @@ sed '/./='  ${tmp_dir}/videoinfox.home-play-directory-apa2 | sed '/./N; s/\n/ /'
 
    
 else #  NO LINES START WITH A SLASH /   remove empty files
-     rm ${tmp_dir}/videoinfox.home-play-directory-apa 2>/dev/null
-     rm ${tmp_dir}/videoinfox.home-play-directory-apa2 2>/dev/null
-     rm ${tmp_dir}/videoinfox.numbered-home-play-directory-list 2>/dev/null
-     rm ${tmp_dir}/videoinfox.home-play-directory-apa-work 2>/dev/null    
-fi
+                    fi
 ##################clear
 
 if [[ -f ${tmp_dir}/videoinfox.numbered-home-play-directory-list ]]; then
@@ -3388,10 +3327,6 @@ done
  
 IFS=$OLDIFS
 
-rm ${tmp_dir}/videoinfox.home-play-directory-apa 2>/dev/null
-rm ${tmp_dir}/videoinfox.home-play-directory-apa2 2>/dev/null
-rm ${tmp_dir}/videoinfox.numbered-home-play-directory-list 2>/dev/null
-rm ${tmp_dir}/videoinfox.home-play-directory-apa-work 2>/dev/null 
 
 ;;           
 ##################################################################################
@@ -3504,9 +3439,7 @@ find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -in
      touch ${base_dir}/videoinfo.lastfindstring
      touch ${base_dir}/videoinfo.lastfinddir
 
-     rm ${tmp_dir}/videoinfo-number-findwork.tmp 2> /dev/null
-     rm ${tmp_dir}/videoinfo-findwork.tmp 2> /dev/null
-
+          
      touch ${base_dir}/videoinfo.findwork
      
      ;;
@@ -3717,8 +3650,7 @@ get_file_stats "${playnumber}"
 
                        echo
                        read -r -p " Press enter to Continue" 
-                       rm ${tmp_dir}/videoinfo-findwork-playnumber.tmp 2>/dev/null
-
+                       
                  fi
 
         else
@@ -3820,10 +3752,7 @@ sed '/./=' ${tmp_dir}/videoinfo.playedlist-apa2 | sed '/./N; s/\n/ /' > ${tmp_di
 
    
 else #  NO LINES START WITH A SLASH /   remove empty files
-     rm ${tmp_dir}/videoinfo.playedlist-apa 2>/dev/null
-     rm ${tmp_dir}/videoinfo.playedlist-apa2 2>/dev/null
-     rm ${tmp_dir}/videoinfo.number.played-list 2>/dev/null     
-fi
+               fi
 clear
 if [[ -f ${tmp_dir}/videoinfo.number.played-list ]]; then
         cat ${tmp_dir}/videoinfo.number.played-list 2>/dev/null
@@ -3945,10 +3874,7 @@ read -r -n1 optionv
         case $optionv in
     
         q)  # QUIT
-        rm ${tmp_dir}/videoinfo.playedlist-apa 2>/dev/null
-        rm ${tmp_dir}/videoinfo.playedlist-apa2 2>/dev/null
-        rm ${tmp_dir}/videoinfo.number.played-list 2>/dev/null
-        break;;
+                                break;;
         o) # AUTOPLAY LINE  (PLAYED LIST)
 
 if [[ -f ${tmp_dir}/videoinfo.number.played-list ]]; then
@@ -4006,9 +3932,6 @@ done
  
 IFS=$OLDIFS
 
-rm ${tmp_dir}/videoinfo.playedlist-apa 2>/dev/null
-rm ${tmp_dir}/videoinfo.playedlist-apa2 2>/dev/null
-rm ${tmp_dir}/videoinfo.number.played-list 2>/dev/null
 
    else
        echo
@@ -4094,10 +4017,7 @@ fi
  
              IFS=$OLDIFS
 
-             rm ${tmp_dir}/videoinfo.playedlist-apa 2>/dev/null
-             rm ${tmp_dir}/videoinfo.playedlist-apa2 2>/dev/null
-             rm ${tmp_dir}/videoinfo.number.played-list 2>/dev/null
-
+                                       
         fi
     else  # FILE IS EMPTY"
         echo
@@ -4146,8 +4066,7 @@ get_file_stats "${playnumber}"
 
                        echo
                        read -r -p " Press enter to Continue" 
-                       rm ${tmp_dir}/videoinfo.playedlist-apa.tmp 2>/dev/null
-
+                       
                  fi
 
         else
@@ -4249,10 +4168,7 @@ sed '/./=' ${tmp_dir}/videoinfo.playlist-apa2 | sed '/./N; s/\n/ /' > ${tmp_dir}
 
    
 else #  NO LINES START WITH A SLASH /   remove empty files
-     rm ${tmp_dir}/videoinfo.playlist-apa 2>/dev/null
-     rm ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
-     rm ${tmp_dir}/videoinfo.number.play-list 2>/dev/null     
-fi
+               fi
 clear
 if [[ -f ${tmp_dir}/videoinfo.number.play-list ]]; then
         cat ${tmp_dir}/videoinfo.number.play-list 2>/dev/null
@@ -4273,8 +4189,7 @@ if [[ "$searchtotal" = 0 ]]; then
       echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ${base_dir}/videoinfo.playlist.current             
       cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/plread.tmp 
       read -r setplaylist < ${tmp_dir}/plread.tmp
-      rm ${tmp_dir}/plread.tmp
-      # GET CURRENT PLAYLIST
+            # GET CURRENT PLAYLIST
       read -r activeplaylist < ${base_dir}/videoinfo.playlist.current
       read -r setplaylistfull < ${base_dir}/videoinfo.playlist.current
 
@@ -4288,8 +4203,7 @@ if [[ "$searchtotal" = 0 ]]; then
 
       read -r setplaylist < ${tmp_dir}/plread.tmp
 
-      rm ${tmp_dir}/plread.tmp
-fi
+      fi
 ###############################################################################
 
 #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
@@ -4396,10 +4310,7 @@ read -r -n1 optionv
         case $optionv in
     
         q)  # QUIT
-        rm ${tmp_dir}/videoinfo.playlist-apa 2>/dev/null
-        rm ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
-        rm ${tmp_dir}/videoinfo.number.play-list 2>/dev/null
-        cd "$grabdir"
+                                cd "$grabdir"
         break;;
 
        
@@ -4484,9 +4395,6 @@ tail -n +"$i" ${tmp_dir}/videoinfo.playlist-apa > "$setplaylist".last-autoplay
 
 IFS=$OLDIFS
 
-rm ${tmp_dir}/videoinfo.playlist-apa 2>/dev/null
-rm ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
-rm ${tmp_dir}/videoinfo.number.play-list 2>/dev/null
 
    else
        echo
@@ -4506,7 +4414,6 @@ r)  # REMOVE LINE  (HOME >>> PLAYLIST)
 # REMOVE EVERYTHING FROM THE BEGINNING OF THE LINE UP TO AND INCLUDING THE DOT). LEAVING ONLY PLAYLIST NAME
 cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/whatplpld.tmp 
 read -r whatplpld < ${tmp_dir}/whatplpld.tmp
-rm ${tmp_dir}/whatplpld.tmp
 if [[ -f ${base_dir}/videoinfo.playlist ]]; then
       :
   else
@@ -4694,9 +4601,6 @@ if [[ -z "$line" ]
  
 IFS=$OLDIFS
 
-rm ${tmp_dir}/videoinfo.playlist-apa 2>/dev/null
-rm ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
-rm ${tmp_dir}/videoinfo.number.play-list 2>/dev/null
 
 fi
 
@@ -4747,8 +4651,7 @@ get_file_stats "${playnumber}"
 
                        echo
                        read -r -p " Press enter to Continue" 
-                       rm ${tmp_dir}/videoinfo.playlist-apa.tmp 2>/dev/null
-
+                       
                  fi
 
         else
@@ -4919,8 +4822,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
 
                       echo "$plselected"| sed 's/.*\.//' > ${tmp_dir}/plread.tmp  # REMOVE FULL PATH ONLY LEAVING PLAYLIST NAME
                       read -r plselectedla < ${tmp_dir}/plread.tmp  # READING PLAYLIST NAME ONLY INTO VARIABLE  $pselecteda
-                      rm ${tmp_dir}/plread.tmp  # remove temp file
-                      rm ${base_dir}/playlists/"$plselectedla".last-autoplay  # REMOVE PLAYLIST.last.autoplay  file
+                                            rm ${base_dir}/playlists/"$plselectedla".last-autoplay  # REMOVE PLAYLIST.last.autoplay  file
  
                       echo
                       echo  " Playlist Deleted . . ."
@@ -4962,7 +4864,6 @@ read -r -p " Create Playlist: " createpl1  # waiting fot user input. grabbing ne
 echo "$createpl1" > ${tmp_dir}/plremovedot.tmp
 sed -i -e 's/\.//g' ${tmp_dir}/plremovedot.tmp
 read createpl < ${tmp_dir}/plremovedot.tmp
-rm ${tmp_dir}/plremovedot.tmp
 
 if [[ -z "$createpl" ]]; then
       echo
@@ -5202,7 +5103,6 @@ k)
 # REMOVE EVERYTHING FROM THE BEGINNING OF THE LINE UP TO AND INCLUDING THE DOT). LEAVING ONLY PLAYLIST NAME
 cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/whatplpld.tmp 
 read -r whatplpld < ${tmp_dir}/whatplpld.tmp
-rm ${tmp_dir}/whatplpld.tmp
 if [[ -f ${base_dir}/videoinfo.playlist ]]; then
       :
   else
@@ -5553,8 +5453,7 @@ if [[ "$searchtotal" = 0 ]]; then
       echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ${base_dir}/videoinfo.playlist.current             
       cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/plread.tmp 
       read -r setplaylist < ${tmp_dir}/plread.tmp
-      rm ${tmp_dir}/plread.tmp
-      # GET CURRENT PLAYLIST
+            # GET CURRENT PLAYLIST
       read -r activeplaylist < ${base_dir}/videoinfo.playlist.current
       read -r setplaylistfull < ${base_dir}/videoinfo.playlist.current
 
@@ -5568,8 +5467,7 @@ if [[ "$searchtotal" = 0 ]]; then
 
       read -r setplaylist < ${tmp_dir}/plread.tmp
 
-      rm ${tmp_dir}/plread.tmp
-fi
+      fi
 ###############################################################################
 
 #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
@@ -5673,10 +5571,7 @@ read -r -n1 optionv
         case $optionv in
     
         q)  # QUIT
-        rm ${tmp_dir}/videoinfo.playlist-apa 2>/dev/null
-        rm ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
-        rm ${tmp_dir}/videoinfo.number.play-list 2>/dev/null
-        cd "$grabdir"
+                                cd "$grabdir"
         break;;
 
        
@@ -5760,9 +5655,6 @@ tail -n +"$i" ${tmp_dir}/videoinfo.playlist-apa > "$setplaylist".last-autoplay
 
 IFS=$OLDIFS
 
-rm ${tmp_dir}/videoinfo.playlist-apa 2>/dev/null
-rm ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
-rm ${tmp_dir}/videoinfo.number.play-list 2>/dev/null
 
    else
        echo
@@ -5782,7 +5674,6 @@ r)  # REMOVE LINE  (HOME >>> PLAYLIST)
 # REMOVE EVERYTHING FROM THE BEGINNING OF THE LINE UP TO AND INCLUDING THE DOT). LEAVING ONLY PLAYLIST NAME
 cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/whatplpld.tmp 
 read -r whatplpld < ${tmp_dir}/whatplpld.tmp
-rm ${tmp_dir}/whatplpld.tmp
 if [[ -f ${base_dir}/videoinfo.playlist ]]; then
     touch ${base_dir}/videoinfo.playlist
 fi
@@ -5954,9 +5845,6 @@ if [[ -z "$line" ]]; then
  
 IFS=$OLDIFS
 
-rm ${tmp_dir}/videoinfo.playlist-apa 2>/dev/null
-rm ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
-rm ${tmp_dir}/videoinfo.number.play-list 2>/dev/null
 
 fi
 
@@ -6007,8 +5895,7 @@ fi
 
                        echo
                        read -r -p " Press enter to Continue" 
-                       rm ${tmp_dir}/videoinfo.playlist-apa.tmp 2>/dev/null
-
+                       
                  fi
 
         else
@@ -6179,8 +6066,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
 
                       echo "$plselected"| sed 's/.*\.//' > ${tmp_dir}/plread.tmp  # REMOVE FULL PATH ONLY LEAVING PLAYLIST NAME
                       read -r plselectedla < ${tmp_dir}/plread.tmp  # READING PLAYLIST NAME ONLY INTO VARIABLE  $pselecteda
-                      rm ${tmp_dir}/plread.tmp  # remove temp file
-                      rm ${base_dir}/playlists/"$plselectedla".last-autoplay  # REMOVE PLAYLIST.last.autoplay  file
+                                            rm ${base_dir}/playlists/"$plselectedla".last-autoplay  # REMOVE PLAYLIST.last.autoplay  file
  
                       echo
                       echo  " Playlist Deleted . . ."
@@ -6222,7 +6108,6 @@ read -r -p " Create Playlist: " createpl1  # waiting fot user input. grabbing ne
 echo "$createpl1" > ${tmp_dir}/plremovedot.tmp
 sed -i -e 's/\.//g' ${tmp_dir}/plremovedot.tmp
 read createpl < ${tmp_dir}/plremovedot.tmp
-rm ${tmp_dir}/plremovedot.tmp
 
 if [[ -z "$createpl" ]]; then
       echo
@@ -6462,7 +6347,6 @@ k)
 # REMOVE EVERYTHING FROM THE BEGINNING OF THE LINE UP TO AND INCLUDING THE DOT). LEAVING ONLY PLAYLIST NAME
 cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/whatplhome.tmp 
 read -r whatplhome < ${tmp_dir}/whatplhome.tmp
-rm ${tmp_dir}/whatplhome.tmp
 if [[ -f ${base_dir}/videoinfo.playlist ]]; then
       :
   else
@@ -6900,7 +6784,6 @@ done
     esac
 done
 
-rm ${tmp_dir}/* 2>/dev/null
 ;;
 
 ###############################################################################
@@ -8686,7 +8569,6 @@ sed 's/.*\///' ${tmp_dir}/videoinfo-view-downloads.tmp > ${tmp_dir}/videoinfo-nu
 
 # CREATE NUMBERED lIST
 sed '/./=' ${tmp_dir}/videoinfo-number-view-downloads.tmp2 | sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfo-number-view-downloads.tmp 2>/dev/null
-rm ${tmp_dir}/videoinfo-number-view-downloads.tmp2 2>/dev/null
 
 cat ${tmp_dir}/videoinfo-number-view-downloads.tmp  # display numbered find results 
 echo
@@ -8782,9 +8664,7 @@ read -r -n1 optionyt
              case $optionyt in
               q)  # QUIT        
               cd "$keepdir"
-              rm ${tmp_dir}/videoinfo-number-view-downloads.tmp 2> /dev/null
-              rm ${tmp_dir}/videoinfo-view-downloads.tmp 2> /dev/null
-
+                            
               break;;
 
                             
@@ -8989,8 +8869,7 @@ get_file_stats "${playnumber}"
 
                        echo
                        read -r -p " Press enter to Continue" 
-                       rm ${tmp_dir}/videoinfo-view-downloads-autoplay.tmp 2>/dev/null
-
+                       
                  fi
 
             fi
@@ -9119,10 +8998,6 @@ done
  
 IFS=$OLDIFS
 
-rm ${tmp_dir}/videoinfox.navtree-play-directory-apa 2>/dev/null
-rm ${tmp_dir}/videoinfox.navtree-play-directory-apa2 2>/dev/null
-rm ${tmp_dir}/videoinfox.numbered-navtree-play-directory-list 2>/dev/null
-rm ${tmp_dir}/videoinfox.navtree-play-directory-apa-work 2>/dev/null 
 
 ;;           
               o)
@@ -9189,7 +9064,6 @@ for line in $(cat "$input" 2>/dev/null)
            fi
 done
  
-rm ${tmp_dir}/videoinfo-view-downloads-autoplay.tmp 2> /dev/null
 IFS=$OLDIFS
 
 else
@@ -9260,8 +9134,7 @@ if [[ -f ${tmp_dir}/videoinfo-view-downloads.tmp ]]; then
 
       echo "$playnumber" >> ${base_dir}/videoinfo.playedlist  # write clipboard content to Played List file
       ffplay -fs -autoexit "$playnumber" 2>/dev/null  # play video
-      rm ${tmp_dir}/videoinfo-view-downloads-playnumber.tmp 2>/dev/null
-
+      
      fi
 
 else
