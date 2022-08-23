@@ -41,6 +41,22 @@ cleanup() {
     rm -rf "${tmp_dir:?}/*" 2>/dev/null
 }
 
+# confirm() code provenance:
+# https://github.com/rawiriblundell/sh_libpath/blob/main/lib/sh/utils/confirm.sh
+# A function to prompt/read an interactive y/n response
+# Stops reading after one character, meaning only 'y' or 'Y' will return 0
+# _anything_ else will return 1
+confirm() {
+    read -rn 1 -p "${*:-Continue} [y/N]? "
+    printf -- '%s\n' ""
+    case "${REPLY}" in
+        ([yY]) return 0 ;;
+        (*)    return 1 ;;
+    esac
+}
+
+# die() code provenance:
+# https://github.com/rawiriblundell/sh_libpath/blob/main/lib/sh/core/die.sh
 # Get the top level PID and setup a trap so that we can call die() within subshells
 trap "cleanup; exit 1" TERM
 _self_pid="${$}"
@@ -5300,19 +5316,19 @@ get_file_stats "${ytdlplast}"
   fi
   ;;  
                 D)  # DELETE PLAYED LIST - <find menu>
-                rm ${base_dir}/videoinfo.playedlist
-                # writing header for new Played List because new file wouldn't be created until return to main HOME
-                touch ${base_dir}/videoinfo.playedlist
-                #echo "PLAYED LIST" >> ${base_dir}/videoinfo.playedlist
-                #echo >> ${base_dir}/videoinfo.playedlist
-                #echo "This File was Created: $(date) by" "$USER" >> ${base_dir}/videoinfo.playedlist
-                #echo >> ${base_dir}/videoinfo.playedlist      
-                echo
-                echo
-                echo " Played List DELETED . . ."
-                echo
-                #read -p " Press enter to Continue"    
-                sleep .7
+                    rm ${base_dir}/videoinfo.playedlist
+                    # writing header for new Played List because new file wouldn't be created until return to main HOME
+                    touch ${base_dir}/videoinfo.playedlist
+                    #echo "PLAYED LIST" >> ${base_dir}/videoinfo.playedlist
+                    #echo >> ${base_dir}/videoinfo.playedlist
+                    #echo "This File was Created: $(date) by" "$USER" >> ${base_dir}/videoinfo.playedlist
+                    #echo >> ${base_dir}/videoinfo.playedlist      
+                    echo
+                    echo
+                    echo " Played List DELETED . . ."
+                    echo
+                    #read -p " Press enter to Continue"    
+                    sleep .7
                 ;;
 
                 *)
