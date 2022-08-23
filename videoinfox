@@ -147,6 +147,13 @@ init() {
     videoinfox_update
 }
 
+# is_integer() provenance:
+# https://github.com/rawiriblundell/sh_libpath/blob/main/lib/sh/core/is.sh
+is_integer() {
+    printf -- '%d' "${1:-null}" >/dev/null 2>&1
+    return "${?}"
+}
+
 file_contains() {
     grep -q "${1:?No search parameters given}" "${2:?No file to search defined}"
 }
@@ -1554,7 +1561,7 @@ while true; do
 
                             echo
                             read -r -p " Enter line number to change directory: " linenumber  # waiting fot user input
-                            if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
+                            if ! is_integer "${linenumber}"; then  # IF ENTRY IS NOT A NUMBER
                                 :
                             else  # ENTRY IS A NUMBER
                                 if [[ $linenumber -gt $linecount ]]; then 
@@ -1971,7 +1978,7 @@ while true; do
                                 echo
                                 echo
                                 read -r -p " Play Line: " linenumber  # waiting fot user input
-                                if [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
+                                if is_integer "${linenumber}"; then  # IF ENTRY IS NOT A NUMBER
                                     if [[ $linenumber -gt $linecount ]]; then 
                                         echo
                                         echo " Number out of range . . ."
@@ -2115,7 +2122,7 @@ while true; do
 
                             mv ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa.tmp ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa 2>/dev/null
 
-                            if [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
+                            if is_integer "${linenumber}"; then  # IF ENTRY IS NOT A NUMBER
                                 if [[ ! -z "$linenumber" ]]; then
                                     if [[ $linenumber -gt $linecount ]]; then 
                                         echo
@@ -2500,7 +2507,7 @@ if [[ -f ${base_dir}/videoinfo.playlist ]]; then
       # GETTING NUMBER OF VIDEO FILES IN THE PLAYED LIST
       linecount=$(wc -l ${tmp_dir}/videoinfo.playlist-apa 2> /dev/null | cut -d' ' -f1) # 
 
-          if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
+          if ! is_integer "${linenumber}"; then  # IF ENTRY IS NOT A NUMBER
                 :
 
             else  # ENTRY IS A NUMBER
@@ -2785,7 +2792,7 @@ linecount=$(wc -l ${base_dir}/videoinfo.playlist.dirlist | cut -d' ' -f1)
 # LOAD A PLAYLIST
 echo
 read -r -p " Enter line number: " linenumber  # waiting fot user input
-if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
+if ! is_integer "${linenumber}"; then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
@@ -2829,7 +2836,7 @@ linecount=$(wc -l ${base_dir}/videoinfo.playlist.dirlist | cut -d' ' -f1)
 # SELECT A PLAYLIST TO DELETE
 echo
 read -r -p " Enter line number to delete: " linenumber  # waiting fot user input
-if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
+if ! is_integer "${linenumber}"; then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
@@ -3952,7 +3959,7 @@ if [[ -f ${tmp_dir}/videoinfo.number.played-list ]]; then
        echo
        read -r -p " Play Line: " linenumber  # waiting fot user input
 
-if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
+if ! is_integer "${linenumber}"; then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
@@ -4431,7 +4438,7 @@ if [[ -f ${base_dir}/videoinfo.playlist ]]; then
       # GETTING NUMBER OF VIDEO FILES IN THE PLAYED LIST
       linecount=$(wc -l ${tmp_dir}/videoinfo.playlist-apa 2> /dev/null | cut -d' ' -f1) # 
 
-          if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
+          if ! is_integer "${linenumber}"; then  # IF ENTRY IS NOT A NUMBER
                 :
 
             else  # ENTRY IS A NUMBER
@@ -4728,7 +4735,7 @@ linecount=$(wc -l ${base_dir}/videoinfo.playlist.dirlist | cut -d' ' -f1)
 # LOAD A PLAYLIST
 echo
 read -r -p " Enter line number: " linenumber  # waiting fot user input
-if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
+if ! is_integer "${linenumber}"; then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
@@ -4772,7 +4779,7 @@ linecount=$(wc -l ${base_dir}/videoinfo.playlist.dirlist | cut -d' ' -f1)
 # SELECT A PLAYLIST TO DELETE
 echo
 read -r -p " Enter line number to delete: " linenumber  # waiting fot user input
-if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
+if ! is_integer "${linenumber}"; then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
@@ -5115,7 +5122,7 @@ if [[ -f ${base_dir}/videoinfo.playedlist ]]; then
 # GETTING NUMBER OF VIDEO FILES IN THE PLAYED LIST
 linecount=$(wc -l ${tmp_dir}/videoinfo.playedlist-apa | cut -d' ' -f1)
 
-if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
+if ! is_integer "${linenumber}"; then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
@@ -5682,7 +5689,7 @@ if [[ -f ${base_dir}/videoinfo.playlist ]]; then
     # GETTING NUMBER OF VIDEO FILES IN THE PLAYED LIST
     linecount=$(wc -l ${tmp_dir}/videoinfo.playlist-apa 2> /dev/null | cut -d' ' -f1) # 
 
-    if [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
+    if is_integer "${linenumber}"; then  # IF ENTRY IS NOT A NUMBER
         if [[ -z "$linenumber" ]]; then
             :
         else
@@ -5966,7 +5973,7 @@ linecount=$(wc -l ${base_dir}/videoinfo.playlist.dirlist | cut -d' ' -f1)
 # LOAD A PLAYLIST
 echo
 read -r -p " Enter line number: " linenumber  # waiting fot user input
-if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
+if ! is_integer "${linenumber}"; then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
@@ -6010,7 +6017,7 @@ linecount=$(wc -l ${base_dir}/videoinfo.playlist.dirlist | cut -d' ' -f1)
 # SELECT A PLAYLIST TO DELETE
 echo
 read -r -p " Enter line number to delete: " linenumber  # waiting fot user input
-if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
+if ! is_integer "${linenumber}"; then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
@@ -6351,7 +6358,7 @@ if [[ -f ${tmp_dir}/videoinfo-findwork.tmp ]]; then
 # GETTING NUMBER OF VIDEO FILES FROM FIND RESULTS
 linecount=$(wc -l ${tmp_dir}/videoinfo-findwork.tmp | cut -d' ' -f1)
 
-if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
+if ! is_integer "${linenumber}"; then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
@@ -7473,7 +7480,7 @@ linecount=$(wc -l ${tmp_dir}/nt-list.tmp | cut -d' ' -f1)
 
 echo
 read -r -p " Enter line number to change directory: " linenumber  # waiting fot user input
-if ! [[ "$linenumber" -eq "$linenumber" ]]; then  # IF ENTRY IS NOT A NUMBER
+if ! is_integer "${linenumber}"; then  # IF ENTRY IS NOT A NUMBER
       :
 
   else  # ENTRY IS A NUMBER
