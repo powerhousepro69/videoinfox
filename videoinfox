@@ -179,12 +179,17 @@ generate_playlist() {
         if [[ -r "${line}" ]]; then
             case "${line}" in
                 (*.mp4|*.webm|*.mkv|*.avi|*.divx)
-                    printf -- '%s\n' "${line}" >> "${playlist}"
+                    printf -- '%s\n' "${line}" >> "${playlist}.tmp"
                 ;;
             esac
         fi
     done < <(find_supported_files)
 
+    # De-duplicate the playlist
+    awk '!seen[$0]++' "${playlist}.tmp" > "${playlist}"
+
+    # Remove our temporary file
+    rm "${playlist}.tmp" 2>/dev/null
 }
 
 # Get codec, width, height & duration
@@ -627,45 +632,8 @@ use_custom_list() {
 
 # -d  Autoplay video files in the current directory
 play_directory() {
-    # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
-    find_supported_files > "${tmp_dir}/videoinfox.optiond-play-directory-apa"
-
-    #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
-    moddedplayedlist="${tmp_dir}/videoinfox.optiond-play-directory-apa"
-
-    #  CREATE TEMP FILE NEEDED FOR LOOP 
-    touch "${tmp_dir}/videoinfox.optiond-play-directory-apa2"
-
-    #  #  START WRITING
-    while read -r line; do
-        if [[ ! -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
-            printf -- '%s\n' "$line" >> "${tmp_dir}/videoinfox.optiond-play-directory-apa2"
-        fi
-    done < "${moddedplayedlist}"
-
-    #  REMOVE BLANK LINES
-    squash "${tmp_dir}/videoinfox.optiond-play-directory-apa2" 2>/dev/null
-
-    #  MOVE apa2 BACK TO apa
-    mv "${tmp_dir}/videoinfox.optiond-play-directory-apa2" "${tmp_dir}/videoinfox.optiond-play-directory-apa" 2>/dev/null
-
-    #  CREATE FILE NEEDED FOR LOOP 
-    touch "${tmp_dir}/videoinfox.optiond-play-directory-apa2"
-
-    #  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-    while read -r line; do
-        case "${line}" in
-            (*.mp4|*.webm|*.mkv|*.avi|*.divx)
-                printf -- '%s\n' "${line}" >> "${tmp_dir}/videoinfox.optiond-play-directory-apa2"
-            ;;
-        esac
-    done < "${moddedplayedlist}"
-
-    #  REMOVE BLANK LINES
-    squash "${tmp_dir}/videoinfox.optiond-play-directory-apa2" 2>/dev/null
-
-    #  MOVE apa2 BACK TO apa
-    cp "${tmp_dir}/videoinfox.optiond-play-directory-apa2" "${tmp_dir}/videoinfox.optiond-play-directory-apa" 2>/dev/null
+    # Create a playlist of available files
+    generate_playlist "${tmp_dir}/videoinfox.optiond-play-directory-apa"
 
     # REMOVE PATH ONLY LEAVING FILENAME
     sed -i 's/.*\///' "${tmp_dir}/videoinfox.optiond-play-directory-apa2"
@@ -1565,39 +1533,8 @@ while true; do
                             # (@PLAY DIRECTORY) NAVIGATE TREE  #################################################################################################
                             ####################################################################################################################################
 
-                            # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
-                            find_supported_files "${tmp_dir}/videoinfox.navtree-play-directory-apa"
-
-                            #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
-                            moddedplayedlist="${tmp_dir}/videoinfox.navtree-play-directory-apa"
-
-                            #  CREATE TEMP FILE NEEDED FOR LOOP 
-                            touch "${tmp_dir}/videoinfox.navtree-play-directory-apa2"
-
-                            #  START WRITING
-                            while read -r line; do
-                                if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
-                                    echo "$line" >> "${tmp_dir}/videoinfox.navtree-play-directory-apa2"
-                                fi
-                            done < "${moddedplayedlist}"
-
-                            #  REMOVE BLANK LINES
-                            squash "${tmp_dir}/videoinfox.navtree-play-directory-apa2" 2>/dev/null
-
-                            #  MOVE apa2 BACK TO apa
-                            mv "${tmp_dir}/videoinfox.navtree-play-directory-apa2" "${tmp_dir}/videoinfox.navtree-play-directory-apa" 2>/dev/null
-
-                            #  CREATE FILE NEEDED FOR LOOP 
-                            touch "${tmp_dir}/videoinfox.navtree-play-directory-apa2"
-
-                            #  WRITE FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-                            write_supported_list "${moddedplayedlist}" "${tmp_dir}/videoinfox.navtree-play-directory-apa2"
-
-                            #  REMOVE BLANK LINES
-                            squash "${tmp_dir}/videoinfox.navtree-play-directory-apa2" 2>/dev/null
-
-                            #  MOVE apa2 BACK TO apa
-                            cp ${tmp_dir}/videoinfox.navtree-play-directory-apa2 ${tmp_dir}/videoinfox.navtree-play-directory-apa 2>/dev/null
+                            # Create a playlist of available files
+                            generate_playlist "${tmp_dir}/videoinfox.navtree-play-directory-apa"
 
                             # REMOVE PATH ONLY LEAVING FILENAME
                             sed -i 's/.*\///' "${tmp_dir}/videoinfox.navtree-play-directory-apa2"
@@ -1713,39 +1650,8 @@ while true; do
             if [[ $dovideosexist -ne 0 ]]; then RUN PLAY LINE
 
                 ntplaynum() {
-                    # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
-                    find_supported_files > "${tmp_dir}/videoinfox.nt-play-directory-apa"
-
-                    #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
-                    moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa"
-
-                    #  CREATE TEMP FILE NEEDED FOR LOOP 
-                    touch ${tmp_dir}/videoinfox.nt-play-directory-apa2
-
-                    #  #  START WRITING
-                    while read -r line; do
-                        if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
-                                echo "$line" >> ${tmp_dir}/videoinfox.nt-play-directory-apa2  
-                        fi        
-                    done < "${moddedplayedlist}"
-
-                    #  REMOVE BLANK LINES
-                    squash ${tmp_dir}/videoinfox.nt-play-directory-apa2 2>/dev/null
-
-                    #  MOVE apa2 BACK TO apa
-                    mv ${tmp_dir}/videoinfox.nt-play-directory-apa2 ${tmp_dir}/videoinfox.nt-play-directory-apa 2>/dev/null
-
-                    #  CREATE FILE NEEDED FOR LOOP 
-                    touch ${tmp_dir}/videoinfox.nt-play-directory-apa2  
-
-                    #  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-                    write_supported_list "${moddedplayedlist}" "${tmp_dir}/videoinfox.nt-play-directory-apa2"
-
-                    #  REMOVE BLANK LINES
-                    squash ${tmp_dir}/videoinfox.nt-play-directory-apa2 2>/dev/null
-
-                    #  MOVE apa2 BACK TO apa
-                    cp ${tmp_dir}/videoinfox.nt-play-directory-apa2 ${tmp_dir}/videoinfox.nt-play-directory-apa 2>/dev/null
+                    # Create a playlist of available files
+                    generate_playlist "${tmp_dir}/videoinfox.nt-play-directory-apa"
 
                     # REMOVE PATH ONLY LEAVING FILENAME
                     sed -i 's/.*\///' ${tmp_dir}/videoinfox.nt-play-directory-apa2
@@ -1781,7 +1687,7 @@ while true; do
                     ntplaynum
                     case $optionaplist in
                         q) # QUIT
-                                                                                                                                            break
+                            break
                         ;;
                         z) # DIRECTORY TO PAYLIST
 
@@ -1881,40 +1787,8 @@ while true; do
                             #checking for videos in the current directory.  if no videos exist,   Play Directory   won't execute
                             dovideosexist=$(find_supported_files --count)
                             if [[ $dovideosexist -ne 0 ]]; then RUN PLAY LINE
-
-                                # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
-                                find_supported_files > "${tmp_dir}/videoinfox.nt-play-directory-apa"
-
-                                #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
-                                moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa"
-
-                                #  CREATE TEMP FILE NEEDED FOR LOOP 
-                                touch ${tmp_dir}/videoinfox.nt-play-directory-apa2
-
-                                #  #  START WRITING
-                                while read -r line; do
-                                    if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
-                                        printf -- '%s\n' "$line" >> "${tmp_dir}/videoinfox.nt-play-directory-apa2"
-                                    fi
-                                done < "${moddedplayedlist}"
-
-                                #  REMOVE BLANK LINES
-                                squash ${tmp_dir}/videoinfox.nt-play-directory-apa2 2>/dev/null
-
-                                #  MOVE apa2 BACK TO apa
-                                mv ${tmp_dir}/videoinfox.nt-play-directory-apa2 ${tmp_dir}/videoinfox.nt-play-directory-apa 2>/dev/null
-
-                                #  CREATE FILE NEEDED FOR LOOP 
-                                touch "${tmp_dir}/videoinfox.nt-play-directory-apa2"
-
-                                #  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-                                write_supported_list "${moddedplayedlist}" "${tmp_dir}/videoinfox.nt-play-directory-apa2"
-
-                                #  REMOVE BLANK LINES
-                                squash ${tmp_dir}/videoinfox.nt-play-directory-apa2 2>/dev/null
-
-                                #  MOVE apa2 BACK TO apa
-                                cp ${tmp_dir}/videoinfox.nt-play-directory-apa2 ${tmp_dir}/videoinfox.nt-play-directory-apa 2>/dev/null
+                                # Create a playlist of available files
+                                generate_playlist "${tmp_dir}/videoinfox.nt-play-directory-apa"
 
                                 # REMOVE PATH ONLY LEAVING FILENAME
                                 sed -i 's/.*\///' ${tmp_dir}/videoinfox.nt-play-directory-apa2
@@ -2000,112 +1874,73 @@ while true; do
                             #checking for videos in the current directory.  if no videos exist,   playlistaddnav Directory   won't execute
                             dovideosexist=$(find_supported_files --count)
                             if [[ $dovideosexist -ne 0 ]]; then  # IF VIDEOS EXIST IN THE CURRENT DIRECTORY 
+                                ########################################################################################################################function ntplaylistaddnavnum {
+                                # Create a playlist of available files
+                                generate_playlist "${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa"
 
-                            ########################################################################################################################function ntplaylistaddnavnum {
+                                # REMOVE PATH ONLY LEAVING FILENAME
+                                sed -i 's/.*\///' ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2
 
-                            # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-playlistaddnav-directory-apa 
-                            find_supported_files > "${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa"
+                                # NUMBER THE LIST
+                                sed '/./='  ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 |
+                                    sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfox.numbered-nt-playlistaddnav-directory-list 2>/dev/null
 
-                            #  ASSIGN playlistaddnavED LIST TO VARIABLE: $moddedplaylistaddnavedlist 
-                            moddedplaylistaddnavedlist="${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa"
+                                clear
 
-                            #  playlistaddnavED LIST INPUT FOR LOOP
-                            input="$moddedplaylistaddnavedlist"  
-
-                            #  CREATE TEMP FILE NEEDED FOR LOOP 
-                            touch ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2
-
-                            #  #  START WRITING
-                            while read -r line; do
-                                if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
-                                    echo "$line" >> ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2  
+                                if [[ -f ${tmp_dir}/videoinfox.numbered-nt-playlistaddnav-directory-list ]]; then
+                                    cat ${tmp_dir}/videoinfox.numbered-nt-playlistaddnav-directory-list 2>/dev/null
+                                else
+                                    echo
+                                    echo " No videos in the current directory . . ."
                                 fi
-                            done < "$input"
-                            #  DONE WRITING ONLY VALID FILES
-                            #  REMOVE BLANK LINES
-                            squash ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 2>/dev/null
-
-                            #  MOVE apa2 BACK TO apa
-                            mv ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa 2>/dev/null
-
-                            #  CREATE FILE NEEDED FOR LOOP 
-                            touch ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2  
-
-                            #  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-                            write_supported_list "${moddedplaylistaddnavedlist}" "${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2"
-
-                            #  REMOVE BLANK LINES
-                            squash ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 2>/dev/null
-
-                            #  MOVE apa2 BACK TO apa
-                            cp ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa 2>/dev/null
-
-                            # REMOVE PATH ONLY LEAVING FILENAME
-                            sed -i 's/.*\///' ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2
-
-                            # NUMBER THE LIST
-                            sed '/./='  ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 |
-                                sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfox.numbered-nt-playlistaddnav-directory-list 2>/dev/null
-
-                            clear
-
-                            if [[ -f ${tmp_dir}/videoinfox.numbered-nt-playlistaddnav-directory-list ]]; then
-                                cat ${tmp_dir}/videoinfox.numbered-nt-playlistaddnav-directory-list 2>/dev/null
-                            else
+                                # REMOVE EVERYTHING FROM THE BEGINNING OF THE LINE UP TO AND INCLUDING THE DOT). LEAVING ONLY PLAYLIST NAME
+                                cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/whatplnt.tmp 
+                                read -r whatplnt < ${tmp_dir}/whatplnt.tmp
+                                
                                 echo
-                                echo " No videos in the current directory . . ."
-                            fi
-                            # REMOVE EVERYTHING FROM THE BEGINNING OF THE LINE UP TO AND INCLUDING THE DOT). LEAVING ONLY PLAYLIST NAME
-                            cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/whatplnt.tmp 
-                            read -r whatplnt < ${tmp_dir}/whatplnt.tmp
-                            
-                            echo
-                            read -r -p "Enter line number to add video to playlist $whatplnt: " linenumber  # waiting fot user input
+                                read -r -p "Enter line number to add video to playlist $whatplnt: " linenumber  # waiting fot user input
 
-                            tail -n +"$linenumber" ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa > ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa.tmp 2>/dev/null
+                                tail -n +"$linenumber" ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa > ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa.tmp 2>/dev/null
 
-                            #####
-                            # GETTING NUMBER OF VIDEO FILES IN THE PLAYED LIST
-                            linecount=$(wc -l ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa | cut -d' ' -f1)
-                            #####
+                                #####
+                                # GETTING NUMBER OF VIDEO FILES IN THE PLAYED LIST
+                                linecount=$(wc -l ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa | cut -d' ' -f1)
+                                #####
 
-                            mv ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa.tmp ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa 2>/dev/null
+                                mv ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa.tmp ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa 2>/dev/null
 
-                            if is_integer "${linenumber}"; then
-                                if [[ ! -z "$linenumber" ]]; then
-                                    if [[ $linenumber -gt $linecount ]]; then 
-                                        echo
-                                        echo "Number out of range . . ."
-                                        sleep .9
-
-                                    else
-
-                                        OLDIFS=$IFS
-                                        IFS=$'\n'
-
-                                        read line < ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa
-
-                                        if [[ ! -z "$linenumber" ]]; then
-                                            echo "$line" >> ${base_dir}/videoinfo.playlist
+                                if is_integer "${linenumber}"; then
+                                    if [[ ! -z "$linenumber" ]]; then
+                                        if [[ $linenumber -gt $linecount ]]; then 
                                             echo
-                                            echo " ""$line" 
-                                            echo
-                                            echo " Added to Playlist . . ."
-                                            sleep .25
+                                            echo "Number out of range . . ."
+                                            sleep .9
+
+                                        else
+
+                                            OLDIFS=$IFS
+                                            IFS=$'\n'
+
+                                            read line < ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa
+
+                                            if [[ ! -z "$linenumber" ]]; then
+                                                echo "$line" >> ${base_dir}/videoinfo.playlist
+                                                echo
+                                                echo " ""$line" 
+                                                echo
+                                                echo " Added to Playlist . . ."
+                                                sleep .25
+                                            fi
+
                                         fi
-
                                     fi
                                 fi
-                            fi
-                            
-                            IFS=$OLDIFS
-
-                                                                                                                                                    
+                                
+                                IFS=$OLDIFS
                             else
                                 echo
                                 echo " No video files in the current directory . . ."
                                 sleep 1.7
-
                             fi
 
                             ;;
@@ -2118,211 +1953,210 @@ grabdir="$PWD"  # SAVE CURRENT DIRECTORY FOR RESTORE ON EXIT
 cd ${base_dir}/playlists
 menuvhome() {
 
-squash ${base_dir}/videoinfo.playlist  # remove all blank lines
+    squash ${base_dir}/videoinfo.playlist  # remove all blank lines
 
-pasteclip  # grab clipboard content
+    pasteclip  # grab clipboard content
 
-grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
+    grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
-if ! [[ "$grabclip" = "http" ]]; then
-      if ! [[ -f "$pasteclip" ]]; then
-            echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
+    if ! [[ "$grabclip" = "http" ]]; then
+        if ! [[ -f "$pasteclip" ]]; then
+                echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
+                pasteclip  # grab clipboard content
+        fi
+    fi
+    if [[ -f ${base_dir}/videoinfo.playlist ]]; then
+        # REMOVE DUPLICATES
+        cat -n ${base_dir}/videoinfo.playlist | sort -uk2 | sort -n | cut -f2- > ${tmp_dir}/videoinfo.playlist.tmp
+        mv ${tmp_dir}/videoinfo.playlist.tmp ${base_dir}/videoinfo.playlist
+    else
+        touch ${base_dir}/videoinfo.playlist
+    fi
+
+    clear
+
+    cp ${base_dir}/videoinfo.playlist ${tmp_dir}/videoinfo.playlist-apa
+
+    #  ASSIGN PLAYLIST TO VARIABLE: $moddedplaylist 
+    moddedplaylist="${HOME}/.config/videoinfox/tmp/videoinfo.playlist-apa"
+
+    #  PLAYLIST INPUT FOR LOOP
+    input="$moddedplaylist"  
+
+    #  CREATE TEMP FILE NEEDED FOR LOOP 
+    touch ${tmp_dir}/videoinfo.playlist-apa2
+
+    #  #  START WRITING
+    while read -r line; do
+    if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
+            echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2  
+    fi
+    done < "$input"
+    #  DONE WRITING ONLY VALID FILES
+
+    #  REMOVE BLANK LINES
+    squash ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
+
+    # REMOVE DUPLICATES
+    cat -n ${tmp_dir}/videoinfo.playlist-apa2 | sort -uk2 | sort -n | cut -f2- > ${tmp_dir}/videoinfo.playlist-apa3
+
+    mv ${tmp_dir}/videoinfo.playlist-apa3 ${tmp_dir}/videoinfo.playlist-apa2
+
+    #  MOVE apa2 BACK TO apa
+    mv ${tmp_dir}/videoinfo.playlist-apa2 ${tmp_dir}/videoinfo.playlist-apa 2>/dev/null
+
+    #  CREATE FILE NEEDED FOR LOOP 
+    touch ${tmp_dir}/videoinfo.playlist-apa2  
+
+    #  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
+    write_supported_list "${moddedplaylist}" "${tmp_dir}/videoinfox.playlist-apa2"
+
+    #  REMOVE BLANK LINES
+    squash ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
+
+    #  MOVE apa2 BACK TO apa
+    cp ${tmp_dir}/videoinfo.playlist-apa2 ${tmp_dir}/videoinfo.playlist-apa 2>/dev/null
+
+    # REMOVE PATH ONLY LEAVING FILENAME
+    sed -i 's/.*\///' ${tmp_dir}/videoinfo.playlist-apa2
+
+    # NUMBER THE LIST
+    sed '/./=' ${tmp_dir}/videoinfo.playlist-apa2 | sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfo.number.play-list 2>/dev/null
+
+    clear
+    if [[ -f ${tmp_dir}/videoinfo.number.play-list ]]; then
+            cat ${tmp_dir}/videoinfo.number.play-list 2>/dev/null
+            #dashit=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
+            dashit=$(echo "~") #
+    else
+            dashit=$(echo "-") # 
+            echo
+            echo "Playlist Empty . . ."
+    fi
+
+    #cat ${base_dir}/videoinfo.playlist 
+
+    # check if directory ${base_dir}/playlists is empty.  if it is, set playlist to Default 
+    searchtotal=$(find "$PWD" -type f \( -iname "vplaylist.*" \) 2>/dev/null | wc -l)
+
+    if [[ "$searchtotal" = 0 ]]; then
+        echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ${base_dir}/videoinfo.playlist.current             
+        cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/plread.tmp 
+        read -r setplaylist < ${tmp_dir}/plread.tmp
+                # GET CURRENT PLAYLIST
+        read -r activeplaylist < ${base_dir}/videoinfo.playlist.current
+        read -r setplaylistfull < ${base_dir}/videoinfo.playlist.current
+
+        # SAVE CURRENT PLAYLIST
+        cp ${base_dir}/videoinfo.playlist "$activeplaylist"
+        
+    else
+        cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/plread.tmp 
+        
+        read -r setplaylistfull < ${base_dir}/videoinfo.playlist.current
+
+        read -r setplaylist < ${tmp_dir}/plread.tmp
+
+        fi
+    ###############################################################################
+
+    #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
+
+    ###############################################################################
+
+    # the 2 lines of below code are creating two new variables for the following loop.
+    # 1st variable <$grabpaste>   <cut> is used to cut all characters after the 4th character from the variable. Only 4 chatacters are needed to look for <http>
+    # 2nd variable <$grabpaste2>  <cut> is used to cut all characters after the 1st character from the variable. Only 1 character is needed to look for </>  
+
+    # for main if loop - to look for <http>
+    grabpaste=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
+
+    # for nested if loop - to look for </>
+    grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st character
+
+    # the following code checks to see if the clipbooard has a url in it by lookin for <http> from <$grabpaste>  
+    # If it is <http>, YT-DLP will get the clipboard. yt-dlp will check if its a valid link by trying to extract the name of the video file.
+    # If it isn't <http>  the ytdlp loop will be skipped
+
+    #echo "Directory: ""$PWD"
+
+    if [[ "$grabpaste" = "http" ]]; then
+        echo
+        echo "Clipboard: ""$pasteclip"
+    fi
+    if [[ "$grabpaste" = "http" ]]; then
+        read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
+        ytdlpconfirm=$(yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
+
+        if [[ "$ytdlpconfirm" = "" ]]; then
+
+            echo "" | xclip -sel clip  # clearing out the clipboard
             pasteclip  # grab clipboard content
-      fi
-fi
-if [[ -f ${base_dir}/videoinfo.playlist ]]; then
-      # REMOVE DUPLICATES
-      cat -n ${base_dir}/videoinfo.playlist | sort -uk2 | sort -n | cut -f2- > ${tmp_dir}/videoinfo.playlist.tmp
-      mv ${tmp_dir}/videoinfo.playlist.tmp ${base_dir}/videoinfo.playlist
-  else
-      touch ${base_dir}/videoinfo.playlist
-fi
 
+            # Videoinfox v2.00________________________________________ Videoinfox v2.00_________________________________________
+            #________________x________________________________________ _________________________________________________________
+            hr 80 -
+            echo
+        echo " ${der} >>> PLAYLIST >>>" "$setplaylist"
+            hr 80 -
+            echo
+            echo " o "$dashit" Autoplay Line     l - Last Autoplay      c - Change Playlist     p - Play Clipboard                  q - Quit"
+            echo " j "$dashit" Play Line"
+            echo " i "$dashit" Info                                     d - Clear Playlist"
+            echo           
 
-clear
+        else 
+            echo
+            echo "YT-DLP Confirmed: "$ytdlpconfirm""
+            echo
+            echo "Download Directory: $dirsaved"  # dislpay default download directory
+            hr 80 -
+            echo
+        echo " ${der} >>> PLAYLIST >>>" "$setplaylist"
+            hr 80 -
+            echo
+            echo -e " o "$dashit" Autoplay Line     l - Last Autoplay     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                   q - Quit"
+            echo " j "$dashit" Play Line"
+            echo " i "$dashit" Info                                    d - Clear Playlist"
+            echo                                                                                    
+        fi
+    else
 
-cp ${base_dir}/videoinfo.playlist ${tmp_dir}/videoinfo.playlist-apa
+        if [[ -f "$pasteclip" ]]; then
+            echo      
+            echo "Valid file in clipboard"
+            hr 80 -
+            echo
+        echo " ${der} >>> PLAYLIST >>>" "$setplaylist"
+            hr 80 -
+            echo
+            echo -e " o "$dashit" Autoplay Line     l - Last Autoplay     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                   q - Quit"
+            echo " j "$dashit" Play Line"
+            echo " i "$dashit" Info                                    d - Clear Playlist"
+            echo                                                                     
 
-#  ASSIGN PLAYLIST TO VARIABLE: $moddedplaylist 
-moddedplaylist="$HOME""/.config/videoinfox/tmp/videoinfo.playlist-apa"
+        else 
 
-#  PLAYLIST INPUT FOR LOOP
-input="$moddedplaylist"  
+            echo "" | xclip -sel clip  # clearing out the clipboard
+            pasteclip  # grab clipboard content
 
-#  CREATE TEMP FILE NEEDED FOR LOOP 
-touch ${tmp_dir}/videoinfo.playlist-apa2
-
-#  #  START WRITING
-while read -r line; do
-   if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
-           echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2  
-   fi
-done < "$input"
-#  DONE WRITING ONLY VALID FILES
-
-#  REMOVE BLANK LINES
-squash ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
-
-# REMOVE DUPLICATES
-cat -n ${tmp_dir}/videoinfo.playlist-apa2 | sort -uk2 | sort -n | cut -f2- > ${tmp_dir}/videoinfo.playlist-apa3
-
-mv ${tmp_dir}/videoinfo.playlist-apa3 ${tmp_dir}/videoinfo.playlist-apa2
-
-#  MOVE apa2 BACK TO apa
-mv ${tmp_dir}/videoinfo.playlist-apa2 ${tmp_dir}/videoinfo.playlist-apa 2>/dev/null
-
-#  CREATE FILE NEEDED FOR LOOP 
-touch ${tmp_dir}/videoinfo.playlist-apa2  
-
-#  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-write_supported_list "${moddedplaylist}" "${tmp_dir}/videoinfox.playlist-apa2"
-
-#  REMOVE BLANK LINES
-squash ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
-
-#  MOVE apa2 BACK TO apa
-cp ${tmp_dir}/videoinfo.playlist-apa2 ${tmp_dir}/videoinfo.playlist-apa 2>/dev/null
-
-# REMOVE PATH ONLY LEAVING FILENAME
-sed -i 's/.*\///' ${tmp_dir}/videoinfo.playlist-apa2
-
-# NUMBER THE LIST
-sed '/./=' ${tmp_dir}/videoinfo.playlist-apa2 | sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfo.number.play-list 2>/dev/null
-
-clear
-if [[ -f ${tmp_dir}/videoinfo.number.play-list ]]; then
-        cat ${tmp_dir}/videoinfo.number.play-list 2>/dev/null
-        #dashit=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
-        dashit=$(echo "~") #
-   else
-        dashit=$(echo "-") # 
-        echo
-        echo "Playlist Empty . . ."
-fi
-
-#cat ${base_dir}/videoinfo.playlist 
-
-# check if directory ${base_dir}/playlists is empty.  if it is, set playlist to Default 
-searchtotal=$(find "$PWD" -type f \( -iname "vplaylist.*" \) 2>/dev/null | wc -l)
-
-if [[ "$searchtotal" = 0 ]]; then
-      echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ${base_dir}/videoinfo.playlist.current             
-      cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/plread.tmp 
-      read -r setplaylist < ${tmp_dir}/plread.tmp
-            # GET CURRENT PLAYLIST
-      read -r activeplaylist < ${base_dir}/videoinfo.playlist.current
-      read -r setplaylistfull < ${base_dir}/videoinfo.playlist.current
-
-      # SAVE CURRENT PLAYLIST
-      cp ${base_dir}/videoinfo.playlist "$activeplaylist"
-     
-  else
-      cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/plread.tmp 
-      
-      read -r setplaylistfull < ${base_dir}/videoinfo.playlist.current
-
-      read -r setplaylist < ${tmp_dir}/plread.tmp
-
-      fi
-###############################################################################
-
-#                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
-
-###############################################################################
-
-# the 2 lines of below code are creating two new variables for the following loop.
-# 1st variable <$grabpaste>   <cut> is used to cut all characters after the 4th character from the variable. Only 4 chatacters are needed to look for <http>
-# 2nd variable <$grabpaste2>  <cut> is used to cut all characters after the 1st character from the variable. Only 1 character is needed to look for </>  
-
-# for main if loop - to look for <http>
-grabpaste=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
-
-# for nested if loop - to look for </>
-grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st character
-
-# the following code checks to see if the clipbooard has a url in it by lookin for <http> from <$grabpaste>  
-# If it is <http>, YT-DLP will get the clipboard. yt-dlp will check if its a valid link by trying to extract the name of the video file.
-# If it isn't <http>  the ytdlp loop will be skipped
-
-#echo "Directory: ""$PWD"
-
-if [[ "$grabpaste" = "http" ]]; then
-      echo
-      echo "Clipboard: ""$pasteclip"
-fi
-if [[ "$grabpaste" = "http" ]]; then
-    read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
-    ytdlpconfirm=$(yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
-
-    if [[ "$ytdlpconfirm" = "" ]]; then
-
-        echo "" | xclip -sel clip  # clearing out the clipboard
-        pasteclip  # grab clipboard content
-
-        # Videoinfox v2.00________________________________________ Videoinfox v2.00_________________________________________
-        #________________x________________________________________ _________________________________________________________
-        hr 80 -
-        echo
-       echo " ${der} >>> PLAYLIST >>>" "$setplaylist"
-        hr 80 -
-        echo
-        echo " o "$dashit" Autoplay Line     l - Last Autoplay      c - Change Playlist     p - Play Clipboard                  q - Quit"
-        echo " j "$dashit" Play Line"
-        echo " i "$dashit" Info                                     d - Clear Playlist"
-        echo           
-
-    else 
-        echo
-        echo "YT-DLP Confirmed: "$ytdlpconfirm""
-        echo
-        echo "Download Directory: $dirsaved"  # dislpay default download directory
-        hr 80 -
-        echo
-       echo " ${der} >>> PLAYLIST >>>" "$setplaylist"
-        hr 80 -
-        echo
-        echo -e " o "$dashit" Autoplay Line     l - Last Autoplay     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                   q - Quit"
-        echo " j "$dashit" Play Line"
-        echo " i "$dashit" Info                                    d - Clear Playlist"
-        echo                                                                                    
+            hr 80 -
+            echo
+        echo " ${der} >>> PLAYLIST >>>" "$setplaylist"
+            hr 80 -
+            echo
+            echo " j - Play Line     o - Start Autoplay      c - Change Playlist     p - Play Clipboard                     q - Quit"
+            echo " i - Info          l - Resume Autoplay     r - Remove Line"
+            echo "                                           d - Clear Playlist                                             h - Help"
+            echo                                                             
+        fi
     fi
-  else
 
-    if [[ -f "$pasteclip" ]]; then
-        echo      
-        echo "Valid file in clipboard"
-        hr 80 -
-        echo
-       echo " ${der} >>> PLAYLIST >>>" "$setplaylist"
-        hr 80 -
-        echo
-        echo -e " o "$dashit" Autoplay Line     l - Last Autoplay     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                   q - Quit"
-        echo " j "$dashit" Play Line"
-        echo " i "$dashit" Info                                    d - Clear Playlist"
-        echo                                                                     
-
-    else 
-
-        echo "" | xclip -sel clip  # clearing out the clipboard
-        pasteclip  # grab clipboard content
-
-        hr 80 -
-        echo
-       echo " ${der} >>> PLAYLIST >>>" "$setplaylist"
-        hr 80 -
-        echo
-        echo " j - Play Line     o - Start Autoplay      c - Change Playlist     p - Play Clipboard                     q - Quit"
-        echo " i - Info          l - Resume Autoplay     r - Remove Line"
-        echo "                                           d - Clear Playlist                                             h - Help"
-        echo                                                             
-    fi
-fi
-
-echo -en " Enter Option: "
-read -r -n1 optionv
+    echo -en " Enter Option: "
+    read -r -n1 optionv
 }
 
-        while true
+        while true; do
         do
         menuvhome
         case $optionv in
@@ -3094,45 +2928,10 @@ esac
 done
 ;;
 ###############################################################################
-d)  # (@PLAY DIRECTORY) HOME   ###################################################################################################################
+d)  # (@PLAY DIRECTORY) HOME   ################################################
 ###############################################################################
-
-# WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
-find_supported_files > "${tmp_dir}/videoinfox.home-play-directory-apa"
-
-#  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
-moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfox.home-play-directory-apa"
-
-#  PLAYED LIST INPUT FOR LOOP
-input="$moddedplayedlist"  
-
-#  CREATE TEMP FILE NEEDED FOR LOOP 
-touch ${tmp_dir}/videoinfox.home-play-directory-apa2
-
-#  #  START WRITING
-while read -r line; do
-    if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
-        echo "$line" >> ${tmp_dir}/videoinfox.home-play-directory-apa2  
-    fi
-done < "$input"
-
-#  REMOVE BLANK LINES
-squash ${tmp_dir}/videoinfox.home-play-directory-apa2 2>/dev/null
-
-#  MOVE apa2 BACK TO apa
-mv ${tmp_dir}/videoinfox.home-play-directory-apa2 ${tmp_dir}/videoinfox.home-play-directory-apa 2>/dev/null
-
-#  CREATE FILE NEEDED FOR LOOP 
-touch ${tmp_dir}/videoinfox.home-play-directory-apa2  
-
-#  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-write_supported_list "${moddedplayedlist}" "${tmp_dir}/videoinfox.home-play-directory-apa2"
-
-#  REMOVE BLANK LINES
-squash ${tmp_dir}/videoinfox.home-play-directory-apa2 2>/dev/null
-
-#  MOVE apa2 BACK TO apa
-cp ${tmp_dir}/videoinfox.home-play-directory-apa2 ${tmp_dir}/videoinfox.home-play-directory-apa 2>/dev/null
+# Create a playlist of available files
+generate_playlist "${tmp_dir}/videoinfox.home-play-directory-apa"
 
 # REMOVE PATH ONLY LEAVING FILENAME
 sed -i 's/.*\///' ${tmp_dir}/videoinfox.home-play-directory-apa2
@@ -3922,210 +3721,209 @@ grabdir="$PWD"  # SAVE CURRENT DIRECTORY FOR RESTORE ON EXIT
 
 cd ${base_dir}/playlists
 menuvhome() {
+    squash ${base_dir}/videoinfo.playlist  # remove all blank lines
 
-squash ${base_dir}/videoinfo.playlist  # remove all blank lines
+    pasteclip  # grab clipboard content
 
-pasteclip  # grab clipboard content
+    grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
-grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
-
-if ! [[ "$grabclip" = "http" ]]; then
-    if [[ -f "$pasteclip" ]]; then
-        :
-    else
-        echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
-        pasteclip  # grab clipboard content
-    fi
-fi
-if [[ -f ${base_dir}/videoinfo.playlist ]]; then
-      # REMOVE DUPLICATES
-      cat -n ${base_dir}/videoinfo.playlist | sort -uk2 | sort -n | cut -f2- > ${tmp_dir}/videoinfo.playlist.tmp
-      mv ${tmp_dir}/videoinfo.playlist.tmp ${base_dir}/videoinfo.playlist
-
-  else
-      touch ${base_dir}/videoinfo.playlist
-fi
-
-clear
-
-cp ${base_dir}/videoinfo.playlist ${tmp_dir}/videoinfo.playlist-apa
-
-#  ASSIGN PLAYLIST TO VARIABLE: $moddedplaylist 
-moddedplaylist="$HOME""/.config/videoinfox/tmp/videoinfo.playlist-apa"
-
-#  PLAYLIST INPUT FOR LOOP
-input="$moddedplaylist"  
-
-#  CREATE TEMP FILE NEEDED FOR LOOP 
-touch ${tmp_dir}/videoinfo.playlist-apa2
-
-#  #  START WRITING
-while read -r line; do
-if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
-        echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2  
-fi
-done < "$input"
-
-#  REMOVE BLANK LINES
-squash ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
-
-# REMOVE DUPLICATES
-cat -n ${tmp_dir}/videoinfo.playlist-apa2 | sort -uk2 | sort -n | cut -f2- > ${tmp_dir}/videoinfo.playlist-apa3
-
-mv ${tmp_dir}/videoinfo.playlist-apa3 ${tmp_dir}/videoinfo.playlist-apa2
-
-#  MOVE apa2 BACK TO apa
-mv ${tmp_dir}/videoinfo.playlist-apa2 ${tmp_dir}/videoinfo.playlist-apa 2>/dev/null
-
-#  CREATE FILE NEEDED FOR LOOP 
-touch ${tmp_dir}/videoinfo.playlist-apa2  
-
-#  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-write_supported_list "${moddedplaylist}" "${tmp_dir}/videoinfo.playlist-apa2"
-
-#  REMOVE BLANK LINES
-squash ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
-
-#  MOVE apa2 BACK TO apa
-cp ${tmp_dir}/videoinfo.playlist-apa2 ${tmp_dir}/videoinfo.playlist-apa 2>/dev/null
-
-# REMOVE PATH ONLY LEAVING FILENAME
-sed -i 's/.*\///' ${tmp_dir}/videoinfo.playlist-apa2
-
-# NUMBER THE LIST
-sed '/./=' ${tmp_dir}/videoinfo.playlist-apa2 | sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfo.number.play-list 2>/dev/null
-
-clear
-if [[ -f ${tmp_dir}/videoinfo.number.play-list ]]; then
-    cat ${tmp_dir}/videoinfo.number.play-list 2>/dev/null
-    #dashit=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
-    dashit=$(echo "~") #
-else
-    dashit=$(echo "-") # 
-    echo
-    echo "Playlist Empty . . ."
-fi
-
-#cat ${base_dir}/videoinfo.playlist 
-
-# check if directory ${base_dir}/playlists is empty.  if it is, set playlist to Default 
-searchtotal=$(find "$PWD" -type f \( -iname "vplaylist.*" \) 2>/dev/null | wc -l)
-
-if [[ "$searchtotal" = 0 ]]; then
-    echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ${base_dir}/videoinfo.playlist.current             
-    cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/plread.tmp 
-    read -r setplaylist < ${tmp_dir}/plread.tmp
-        # GET CURRENT PLAYLIST
-    read -r activeplaylist < ${base_dir}/videoinfo.playlist.current
-    read -r setplaylistfull < ${base_dir}/videoinfo.playlist.current
-
-    # SAVE CURRENT PLAYLIST
-    cp ${base_dir}/videoinfo.playlist "$activeplaylist"
-     
-else
-    cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/plread.tmp 
-    
-    read -r setplaylistfull < ${base_dir}/videoinfo.playlist.current
-
-    read -r setplaylist < ${tmp_dir}/plread.tmp
-
-fi
-###############################################################################
-
-#                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
-
-###############################################################################
-
-# the 2 lines of below code are creating two new variables for the following loop.
-# 1st variable <$grabpaste>   <cut> is used to cut all characters after the 4th character from the variable. Only 4 chatacters are needed to look for <http>
-# 2nd variable <$grabpaste2>  <cut> is used to cut all characters after the 1st character from the variable. Only 1 character is needed to look for </>  
-
-# for main if loop - to look for <http>
-grabpaste=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
-
-# for nested if loop - to look for </>
-grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st character
-
-# the following code checks to see if the clipbooard has a url in it by lookin for <http> from <$grabpaste>  
-# If it is <http>, YT-DLP will get the clipboard. yt-dlp will check if its a valid link by trying to extract the name of the video file.
-# If it isn't <http>  the ytdlp loop will be skipped
-
-#echo "Directory: ""$PWD"
-
-if [[ "$grabpaste" = "http" ]]; then
-    echo
-    echo "Clipboard: ""$pasteclip"
-fi
-if [[ "$grabpaste" = "http" ]]; then
-      read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
-      ytdlpconfirm=$(yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
-
-            if [[ "$ytdlpconfirm" = "" ]]; then
-
-                      echo "" | xclip -sel clip  # clearing out the clipboard
-                      pasteclip  # grab clipboard content
-
-                           # Videoinfox v2.00________________________________________ Videoinfox v2.00_________________________________________
-                           #________________x________________________________________ _________________________________________________________
-                      hr 80 -
-                      echo
-                     echo " ${der} >>> PLAYLIST >>>" "$setplaylist"
-                      hr 80 -
-                      echo
-                      echo " o "$dashit" Autoplay Line     l - Last Autoplay      c - Change Playlist     p - Play Clipboard                  q - Quit"
-                      echo " j "$dashit" Play Line"
-                      echo " i "$dashit" Info                                     d - Clear Playlist"
-                      echo           
-
-                  else 
-                      echo
-                      echo "YT-DLP Confirmed: "$ytdlpconfirm""
-                      echo
-                      echo "Download Directory: $dirsaved"  # dislpay default download directory
-                      hr 80 -
-                      echo
-                     echo " ${der} >>> PLAYLIST >>>" "$setplaylist"
-                      hr 80 -
-                      echo
-                      echo -e " o "$dashit" Autoplay Line     l - Last Autoplay     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                   q - Quit"
-                      echo " j "$dashit" Play Line"
-                      echo " i "$dashit" Info                                    d - Clear Playlist"
-                      echo                                                                                    
-            fi
-  else
-
-      if [[ -f "$pasteclip" ]]; then
-            echo      
-            echo "Valid file in clipboard"
-            hr 80 -
-            echo
-           echo " ${der} >>> PLAYLIST >>>" "$setplaylist"
-            hr 80 -
-            echo
-            echo -e " o "$dashit" Autoplay Line     l - Last Autoplay     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                   q - Quit"
-            echo " j "$dashit" Play Line"
-            echo " i "$dashit" Info                                    d - Clear Playlist"
-            echo                                                                     
-
-        else 
-
-            echo "" | xclip -sel clip  # clearing out the clipboard
+    if ! [[ "$grabclip" = "http" ]]; then
+        if [[ -f "$pasteclip" ]]; then
+            :
+        else
+            echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
             pasteclip  # grab clipboard content
+        fi
+    fi
+    if [[ -f ${base_dir}/videoinfo.playlist ]]; then
+        # REMOVE DUPLICATES
+        cat -n ${base_dir}/videoinfo.playlist | sort -uk2 | sort -n | cut -f2- > ${tmp_dir}/videoinfo.playlist.tmp
+        mv ${tmp_dir}/videoinfo.playlist.tmp ${base_dir}/videoinfo.playlist
 
-            hr 80 -
-            echo
-           echo " ${der} >>> PLAYLIST >>>" "$setplaylist"
-            hr 80 -
-            echo
-            echo " j - Play Line     o - Start Autoplay      c - Change Playlist     p - Play Clipboard                     q - Quit"
-            echo " i - Info          l - Resume Autoplay     r - Remove Line"
-            echo "                                           d - Clear Playlist                                             h - Help"
-            echo                                                             
-fi
-fi
+    else
+        touch ${base_dir}/videoinfo.playlist
+    fi
 
-echo -en " Enter Option: "
-read -r -n1 optionv
+    clear
+
+    cp ${base_dir}/videoinfo.playlist ${tmp_dir}/videoinfo.playlist-apa
+
+    #  ASSIGN PLAYLIST TO VARIABLE: $moddedplaylist 
+    moddedplaylist="${HOME}/.config/videoinfox/tmp/videoinfo.playlist-apa"
+
+    #  PLAYLIST INPUT FOR LOOP
+    input="$moddedplaylist"  
+
+    #  CREATE TEMP FILE NEEDED FOR LOOP 
+    touch ${tmp_dir}/videoinfo.playlist-apa2
+
+    #  #  START WRITING
+    while read -r line; do
+        if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
+            echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2  
+        fi
+    done < "$input"
+
+    #  REMOVE BLANK LINES
+    squash ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
+
+    # REMOVE DUPLICATES
+    cat -n ${tmp_dir}/videoinfo.playlist-apa2 | sort -uk2 | sort -n | cut -f2- > ${tmp_dir}/videoinfo.playlist-apa3
+
+    mv ${tmp_dir}/videoinfo.playlist-apa3 ${tmp_dir}/videoinfo.playlist-apa2
+
+    #  MOVE apa2 BACK TO apa
+    mv ${tmp_dir}/videoinfo.playlist-apa2 ${tmp_dir}/videoinfo.playlist-apa 2>/dev/null
+
+    #  CREATE FILE NEEDED FOR LOOP 
+    touch ${tmp_dir}/videoinfo.playlist-apa2  
+
+    #  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
+    write_supported_list "${moddedplaylist}" "${tmp_dir}/videoinfo.playlist-apa2"
+
+    #  REMOVE BLANK LINES
+    squash ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
+
+    #  MOVE apa2 BACK TO apa
+    cp ${tmp_dir}/videoinfo.playlist-apa2 ${tmp_dir}/videoinfo.playlist-apa 2>/dev/null
+
+    # REMOVE PATH ONLY LEAVING FILENAME
+    sed -i 's/.*\///' ${tmp_dir}/videoinfo.playlist-apa2
+
+    # NUMBER THE LIST
+    sed '/./=' ${tmp_dir}/videoinfo.playlist-apa2 | sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfo.number.play-list 2>/dev/null
+
+    clear
+    if [[ -f ${tmp_dir}/videoinfo.number.play-list ]]; then
+        cat ${tmp_dir}/videoinfo.number.play-list 2>/dev/null
+        #dashit=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
+        dashit=$(echo "~") #
+    else
+        dashit=$(echo "-") # 
+        echo
+        echo "Playlist Empty . . ."
+    fi
+
+    #cat ${base_dir}/videoinfo.playlist 
+
+    # check if directory ${base_dir}/playlists is empty.  if it is, set playlist to Default 
+    searchtotal=$(find "$PWD" -type f \( -iname "vplaylist.*" \) 2>/dev/null | wc -l)
+
+    if [[ "$searchtotal" = 0 ]]; then
+        echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ${base_dir}/videoinfo.playlist.current             
+        cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/plread.tmp 
+        read -r setplaylist < ${tmp_dir}/plread.tmp
+            # GET CURRENT PLAYLIST
+        read -r activeplaylist < ${base_dir}/videoinfo.playlist.current
+        read -r setplaylistfull < ${base_dir}/videoinfo.playlist.current
+
+        # SAVE CURRENT PLAYLIST
+        cp ${base_dir}/videoinfo.playlist "$activeplaylist"
+        
+    else
+        cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/plread.tmp 
+        
+        read -r setplaylistfull < ${base_dir}/videoinfo.playlist.current
+
+        read -r setplaylist < ${tmp_dir}/plread.tmp
+
+    fi
+    ###############################################################################
+
+    #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
+
+    ###############################################################################
+
+    # the 2 lines of below code are creating two new variables for the following loop.
+    # 1st variable <$grabpaste>   <cut> is used to cut all characters after the 4th character from the variable. Only 4 chatacters are needed to look for <http>
+    # 2nd variable <$grabpaste2>  <cut> is used to cut all characters after the 1st character from the variable. Only 1 character is needed to look for </>  
+
+    # for main if loop - to look for <http>
+    grabpaste=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
+
+    # for nested if loop - to look for </>
+    grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st character
+
+    # the following code checks to see if the clipbooard has a url in it by lookin for <http> from <$grabpaste>  
+    # If it is <http>, YT-DLP will get the clipboard. yt-dlp will check if its a valid link by trying to extract the name of the video file.
+    # If it isn't <http>  the ytdlp loop will be skipped
+
+    #echo "Directory: ""$PWD"
+
+    if [[ "$grabpaste" = "http" ]]; then
+        echo
+        echo "Clipboard: ""$pasteclip"
+    fi
+    if [[ "$grabpaste" = "http" ]]; then
+        read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
+        ytdlpconfirm=$(yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
+
+                if [[ "$ytdlpconfirm" = "" ]]; then
+
+                        echo "" | xclip -sel clip  # clearing out the clipboard
+                        pasteclip  # grab clipboard content
+
+                            # Videoinfox v2.00________________________________________ Videoinfox v2.00_________________________________________
+                            #________________x________________________________________ _________________________________________________________
+                        hr 80 -
+                        echo
+                        echo " ${der} >>> PLAYLIST >>>" "$setplaylist"
+                        hr 80 -
+                        echo
+                        echo " o "$dashit" Autoplay Line     l - Last Autoplay      c - Change Playlist     p - Play Clipboard                  q - Quit"
+                        echo " j "$dashit" Play Line"
+                        echo " i "$dashit" Info                                     d - Clear Playlist"
+                        echo           
+
+                    else 
+                        echo
+                        echo "YT-DLP Confirmed: "$ytdlpconfirm""
+                        echo
+                        echo "Download Directory: $dirsaved"  # dislpay default download directory
+                        hr 80 -
+                        echo
+                        echo " ${der} >>> PLAYLIST >>>" "$setplaylist"
+                        hr 80 -
+                        echo
+                        echo -e " o "$dashit" Autoplay Line     l - Last Autoplay     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                   q - Quit"
+                        echo " j "$dashit" Play Line"
+                        echo " i "$dashit" Info                                    d - Clear Playlist"
+                        echo                                                                                    
+                fi
+    else
+
+        if [[ -f "$pasteclip" ]]; then
+                echo      
+                echo "Valid file in clipboard"
+                hr 80 -
+                echo
+            echo " ${der} >>> PLAYLIST >>>" "$setplaylist"
+                hr 80 -
+                echo
+                echo -e " o "$dashit" Autoplay Line     l - Last Autoplay     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                   q - Quit"
+                echo " j "$dashit" Play Line"
+                echo " i "$dashit" Info                                    d - Clear Playlist"
+                echo                                                                     
+
+            else 
+
+                echo "" | xclip -sel clip  # clearing out the clipboard
+                pasteclip  # grab clipboard content
+
+                hr 80 -
+                echo
+            echo " ${der} >>> PLAYLIST >>>" "$setplaylist"
+                hr 80 -
+                echo
+                echo " j - Play Line     o - Start Autoplay      c - Change Playlist     p - Play Clipboard                     q - Quit"
+                echo " i - Info          l - Resume Autoplay     r - Remove Line"
+                echo "                                           d - Clear Playlist                                             h - Help"
+                echo                                                             
+    fi
+    fi
+
+    echo -en " Enter Option: "
+    read -r -n1 optionv
 }
 
         while true; do
@@ -8429,50 +8227,14 @@ else
          ########################################################################################################################################
          d)  # (@PLAY DIRECTORY) VIEW DOWNLOADS  ################################################################################################
          ########################################################################################################################################
-
-# WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
-find_supported_files > ${tmp_dir}/videoinfox.navtree-play-directory-apa
-
-#  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
-moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa"
-
-#  PLAYED LIST INPUT FOR LOOP
-input="$moddedplayedlist"  
-
-#  CREATE TEMP FILE NEEDED FOR LOOP 
-touch "${tmp_dir}/videoinfox.navtree-play-directory-apa2"
-
-#  #  START WRITING
-while read -r line; do
-    if [[ -f "${line}" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
-        printf -- '%s\n' "$line" >> "${tmp_dir}/videoinfox.navtree-play-directory-apa2"
-    fi
-done < "${moddedplayedlist}"
-
-#  REMOVE BLANK LINES
-squash ${tmp_dir}/videoinfox.navtree-play-directory-apa2 2>/dev/null
-
-#  MOVE apa2 BACK TO apa
-mv ${tmp_dir}/videoinfox.navtree-play-directory-apa2 ${tmp_dir}/videoinfox.navtree-play-directory-apa 2>/dev/null
-
-#  CREATE FILE NEEDED FOR LOOP 
-touch ${tmp_dir}/videoinfox.navtree-play-directory-apa2  
-
-#  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-write_supported_list "${moddedplayedlist}" "${tmp_dir}/videoinfox.navtree-play-directory-apa2"
-
-#  REMOVE BLANK LINES
-squash ${tmp_dir}/videoinfox.navtree-play-directory-apa2 2>/dev/null
-
-#  MOVE apa2 BACK TO apa
-cp ${tmp_dir}/videoinfox.navtree-play-directory-apa2 ${tmp_dir}/videoinfox.navtree-play-directory-apa 2>/dev/null
+# Create a playlist of available files
+generate_playlist "${tmp_dir}/videoinfox.navtree-play-directory-apa"
 
 # REMOVE PATH ONLY LEAVING FILENAME
 sed -i 's/.*\///' ${tmp_dir}/videoinfox.navtree-play-directory-apa2
 
 # NUMBER THE LIST
 sed '/./='  ${tmp_dir}/videoinfox.navtree-play-directory-apa2 | sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfox.numbered-navtree-play-directory-list 2>/dev/null
-
 
 ################clear
 
