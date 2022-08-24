@@ -197,7 +197,7 @@ get_file_stats() {
     local target_file
     target_file="${1:?No target specified}"
     printf -- 'Video Info: %s Duration: %s\n' \
-        "$(ffprobe "${ffprobe_opts[@]}" "${target_file}")" \ 
+        "$(ffprobe "${ffprobe_opts[@]}" "${target_file}")" \
         "$(ffmpeg -i "${target_file}" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)"
 }
 
@@ -506,6 +506,52 @@ ytdlp_install() {
 }
 
 
+
+codestats() {
+
+    clear
+
+    print_header " ${der} >>> SETTINGS >>> CODE STATS                                     q - Quit"
+
+
+    a=$(grep -c "^$" /usr/local/bin/videoinfox 2> /dev/null)  # NUMBER OF BLANK LINES
+    b=$(sed -n -e '/#/p' /usr/local/bin/videoinfox | wc -l 2> /dev/null)  # NUMBER OF COMMENT ONLY LINES
+    c=$(sed -n '$=' /usr/local/bin/videoinfox 2> /dev/null)  # TOTAL LINES
+
+    d=$((c - a - b))  # CODE LINES = TOTAL LINES - BLANK LINES - COMMENT ONLY LINES
+    # GET VIDEOINFOX FILE SIZE AND LOCATION AND WRITE TO FILE:  ${base_dir}/videoinfox.code-stats.tmp
+    du -h /usr/local/bin/videoinfox > ${base_dir}/videoinfox.code-stats.tmp 2> /dev/null
+
+    # READ FILE SIZE
+    vsize=$(sed 's:/.*::' ${base_dir}/videoinfox.code-stats.tmp)
+
+    # READ FILE LOCATION
+    vlocat=$(cat ${base_dir}/videoinfox.code-stats.tmp | cut -c 6-)
+    printf " Code Lines .......  %s\n" "$d"
+
+    echo
+    printf " Comment Lines ....  %s\n" "$b"
+
+    echo
+    printf " Blank Lines ......  %s\n" "$a"
+
+    echo " _________________________"
+
+    echo
+    printf " Total Lines ...... %s\n" "$c"
+    echo
+    echo
+    echo " File Size:" "$vsize"
+    echo
+    echo " File Location:" "$vlocat"
+    #echo " White Spaces ....." $(wc -w < /usr/local/bin/videoinfox 2> /dev/null)  # White Space COUNT
+    echo
+    echo
+    echo -en " Enter Option: "
+    read -r -n1 optionstats
+}
+
+
 ###############################################################################
 #  videoinfox -u     DOWNLOAD ANY LIST THAT IS RECURSIVELY REACHABLE FROM THE CURRENT DIRECORY. ENTER FULL FILENAME ONLY. NO WILDCARD
 ###############################################################################
@@ -695,7 +741,7 @@ play_directory() {
         read -t 3 -p " Press any key then press enter to quit : " playdir
             
         # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
-        if [[ $playdir ]]; then                                                        # if no input is entered within 3 seconds the next video will play
+        if [[ $playdir ]]; then                                      # if no input is entered within 3 seconds the next video will play
             clear
             break                                                   # if enter is pressed without any input the next video will play
         else                                                        
@@ -704,8 +750,6 @@ play_directory() {
     done
     
     IFS=$OLDIFS
-
-            
     exit
 }
 
@@ -1021,29 +1065,29 @@ menuf() {
             #________________x________________________________________ _________________________________________________________
             hr 80 -
             echo
-            echo " ${der} $viv4      Enter - Update Clipboard Display                "$dirdisp" - Default Dirs"
+            echo " ${der} $viv4      Enter - Update Clipboard Display                $dirdisp - Default Dirs"
             hr 80 -
             echo
-            echo " f - Find              n - Navigate Tree     p - Play Clipboard     d "$dash" Play Directory     y - Yt-dlp     e - Exit"
-            echo " a - Show All          l - Last Download     s - View Playlist      o "$dashj" Autoplay Line      i "$dashj" Info       z - Set" 
-            echo " c - Clear Results     v - Played List       k "$dashj" Playlist Add       j "$dashj" Play Line          x - Clrclp     h - Help"
+            echo " f - Find              n - Navigate Tree     p - Play Clipboard     d $dash Play Directory     y - Yt-dlp     e - Exit"
+            echo " a - Show All          l - Last Download     s - View Playlist      o $dashj Autoplay Line      i $dashj Info       z - Set" 
+            echo " c - Clear Results     v - Played List       k $dashj Playlist Add       j $dashj Play Line          x - Clrclp     h - Help"
             echo " m - More Options"
             echo         
         else  # yt-dlp extracted a filename
             echo
-            echo "YT-DLP Confirmed: "$ytdlpconfirm""
+            echo "YT-DLP Confirmed: $ytdlpconfirm"
             echo
             echo "Download Directory: $dirsaved"  # dislpay default download directory
             hr 80 -
             echo
-            echo " ${der} $viv4      Enter - Update Clipboard Display                "$dirdisp" - Default Dirs"
+            echo " ${der} $viv4      Enter - Update Clipboard Display                $dirdisp - Default Dirs"
             hr 80 -
             echo
 
-            echo -e " f - Find              n - Navigate Tree     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     d "$dash" Play Directory     y - Yt-dlp     e - Exit"
+            echo -e " f - Find              n - Navigate Tree     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     d $dash Play Directory     y - Yt-dlp     e - Exit"
 
-            echo " a - Show All          l - Last Download     s - View Playlist      o "$dashj" Autoplay Line      i "$dashj" Info       z - Set" 
-            echo " c - Clear Results     v - Played List       k "$dashj" Playlist Add       j "$dashj" Play Line          x - Clrclp     h - Help"
+            echo " a - Show All          l - Last Download     s - View Playlist      o $dashj Autoplay Line      i $dashj Info       z - Set" 
+            echo " c - Clear Results     v - Played List       k $dashj Playlist Add       j $dashj Play Line          x - Clrclp     h - Help"
             echo " m - More Options"
             echo                                                             
         fi
@@ -1054,14 +1098,14 @@ menuf() {
             echo "Valid file in clipboard"
             hr 80 -
             echo
-            echo " ${der} $viv4      Enter - Update Clipboard Display                "$dirdisp" - Default Dirs"
+            echo " ${der} $viv4      Enter - Update Clipboard Display                $dirdisp - Default Dirs"
             hr 80 -
             echo
 
-            echo -e " f - Find              n - Navigate Tree     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     d "$dash" Play Directory     y - Yt-dlp     e - Exit"
+            echo -e " f - Find              n - Navigate Tree     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     d $dash Play Directory     y - Yt-dlp     e - Exit"
 
-            echo " a - Show All          l - Last Download     s - View Playlist      o "$dashj" Autoplay Line      i "$dashj" Info       z - Set" 
-            echo " c - Clear Results     v - Played List       k "$dashj" Playlist Add       j "$dashj" Play Line          x - Clrclp     h - Help"
+            echo " a - Show All          l - Last Download     s - View Playlist      o $dashj Autoplay Line      i $dashj Info       z - Set" 
+            echo " c - Clear Results     v - Played List       k $dashj Playlist Add       j $dashj Play Line          x - Clrclp     h - Help"
             echo " m - More Options"
             echo                                                             
 
@@ -1072,12 +1116,12 @@ menuf() {
 
             hr 80 -
             echo 
-            echo " ${der} $viv4      Enter - Update Clipboard Display                "$dirdisp" - Default Dirs"
+            echo " ${der} $viv4      Enter - Update Clipboard Display                $dirdisp - Default Dirs"
             hr 80 -
             echo
-            echo " f - Find              n - Navigate Tree     p - Play Clipboard     d "$dash" Play Directory     y - Yt-dlp     e - Exit"
-            echo " a - Show All          l - Last Download     s - View Playlist      o "$dashj" Autoplay Line      i "$dashj" Info       z - Set" 
-            echo " c - Clear Results     v - Played List       k "$dashj" Playlist Add       j "$dashj" Play Line          x - Clrclp     h - Help"
+            echo " f - Find              n - Navigate Tree     p - Play Clipboard     d $dash Play Directory     y - Yt-dlp     e - Exit"
+            echo " a - Show All          l - Last Download     s - View Playlist      o $dashj Autoplay Line      i $dashj Info       z - Set" 
+            echo " c - Clear Results     v - Played List       k $dashj Playlist Add       j $dashj Play Line          x - Clrclp     h - Help"
             echo " m - More Options"
             echo         
         fi
@@ -1948,7 +1992,7 @@ while true; do
 s) #######################  @PLAYLIST - SHOW ALL (NAVIGATE TREE)  ################################################################################
 ###############################################################################
 
-grabdir="$PWD"  # SAVE CURRENT DIRECTORY FOR RESTORE ON EXIT
+(
 
 cd ${base_dir}/playlists
 menuvhome() {
@@ -2157,30 +2201,27 @@ menuvhome() {
 }
 
         while true; do
-        do
-        menuvhome
-        case $optionv in
-    
-        q)  # QUIT
-                                cd "$grabdir"
-        break;;
-
-       
-        h)
-        echo
-        echo
-        echo " PLAYLIST LIST >>> HELP"        
-        echo
-        echo " Everytime Start Autoplay is used, it will write a new file for Resume Autoplay."
-        echo " Run Start Autoplay first. Then use Resume Autoplay to continue watching where you left off."
-        echo " Resume Autoplay will start with the last video that was playing when the play loop was quit."
-        echo
-        echo " Note: If the playlist is changed with Playlist Add or Remove Line after running Start Autoplay,"
-        echo "       Resume Autoplay won't get updated with the changes until Start Autoplay is run again."
-        echo
-        read -p " Press enter to Continue"
-        ;;
-        o) # AUTOPLAY LINE  (HOME >>> PLAYLIST)
+            menuvhome
+            case $optionv in
+                q)  # QUIT
+                    ) ## Exit Subshell
+                    break
+                ;;
+                h)
+                    echo
+                    echo
+                    echo " PLAYLIST LIST >>> HELP"        
+                    echo
+                    echo " Everytime Start Autoplay is used, it will write a new file for Resume Autoplay."
+                    echo " Run Start Autoplay first. Then use Resume Autoplay to continue watching where you left off."
+                    echo " Resume Autoplay will start with the last video that was playing when the play loop was quit."
+                    echo
+                    echo " Note: If the playlist is changed with Playlist Add or Remove Line after running Start Autoplay,"
+                    echo "       Resume Autoplay won't get updated with the changes until Start Autoplay is run again."
+                    echo
+                    read -p " Press enter to Continue"
+                ;;
+                o) # AUTOPLAY LINE  (HOME >>> PLAYLIST)
 
 # SET COUNTER TO ZERO. $i in below play loop to get line number from last played video
 i=0
@@ -2198,8 +2239,7 @@ mv ${tmp_dir}/videoinfo.playlist-apa.tmp ${tmp_dir}/videoinfo.playlist-apa 2>/de
 OLDIFS=$IFS
 IFS=$'\n'
 
-for line in $(cat "$input" 2>/dev/null)
- do
+for line in $(cat "$input" 2>/dev/null); do
       clear
       echo
       hr 80 -
@@ -2540,7 +2580,7 @@ while true; do
     changepl
     case $optioncpl in
         q)  # QUIT
-            ###cd "$grabdir"
+            ###) ## Exit Subshell
             break
         ;;
         c)  # CHANGE PLAYLIST
@@ -2771,8 +2811,6 @@ if [[ "$grabpaste" = "http" ]]; then
       echo
       
       if [[ -z "$ytdlplast" ]]; then
-              :
-          else     
               notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
               echo "$ytdlplast" >> ${base_dir}/videoinfo.playedlist  # write clipboard content to PLAYLIST File  
               ffplay -fs -autoexit &> /dev/null "$ytdlplast"  
@@ -3005,7 +3043,8 @@ IFS=$OLDIFS
 l)  # PLAY LAST DOWNLOAD >>> HOME    ################################################################################################################
 ##################################################################################
 
-              grabdir="$PWD"  # storing directory to restore at the end of this function
+              # start subshell
+              (  # storing directory to restore at the end of this function
                
               read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
               cd "$dirsaved"   # change to download directory
@@ -3034,7 +3073,7 @@ l)  # PLAY LAST DOWNLOAD >>> HOME    ###########################################
               hr 80 -         
               echo
               
-get_file_stats "${ytdlplast}"
+                get_file_stats "${ytdlplast}"
 
               echo
               echo " Video Player Controls:"
@@ -3055,7 +3094,7 @@ get_file_stats "${ytdlplast}"
               echo "$ytdlplast" >> ${base_dir}/videoinfo.playedlist  # write clipboard content to file  
               ffplay -fs -autoexit &> /dev/null "$ytdlplast"
               pasteclip  # grab clipboard content
-              cd "$grabdir"   # restore dir prior to entering yt-dlp menu
+              ) ## Exit Subshell   # restore dir prior to entering yt-dlp menu
               ;;  
 a)  # SHOW ALL VIDEOS
 
@@ -3130,8 +3169,8 @@ pasteclip  # grab clipboard content
 
 if [[ "$grabpaste" = "http" ]]; then
     #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
-
-    grabdir="$PWD"  # storing directory to restore at the end of this function
+    # Start subshell
+    (  # storing directory to restore at the end of this function
     
     #  DOWNLOAD LINK AND PLAY
     
@@ -3215,7 +3254,7 @@ if [[ "$grabpaste" = "http" ]]; then
     echo "" | xclip -sel clip  # clearing out the clipboard
     pasteclip  # grab clipboard content
     
-    cd "$grabdir"   # restore dir prior to entering yt-dlp menu              
+    ) ## Exit Subshell   # restore dir prior to entering yt-dlp menu              
 
 else
     if [[ -f "$pasteclip" ]]; then
@@ -3294,8 +3333,6 @@ fi
              read playnumber < ${tmp_dir}/videoinfo-findwork-playnumber.tmp
 
                 if [[ -z "$playnumber" ]]; then
-                       :
-                else
                     #echo
                     echo
                     echo "$playnumber"
@@ -3513,8 +3550,7 @@ menuvv() {
         menuvv
         case $optionv in
     
-        q)  # QUIT
-                                break;;
+        q) break ;;
         o) # AUTOPLAY LINE  (PLAYED LIST)
 
 if [[ -f ${tmp_dir}/videoinfo.number.played-list ]]; then
@@ -3612,7 +3648,7 @@ fi
       fi
             fi
 
-        if [[ -z "$line" ]; then
+        if [[ -z "$line" ]]; then
              :
          else
 
@@ -3710,7 +3746,7 @@ fi
 s) # @PLAYLIST PLAYED LIST
 #####################################################################################################################################
 
-grabdir="$PWD"  # SAVE CURRENT DIRECTORY FOR RESTORE ON EXIT
+(
 
 cd ${base_dir}/playlists
 menuvhome() {
@@ -3921,7 +3957,7 @@ menuvhome() {
             case $optionv in
         
             q)  # QUIT
-                cd "$grabdir"
+                ) ## Exit Subshell
                 break
             ;;
             h)
@@ -4282,7 +4318,7 @@ while true; do
 changepl
 case $optioncpl in
         q)  # QUIT
-        ###cd "$grabdir"
+        ###) ## Exit Subshell
         break ;;
 
     
@@ -4497,7 +4533,6 @@ if [[ "$grabpaste" = "http" ]]; then
                                      
              fi      
 
-           
       clear
       echo
       hr 80 -
@@ -4688,8 +4723,8 @@ pasteclip  # grab clipboard content
 
 if [[ "$grabpaste" = "http" ]]; then
       #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
-   
-      grabdir="$PWD"  # storing directory to restore at the end of this function
+    # start subshell
+      (  # storing directory to restore at the end of this function
         
       #  DOWNLOAD LINK AND PLAY
       
@@ -4781,7 +4816,7 @@ get_file_stats "${ytdlplast}"
       echo "" | xclip -sel clip  # clearing out the clipboard
       pasteclip  # grab clipboard content
       
-      cd "$grabdir"   # restore dir prior to entering yt-dlp menu              
+      ) ## Exit Subshell   # restore dir prior to entering yt-dlp menu              
 
   else
 
@@ -4856,7 +4891,7 @@ get_file_stats "${ytdlplast}"
 s) #######################  @PLAYLIST - (HOME)  ################################################################################################### 
 ###############################################################################
 
-grabdir="$PWD"  # SAVE CURRENT DIRECTORY FOR RESTORE ON EXIT
+(
 
 cd ${base_dir}/playlists
 menuvhome() {
@@ -5068,7 +5103,7 @@ read -r -n1 optionv
         case $optionv in
     
         q)  # QUIT
-                                cd "$grabdir"
+                                ) ## Exit Subshell
         break;;
 
        
@@ -5448,7 +5483,7 @@ while true; do
 changepl
 case $optioncpl in
     q)  # QUIT
-        ###cd "$grabdir"
+        ###) ## Exit Subshell
         break
     ;;
     c)  # CHANGE PLAYLIST
@@ -5835,170 +5870,118 @@ fi
 ###############################################################################
     f)  ################  FIND ROUTINE - <HOME>  #################################################################################################
 ###############################################################################
+        pasteclip  # grab clipboard content
 
-    pasteclip  # grab clipboard content
+        clear
+        echo
+        printf -- '%s\n' "Working Directory: ${PWD}"  # <pwd>  print current working directory to the screen 
+        echo "Clipboard Content: ""$pasteclip"
 
-    clear
-    echo
-    echo "Working Directory: ""$PWD"  # <pwd>  print current working directory to the screen 
-    echo "Clipboard Content: ""$pasteclip"
+        print_header " ${ver} >>> Find Video File(s) - Recursive                         wildcard * ok"
 
-    print_header " ${ver} >>> Find Video File(s) - Recursive                         wildcard * ok"
+        echo " Find a video file to play, add it to the playlist or get info.  No file extensions." 
+        echo
+        read -r -p " File Name: " videofind  # waiting fot user input - video file that you want to find
 
-    echo " Find a video file to play, add it to the playlist or get info.  No file extensions." 
-    echo
-    read -r -p " File Name: " videofind  # waiting fot user input - video file that you want to find
-
-    searchtotal=$(find "$PWD" -type f \( -iname "$videofind.mp4" -o -iname "$videofind.mkv" -o -iname "$videofind.avi" -o -iname "$videofind.webm" -o -iname "$videofind.divx" \) 2>/dev/null | wc -l)    
-                                                                                                      
-    if [[ -z "$videofind" ]]; then
-               echo
-               echo " error: Nothing was entered."
-               echo
-               sleep .7        
-          else
-                
-              if echo "$videofind" | grep "/" > /dev/null; then  # if any slashehes were entered goto <then>
+        searchtotal=$(find "$PWD" -type f \( -iname "$videofind.mp4" -o -iname "$videofind.mkv" -o -iname "$videofind.avi" -o -iname "$videofind.webm" -o -iname "$videofind.divx" \) 2>/dev/null | wc -l)    
+                                                                                                        
+        if [[ -z "$videofind" ]]; then
+            echo
+            echo " error: Nothing was entered."
+            echo
+            sleep .7        
+        else
+            if echo "$videofind" | grep "/" > /dev/null; then  # if any slashehes were entered goto <then>
+                echo
+                echo " error: No directories only filenames."
+                echo
+                sleep .7 
+            else
+                if [[ "$searchtotal" = 0 ]]; then  # if find returned no results goto <then>
+                    #cp ${base_dir}/videoinfo.findwork3 ${base_dir}/videoinfo.findwork
+                    #cp ${base_dir}/videoinfo.lastsearchtotal2  ${base_dir}/videoinfo.lastsearchtotal
                     echo
-                    echo " error: No directories only filenames."
+                    echo " No files found"
                     echo
                     sleep .7 
+                    
                 else
-                                
-                     if [[ "$searchtotal" = 0 ]]; then  # if find returned no results goto <then>
-                           #cp ${base_dir}/videoinfo.findwork3 ${base_dir}/videoinfo.findwork
-                           #cp ${base_dir}/videoinfo.lastsearchtotal2  ${base_dir}/videoinfo.lastsearchtotal
-                           echo
-                           echo " No files found"
-                           echo
-                           sleep .7 
-                          
-                       else
-                           echo "$videofind" > ${base_dir}/videoinfo.lastfindstring   # save last find string used                          
-                           read -r fterm < ${base_dir}/videoinfo.lastfindstring
+                    echo "$videofind" > ${base_dir}/videoinfo.lastfindstring   # save last find string used
+                    read -r fterm < ${base_dir}/videoinfo.lastfindstring
 
-                           # save find results
-find "$PWD" -type f \( -iname "$videofind.mp4" -o -iname "$videofind.mkv" -o -iname "$videofind.avi" -o -iname "$videofind.webm" -o -iname "$videofind.divx" \) | sort -u > ${base_dir}/videoinfo.findwork
-                           echo "$PWD" > ${base_dir}/videoinfo.lastfinddir  # save last directory that last find was run in 
-                           # write last search total file count
-                           echo "$searchtotal" > ${base_dir}/videoinfo.lastsearchtotal
-                           # read last search total file count
-                           read -r searchtotal < ${base_dir}/videoinfo.lastsearchtotal    
-                           cp ${base_dir}/videoinfo.findwork ${base_dir}/videoinfo.findwork3
-                           cp ${base_dir}/videoinfo.lastsearchtotal ${base_dir}/videoinfo.lastsearchtotal2                 
-                           echo
-                           echo " Total files found: " "$searchtotal"  # number of files found
-                           notify-send  "Videoinfox messsage: Find results in $PWD" "$searchtotal files found using search term: $fterm"
-                           sleep 1.5
-    fi
-    fi              
-    fi
+                    # save find results
+                    find "$PWD" -type f \( -iname "$videofind.mp4" -o -iname "$videofind.mkv" -o -iname "$videofind.avi" -o -iname "$videofind.webm" -o -iname "$videofind.divx" \) | sort -u > ${base_dir}/videoinfo.findwork
+                    echo "$PWD" > ${base_dir}/videoinfo.lastfinddir  # save last directory that last find was run in 
+                    # write last search total file count
+                    echo "$searchtotal" > ${base_dir}/videoinfo.lastsearchtotal
+                    # read last search total file count
+                    read -r searchtotal < ${base_dir}/videoinfo.lastsearchtotal    
+                    cp ${base_dir}/videoinfo.findwork ${base_dir}/videoinfo.findwork3
+                    cp ${base_dir}/videoinfo.lastsearchtotal ${base_dir}/videoinfo.lastsearchtotal2                 
+                    echo
+                    echo " Total files found: " "$searchtotal"  # number of files found
+                    notify-send  "Videoinfox messsage: Find results in $PWD" "$searchtotal files found using search term: $fterm"
+                    sleep 1.5
+                fi
+            fi
+        fi
     ;;
 ###############################################################################
-z)  # SETTINGS - <HOME>  #########################################################################################################################
+z)  # SETTINGS - <HOME>  ######################################################
 ###############################################################################
 
 menusettings() {
-pasteclip  # grab clipboard content
-# LOAD STORED DIRECTORIES
-read -r dir1 < ${base_dir}/videoinfo.tv-dir 2> /dev/null
-read -r dir2 < ${base_dir}/videoinfo.movies-dir 2> /dev/null
-read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null
-read -r dir4 < ${base_dir}/videoinfo.parent-dir 2> /dev/null
-read -r dir5 < ${base_dir}/videoinfo.dir-at-exit 2> /dev/null
+    pasteclip  # grab clipboard content
+    # LOAD STORED DIRECTORIES
+    read -r dir1 < ${base_dir}/videoinfo.tv-dir 2> /dev/null
+    read -r dir2 < ${base_dir}/videoinfo.movies-dir 2> /dev/null
+    read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null
+    read -r dir4 < ${base_dir}/videoinfo.parent-dir 2> /dev/null
+    read -r dir5 < ${base_dir}/videoinfo.dir-at-exit 2> /dev/null
 
-clear
-echo
-echo "Directory:" "$PWD"
-echo "Clipboard:" "$pasteclip"
+    clear
+    echo
+    echo "Directory:" "$PWD"
+    echo "Clipboard:" "$pasteclip"
 
-print_header " ${der} >>> SETTINGS                            Enter - Update Clipboard Display"
+    print_header " ${der} >>> SETTINGS                            Enter - Update Clipboard Display"
 
-echo " Set Default Directories                                                                     q - Quit"
-echo
-echo "                                                                                             v - Videoinfox Update"
-echo " 1 - TV:" "$dir1"
-echo "                                                                                             y - Yt-dlp Update"
-echo " 2 - Movies:" "$dir2"
-echo "                                                                                             l - Last Search"
-echo " 3 - Download:" "$dirsaved"
-echo "                                                                                             h - Version History"
-echo " 4 - Extra:" "$dir4"
-echo "                                                                                             c - Code Stats"
-echo
-echo "                                                                                             x - Clear Clipboard"
-echo " Last Exit Dir 5:" "$dir5"
-echo
-echo
-echo -en " Enter Option: "
-read -r -n1 optionsettings
+    echo " Set Default Directories                                                                     q - Quit"
+    echo
+    echo "                                                                                             v - Videoinfox Update"
+    echo " 1 - TV:" "$dir1"
+    echo "                                                                                             y - Yt-dlp Update"
+    echo " 2 - Movies:" "$dir2"
+    echo "                                                                                             l - Last Search"
+    echo " 3 - Download:" "$dirsaved"
+    echo "                                                                                             h - Version History"
+    echo " 4 - Extra:" "$dir4"
+    echo "                                                                                             c - Code Stats"
+    echo
+    echo "                                                                                             x - Clear Clipboard"
+    echo " Last Exit Dir 5:" "$dir5"
+    echo
+    echo
+    echo -en " Enter Option: "
+    read -r -n1 optionsettings
 }
 
 while true; do
-menusettings
-case $optionsettings in
-
-    q)  # QUIT
-    break;;
+    menusettings
+    case $optionsettings in
+    q) break ;;
     x) #  CLEAR CLIPBOARD  <DOWNLOAD LIST> 
     echo "" | xclip -sel clip  # clearing out the clipboard
     pasteclip  # grab clipboard content
     ;;
     c)  # CODE STATS
-
-codestats() {
-
-    clear
-
-    print_header " ${der} >>> SETTINGS >>> CODE STATS                                     q - Quit"
-
-
-    a=$(grep -c "^$" /usr/local/bin/videoinfox 2> /dev/null)  # NUMBER OF BLANK LINES
-    b=$(sed -n -e '/#/p' /usr/local/bin/videoinfox | wc -l 2> /dev/null)  # NUMBER OF COMMENT ONLY LINES
-    c=$(sed -n '$=' /usr/local/bin/videoinfox 2> /dev/null)  # TOTAL LINES
-
-    d=$((c - a - b))  # CODE LINES = TOTAL LINES - BLANK LINES - COMMENT ONLY LINES
-    # GET VIDEOINFOX FILE SIZE AND LOCATION AND WRITE TO FILE:  ${base_dir}/videoinfox.code-stats.tmp
-    du -h /usr/local/bin/videoinfox > ${base_dir}/videoinfox.code-stats.tmp 2> /dev/null
-
-    # READ FILE SIZE
-    vsize=$(sed 's:/.*::' ${base_dir}/videoinfox.code-stats.tmp)
-
-    # READ FILE LOCATION
-    vlocat=$(cat ${base_dir}/videoinfox.code-stats.tmp | cut -c 6-)
-    printf " Code Lines .......  %s\n" "$d"
-
-    echo
-    printf " Comment Lines ....  %s\n" "$b"
-
-    echo
-    printf " Blank Lines ......  %s\n" "$a"
-
-    echo " _________________________"
-
-    echo
-    printf " Total Lines ...... %s\n" "$c"
-    echo
-    echo
-    echo " File Size:" "$vsize"
-    echo
-    echo " File Location:" "$vlocat"
-    #echo " White Spaces ....." $(wc -w < /usr/local/bin/videoinfox 2> /dev/null)  # White Space COUNT
-    echo
-    echo
-    echo -en " Enter Option: "
-    read -r -n1 optionstats
-}
-while true; do
-    codestats
-    case $optionstats in
-        q)
-            # QUIT
-            break
-        ;;
-    esac
-done
-;;
+        while true; do
+            codestats
+            case $optionstats in
+                q)  break ;;
+            esac
+        done
+    ;;
 
     
     h)  # VERSION HISTORY
@@ -6060,51 +6043,42 @@ done
          ;;
     1)
     # SET TV DIRECTORY
-    grabdir="$PWD"  # grab working directory 
-    pasteclip  # grab clipboard content
-    clear
-    echo
-    echo "Working Directory: ""$PWD"  # <pwd>  print current working directory to the screen 
-    echo "Clipboard: ""$pasteclip"
+        ## Start subshell
+        (
+            pasteclip  # grab clipboard content
+            clear
+            printf -- '\n%s\n' "Working Directory: ${PWD}"
+            printf -- '%s\n' "Clipboard: ${pasteclip}"
 
-    print_header " ${ver} >>> SET TV DIRECTORY"
+            print_header " ${ver} >>> SET TV DIRECTORY"
 
-    echo " No quotations needed for paths with spaces. Case sensative."
-    echo
-    read -r -p " Enter Directory: " specifydir2  # waiting fot user input - the directory you want to chang to 
-    
-        if [[ -z "$specifydir2" ]]; then
-            echo
-            echo " error: Nothing was entered"
-        else
-            if [[ -d "$specifydir2" ]]; then
+            printf -- '%s\n\n'  " No quotations needed for paths with spaces. Case sensative."
+
+              # waiting fot user input - the directory you want to chang to 
+            read -r -p " Enter Directory: " specifydir2
+            if [[ -d "${specifydir2:?No directory defined}" ]]; then
                 echo
                 echo "$specifydir2" > ${base_dir}/videoinfo.tv-dir
                 read -r dir1 < ${base_dir}/videoinfo.tv-dir
                 echo " TV Directory Set to:" "$dir1"
             else
-                echo
-                echo " error: Directory doesn't exist"
+                printf -- 'ERROR: %s\n' "Directory doesn't exist" >&2
             fi
-        fi       
-          
-          #read -p "     Press enter to Continue" 
-          cd "$grabdir"  # restore working directory
-          sleep 1.5
-          ;;
+            #read -p "     Press enter to Continue" 
+        ) ## Exit Subshell
+        sleep 1.5
+    ;;
     2)
     # SET MOVIES DIRECTORY
-    grabdir="$PWD"  # grab working directory 
+    (  # grab working directory 
     pasteclip  # grab clipboard content 
     clear
-    echo
-    echo "Working Directory: ""$PWD"  # <pwd>  print current working directory to the screen 
-    echo "Clipboard: ""$pasteclip"
+            printf -- '\n%s\n' "Working Directory: ${PWD}"
+            printf -- '%s\n' "Clipboard: ${pasteclip}"
 
     print_header " ${ver} >>> SET MOVIE DIRECTORY"
 
-    echo " No quotations needed for paths with spaces. Case sensative."
-    echo
+    printf -- '%s\n\n'  " No quotations needed for paths with spaces. Case sensative."
     read -r -p " Enter Directory: " specifydir2  # waiting fot user input - the directory you want to chang to 
     
          if [[ -z "$specifydir2" ]]; then
@@ -6123,22 +6097,20 @@ done
           fi       
           
           #read -p "     Press enter to Continue" 
-          cd "$grabdir"  # restore working directory
+          ) ## Exit Subshell  # restore working directory
           sleep 1.5
           ;;
     3)
     # SET <yt-dlp> DOWNLOAD DIRECTORY
-    grabdir="$PWD"  # grab working directory 
+    (  # grab working directory 
     pasteclip  # grab clipboard content
     clear
-    echo
-    echo "Working Directory: ""$PWD"  # <pwd>  print current working directory to the screen 
-    echo "Clipboard: ""$pasteclip"
+            printf -- '\n%s\n' "Working Directory: ${PWD}"
+            printf -- '%s\n' "Clipboard: ${pasteclip}"
 
     print_header " ${ver} >>> SET YT-DLP DOWNLOAD DIRECTORY"
 
-    echo " No quotations needed for paths with spaces. Case sensative."
-    echo
+    printf -- '%s\n\n'  " No quotations needed for paths with spaces. Case sensative."
     read -r -p " Enter Directory: " specifydir2  # waiting fot user input - the directory you want to chang to 
     
         if [[ -z "$specifydir2" ]]; then
@@ -6157,22 +6129,20 @@ done
         fi
           
           #read -p "     Press enter to Continue" 
-          cd "$grabdir"  # restore working directory
+          ) ## Exit Subshell  # restore working directory
           sleep 1.5
           ;;
  4)
     # SET PARENT DIRECTORY
-    grabdir="$PWD"  # grab working directory 
+    (  # grab working directory 
     pasteclip  # grab clipboard content
     clear
-    echo
-    echo "Working Directory: ""$PWD"  # <pwd>  print current working directory to the screen 
-    echo "Clipboard: ""$pasteclip"
+            printf -- '\n%s\n' "Working Directory: ${PWD}"
+            printf -- '%s\n' "Clipboard: ${pasteclip}"
 
     print_header " ${ver} >>> SET EXTRA DIRECTORY"
 
-    echo " No quotations needed for paths with spaces. Case sensative."
-    echo
+    printf -- '%s\n\n'  " No quotations needed for paths with spaces. Case sensative."
     read -r -p " Enter Directory: " specifydir2  # waiting fot user input - the directory you want to chang to 
     
          if [[ -z "$specifydir2" ]]; then
@@ -6191,7 +6161,7 @@ done
           fi       
           
           #read -p "     Press enter to Continue" 
-          cd "$grabdir"  # restore working directory
+          ) ## Exit Subshell  # restore working directory
           sleep 1.5
           ;;
         
@@ -6209,7 +6179,7 @@ done
 
 y)       
 
-grabdir="$PWD"  # grab working directory
+(  # grab working directory
 pasteclip3=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content to restore to before this function was run
 if ! command -v yt-dlp > /dev/null 2>&1; then  # if <yt-dlp> isnt found goto then
 
@@ -6241,10 +6211,8 @@ if ! command -v yt-dlp > /dev/null 2>&1; then  # if <yt-dlp> isnt found goto the
 ############################
 
 else  # IF YT-DLP IS FOUND    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-###########################
-
-read -r ytdlpver < <(yt-dlp --version)
+    read -r ytdlpver < <(yt-dlp --version)
+fi
 
 menuy() {
 
@@ -6368,13 +6336,10 @@ echo -en " Enter Option: "
 read -r -n1 optiony
 
 }
-     while true
-     do
+     while true; do 
      menuy
     case $optiony in
-     q)  # QUIT
-     clear
-     break;;
+     q) clear; break ;;
      x)  # CLEAR CLIPBOARD  (DOWNLOAD LIST)
      echo "" | xclip -sel clip  # clearing out the clipboard
      pasteclip  # grab clipboard content
@@ -6849,55 +6814,48 @@ read -r -n1 option
 echo
 }
   
-         while true
-         do
+         while true; do
          navtree
         case $option in
          
          q)  # QUIT
-    ##############################     cd "$grabdirfornav2" &>/dev/null   # restore directory
-         echo "" | xclip -sel clip  # clearing the clipboard
-         pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
-         break
+            ##############################     cd "$grabdirfornav2" &>/dev/null   # restore directory
+            echo "" | xclip -sel clip  # clearing the clipboard
+            pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
+            break
          ;;
          1)  # CD DIRECTORY TO TV    
-         cd "$dir1" 
-         grabdirfornav2="$dir1"
+            cd "$dir1" 
+            grabdirfornav2="$dir1"
          ;;
-    
          2)  # CD DIRECTORY TO MOVIES
-         grabdirfornav2="$dir2"
-         cd "$dir2" 
+            grabdirfornav2="$dir2"
+            cd "$dir2" 
          ;;
-
          3)  # CHANGE DIRECTORY TO DOWNLOADS
-         grabdirfornav2="$dirsaved"
-         cd "$dirsaved" 
+            grabdirfornav2="$dirsaved"
+            cd "$dirsaved" 
          ;;
-   
          4)  # CHANGE DIRECTORY TO EXTRA   
-         grabdirfornav2="$dir4"
-         cd "$dir4" 
+            grabdirfornav2="$dir4"
+            cd "$dir4" 
          ;;
-
          5)  # CHANGE DIRECTORY TO LAST EXIT
-         grabdirfornav2="$dir5"
-         cd "$dir5" 
+            grabdirfornav2="$dir5"
+            cd "$dir5" 
          ;;
-       
-       
          u)  # UP ONE LEVEL 
-         if [[ "$grabdirfornav2" = "$PWD" ]]; then
-               echo
-               echo " At treetop. Can't go any higher . . ."
-               sleep .50
+            if [[ "$grabdirfornav2" = "$PWD" ]]; then
+                echo
+                echo " At treetop. Can't go any higher . . ."
+                sleep .50
 
-           else
-               cd .. &>/dev/null
-         fi 
+            else
+                cd .. &>/dev/null
+            fi 
          ;;
          t)  # TREE TOP
-         cd "$grabdirfornav2" &>/dev/null
+            cd "$grabdirfornav2" &>/dev/null
          ;;          
          c)  # CHANGE DIRECTORY
 # GETTING LINECOUNT
@@ -7689,7 +7647,7 @@ pasteclip  # grab clipboard content
 if [[ "$grabpaste" = "http" ]]; then
       #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
    
-     ################# grabdir="$PWD"  # storing directory to restore at the end of this function
+     ################# (  # storing directory to restore at the end of this function
         
       #  DOWNLOAD LINK AND PLAY
       
@@ -7781,7 +7739,7 @@ get_file_stats "${ytdlplast}"
       echo "" | xclip -sel clip  # clearing out the clipboard
       pasteclip  # grab clipboard content
       
-      cd "$grabdir"   # restore dir prior to entering yt-dlp menu              
+      ) ## Exit Subshell   # restore dir prior to entering yt-dlp menu              
 
   else
 
@@ -7836,7 +7794,7 @@ get_file_stats "${ytdlplast}"
        fi
 fi
 
-cd "$grabdir"
+) ## Exit Subshell
 ;;
 
   
@@ -8006,7 +7964,7 @@ pasteclip  # grab clipboard content
 if [[ "$grabpaste" = "http" ]]; then
       #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
    
-      grabdir="$PWD"  # storing directory to restore at the end of this function
+      (  # storing directory to restore at the end of this function
         
       #  DOWNLOAD LINK AND PLAY
       
@@ -8092,7 +8050,7 @@ if [[ "$grabpaste" = "http" ]]; then
       echo "" | xclip -sel clip  # clearing out the clipboard
       pasteclip  # grab clipboard content
       
-      cd "$grabdir"   # restore dir prior to entering yt-dlp menu              
+      ) ## Exit Subshell   # restore dir prior to entering yt-dlp menu              
 
   else
       
@@ -8146,7 +8104,7 @@ if [[ "$grabpaste" = "http" ]]; then
       fi 
 fi
 
-cd "$grabdir"
+) ## Exit Subshell
 ;;  
               i)  # INFO - <VIEW DOWNLOADS>
 if [[ "$istherefiles" = 0 ]]; then
@@ -8419,7 +8377,7 @@ fi
               ;;
               s)  # DOWNLOAD VIDEO PLAY, THEN DELETE ON VIDEO PLAYER CLOSE 
               
-              grabdir="$PWD"
+              (
 
               read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
               cd "$dirsaved"   # change to download directory              
@@ -8469,11 +8427,11 @@ fi
                     sleep 1
               fi
 
-              cd "$grabdir" # restore dir
+              ) ## Exit Subshell # restore dir
               ;; 
               l)  # play last download
                
-              grabdir="$PWD"  # storing directory to restore at the end of this function
+              (  # storing directory to restore at the end of this function
                
               read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
               cd "$dirsaved"   # change to download directory
@@ -8500,7 +8458,7 @@ fi
               hr 80 -         
               echo
               
-get_file_stats "${ytdlplast}"
+                get_file_stats "${ytdlplast}"
 
               echo
               echo " Video Player Controls:"
@@ -8521,7 +8479,7 @@ get_file_stats "${ytdlplast}"
               echo "$ytdlplast" >> ${base_dir}/videoinfo.playedlist  # write clipboard content to file  
               ffplay -fs -autoexit &> /dev/null "$ytdlplast"
               pasteclip  # grab clipboard content
-              cd "$grabdir"   # restore dir prior to entering yt-dlp menu
+              ) ## Exit Subshell   # restore dir prior to entering yt-dlp menu
               ;;  
               d)  # DOWNLOAD DEFAULT
               read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
@@ -8562,7 +8520,7 @@ get_file_stats "${ytdlplast}"
                     sleep 1
               fi
               
-              cd "$grabdir"
+              ) ## Exit Subshell
               ;;
               c)  # DOWNLOAD CHOOSE
               read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
@@ -8614,13 +8572,13 @@ get_file_stats "${ytdlplast}"
                     sleep 1
               fi
               
-              cd "$grabdir"
+              ) ## Exit Subshell
               ;; 
  esac
  done
 
 fi
-################### cd "$grabdir"   # restore dir prior to entering yt-dlp menu
+################### ) ## Exit Subshell   # restore dir prior to entering yt-dlp menu
 ;; 
 
 ###############################################################################
@@ -8790,7 +8748,7 @@ echo "This File was Created $(date) by" "$USER" >> videoinfo.List-Directory
 echo >> videoinfo.List-Directory  # Every line ending in  ' >> videoinfo.List-Directory '  is writing that line to text file <videoinfo.List-Directory>)
 echo "SAVED RESULTS LOADED FROM FILE: videoinfo.List-Directory" >> videoinfo.List-Directory
 echo  >> videoinfo.List-Directory
-echo "Working Directory: ""$PWD" >> videoinfo.List-Directory
+printf -- '%s\n' "Working Directory: ${PWD}" >> videoinfo.List-Directory
 echo  >> videoinfo.List-Directory 
 hr 80 - >> videoinfo.List-Directory
 echo  >> videoinfo.List-Directory 
@@ -8822,12 +8780,11 @@ echo "Total Video Files:" "$currentdirfilecount" >> videoinfo.List-Directory
 echo
 echo
 echo >> videoinfo.List-Directory
-echo ">>> Listing is not recursive <<<"
-echo ">>> Listing is not recursive <<<" >> videoinfo.List-Directory
+printf -- '%s\n' ">>> Listing is not recursive <<<" | tee -a videoinfo.List-Directory
 echo
 echo >> videoinfo.List-Directory
-echo "Working Directory: ""$PWD"  # <pwd>  print current working directory to the screen   
-echo "Working Directory: ""$PWD" >> videoinfo.List-Directory
+printf -- '%s\n' "Working Directory: ${PWD}" | tee -a videoinfo.List-Directory
+
 echo
 if [[ "$currentdirfilecount" != 0 ]]; then
       echo "$rer"
@@ -9089,7 +9046,7 @@ echo "Directory: ""$PWD"
 echo "Clipboard: ""$pasteclip"
 print_header " ${der} >>> VIDEO DURATION - Recursive"
 
-echo "Working Directory: ""$PWD" >> videoinfo.Video-Duration
+printf -- '%s\n' "Working Directory: ${PWD}" >> videoinfo.Video-Duration
 echo >> videoinfo.Video-Duration
 echo "RECURSIVE DURATION OF VIDEO FILES"
 echo "RECURSIVE DURATION OF $alldirfilecount VIDEO FILES" >> videoinfo.Video-Duration
@@ -9113,7 +9070,7 @@ floatingseconds=$(paste -sd+  ${base_dir}/videoinfo.duration.tmp | bc)
 totalseconds=$(echo "$floatingseconds" | awk '{ print substr( $0, 1, length($0)-7 ) }')
 
 clear
-echo "Working Directory: ""$PWD"  # <pwd>  print current working directory to the screen 
+printf -- '%s\n' "Working Directory: ${PWD}"  # <pwd>  print current working directory to the screen 
 echo
 echo "${der}"
 echo
