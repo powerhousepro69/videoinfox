@@ -154,10 +154,6 @@ is_integer() {
     return "${?}"
 }
 
-file_contains() {
-    grep -q "${1:?No search parameters given}" "${2:?No file to search defined}"
-}
-
 find_supported_files() {
     case "${1}" in
         (--count)
@@ -633,14 +629,6 @@ use_custom_list() {
 play_directory() {
     # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
     find_supported_files > "${tmp_dir}/videoinfox.optiond-play-directory-apa"
-
-    #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
-    if ! file_contains '^/' "${tmp_dir}/videoinfox.optiond-play-directory-apa"; then
-        rm "${tmp_dir}/videoinfox.optiond-play-directory-apa" 2>/dev/null
-        rm "${tmp_dir}/videoinfox.optiond-play-directory-apa2" 2>/dev/null
-        rm "${tmp_dir}/videoinfox.numbered-optiond-play-directory-list" 2>/dev/null
-        return
-    fi
 
     #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
     moddedplayedlist="${tmp_dir}/videoinfox.optiond-play-directory-apa"
@@ -1580,16 +1568,6 @@ while true; do
                             # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
                             find_supported_files "${tmp_dir}/videoinfox.navtree-play-directory-apa"
 
-                            #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
-                            if ! file_contains '^/' ${tmp_dir}/videoinfox.navtree-play-directory-apa; then
-                                {
-                                    rm "${tmp_dir}/videoinfox.navtree-play-directory-apa"
-                                    rm "${tmp_dir}/videoinfox.navtree-play-directory-apa2"
-                                    rm "${tmp_dir}/videoinfox.numbered-navtree-play-directory-list"
-                                    rm "${tmp_dir}/videoinfox.navtree-play-directory-apa-work"
-                                } 2>/dev/null
-
-                            fi
                             #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
                             moddedplayedlist="${tmp_dir}/videoinfox.navtree-play-directory-apa"
 
@@ -1738,49 +1716,43 @@ while true; do
                     # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
                     find_supported_files > "${tmp_dir}/videoinfox.nt-play-directory-apa"
 
-                    #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
-                    if file_contains '^/' ${tmp_dir}/videoinfox.nt-play-directory-apa; then
+                    #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
+                    moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa"
 
-                        #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
-                        moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa"
+                    #  CREATE TEMP FILE NEEDED FOR LOOP 
+                    touch ${tmp_dir}/videoinfox.nt-play-directory-apa2
 
-                        #  CREATE TEMP FILE NEEDED FOR LOOP 
-                        touch ${tmp_dir}/videoinfox.nt-play-directory-apa2
+                    #  #  START WRITING
+                    while read -r line; do
+                        if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
+                                echo "$line" >> ${tmp_dir}/videoinfox.nt-play-directory-apa2  
+                        fi        
+                    done < "${moddedplayedlist}"
 
-                        #  #  START WRITING
-                        while read -r line; do
-                            if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
-                                    echo "$line" >> ${tmp_dir}/videoinfox.nt-play-directory-apa2  
-                            fi        
-                        done < "${moddedplayedlist}"
+                    #  REMOVE BLANK LINES
+                    squash ${tmp_dir}/videoinfox.nt-play-directory-apa2 2>/dev/null
 
-                        #  REMOVE BLANK LINES
-                        squash ${tmp_dir}/videoinfox.nt-play-directory-apa2 2>/dev/null
+                    #  MOVE apa2 BACK TO apa
+                    mv ${tmp_dir}/videoinfox.nt-play-directory-apa2 ${tmp_dir}/videoinfox.nt-play-directory-apa 2>/dev/null
 
-                        #  MOVE apa2 BACK TO apa
-                        mv ${tmp_dir}/videoinfox.nt-play-directory-apa2 ${tmp_dir}/videoinfox.nt-play-directory-apa 2>/dev/null
+                    #  CREATE FILE NEEDED FOR LOOP 
+                    touch ${tmp_dir}/videoinfox.nt-play-directory-apa2  
 
-                        #  CREATE FILE NEEDED FOR LOOP 
-                        touch ${tmp_dir}/videoinfox.nt-play-directory-apa2  
+                    #  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
+                    write_supported_list "${moddedplayedlist}" "${tmp_dir}/videoinfox.nt-play-directory-apa2"
 
-                        #  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-                        write_supported_list "${moddedplayedlist}" "${tmp_dir}/videoinfox.nt-play-directory-apa2"
+                    #  REMOVE BLANK LINES
+                    squash ${tmp_dir}/videoinfox.nt-play-directory-apa2 2>/dev/null
 
-                        #  REMOVE BLANK LINES
-                        squash ${tmp_dir}/videoinfox.nt-play-directory-apa2 2>/dev/null
+                    #  MOVE apa2 BACK TO apa
+                    cp ${tmp_dir}/videoinfox.nt-play-directory-apa2 ${tmp_dir}/videoinfox.nt-play-directory-apa 2>/dev/null
 
-                        #  MOVE apa2 BACK TO apa
-                        cp ${tmp_dir}/videoinfox.nt-play-directory-apa2 ${tmp_dir}/videoinfox.nt-play-directory-apa 2>/dev/null
+                    # REMOVE PATH ONLY LEAVING FILENAME
+                    sed -i 's/.*\///' ${tmp_dir}/videoinfox.nt-play-directory-apa2
 
-                        # REMOVE PATH ONLY LEAVING FILENAME
-                        sed -i 's/.*\///' ${tmp_dir}/videoinfox.nt-play-directory-apa2
+                    # NUMBER THE LIST
+                    sed '/./='  ${tmp_dir}/videoinfox.nt-play-directory-apa2 | sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfox.numbered-nt-play-directory-list 2>/dev/null
 
-                        # NUMBER THE LIST
-                        sed '/./='  ${tmp_dir}/videoinfox.nt-play-directory-apa2 | sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfox.numbered-nt-play-directory-list 2>/dev/null
-
-        
-                    else #  NO LINES START WITH A SLASH /   remove empty files
-                                                                                                                    fi
                     clear
 
                     if [[ -f ${tmp_dir}/videoinfox.numbered-nt-play-directory-list ]]; then
@@ -1913,16 +1885,6 @@ while true; do
                                 # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
                                 find_supported_files > "${tmp_dir}/videoinfox.nt-play-directory-apa"
 
-                                #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
-                                if ! file_contains '^/' "${tmp_dir}/videoinfox.nt-play-directory-apa"; then
-                                    {
-                                        rm "${tmp_dir}/videoinfox.nt-play-directory-apa"
-                                        rm "${tmp_dir}/videoinfox.nt-play-directory-apa2"
-                                        rm "${tmp_dir}/videoinfox.numbered-nt-play-directory-list"
-                                        rm "${tmp_dir}/videoinfox.nt-play-directory-apa-work"
-                                    } 2>/dev/null
-                                    return
-                                fi
                                 #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
                                 moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa"
 
@@ -2044,54 +2006,47 @@ while true; do
                             # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-playlistaddnav-directory-apa 
                             find_supported_files > "${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa"
 
-                            #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
-                            if file_contains '^/' "${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa"; then
-                                #  ASSIGN playlistaddnavED LIST TO VARIABLE: $moddedplaylistaddnavedlist 
-                                moddedplaylistaddnavedlist="${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa"
+                            #  ASSIGN playlistaddnavED LIST TO VARIABLE: $moddedplaylistaddnavedlist 
+                            moddedplaylistaddnavedlist="${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa"
 
-                                #  playlistaddnavED LIST INPUT FOR LOOP
-                                input="$moddedplaylistaddnavedlist"  
+                            #  playlistaddnavED LIST INPUT FOR LOOP
+                            input="$moddedplaylistaddnavedlist"  
 
-                                #  CREATE TEMP FILE NEEDED FOR LOOP 
-                                touch ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2
+                            #  CREATE TEMP FILE NEEDED FOR LOOP 
+                            touch ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2
 
-                                #  #  START WRITING
-                                while read -r line; do
-
+                            #  #  START WRITING
+                            while read -r line; do
                                 if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
                                     echo "$line" >> ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2  
                                 fi
+                            done < "$input"
+                            #  DONE WRITING ONLY VALID FILES
+                            #  REMOVE BLANK LINES
+                            squash ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 2>/dev/null
 
-                                done < "$input"
-                                #  DONE WRITING ONLY VALID FILES
-                                #  REMOVE BLANK LINES
-                                squash ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 2>/dev/null
+                            #  MOVE apa2 BACK TO apa
+                            mv ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa 2>/dev/null
 
-                                #  MOVE apa2 BACK TO apa
-                                mv ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa 2>/dev/null
+                            #  CREATE FILE NEEDED FOR LOOP 
+                            touch ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2  
 
-                                #  CREATE FILE NEEDED FOR LOOP 
-                                touch ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2  
+                            #  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
+                            write_supported_list "${moddedplaylistaddnavedlist}" "${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2"
 
-                                #  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-                                write_supported_list "${moddedplaylistaddnavedlist}" "${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2"
+                            #  REMOVE BLANK LINES
+                            squash ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 2>/dev/null
 
-                                #  REMOVE BLANK LINES
-                                squash ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 2>/dev/null
+                            #  MOVE apa2 BACK TO apa
+                            cp ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa 2>/dev/null
 
-                                #  MOVE apa2 BACK TO apa
-                                cp ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa 2>/dev/null
+                            # REMOVE PATH ONLY LEAVING FILENAME
+                            sed -i 's/.*\///' ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2
 
-                                # REMOVE PATH ONLY LEAVING FILENAME
-                                sed -i 's/.*\///' ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2
+                            # NUMBER THE LIST
+                            sed '/./='  ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 |
+                                sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfox.numbered-nt-playlistaddnav-directory-list 2>/dev/null
 
-                                # NUMBER THE LIST
-                                sed '/./='  ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2 |
-                                    sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfox.numbered-nt-playlistaddnav-directory-list 2>/dev/null
-
-                            
-                            else #  NO LINES START WITH A SLASH /   remove empty files
-                                                                                                                                                            fi
                             clear
 
                             if [[ -f ${tmp_dir}/videoinfox.numbered-nt-playlistaddnav-directory-list ]]; then
@@ -2187,8 +2142,6 @@ fi
 clear
 
 cp ${base_dir}/videoinfo.playlist ${tmp_dir}/videoinfo.playlist-apa
-#  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
-if file_contains '^/' "${tmp_dir}/videoinfo.playlist-apa"; then
 
 #  ASSIGN PLAYLIST TO VARIABLE: $moddedplaylist 
 moddedplaylist="$HOME""/.config/videoinfox/tmp/videoinfo.playlist-apa"
@@ -2236,9 +2189,6 @@ sed -i 's/.*\///' ${tmp_dir}/videoinfo.playlist-apa2
 # NUMBER THE LIST
 sed '/./=' ${tmp_dir}/videoinfo.playlist-apa2 | sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfo.number.play-list 2>/dev/null
 
-   
-else #  NO LINES START WITH A SLASH /   remove empty files
-               fi
 clear
 if [[ -f ${tmp_dir}/videoinfo.number.play-list ]]; then
         cat ${tmp_dir}/videoinfo.number.play-list 2>/dev/null
@@ -2834,7 +2784,7 @@ while true; do
 
                                 echo "$plselected"| sed 's/.*\.//' > ${tmp_dir}/plread.tmp  # REMOVE FULL PATH ONLY LEAVING PLAYLIST NAME
                                 read -r plselectedla < ${tmp_dir}/plread.tmp  # READING PLAYLIST NAME ONLY INTO VARIABLE  $pselecteda
-                                                        rm ${base_dir}/playlists/"$plselectedla".last-autoplay  # REMOVE PLAYLIST.last.autoplay  file
+                                rm ${base_dir}/playlists/"$plselectedla".last-autoplay  # REMOVE PLAYLIST.last.autoplay  file
             
                                 echo
                                 echo  " Playlist Deleted . . ."
@@ -3150,48 +3100,46 @@ d)  # (@PLAY DIRECTORY) HOME   #################################################
 # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
 find_supported_files > "${tmp_dir}/videoinfox.home-play-directory-apa"
 
-#  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
-if file_contains '^/' "${tmp_dir}/videoinfox.home-play-directory-apa"; then
-    #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
-    moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfox.home-play-directory-apa"
+#  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
+moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfox.home-play-directory-apa"
 
-    #  PLAYED LIST INPUT FOR LOOP
-    input="$moddedplayedlist"  
+#  PLAYED LIST INPUT FOR LOOP
+input="$moddedplayedlist"  
 
-    #  CREATE TEMP FILE NEEDED FOR LOOP 
-    touch ${tmp_dir}/videoinfox.home-play-directory-apa2
+#  CREATE TEMP FILE NEEDED FOR LOOP 
+touch ${tmp_dir}/videoinfox.home-play-directory-apa2
 
-    #  #  START WRITING
-    while read -r line; do
-        if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
-            echo "$line" >> ${tmp_dir}/videoinfox.home-play-directory-apa2  
-        fi
-    done < "$input"
+#  #  START WRITING
+while read -r line; do
+    if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
+        echo "$line" >> ${tmp_dir}/videoinfox.home-play-directory-apa2  
+    fi
+done < "$input"
 
-    #  REMOVE BLANK LINES
-    squash ${tmp_dir}/videoinfox.home-play-directory-apa2 2>/dev/null
+#  REMOVE BLANK LINES
+squash ${tmp_dir}/videoinfox.home-play-directory-apa2 2>/dev/null
 
-    #  MOVE apa2 BACK TO apa
-    mv ${tmp_dir}/videoinfox.home-play-directory-apa2 ${tmp_dir}/videoinfox.home-play-directory-apa 2>/dev/null
+#  MOVE apa2 BACK TO apa
+mv ${tmp_dir}/videoinfox.home-play-directory-apa2 ${tmp_dir}/videoinfox.home-play-directory-apa 2>/dev/null
 
-    #  CREATE FILE NEEDED FOR LOOP 
-    touch ${tmp_dir}/videoinfox.home-play-directory-apa2  
+#  CREATE FILE NEEDED FOR LOOP 
+touch ${tmp_dir}/videoinfox.home-play-directory-apa2  
 
-    #  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-    write_supported_list "${moddedplayedlist}" "${tmp_dir}/videoinfox.home-play-directory-apa2"
+#  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
+write_supported_list "${moddedplayedlist}" "${tmp_dir}/videoinfox.home-play-directory-apa2"
 
-    #  REMOVE BLANK LINES
-    squash ${tmp_dir}/videoinfox.home-play-directory-apa2 2>/dev/null
+#  REMOVE BLANK LINES
+squash ${tmp_dir}/videoinfox.home-play-directory-apa2 2>/dev/null
 
-    #  MOVE apa2 BACK TO apa
-    cp ${tmp_dir}/videoinfox.home-play-directory-apa2 ${tmp_dir}/videoinfox.home-play-directory-apa 2>/dev/null
+#  MOVE apa2 BACK TO apa
+cp ${tmp_dir}/videoinfox.home-play-directory-apa2 ${tmp_dir}/videoinfox.home-play-directory-apa 2>/dev/null
 
-    # REMOVE PATH ONLY LEAVING FILENAME
-    sed -i 's/.*\///' ${tmp_dir}/videoinfox.home-play-directory-apa2
+# REMOVE PATH ONLY LEAVING FILENAME
+sed -i 's/.*\///' ${tmp_dir}/videoinfox.home-play-directory-apa2
 
-    # NUMBER THE LIST
-    sed '/./='  ${tmp_dir}/videoinfox.home-play-directory-apa2 | sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfox.numbered-home-play-directory-list 2>/dev/null
-fi
+# NUMBER THE LIST
+sed '/./='  ${tmp_dir}/videoinfox.home-play-directory-apa2 | sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfox.numbered-home-play-directory-list 2>/dev/null
+
 ##################clear
 
 if [[ -f ${tmp_dir}/videoinfox.numbered-home-play-directory-list ]]; then
@@ -3604,57 +3552,53 @@ menuvv() {
     cat -n ${tmp_dir}/videoinfo.playedlist-apa | sort -uk2 | sort -n | cut -f2- > ${tmp_dir}/videoinfo.playedlist-apa3 2>/dev/null
     mv ${tmp_dir}/videoinfo.playedlist-apa3 cat -n ${tmp_dir}/videoinfo.playedlist 2>/dev/null
 
-    #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
-    if file_contains '^/' "${tmp_dir}/videoinfo.playedlist-apa"; then
+    #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
+    moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfo.playedlist-apa"
 
-        #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
-        moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfo.playedlist-apa"
+    #  PLAYED LIST INPUT FOR LOOP
+    input="$moddedplayedlist"  
 
-        #  PLAYED LIST INPUT FOR LOOP
-        input="$moddedplayedlist"  
+    #  CREATE TEMP FILE NEEDED FOR LOOP 
+    touch ${tmp_dir}/videoinfo.playedlist-apa2
 
-        #  CREATE TEMP FILE NEEDED FOR LOOP 
-        touch ${tmp_dir}/videoinfo.playedlist-apa2
+    #  #  START WRITING
+    while read -r line; do
+        if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
+            echo "$line" >> ${tmp_dir}/videoinfo.playedlist-apa2  
+        fi
+    done < "$input"
 
-        #  #  START WRITING
-        while read -r line; do
-            if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
-                echo "$line" >> ${tmp_dir}/videoinfo.playedlist-apa2  
-            fi
-        done < "$input"
+    #  REMOVE BLANK LINES
+    ###############################################################################squash ${tmp_dir}/videoinfo.playedlist-apa2 2>/dev/null
 
-        #  REMOVE BLANK LINES
-        ###############################################################################squash ${tmp_dir}/videoinfo.playedlist-apa2 2>/dev/null
+    # REMOVE DUPLICATES
+    #############cat -n ${tmp_dir}/videoinfo.playedlist-apa2 | sort -uk2 | sort -n | cut -f2- > ${tmp_dir}/videoinfo.playedlist-apa3
+    ####################################################mv ${tmp_dir}/videoinfo.playedlist-apa3 ${tmp_dir}/videoinfo.playedlist-apa2
 
-        # REMOVE DUPLICATES
-        #############cat -n ${tmp_dir}/videoinfo.playedlist-apa2 | sort -uk2 | sort -n | cut -f2- > ${tmp_dir}/videoinfo.playedlist-apa3
-        ####################################################mv ${tmp_dir}/videoinfo.playedlist-apa3 ${tmp_dir}/videoinfo.playedlist-apa2
+    #  MOVE apa2 BACK TO apa
+    mv ${tmp_dir}/videoinfo.playedlist-apa2 ${tmp_dir}/videoinfo.playedlist-apa 2>/dev/null
 
-        #  MOVE apa2 BACK TO apa
-        mv ${tmp_dir}/videoinfo.playedlist-apa2 ${tmp_dir}/videoinfo.playedlist-apa 2>/dev/null
+    #  CREATE FILE NEEDED FOR LOOP 
+    touch ${tmp_dir}/videoinfo.playedlist-apa2  
 
-        #  CREATE FILE NEEDED FOR LOOP 
-        touch ${tmp_dir}/videoinfo.playedlist-apa2  
+    #  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
+    write_supported_list "${moddedplayedlist}" "${tmp_dir}/videoinfo.playedlist-apa2"
 
-        #  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-        write_supported_list "${moddedplayedlist}" "${tmp_dir}/videoinfo.playedlist-apa2"
+    #  REMOVE BLANK LINES
+    squash ${tmp_dir}/videoinfo.playedlist-apa2 2>/dev/null
 
-        #  REMOVE BLANK LINES
-        squash ${tmp_dir}/videoinfo.playedlist-apa2 2>/dev/null
+    #  REMOVE DUPLICATES
+    cat -n ${tmp_dir}/videoinfo.playedlist-apa2 | sort -uk2 | sort -n | cut -f2- > ${tmp_dir}/videoinfo.playedlist-apa3 2>/dev/null
+    mv ${tmp_dir}/videoinfo.playedlist-apa3 ${tmp_dir}/videoinfo.playedlist-apa2 2>/dev/null
 
-        #  REMOVE DUPLICATES
-        cat -n ${tmp_dir}/videoinfo.playedlist-apa2 | sort -uk2 | sort -n | cut -f2- > ${tmp_dir}/videoinfo.playedlist-apa3 2>/dev/null
-        mv ${tmp_dir}/videoinfo.playedlist-apa3 ${tmp_dir}/videoinfo.playedlist-apa2 2>/dev/null
+    #  MOVE apa2 BACK TO apa
+    cp ${tmp_dir}/videoinfo.playedlist-apa2 ${tmp_dir}/videoinfo.playedlist-apa 2>/dev/null
 
-        #  MOVE apa2 BACK TO apa
-        cp ${tmp_dir}/videoinfo.playedlist-apa2 ${tmp_dir}/videoinfo.playedlist-apa 2>/dev/null
+    # REMOVE PATH ONLY LEAVING FILENAME
+    sed -i 's/.*\///' ${tmp_dir}/videoinfo.playedlist-apa2
 
-        # REMOVE PATH ONLY LEAVING FILENAME
-        sed -i 's/.*\///' ${tmp_dir}/videoinfo.playedlist-apa2
-
-        # NUMBER THE LIST
-        sed '/./=' ${tmp_dir}/videoinfo.playedlist-apa2 | sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfo.number.played-list 2>/dev/null
-    fi
+    # NUMBER THE LIST
+    sed '/./=' ${tmp_dir}/videoinfo.playedlist-apa2 | sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfo.number.played-list 2>/dev/null
     clear
     if [[ -f ${tmp_dir}/videoinfo.number.played-list ]]; then
         cat ${tmp_dir}/videoinfo.number.played-list 2>/dev/null
@@ -4005,54 +3949,52 @@ fi
 clear
 
 cp ${base_dir}/videoinfo.playlist ${tmp_dir}/videoinfo.playlist-apa
-#  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
-if file_contains '^/' "${tmp_dir}/videoinfo.playlist-apa"; then
 
-    #  ASSIGN PLAYLIST TO VARIABLE: $moddedplaylist 
-    moddedplaylist="$HOME""/.config/videoinfox/tmp/videoinfo.playlist-apa"
+#  ASSIGN PLAYLIST TO VARIABLE: $moddedplaylist 
+moddedplaylist="$HOME""/.config/videoinfox/tmp/videoinfo.playlist-apa"
 
-    #  PLAYLIST INPUT FOR LOOP
-    input="$moddedplaylist"  
+#  PLAYLIST INPUT FOR LOOP
+input="$moddedplaylist"  
 
-    #  CREATE TEMP FILE NEEDED FOR LOOP 
-    touch ${tmp_dir}/videoinfo.playlist-apa2
+#  CREATE TEMP FILE NEEDED FOR LOOP 
+touch ${tmp_dir}/videoinfo.playlist-apa2
 
-    #  #  START WRITING
-    while read -r line; do
-    if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
-            echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2  
-    fi
-    done < "$input"
-
-    #  REMOVE BLANK LINES
-    squash ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
-
-    # REMOVE DUPLICATES
-    cat -n ${tmp_dir}/videoinfo.playlist-apa2 | sort -uk2 | sort -n | cut -f2- > ${tmp_dir}/videoinfo.playlist-apa3
-
-    mv ${tmp_dir}/videoinfo.playlist-apa3 ${tmp_dir}/videoinfo.playlist-apa2
-
-    #  MOVE apa2 BACK TO apa
-    mv ${tmp_dir}/videoinfo.playlist-apa2 ${tmp_dir}/videoinfo.playlist-apa 2>/dev/null
-
-    #  CREATE FILE NEEDED FOR LOOP 
-    touch ${tmp_dir}/videoinfo.playlist-apa2  
-
-    #  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-    write_supported_list "${moddedplaylist}" "${tmp_dir}/videoinfo.playlist-apa2"
-
-    #  REMOVE BLANK LINES
-    squash ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
-
-    #  MOVE apa2 BACK TO apa
-    cp ${tmp_dir}/videoinfo.playlist-apa2 ${tmp_dir}/videoinfo.playlist-apa 2>/dev/null
-
-    # REMOVE PATH ONLY LEAVING FILENAME
-    sed -i 's/.*\///' ${tmp_dir}/videoinfo.playlist-apa2
-
-    # NUMBER THE LIST
-    sed '/./=' ${tmp_dir}/videoinfo.playlist-apa2 | sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfo.number.play-list 2>/dev/null
+#  #  START WRITING
+while read -r line; do
+if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
+        echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2  
 fi
+done < "$input"
+
+#  REMOVE BLANK LINES
+squash ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
+
+# REMOVE DUPLICATES
+cat -n ${tmp_dir}/videoinfo.playlist-apa2 | sort -uk2 | sort -n | cut -f2- > ${tmp_dir}/videoinfo.playlist-apa3
+
+mv ${tmp_dir}/videoinfo.playlist-apa3 ${tmp_dir}/videoinfo.playlist-apa2
+
+#  MOVE apa2 BACK TO apa
+mv ${tmp_dir}/videoinfo.playlist-apa2 ${tmp_dir}/videoinfo.playlist-apa 2>/dev/null
+
+#  CREATE FILE NEEDED FOR LOOP 
+touch ${tmp_dir}/videoinfo.playlist-apa2  
+
+#  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
+write_supported_list "${moddedplaylist}" "${tmp_dir}/videoinfo.playlist-apa2"
+
+#  REMOVE BLANK LINES
+squash ${tmp_dir}/videoinfo.playlist-apa2 2>/dev/null
+
+#  MOVE apa2 BACK TO apa
+cp ${tmp_dir}/videoinfo.playlist-apa2 ${tmp_dir}/videoinfo.playlist-apa 2>/dev/null
+
+# REMOVE PATH ONLY LEAVING FILENAME
+sed -i 's/.*\///' ${tmp_dir}/videoinfo.playlist-apa2
+
+# NUMBER THE LIST
+sed '/./=' ${tmp_dir}/videoinfo.playlist-apa2 | sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfo.number.play-list 2>/dev/null
+
 clear
 if [[ -f ${tmp_dir}/videoinfo.number.play-list ]]; then
     cat ${tmp_dir}/videoinfo.number.play-list 2>/dev/null
@@ -4651,7 +4593,7 @@ if is_integer "${linenumber}"; then
 
                         echo "$plselected"| sed 's/.*\.//' > ${tmp_dir}/plread.tmp  # REMOVE FULL PATH ONLY LEAVING PLAYLIST NAME
                         read -r plselectedla < ${tmp_dir}/plread.tmp  # READING PLAYLIST NAME ONLY INTO VARIABLE  $pselecteda
-                                                rm ${base_dir}/playlists/"$plselectedla".last-autoplay  # REMOVE PLAYLIST.last.autoplay  file
+                        rm ${base_dir}/playlists/"$plselectedla".last-autoplay  # REMOVE PLAYLIST.last.autoplay  file
     
                         echo
                         echo  " Playlist Deleted . . ."
@@ -5169,16 +5111,6 @@ fi
 clear
 
 cp ${base_dir}/videoinfo.playlist ${tmp_dir}/videoinfo.playlist-apa
-
-#  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
-if ! file_contains '^/' "${tmp_dir}/videoinfo.playlist-apa"; then
-    {
-        rm "${tmp_dir}/videoinfo.playlist-apa"
-        rm "${tmp_dir}/videoinfo.playlist-apa2"
-        rm "${tmp_dir}/videoinfo.number.play-list"
-    } 2>/dev/null
-    return
-fi
 
 #  ASSIGN PLAYLIST TO VARIABLE: $moddedplaylist 
 moddedplaylist="$HOME""/.config/videoinfox/tmp/videoinfo.playlist-apa"
@@ -6153,17 +6085,14 @@ fi
                sleep .7        
           else
                 
-              if echo "$videofind" | grep "/" > /dev/null  # if any slashehes were entered goto <then>
-                then
+              if echo "$videofind" | grep "/" > /dev/null; then  # if any slashehes were entered goto <then>
                     echo
                     echo " error: No directories only filenames."
                     echo
                     sleep .7 
                 else
                                 
-                     if [[ "$searchtotal" = 0 ]  # if find returned no results goto <then>
-      
-                       then
+                     if [[ "$searchtotal" = 0 ]]; then  # if find returned no results goto <then>
                            #cp ${base_dir}/videoinfo.findwork3 ${base_dir}/videoinfo.findwork
                            #cp ${base_dir}/videoinfo.lastsearchtotal2  ${base_dir}/videoinfo.lastsearchtotal
                            echo
@@ -8533,17 +8462,6 @@ else
 
 # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
 find_supported_files > ${tmp_dir}/videoinfox.navtree-play-directory-apa
-
-#  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
-if ! file_contains '^/' "${tmp_dir}/videoinfox.navtree-play-directory-apa"; then
-    {
-        rm "${tmp_dir}/videoinfox.navtree-play-directory-apa"
-        rm "${tmp_dir}/videoinfox.navtree-play-directory-apa2"
-        rm "${tmp_dir}/videoinfox.numbered-navtree-play-directory-list"
-        rm "${tmp_dir}/videoinfox.navtree-play-directory-apa-work"
-    } 2>/dev/null
-    return
-fi
 
 #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
 moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa"
