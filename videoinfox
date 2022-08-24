@@ -221,6 +221,11 @@ pasteclip() {
     pasteclip=$(xclip -o -selection clipboard 2> /dev/null)
 }
 
+print_error() {
+    printf -- '\n%s\n\n' "${@}" >&2
+    sleep .75 2>/dev/null || sleep 1
+}
+
 ###############################################################################
 #  videoinfox -h     DISPLAY HELP THEN EXIT  
 ###############################################################################
@@ -562,15 +567,11 @@ use_custom_list() {
     print_header " ${ver} >>> Load a recursively reachable Download List for processing . . ."
 
     if echo "$2" | grep "/" > /dev/null; then
-        echo
-        echo " error: No directories. Only a filename. List must be recursively reachable from the current directory."
-        echo
+        print_error "No directories. Only a filename. List must be recursively reachable from the current directory."
         exit
     fi
     if echo "$2" | grep "*" > /dev/null; then
-        echo
-        echo " error: No wildcards. Only a filename. List must be recursively reachable from the current directory."
-        echo 
+        print_error "No wildcards. Only a filename. List must be recursively reachable from the current directory."
         exit
     fi
     filecount=$(find "$PWD" -type f \( -iname "$2" \) | wc -l)
@@ -2770,19 +2771,16 @@ if [[ "$grabpaste" = "http" ]]; then
       # IF THERE ARE IDENTICAL FILENAMES WITH DIFFERENT FILE EXTENSIONS FIND WILL PRODUCE MORE THAN ONE RESULT      
       correcterror=$(wc -l ${base_dir}/videoinfo.find-last-download | cut -d' ' -f1)  # getting line count.
           
-             if [[ "$correcterror" -gt 1 ]]; then                
-                     if [[ "$lastdownload" == "$lastdownloadbak" ]]; then
-                            read -r ytdlplast < ${base_dir}/videoinfo.find-last-download  # read first find result from file
-                     
-                        else
-                            touch ${base_dir}/videoinfo.find-last-download
-                            read -r ytdlplast < ${base_dir}/videoinfo.find-last-download
-                     fi
-                               
-             else
-                  read -r ytdlplast < ${base_dir}/videoinfo.find-last-download      
-                                     
-             fi      
+        if [[ "$correcterror" -gt 1 ]]; then                
+            if [[ "$lastdownload" == "$lastdownloadbak" ]]; then
+                read -r ytdlplast < ${base_dir}/videoinfo.find-last-download  # read first find result from file
+            else
+                touch ${base_dir}/videoinfo.find-last-download
+                read -r ytdlplast < ${base_dir}/videoinfo.find-last-download
+            fi
+        else
+            read -r ytdlplast < ${base_dir}/videoinfo.find-last-download      
+        fi
 
       clear
       echo
@@ -5886,16 +5884,10 @@ fi
         searchtotal=$(find "$PWD" -type f \( -iname "$videofind.mp4" -o -iname "$videofind.mkv" -o -iname "$videofind.avi" -o -iname "$videofind.webm" -o -iname "$videofind.divx" \) 2>/dev/null | wc -l)    
                                                                                                         
         if [[ -z "$videofind" ]]; then
-            echo
-            echo " error: Nothing was entered."
-            echo
-            sleep .7        
+            print_error "Nothing was entered."
         else
             if echo "$videofind" | grep "/" > /dev/null; then  # if any slashehes were entered goto <then>
-                echo
-                echo " error: No directories only filenames."
-                echo
-                sleep .7 
+                print_error "No directories only filenames."
             else
                 if [[ "$searchtotal" = 0 ]]; then  # if find returned no results goto <then>
                     #cp ${base_dir}/videoinfo.findwork3 ${base_dir}/videoinfo.findwork
@@ -6082,17 +6074,15 @@ while true; do
     read -r -p " Enter Directory: " specifydir2  # waiting fot user input - the directory you want to chang to 
     
          if [[ -z "$specifydir2" ]]; then
-                echo
-                echo " error: Nothing was entered"
+                print_error "Nothing was entered"
             else
                 if [[ -d "$specifydir2" ]]; then
                       echo
                       echo "$specifydir2" > ${base_dir}/videoinfo.movies-dir
                       read -r dir2 < ${base_dir}/videoinfo.movies-dir
                       echo " Movie Directory Set to:" "$dir2"                  
-                      else
-                      echo
-                      echo " error: Directory doesn't exist"                    
+                else
+                      print_error "Directory doesn't exist"                    
                 fi
           fi       
           
@@ -6114,8 +6104,7 @@ while true; do
     read -r -p " Enter Directory: " specifydir2  # waiting fot user input - the directory you want to chang to 
     
         if [[ -z "$specifydir2" ]]; then
-            echo
-            echo " error: Nothing was entered"
+            print_error "Nothing was entered"
         else
             if [[ -d "$specifydir2" ]]; then
                 echo
@@ -6123,8 +6112,7 @@ while true; do
                 read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir
                 echo " Download Directory Set to:" "$dirsaved"
             else
-                echo
-                echo " error: Directory doesn't exist"
+                print_error "Directory doesn't exist"
             fi
         fi
           
@@ -6146,17 +6134,15 @@ while true; do
     read -r -p " Enter Directory: " specifydir2  # waiting fot user input - the directory you want to chang to 
     
          if [[ -z "$specifydir2" ]]; then
-                echo
-                echo " error: Nothing was entered"
+                print_error "Nothing was entered"
             else
                 if [[ -d "$specifydir2" ]]; then
                       echo
                       echo "$specifydir2" > ${base_dir}/videoinfo.parent-dir
                       read -r dir4 < ${base_dir}/videoinfo.parent-dir
                       echo " Extra Directory Set to:" "$dir4"                  
-                      else
-                      echo
-                      echo " error: Directory doesn't exist"                    
+                else
+                      print_error "Directory doesn't exist"
                 fi
           fi       
           
@@ -8909,9 +8895,7 @@ echo
 read -r -p " Enter Directory: " specifydir  # waiting fot user input - the directory you want to chang to 
     
     if [[ -z "$specifydir" ]]; then
-        echo
-        echo " error: Nothing was entered"
-        sleep .75
+        print_error "Nothing was entered"
     else
         if [[ -d "$specifydir" ]]; then
             echo
@@ -8919,9 +8903,7 @@ read -r -p " Enter Directory: " specifydir  # waiting fot user input - the direc
             echo " Working Driectory changed to: $PWD"  # <pwd>  print current working directory to the screen
             sleep 1.5
         else
-            echo
-            echo " error:  No such file or directory"
-            sleep 1.5
+            print_error "No such file or directory"
         fi
     fi
 echo
@@ -8947,14 +8929,10 @@ findmeadir=$(find . -type d -iname "$dirfind" 2>/dev/null | wc -l)   # number of
        
                                                                                        
     if [[ -z "$dirfind" ]]; then
-        echo
-        echo " error: Nothing was entered"  
-        sleep .75  # EXIT THIS LOOP
+        print_error "Nothing was entered"  
     else
         if echo "$dirfind" | grep -q "/"; then
-            echo
-            echo " error: No slashes directory name only"
-            sleep .75  # EXIT THIS LOOP  
+            print_error "No slashes directory name only"
         else
             echo
             find . -type d -iname "$dirfind" | sort -u 2>/dev/null  # directory(s) found   
@@ -9172,8 +9150,7 @@ read -r -p " Video File: " specifyfile  # waiting fot user input - video file to
 echo
 
         if [[ -z "$specifyfile" ]]; then
-            echo " error: Nothing was entered"
-            sleep .7
+            print_error "Nothing was entered"
         else  
             if [[ -f "$specifyfile" ]]; then
                 echo "$specifyfile"  | xclip -sel clip  # copy valid file to the cilpboard for play
@@ -9185,8 +9162,7 @@ echo
                 echo
                 read -r -p " Press enter to Continue" 
             else
-                echo " error: No such file or directory"
-                sleep .7
+                print_error "No such file or directory"
             fi
         fi
 
