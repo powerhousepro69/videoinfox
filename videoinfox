@@ -7709,119 +7709,109 @@ dirclip="$PWD"
 pasteclip  # grab clipboard content
 
 if [[ -f "$pasteclip" ]]; then
+    # check if   $pasteclip   contains   Default List   or   User Created list 
+    find ${base_dir}/videoinfox-dl-Default > ${base_dir}/videoinfox.default2
+    checkclip=$(cat ${base_dir}/videoinfox.default2)
+    # PROCESSING DEFAULT LIST
+    if [[ "$checkclip" = "$pasteclip" ]]; then 
+        read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null
+        cd "$dirsaved" # Change directory to default download directory
 
-# check if   $pasteclip   contains   Default List   or   User Created list 
-find ${base_dir}/videoinfox-dl-Default > ${base_dir}/videoinfox.default2
-checkclip=$(cat ${base_dir}/videoinfox.default2)
-# PROCESSING DEFAULT LIST
-if [[ "$checkclip" = "$pasteclip" ]]; then 
+        # DEFAULT LIST - REMOVE DUPLICATES, BLANK LINES and ANY LINES NOT STARTING WITH HTTP
+        cat -n ${base_dir}/videoinfox-dl-Default | sort -uk2 | sort -n | cut -f2- > ${base_dir}/videoinfox-dl-Default.tmp
+        mv ${base_dir}/videoinfox-dl-Default.tmp ${base_dir}/videoinfox-dl-Default
+        squash ${base_dir}/videoinfox-dl-Default 2>/dev/null  # remove any blank lines in the list
+        sed -i '/http/!d' ${base_dir}/videoinfox-dl-Default  # remove all lines not starting with  http
+    else # PROCESSING USER CREATED LIST
+        echo "$pasteclip" | sed 's|\(.*\)/.*|\1|' > ${base_dir}/videoinfox.userlist-tmp # remove last slash and filenname leaving only path
+        read -r grablistdir < ${base_dir}/videoinfox.userlist-tmp 2> /dev/null
+        cd "$grablistdir"  # change directory to list location
 
-read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null
-cd "$dirsaved" # Change directory to default download directory
+        # USER CREATED LIST - REMOVE DUPLICATES, BLANK LINES and ANY LINES NOT STARTING WITH HTTP
+        cat -n "$pasteclip" | sort -uk2 | sort -n | cut -f2- > ${base_dir}/videoinfox-dl-userlist.tmp  # remove duplicates
+        mv ${base_dir}/videoinfox-dl-userlist.tmp "$pasteclip"
+        squash "$pasteclip" 2>/dev/null  # remove any blank lines in the list
+        sed -i '/http/!d' "$pasteclip" 2>/dev/null  # remove all lines not starting with  http
+        ######################################################################################
+        # START Routine to find out if clipboard content  =  set user list filename  if it does, the file will be cleared from the screen after list download
+        ######################################################################################
 
-# DEFAULT LIST - REMOVE DUPLICATES, BLANK LINES and ANY LINES NOT STARTING WITH HTTP
-cat -n ${base_dir}/videoinfox-dl-Default | sort -uk2 | sort -n | cut -f2- > ${base_dir}/videoinfox-dl-Default.tmp
-mv ${base_dir}/videoinfox-dl-Default.tmp ${base_dir}/videoinfox-dl-Default
-squash ${base_dir}/videoinfox-dl-Default 2>/dev/null  # remove any blank lines in the list
-sed -i '/http/!d' ${base_dir}/videoinfox-dl-Default  # remove all lines not starting with  http
-else # PROCESSING USER CREATED LIST
+        # REFORMAT PASTECLIP VARIBLE FOR COMPARISON TO CONTROL VARIBLE
+        echo "$pasteclip" > ${base_dir}/videoinfox.c.tmp  # write clipboard contents to to file
+        cat ${base_dir}/videoinfox.c.tmp | tr "/" " " > ${base_dir}/videoinfox.c.tmp2  # remove all froward slashes / and write file
+        rm ${base_dir}/videoinfox.c.tmp   # remove .c.tmp file
+        sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.c.tmp2 # remove horizontal whitespace from file an write
+        # REFORMATTED PASTECLIP
+        read -r ctmp2 < ${base_dir}/videoinfox.c.tmp2  # filename in clipboard with full path: with slashes and spaces removed
+                    
+        # CONTROL VARIABLE
+        read -r getuserlist < ${base_dir}/videoinfox.set-user-list
+        # REFORMAT CONTROL VARIABLE FOR COMPARISON TO PASTECLIP VARIBLE
+        echo "$getuserlist" > ${base_dir}/videoinfox.checku.tmp  # write filename to file: ${base_dir}/videoinfox.checku.tmp 
+        cat ${base_dir}/videoinfox.checku.tmp | tr "/" " " > ${base_dir}/videoinfox.checku.tmp2  # remove all froward slashes / and write file
+        rm ${base_dir}/videoinfox.checku.tmp   # remove .dlname.tmp file
+        sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.checku.tmp2  # remove horizontal whitespace from file an write
+        # REFORMATTED CONTROL VARIABLE
+        read -r ctmp5 < ${base_dir}/videoinfox.checku.tmp2  # set user list filename with full path: with slashes and spaces removed
+        if [[ "$ctmp2" = "$ctmp5" ]]; then
+            touch ${base_dir}/videoinfox.set-user-list
+        fi 
+        #  REMOVE TMP2 FILES
+        rm ${base_dir}/videoinfox.c.tmp2
+        rm ${base_dir}/videoinfox.checku.tmp2
 
-echo "$pasteclip" | sed 's|\(.*\)/.*|\1|' > ${base_dir}/videoinfox.userlist-tmp # remove last slash and filenname leaving only path
-read -r grablistdir < ${base_dir}/videoinfox.userlist-tmp 2> /dev/null
-cd "$grablistdir"  # change directory to list location
+    fi
+    ######################################################################################
+    # END Routine to find out if clipboard content  =  set user list filename  if it does, the file will be cleared from the screen after list download
+    ######################################################################################
+    rm videoinfox-dl*~ &> /dev/null  # duplicate lists were showing up with   ~   added onto the filename
 
-# USER CREATED LIST - REMOVE DUPLICATES, BLANK LINES and ANY LINES NOT STARTING WITH HTTP
-cat -n "$pasteclip" | sort -uk2 | sort -n | cut -f2- > ${base_dir}/videoinfox-dl-userlist.tmp  # remove duplicates
-mv ${base_dir}/videoinfox-dl-userlist.tmp "$pasteclip"
-squash "$pasteclip" 2>/dev/null  # remove any blank lines in the list
-sed -i '/http/!d' "$pasteclip" 2>/dev/null  # remove all lines not starting with  http
-######################################################################################
-# START Routine to find out if clipboard content  =  set user list filename  if it does, the file will be cleared from the screen after list download
-######################################################################################
+    logfile="$pasteclip".log  # tag  .log  onto the users Download List  */.videoinfox-dl*.log 
+    echo ""${ver}" >>> DOWNLOAD LIST >>> Logfile:" "$pasteclip"".log" > "$logfile"  # create file
+    echo >> "$logfile"
 
-# REFORMAT PASTECLIP VARIBLE FOR COMPARISON TO CONTROL VARIBLE
-echo "$pasteclip" > ${base_dir}/videoinfox.c.tmp  # write clipboard contents to to file
-cat ${base_dir}/videoinfox.c.tmp | tr "/" " " > ${base_dir}/videoinfox.c.tmp2  # remove all froward slashes / and write file
-rm ${base_dir}/videoinfox.c.tmp   # remove .c.tmp file
-sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.c.tmp2 # remove horizontal whitespace from file an write
-# REFORMATTED PASTECLIP
-read -r ctmp2 < ${base_dir}/videoinfox.c.tmp2  # filename in clipboard with full path: with slashes and spaces removed
-              
-# CONTROL VARIABLE
-read -r getuserlist < ${base_dir}/videoinfox.set-user-list
-# REFORMAT CONTROL VARIABLE FOR COMPARISON TO PASTECLIP VARIBLE
-echo "$getuserlist" > ${base_dir}/videoinfox.checku.tmp  # write filename to file: ${base_dir}/videoinfox.checku.tmp 
-cat ${base_dir}/videoinfox.checku.tmp | tr "/" " " > ${base_dir}/videoinfox.checku.tmp2  # remove all froward slashes / and write file
-rm ${base_dir}/videoinfox.checku.tmp   # remove .dlname.tmp file
-sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.checku.tmp2  # remove horizontal whitespace from file an write
-# REFORMATTED CONTROL VARIABLE
-read -r ctmp5 < ${base_dir}/videoinfox.checku.tmp2  # set user list filename with full path: with slashes and spaces removed
-if [[ "$ctmp2" = "$ctmp5" ]]; then
-                touch ${base_dir}/videoinfox.set-user-list
-           
-           else
-                :
-fi 
-#  REMOVE TMP2 FILES
-rm ${base_dir}/videoinfox.c.tmp2
-rm ${base_dir}/videoinfox.checku.tmp2
+    #justfile=$(echo "$pasteclip" | sed 's|.*/||')  # ended up not using. grabs filename minus path
 
-fi
-######################################################################################
-# END Routine to find out if clipboard content  =  set user list filename  if it does, the file will be cleared from the screen after list download
-######################################################################################
-rm videoinfox-dl*~ &> /dev/null  # duplicate lists were showing up with   ~   added onto the filename
+    input="$pasteclip"  # input file for download loop (clipboard contents)
+    ################  DOWNLOAD LOOP START  ###################################################################################################################
 
-logfile="$pasteclip".log  # tag  .log  onto the users Download List  */.videoinfox-dl*.log 
-echo ""${ver}" >>> DOWNLOAD LIST >>> Logfile:" "$pasteclip"".log" > "$logfile"  # create file
-echo >> "$logfile"
+    while read -r line; do
+        echo
+        yt-dlp "${line}"  # download url
+        echo
+        echo "Logging URL and Filename to:" "$logfile" 
+        # logging yt-dlp output
+        echo "$line" >> "$logfile" 
+        yt-dlp "${line}" | tee >> "$logfile"
+        echo >> "$logfile" 
+    done < "$input"
 
-#justfile=$(echo "$pasteclip" | sed 's|.*/||')  # ended up not using. grabs filename minus path
+    ################  DOWNLOAD LOOP END  #####################################################################################################################
+    ############  REMOVE UNWANTED LOG INFO  ############# 
 
-input="$pasteclip"  # input file for download loop (clipboard contents)
-################  DOWNLOAD LOOP START  ###################################################################################################################
+    sed -i '/\[youtube\]/d' "$pasteclip".log &> /dev/null  # removing lines that start with  [youtube]
+    sed -i '/\[info\]/d' "$pasteclip".log &> /dev/null  # removing lines that start with  [info]
+    sed -i 's/\[download\]//' "$pasteclip".log &> /dev/null  # remove   [download]   from the end of the line.
+    sed -i 's/has already been downloaded//' "$pasteclip".log &> /dev/null  # remove   has already been downloaded   from the end of the line.
+    sed -i -e 's/^[ \t]*//' "$pasteclip".log &> /dev/null  # remove spaces at beginning of line.
 
-while read -r line; do
+    #####################################################
+    echo
+    echo
+    echo -e "${der}" "\033[5mdone processing download list . . .\033m\033[0m"
+    echo
+    echo "List:" "$pasteclip"  # display list filename with full path
+    echo "Log :" "$logfile"  # display log filename with full path
+    echo
+    echo "Press enter to exit this screen"
 
-echo
+    notify-send "Videoinfox messsage: Done Processing Download List . . ." "$pasteclip"
 
-yt-dlp "${line}"  # download url
-echo
-echo "Logging URL and Filename to:" "$logfile" 
-# logging yt-dlp output
-echo "$line" >> "$logfile" 
-yt-dlp "${line}" | tee >> "$logfile"
-echo >> "$logfile" 
-
-done < "$input"
-
-################  DOWNLOAD LOOP END  #####################################################################################################################
-############  REMOVE UNWANTED LOG INFO  ############# 
-
-sed -i '/\[youtube\]/d' "$pasteclip".log &> /dev/null  # removing lines that start with  [youtube]
-sed -i '/\[info\]/d' "$pasteclip".log &> /dev/null  # removing lines that start with  [info]
-sed -i 's/\[download\]//' "$pasteclip".log &> /dev/null  # remove   [download]   from the end of the line.
-sed -i 's/has already been downloaded//' "$pasteclip".log &> /dev/null  # remove   has already been downloaded   from the end of the line.
-sed -i -e 's/^[ \t]*//' "$pasteclip".log &> /dev/null  # remove spaces at beginning of line.
-
-#####################################################
-echo
-echo
-echo -e "${der}" "\033[5mdone processing download list . . .\033m\033[0m"
-echo
-echo "List:" "$pasteclip"  # display list filename with full path
-echo "Log :" "$logfile"  # display log filename with full path
-echo
-echo "Press enter to exit this screen"
-
-notify-send "Videoinfox messsage: Done Processing Download List . . ." "$pasteclip"
-
-read -p ""
-echo "" | xclip -sel clip  # clearing out the clipboard
+    read -p ""
+    echo "" | xclip -sel clip  # clearing out the clipboard
 else  # File didn't exist. clipboard cleared
-
-echo "" | xclip -sel clip  # clearing out the clipboard
-pasteclip  # grab clipboard content
+    echo "" | xclip -sel clip  # clearing out the clipboard
+    pasteclip  # grab clipboard content
 fi
 cd "$dirclip"  # restore directory to before  Download List
 ;;
@@ -7830,92 +7820,88 @@ v)  # VIEW A DOWNLOAD LIST
 pasteclip  # grab clipboard content
 
 if [[ -f "$pasteclip" ]]; then
-
-clear
-cat "$pasteclip" 2>/dev/null
-echo
-read -p "Up/Down arrows or mouse to scroll.  Press enter to quit"
-
-else  # File didn't exist. clipboard cleared
-
-echo "" | xclip -sel clip  # clearing out the clipboard
-pasteclip  # grab clipboard content
-fi
-;;
-l)  # VIEW LOGS
-
-echo "" | xclip -sel clip  # clearing out the clipboard clipboard
-
-viewlogs() {
-    pasteclip  # grab clipboard content
-    ########## blinking routine for display ##########
-
-    # blinking
-    viewlog1=$(echo -e "\033[5mView Log\033m\033[0m\033[5m\033[5m\033[0m")
-
-    # not blinking
-    viewlog0=$(echo "View Log")
-
-    # if file exists goto then
-    if [[ -f "$pasteclip" ]]; then
-        finalresult="$viewlog1"  # if the file exists, blinking   View Log
-    else
-        finalresult="$viewlog0"  # if the file doesn't exist, non blinking   View Log
-    fi
-    ########## end blinking routine #################
-    clear
-    # find default download list and write to file.
-    find ${base_dir}/videoinfox-dl-Default.log > ${base_dir}/videoinfox.dowload.list.default.log 2> /dev/null
-
-    # find user created list logs 
-    find "$PWD" -type f \( -iname "videoinfox-dl*.log" \)  # find log files  */.videoinfox-dl*log
-    echo
-
-    cat ${base_dir}/videoinfox.dowload.list.default.log 
-
-    echo
-    echo "Copy 1 above log to the clipboard to view"
-    echo
-    echo "Directory:" "$PWD"
-    echo "Clipboard:" "$pasteclip"
-
-    print_header " ${der} >>> DOWNLOAD LIST >>> VIEW LOGS                               Enter - Update Clipboard Display"
-
-    echo " l - "$finalresult"                                                                                             q - Quit"
-    echo
-    echo -en " Enter Option: "
-    read -r -n1 optionvl
-    echo
-}
-
-while true; do
-viewlogs
-case $optionvl in
-         
-q)  # QUIT
-echo "$pastecliptemp" | xclip -sel clip  # restoring clipboard clipboard
-pasteclip  # grab clipboard content
-break;;
-l)  # VIEW LOG
-pasteclip  # grab clipboard contentclear
-
-if [[ -f "$pasteclip" ]]; then
     clear
     cat "$pasteclip" 2>/dev/null
+    echo
     read -p "Up/Down arrows or mouse to scroll.  Press enter to quit"
-    echo "" | xclip -sel clip  # clearing out the clipboard clipboard
-else
+else  # File didn't exist. clipboard cleared
     echo "" | xclip -sel clip  # clearing out the clipboard
     pasteclip  # grab clipboard content
 fi
-
-esac
-done
 ;;
-    h) # DOWNLOAD LIST HELP
-        less ${base_dir}/videoinfox.download-list-help
-    ;;
-esac
+        l)  # VIEW LOGS
+
+        echo "" | xclip -sel clip  # clearing out the clipboard clipboard
+
+        viewlogs() {
+            pasteclip  # grab clipboard content
+            ########## blinking routine for display ##########
+
+            # blinking
+            viewlog1=$(echo -e "\033[5mView Log\033m\033[0m\033[5m\033[5m\033[0m")
+
+            # not blinking
+            viewlog0=$(echo "View Log")
+
+            # if file exists goto then
+            if [[ -f "$pasteclip" ]]; then
+                finalresult="$viewlog1"  # if the file exists, blinking   View Log
+            else
+                finalresult="$viewlog0"  # if the file doesn't exist, non blinking   View Log
+            fi
+            ########## end blinking routine #################
+            clear
+            # find default download list and write to file.
+            find ${base_dir}/videoinfox-dl-Default.log > ${base_dir}/videoinfox.dowload.list.default.log 2> /dev/null
+
+            # find user created list logs 
+            find "$PWD" -type f \( -iname "videoinfox-dl*.log" \)  # find log files  */.videoinfox-dl*log
+            echo
+
+            cat ${base_dir}/videoinfox.dowload.list.default.log 
+
+            echo
+            echo "Copy 1 above log to the clipboard to view"
+            echo
+            echo "Directory:" "$PWD"
+            echo "Clipboard:" "$pasteclip"
+
+            print_header " ${der} >>> DOWNLOAD LIST >>> VIEW LOGS                               Enter - Update Clipboard Display"
+
+            echo " l - "$finalresult"                                                                                             q - Quit"
+            echo
+            echo -en " Enter Option: "
+            read -r -n1 optionvl
+            echo
+        }
+
+        while true; do
+            viewlogs
+            case $optionvl in
+                q)  # QUIT
+                    echo "$pastecliptemp" | xclip -sel clip  # restoring clipboard clipboard
+                    pasteclip  # grab clipboard content
+                    break
+                ;;
+                l)  # VIEW LOG
+                    pasteclip  # grab clipboard contentclear
+
+                    if [[ -f "$pasteclip" ]]; then
+                        clear
+                        cat "$pasteclip" 2>/dev/null
+                        read -p "Up/Down arrows or mouse to scroll.  Press enter to quit"
+                        echo "" | xclip -sel clip  # clearing out the clipboard clipboard
+                    else
+                        echo "" | xclip -sel clip  # clearing out the clipboard
+                        pasteclip  # grab clipboard content
+                    fi
+            esac
+        done
+        ;;
+        h) # DOWNLOAD LIST HELP
+            less ${base_dir}/videoinfox.download-list-help
+        ;;
+    esac
 done
 ;;
 #######################################################################################################################################
@@ -7958,11 +7944,8 @@ if [[ "$grabpaste" = "http" ]]; then
       if [[ -s ${base_dir}/videoinfo.lastdownload ]]; then
              # make a backup copy of:   ${base_dir}/videoinfo.lastdownload to restore on Play Clipboard with invalid url
              cp ${base_dir}/videoinfo.lastdownload ${base_dir}/videoinfo.lastdownload.bak
-         else
-             :
       fi
 
-   
       read -r lastdownload < ${base_dir}/videoinfo.lastdownload  # reading last download attempt
       read -r lastdownloadbak < ${base_dir}/videoinfo.lastdownload.bak  # reading last successful download 
              
