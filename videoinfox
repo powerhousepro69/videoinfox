@@ -7648,54 +7648,41 @@ ddefault() {
 }
 
 while true; do
-ddefault
-case $optiondd in
-         
-q)  # QUIT  <DEFAULT LIST>
-echo "" | xclip -sel clip  # clearing out the clipboard
-pasteclip  # grab clipboard content
-break;;
-x) #  CLEAR CLIPBOARD  <DEFAULT LIST> 
-echo "" | xclip -sel clip  # clearing out the clipboard
-pasteclip  # grab clipboard content
-;;
-c)  # CLEAR DEFAULT LIST   <DEFAULT LIST>  
-yesorno() {
-    echo
-    echo " Clear the Default List?"
-    echo
-    echo " y - Yes     n - No"  
-    echo 
-    echo -en " Enter Option: "
-    read -r -n1 optionyn
-    echo
-}
-
-while true; do
-    yesorno
-    case $optionyn in
-        y) 
-            # CREATING EMPTY DEFAULT DOWNLOAD LIST WITH LIST EMPTY MESSAGE
-            touch ${base_dir}/videoinfox-dl-Default
-            echo "Default Download List Empty" >> ${base_dir}/videoinfox-dl-Default
-        
-            rm ${base_dir}/videoinfox-dl-Default.log 2> /dev/null    
-        
-            echo
-            echo " Default List CLEARED . . ."
-            echo 
-            sleep .75
-            break
-        ;; 
-        n) 
-            echo
-            echo " Default List SAVED . . ."
-            echo     
-            sleep .75
-
+    ddefault
+    case $optiondd in
+        q)  # QUIT  <DEFAULT LIST>
+            echo "" | xclip -sel clip  # clearing out the clipboard
+            pasteclip  # grab clipboard content
             break
         ;;
+        x) #  CLEAR CLIPBOARD  <DEFAULT LIST> 
+            echo "" | xclip -sel clip  # clearing out the clipboard
+            pasteclip  # grab clipboard content
+        ;;
+        c)  # CLEAR DEFAULT LIST   <DEFAULT LIST>  
+            if confirm " Clear the Default List?"; then
+                # CREATING EMPTY DEFAULT DOWNLOAD LIST WITH LIST EMPTY MESSAGE
+                touch ${base_dir}/videoinfox-dl-Default
+                echo "Default Download List Empty" >> ${base_dir}/videoinfox-dl-Default
+
+                rm ${base_dir}/videoinfox-dl-Default.log 2> /dev/null    
+
+                echo
+                echo " Default List CLEARED . . ."
+                echo 
+                sleep .75
+                break
+            else
+                echo
+                echo " Default List SAVED . . ."
+                echo     
+                sleep .75
+
+                break
+            fi
+        ;;
     esac
+
 done
 ;;
 
