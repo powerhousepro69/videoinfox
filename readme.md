@@ -49,7 +49,7 @@ Videoinfox is a Linux shell script that feels like an app. If you enjoy watching
 
 ### Harnessing the power of:
 
-Videoinfox - Over 8200 lines of code.
+Videoinfox - Over 8400 lines of code.
 
 Xclip - Interact with the clipboard.
 
