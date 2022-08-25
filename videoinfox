@@ -167,6 +167,38 @@ find_supported_files() {
     esac
 }
 
+# Usage:   generate_options_menu "Some Headline Here" -flags
+# Example: generate_options_menu " ${der} >>> PLAYLIST >>> ${setplaylist}" -jocpqilrdh
+# Note:    Because of the order of operations, options must go after the headline
+generate_options_menu() {
+    print_header "${1}"
+    shift 1
+    while getopts ":abcdDhijkKlmopqrsvx" opt; do
+        case "${opt}" in
+            (a) printf -- '-%s: %s\n' "${opt}" "${dashit} Add to Queue" ;;
+            (b) printf -- '-%s: %s\n' "${opt}" "Download Queue" ;;
+            (c) printf -- '-%s: %s\n' "${opt}" "Change Playlist" ;;
+            (d) printf -- '-%s: %s\n' "${opt}" "Clear Playlist" ;;
+            (D) printf -- '-%s: %s\n' "${opt}" "Delete Played List" ;;
+            (h) printf -- '-%s: %s\n' "${opt}" "Help" ;;
+            (i) printf -- '-%s: %s\n' "${opt}" "${dashit} Info" ;;
+            (j) printf -- '-%s: %s\n' "${opt}" "${dashit} Play Line" ;;
+            (k) printf -- '-%s: %s\n' "${opt}" "${dashit} Playlist Add" ;;
+            (K) printf -- '-%s: %s\n' "${opt}" "Default List" ;;
+            (l) printf -- '-%s: %s\n' "${opt}" "Last Autoplay" ;;
+            (m) printf -- '-%s: %s\n' "${opt}" "Create Directory" ;;
+            (o) printf -- '-%s: %s\n' "${opt}" "${dashit} Autoplay Line" ;;
+            (p) printf -- '-%s: %s\n' "${opt}" "Play Clipboard" ;;
+            (P) printf -- '-%s: \033[5m%s\033m\033[0m\033[5m\033[5m\033[0m' "${opt}" "Play Clipboard" ;;
+            (q) printf -- '-%s: %s\n' "${opt}" "Quit" ;;
+            (r) printf -- '-%s: %s\n' "${opt}" "Remove Line" ;;
+            (s) printf -- '-%s: %s\n' "${opt}" "Show Playlist" ;;
+            (v) printf -- '-%s: %s\n' "${opt}" "${finalresult2} View List" ;;
+            (x) printf -- '-%s: %s\n' "${opt}" "Clear Clipboard" ;;
+        esac
+    done | column -c 80
+}
+
 generate_playlist() {
     local playlist
     playlist="${1:?No playlist defined}"
@@ -4461,7 +4493,7 @@ if [[ "$grabpaste" = "http" ]]; then
       hr 80 -         
       echo
               
-get_file_stats "${ytdlplast}"
+        get_file_stats "${ytdlplast}"
 
       echo
       echo " Video Player Controls:"
@@ -4949,66 +4981,25 @@ if [[ "$grabpaste" = "http" ]]; then
     ytdlpconfirm=$(yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
 
     if [[ "$ytdlpconfirm" = "" ]]; then
-
         echo "" | xclip -sel clip  # clearing out the clipboard
         pasteclip  # grab clipboard content
-
-        # Videoinfox v2.00________________________________________ Videoinfox v2.00_________________________________________
-        #________________x________________________________________ _________________________________________________________
-        hr 80 -
-        echo
-       echo " ${der} >>> PLAYLIST >>>" "$setplaylist"
-        hr 80 -
-        echo
-        echo " o "$dashit" Autoplay Line     l - Last Autoplay      c - Change Playlist     p - Play Clipboard                  q - Quit"
-        echo " j "$dashit" Play Line"
-        echo " i "$dashit" Info                                     d - Clear Playlist"
-        echo           
-
+        generate_options_menu " ${der} >>> PLAYLIST >>>" "$setplaylist" -olcpqjid
     else 
         echo
         echo "YT-DLP Confirmed: "$ytdlpconfirm""
         echo
         echo "Download Directory: $dirsaved"  # dislpay default download directory
-        hr 80 -
-        echo
-       echo " ${der} >>> PLAYLIST >>>" "$setplaylist"
-        hr 80 -
-        echo
-        echo -e " o "$dashit" Autoplay Line     l - Last Autoplay     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                   q - Quit"
-        echo " j "$dashit" Play Line"
-        echo " i "$dashit" Info                                    d - Clear Playlist"
-        echo                                                                                    
+        generate_options_menu " ${der} >>> PLAYLIST >>>" "$setplaylist" -olcPqjid
     fi
 else
-
     if [[ -f "$pasteclip" ]]; then
         echo      
         echo "Valid file in clipboard"
-        hr 80 -
-        echo
-       echo " ${der} >>> PLAYLIST >>>" "$setplaylist"
-        hr 80 -
-        echo
-        echo -e " o "$dashit" Autoplay Line     l - Last Autoplay     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                   q - Quit"
-        echo " j "$dashit" Play Line"
-        echo " i "$dashit" Info                                    d - Clear Playlist"
-        echo                                                                     
-
+        generate_options_menu " ${der} >>> PLAYLIST >>>" "$setplaylist" -olcPqjid
     else
-
         echo "" | xclip -sel clip  # clearing out the clipboard
         pasteclip  # grab clipboard content
-
-        hr 80 -
-        echo
-       echo " ${der} >>> PLAYLIST >>>" "$setplaylist"
-        hr 80 -
-        echo
-        echo " j - Play Line     o - Start Autoplay      c - Change Playlist     p - Play Clipboard                     q - Quit"
-        echo " i - Info          l - Resume Autoplay     r - Remove Line"
-        echo "                                           d - Clear Playlist                                             h - Help"
-        echo
+        generate_options_menu " ${der} >>> PLAYLIST >>>" "$setplaylist" -jocpqilrdh
     fi
 fi
 
@@ -6045,46 +6036,37 @@ grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st chara
 if [[ "$grabpaste" = "http" ]]; then
       read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
       ytdlpconfirm=$(yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
+    if [[ "$ytdlpconfirm" = "" ]]; then
+        pasteclip  # grab clipboard content
+        dash0=$(echo "-") # not blinking
+        generate_options_menu" ${der} >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlpver" 
 
-            if [[ "$ytdlpconfirm" = "" ]]; then
+        echo " d "$dash0" Download Default     l - Last Download     v - View Downloads     p - Play Clipboard                 q - Quit"
+        echo " c "$dash0" Download Choose"
+        echo " s "$dash0" Self Destruct        g - Download List                            x - Clear Clipboard"
+        echo
+    
+        echo "" | xclip -sel clip  # clearing out the clipboard
+        pasteclip  # grab clipboard content
+    else 
+        
+        dash1=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
+        
+        echo
+        echo "YT-DLP Confirmed: "$ytdlpconfirm""
+        echo
+        echo "Download Directory: $dirsaved"  # dislpay default download directory
+        hr 80 -
+        echo
+        echo " ${der} >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlpver"
+        hr 80 -
+        echo
 
-                      pasteclip  # grab clipboard content
-                      dash0=$(echo "-") # not blinking
-
-                           # Videoinfox v2.00________________________________________ Videoinfox v2.00_________________________________________
-                           #________________x________________________________________ _________________________________________________________
-                      hr 80 -
-                      echo
-                      echo " ${der} >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlpver"
-                      hr 80 -
-                      echo
-                      echo " d "$dash0" Download Default     l - Last Download     v - View Downloads     p - Play Clipboard                 q - Quit"
-                      echo " c "$dash0" Download Choose"
-                      echo " s "$dash0" Self Destruct        g - Download List                            x - Clear Clipboard"
-                      echo
-                  
-                      echo "" | xclip -sel clip  # clearing out the clipboard
-                      pasteclip  # grab clipboard content
-                  else 
-                      
-                      dash1=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
-                      
-                      echo
-                      echo "YT-DLP Confirmed: "$ytdlpconfirm""
-                      echo
-                      echo "Download Directory: $dirsaved"  # dislpay default download directory
-                      hr 80 -
-                      echo
-                      echo " ${der} >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlpver"
-                      hr 80 -
-                      echo
-
-echo -e " d "$dash1" Download Default     l - Last Download     v - View Downloads     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                 q - Quit "
-
-                      echo " c "$dash1" Download Choose"
-                      echo " s "$dash1" Self Destruct        g - Download List                            x - Clear Clipboard"
-                      echo                                                                                  
-            fi
+            echo -e " d "$dash1" Download Default     l - Last Download     v - View Downloads     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                 q - Quit "
+                echo " c "$dash1" Download Choose"
+                echo " s "$dash1" Self Destruct        g - Download List                            x - Clear Clipboard"
+                echo                                                                                  
+    fi
   else
 
       if [[ -f "$pasteclip" ]]; then
@@ -6775,33 +6757,31 @@ fi
 savethedir="$PWD"
 
 dwnque() {
+    clear
 
-clear
+    if [[ -f ${base_dir}/videoinfox-download.queue ]]; then
+        # REMOVE DUPLICATES
+        cat -n ${base_dir}/videoinfox-download.queue | sort -uk2 | sort -n | cut -f2- > ${base_dir}/videoinfox-download.queue.tmp
+        mv ${base_dir}/videoinfox-download.queue.tmp ${base_dir}/videoinfox-download.queue
+        
+        # REMOVE BLANK LINES
+        squash ${base_dir}/videoinfox-download.queue
+        
+        cat ${base_dir}/videoinfox-download.queue
 
-if [[ -f ${base_dir}/videoinfox-download.queue ]]; then
-      # REMOVE DUPLICATES
-      cat -n ${base_dir}/videoinfox-download.queue | sort -uk2 | sort -n | cut -f2- > ${base_dir}/videoinfox-download.queue.tmp
-      mv ${base_dir}/videoinfox-download.queue.tmp ${base_dir}/videoinfox-download.queue
-      
-      # REMOVE BLANK LINES
-      squash ${base_dir}/videoinfox-download.queue
-      
-      cat ${base_dir}/videoinfox-download.queue
+    else
+        echo
+        echo " Download queue empty . . ."
+        echo
+    fi
 
-  else
-      echo
-      echo " Download queue empty . . ."
-      echo
-fi
-      
+    print_header " ${der} >>> DOWNLOAD QUEUE"        
 
-print_header " ${der} >>> DOWNLOAD QUEUE"        
-
-echo " b - Download Queue     d - Delete Queue                                                                  q - Quit"
-echo 
-echo -en " Enter Option: "
-read -r -n1 optiondq
-echo
+    echo " b - Download Queue     d - Delete Queue                                                                  q - Quit"
+    echo 
+    echo -en " Enter Option: "
+    read -r -n1 optiondq
+    echo
 }
 while true; do
 dwnque
