@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v3.9.03								         
+#  file : videoinfox v3.9.10								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v3.9.03"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m9.03")  # Version Number: with blinking dot
+ver="Videoinfox v3.9.10"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m9.10")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -526,6 +526,20 @@ linenumber=1
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa > ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa.tmp 2>/dev/null
 mv ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa.tmp ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa 2>/dev/null
 
+read -r vplaym < ~/.config/videoinfox/videoinfox.video-player
+if [[ "$vplaym" = 1 ]]
+  then
+      defplayer=(ffplay)
+      defplayargu=(-fs -autoexit -loglevel quiet) 
+elif [[ "$vplaym" = 2 ]]
+  then
+      defplayer=(mpv)
+      defplayargu=(--fs --no-terminal)
+elif [[ "$vplaym" = 3 ]]
+  then
+      :
+fi
+
 OLDIFS=$IFS
 IFS=$'\n'
 
@@ -556,8 +570,8 @@ for line in $(cat "$input" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
 
-      ffplay -fs -autoexit "$line" 2> /dev/null
-
+      $defplayer "${defplayargu[@]}" "$line"
+      
       echo " To bypass the 3 second wait press enter with no entry"
       echo
       echo -e "\033[5m 3 seconds remaining to quit Played List Autoplay\033m\033[0m\033[5m\033[5m\033[0m"      
@@ -883,6 +897,7 @@ if [ -d "$direxist" ]  #  if directoty exists goto  <then>
       echo > ~/.config/videoinfox/videoinfo.lastfinddir
       echo > ~/.config/videoinfox/videoinfo.lastsearchtotal
       echo > ~/.config/videoinfox/videoinfox.set-user-list
+      echo "1" > ~/.config/videoinfox/videoinfox.video-player
           
    
       # SAMPLE URL DOWLOAD LIST BEING CREATED WITH 3 VIDEO URL'S
@@ -982,14 +997,13 @@ fi
 #####  You will only see FIRST RUN >>> SETUP again if the  ~/.config/videoinfox directory doesn't exist.  ######################################## 
 ##################################################################################################################################################
 
-
 direxist3="$HOME/.config/videoinfox/tmp"
 
 if [ -d "$direxist3" ]  #  if directoty exists goto  <then>
   then
-       :
+      :
   else
-       mkdir ~/.config/videoinfox/tmp
+      mkdir ~/.config/videoinfox/tmp
 fi
 
 
@@ -997,9 +1011,9 @@ direxist5="$HOME/.config/videoinfox/playlists"
 
 if [ -d "$direxist5" ]  #  if directoty exists goto  <then>
   then
-       :
+      :
   else
-       mkdir ~/.config/videoinfox/playlists
+      mkdir ~/.config/videoinfox/playlists
 fi
 
 #sed -i '/^$/d' ~/.config/videoinfox/videoinfo.playlist  # remove all blank lines
@@ -1268,7 +1282,10 @@ echo >> ~/.config/videoinfox/videoinfo.help
 echo " Batch download all of your User Created url Lists with Yt-dlp and Videoinfox's Download Queue." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " Version History is located in:  Settings (set)" >> ~/.config/videoinfox/videoinfo.help
+echo " Version History is located in: Home Screen: -Set -Vesion History" >> ~/.config/videoinfox/videoinfo.help
+echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo " Watch videos with (default) ffplay, mpv or any video player. Home Screen: -Set -Video Player" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Find videos to play or get info on: Change to a parent directory of your video library and select Find." >> ~/.config/videoinfox/videoinfo.help
@@ -1499,6 +1516,9 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v3.9.10 Add: Watch videos with (default) ffplay, mpv or any video player. Home Screen: -Set -Video Player" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v3.9.03 Fix: Unknowingly deleted 1 charater on 1 line and broke Resume Autoplay with the last update." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2254,8 +2274,41 @@ fi
 
 function menuf {
 
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
+if [ -f ~/.config/videoinfox/videoinfox.video-player ]
+  then
+      :
+  else
+      echo "1" > ~/.config/videoinfox/videoinfox.video-player
+fi
+
+if [ -f ~/.config/videoinfox/videoinfox.customplayer.1 ]
+  then
+      :
+  else
+      echo > ~/.config/videoinfox/videoinfox.customplayer.1
+      echo > ~/.config/videoinfox/videoinfox.customplayer.2
+fi
+
+read -r vplaym < ~/.config/videoinfox/videoinfox.video-player
+if [[ "$vplaym" = 1 ]]
+  then
+      defplayer=(ffplay)
+      defplayargu=(-fs -autoexit -loglevel quiet) 
+elif [[ "$vplaym" = 2 ]]
+  then
+      defplayer=(mpv)
+      defplayargu=(--fs --no-terminal)
+elif [[ "$vplaym" = 3 ]]
+  then
+      read -r cplayer1 < ~/.config/videoinfox/videoinfox.customplayer.1 
+      read -r cplayer2 < ~/.config/videoinfox/videoinfox.customplayer.2 
+      defplayer=($cplayer1)
+      defplayargu=($cplayer2)
+fi
+
+
+pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
 if [ "$grabclip" = "http" ]  # if the first 4 characters = <http> go then
@@ -2785,7 +2838,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
 
-      ffplay -fs -autoexit "$line" 2> /dev/null
+      $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
       echo " To bypass the 3 second wait press enter with no entry"
       echo
@@ -2870,7 +2923,7 @@ if [ -f ~/.config/videoinfox/tmp/videoinfo-findwork.tmp ]  # if file exists goto
       notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"      
 
       echo "$playnumber" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
-      ffplay -fs -autoexit "$playnumber" 2>/dev/null  # play video
+      $defplayer "${defplayargu[@]}" "$playnumber" 2>/dev/null  # play video
       rm ~/.config/videoinfox/tmp/videoinfo-findwork-playnumber.tmp 2>/dev/null
 
      fi
@@ -3377,7 +3430,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
 
-      ffplay -fs -autoexit "$line" 2> /dev/null
+      $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
       echo " To bypass the 3 second wait press enter with no entry"
       echo
@@ -3881,7 +3934,7 @@ read line < ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa
       echo -e "\n"
 
       echo "$line" >> ~/.config/videoinfox/videoinfo.playedlist  # write to the played list 
-      ffplay -fs -autoexit "$line" 2> /dev/null
+      $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
  
       IFS=$OLDIFS
 
@@ -4485,7 +4538,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
 
-      ffplay -fs -autoexit "$line" 2> /dev/null
+      $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
       # COUNTER TO KEEP TRACK OF LINE NUMBER THAT IS CURRENTLY PLAYING.
       i=$((i+1))
@@ -4595,7 +4648,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                                         sed -i "${linenumber}d" ~/.config/videoinfox/videoinfo.playlist 2> /dev/null 
                                         echo
                                         echo "Line deleted from the playlist . . ."
-                                        sleep .25
+                                        sleep .9
                                   fi
                             fi
                       fi
@@ -4664,7 +4717,7 @@ for line in $(cat "$input2" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
 
-      ffplay -fs -autoexit "$line" 2> /dev/null
+      $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
       ###### COUNTER TO KEEP TRACK OF LINE NUMBER THAT IS CURRENTLY PLAYING FOR WRITE ON EXIT.
       i=$((i+1))
@@ -4752,7 +4805,7 @@ if [ -z "$line" ]
 
       echo " Screen will close after video player is quit."
 
-      ffplay -fs -autoexit "$line" 2> /dev/null
+      $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
  
 IFS=$OLDIFS
 
@@ -5203,7 +5256,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
           else     
               notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
               echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to PLAYLIST File  
-              ffplay -fs -autoexit &> /dev/null "$ytdlplast"  
+              $defplayer "${defplayargu[@]}" &> /dev/null "$ytdlplast"  
       fi 
       
       echo "" | xclip -sel clip  # clearing out the clipboard
@@ -5249,7 +5302,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"
      
       echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to PLAYLIST file
-      ffplay -fs -autoexit "$pasteclip" 2>/dev/null  # play video in clipboard
+      $defplayer "${defplayargu[@]}" "$pasteclip" 2>/dev/null  # play video in clipboard
       echo "" | xclip -sel clip  # clearing out the clipboard
       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
       echo " PLAYLIST Closed"
@@ -5354,7 +5407,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
 
-      ffplay -fs -autoexit "$line" 2> /dev/null
+      $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
       echo " To bypass the 3 second wait press enter with no entry"
       echo
@@ -5546,7 +5599,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
 
-      ffplay -fs -autoexit "$line" 2> /dev/null
+      $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
       echo " To bypass the 3 second wait press enter with no entry"
       echo
@@ -5625,8 +5678,11 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
          
               notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
                        
-              echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to file  
-              ffplay -fs -autoexit &> /dev/null "$ytdlplast"
+              echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to file
+
+              $defplayer "${defplayargu[@]}" "$ytdlplast" 2> /dev/null
+       
+              ####              ffplay -fs -autoexit &> /dev/null "$ytdlplast"
               pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
               cd "$grabdir"   # restore dir prior to entering yt-dlp menu
               ;;  
@@ -5819,7 +5875,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
          else     
              notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
              echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List File  
-             ffplay -fs -autoexit &> /dev/null "$ytdlplast"  
+             $defplayer "${defplayargu[@]}" "$ytdlplast" 2> /dev/null  
       fi
       
       echo "" | xclip -sel clip  # clearing out the clipboard
@@ -5867,7 +5923,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"      
 
       echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
-      ffplay -fs -autoexit "$pasteclip" 2>/dev/null  # play video in clipboard
+      $defplayer "${defplayargu[@]}" "$pasteclip" 2>/dev/null  # play video in clipboard
       echo "" | xclip -sel clip  # clearing out the clipboard
       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
@@ -6273,7 +6329,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
 
-      ffplay -fs -autoexit "$line" 2> /dev/null
+      $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
       echo " To bypass the 3 second wait press enter with no entry"
       echo
@@ -6389,7 +6445,7 @@ fi
 
              echo " Screen will close after video player is quit."
 
-             ffplay -fs -autoexit "$line" 2> /dev/null
+             $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
  
              IFS=$OLDIFS
 
@@ -6847,7 +6903,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
 
-      ffplay -fs -autoexit "$line" 2> /dev/null
+      $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
       # COUNTER TO KEEP TRACK OF LINE NUMBER THAT IS CURRENTLY PLAYING.
       i=$((i+1))
@@ -7027,7 +7083,7 @@ for line in $(cat "$input2" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
 
-      ffplay -fs -autoexit "$line" 2> /dev/null
+      $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
       ###### COUNTER TO KEEP TRACK OF LINE NUMBER THAT IS CURRENTLY PLAYING FOR WRITE ON EXIT.
       i=$((i+1))
@@ -7114,7 +7170,7 @@ if [ -z "$line" ]
 
       echo " Screen will close after video player is quit."
 
-      ffplay -fs -autoexit "$line" 2> /dev/null
+      $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
  
 IFS=$OLDIFS
 
@@ -7565,7 +7621,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
           else     
               notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
               echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to PLAYLIST File  
-              ffplay -fs -autoexit &> /dev/null "$ytdlplast"  
+              f$defplayer "${defplayargu[@]}" "$ytdlplast" 2> /dev/null  
       fi 
       
       echo "" | xclip -sel clip  # clearing out the clipboard
@@ -7611,7 +7667,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"
      
       echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to PLAYLIST file
-      ffplay -fs -autoexit "$pasteclip" 2>/dev/null  # play video in clipboard
+      $defplayer "${defplayargu[@]}" "$pasteclip" 2>/dev/null  # play video in clipboard
       echo "" | xclip -sel clip  # clearing out the clipboard
       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
       echo " PLAYLIST Closed"
@@ -7871,7 +7927,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
           else     
               notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
               echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List File  
-              ffplay -fs -autoexit &> /dev/null "$ytdlplast"  
+              $defplayer "${defplayargu[@]}" 2> /dev/null "$ytdlplast"  
       fi 
       
       echo "" | xclip -sel clip  # clearing out the clipboard
@@ -7917,7 +7973,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"
      
       echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
-      ffplay -fs -autoexit "$pasteclip" 2>/dev/null  # play video in clipboard
+      $defplayer "${defplayargu[@]}" "$pasteclip" 2>/dev/null  # play video in clipboard
       echo "" | xclip -sel clip  # clearing out the clipboard
       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
       echo " Played List Closed"
@@ -8331,7 +8387,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
 
-      ffplay -fs -autoexit "$line" 2> /dev/null
+      $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
       # COUNTER TO KEEP TRACK OF LINE NUMBER THAT IS CURRENTLY PLAYING.
       i=$((i+1))
@@ -8511,7 +8567,7 @@ for line in $(cat "$input2" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
 
-      ffplay -fs -autoexit "$line" 2> /dev/null
+      $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
       ###### COUNTER TO KEEP TRACK OF LINE NUMBER THAT IS CURRENTLY PLAYING FOR WRITE ON EXIT.
       i=$((i+1))
@@ -8598,7 +8654,7 @@ if [ -z "$line" ]
 
       echo " Screen will close after video player is quit."
 
-      ffplay -fs -autoexit "$line" 2> /dev/null
+      $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
  
 IFS=$OLDIFS
 
@@ -9049,7 +9105,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
           else     
               notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
               echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to PLAYLIST File  
-              ffplay -fs -autoexit &> /dev/null "$ytdlplast"  
+              $defplayer "${defplayargu[@]}" "$ytdlplast" 2> /dev/null  
       fi 
       
       echo "" | xclip -sel clip  # clearing out the clipboard
@@ -9095,7 +9151,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"
      
       echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to PLAYLIST file
-      ffplay -fs -autoexit "$pasteclip" 2>/dev/null  # play video in clipboard
+      $defplayer "${defplayargu[@]}" "$pasteclip" 2>/dev/null  # play video in clipboard
       echo "" | xclip -sel clip  # clearing out the clipboard
       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
       echo " PLAYLIST Closed"
@@ -9346,12 +9402,13 @@ echo "                                                                          
 echo " 2 - Movies:" "$dir2"
 echo "                                                                                             l - Last Search"
 echo " 3 - Download:" "$dirsaved"
-echo "                                                                                             h - Version History"
+echo "                                                                                             p - Video Player"
 echo " 4 - Extra:" "$dir4"
-echo "                                                                                             c - Code Stats"
+echo "                                                                                             h - Version History"
 echo
-echo "                                                                                             x - Clear Clipboard"
+echo "                                                                                             c - Code Stats"
 echo " Last Exit Dir 5:" "$dir5"
+echo "                                                                                             x - Clear Clipboard"
 echo
 echo
 echo -en " Enter Option: "
@@ -9371,8 +9428,100 @@ case $optionsettings in
     echo "" | xclip -sel clip  # clearing out the clipboard
     pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
     ;;
- 
 
+
+    p) # VIDEO PLAYER
+    function videoplayer {
+
+
+         read -r vplay < ~/.config/videoinfox/videoinfox.video-player
+         clear
+         echo
+         echo "___________________________________________________________________________________________________________________"
+         echo
+         echo " "$der"  >>> SETTINGS >>> VIDEO PLAYER                                              Current Setting: "$vplay" "
+         echo "___________________________________________________________________________________________________________________"
+         echo
+         echo
+         echo " Choose video player                                                                                      q - Quit"
+         echo
+         echo " 1 - ffplay"  
+         echo
+         echo " 2 - mpv"
+         echo
+         echo " 3 - custom:" "$cplayer1" "$cplayer2"
+         echo
+         echo
+         echo -en " Enter Option: "
+         read -r -n1 optionvp
+         echo
+         }
+        
+              
+         while true
+         do
+         videoplayer
+	    case $optionvp in
+
+         q)
+         break;;
+  
+         1)
+         
+         echo "1" > ~/.config/videoinfox/videoinfox.video-player
+         echo
+         echo " ffplay set . . ."
+         sleep 1.7
+         ;;
+
+
+         2)
+         echo "2" > ~/.config/videoinfox/videoinfox.video-player
+         echo
+         echo " mpv set . . . "
+         sleep 1.7
+         ;;
+
+        
+         3)
+echo "3" > ~/.config/videoinfox/videoinfox.video-player
+read -r cplayer1 < ~/.config/videoinfox/videoinfox.customplayer.1 
+read -r cplayer2 < ~/.config/videoinfox/videoinfox.customplayer.2 
+echo
+echo " Stored executable: " "$cplayer1"
+echo " Stored parameters: " "$cplayer2"
+echo
+read -r -p " Enter video player executable (enter only to keep stored): " customvpe
+echo
+if [ -z "$customvpe" ]
+  then
+      :
+  else
+      echo "$customvpe" > ~/.config/videoinfox/videoinfox.customplayer.1
+fi     
+read -r -p " Enter video player parameters (enter only to erase stored): " customvpp
+echo "$customvpp" > ~/.config/videoinfox/videoinfox.customplayer.2
+read -r cplayer1 < ~/.config/videoinfox/videoinfox.customplayer.1 
+read -r cplayer2 < ~/.config/videoinfox/videoinfox.customplayer.2 
+echo
+echo " New executable: " "$cplayer1"
+echo " New parameters: " "$cplayer2"
+echo
+read -r -p " Press enter to Continue"
+         
+         echo
+         echo " custom set . . ."
+         sleep 1.7
+         ;;
+
+         *)
+
+         esac
+         done
+
+         ;;
+
+    
     c)  # CODE STATS
 
 function codestats {
@@ -9450,8 +9599,8 @@ done
     less ~/.config/videoinfox/videoinfo-ver-history
     ;;
 
-    l)
-    
+
+    l)  # LAST SEARCH    
      function lastsearch {
          read -r lsearch < ~/.config/videoinfox/videoinfo.lastsearch-set
          clear
@@ -12000,7 +12149,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
          else     
              notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
              echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List File  
-             ffplay -fs -autoexit &> /dev/null "$ytdlplast"  
+             $defplayer "${defplayargu[@]}" "$ytdlplast" 2> /dev/null  
       fi 
       
       echo "" | xclip -sel clip  # clearing out the clipboard
@@ -12046,7 +12195,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"
      
       echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
-      ffplay -fs -autoexit "$pasteclip" 2>/dev/null  # play video in clipboard
+      $defplayer "${defplayargu[@]}" "$pasteclip" 2>/dev/null  # play video in clipboard
 
       echo "" | xclip -sel clip  # clearing out the clipboard
       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
@@ -12369,7 +12518,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
          else     
              notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
              echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List File  
-             ffplay -fs -autoexit &> /dev/null "$ytdlplast"  
+             $defplayer "${defplayargu[@]}" &> /dev/null "$ytdlplast"  
       fi 
       
       echo "" | xclip -sel clip  # clearing out the clipboard
@@ -12415,7 +12564,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
       notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"
      
       echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
-      ffplay -fs -autoexit "$pasteclip" 2>/dev/null  # play video in clipboard
+      $defplayer "${defplayargu[@]}" "$pasteclip" 2>/dev/null  # play video in clipboard
       echo "" | xclip -sel clip  # clearing out the clipboard
       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 
@@ -12654,7 +12803,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
 
-      ffplay -fs -autoexit "$line" 2> /dev/null
+      $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
       echo " To bypass the 3 second wait press enter with no entry"
       echo
@@ -12737,7 +12886,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
 
-      ffplay -fs -autoexit "$line" 2> /dev/null
+      $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
       echo " To bypass the 3 second wait press enter with no entry"
       echo
@@ -12834,7 +12983,7 @@ if [ -f ~/.config/videoinfox/tmp/videoinfo-view-downloads.tmp ]  # if file exist
       notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"      
 
       echo "$playnumber" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
-      ffplay -fs -autoexit "$playnumber" 2>/dev/null  # play video
+      $defplayer "${defplayargu[@]}" "$playnumber" 2>/dev/null  # play video
       rm ~/.config/videoinfox/tmp/videoinfo-view-downloads-playnumber.tmp 2>/dev/null
 
      fi
@@ -12901,7 +13050,7 @@ fi
               echo " This screen will exit when the video player is closed."
               echo
               
-              ffplay -fs -autoexit &> /dev/null "$dirsaved"/download.tmp*  # play temporary video
+              $defplayer "${defplayargu[@]}" "$dirsaved"/download.tmp* 2> /dev/null  # play temporary video
               rm "$dirsaved"/download.tmp*  # on player close, delete temporary video
               echo "" | xclip -sel clip  # clearing out the clipboard
               pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
@@ -12968,7 +13117,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
                        
               echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to file  
-              ffplay -fs -autoexit &> /dev/null "$ytdlplast"
+              $defplayer "${defplayargu[@]}" "$ytdlplast" 2> /dev/null
               pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
               cd "$grabdir"   # restore dir prior to entering yt-dlp menu
               ;;  
