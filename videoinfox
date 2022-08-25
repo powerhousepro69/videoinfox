@@ -295,6 +295,42 @@ retrieve_url() {
     fi
 }
 
+set_directory() {
+    local headermsg specifydir
+    case "${1}" in
+        (--tv)      dir_name="TV" ;;
+        (--movies)  dir_name="MOVIE" ;;
+        (--ytdlp)   dir_name="YT-DLP DOWNLOAD" ;;
+        (--parent)  dir_name="EXTRA" ;;
+    esac
+
+    pasteclip  # grab clipboard content
+    clear
+    printf -- '\n%s\n' "Working Directory: ${PWD}"
+    printf -- '%s\n' "Clipboard: ${pasteclip}"
+
+    print_header " ${ver} >>> SET ${dir_name} DIRECTORY"
+
+    # Set dir_name to lowercase
+    dir_name="${dir_name,,}"
+    # Strip the word " download" from the yt-dlp var
+    dir_name="${dir_name/ download/}"
+
+    printf -- '%s\n\n'  " No quotations needed for paths with spaces. Case sensative."
+
+    # waiting for user input - the directory you want to change to 
+    read -r -p " Enter Directory: " specifydir
+    if [[ -d "${specifydir:?No directory defined}" ]]; then
+        printf -- '%s\n' ""
+        printf -- '%s\n' "${specifydir}" > "${base_dir}/videoinfo.${dir_name}-dir"
+        read -r dir1 < "${base_dir}/videoinfo.${dir_name}-dir"
+        printf -- '%s\n' " ${dir_name} Directory Set to:" "${dir1}"
+    else
+        print_error "Directory doesn't exist"
+    fi
+    sleep 1.5
+}
+
 # Remove empty lines from a given file
 squash() {
     sed -i '/^$/d' "${1:?No file specified}"
@@ -513,11 +549,9 @@ ytdlp_install() {
 
 
 codestats() {
-
     clear
 
     print_header " ${der} >>> SETTINGS >>> CODE STATS                                     q - Quit"
-
 
     a=$(grep -c "^$" /usr/local/bin/videoinfox 2> /dev/null)  # NUMBER OF BLANK LINES
     b=$(sed -n -e '/#/p' /usr/local/bin/videoinfox | wc -l 2> /dev/null)  # NUMBER OF COMMENT ONLY LINES
@@ -1637,10 +1671,10 @@ while true; do
                                 echo 
                                 read -t 3 -p " Press any key then press enter to quit : " playdir
                                     
-                                    # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
-                                    if [[ $playdir ]]; then                                                        # if no input is entered within 3 seconds the next video will play
-                                            break                                                   # if enter is pressed without any input the next video will play
-                                    fi
+                                # option te escape loop everytime ffplay closes               # read will timeout for 3 seconds    
+                                if [[ $playdir ]]; then                                                        # if no input is entered within 3 seconds the next video will play
+                                    break                                                   # if enter is pressed without any input the next video will play
+                                fi
                             done
                             
                             IFS=$OLDIFS
@@ -1677,9 +1711,7 @@ while true; do
                                         echo " Treetop changed to: $PWD"  # <pwd>  print current working directory to the screen
                                         sleep 1.5                   
                                     else
-                                        echo
-                                        echo " No such directory . . ."
-                                        sleep 1.5                   
+                                        print_error "No such directory . . ."
                                     fi
                                 fi       
                             echo
@@ -5892,11 +5924,7 @@ fi
                 if [[ "$searchtotal" = 0 ]]; then  # if find returned no results goto <then>
                     #cp ${base_dir}/videoinfo.findwork3 ${base_dir}/videoinfo.findwork
                     #cp ${base_dir}/videoinfo.lastsearchtotal2  ${base_dir}/videoinfo.lastsearchtotal
-                    echo
-                    echo " No files found"
-                    echo
-                    sleep .7 
-                    
+                    print_error "No files found"
                 else
                     echo "$videofind" > ${base_dir}/videoinfo.lastfindstring   # save last find string used
                     read -r fterm < ${base_dir}/videoinfo.lastfindstring
@@ -6031,127 +6059,12 @@ while true; do
                 ;;
             esac
          done
-
          ;;
-    1)
-    # SET TV DIRECTORY
-        ## Start subshell
-        (
-            pasteclip  # grab clipboard content
-            clear
-            printf -- '\n%s\n' "Working Directory: ${PWD}"
-            printf -- '%s\n' "Clipboard: ${pasteclip}"
-
-            print_header " ${ver} >>> SET TV DIRECTORY"
-
-            printf -- '%s\n\n'  " No quotations needed for paths with spaces. Case sensative."
-
-              # waiting fot user input - the directory you want to chang to 
-            read -r -p " Enter Directory: " specifydir2
-            if [[ -d "${specifydir2:?No directory defined}" ]]; then
-                echo
-                echo "$specifydir2" > ${base_dir}/videoinfo.tv-dir
-                read -r dir1 < ${base_dir}/videoinfo.tv-dir
-                echo " TV Directory Set to:" "$dir1"
-            else
-                printf -- 'ERROR: %s\n' "Directory doesn't exist" >&2
-            fi
-            #read -p "     Press enter to Continue" 
-        ) ## Exit Subshell
-        sleep 1.5
-    ;;
-    2)
-    # SET MOVIES DIRECTORY
-    (  # grab working directory 
-    pasteclip  # grab clipboard content 
-    clear
-            printf -- '\n%s\n' "Working Directory: ${PWD}"
-            printf -- '%s\n' "Clipboard: ${pasteclip}"
-
-    print_header " ${ver} >>> SET MOVIE DIRECTORY"
-
-    printf -- '%s\n\n'  " No quotations needed for paths with spaces. Case sensative."
-    read -r -p " Enter Directory: " specifydir2  # waiting fot user input - the directory you want to chang to 
-    
-         if [[ -z "$specifydir2" ]]; then
-                print_error "Nothing was entered"
-            else
-                if [[ -d "$specifydir2" ]]; then
-                      echo
-                      echo "$specifydir2" > ${base_dir}/videoinfo.movies-dir
-                      read -r dir2 < ${base_dir}/videoinfo.movies-dir
-                      echo " Movie Directory Set to:" "$dir2"                  
-                else
-                      print_error "Directory doesn't exist"                    
-                fi
-          fi       
-          
-          #read -p "     Press enter to Continue" 
-          ) ## Exit Subshell  # restore working directory
-          sleep 1.5
-          ;;
-    3)
-    # SET <yt-dlp> DOWNLOAD DIRECTORY
-    (  # grab working directory 
-    pasteclip  # grab clipboard content
-    clear
-            printf -- '\n%s\n' "Working Directory: ${PWD}"
-            printf -- '%s\n' "Clipboard: ${pasteclip}"
-
-    print_header " ${ver} >>> SET YT-DLP DOWNLOAD DIRECTORY"
-
-    printf -- '%s\n\n'  " No quotations needed for paths with spaces. Case sensative."
-    read -r -p " Enter Directory: " specifydir2  # waiting fot user input - the directory you want to chang to 
-    
-        if [[ -z "$specifydir2" ]]; then
-            print_error "Nothing was entered"
-        else
-            if [[ -d "$specifydir2" ]]; then
-                echo
-                echo "$specifydir2" > ${base_dir}/videoinfo.yt-download-dir
-                read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir
-                echo " Download Directory Set to:" "$dirsaved"
-            else
-                print_error "Directory doesn't exist"
-            fi
-        fi
-          
-          #read -p "     Press enter to Continue" 
-          ) ## Exit Subshell  # restore working directory
-          sleep 1.5
-          ;;
- 4)
-    # SET PARENT DIRECTORY
-    (  # grab working directory 
-    pasteclip  # grab clipboard content
-    clear
-            printf -- '\n%s\n' "Working Directory: ${PWD}"
-            printf -- '%s\n' "Clipboard: ${pasteclip}"
-
-    print_header " ${ver} >>> SET EXTRA DIRECTORY"
-
-    printf -- '%s\n\n'  " No quotations needed for paths with spaces. Case sensative."
-    read -r -p " Enter Directory: " specifydir2  # waiting fot user input - the directory you want to chang to 
-    
-         if [[ -z "$specifydir2" ]]; then
-                print_error "Nothing was entered"
-            else
-                if [[ -d "$specifydir2" ]]; then
-                      echo
-                      echo "$specifydir2" > ${base_dir}/videoinfo.parent-dir
-                      read -r dir4 < ${base_dir}/videoinfo.parent-dir
-                      echo " Extra Directory Set to:" "$dir4"                  
-                else
-                      print_error "Directory doesn't exist"
-                fi
-          fi       
-          
-          #read -p "     Press enter to Continue" 
-          ) ## Exit Subshell  # restore working directory
-          sleep 1.5
-          ;;
-        
-         y)  # CHECK FOR YT-DLP UPDATE
+        1) set_directory --tv ;;
+        2) set_directory --movies ;;
+        3) set_directory --ytdlp ;;
+        4) set_directory --parent ;;
+        y)  # CHECK FOR YT-DLP UPDATE
 
         ;;         
     esac
