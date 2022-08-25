@@ -312,6 +312,21 @@ print_version() {
     exit 0
 }
 
+print_video_controls_help() {
+cat << EOF
+
+Video Player Controls:
+
+- Fullscreen Toggle: f
+- Play/Pause Toggle: space bar
+- Back/Fwd: Left/Right Arrows (tap or hold down)
+- Quit: q
+
+This screen will exit when the video player is closed.
+
+EOF
+}
+
 retrieve_url() {
     local remote_source local_destination
     remote_source="${1:?No url defined}"
@@ -785,18 +800,7 @@ play_directory() {
 
         get_file_stats "${line}"
         
-        echo
-        echo
-        echo " Video Player Controls:"
-        echo                             
-        echo " - Fullscreen Toggle: f"
-        echo
-        echo " - Play/Pause Toggle: space bar"
-        echo
-        echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-        echo
-        echo " - Quit: q"      
-        echo -e "\n"
+        print_video_controls_help
 
         ffplay -fs -autoexit "$line" 2> /dev/null
 
@@ -1299,18 +1303,7 @@ while true; do
 
                     get_file_stats "${line}"
                     
-                    echo
-                    echo
-                    echo " Video Player Controls:"
-                    echo                             
-                    echo " - Fullscreen Toggle: f"
-                    echo
-                    echo " - Play/Pause Toggle: space bar"
-                    echo
-                    echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-                    echo
-                    echo " - Quit: q"      
-                    echo -e "\n"
+                    print_video_controls_help
 
                     ffplay -fs -autoexit "$line" 2> /dev/null
 
@@ -1677,18 +1670,7 @@ while true; do
 
                             get_file_stats "${line}"
                             
-                            echo
-                            echo
-                            echo " Video Player Controls:"
-                            echo                             
-                            echo " - Fullscreen Toggle: f"
-                            echo
-                            echo " - Play/Pause Toggle: space bar"
-                            echo
-                            echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-                            echo
-                            echo " - Quit: q"      
-                            echo -e "\n"
+                            print_video_controls_help
 
                             ffplay -fs -autoexit "$line" 2> /dev/null
 
@@ -1928,18 +1910,7 @@ while true; do
 
                                                     get_file_stats "${line}"
                                                     
-                                                    echo
-                                                    echo
-                                                    echo " Video Player Controls:"
-                                                    echo                             
-                                                    echo " - Fullscreen Toggle: f"
-                                                    echo
-                                                    echo " - Play/Pause Toggle: space bar"
-                                                    echo
-                                                    echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-                                                    echo
-                                                    echo " - Quit: q"      
-                                                    echo -e "\n"
+                                                    print_video_controls_help
 
                                                     echo "$line" >> ${base_dir}/videoinfo.playedlist  # write to the played list 
                                                     ffplay -fs -autoexit "$line" 2> /dev/null
@@ -2291,18 +2262,7 @@ while true; do
 
                                                             get_file_stats "${line}"
                                                             
-                                                            echo
-                                                            echo
-                                                            echo " Video Player Controls:"
-                                                            echo                             
-                                                            echo " - Fullscreen Toggle: f"
-                                                            echo
-                                                            echo " - Play/Pause Toggle: space bar"
-                                                            echo
-                                                            echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-                                                            echo
-                                                            echo " - Quit: q"      
-                                                            echo -e "\n"
+                                                            print_video_controls_help
 
                                                             ffplay -fs -autoexit "$line" 2> /dev/null
 
@@ -2420,18 +2380,7 @@ while true; do
 
                                                             get_file_stats "${line}"
                                                             
-                                                            echo
-                                                            echo
-                                                            echo " Video Player Controls:"
-                                                            echo                             
-                                                            echo " - Fullscreen Toggle: f"
-                                                            echo
-                                                            echo " - Play/Pause Toggle: space bar"
-                                                            echo
-                                                            echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-                                                            echo
-                                                            echo " - Quit: q"      
-                                                            echo -e "\n"
+                                                            print_video_controls_help
 
                                                             ffplay -fs -autoexit "$line" 2> /dev/null
 
@@ -2487,18 +2436,7 @@ while true; do
 
                                                             get_file_stats "${line}"
                                                             
-                                                            echo
-                                                            echo
-                                                            echo " Video Player Controls:"
-                                                            echo                             
-                                                            echo " - Fullscreen Toggle: f"
-                                                            echo
-                                                            echo " - Play/Pause Toggle: space bar"
-                                                            echo
-                                                            echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-                                                            echo
-                                                            echo " - Quit: q"      
-                                                            echo -e "\n"
+                                                            print_video_controls_help
 
                                                             echo " Screen will close after video player is quit."
 
@@ -2813,19 +2751,7 @@ while true; do
                                                                 
                                                         get_file_stats "${ytdlplast}"
 
-                                                        echo
-                                                        echo " Video Player Controls:"
-                                                        echo                             
-                                                        echo " - Fullscreen Toggle: f"
-                                                        echo
-                                                        echo " - Play/Pause Toggle: space bar"
-                                                        echo
-                                                        echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-                                                        echo
-                                                        echo " - Quit: q"      
-                                                        echo -e "\n"
-                                                        echo " This screen will exit when the video player is closed."
-                                                        echo
+                                                        print_video_controls_help
                                                         
                                                         if [[ -z "$ytdlplast" ]]; then
                                                             notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
@@ -2853,20 +2779,8 @@ while true; do
                                                             echo
 
                                                             get_file_stats "${pasteclip}"
-                                                            echo
-                                                            echo
-                                                            echo " Video Player Controls:"
-                                                            echo                             
-                                                            echo " - Fullscreen Toggle: f"
-                                                            echo
-                                                            echo " - Play/Pause Toggle: space bar"
-                                                            echo
-                                                            echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-                                                            echo
-                                                            echo " - Quit: q"      
-                                                            echo -e "\n"
-                                                            echo " This screen will exit when the video player is closed."
-                                                            echo
+                                                            
+                                                            print_video_controls_help
                                                             #read -p " Press enter to Continue"
                                                             
                                                             # video filename with full path <$pasteclip> strip from the bgininning of line to the last slash leaving only the filename <$getfilenameonly>
@@ -2936,18 +2850,7 @@ while true; do
 
                                             get_file_stats "${line}"
                                             
-                                            echo
-                                            echo
-                                            echo " Video Player Controls:"
-                                            echo                             
-                                            echo " - Fullscreen Toggle: f"
-                                            echo
-                                            echo " - Play/Pause Toggle: space bar"
-                                            echo
-                                            echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-                                            echo
-                                            echo " - Quit: q"      
-                                            echo -e "\n"
+                                            print_video_controls_help
 
                                             ffplay -fs -autoexit "$line" 2> /dev/null
 
@@ -3019,18 +2922,7 @@ while true; do
 
                 get_file_stats "${line}"
                 
-                echo
-                echo
-                echo " Video Player Controls:"
-                echo                             
-                echo " - Fullscreen Toggle: f"
-                echo
-                echo " - Play/Pause Toggle: space bar"
-                echo
-                echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-                echo
-                echo " - Quit: q"      
-                echo -e "\n"
+                print_video_controls_help
 
                 ffplay -fs -autoexit "$line" 2> /dev/null
 
@@ -3081,19 +2973,7 @@ while true; do
                 
                 get_file_stats "${ytdlplast}"
 
-                echo
-                echo " Video Player Controls:"
-                echo                             
-                echo " - Fullscreen Toggle: f"
-                echo
-                echo " - Play/Pause Toggle: space bar"
-                echo
-                echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-                echo
-                echo " - Quit: q"      
-                echo -e "\n"
-                echo " This screen will exit when the video player is closed."
-                echo
+                print_video_controls_help
             
                 notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
                         
@@ -3224,19 +3104,7 @@ while true; do
                             
                     get_file_stats "${ytdlplast}"
 
-                    echo
-                    echo " Video Player Controls:"
-                    echo                             
-                    echo " - Fullscreen Toggle: f"
-                    echo
-                    echo " - Play/Pause Toggle: space bar"
-                    echo
-                    echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-                    echo
-                    echo " - Quit: q"      
-                    echo -e "\n"
-                    echo " This screen will exit when the video player is closed."
-                    echo
+                    print_video_controls_help
 
                     if [[ -z "$ytdlplast" ]]; then
                         :
@@ -3265,20 +3133,8 @@ while true; do
                     echo
 
                     get_file_stats "${pasteclip}"
-                    echo
-                    echo
-                    echo " Video Player Controls:"
-                    echo                             
-                    echo " - Fullscreen Toggle: f"
-                    echo
-                    echo " - Play/Pause Toggle: space bar"
-                    echo
-                    echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-                    echo
-                    echo " - Quit: q"      
-                    echo -e "\n"
-                    echo " This screen will exit when the video player is closed."
-                    echo
+                    
+                    print_video_controls_help
                     #read -p " Press enter to Continue"
                     
                     # video filename with full path <$pasteclip> strip from the bgininning of line to the last slash leaving only the filename <$getfilenameonly>
@@ -3564,18 +3420,7 @@ while true; do
 
                                 get_file_stats "${line}"
                                 
-                                echo
-                                echo
-                                echo " Video Player Controls:"
-                                echo                             
-                                echo " - Fullscreen Toggle: f"
-                                echo
-                                echo " - Play/Pause Toggle: space bar"
-                                echo
-                                echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-                                echo
-                                echo " - Quit: q"      
-                                echo -e "\n"
+                                print_video_controls_help
 
                                 ffplay -fs -autoexit "$line" 2> /dev/null
 
@@ -3643,18 +3488,7 @@ while true; do
 
                                 get_file_stats "${line}"
                         
-                                echo
-                                echo
-                                echo " Video Player Controls:"
-                                echo                             
-                                echo " - Fullscreen Toggle: f"
-                                echo
-                                echo " - Play/Pause Toggle: space bar"
-                                echo
-                                echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-                                echo
-                                echo " - Quit: q"      
-                                echo -e "\n"
+                                print_video_controls_help
 
                                 echo " Screen will close after video player is quit."
 
@@ -3972,18 +3806,7 @@ while true; do
 
                                                 get_file_stats "${line}"
                                                 
-                                                echo
-                                                echo
-                                                echo " Video Player Controls:"
-                                                echo                             
-                                                echo " - Fullscreen Toggle: f"
-                                                echo
-                                                echo " - Play/Pause Toggle: space bar"
-                                                echo
-                                                echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-                                                echo
-                                                echo " - Quit: q"      
-                                                echo -e "\n"
+                                                print_video_controls_help
 
                                                 ffplay -fs -autoexit "$line" 2> /dev/null
 
@@ -4099,18 +3922,7 @@ while true; do
 
                                                 get_file_stats "${line}"
                                                 
-                                                echo
-                                                echo
-                                                echo " Video Player Controls:"
-                                                echo                             
-                                                echo " - Fullscreen Toggle: f"
-                                                echo
-                                                echo " - Play/Pause Toggle: space bar"
-                                                echo
-                                                echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-                                                echo
-                                                echo " - Quit: q"      
-                                                echo -e "\n"
+                                                print_video_controls_help
 
                                                 ffplay -fs -autoexit "$line" 2> /dev/null
 
@@ -4168,18 +3980,7 @@ while true; do
 
                                                 get_file_stats "${line}"
                                                 
-                                                echo
-                                                echo
-                                                echo " Video Player Controls:"
-                                                echo                             
-                                                echo " - Fullscreen Toggle: f"
-                                                echo
-                                                echo " - Play/Pause Toggle: space bar"
-                                                echo
-                                                echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-                                                echo
-                                                echo " - Quit: q"      
-                                                echo -e "\n"
+                                                print_video_controls_help
 
                                                 echo " Screen will close after video player is quit."
 
@@ -4495,19 +4296,7 @@ if [[ "$grabpaste" = "http" ]]; then
               
         get_file_stats "${ytdlplast}"
 
-      echo
-      echo " Video Player Controls:"
-      echo                             
-      echo " - Fullscreen Toggle: f"
-      echo
-      echo " - Play/Pause Toggle: space bar"
-      echo
-      echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-      echo
-      echo " - Quit: q"      
-      echo -e "\n"
-      echo " This screen will exit when the video player is closed."
-      echo
+      print_video_controls_help
       
       if [[ -z "$ytdlplast" ]]; then
               :
@@ -4538,20 +4327,8 @@ if [[ "$grabpaste" = "http" ]]; then
       echo
 
       get_file_stats "${pasteclip}"
-      echo
-      echo
-      echo " Video Player Controls:"
-      echo                             
-      echo " - Fullscreen Toggle: f"
-      echo
-      echo " - Play/Pause Toggle: space bar"
-      echo
-      echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-      echo
-      echo " - Quit: q"      
-      echo -e "\n"
-      echo " This screen will exit when the video player is closed."
-      echo
+      
+      print_video_controls_help
       #read -p " Press enter to Continue"
       
        # video filename with full path <$pasteclip> strip from the bgininning of line to the last slash leaving only the filename <$getfilenameonly>
@@ -4741,19 +4518,7 @@ if [[ "$grabpaste" = "http" ]]; then
               
 get_file_stats "${ytdlplast}"
 
-      echo
-      echo " Video Player Controls:"
-      echo                             
-      echo " - Fullscreen Toggle: f"
-      echo
-      echo " - Play/Pause Toggle: space bar"
-      echo
-      echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-      echo
-      echo " - Quit: q"      
-      echo -e "\n"
-      echo " This screen will exit when the video player is closed."
-      echo
+      print_video_controls_help
       
       if [[ -z "$ytdlplast" ]]; then
               :
@@ -4784,20 +4549,8 @@ get_file_stats "${ytdlplast}"
       echo
 
       get_file_stats "${pasteclip}"
-      echo
-      echo
-      echo " Video Player Controls:"
-      echo                             
-      echo " - Fullscreen Toggle: f"
-      echo
-      echo " - Play/Pause Toggle: space bar"
-      echo
-      echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-      echo
-      echo " - Quit: q"      
-      echo -e "\n"
-      echo " This screen will exit when the video player is closed."
-      echo
+      
+      print_video_controls_help
       #read -p " Press enter to Continue"
       
        # video filename with full path <$pasteclip> strip from the bgininning of line to the last slash leaving only the filename <$getfilenameonly>
@@ -5061,18 +4814,7 @@ for line in $(cat "$input" 2>/dev/null); do
 
     get_file_stats "${line}"
     
-    echo
-    echo
-    echo " Video Player Controls:"
-    echo                             
-    echo " - Fullscreen Toggle: f"
-    echo
-    echo " - Play/Pause Toggle: space bar"
-    echo
-    echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-    echo
-    echo " - Quit: q"      
-    echo -e "\n"
+    print_video_controls_help
 
     ffplay -fs -autoexit "$line" 2> /dev/null
 
@@ -5179,8 +4921,7 @@ OLDIFS=$IFS
 IFS=$'\n'
 
 input2=$HOME/.config/videoinfox/playlists/"$setplaylist".last-autoplay
-for line in $(cat "$input2" 2>/dev/null)
- do
+for line in $(cat "$input2" 2>/dev/null); do
       clear
       echo
       hr 80 -
@@ -5193,18 +4934,7 @@ for line in $(cat "$input2" 2>/dev/null)
 
       get_file_stats "${line}"
       
-      echo
-      echo
-      echo " Video Player Controls:"
-      echo                             
-      echo " - Fullscreen Toggle: f"
-      echo
-      echo " - Play/Pause Toggle: space bar"
-      echo
-      echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-      echo
-      echo " - Quit: q"      
-      echo -e "\n"
+      print_video_controls_help
 
       ffplay -fs -autoexit "$line" 2> /dev/null
 
@@ -5267,20 +4997,7 @@ if [[ -z "$line" ]]; then
 
       get_file_stats "${line}"
       
-      echo
-      echo
-      echo " Video Player Controls:"
-      echo                             
-      echo " - Fullscreen Toggle: f"
-      echo
-      echo " - Play/Pause Toggle: space bar"
-      echo
-      echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-      echo
-      echo " - Quit: q"      
-      echo -e "\n"
-
-      echo " Screen will close after video player is quit."
+      print_video_controls_help
 
       ffplay -fs -autoexit "$line" 2> /dev/null
  
@@ -5325,7 +5042,6 @@ fi
 
                  if [[ -z "$playnumber" ]]; then
                        :
- 
                    else
                        #echo
                        echo
@@ -5606,21 +5322,9 @@ if [[ "$grabpaste" = "http" ]]; then
       hr 80 -         
       echo
               
-get_file_stats "${ytdlplast}"
+        get_file_stats "${ytdlplast}"
 
-      echo
-      echo " Video Player Controls:"
-      echo                             
-      echo " - Fullscreen Toggle: f"
-      echo
-      echo " - Play/Pause Toggle: space bar"
-      echo
-      echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-      echo
-      echo " - Quit: q"      
-      echo -e "\n"
-      echo " This screen will exit when the video player is closed."
-      echo
+      print_video_controls_help
       
       if [[ -z "$ytdlplast" ]]; then
               :
@@ -5651,20 +5355,8 @@ get_file_stats "${ytdlplast}"
       echo
 
       get_file_stats "${pasteclip}"
-      echo
-      echo
-      echo " Video Player Controls:"
-      echo                             
-      echo " - Fullscreen Toggle: f"
-      echo
-      echo " - Play/Pause Toggle: space bar"
-      echo
-      echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-      echo
-      echo " - Quit: q"      
-      echo -e "\n"
-      echo " This screen will exit when the video player is closed."
-      echo
+    
+    print_video_controls_help
       #read -p " Press enter to Continue"
       
        # video filename with full path <$pasteclip> strip from the bgininning of line to the last slash leaving only the filename <$getfilenameonly>
@@ -7476,21 +7168,9 @@ if [[ "$grabpaste" = "http" ]]; then
       hr 80 -         
       echo
               
-get_file_stats "${ytdlplast}"
+    get_file_stats "${ytdlplast}"
 
-      echo
-      echo " Video Player Controls:"
-      echo                             
-      echo " - Fullscreen Toggle: f"
-      echo
-      echo " - Play/Pause Toggle: space bar"
-      echo
-      echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-      echo
-      echo " - Quit: q"      
-      echo -e "\n"
-      echo " This screen will exit when the video player is closed."
-      echo
+      print_video_controls_help
       
       if [[ -z "$ytdlplast" ]]; then
              :
@@ -7521,20 +7201,8 @@ get_file_stats "${ytdlplast}"
       echo
 
       get_file_stats "${pasteclip}"
-      echo
-      echo
-      echo " Video Player Controls:"
-      echo                             
-      echo " - Fullscreen Toggle: f"
-      echo
-      echo " - Play/Pause Toggle: space bar"
-      echo
-      echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-      echo
-      echo " - Quit: q"      
-      echo -e "\n"
-      echo " This screen will exit when the video player is closed."
-      echo
+
+    print_video_controls_help
       #read -p " Press enter to Continue"
       
        # video filename with full path <$pasteclip> strip from the bgininning of line to the last slash leaving only the filename <$getfilenameonly>
@@ -7791,19 +7459,7 @@ if [[ "$grabpaste" = "http" ]]; then
               
         get_file_stats "${ytdlplast}"   
 
-      echo
-      echo " Video Player Controls:"
-      echo                             
-      echo " - Fullscreen Toggle: f"
-      echo
-      echo " - Play/Pause Toggle: space bar"
-      echo
-      echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-      echo
-      echo " - Quit: q"      
-      echo -e "\n"
-      echo " This screen will exit when the video player is closed."
-      echo
+      print_video_controls_help
       
       if [[ -z "$ytdlplast" ]]; then
         notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
@@ -7832,20 +7488,8 @@ if [[ "$grabpaste" = "http" ]]; then
       echo
 
       get_file_stats "${pasteclip}"
-      echo
-      echo
-      echo " Video Player Controls:"
-      echo                             
-      echo " - Fullscreen Toggle: f"
-      echo
-      echo " - Play/Pause Toggle: space bar"
-      echo
-      echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-      echo
-      echo " - Quit: q"      
-      echo -e "\n"
-      echo " This screen will exit when the video player is closed."
-      echo
+    
+        print_video_controls_help
       #read -p " Press enter to Continue"
       
        # video filename with full path <$pasteclip> strip from the bgininning of line to the last slash leaving only the filename <$getfilenameonly>
@@ -7964,18 +7608,7 @@ for line in $(cat "$input" 2>/dev/null); do
 
     get_file_stats "${line}"
     
-    echo
-    echo
-    echo " Video Player Controls:"
-    echo                             
-    echo " - Fullscreen Toggle: f"
-    echo
-    echo " - Play/Pause Toggle: space bar"
-    echo
-    echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-    echo
-    echo " - Quit: q"      
-    echo -e "\n"
+    print_video_controls_help
 
     ffplay -fs -autoexit "$line" 2> /dev/null
 
@@ -8030,18 +7663,7 @@ else
 
         get_file_stats "${line}"
         
-        echo
-        echo
-        echo " Video Player Controls:"
-        echo                             
-        echo " - Fullscreen Toggle: f"
-        echo
-        echo " - Play/Pause Toggle: space bar"
-        echo
-        echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-        echo
-        echo " - Quit: q"      
-        echo -e "\n"
+        print_video_controls_help
 
         ffplay -fs -autoexit "$line" 2> /dev/null
 
@@ -8103,20 +7725,8 @@ fi
                             echo
 
                             get_file_stats "${playnumber}"
-                            echo
-                            echo
-                            echo " Video Player Controls:"
-                            echo                             
-                            echo " - Fullscreen Toggle: f"
-                            echo
-                            echo " - Play/Pause Toggle: space bar"
-                            echo
-                            echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-                            echo
-                            echo " - Quit: q"      
-                            echo -e "\n"
-                            echo " This screen will exit when the video player is closed."
-                            echo
+                            
+                            print_video_controls_help
                             
                             # video filename with full path <$pasteclip> strip from the bgininning of line to the last slash leaving only the filename <$getfilenameonly>
                             getfilenameonly=$(echo "$playnumber" |  awk -F '/' '{print $NF}')  
@@ -8164,20 +7774,8 @@ fi
               echo
               echo " [PLAY]> ""$pasteclip"""
               hr 80 -         
-              echo
-              echo
-              echo " Video Player Controls:"
-              echo                             
-              echo " - Fullscreen Toggle: f"
-              echo
-              echo " - Play/Pause Toggle: space bar"
-              echo
-              echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-              echo
-              echo " - Quit: q"      
-              echo -e "\n"
-              echo " This screen will exit when the video player is closed."
-              echo
+              
+              print_video_controls_help
               
               ffplay -fs -autoexit &> /dev/null "$dirsaved"/download.tmp*  # play temporary video
               rm "$dirsaved"/download.tmp*  # on player close, delete temporary video
@@ -8224,19 +7822,7 @@ fi
               
                 get_file_stats "${ytdlplast}"
 
-              echo
-              echo " Video Player Controls:"
-              echo                             
-              echo " - Fullscreen Toggle: f"
-              echo
-              echo " - Play/Pause Toggle: space bar"
-              echo
-              echo " - Back/Fwd: Left/Right Arrows (tap or hold down)"
-              echo
-              echo " - Quit: q"      
-              echo -e "\n"
-              echo " This screen will exit when the video player is closed."
-              echo
+              print_video_controls_help
          
               notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
                        
