@@ -1,16 +1,15 @@
-# Videoinfox v3.9.03
+# Videoinfox v3.9.10
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
 
 ### 100% Linux Shell Script. Videoinfox is one file under one megabyte.
 
-
 #### Find local Video Files fast, immediately play and get info on. Download Videos effortlessly and auto play.
 
-#### Add URL's to The Default Download list on the fly without leaving your gui or starting up Videoinfox.
+#### Watch videos with (default) ffplay, mpv or any video player.
 
-#### Add URL's to Unlimited User Set Lists on the fly without leaving your gui or starting up Videoinfox.
+#### Add URL's to unlimited User Set Lists on the fly without leaving your gui or starting up Videoinfox.
 
 #### Download all your video url lists with Videoinfox's Yt-dlp integration including a Download Queue.
 <br />
@@ -324,6 +323,10 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+###  v3.9.10 Add: Watch videos with (default) ffplay, mpv or any video player.
+
+         Home Screen: - Set - Video Player
 
 ###  v3.9.03 Fix: Unknowingly deleted 1 charater on 1 line and broke Resume Autoplay with the last update.
 
