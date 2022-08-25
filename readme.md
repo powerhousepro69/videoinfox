@@ -7,11 +7,11 @@
 
 #### Find local Video Files fast, immediately play and get info on. Download Videos effortlessly and auto play.
 
-#### Watch videos with (default) ffplay, mpv or any video player.
-
 #### Add URL's to unlimited User Set Lists on the fly without leaving your gui or starting up Videoinfox.
 
 #### Download all your video url lists with Videoinfox's Yt-dlp integration including a Download Queue.
+
+#### Watch videos with (default) ffplay, mpv or any video player.
 <br />
 
 
