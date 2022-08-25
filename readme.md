@@ -33,7 +33,7 @@ You have to start Download List first then run another instance of Videoinfox to
 
 Videoinfox is a Linux shell script that feels like an app. If you enjoy watching local videos on your PC and want the ability to download video url's, you won't be disappointed. You can also make your own URL lists to download. While downloading a list, a log file will be generated for each list. The log is each http link from your list with the downloaded video filename. If the download list is aborted before completion, Yt-dlp has you covered. Just run the Download List feature again. Yt-dlp won't re-download files that you already have. There is a Played List that keeps track of everything played by Play Clipboard, Last Download and Play Line. The Playlist will never write to the Played List. Create unlimited Playlists and autoplay. Download Queue to add unlimited Videoinfox created User Download Lists for batch processing. Videoinfox does all the error handling and reporting.
 
-#### Add videos to the Playlist from: 
+#### Create unlimited playlists. Add videos to the Playlist from: 
 
 - Search Results: &nbsp; Find for recursive searching and Show All for recursive directory listing.
                                  
@@ -43,7 +43,7 @@ Videoinfox is a Linux shell script that feels like an app. If you enjoy watching
 
 - Played List: &nbsp; Play Clipboard, Last Download and Play Line all write to the Played List.  
 
-#### Create unlimited playlists.
+#### Start Autoplay on a playlist from the beginning to the end of the list or Start Autoplay from anywhere in the list and play to the end of the list. Resume Autoplay will start with last the video that was playing on Start Autoplay quit. Resume Autoplay will also keep track of the last video that was playing on quit.
 
 <br />
 
