@@ -104,6 +104,9 @@ init() {
     # This will invoke ytdlp-install() if it isn't
     ytdlp_check_version
 
+    # Just in case the previous action doesn't set this...
+    ytdlp_ver="$(yt-dlp --version)"
+
     # Disallow usage in /
     [[ "${PWD}" = "/" ]] && die "Videoinfox must not be run within /"
 
@@ -540,7 +543,7 @@ ytdlp_check_version() {
     fi
 
     # If it does exist in path, then get its version number
-    ytdlp_cur_version="$(yt-dlp --version)"
+    ytdlp_ver="$(yt-dlp --version)"
 
     # And get the latest available version number
     ytdlp_latest_version="$(ytdlp_get_latest_version_number)"
@@ -548,10 +551,10 @@ ytdlp_check_version() {
     # Output our findings
     printf -- '%s\n' \
         "Version Check Complete" \
-        "Current yt-dlp version is: ${ytdlp_cur_version}, latest is: ${ytdlp_latest_version}"
+        "Current yt-dlp version is: ${ytdlp_ver}, latest is: ${ytdlp_latest_version}"
 
     # If the versions match, then there's nothing to do here
-    [[ "${ytdlp_cur_version}" = "${ytdlp_latest_version}" ]] && return 0
+    [[ "${ytdlp_ver}" = "${ytdlp_latest_version}" ]] && return 0
 
     # If we're at this point, then we need to update ytdlp
     if confirm "Upgrade yt-dlp"; then
@@ -5250,39 +5253,6 @@ y)
 
 (  # grab working directory
 pasteclip3=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content to restore to before this function was run
-if ! command -v yt-dlp > /dev/null 2>&1; then  # if <yt-dlp> isnt found goto then
-
-    # Yt-dlp download attempt.  Yt-dlp Menu won't start untl Yt-dlp is downloaded to: yt-dlp
-    [[ -x "yt-dlp" ]] && ytdlp_update
-
-    if [[ -f yt-dlp ]]; then
-        chmod a+rx yt-dlp  # set <yt-dlp-fetched> execute bit
-        echo
-        echo " Yt-dlp Downloaded . . ."
-        echo
-        # SAMPLE VIDEO URL BEING COPIED TO CLIPBOARD
-        echo "https://www.youtube.com/watch?v=rNWPqfCJDnc" | xclip -sel clip 
-
-        noisy_timeout 5 " ${ver} starting"
-
-        cd "$dirtemp"  # restore directory
-        rm ${base_dir}/wget-* 2> /dev/null  
-    else
-        echo
-        echo " Yt-dlp Download Failure . . ."
-        echo
-
-        noisy_timeout 20 " ${ver} starting"
-
-        cd "$dirtemp"  # restore directory
-        rm ${base_dir}/wget-* 2> /dev/null
-    fi
-############################
-
-else  # IF YT-DLP IS FOUND    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    read -r ytdlpver < <(yt-dlp --version)
-fi
-
         menuy() {
             pasteclip  # grab clipboard content
 
@@ -5329,7 +5299,7 @@ fi
                 if [[ "$ytdlpconfirm" = "" ]]; then
                     pasteclip  # grab clipboard content
                     dash0=$(echo "-") # not blinking
-                    generate_options_menu" ${der} >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlpver" 
+                    generate_options_menu" ${der} >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlp_ver" 
 
                     echo " d "$dash0" Download Default     l - Last Download     v - View Downloads     p - Play Clipboard                 q - Quit"
                     echo " c "$dash0" Download Choose"
@@ -5348,7 +5318,7 @@ fi
                     echo "Download Directory: $dirsaved"  # dislpay default download directory
                     hr 80 -
                     echo
-                    echo " ${der} >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlpver"
+                    echo " ${der} >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlp_ver"
                     hr 80 -
                     echo
 
@@ -5364,7 +5334,7 @@ fi
                     echo "Valid file in clipboard"
                     hr 80 -
                     echo
-                    echo " ${der} >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlpver"
+                    echo " ${der} >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlp_ver"
                     hr 80 -
                     echo
 
@@ -5381,7 +5351,7 @@ fi
 
                     hr 80 -
                     echo
-                    echo " ${der} >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlpver"        
+                    echo " ${der} >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlp_ver"        
                     hr 80 -
                     echo
                     echo " d - Download Default     l - Last Download     v - View Downloads     p - Play Clipboard                 q - Quit"
@@ -6930,19 +6900,13 @@ else
 
                 for line in $(cat "$input" 2>/dev/null); do
                     clear
-                    
                     print_header " ${der} >>> VIEW DOWNLOADS >>> PLAY DIRECTORY" " [PLAY]> ${line}"
-
                     get_file_stats "${line}"
-                    
                     print_video_controls_help
-
                     ffplay -fs -autoexit "$line" 2> /dev/null
-
                     print_three_second_notice
                     read -t 3 -p " Press any key then press enter to quit : " playdir
-                        
-                        [[ "${playdir}" ]] && break
+                    [[ "${playdir}" ]] && break
                 done
                 
                 IFS=$OLDIFS
