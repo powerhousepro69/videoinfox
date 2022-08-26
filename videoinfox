@@ -603,8 +603,6 @@ ytdlp_install() {
     noisy_timeout 3 " Yt-dlp INSTALLED . . ."
 }
 
-
-
 codestats() {
     clear
 
@@ -2190,10 +2188,7 @@ while true; do
 
                                                         IFS=$OLDIFS
                                                     else
-                                                        echo
-                                                        echo
-                                                        echo " Playlist Empty . . ."
-                                                        sleep 1.7
+                                                        print_error "Playlist Empty . . ."
                                                     fi
 
                                                 ;;
@@ -2293,10 +2288,7 @@ while true; do
                                                         mv ${base_dir}/playlists/pl-tmp ${base_dir}/playlists/"$setplaylist".last-autoplay
                                                         IFS=$OLDIFS
                                                     else
-                                                        echo
-                                                        echo
-                                                        echo " Playlist Empty . . ."
-                                                        sleep 1.7
+                                                        print_error "Playlist Empty . . ."
                                                     fi
 
                                                 ;;
@@ -2328,10 +2320,7 @@ while true; do
                                                             IFS=$OLDIFS
                                                         fi
                                                     else
-                                                        echo
-                                                        echo
-                                                        echo " Playlist Empty . . ."
-                                                        sleep 1.7
+                                                        print_error "Playlist Empty . . ."
                                                     fi
                                                 ;;
                                                 i)  # INFO - <PLAYLIST>
@@ -3582,10 +3571,7 @@ while true; do
 
                                             IFS=$OLDIFS
                                         else
-                                            echo
-                                            echo
-                                            echo " Playlist Empty . . ."
-                                            sleep 1.7
+                                            print_error "Playlist Empty . . ."
                                         fi
                                     ;;
                                     ########################################
@@ -3684,10 +3670,7 @@ while true; do
                                             mv ${base_dir}/playlists/pl-tmp ${base_dir}/playlists/"$setplaylist".last-autoplay
                                             IFS=$OLDIFS
                                         else
-                                            echo
-                                            echo
-                                            echo " Playlist Empty . . ."
-                                            sleep 1.7
+                                            print_error "Playlist Empty . . ."
                                         fi
                                     ;;
                                     j) # PLAY LINE  (HOME >>> PLAYLIST)
@@ -3723,10 +3706,7 @@ while true; do
                                                 IFS=$OLDIFS
                                             fi
                                         else
-                                            echo
-                                            echo
-                                            echo " Playlist Empty . . ."
-                                            sleep 1.7
+                                            print_error "Playlist Empty . . ."
                                         fi
                                     ;;
                                     i)  # INFO - <PLAYLIST>
@@ -4526,12 +4506,8 @@ read -r -n1 optionv
 
                 IFS=$OLDIFS
 
-
             else
-                echo
-                echo
-                echo " Playlist Empty . . ."
-                sleep 1.7
+                print_error "Playlist Empty . . ."
             fi
         ;;
 
@@ -4632,10 +4608,7 @@ mv ${base_dir}/playlists/pl-tmp ${base_dir}/playlists/"$setplaylist".last-autopl
 IFS=$OLDIFS
 
    else
-       echo
-       echo
-       echo " Playlist Empty . . ."
-       sleep 1.7
+       print_error "Playlist Empty . . ."
 fi
 
 ;;
@@ -4671,14 +4644,10 @@ if [[ -z "$line" ]]; then
  
 IFS=$OLDIFS
 
-
 fi
 
 else
-       echo
-       echo
-       echo " Playlist Empty . . ."
-       sleep 1.7
+       print_error "Playlist Empty . . ."
 fi
 
 ;;
