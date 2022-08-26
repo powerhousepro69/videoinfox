@@ -645,6 +645,206 @@ codestats() {
     read -r -n1 optionstats
 }
 
+navtree() {
+    pasteclip  # grab clipboard content
+
+    if [[ ! -d "$pasteclip" ]]; then
+        echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
+        pasteclip  # grab clipboard content
+    fi
+    clear
+
+    # recursive list of directories for the user: enter line number to change to that directory
+    ####find "$PWD" -type d -iname "*" | sort -u 2>/dev/null
+
+    find "$PWD" -type d -iname "*" | sort -u > ${tmp_dir}/nt-list.tmp 2>/dev/null
+    # NUMBER THE LIST
+    sed '/./='  ${tmp_dir}/nt-list.tmp | sed '/./N; s/\n/ /' > ${tmp_dir}/nt-list-number.tmp 2>/dev/null
+
+    cat ${tmp_dir}/nt-list-number.tmp
+    # recursive number of directories found
+    ttotal=$(find  "$PWD" -type d -iname "*" 2>/dev/null | wc -l)   
+
+    notify-send "Videoinfox is done processing: Directory Tree" "Total Directories Found: "$ttotal" " # GUI Notification.
+
+    # recursive number of files found
+    ttotalnum=$(find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
+    ##################################################################################
+    ##########  START   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
+    ################################################################################## 
+
+    # DIRECTORY SELECTED IS NORMAL TEXT AND THE OTHER 4 ARE LESS BOLD. 
+
+    # DEFAULT DIR NUMBER 1 FORMAT
+    dirdisplay1=$(echo -e "1\033[2m 2 3 4 5\033[0m")
+    # DEFAULT DIR NUMBER 2 FORMAT
+    dirdisplay2=$(echo -e "\033[2m1 \033[0m2 \033[2m3 4 5\033[0m") 
+    # DEFAULT DIR NUMBER 3 FORMAT
+    dirdisplay3=$(echo -e "\033[2m1 2 \033[0m3 \033[2m4 5\033[0m")
+    # DEFAULT DIR NUMBER 4 FORMAT
+    dirdisplay4=$(echo -e "\033[2m1 2 3 \033[0m4 \033[2m5\033[0m")
+    # DEFAULT DIR NUMBER 5 FORMAT
+    dirdisplay5=$(echo -e "\033[2m1 2 3 4 \033[0m5\033[0m")
+    # NO MATCH ALL LESS BOLD
+    dirdisplayno=$(echo -e "\033[2m1 2 3 4 5\033[0m")
+    # FORMAT PWD NAME FOR COMPARISON
+    echo "$PWD" > ${base_dir}/videoinfox.pwd.tmp  # write PWD to a tmp file: videoinfox.pwd.tmp
+    cat ${base_dir}/videoinfox.pwd.tmp | tr "/" " " > ${base_dir}/videoinfox.pwd  # remove all froward slashes / write file: videoinfox.pwd
+    rm  ${base_dir}/videoinfox.pwd.tmp  # remove tmp file: videoinfox.pwd.tmp
+    sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.pwd  # remove horizontal whitespace write file: videoinfox.pwd
+
+    # FORMAT DEFAULT DIR 1 NAME FOR COMPARISON
+    echo "$dir1" > ${base_dir}/videoinfox.dir1.tmp  # write dir 1 to a tmp file: videoinfox.dir1.tmp
+    cat ${base_dir}/videoinfox.dir1.tmp | tr "/" " " > ${base_dir}/videoinfox.dir1  # remove all froward slashes / write file: videoinfox.dir1
+    rm ${base_dir}/videoinfox.dir1.tmp  # remove tmp file: videoinfox.dir1.tmp 
+    sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir1  # remove horizontal whitespace write file: videoinfox.dir1
+
+    # FORMAT DEFAULT DIR 2 NAME FOR COMPARISON
+    echo "$dir2" > ${base_dir}/videoinfox.dir2.tmp  # write dir 2 to a tmp file: videoinfox.dir2.tmp
+    cat ${base_dir}/videoinfox.dir2.tmp | tr "/" " " > ${base_dir}/videoinfox.dir2  # remove all froward slashes / write file: videoinfox.dir2
+    rm ${base_dir}/videoinfox.dir2.tmp   # remove tmp file: videoinfox.dir2.tmp 
+    sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir2 # remove horizontal whitespace write file: videoinfox.dir2
+
+    # FORMAT DEFAULT DIR 3 NAME FOR COMPARISON
+    echo "$dirsaved" > ${base_dir}/videoinfox.dir3.tmp  # write dir 3 to a tmp file: videoinfox.dir3.tmp
+    cat ${base_dir}/videoinfox.dir3.tmp | tr "/" " " > ${base_dir}/videoinfox.dir3  # remove all froward slashes / write file: videoinfox.dir3
+    rm ${base_dir}/videoinfox.dir3.tmp   # remove tmp file: videoinfox.dir3.tmp 
+    sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir3 # remove horizontal whitespace write file: videoinfox.dir3
+
+    # FORMAT DEFAULT DIR 4 NAME FOR COMPARISON
+    echo "$dir4" > ${base_dir}/videoinfox.dir4.tmp  # write dir 4 to a tmp file: videoinfox.dir4.tmp
+    cat ${base_dir}/videoinfox.dir4.tmp | tr "/" " " > ${base_dir}/videoinfox.dir4  # remove all froward slashes / write file: videoinfox.dir4
+    rm ${base_dir}/videoinfox.dir4.tmp   # remove tmp file: videoinfox.dir4.tmp 
+    sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir4 # remove horizontal whitespace write file: videoinfox.dir4
+
+    # FORMAT DEFAULT DIR 5 NAME FOR COMPARISON
+    echo "$dir5" > ${base_dir}/videoinfox.dir5.tmp  # write dir 5 to a tmp file: videoinfox.dir5.tmp
+    cat ${base_dir}/videoinfox.dir5.tmp | tr "/" " " > ${base_dir}/videoinfox.dir5  # remove all froward slashes / write file: videoinfox.dir5
+    rm ${base_dir}/videoinfox.dir5.tmp   # remove tmp file: videoinfox.dir5.tmp 
+    sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir5 # remove horizontal whitespace write file: videoinfox.dir5
+    # LOAD EDITED PWD AND DEFAULT DIRECTORY NAMES FOR BELOW  IF LOOPS   (all frorward slashes / and white spaces removed from the below directory names)
+
+    read -r controldir < ${base_dir}/videoinfox.pwd    # load reformatted current directory name 
+    read -r dir1display < ${base_dir}/videoinfox.dir1  # load reformatted default directory 1 name
+    read -r dir2display < ${base_dir}/videoinfox.dir2  # load reformatted default directory 2 name
+    read -r dir3display < ${base_dir}/videoinfox.dir3  # load reformatted default directory 3 name
+    read -r dir4display < ${base_dir}/videoinfox.dir4  # load reformatted default directory 4 name
+    read -r dir5display < ${base_dir}/videoinfox.dir5  # load reformatted default directory 5 name
+    # DEFAULT DIR 5  DISPLAY     IF DIRECTORY ON EXIT  =  DEFAULT DIRECTORIES 1-4 then Display that directory number.
+
+    if [[ "$controldir" = "$dir5display" ]]; then 
+        [[ "$dir5display" = "$dir1display" ]] && dirdisp="$dirdisplay1"
+        [[ "$dir5display" = "$dir2display" ]] && dirdisp="$dirdisplay2"
+        [[ "$dir5display" = "$dir3display" ]] && dirdisp="$dirdisplay3"
+        [[ "$dir5display" = "$dir4display" ]] && dirdisp="$dirdisplay4"
+    fi
+
+    # DEFAULT DIR 5 DISPLAY
+    if [[ "$controldir" = "$dir5display" ]]; then
+        # if directory is changed to  Default Dir 5 :  The number 5 is normal text and the other 4 are less bold.
+        dirdisp="$dirdisplay5"
+    else
+        # if directory doesn't match  Default Dirs 1-5 : All 5 numbers are less bold.  
+        dirdisp="$dirdisplayno"
+    fi 
+
+    # DEFAULT DIR 1  DISPLAY
+    [[ "$controldir" = "$dir1display" ]] && dirdisp="$dirdisplay1"
+    # DEFAULT DIR 2  DISPLAY
+    [[ "$controldir" = "$dir2display" ]] && dirdisp="$dirdisplay2"
+    # DEFAULT DIR 3  DISPLAY
+    [[ "$controldir" = "$dir3display" ]] && dirdisp="$dirdisplay3"
+    # DEFAULT DIR 4  DISPLAY
+    # if directory is changed to  Default Dir 4 :  The number 4 is normal text and the other 4 are less bold.
+    [[ "$controldir" = "$dir4display" ]] && dirdisp="$dirdisplay4"
+
+    ################################################################################
+    ##########  END   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
+    ################################################################################
+    ########## blinking routines for display ##########
+
+    # not blinking Play Directory
+    playdir1=$(echo "Play Directory")
+    # blinking Play Directory
+    playdir2=$(echo -e "\033[5mPlay Directory\033m\033[0m\033[5m\033[5m\033[0m")
+
+    # not blinking dash
+    dash0=$(echo "-")
+    # blinking dash
+    dash1=$(echo "~")
+    # get file count of videos one directory deep for blinking   Play Directory
+    blinkit=$(find_supported_files --count)
+
+    # if find results are zero goto then
+    if [[ "$blinkit" = 0 ]]; then
+        blinkit2="$playdir1"  # zero files. non bliking  Playdirectory
+        bdash="$dash0"
+    else
+        blinkit2="$playdir2" # not zero files. blinking  Play Directory
+        bdash="$dash1"
+    fi
+    # not blinking
+    changedir1=$(echo "Change Directory")
+    # blinking
+    changedir2=$(echo -e "\033[5mChange Directory\033m\033[0m\033[5m\033[5m\033[0m")
+
+    # if directory exists goto then
+    if [[ -d "$pasteclip" ]]; then
+        changedir3="$changedir2"  # if the directory exists, blinking  Change Directory
+    else
+        changedir3="$changedir1"  # if the directory doesn't exist, non blinking  Change Directory
+    fi
+
+    case "${1}" in
+        (--first-instance)
+            ########## end blinking routines ################## 
+            echo
+            echo "Treetop:" "$grabdirfornav2"
+            echo "Total Directories: "$ttotal" "
+            echo "Total Video Files:" "$ttotalnum"
+            echo
+            echo "Current Directory:" "$PWD"
+            echo "Video Files:" "$blinkit"
+            # echo
+            # echo "Clipboard:" "$pasteclip"
+
+            print_header " ${der} >>> NAVIGATE TREE                               "$dirdisp" - Default Dirs"
+
+            #echo " c - "$changedir3"     a "$bdash" Show All     d "$bdash" Play Directory     n - Change Treetop                     q - Quit"
+            echo " c - Change Directory     a "$bdash" Show All     d "$bdash" Play Directory     n - Change Treetop                      q - Quit"
+            echo " u - Up One Level"
+            echo " t - Treetop"
+            echo   
+            echo -en " Enter Option: "
+            read -r -n1 option
+            echo
+        ;;
+        (--second-instance)
+            ########## end blinking routines ################## 
+            echo
+            echo "Treetop:" "$grabdirfornav2"
+            echo "Total Directories: "$ttotal" "
+            #echo "Total Video Files:" "$ttotalnum"
+            echo
+            echo "Current Directory:" "$PWD"
+            #echo "Video Files:" "$blinkit"
+            #echo
+            #echo "Clipboard:" "$pasteclip"
+            hr 80 -
+            echo  
+            echo " ${der} >>> CREATE DIRECTORY                                                  "$dirdisp" - Default Dirs"
+            hr 80 - 
+            echo
+            echo " c - "$changedir3"     m - Create Directory     n - Change Treetop                                     q - Quit"
+            echo " u - Up One Level"
+            echo " t - Treetop"
+            echo
+            echo -en " Enter Option: "
+            read -r -n1 option
+            echo
+        ;;
+    esac
+}
 
 ###############################################################################
 #  videoinfox -u     DOWNLOAD ANY LIST THAT IS RECURSIVELY REACHABLE FROM THE CURRENT DIRECORY. ENTER FULL FILENAME ONLY. NO WILDCARD
@@ -1350,185 +1550,14 @@ while true; do
         ;;
         n)
             ###############################################################################
-            ###########################   (@NAVIGATE TREE)  n  ###############################################################################################
+            ###########################   (@NAVIGATE TREE)  n  ############################
             ###############################################################################
 
             pasteclip2=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content   save to restore on option quit
             echo "" | xclip -sel clip  # clearing the clipboard
-            navtree() {
-                pasteclip  # grab clipboard content
-
-                if [[ ! -d "$pasteclip" ]]; then
-                    echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
-                    pasteclip  # grab clipboard content
-                fi
-                clear
-
-                # recursive list of directories for the user: enter line number to change to that directory
-                ####find "$PWD" -type d -iname "*" | sort -u 2>/dev/null
-
-                find "$PWD" -type d -iname "*" | sort -u > ${tmp_dir}/nt-list.tmp 2>/dev/null
-                # NUMBER THE LIST
-                sed '/./='  ${tmp_dir}/nt-list.tmp | sed '/./N; s/\n/ /' > ${tmp_dir}/nt-list-number.tmp 2>/dev/null
-
-                cat ${tmp_dir}/nt-list-number.tmp
-                # recursive number of directories found
-                ttotal=$(find  "$PWD" -type d -iname "*" 2>/dev/null | wc -l)   
-
-                notify-send "Videoinfox is done processing: Directory Tree" "Total Directories Found: "$ttotal" " # GUI Notification.
-
-                # recursive number of files found
-                ttotalnum=$(find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
-                ##################################################################################
-                ##########  START   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
-                ################################################################################## 
-
-                # DIRECTORY SELECTED IS NORMAL TEXT AND THE OTHER 4 ARE LESS BOLD. 
-
-                # DEFAULT DIR NUMBER 1 FORMAT
-                dirdisplay1=$(echo -e "1\033[2m 2 3 4 5\033[0m")
-                # DEFAULT DIR NUMBER 2 FORMAT
-                dirdisplay2=$(echo -e "\033[2m1 \033[0m2 \033[2m3 4 5\033[0m") 
-                # DEFAULT DIR NUMBER 3 FORMAT
-                dirdisplay3=$(echo -e "\033[2m1 2 \033[0m3 \033[2m4 5\033[0m")
-                # DEFAULT DIR NUMBER 4 FORMAT
-                dirdisplay4=$(echo -e "\033[2m1 2 3 \033[0m4 \033[2m5\033[0m")
-                # DEFAULT DIR NUMBER 5 FORMAT
-                dirdisplay5=$(echo -e "\033[2m1 2 3 4 \033[0m5\033[0m")
-                # NO MATCH ALL LESS BOLD
-                dirdisplayno=$(echo -e "\033[2m1 2 3 4 5\033[0m")
-                # FORMAT PWD NAME FOR COMPARISON
-                echo "$PWD" > ${base_dir}/videoinfox.pwd.tmp  # write PWD to a tmp file: videoinfox.pwd.tmp
-                cat ${base_dir}/videoinfox.pwd.tmp | tr "/" " " > ${base_dir}/videoinfox.pwd  # remove all froward slashes / write file: videoinfox.pwd
-                rm  ${base_dir}/videoinfox.pwd.tmp  # remove tmp file: videoinfox.pwd.tmp
-                sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.pwd  # remove horizontal whitespace write file: videoinfox.pwd
-
-                # FORMAT DEFAULT DIR 1 NAME FOR COMPARISON
-                echo "$dir1" > ${base_dir}/videoinfox.dir1.tmp  # write dir 1 to a tmp file: videoinfox.dir1.tmp
-                cat ${base_dir}/videoinfox.dir1.tmp | tr "/" " " > ${base_dir}/videoinfox.dir1  # remove all froward slashes / write file: videoinfox.dir1
-                rm ${base_dir}/videoinfox.dir1.tmp  # remove tmp file: videoinfox.dir1.tmp 
-                sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir1  # remove horizontal whitespace write file: videoinfox.dir1
-
-                # FORMAT DEFAULT DIR 2 NAME FOR COMPARISON
-                echo "$dir2" > ${base_dir}/videoinfox.dir2.tmp  # write dir 2 to a tmp file: videoinfox.dir2.tmp
-                cat ${base_dir}/videoinfox.dir2.tmp | tr "/" " " > ${base_dir}/videoinfox.dir2  # remove all froward slashes / write file: videoinfox.dir2
-                rm ${base_dir}/videoinfox.dir2.tmp   # remove tmp file: videoinfox.dir2.tmp 
-                sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir2 # remove horizontal whitespace write file: videoinfox.dir2
-
-                # FORMAT DEFAULT DIR 3 NAME FOR COMPARISON
-                echo "$dirsaved" > ${base_dir}/videoinfox.dir3.tmp  # write dir 3 to a tmp file: videoinfox.dir3.tmp
-                cat ${base_dir}/videoinfox.dir3.tmp | tr "/" " " > ${base_dir}/videoinfox.dir3  # remove all froward slashes / write file: videoinfox.dir3
-                rm ${base_dir}/videoinfox.dir3.tmp   # remove tmp file: videoinfox.dir3.tmp 
-                sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir3 # remove horizontal whitespace write file: videoinfox.dir3
-
-                # FORMAT DEFAULT DIR 4 NAME FOR COMPARISON
-                echo "$dir4" > ${base_dir}/videoinfox.dir4.tmp  # write dir 4 to a tmp file: videoinfox.dir4.tmp
-                cat ${base_dir}/videoinfox.dir4.tmp | tr "/" " " > ${base_dir}/videoinfox.dir4  # remove all froward slashes / write file: videoinfox.dir4
-                rm ${base_dir}/videoinfox.dir4.tmp   # remove tmp file: videoinfox.dir4.tmp 
-                sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir4 # remove horizontal whitespace write file: videoinfox.dir4
-
-                # FORMAT DEFAULT DIR 5 NAME FOR COMPARISON
-                echo "$dir5" > ${base_dir}/videoinfox.dir5.tmp  # write dir 5 to a tmp file: videoinfox.dir5.tmp
-                cat ${base_dir}/videoinfox.dir5.tmp | tr "/" " " > ${base_dir}/videoinfox.dir5  # remove all froward slashes / write file: videoinfox.dir5
-                rm ${base_dir}/videoinfox.dir5.tmp   # remove tmp file: videoinfox.dir5.tmp 
-                sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir5 # remove horizontal whitespace write file: videoinfox.dir5
-                # LOAD EDITED PWD AND DEFAULT DIRECTORY NAMES FOR BELOW  IF LOOPS   (all frorward slashes / and white spaces removed from the below directory names)
-
-                read -r controldir < ${base_dir}/videoinfox.pwd    # load reformatted current directory name 
-                read -r dir1display < ${base_dir}/videoinfox.dir1  # load reformatted default directory 1 name
-                read -r dir2display < ${base_dir}/videoinfox.dir2  # load reformatted default directory 2 name
-                read -r dir3display < ${base_dir}/videoinfox.dir3  # load reformatted default directory 3 name
-                read -r dir4display < ${base_dir}/videoinfox.dir4  # load reformatted default directory 4 name
-                read -r dir5display < ${base_dir}/videoinfox.dir5  # load reformatted default directory 5 name
-                # DEFAULT DIR 5  DISPLAY     IF DIRECTORY ON EXIT  =  DEFAULT DIRECTORIES 1-4 then Display that directory number.
-
-                if [[ "$controldir" = "$dir5display" ]]; then 
-                    [[ "$dir5display" = "$dir1display" ]] && dirdisp="$dirdisplay1"
-                    [[ "$dir5display" = "$dir2display" ]] && dirdisp="$dirdisplay2"
-                    [[ "$dir5display" = "$dir3display" ]] && dirdisp="$dirdisplay3"
-                    [[ "$dir5display" = "$dir4display" ]] && dirdisp="$dirdisplay4"
-                fi
-
-                # DEFAULT DIR 5 DISPLAY
-                if [[ "$controldir" = "$dir5display" ]]; then
-                    # if directory is changed to  Default Dir 5 :  The number 5 is normal text and the other 4 are less bold.
-                    dirdisp="$dirdisplay5"
-                else
-                    # if directory doesn't match  Default Dirs 1-5 : All 5 numbers are less bold.  
-                    dirdisp="$dirdisplayno"
-                fi 
-
-                # DEFAULT DIR 1  DISPLAY
-                [[ "$controldir" = "$dir1display" ]] && dirdisp="$dirdisplay1"
-                # DEFAULT DIR 2  DISPLAY
-                [[ "$controldir" = "$dir2display" ]] && dirdisp="$dirdisplay2"
-                # DEFAULT DIR 3  DISPLAY
-                [[ "$controldir" = "$dir3display" ]] && dirdisp="$dirdisplay3"
-                # DEFAULT DIR 4  DISPLAY
-                # if directory is changed to  Default Dir 4 :  The number 4 is normal text and the other 4 are less bold.
-                [[ "$controldir" = "$dir4display" ]] && dirdisp="$dirdisplay4"
-
-                ################################################################################
-                ##########  END   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
-                ################################################################################
-                ########## blinking routines for display ##########
-
-                # not blinking Play Directory
-                playdir1=$(echo "Play Directory")
-                # blinking Play Directory
-                playdir2=$(echo -e "\033[5mPlay Directory\033m\033[0m\033[5m\033[5m\033[0m")
-
-                # not blinking dash
-                dash0=$(echo "-")
-                # blinking dash
-                dash1=$(echo "~")
-                # get file count of videos one directory deep for blinking   Play Directory
-                blinkit=$(find_supported_files --count)
-
-                # if find results are zero goto then
-                if [[ "$blinkit" = 0 ]]; then
-                    blinkit2="$playdir1"  # zero files. non bliking  Playdirectory
-                    bdash="$dash0"
-                else
-                    blinkit2="$playdir2" # not zero files. blinking  Play Directory
-                    bdash="$dash1"
-                fi
-                # not blinking
-                changedir1=$(echo "Change Directory")
-                # blinking
-                changedir2=$(echo -e "\033[5mChange Directory\033m\033[0m\033[5m\033[5m\033[0m")
-
-                # if directory exists goto then
-                if [[ -d "$pasteclip" ]]; then
-                    changedir3="$changedir2"  # if the directory exists, blinking  Change Directory
-                else
-                    changedir3="$changedir1"  # if the directory doesn't exist, non blinking  Change Directory
-                fi
-                ########## end blinking routines ################## 
-                echo
-                echo "Treetop:" "$grabdirfornav2"
-                echo "Total Directories: "$ttotal" "
-                echo "Total Video Files:" "$ttotalnum"                                                                                                            
-                echo
-                echo "Current Directory:" "$PWD"
-                echo "Video Files:" "$blinkit"
-                # echo
-                # echo "Clipboard:" "$pasteclip"
-
-                print_header " ${der} >>> NAVIGATE TREE                               "$dirdisp" - Default Dirs"
-
-                #echo " c - "$changedir3"     a "$bdash" Show All     d "$bdash" Play Directory     n - Change Treetop                     q - Quit"
-                echo " c - Change Directory     a "$bdash" Show All     d "$bdash" Play Directory     n - Change Treetop                      q - Quit"
-                echo " u - Up One Level"
-                echo " t - Treetop"
-                echo   
-                echo -en " Enter Option: "
-                read -r -n1 option
-                echo
-            }
   
             while true; do
-                navtree
+                navtree --first-instance
                 case $option in
                     q)  # QUIT
                         ##############################     cd "$grabdirfornav2" &>/dev/null   # restore directory
@@ -5719,187 +5748,13 @@ pasteclip  # grab clipboard content
 ;;
 m)
 ###############################################################################
-###########################   CREATE DIRECTORY  n   (DOWNLOAD LIST)   ############################################################################
+###########################   CREATE DIRECTORY  n   (DOWNLOAD LIST)   #########
 ###############################################################################
 
 pasteclip2=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content   save to restore on option quit
 echo "" | xclip -sel clip  # clearing the clipboard
-navtree() {
-
-pasteclip  # grab clipboard content
-
-if ! [[ -d "$pasteclip" ]]; then
-    echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
-    pasteclip  # grab clipboard content 
-fi
-clear
-# recursive list of directories for the user to copy one to the clipboard and press  c   to change to that directory
-#### find "$PWD" -type d -iname "*" | sort -u 2>/dev/null
-
-find "$PWD" -type d -iname "*" | sort -u > ${tmp_dir}/nt-list.tmp 2>/dev/null
-
-# NUMBER THE LIST
-sed '/./='  ${tmp_dir}/nt-list.tmp | sed '/./N; s/\n/ /' > ${tmp_dir}/nt-list-number.tmp 2>/dev/null
-
-cat ${tmp_dir}/nt-list-number.tmp
-# recursive number of directories found
-ttotal=$(find  "$PWD" -type d -iname "*" 2>/dev/null | wc -l)   
-
-notify-send "Videoinfox is done processing: Directory Tree" "Total Directories Found: "$ttotal" " # GUI Notification.
-
-# recursive number of files found
-#ttotalnum=$(find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
-##################################################################################
-##########  START   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
-################################################################################## 
-
-# DIRECTORY SELECTED IS NORMAL TEXT AND THE OTHER 4 ARE LESS BOLD. 
-
-# DEFAULT DIR NUMBER 1 FORMAT
-dirdisplay1=$(echo -e "1\033[2m 2 3 4 5\033[0m")
-# DEFAULT DIR NUMBER 2 FORMAT
-dirdisplay2=$(echo -e "\033[2m1 \033[0m2 \033[2m3 4 5\033[0m") 
-# DEFAULT DIR NUMBER 3 FORMAT
-dirdisplay3=$(echo -e "\033[2m1 2 \033[0m3 \033[2m4 5\033[0m")
-# DEFAULT DIR NUMBER 4 FORMAT
-dirdisplay4=$(echo -e "\033[2m1 2 3 \033[0m4 \033[2m5\033[0m")
-# DEFAULT DIR NUMBER 5 FORMAT
-dirdisplay5=$(echo -e "\033[2m1 2 3 4 \033[0m5\033[0m")
-# NO MATCH ALL LESS BOLD
-dirdisplayno=$(echo -e "\033[2m1 2 3 4 5\033[0m")
-# FORMAT PWD NAME FOR COMPARISON
-echo "$PWD" > ${base_dir}/videoinfox.pwd.tmp  # write PWD to a tmp file: videoinfox.pwd.tmp
-cat ${base_dir}/videoinfox.pwd.tmp | tr "/" " " > ${base_dir}/videoinfox.pwd  # remove all froward slashes / write file: videoinfox.pwd
-rm  ${base_dir}/videoinfox.pwd.tmp  # remove tmp file: videoinfox.pwd.tmp
-sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.pwd  # remove horizontal whitespace write file: videoinfox.pwd
-
-# FORMAT DEFAULT DIR 1 NAME FOR COMPARISON
-echo "$dir1" > ${base_dir}/videoinfox.dir1.tmp  # write dir 1 to a tmp file: videoinfox.dir1.tmp
-cat ${base_dir}/videoinfox.dir1.tmp | tr "/" " " > ${base_dir}/videoinfox.dir1  # remove all froward slashes / write file: videoinfox.dir1
-rm ${base_dir}/videoinfox.dir1.tmp  # remove tmp file: videoinfox.dir1.tmp 
-sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir1  # remove horizontal whitespace write file: videoinfox.dir1
-
-# FORMAT DEFAULT DIR 2 NAME FOR COMPARISON
-echo "$dir2" > ${base_dir}/videoinfox.dir2.tmp  # write dir 2 to a tmp file: videoinfox.dir2.tmp
-cat ${base_dir}/videoinfox.dir2.tmp | tr "/" " " > ${base_dir}/videoinfox.dir2  # remove all froward slashes / write file: videoinfox.dir2
-rm ${base_dir}/videoinfox.dir2.tmp   # remove tmp file: videoinfox.dir2.tmp 
-sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir2 # remove horizontal whitespace write file: videoinfox.dir2
-
-# FORMAT DEFAULT DIR 3 NAME FOR COMPARISON
-echo "$dirsaved" > ${base_dir}/videoinfox.dir3.tmp  # write dir 3 to a tmp file: videoinfox.dir3.tmp
-cat ${base_dir}/videoinfox.dir3.tmp | tr "/" " " > ${base_dir}/videoinfox.dir3  # remove all froward slashes / write file: videoinfox.dir3
-rm ${base_dir}/videoinfox.dir3.tmp   # remove tmp file: videoinfox.dir3.tmp 
-sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir3 # remove horizontal whitespace write file: videoinfox.dir3
-
-# FORMAT DEFAULT DIR 4 NAME FOR COMPARISON
-echo "$dir4" > ${base_dir}/videoinfox.dir4.tmp  # write dir 4 to a tmp file: videoinfox.dir4.tmp
-cat ${base_dir}/videoinfox.dir4.tmp | tr "/" " " > ${base_dir}/videoinfox.dir4  # remove all froward slashes / write file: videoinfox.dir4
-rm ${base_dir}/videoinfox.dir4.tmp   # remove tmp file: videoinfox.dir4.tmp 
-sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir4 # remove horizontal whitespace write file: videoinfox.dir4
-
-# FORMAT DEFAULT DIR 5 NAME FOR COMPARISON
-echo "$dir5" > ${base_dir}/videoinfox.dir5.tmp  # write dir 5 to a tmp file: videoinfox.dir5.tmp
-cat ${base_dir}/videoinfox.dir5.tmp | tr "/" " " > ${base_dir}/videoinfox.dir5  # remove all froward slashes / write file: videoinfox.dir5
-rm ${base_dir}/videoinfox.dir5.tmp   # remove tmp file: videoinfox.dir5.tmp 
-sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir5 # remove horizontal whitespace write file: videoinfox.dir5
-# LOAD EDITED PWD AND DEFAULT DIRECTORY NAMES FOR BELOW  IF LOOPS   (all frorward slashes / and white spaces removed from the below directory names)
-
-read -r controldir < ${base_dir}/videoinfox.pwd    # load reformatted current directory name 
-read -r dir1display < ${base_dir}/videoinfox.dir1  # load reformatted default directory 1 name
-read -r dir2display < ${base_dir}/videoinfox.dir2  # load reformatted default directory 2 name
-read -r dir3display < ${base_dir}/videoinfox.dir3  # load reformatted default directory 3 name
-read -r dir4display < ${base_dir}/videoinfox.dir4  # load reformatted default directory 4 name
-read -r dir5display < ${base_dir}/videoinfox.dir5  # load reformatted default directory 5 name
-# DEFAULT DIR 5  DISPLAY     IF DIRECTORY ON EXIT  =  DEFAULT DIRECTORIES 1-4 then Display that directory number.
-
-if [[ "$controldir" = "$dir5display" ]]; then 
-    [[ "$dir5display" = "$dir1display" ]] && dirdisp="$dirdisplay1"
-    [[ "$dir5display" = "$dir2display" ]] && dirdisp="$dirdisplay2"
-    [[ "$dir5display" = "$dir3display" ]] && dirdisp="$dirdisplay3"
-    [[ "$dir5display" = "$dir4display" ]] && dirdisp="$dirdisplay4"
-fi
-
-# DEFAULT DIR 5 DISPLAY
-if [[ "$controldir" = "$dir5display" ]]; then
-    # if directory is changed to  Default Dir 5 :  The number 5 is normal text and the other 4 are less bold.
-    dirdisp="$dirdisplay5"
-else
-    # if directory doesn't match  Default Dirs 1-5 : All 5 numbers are less bold.  
-    dirdisp="$dirdisplayno"
-fi 
-
-# DEFAULT DIR 1  DISPLAY
-[[ "$controldir" = "$dir1display" ]] && dirdisp="$dirdisplay1"
-# DEFAULT DIR 2  DISPLAY
-[[ "$controldir" = "$dir2display" ]] && dirdisp="$dirdisplay2"
-# DEFAULT DIR 3  DISPLAY
-[[ "$controldir" = "$dir3display" ]] && dirdisp="$dirdisplay3"
-# DEFAULT DIR 4  DISPLAY
-# if directory is changed to  Default Dir 4 :  The number 4 is normal text and the other 4 are less bold.
-[[ "$controldir" = "$dir4display" ]] && dirdisp="$dirdisplay4"
-
-################################################################################
-##########  END   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
-################################################################################
-########## blinking routines for display ##########
-
-# not blinking Play Directory
-playdir1=$(echo "Play Directory")
-# blinking Play Directory
-playdir2=$(echo -e "\033[5mPlay Directory\033m\033[0m\033[5m\033[5m\033[0m")
-
-# not blinking dash
-dash0=$(echo "-")
-# blinking dash
-dash1=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
-# get file count of videos one directory deep for blinking   Play Directory
-blinkit=$(find_supported_files --count)
-
-# if find results are zero goto then
-if [[ "$blinkit" = 0 ]]; then
-      blinkit2="$playdir1"  # zero files. non bliking  Playdirectory
-      bdash="$dash0"
-  else
-      blinkit2="$playdir2" # not zero files. blinking  Play Directory
-      bdash="$dash1"
-fi
-# not blinking
-changedir1=$(echo "Change Directory")
-# blinking
-changedir2=$(echo -e "\033[5mChange Directory\033m\033[0m\033[5m\033[5m\033[0m")
-
-# if directory exists goto then
-if [[ -d "$pasteclip" ]]; then
-      changedir3="$changedir2"  # if the directory exists, blinking  Change Directory
-  else
-      changedir3="$changedir1"  # if the directory doesn't exist, non blinking  Change Directory
-fi
-########## end blinking routines ################## 
-echo
-echo "Treetop:" "$grabdirfornav2"
-echo "Total Directories: "$ttotal" "
-#echo "Total Video Files:" "$ttotalnum"                                                                                                            
-echo
-echo "Current Directory:" "$PWD"
-#echo "Video Files:" "$blinkit"
-#echo
-#echo "Clipboard:" "$pasteclip"
-hr 80 -
-echo  
-echo " ${der} >>> CREATE DIRECTORY                                                  "$dirdisp" - Default Dirs"
-hr 80 - 
-echo
-echo " c - "$changedir3"     m - Create Directory     n - Change Treetop                                     q - Quit"
-echo " u - Up One Level"
-echo " t - Treetop"
-echo
-echo -en " Enter Option: "
-read -r -n1 option
-echo
-}
-  
          while true; do
-         navtree
+         navtree --second-instance
         case $option in
          
          q)  # QUIT
