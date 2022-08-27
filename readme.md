@@ -1,4 +1,4 @@
-# Videoinfox v3.9.10
+# Videoinfox v3.9.12
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -37,7 +37,7 @@ Videoinfox is a Linux shell script that feels like an app. If you enjoy watching
 
 - Search Results: &nbsp; Find for recursive searching and Show All for recursive directory listing.
                                  
-- Directory Listings: &nbsp; Navigate Tree for current directory listing. 
+- Directory Listings: &nbsp; Navigate Tree for one level deep directory listing. 
 
 - Directory To Playlist: &nbsp; Add all videos in the current directory to a new Playlist.
 
@@ -323,6 +323,14 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+### v3.9.12 Add: In -Set -Video Player. If Mpv isn't found, notification is given and the currently set video player is kept.
+
+         Add: Info added to home help: Start Autoplay from anywhere in the playlist. Then Resume 
+              Autoplay to start the last video that was playing on quit. 
+              More info located in View Playlist >>> Help
+
+         Removed: Features List in home help
 
 ###  v3.9.10 Add: Watch videos with (default) ffplay, mpv or any video player.
 
