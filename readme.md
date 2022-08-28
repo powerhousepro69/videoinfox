@@ -1,4 +1,4 @@
-# Videoinfox v3.9.12
+# Videoinfox v3.9.13
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -324,7 +324,11 @@ FIRST RUN
 ##### Reddit /Videoinfox for discussion.
 <br />
 
-### v3.9.12 Add: In -Set -Video Player. If Mpv isn't found, notification is given and the currently set video player is kept.
+###  v3.9.13 Add: In -Set -Video Player -Custom. Added -Set to set custom and -Edit to edit custom. 
+
+         If Custom isn't found, notification given and the currently set video player is kept.
+
+###  v3.9.12 Add: In -Set -Video Player. If Mpv isn't found, notification is given and the currently set video player is kept.
 
          Add: Info added to home help: Start Autoplay from anywhere in the playlist. Then Resume 
               Autoplay to start the last video that was playing on quit. 
