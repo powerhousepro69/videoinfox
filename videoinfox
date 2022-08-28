@@ -281,9 +281,8 @@ print_error() {
     sleep .75 2>/dev/null || sleep 1
 }
 
-###############################################################################
 #  videoinfox -h     DISPLAY HELP THEN EXIT  
-###############################################################################
+
 print_help() {
 cat << EOF
 ___________________________________________________________________________________________________________________
@@ -335,9 +334,8 @@ print_three_second_notice() {
     printf -- '%s\n' ""
 echo 
 
-###############################################################################
 #  videoinfox -v     DISPLAY VERSION NUMBER THEN EXIT  
-###############################################################################
+
 print_version() {
     printf -- '%s\n' "${ver}"
     exit 0
@@ -414,7 +412,6 @@ squash() {
     sed -i '/^$/d' "${1:?No file specified}"
 }
 
-###############################################################################
 ##### CHECK FOR VIDEOINFOX UPDATE #############################################
 videoinfox_update() {
     clear
@@ -454,9 +451,7 @@ videoinfox_update() {
     )
 }
 
-###############################################################################
 #  videoinfox -a     ADD CLIPBOARD CONTENT  ON THE FLY TO:   DEFAULT LIST   THEN EXIT
-###############################################################################
 
 # Create a gui keyboard shortcut for:   videoinfox -a
 # It isn't necessary to have the Videoinfox running while using this feature.
@@ -498,9 +493,7 @@ write_supported_list() {
     done < "${1:?No input file defined}"
 }
 
-###############################################################################
 #  videoinfox -l     ADD CLIPBOARD CONTENT ON THE FLY TO:   USER SET LIST   THEN EXIT
-###############################################################################
 
 # Create a gui keyboard shortcut for:   videoinfox -l
 # It isn't necessary to have the Videoinfox running while using this feature.
@@ -689,9 +682,7 @@ navtree() {
 
     # recursive number of files found
     ttotalnum=$(find_supported_files --recursive-count)
-    ##################################################################################
     ##########  START   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
-    ################################################################################## 
 
     # DIRECTORY SELECTED IS NORMAL TEXT AND THE OTHER 4 ARE LESS BOLD. 
 
@@ -772,9 +763,9 @@ navtree() {
     # if directory is changed to  Default Dir 4 :  The number 4 is normal text and the other 4 are less bold.
     [[ "$controldir" = "$dir4display" ]] && dirdisp="$dirdisplay4"
 
-    ################################################################################
+    #
     ##########  END   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
-    ################################################################################
+    #
     ########## blinking routines for display ##########
 
     # not blinking Play Directory
@@ -860,9 +851,7 @@ navtree() {
     esac
 }
 
-###############################################################################
 #  videoinfox -u     DOWNLOAD ANY LIST THAT IS RECURSIVELY REACHABLE FROM THE CURRENT DIRECORY. ENTER FULL FILENAME ONLY. NO WILDCARD
-###############################################################################
 
 # -u  This option can be used with your own ready to download url list that can be any name and location
 use_custom_list() {
@@ -906,7 +895,6 @@ use_custom_list() {
         read -r < videoinfox-u-option-grabdir.tmp whatsthepath  # read the path into the varible: $whatsthepath 
         rm videoinfox-u-option-grabdir.tmp  # download list location is no longer needed. so it will be removed
         cd "$whatsthepath"  # cd to the download list location.
-
 
         #####  ERROR CORRECTION FOR THE USER'S LIST BEFORE DOWNLOAD.  #####
 
@@ -975,9 +963,7 @@ use_custom_list() {
     fi    
 }
 
-###############################################################################
 #  videoinfox -d     PLAY DIRECTORY.  AUTOPLAY VIDEO FILES IN THE CURRENT DIRECTORY
-###############################################################################
 
 # -d  Autoplay video files in the current directory
 play_directory() {
@@ -1030,9 +1016,7 @@ play_directory() {
     exit
 }
 
-###############################################################################
 #####  3. DIRECTORY CHECK & FILE CREATION  #################################### 
-###############################################################################
 
 # The below check: Does the directory <${base_dir}> exist ?
 # If it doesn't exist, directory is created. Empty files are created to avoid error when running Videoinfo for the first time.
@@ -1110,9 +1094,8 @@ cd "$diratexit" 2>/dev/null
 if [[ ! -f ${base_dir}/videoinfo.playlist.current ]]; then
     echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ${base_dir}/videoinfo.playlist.current
 fi
-###############################################################################
+
 ###########################  HOME LOOP START ##################################
-###############################################################################
 
 menuf() {
     pasteclip  # grab clipboard content
@@ -1190,9 +1173,7 @@ menuf() {
 
     pasteclip  # grab clipboard content
 
-    ##################################################################################
     ##########  START   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
-    ################################################################################## 
 
     # DIRECTORY SELECTED IS NORMAL TEXT AND THE OTHER 4 ARE LESS BOLD. 
 
@@ -1273,9 +1254,9 @@ menuf() {
     # if directory is changed to  Default Dir 4 :  The number 4 is normal text and the other 4 are less bold.
     [[ "$controldir" = "$dir4display" ]] && dirdisp="$dirdisplay4"
 
-    ################################################################################
+    #
     ##########  END   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
-    ################################################################################
+    #
     # CHECKING FOR VIDEOS IN CURRENT DIRECTORY.  if video(s) exist:  the dash @ Play Directory will blink on the home screen
     dovideosexist=$(find_supported_files --count)
 
@@ -1295,11 +1276,11 @@ menuf() {
     echo "Directory: ""$PWD"
     #echo "Clipboard: ""$pasteclip"
 
-    ###############################################################################
+    
 
     #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
 
-    ###############################################################################
+    
 
     # the 2 lines of below code are creating two new variables for the following loop.
     # 1st variable <$grabpaste>   <cut> is used to cut all characters after the 4th character from the variable. Only 4 chatacters are needed to look for <http>
@@ -1471,9 +1452,9 @@ while true; do
             break
         ;;
         o)
-            ###############################################################################
+            
             ###########################   AUTOPLAY LINE  o   <HOME>  ######################
-            ###############################################################################
+            
 
             if [[ -f ${tmp_dir}/videoinfo-findwork.tmp ]]; then
                 echo
@@ -1509,9 +1490,9 @@ while true; do
             fi
         ;;
         j)
-            ###############################################################################
+            
             ###########################   PLAY LINE  j   <HOME>  ##########################
-            ###############################################################################
+            
 
             if [[ -f ${tmp_dir}/videoinfo-findwork.tmp ]]; then
                 echo
@@ -1545,9 +1526,9 @@ while true; do
             fi
         ;;
         n)
-            ###############################################################################
+            
             ###########################   (@NAVIGATE TREE)  n  ############################
-            ###############################################################################
+            
 
             pasteclip2=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content   save to restore on option quit
             echo "" | xclip -sel clip  # clearing the clipboard
@@ -1615,9 +1596,9 @@ while true; do
                         fi
                     ;;
                     d)
-                        ####################################################################################################################################
-                        # (@PLAY DIRECTORY) NAVIGATE TREE  #################################################################################################
-                        ####################################################################################################################################
+                        #####################################################
+                        # (@PLAY DIRECTORY) NAVIGATE TREE  ##################
+                        #####################################################
 
                         # Create a playlist of available files
                         generate_playlist "${tmp_dir}/videoinfox.navtree-play-directory-apa"
@@ -1660,9 +1641,9 @@ while true; do
                         IFS=$OLDIFS
                     ;;
                     n)
-                        ####################################################################################################################################
-                        # CHANGE TREETOP (NAVIGATE TREE)  ##################################################################################################
-                        ####################################################################################################################################
+                        #####################################################
+                        # CHANGE TREETOP (NAVIGATE TREE)  ###################
+                        #####################################################
 
                         pasteclip  # grab clipboard content
                         clear
@@ -1695,9 +1676,9 @@ while true; do
                         echo
                     ;;
                     a)
-                        ####################################################################################################################################
-                        # SHOW ALL (NAVIGATE TREE)  ########################################################################################################
-                        ####################################################################################################################################
+                        #####################################################
+                        # SHOW ALL (NAVIGATE TREE)  #########################
+                        #####################################################
 
                         #checking for videos in the current directory.  if no videos exist,   Play Directory   won't execute
                         dovideosexist=$(find_supported_files --count)
@@ -1827,9 +1808,9 @@ while true; do
                                         fi
                                     ;;
                                     j)
-                                        ###########################################################################################################################
-                                        # PLAY LINE - SHOW ALL (NAVIGATE TREE)  ###################################################################################
-                                        ###########################################################################################################################
+                                        ############################################
+                                        # PLAY LINE - SHOW ALL (NAVIGATE TREE)  ####
+                                        ############################################
 
                                         #checking for videos in the current directory.  if no videos exist,   Play Directory   won't execute
                                         dovideosexist=$(find_supported_files --count)
@@ -1887,14 +1868,14 @@ while true; do
                                         fi
                                     ;;
                                     k)
-                                        ########################################################################################################################################
-                                        # SHOW ALL - PLAYLIST ADD (NAVIGATE TREE)  ############################################################################################
-                                        ########################################################################################################################################
+                                        #########################################################
+                                        # SHOW ALL - PLAYLIST ADD (NAVIGATE TREE)  #############
+                                        #########################################################
 
                                         #checking for videos in the current directory.  if no videos exist,   playlistaddnav Directory   won't execute
                                         dovideosexist=$(find_supported_files --count)
                                         if [[ $dovideosexist -ne 0 ]]; then  # IF VIDEOS EXIST IN THE CURRENT DIRECTORY 
-                                            ########################################################################################################################function ntplaylistaddnavnum {
+                                            #########################################function ntplaylistaddnavnum {
                                             # Create a playlist of available files
                                             generate_playlist "${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa"
 
@@ -1959,9 +1940,9 @@ while true; do
                                             sleep 1.7
                                         fi
                                     ;;
-                                    ###############################################################################
+                                    
                                     s) #######################  @PLAYLIST - SHOW ALL (NAVIGATE TREE)  #############
-                                    ###############################################################################
+                                    
                                         #(
 
                                         cd ${base_dir}/playlists
@@ -2072,9 +2053,9 @@ while true; do
                                                 read -r setplaylist < ${tmp_dir}/plread.tmp
 
                                             fi
-                                            ###############################################################################
+                                            
                                             # @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
-                                            ###############################################################################
+                                            
 
                                             # the 2 lines of below code are creating two new variables for the following loop.
                                             # 1st variable <$grabpaste>   <cut> is used to cut all characters after the 4th character from the variable. Only 4 chatacters are needed to look for <http>
@@ -2376,10 +2357,10 @@ while true; do
                                                         fi
                                                     fi
                                                 ;;
-                                                #####################################################################################
+                                                ######
                                                 c)
                                                 # CHANGE PLAYLIST
-                                                #####################################################################################
+                                                ######
                                                     changepl() {
                                                         #read -r savepl < ${base_dir}/videoinfo.playlist.current
                                                         #cp ${base_dir}/videoinfo.playlist "$savepl"
@@ -2726,9 +2707,9 @@ while true; do
                 esac
             done
         ;;
-        ###############################################################################
+        
         d)  # (@PLAY DIRECTORY) HOME   ################################################
-        ###############################################################################
+        
             # Create a playlist of available files
             generate_playlist "${tmp_dir}/videoinfox.home-play-directory-apa"
 
@@ -2771,9 +2752,7 @@ while true; do
             
             IFS=$OLDIFS
         ;;           
-        ##################################################################################
         l)  # PLAY LAST DOWNLOAD >>> HOME    #############################################
-        ##################################################################################
             # start subshell
             (  # storing directory to restore at the end of this function
                 read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
@@ -2860,10 +2839,10 @@ while true; do
             echo "" | xclip -sel clip  # copy message in quotes to the clipboard. clearing out the clipboard
             pasteclip  # grab clipboard content
         ;;    
-        #############################################################################################################################################
+        ##############################################################
         p) 
         #  @PLAY CLIPBOARD - <HOME> !!!!!    MASTER TEMPLATE  This is the one that gets the edits then copied to other places in the code.
-        #############################################################################################################################################
+        ##############################################################
             pasteclip  # grab clipboard content
 
             if [[ "$grabpaste" = "http" ]]; then
@@ -3011,7 +2990,7 @@ while true; do
                 fi
             fi
         ;;
-        ###############################################################################
+        
         v)                                  ###########################################
             #  VIEW/PLAYED LIST - <HOME>   ###########################################
             menuvv() {
@@ -3057,7 +3036,7 @@ while true; do
                 done < "$input"
 
                 #  REMOVE BLANK LINES
-                ###############################################################################squash ${tmp_dir}/videoinfo.playedlist-apa2 2>/dev/null
+                squash ${tmp_dir}/videoinfo.playedlist-apa2 2>/dev/null
 
                 # REMOVE DUPLICATES
                 #############cat -n ${tmp_dir}/videoinfo.playedlist-apa2 | sort -uk2 | sort -n | cut -f2- > ${tmp_dir}/videoinfo.playedlist-apa3
@@ -3108,11 +3087,11 @@ while true; do
                 ######echo "Directory: ""$PWD"
                 ######echo "Clipboard: ""$pasteclip"
 
-                ###############################################################################
+                
 
                 #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
 
-                ###############################################################################
+                
 
                 # the 2 lines of below code are creating two new variables for the following loop.
                 # 1st variable <$grabpaste>   <cut> is used to cut all characters after the 4th character from the variable. Only 4 chatacters are needed to look for <http>
@@ -3287,9 +3266,9 @@ while true; do
                              fi
                         fi
                     ;;       
-                    #####################################################################################################################################
+                    ######################################################
                     s) # @PLAYLIST PLAYED LIST
-                    #####################################################################################################################################
+                    ######################################################
                         (
                             cd ${base_dir}/playlists
                             menuvhome() {
@@ -3400,11 +3379,11 @@ while true; do
                                     read -r setplaylist < ${tmp_dir}/plread.tmp
 
                                 fi
-                                ###############################################################################
+                                
 
                                 #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
 
-                                ###############################################################################
+                                
 
                                 # the 2 lines of below code are creating two new variables for the following loop.
                                 # 1st variable <$grabpaste>   <cut> is used to cut all characters after the 4th character from the variable. Only 4 chatacters are needed to look for <http>
@@ -3733,10 +3712,10 @@ while true; do
                                             fi
                                         fi
                                     ;;       
-                                    #####################################################################################
+                                    ######
                                     c)
                                     # CHANGE PLAYLIST
-                                    #####################################################################################
+                                    ######
                                         changepl() {
                                             #read -r savepl < ${base_dir}/videoinfo.playlist.current
                                             #cp ${base_dir}/videoinfo.playlist "$savepl"
@@ -4049,9 +4028,9 @@ while true; do
                             done
                         ;;
                         k)
-                            ###############################################################################
-                            ###########################   ADD TO PLAYLIST  k   (PLAYED LIST)  ################################################################################
-                            ###############################################################################
+                            
+                            ###########################   ADD TO PLAYLIST  k   (PLAYED LIST)  #
+                            
 
                             # REMOVE EVERYTHING FROM THE BEGINNING OF THE LINE UP TO AND INCLUDING THE DOT). LEAVING ONLY PLAYLIST NAME
                             cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/whatplpld.tmp 
@@ -4231,9 +4210,9 @@ while true; do
                     esac
                 done
         ;; 
-        ###############################################################################
+        
         s) #######################  @PLAYLIST - (HOME)  ############################### 
-        ###############################################################################
+        
         #(
 
             cd ${base_dir}/playlists
@@ -4342,11 +4321,11 @@ while true; do
                     read -r setplaylist < ${tmp_dir}/plread.tmp
 
                     fi
-                ###############################################################################
+                
 
                 #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
 
-                ###############################################################################
+                
 
                 # the 2 lines of below code are creating two new variables for the following loop.
                 # 1st variable <$grabpaste>   <cut> is used to cut all characters after the 4th character from the variable. Only 4 chatacters are needed to look for <http>
@@ -4627,10 +4606,10 @@ while true; do
                             fi
                         fi
                     ;;       
-                    #####################################################################################
+                    ######
                     c)
                     # CHANGE PLAYLIST
-                    #####################################################################################
+                    ######
                         changepl() {
                             #read -r savepl < ${base_dir}/videoinfo.playlist.current
                             #cp ${base_dir}/videoinfo.playlist "$savepl"
@@ -4946,9 +4925,9 @@ while true; do
             done
         ;;
         k)
-            ###############################################################################
-            ###########################   ADD TO PLAYLIST  k   <HOME>  #######################################################################################
-            ###############################################################################
+            
+            ###########################   ADD TO PLAYLIST  k   <HOME>  ########
+            
 
             # REMOVE EVERYTHING FROM THE BEGINNING OF THE LINE UP TO AND INCLUDING THE DOT). LEAVING ONLY PLAYLIST NAME
             cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/whatplhome.tmp 
@@ -5004,9 +4983,9 @@ while true; do
                 sleep 1.7
             fi
         ;;
-        ###############################################################################
+        
         f)  ################  FIND ROUTINE - <HOME>  ##################################
-        ###############################################################################
+        
             pasteclip  # grab clipboard content
 
             clear
@@ -5053,9 +5032,9 @@ while true; do
                 fi
             fi
         ;;
-        ###############################################################################
+        
         z)  # SETTINGS - <HOME>  ######################################################
-        ###############################################################################
+        
             menusettings() {
                 pasteclip  # grab clipboard content
                 # LOAD STORED DIRECTORIES
@@ -5169,9 +5148,9 @@ while true; do
                 esac
             done
         ;;
-        ###############################################################################
+        
         ###########################  HOME OPTION  y  Yt-dlp Menu  #####################
-        ###############################################################################
+        
         y)       
 
             (  # grab working directory
@@ -5196,11 +5175,11 @@ while true; do
                     echo
                     echo "Directory: ""$PWD"
                     echo "Clipboard:" "$pasteclip"
-                    ###############################################################################
+                    
                     #=================================================================================================================================================
                     #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
                     #=================================================================================================================================================
-                    ###############################################################################
+                    
 
                     # the 2 lines of below code are creating two new variables for the following loop.
                     # 1st variable <$grabpaste>   <cut> is used to cut all characters after the 4th character from the variable. Only 4 chatacters are needed to look for <http>
@@ -5318,9 +5297,7 @@ while true; do
 
                                 # count lines file for message display below:  (Copy 1 above User List to the the clipboard to: Download or Set...) 
                                 copymessage=$(sed -n '$=' ${base_dir}/videoinfox.dowload.list 2> /dev/null)  # only reading, no writing
-                                ##################################################################################
                                 ##########  START   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
-                                ################################################################################## 
 
                                 # DIRECTORY SELECTED IS NORMAL TEXT AND THE OTHER 4 ARE LESS BOLD. 
 
@@ -5401,9 +5378,9 @@ while true; do
                                 # if directory is changed to  Default Dir 4 :  The number 4 is normal text and the other 4 are less bold.
                                 [[ "$controldir" = "$dir4display" ]] && dirdisp="$dirdisplay4"
 
-                                ################################################################################
+                                #
                                 ##########  END   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
-                                ################################################################################
+                                #
                                 ########## blinking routine for display ##########
 
                                 # blinking
@@ -5428,9 +5405,9 @@ while true; do
                                 fi
 
                                 ########## end blinking routine #################
-                                ######################################################################################
+                                #######
                                 # START Routine to find out if clipboard contents  =  The default download list or a user list - dash blink or not:  Set User List and Delete User List
-                                ######################################################################################
+                                #######
 
                                 # REFORMAT PASTECLIP VARIBLE FOR COMPARISON TO CONTROL VARIBLE
                                 echo "$pasteclip" > ${base_dir}/videoinfox.c.tmp  # write clipboard contents to to file
@@ -5465,9 +5442,9 @@ while true; do
                                 # REFORMATTED CONTROL VARIABLE 2
                                 read -r ctmp4 < ${base_dir}/videoinfox.chkulist.tmp2  # default list name with full path: with slashes and spaces removed
 
-                                ######################################################################################
+                                #######
                                 # END Routine to find out if clipboard contents  =  The default download list or a user list - dash blink or not:  Set User List and Delete User List
-                                ######################################################################################
+                                #######
 
                                 clear
                                 cat ${base_dir}/videoinfox.dowload.list  # display user created download lists recursively reachable fron current directory.
@@ -5555,9 +5532,9 @@ while true; do
                                         pasteclip  # grab clipboard content
                                     ;;
                                     m)
-                                        ###############################################################################
+                                        
                                         ###########################   CREATE DIRECTORY  n   (DOWNLOAD LIST)   #########
-                                        ###############################################################################
+                                        
                                         pasteclip2=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content   save to restore on option quit
                                         echo "" | xclip -sel clip  # clearing the clipboard
                                         while true; do
@@ -5654,9 +5631,9 @@ while true; do
                                                         fi
                                                     fi
                                                 ;;
-                                                ########################################################################################################################################
-                                                n)  # CHANGE TREETOP (CREATE DIRECTORY)  ###############################################################################################
-                                                ########################################################################################################################################
+                                                #########################################################
+                                                n)  # CHANGE TREETOP (CREATE DIRECTORY)  ################
+                                                #########################################################
 
                                                     pasteclip  # grab clipboard content
                                                     clear
@@ -5906,9 +5883,9 @@ while true; do
                                     s)  # SET USER LIST  <DOWNLOAD LIST>
                                         pasteclip  # grab clipboard content
 
-                                        ########################################################################################
+                                        #########
                                         # START Routine to find out if clipboard contents  =  The default download list or a user list.  only a user list can:  Set User List and Delete User List
-                                        ########################################################################################
+                                        #########
 
                                         # REFORMAT PASTECLIP VARIBLE FOR COMPARISON TO CONTROL VARIBLE
                                         echo "$pasteclip" > ${base_dir}/videoinfox.c.tmp  # write clipboard contents to to file
@@ -5949,18 +5926,18 @@ while true; do
                                             fi
                                         fi
 
-                                        #######################################################################################
+                                        ########
                                         # END Routine to find out if clipboard contents  =  The default download list or a user list.  only a user list can:  Set User List and Delete User List
-                                        #######################################################################################
+                                        ########
                                     ;;
                                     r)  # DELETE USER LIST  <DOWNLOAD LIST>
                                         pasteclip  # grab clipboard content
 
-                                        ########################################################################################
+                                        #########
                                         # START Routine to find out if clipboard contents  =  The default download list or a user list.  only a user list can:  Set User List and Delete User List
-                                        ########################################################################################
+                                        #########
                                         # Also, check if the User List in the clipboard  =  Set User List  if it is, the set user list will be set to null
-                                        ########################################################################################
+                                        #########
 
                                         # REFORMAT PASTECLIP VARIBLE FOR COMPARISON TO CONTROL VARIBLE
                                         echo "$pasteclip" > ${base_dir}/videoinfox.c.tmp  # write clipboard contents to to file
@@ -6029,9 +6006,9 @@ while true; do
                                             fi
                                         fi
 
-                                        #######################################################################################
+                                        ########
                                         # END Routine to find out if clipboard contents  =  The default download list or a user list.  only a user list can:  Set User List and Delete User List
-                                        #######################################################################################
+                                        ########
                                     ;;
                                     k)  # DEFAULT LIST  <DOWNLOAD LIST>
                                         echo "" | xclip -sel clip  # clearing out the clipboard
@@ -6164,9 +6141,9 @@ while true; do
                                     mv ${base_dir}/videoinfox-dl-userlist.tmp "$pasteclip"
                                     squash "$pasteclip" 2>/dev/null  # remove any blank lines in the list
                                     sed -i '/http/!d' "$pasteclip" 2>/dev/null  # remove all lines not starting with  http
-                                    ######################################################################################
+                                    #######
                                     # START Routine to find out if clipboard content  =  set user list filename  if it does, the file will be cleared from the screen after list download
-                                    ######################################################################################
+                                    #######
 
                                     # REFORMAT PASTECLIP VARIBLE FOR COMPARISON TO CONTROL VARIBLE
                                     echo "$pasteclip" > ${base_dir}/videoinfox.c.tmp  # write clipboard contents to to file
@@ -6187,9 +6164,9 @@ while true; do
                                         touch ${base_dir}/videoinfox.set-user-list
                                     fi 
                                 fi
-                                ######################################################################################
+                                #######
                                 # END Routine to find out if clipboard content  =  set user list filename  if it does, the file will be cleared from the screen after list download
-                                ######################################################################################
+                                #######
                                 rm videoinfox-dl*~ &> /dev/null  # duplicate lists were showing up with   ~   added onto the filename
 
                                 logfile="$pasteclip".log  # tag  .log  onto the users Download List  */.videoinfox-dl*.log 
@@ -6199,7 +6176,7 @@ while true; do
                                 #justfile=$(echo "$pasteclip" | sed 's|.*/||')  # ended up not using. grabs filename minus path
 
                                 input="$pasteclip"  # input file for download loop (clipboard contents)
-                                ################  DOWNLOAD LOOP START  ###################################################################################################################
+                                ################  DOWNLOAD LOOP START  ####################################
 
                                 while read -r line; do
                                     echo
@@ -6212,7 +6189,7 @@ while true; do
                                     echo >> "$logfile" 
                                 done < "$input"
 
-                                ################  DOWNLOAD LOOP END  #####################################################################################################################
+                                ################  DOWNLOAD LOOP END  ######################################
                                 ############  REMOVE UNWANTED LOG INFO  ############# 
 
                                 sed -i '/\[youtube\]/d' "$pasteclip".log &> /dev/null  # removing lines that start with  [youtube]
@@ -6329,9 +6306,9 @@ while true; do
                     esac
                 done
         ;;
-        #######################################################################################################################################
-        ########################   (PLAY ClIPBOARD) YT-DLP MENU   #############################################################################
-        #######################################################################################################################################
+        ########################################################
+        ########################   (PLAY ClIPBOARD) YT-DLP MENU 
+        ########################################################
         p) 
             #  @PLAY CLIPBOARD - <VIEW DOWNLOADS>
             pasteclip  # grab clipboard content
@@ -6438,10 +6415,9 @@ while true; do
 
         #) ## Exit Subshell
         ;;
-        #####################################################################################
+        ######
         v)  # VIEW DOWNLOADS
-        ##################################################################################### 
-
+        ###### 
             clipsave=$(xclip -o -selection clipboard 2> /dev/null)  # save clipboard content         
 
             keepdir="$PWD"  # save dir for exit      
@@ -6502,11 +6478,11 @@ while true; do
                 echo
                 echo "Directory: ""$PWD"
                 echo "Clipboard: ""$pasteclip"
-                ###############################################################################
+                
                 #=================================================================================================================================================
                 #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
                 #=================================================================================================================================================
-                ###############################################################################
+                
 
                 # the 2 lines of below code are creating two new variables for the following loop.
                 # 1st variable <$grabpaste>   <cut> is used to cut all characters after the 4th character from the variable. Only 4 chatacters are needed to look for <http>
@@ -6567,7 +6543,6 @@ while true; do
 
                         echo "" | xclip -sel clip  # clearing out the clipboard
                         pasteclip  # grab clipboard content
-
 
                         print_header " ${der} >>> VIEW DOWNLOADS"
 
@@ -6739,9 +6714,9 @@ while true; do
                         fi
                     ;;
                     ###### Check this area.  pulled possible misplaced code. test playclipboard
-                    ########################################################################################################################################
-                    d)  # (@PLAY DIRECTORY) VIEW DOWNLOADS  ################################################################################################
-                    ########################################################################################################################################
+                    #########################################################
+                    d)  # (@PLAY DIRECTORY) VIEW DOWNLOADS  #################
+                    #########################################################
                         # Create a playlist of available files
                         generate_playlist "${tmp_dir}/videoinfox.navtree-play-directory-apa"
 
@@ -6780,9 +6755,9 @@ while true; do
                         IFS=$OLDIFS
                     ;;           
                     o)
-                        ###############################################################################
-                        ###########################   AUTOPLAY LINE  o   <VIEW DOWNLOADS>  ###############################################################################
-                        ###############################################################################
+                        
+                        ###########################   AUTOPLAY LINE  o   <VIEW DOWNLOADS>  
+                        
                         if [[ "$istherefiles" = 0 ]]; then
                             print_error " No video files in the current directory . . ."
                         else
@@ -6825,9 +6800,9 @@ while true; do
                         fi
                     ;;
                     j)
-                        ###############################################################################
+                        
                         ###########################   PLAY LINE  j   <VIEW DOWNLOADS>  ################
-                        ###############################################################################
+                        
 
                         if [[ "$istherefiles" = 0 ]]; then
                             print_error " No video files in the current directory . . ."
@@ -7023,14 +6998,12 @@ fi
         ################### ) ## Exit Subshell   # restore dir prior to entering yt-dlp menu
         ;; 
 
-        ###############################################################################
+        
         m)  # MORE OPTIONS   ##########################################################
-        ###############################################################################
+        
 
             menu() {
-                ##################################################################################
                 ##########  START   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
-                ################################################################################## 
 
                 # DIRECTORY SELECTED IS NORMAL TEXT AND THE OTHER 4 ARE LESS BOLD. 
 
@@ -7111,9 +7084,9 @@ fi
                 # if directory is changed to  Default Dir 4 :  The number 4 is normal text and the other 4 are less bold.
                 [[ "$controldir" = "$dir4display" ]] && dirdisp="$dirdisplay4"
 
-                ################################################################################
+                #
                 ##########  END   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
-                ################################################################################
+                #
                 clear
                 echo
                 echo "Directory: ""$PWD"
@@ -7157,9 +7130,9 @@ fi
                         cd "$dir5" 
                     ;;
                     l)  # LIST DIRECTORY
-                        ###############################################################################
-                        ###########################   MORE OPTIONS l  LIST DIRECTORY  ####################################################################################
-                        ###############################################################################
+                        
+                        ###########################   MORE OPTIONS l  LIST DIRECTORY  #####
+                        
 
                         #   The Line below gives a total count of all mp4, mkv, avi, & divx in Current Directory.
                         currentdirfilecount=$(find_supported_files --count)
@@ -7319,9 +7292,7 @@ fi
                         done
                     ;;
                     c)
-                        ###############################################################################
-                        ###########################   MORE OPTIONS c  CHANGE DIRECTORY  ##################################################################################
-                        ###############################################################################
+                        ###########################   MORE OPTIONS c  CHANGE DIRECTORY  ###
                         
                         pasteclip  # grab clipboard content
                         clear
@@ -7351,9 +7322,9 @@ fi
                         #read -p "     Press enter to Continue" 
                     ;;
                     f)     
-                        ###############################################################################
+                        
                         ###########################   MORE OPTIONS f  FIND DIRECTORY  #################
-                        ###############################################################################
+                        
 
                         pasteclip=$(xclip -o -selection clipboard > /dev/null)  # grab clipboard content
                         clear
@@ -7402,9 +7373,9 @@ fi
                         #read -p "Press enter to Continue"
                     ;;
                     n)
-                        ###############################################################################
+                        
                         ###########################   MORE OPTIONS  4  VIDEO COUNT  ###################
-                        ###############################################################################
+                        
                         clear
                         echo
                         echo "Directory: ${PWD}"
@@ -7437,9 +7408,9 @@ fi
                         read -r -p " Press enter to Continue" 
                     ;;
                     d)
-                        ###############################################################################
-                        ###########################  MORE OPTIONS  d  VIDEO DURATION  ####################################################################################
-                        ###############################################################################
+                        
+                        ###########################  MORE OPTIONS  d  VIDEO DURATION  #####
+                        
 
                         if [[ -f "videoinfo.Video-Duration" ]]; then
                         #     >>>>>>>>>>>>>>>>>>>>>>>>>> DISPLAY Saved RESULTS >>>>>>>>>>>>>>>>>>>>>>>>>> 
@@ -7569,9 +7540,9 @@ fi
                         done
                     ;;
                     v)
-                        ###############################################################################
+                        
                         ###########################   MORE OPTIONS v  ENTER VIDEO FILE  ###############
-                        ###############################################################################
+                        
 
                         clear
                         echo
@@ -7610,9 +7581,8 @@ fi
     esac    
 done
 
-###############################################################################
 ###########################  END MAIN LOOP  ###################################
-###############################################################################
+
 #  EXIT MESSAGE
 clear
 print_header " ${ver} >>> EXIT"
