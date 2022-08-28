@@ -39,6 +39,8 @@ cleanup() {
     # !!! It's very important for this variable to include ':?'
     # !!! If '$tmp_dir' is empty or unset, this would evaulate out to 'rm -rf /*'
     rm -rf "${tmp_dir:?}/*" 2>/dev/null
+    rm -f "${base_dir:?}/*.tmp"
+    rm -f "${base_dir:?}/*.tmp2"
 }
 
 # confirm() code provenance:
@@ -708,37 +710,31 @@ navtree() {
     # FORMAT PWD NAME FOR COMPARISON
     echo "$PWD" > ${base_dir}/videoinfox.pwd.tmp  # write PWD to a tmp file: videoinfox.pwd.tmp
     cat ${base_dir}/videoinfox.pwd.tmp | tr "/" " " > ${base_dir}/videoinfox.pwd  # remove all froward slashes / write file: videoinfox.pwd
-    rm  ${base_dir}/videoinfox.pwd.tmp  # remove tmp file: videoinfox.pwd.tmp
     sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.pwd  # remove horizontal whitespace write file: videoinfox.pwd
 
     # FORMAT DEFAULT DIR 1 NAME FOR COMPARISON
     echo "$dir1" > ${base_dir}/videoinfox.dir1.tmp  # write dir 1 to a tmp file: videoinfox.dir1.tmp
     cat ${base_dir}/videoinfox.dir1.tmp | tr "/" " " > ${base_dir}/videoinfox.dir1  # remove all froward slashes / write file: videoinfox.dir1
-    rm ${base_dir}/videoinfox.dir1.tmp  # remove tmp file: videoinfox.dir1.tmp 
     sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir1  # remove horizontal whitespace write file: videoinfox.dir1
 
     # FORMAT DEFAULT DIR 2 NAME FOR COMPARISON
     echo "$dir2" > ${base_dir}/videoinfox.dir2.tmp  # write dir 2 to a tmp file: videoinfox.dir2.tmp
     cat ${base_dir}/videoinfox.dir2.tmp | tr "/" " " > ${base_dir}/videoinfox.dir2  # remove all froward slashes / write file: videoinfox.dir2
-    rm ${base_dir}/videoinfox.dir2.tmp   # remove tmp file: videoinfox.dir2.tmp 
     sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir2 # remove horizontal whitespace write file: videoinfox.dir2
 
     # FORMAT DEFAULT DIR 3 NAME FOR COMPARISON
     echo "$dirsaved" > ${base_dir}/videoinfox.dir3.tmp  # write dir 3 to a tmp file: videoinfox.dir3.tmp
     cat ${base_dir}/videoinfox.dir3.tmp | tr "/" " " > ${base_dir}/videoinfox.dir3  # remove all froward slashes / write file: videoinfox.dir3
-    rm ${base_dir}/videoinfox.dir3.tmp   # remove tmp file: videoinfox.dir3.tmp 
     sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir3 # remove horizontal whitespace write file: videoinfox.dir3
 
     # FORMAT DEFAULT DIR 4 NAME FOR COMPARISON
     echo "$dir4" > ${base_dir}/videoinfox.dir4.tmp  # write dir 4 to a tmp file: videoinfox.dir4.tmp
     cat ${base_dir}/videoinfox.dir4.tmp | tr "/" " " > ${base_dir}/videoinfox.dir4  # remove all froward slashes / write file: videoinfox.dir4
-    rm ${base_dir}/videoinfox.dir4.tmp   # remove tmp file: videoinfox.dir4.tmp 
     sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir4 # remove horizontal whitespace write file: videoinfox.dir4
 
     # FORMAT DEFAULT DIR 5 NAME FOR COMPARISON
     echo "$dir5" > ${base_dir}/videoinfox.dir5.tmp  # write dir 5 to a tmp file: videoinfox.dir5.tmp
     cat ${base_dir}/videoinfox.dir5.tmp | tr "/" " " > ${base_dir}/videoinfox.dir5  # remove all froward slashes / write file: videoinfox.dir5
-    rm ${base_dir}/videoinfox.dir5.tmp   # remove tmp file: videoinfox.dir5.tmp 
     sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir5 # remove horizontal whitespace write file: videoinfox.dir5
     # LOAD EDITED PWD AND DEFAULT DIRECTORY NAMES FOR BELOW  IF LOOPS   (all frorward slashes / and white spaces removed from the below directory names)
 
@@ -1215,37 +1211,31 @@ menuf() {
     # FORMAT PWD NAME FOR COMPARISON
     echo "$PWD" > ${base_dir}/videoinfox.pwd.tmp  # write PWD to a tmp file: videoinfox.pwd.tmp
     cat ${base_dir}/videoinfox.pwd.tmp | tr "/" " " > ${base_dir}/videoinfox.pwd  # remove all froward slashes / write file: videoinfox.pwd
-    rm  ${base_dir}/videoinfox.pwd.tmp  # remove tmp file: videoinfox.pwd.tmp
     sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.pwd  # remove horizontal whitespace write file: videoinfox.pwd
 
     # FORMAT DEFAULT DIR 1 NAME FOR COMPARISON
     echo "$dir1" > ${base_dir}/videoinfox.dir1.tmp  # write dir 1 to a tmp file: videoinfox.dir1.tmp
     cat ${base_dir}/videoinfox.dir1.tmp | tr "/" " " > ${base_dir}/videoinfox.dir1  # remove all froward slashes / write file: videoinfox.dir1
-    rm ${base_dir}/videoinfox.dir1.tmp  # remove tmp file: videoinfox.dir1.tmp 
     sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir1  # remove horizontal whitespace write file: videoinfox.dir1
 
     # FORMAT DEFAULT DIR 2 NAME FOR COMPARISON
     echo "$dir2" > ${base_dir}/videoinfox.dir2.tmp  # write dir 2 to a tmp file: videoinfox.dir2.tmp
     cat ${base_dir}/videoinfox.dir2.tmp | tr "/" " " > ${base_dir}/videoinfox.dir2  # remove all froward slashes / write file: videoinfox.dir2
-    rm ${base_dir}/videoinfox.dir2.tmp   # remove tmp file: videoinfox.dir2.tmp 
     sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir2 # remove horizontal whitespace write file: videoinfox.dir2
 
     # FORMAT DEFAULT DIR 3 NAME FOR COMPARISON
     echo "$dirsaved" > ${base_dir}/videoinfox.dir3.tmp  # write dir 3 to a tmp file: videoinfox.dir3.tmp
     cat ${base_dir}/videoinfox.dir3.tmp | tr "/" " " > ${base_dir}/videoinfox.dir3  # remove all froward slashes / write file: videoinfox.dir3
-    rm ${base_dir}/videoinfox.dir3.tmp   # remove tmp file: videoinfox.dir3.tmp 
     sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir3 # remove horizontal whitespace write file: videoinfox.dir3
 
     # FORMAT DEFAULT DIR 4 NAME FOR COMPARISON
     echo "$dir4" > ${base_dir}/videoinfox.dir4.tmp  # write dir 4 to a tmp file: videoinfox.dir4.tmp
     cat ${base_dir}/videoinfox.dir4.tmp | tr "/" " " > ${base_dir}/videoinfox.dir4  # remove all froward slashes / write file: videoinfox.dir4
-    rm ${base_dir}/videoinfox.dir4.tmp   # remove tmp file: videoinfox.dir4.tmp 
     sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir4 # remove horizontal whitespace write file: videoinfox.dir4
 
     # FORMAT DEFAULT DIR 5 NAME FOR COMPARISON
     echo "$dir5" > ${base_dir}/videoinfox.dir5.tmp  # write dir 5 to a tmp file: videoinfox.dir5.tmp
     cat ${base_dir}/videoinfox.dir5.tmp | tr "/" " " > ${base_dir}/videoinfox.dir5  # remove all froward slashes / write file: videoinfox.dir5
-    rm ${base_dir}/videoinfox.dir5.tmp   # remove tmp file: videoinfox.dir5.tmp 
     sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir5 # remove horizontal whitespace write file: videoinfox.dir5
     # LOAD EDITED PWD AND DEFAULT DIRECTORY NAMES FOR BELOW  IF LOOPS   (all frorward slashes / and white spaces removed from the below directory names)
 
@@ -5306,9 +5296,6 @@ while true; do
                             pasteclip  # grab clipboard content
                         ;;
                         g)  # DOWNLOAD LIST  <YT-DLP MENU>
-
-                            rm ${base_dir}/videoinfox-dl-Default~ 2> /dev/null  # tmp fix
-
                             echo "" | xclip -sel clip  # clearing out the clipboard
                             pasteclip # grab clipboard content
                             dwnlist() {
@@ -5352,37 +5339,31 @@ while true; do
                                 # FORMAT PWD NAME FOR COMPARISON
                                 echo "$PWD" > ${base_dir}/videoinfox.pwd.tmp  # write PWD to a tmp file: videoinfox.pwd.tmp
                                 cat ${base_dir}/videoinfox.pwd.tmp | tr "/" " " > ${base_dir}/videoinfox.pwd  # remove all froward slashes / write file: videoinfox.pwd
-                                rm  ${base_dir}/videoinfox.pwd.tmp  # remove tmp file: videoinfox.pwd.tmp
                                 sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.pwd  # remove horizontal whitespace write file: videoinfox.pwd
 
                                 # FORMAT DEFAULT DIR 1 NAME FOR COMPARISON
                                 echo "$dir1" > ${base_dir}/videoinfox.dir1.tmp  # write dir 1 to a tmp file: videoinfox.dir1.tmp
                                 cat ${base_dir}/videoinfox.dir1.tmp | tr "/" " " > ${base_dir}/videoinfox.dir1  # remove all froward slashes / write file: videoinfox.dir1
-                                rm ${base_dir}/videoinfox.dir1.tmp  # remove tmp file: videoinfox.dir1.tmp 
                                 sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir1  # remove horizontal whitespace write file: videoinfox.dir1
 
                                 # FORMAT DEFAULT DIR 2 NAME FOR COMPARISON
                                 echo "$dir2" > ${base_dir}/videoinfox.dir2.tmp  # write dir 2 to a tmp file: videoinfox.dir2.tmp
                                 cat ${base_dir}/videoinfox.dir2.tmp | tr "/" " " > ${base_dir}/videoinfox.dir2  # remove all froward slashes / write file: videoinfox.dir2
-                                rm ${base_dir}/videoinfox.dir2.tmp   # remove tmp file: videoinfox.dir2.tmp 
                                 sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir2 # remove horizontal whitespace write file: videoinfox.dir2
 
                                 # FORMAT DEFAULT DIR 3 NAME FOR COMPARISON
                                 echo "$dirsaved" > ${base_dir}/videoinfox.dir3.tmp  # write dir 3 to a tmp file: videoinfox.dir3.tmp
                                 cat ${base_dir}/videoinfox.dir3.tmp | tr "/" " " > ${base_dir}/videoinfox.dir3  # remove all froward slashes / write file: videoinfox.dir3
-                                rm ${base_dir}/videoinfox.dir3.tmp   # remove tmp file: videoinfox.dir3.tmp 
                                 sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir3 # remove horizontal whitespace write file: videoinfox.dir3
 
                                 # FORMAT DEFAULT DIR 4 NAME FOR COMPARISON
                                 echo "$dir4" > ${base_dir}/videoinfox.dir4.tmp  # write dir 4 to a tmp file: videoinfox.dir4.tmp
                                 cat ${base_dir}/videoinfox.dir4.tmp | tr "/" " " > ${base_dir}/videoinfox.dir4  # remove all froward slashes / write file: videoinfox.dir4
-                                rm ${base_dir}/videoinfox.dir4.tmp   # remove tmp file: videoinfox.dir4.tmp 
                                 sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir4 # remove horizontal whitespace write file: videoinfox.dir4
 
                                 # FORMAT DEFAULT DIR 5 NAME FOR COMPARISON
                                 echo "$dir5" > ${base_dir}/videoinfox.dir5.tmp  # write dir 5 to a tmp file: videoinfox.dir5.tmp
                                 cat ${base_dir}/videoinfox.dir5.tmp | tr "/" " " > ${base_dir}/videoinfox.dir5  # remove all froward slashes / write file: videoinfox.dir5
-                                rm ${base_dir}/videoinfox.dir5.tmp   # remove tmp file: videoinfox.dir5.tmp 
                                 sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir5 # remove horizontal whitespace write file: videoinfox.dir5
                                 # LOAD EDITED PWD AND DEFAULT DIRECTORY NAMES FOR BELOW  IF LOOPS   (all frorward slashes / and white spaces removed from the below directory names)
 
@@ -5454,7 +5435,6 @@ while true; do
                                 # REFORMAT PASTECLIP VARIBLE FOR COMPARISON TO CONTROL VARIBLE
                                 echo "$pasteclip" > ${base_dir}/videoinfox.c.tmp  # write clipboard contents to to file
                                 cat ${base_dir}/videoinfox.c.tmp | tr "/" " " > ${base_dir}/videoinfox.c.tmp2  # remove all froward slashes / and write file
-                                rm ${base_dir}/videoinfox.c.tmp   # remove .c.tmp file
                                 sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.c.tmp2 # remove horizontal whitespace from file an write
                                 # REFORMATTED PASTECLIP
                                 read -r ctmp2 < ${base_dir}/videoinfox.c.tmp2  # clipboard content with default list or user list.
@@ -5464,7 +5444,6 @@ while true; do
                                 # REFORMAT CONTROL VARIABLE FOR COMPARISON TO PASTECLIP VARIBLE
                                 echo "$ctmpprefformat" > ${base_dir}/videoinfox.dlname.tmp  # write clipboard contents to to file
                                 cat ${base_dir}/videoinfox.dlname.tmp | tr "/" " " > ${base_dir}/videoinfox.dlname.tmp2  # remove all froward slashes / and write file
-                                rm ${base_dir}/videoinfox.dlname.tmp   # remove .dlname.tmp file
                                 sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dlname.tmp2  # remove horizontal whitespace from file an write
                                 # REFORMATTED CONTROL VARIABLE
                                 read -r ctmp3 < ${base_dir}/videoinfox.dlname.tmp2  # default list name with full path: with slashes and spaces removed
@@ -5482,13 +5461,9 @@ while true; do
                                 # REFORMAT CONTROL VARIABLE 2 FOR COMPARISON TO PASTECLIP VARIBLE
                                 echo "$chkulistset" > ${base_dir}/videoinfox.chkulist.tmp  # write clipboard contents to to file
                                 cat ${base_dir}/videoinfox.chkulist.tmp | tr "/" " " > ${base_dir}/videoinfox.chkulist.tmp2  # remove all froward slashes / and write file
-                                rm ${base_dir}/videoinfox.chkulist.tmp   # remove .dlname.tmp file
                                 sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.chkulist.tmp2  # remove horizontal whitespace from file an write
                                 # REFORMATTED CONTROL VARIABLE 2
                                 read -r ctmp4 < ${base_dir}/videoinfox.chkulist.tmp2  # default list name with full path: with slashes and spaces removed
-                                #  REMOVE TMP2 FILES
-                                rm ${base_dir}/videoinfox.c.tmp2
-                                rm ${base_dir}/videoinfox.dlname.tmp2 
 
                                 ######################################################################################
                                 # END Routine to find out if clipboard contents  =  The default download list or a user list - dash blink or not:  Set User List and Delete User List
@@ -5938,7 +5913,6 @@ while true; do
                                         # REFORMAT PASTECLIP VARIBLE FOR COMPARISON TO CONTROL VARIBLE
                                         echo "$pasteclip" > ${base_dir}/videoinfox.c.tmp  # write clipboard contents to to file
                                         cat ${base_dir}/videoinfox.c.tmp | tr "/" " " > ${base_dir}/videoinfox.c.tmp2  # remove all froward slashes / and write file
-                                        rm ${base_dir}/videoinfox.c.tmp   # remove .c.tmp file
                                         sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.c.tmp2 # remove horizontal whitespace from file an write
                                         # REFORMATTED PASTECLIP
                                         read -r ctmp2 < ${base_dir}/videoinfox.c.tmp2  # clipboard content with default list or user list.
@@ -5948,7 +5922,6 @@ while true; do
                                         # REFORMAT CONTROL VARIABLE FOR COMPARISON TO PASTECLIP VARIBLE
                                         echo "$ctmpprefformat" > ${base_dir}/videoinfox.dlname.tmp  # write clipboard contents to to file
                                         cat ${base_dir}/videoinfox.dlname.tmp | tr "/" " " > ${base_dir}/videoinfox.dlname.tmp2  # remove all froward slashes / and write file
-                                        rm ${base_dir}/videoinfox.dlname.tmp   # remove .dlname.tmp file
                                         sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dlname.tmp2  # remove horizontal whitespace from file an write
                                         # REFORMATTED CONTROL VARIABLE
                                         read -r ctmp3 < ${base_dir}/videoinfox.dlname.tmp2  # default list name with full path: with slashes and spaces removed
@@ -5975,9 +5948,6 @@ while true; do
                                                 pasteclip  # grab clipboard content 
                                             fi
                                         fi
-                                        #  REMOVE TMP2 FILES
-                                        rm ${base_dir}/videoinfox.c.tmp2
-                                        rm ${base_dir}/videoinfox.dlname.tmp2
 
                                         #######################################################################################
                                         # END Routine to find out if clipboard contents  =  The default download list or a user list.  only a user list can:  Set User List and Delete User List
@@ -5995,7 +5965,6 @@ while true; do
                                         # REFORMAT PASTECLIP VARIBLE FOR COMPARISON TO CONTROL VARIBLE
                                         echo "$pasteclip" > ${base_dir}/videoinfox.c.tmp  # write clipboard contents to to file
                                         cat ${base_dir}/videoinfox.c.tmp | tr "/" " " > ${base_dir}/videoinfox.c.tmp2  # remove all froward slashes / and write file
-                                        rm ${base_dir}/videoinfox.c.tmp   # remove .c.tmp file
                                         sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.c.tmp2 # remove horizontal whitespace from file an write
                                         # REFORMATTED PASTECLIP
                                         read -r ctmp2 < ${base_dir}/videoinfox.c.tmp2  # clipboard content with default list or user list.
@@ -6005,7 +5974,6 @@ while true; do
                                         # REFORMAT CONTROL VARIABLE FOR COMPARISON TO PASTECLIP VARIBLE
                                         echo "$ctmpprefformat" > ${base_dir}/videoinfox.dlname.tmp  # write clipboard contents to to file
                                         cat ${base_dir}/videoinfox.dlname.tmp | tr "/" " " > ${base_dir}/videoinfox.dlname.tmp2  # remove all froward slashes / and write file
-                                        rm ${base_dir}/videoinfox.dlname.tmp   # remove .dlname.tmp file
                                         sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dlname.tmp2  # remove horizontal whitespace from file an write
                                         # REFORMATTED CONTROL VARIABLE
                                         read -r ctmp3 < ${base_dir}/videoinfox.dlname.tmp2  # default list name with full path: with slashes and spaces removed
@@ -6015,7 +5983,6 @@ while true; do
                                         # REFORMAT CONTROL VARIABLE 2 FOR COMPARISON TO PASTECLIP VARIBLE
                                         echo "$chkulistset" > ${base_dir}/videoinfox.chkulist.tmp  # write clipboard contents to to file
                                         cat ${base_dir}/videoinfox.chkulist.tmp | tr "/" " " > ${base_dir}/videoinfox.chkulist.tmp2  # remove all froward slashes / and write file
-                                        rm ${base_dir}/videoinfox.chkulist.tmp   # remove .dlname.tmp file
                                         sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.chkulist.tmp2  # remove horizontal whitespace from file an write
                                         # REFORMATTED CONTROL VARIABLE 2
                                         read -r ctmp4 < ${base_dir}/videoinfox.chkulist.tmp2  # default list name with full path: with slashes and spaces removed
@@ -6061,10 +6028,6 @@ while true; do
                                                 done
                                             fi
                                         fi
-                                        #  REMOVE TMP2 FILES
-                                        rm ${base_dir}/videoinfox.c.tmp2
-                                        rm ${base_dir}/videoinfox.dlname.tmp2
-                                        rm ${base_dir}/videoinfox.chkulist.tmp2
 
                                         #######################################################################################
                                         # END Routine to find out if clipboard contents  =  The default download list or a user list.  only a user list can:  Set User List and Delete User List
@@ -6208,7 +6171,6 @@ while true; do
                                     # REFORMAT PASTECLIP VARIBLE FOR COMPARISON TO CONTROL VARIBLE
                                     echo "$pasteclip" > ${base_dir}/videoinfox.c.tmp  # write clipboard contents to to file
                                     cat ${base_dir}/videoinfox.c.tmp | tr "/" " " > ${base_dir}/videoinfox.c.tmp2  # remove all froward slashes / and write file
-                                    rm ${base_dir}/videoinfox.c.tmp   # remove .c.tmp file
                                     sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.c.tmp2 # remove horizontal whitespace from file an write
                                     # REFORMATTED PASTECLIP
                                     read -r ctmp2 < ${base_dir}/videoinfox.c.tmp2  # filename in clipboard with full path: with slashes and spaces removed
@@ -6218,17 +6180,12 @@ while true; do
                                     # REFORMAT CONTROL VARIABLE FOR COMPARISON TO PASTECLIP VARIBLE
                                     echo "$getuserlist" > ${base_dir}/videoinfox.checku.tmp  # write filename to file: ${base_dir}/videoinfox.checku.tmp 
                                     cat ${base_dir}/videoinfox.checku.tmp | tr "/" " " > ${base_dir}/videoinfox.checku.tmp2  # remove all froward slashes / and write file
-                                    rm ${base_dir}/videoinfox.checku.tmp   # remove .dlname.tmp file
                                     sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.checku.tmp2  # remove horizontal whitespace from file an write
                                     # REFORMATTED CONTROL VARIABLE
                                     read -r ctmp5 < ${base_dir}/videoinfox.checku.tmp2  # set user list filename with full path: with slashes and spaces removed
                                     if [[ "$ctmp2" = "$ctmp5" ]]; then
                                         touch ${base_dir}/videoinfox.set-user-list
                                     fi 
-                                    #  REMOVE TMP2 FILES
-                                    rm ${base_dir}/videoinfox.c.tmp2
-                                    rm ${base_dir}/videoinfox.checku.tmp2
-
                                 fi
                                 ######################################################################################
                                 # END Routine to find out if clipboard content  =  set user list filename  if it does, the file will be cleared from the screen after list download
@@ -7092,37 +7049,31 @@ fi
                 # FORMAT PWD NAME FOR COMPARISON
                 echo "$PWD" > ${base_dir}/videoinfox.pwd.tmp  # write PWD to a tmp file: videoinfox.pwd.tmp
                 cat ${base_dir}/videoinfox.pwd.tmp | tr "/" " " > ${base_dir}/videoinfox.pwd  # remove all froward slashes / write file: videoinfox.pwd
-                rm  ${base_dir}/videoinfox.pwd.tmp  # remove tmp file: videoinfox.pwd.tmp
                 sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.pwd  # remove horizontal whitespace write file: videoinfox.pwd
 
                 # FORMAT DEFAULT DIR 1 NAME FOR COMPARISON
                 echo "$dir1" > ${base_dir}/videoinfox.dir1.tmp  # write dir 1 to a tmp file: videoinfox.dir1.tmp
                 cat ${base_dir}/videoinfox.dir1.tmp | tr "/" " " > ${base_dir}/videoinfox.dir1  # remove all froward slashes / write file: videoinfox.dir1
-                rm ${base_dir}/videoinfox.dir1.tmp  # remove tmp file: videoinfox.dir1.tmp 
                 sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir1  # remove horizontal whitespace write file: videoinfox.dir1
 
                 # FORMAT DEFAULT DIR 2 NAME FOR COMPARISON
                 echo "$dir2" > ${base_dir}/videoinfox.dir2.tmp  # write dir 2 to a tmp file: videoinfox.dir2.tmp
                 cat ${base_dir}/videoinfox.dir2.tmp | tr "/" " " > ${base_dir}/videoinfox.dir2  # remove all froward slashes / write file: videoinfox.dir2
-                rm ${base_dir}/videoinfox.dir2.tmp   # remove tmp file: videoinfox.dir2.tmp 
                 sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir2 # remove horizontal whitespace write file: videoinfox.dir2
 
                 # FORMAT DEFAULT DIR 3 NAME FOR COMPARISON
                 echo "$dirsaved" > ${base_dir}/videoinfox.dir3.tmp  # write dir 3 to a tmp file: videoinfox.dir3.tmp
                 cat ${base_dir}/videoinfox.dir3.tmp | tr "/" " " > ${base_dir}/videoinfox.dir3  # remove all froward slashes / write file: videoinfox.dir3
-                rm ${base_dir}/videoinfox.dir3.tmp   # remove tmp file: videoinfox.dir3.tmp 
                 sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir3 # remove horizontal whitespace write file: videoinfox.dir3
 
                 # FORMAT DEFAULT DIR 4 NAME FOR COMPARISON
                 echo "$dir4" > ${base_dir}/videoinfox.dir4.tmp  # write dir 4 to a tmp file: videoinfox.dir4.tmp
                 cat ${base_dir}/videoinfox.dir4.tmp | tr "/" " " > ${base_dir}/videoinfox.dir4  # remove all froward slashes / write file: videoinfox.dir4
-                rm ${base_dir}/videoinfox.dir4.tmp   # remove tmp file: videoinfox.dir4.tmp 
                 sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir4 # remove horizontal whitespace write file: videoinfox.dir4
 
                 # FORMAT DEFAULT DIR 5 NAME FOR COMPARISON
                 echo "$dir5" > ${base_dir}/videoinfox.dir5.tmp  # write dir 5 to a tmp file: videoinfox.dir5.tmp
                 cat ${base_dir}/videoinfox.dir5.tmp | tr "/" " " > ${base_dir}/videoinfox.dir5  # remove all froward slashes / write file: videoinfox.dir5
-                rm ${base_dir}/videoinfox.dir5.tmp   # remove tmp file: videoinfox.dir5.tmp 
                 sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir5 # remove horizontal whitespace write file: videoinfox.dir5
                 # LOAD EDITED PWD AND DEFAULT DIRECTORY NAMES FOR BELOW  IF LOOPS   (all frorward slashes / and white spaces removed from the below directory names)
 
@@ -7324,9 +7275,6 @@ fi
                                 echo
                                 echo >> videoinfo.List-Directory
                                 notify-send "Videoinfox is done processing: List Directory" "$PWD"  # GUI Notification is displayed when this function <option 1> has completed.
-                                # The file  <${base_dir}/videoinfo.duration.tmp>  was created for <ffprobe> to store video duration in seconds of all find results.
-                                # The math was already performed on this file and it is no longer needed.  So it is being removed.  
-                                rm ${base_dir}/videoinfo.duration.tmp
                             fi
                         fi
                         # Everytime You Save.  The File <videoinfo.List-Directory> is saved to the directory that option 1 was run in.
@@ -7583,9 +7531,6 @@ fi
                             #echo "     q  to quit" >> videoinfo.Video-Duration
                             echo >> videoinfo.Video-Duration
                             notify-send  "Videoinfox is done processing: Video Duration" "$PWD"  # GUI Notification is displayed when this function has completed.
-                            # The file  <${base_dir}/videoinfo.duration.tmp>  was created for <ffprobe> to store video duration in seconds of all find results.
-                            # The math was already performed on this file and it is no longer needed.  So it is being removed.  
-                            #rm ${base_dir}/videoinfo.duration.tmp
                         fi
 
                         menu5() {
