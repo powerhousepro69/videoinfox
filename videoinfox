@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v3.9.12								         
+#  file : videoinfox v3.9.13								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v3.9.12"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m9.12")  # Version Number: with blinking dot
+ver="Videoinfox v3.9.13"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v3\033[5m.\033m\033[0m\033[5m\033[5m\033[0m9.13")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -1459,6 +1459,11 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v3.9.13 Add: In -Set -Video Player -Custom. Added -Set to set custom and -Edit to edit custom. " >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              If Custom isn't found, notification given and the currently set video player is kept." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v3.9.12 Add: In -Set -Video Player. If Mpv isn't found, notification is given and the currently set video player is kept." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -9387,8 +9392,9 @@ case $optionsettings in
     p) # VIDEO PLAYER
     function videoplayer {
 
-
          read -r vplay < ~/.config/videoinfox/videoinfox.video-player
+         read -r cplayer1 < ~/.config/videoinfox/videoinfox.customplayer.1 
+         read -r cplayer2 < ~/.config/videoinfox/videoinfox.customplayer.2
          clear
          echo
          echo "___________________________________________________________________________________________________________________"
@@ -9429,7 +9435,7 @@ case $optionsettings in
 
 
          2)         
-         if ! command -v mpv &> /dev/null ####### Check for: mpv and set if installed ########
+         if ! command -v mpv &> /dev/null ####### Check for mpv and set if installed ########
            then
                echo
                echo " mpv not found . . ."
@@ -9443,43 +9449,90 @@ case $optionsettings in
          ;;
 
         
-         3)
-echo "3" > ~/.config/videoinfox/videoinfox.video-player
-read -r cplayer1 < ~/.config/videoinfox/videoinfox.customplayer.1 
-read -r cplayer2 < ~/.config/videoinfox/videoinfox.customplayer.2 
-echo
-echo " Stored executable: " "$cplayer1"
-echo " Stored parameters: " "$cplayer2"
-echo
-read -r -p " Enter video player executable (enter only to keep stored): " customvpe
-echo
-if [ -z "$customvpe" ]
-  then
-      :
-  else
-      echo "$customvpe" > ~/.config/videoinfox/videoinfox.customplayer.1
-fi     
-read -r -p " Enter video player parameters (enter only to erase stored): " customvpp
-echo "$customvpp" > ~/.config/videoinfox/videoinfox.customplayer.2
-read -r cplayer1 < ~/.config/videoinfox/videoinfox.customplayer.1 
-read -r cplayer2 < ~/.config/videoinfox/videoinfox.customplayer.2 
-echo
-echo " New executable: " "$cplayer1"
-echo " New parameters: " "$cplayer2"
-echo
-read -r -p " Press enter to Continue"
+        3)
+        function menusvp {
          
-         echo
-         echo " custom set . . ."
-         sleep 1.7
-         ;;
+        clear
+        clear
+        echo
+        echo "___________________________________________________________________________________________________________________"
+        echo
+        echo " "$der"  >>> SETTINGS >>> VIDEO PLAYER >>> CUSTOM                                   Current Setting: "$vplay" "
+        echo "___________________________________________________________________________________________________________________"
+        echo
+        echo
+        echo " Custom:" "$cplayer1" "$cplayer2                                                                                          q - Quit"
+        echo
+        echo " s - Set"
+        echo
+        echo " e - Edit"  
+        echo
+        echo
+        echo -en " Enter Option: "
+        read -r -n1 optionsvp
+        echo
+        }
 
-         *)
+        while true
+        do
+	  menusvp
+	  case $optionsvp in
 
-         esac
-         done
+        s) #SET
+          echo "3" > ~/.config/videoinfox/videoinfox.video-player
+          echo
+          echo " custom set . . ."
+          sleep 2.1
+          break
+          ;;
 
-         ;;
+        e) #EDIT
+          echo
+          echo " Stored executable: " "$cplayer1"
+          echo " Stored parameters: " "$cplayer2"
+          echo
+          read -r -p " Enter video player executable (enter only to keep stored): " customvpe
+          echo
+
+          if [ -z "$customvpe" ]
+            then
+                :
+            else
+                if ! command -v "$customvpe" &> /dev/null ####### Check for custom and set if installed ########
+                  then
+                      echo " ""$customvpe" "not found . . ."               
+                      sleep 1.7
+                  else
+                      echo "$customvpe" > ~/.config/videoinfox/videoinfox.customplayer.1
+                      echo "3" > ~/.config/videoinfox/videoinfox.video-player
+                      read -r -p " Enter video player parameters (enter only to erase stored): " customvpp
+                      echo "$customvpp" > ~/.config/videoinfox/videoinfox.customplayer.2
+                      read -r cplayer1 < ~/.config/videoinfox/videoinfox.customplayer.1 
+                      read -r cplayer2 < ~/.config/videoinfox/videoinfox.customplayer.2 
+                      echo
+                      echo " New executable: " "$cplayer1"
+                      echo " New parameters: " "$cplayer2"
+                      echo
+                      echo " custom set . . ."
+                      sleep 2.1
+          fi
+          fi
+          break
+          ;;
+
+          q) quit
+          break;;
+
+          *)        
+        esac
+        done
+        ;;
+
+        
+   *)
+   esac
+   done
+   ;;
 
     
     c)  # CODE STATS
