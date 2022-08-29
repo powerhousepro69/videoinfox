@@ -193,58 +193,49 @@ find_supported_files() {
 # Example: generate_options_menu " ${der} >>> PLAYLIST >>> ${setplaylist}" -jocpqilrdh
 # Note:    Because of the order of operations, options must go after the headline
 generate_options_menu() {
-    print_header "${1}"
-    shift 1
-    while getopts ":abcdDhijkKlmopqrsvx" opt; do
-        case "${opt}" in
-            (a) printf -- '-%s: %s\n' "${opt}" "${dashit} Add to Queue" ;;
-            (b) printf -- '-%s: %s\n' "${opt}" "Download Queue" ;;
-            (c) printf -- '-%s: %s\n' "${opt}" "Change Playlist" ;;
-            (d) printf -- '-%s: %s\n' "${opt}" "Clear Playlist" ;;
-            (D) printf -- '-%s: %s\n' "${opt}" "Delete Played List" ;;
-            (h) printf -- '-%s: %s\n' "${opt}" "Help" ;;
-            (i) printf -- '-%s: %s\n' "${opt}" "${dashit} Info" ;;
-            (j) printf -- '-%s: %s\n' "${opt}" "${dashit} Play Line" ;;
-            (k) printf -- '-%s: %s\n' "${opt}" "${dashit} Playlist Add" ;;
-            (K) printf -- '-%s: %s\n' "${opt}" "Default List" ;;
-            (l) printf -- '-%s: %s\n' "${opt}" "Last Autoplay" ;;
-            (m) printf -- '-%s: %s\n' "${opt}" "Create Directory" ;;
-            (o) printf -- '-%s: %s\n' "${opt}" "${dashit} Autoplay Line" ;;
-            (p) printf -- '-%s: %s\n' "${opt}" "Play Clipboard" ;;
-            (P) printf -- '-%s: \033[5m%s\033m\033[0m\033[5m\033[5m\033[0m' "${opt}" "Play Clipboard" ;;
-            (q) printf -- '-%s: %s\n' "${opt}" "Quit" ;;
-            (r) printf -- '-%s: %s\n' "${opt}" "Remove Line" ;;
-            (s) printf -- '-%s: %s\n' "${opt}" "Show Playlist" ;;
-            (v) printf -- '-%s: %s\n' "${opt}" "${finalresult2} View List" ;;
-            (x) printf -- '-%s: %s\n' "${opt}" "Clear Clipboard" ;;
-            (:) printf -- '-%s: %s\n' "${opt}" "${OPTARG}" ;;
-        esac
-    done | column -c 80
-}
-
-generate_playlist() {
-    local playlist
-    playlist="${1:?No playlist defined}"
-
-    # find_supported_files() should generate us a set of supported files
-    # Nonetheless, we ensure that we have read permissions
-    # and double check that we have a recognised file extension
-    # TODO: File extensions suck.  Use 'file' instead for heuristics.
-    while read -r line; do
-        if [[ -r "${line}" ]]; then
-            case "${line}" in
-                (*.mp4|*.webm|*.mkv|*.avi|*.divx)
-                    printf -- '%s\n' "${line}" >> "${playlist}.tmp"
-                ;;
-            esac
-        fi
-    done < <(find_supported_files)
-
-    # De-duplicate the playlist
-    awk '!seen[$0]++' "${playlist}.tmp" > "${playlist}"
-
-    # Remove our temporary file
-    rm "${playlist}.tmp" 2>/dev/null
+    case "${1}" in
+        (playlist)
+            print_header "${2}"
+            shift 2
+            while getopts ":acdq" opt; do
+                case "${opt}" in
+                    (a) printf -- '-%s: %s\n' "${opt}" "Create Playlist" ;;
+                    (c) printf -- '-%s: %s\n' "${opt}" "Change Playlist" ;;
+                    (d) printf -- '-%s: %s\n' "${opt}" "Delete Playlist" ;;
+                    (q) printf -- '-%s: %s\n' "${opt}" "Quit" ;;
+                esac
+            done | column -c 80
+        ;;
+        (*)
+            print_header "${1}"
+            shift 1
+            while getopts ":abcdDhijkKlmopqrsvx" opt; do
+                case "${opt}" in
+                    (a) printf -- '-%s: %s\n' "${opt}" "${dashit} Add to Queue" ;;
+                    (b) printf -- '-%s: %s\n' "${opt}" "Download Queue" ;;
+                    (c) printf -- '-%s: %s\n' "${opt}" "Change Playlist" ;;
+                    (d) printf -- '-%s: %s\n' "${opt}" "Clear Playlist" ;;
+                    (D) printf -- '-%s: %s\n' "${opt}" "Delete Played List" ;;
+                    (h) printf -- '-%s: %s\n' "${opt}" "Help" ;;
+                    (i) printf -- '-%s: %s\n' "${opt}" "${dashit} Info" ;;
+                    (j) printf -- '-%s: %s\n' "${opt}" "${dashit} Play Line" ;;
+                    (k) printf -- '-%s: %s\n' "${opt}" "${dashit} Playlist Add" ;;
+                    (K) printf -- '-%s: %s\n' "${opt}" "Default List" ;;
+                    (l) printf -- '-%s: %s\n' "${opt}" "Last Autoplay" ;;
+                    (m) printf -- '-%s: %s\n' "${opt}" "Create Directory" ;;
+                    (o) printf -- '-%s: %s\n' "${opt}" "${dashit} Autoplay Line" ;;
+                    (p) printf -- '-%s: %s\n' "${opt}" "Play Clipboard" ;;
+                    (P) printf -- '-%s: \033[5m%s\033m\033[0m\033[5m\033[5m\033[0m' "${opt}" "Play Clipboard" ;;
+                    (q) printf -- '-%s: %s\n' "${opt}" "Quit" ;;
+                    (r) printf -- '-%s: %s\n' "${opt}" "Remove Line" ;;
+                    (s) printf -- '-%s: %s\n' "${opt}" "Show Playlist" ;;
+                    (v) printf -- '-%s: %s\n' "${opt}" "${finalresult2} View List" ;;
+                    (x) printf -- '-%s: %s\n' "${opt}" "Clear Clipboard" ;;
+                    (:) printf -- '-%s: %s\n' "${opt}" "${OPTARG}" ;;
+                esac
+            done | column -c 80
+        ;;
+    esac
 }
 
 # Get codec, width, height & duration
@@ -310,6 +301,147 @@ ________________________________________________________________________________
 
 EOF
 exit 0
+}
+
+playlist_create() {
+    # CREATE PLAYLIST
+    echo
+    echo " If any dots are entered, they will be stripped from the playlist name."
+    echo " If a space is used as the first character, it will be stripped from the playlist name."
+    echo " Spaces can be used after the first character of the playlist name."
+    echo
+    read -r -p " Create Playlist: " createpl1  # waiting fot user input. grabbing new filename
+
+    # Strip out any dots from user entry
+    echo "$createpl1" > ${tmp_dir}/plremovedot.tmp
+    sed -i -e 's/\.//g' ${tmp_dir}/plremovedot.tmp
+    read createpl < ${tmp_dir}/plremovedot.tmp
+
+    if [[ -z "$createpl" ]]; then
+        echo
+        echo " Nothing was entered . . ."
+        sleep .75
+    else
+        if [[ -f ${base_dir}/playlists/vplaylist."$createpl" ]]; then
+            echo
+            echo " File already exists . . ."
+            sleep .75
+        else
+            plname="$HOME/.config/videoinfox/playlists/vplaylist.""$createpl"  # add user input as file extension
+            touch "$plname"  #  create user list with full path and filename
+
+            touch "$HOME"/.config/videoinfox/playlists/"$createpl1".last-autoplay
+
+            echo
+            echo " Playlist Created: "$plname""
+            echo
+            sleep 1.7
+
+        fi
+    fi
+}
+
+playlist_delete() {
+    # GETTING NUMBER OF PLAYLISTS
+    linecount=$(wc -l ${base_dir}/videoinfo.playlist.dirlist | cut -d' ' -f1)
+
+    # SELECT A PLAYLIST TO DELETE
+    echo
+    read -r -p " Enter line number to delete: " linenumber  # waiting fot user input
+    if is_integer "${linenumber}"; then
+        if ! [[ -z "$linenumber" ]]; then
+            if [[ $linenumber -gt $linecount ]]; then 
+                echo
+                echo " Number out of range . . ."
+                sleep .9
+            else
+                echo
+                # CREATE FILE MOVING SELECTION TO THE TOP
+                tail -n +"$linenumber" ${base_dir}/videoinfo.playlist.dirlist > ${tmp_dir}/playlist.playlist.delete.tmp
+
+                # READ FIRST LINE OF FILE
+                read plselected < ${tmp_dir}/playlist.playlist.delete.tmp
+
+                if confirm " Delete playlist: ${plselected}"; then
+                    optioncpl="y"
+                else
+                    optioncpl="n"
+                fi
+
+                case $optioncpl in
+                    y)  # YES
+                        rm "$plselected" 2> /dev/null
+
+                        echo "$plselected"| sed 's/.*\.//' > ${tmp_dir}/plread.tmp  # REMOVE FULL PATH ONLY LEAVING PLAYLIST NAME
+                        read -r plselectedla < ${tmp_dir}/plread.tmp  # READING PLAYLIST NAME ONLY INTO VARIABLE  $pselecteda
+                        rm ${base_dir}/playlists/"$plselectedla".last-autoplay  # REMOVE PLAYLIST.last.autoplay  file
+
+                        echo
+                        echo  " Playlist Deleted . . ."
+
+                        if [[ "$setplaylistfull" = "$plselected" ]]; then # SET DEFAULT PLAYLIST TO ACTIVE PLAYLIST
+                            echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ${base_dir}/videoinfo.playlist.current
+                            cp ${base_dir}/playlists/vplaylist.Default ${base_dir}/videoinfo.playlist 2> /dev/null
+                            setplaylist="Default"
+                        fi
+
+                        sleep 1.7  
+                        break
+                    ;;
+                    n)  # NO
+                        break
+                    ;;
+                esac
+            fi
+        fi
+    fi
+}
+
+playlist_generate() {
+    local playlist
+    playlist="${1:?No playlist defined}"
+
+    # find_supported_files() should generate us a set of supported files
+    # Nonetheless, we ensure that we have read permissions
+    # and double check that we have a recognised file extension
+    # TODO: File extensions suck.  Use 'file' instead for heuristics.
+    while read -r line; do
+        if [[ -r "${line}" ]]; then
+            case "${line}" in
+                (*.mp4|*.webm|*.mkv|*.avi|*.divx)
+                    printf -- '%s\n' "${line}" >> "${playlist}.tmp"
+                ;;
+            esac
+        fi
+    done < <(find_supported_files)
+
+    # De-duplicate the playlist
+    awk '!seen[$0]++' "${playlist}.tmp" > "${playlist}"
+
+    # Remove our temporary file
+    rm "${playlist}.tmp" 2>/dev/null
+}
+
+playlist_ls() {
+    find "${1:-$PWD}" -type f -iname "vplaylist.*" |
+        sort |
+        uniq |
+        sed -e '/^$/d' -e 's/.*\///' -e 's/.*\.//' -e 's/vplaylist.//'
+}
+
+playlist_menu() {
+    while true; do
+        clear
+        generate_options_menu playlist " ${der} >>> CHANGE PLAYLIST >>> ${setplaylist}" -acdq
+        read -r -n1 -p " Enter Option: " optioncpl
+
+        case "${optioncpl}" in
+            a) playlist_create ;;
+            c) playlist_change ;;
+            d) playlist_delete ;;
+            q) break ;;
+        esac
+    done
 }
 
 # Print out headers that have a top line, a piece of text, and a bottom line
@@ -968,7 +1100,7 @@ use_custom_list() {
 # -d  Autoplay video files in the current directory
 play_directory() {
     # Create a playlist of available files
-    generate_playlist "${tmp_dir}/videoinfox.optiond-play-directory-apa"
+    playlist_generate "${tmp_dir}/videoinfox.optiond-play-directory-apa"
 
     # REMOVE PATH ONLY LEAVING FILENAME
     sed -i 's/.*\///' "${tmp_dir}/videoinfox.optiond-play-directory-apa2"
@@ -1276,11 +1408,7 @@ menuf() {
     echo "Directory: ""$PWD"
     #echo "Clipboard: ""$pasteclip"
 
-    
-
     #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
-
-    
 
     # the 2 lines of below code are creating two new variables for the following loop.
     # 1st variable <$grabpaste>   <cut> is used to cut all characters after the 4th character from the variable. Only 4 chatacters are needed to look for <http>
@@ -1601,7 +1729,7 @@ while true; do
                         #####################################################
 
                         # Create a playlist of available files
-                        generate_playlist "${tmp_dir}/videoinfox.navtree-play-directory-apa"
+                        playlist_generate "${tmp_dir}/videoinfox.navtree-play-directory-apa"
 
                         # REMOVE PATH ONLY LEAVING FILENAME
                         sed -i 's/.*\///' "${tmp_dir}/videoinfox.navtree-play-directory-apa2"
@@ -1685,7 +1813,7 @@ while true; do
                         if [[ $dovideosexist -ne 0 ]]; then RUN PLAY LINE
                             ntplaynum() {
                                 # Create a playlist of available files
-                                generate_playlist "${tmp_dir}/videoinfox.nt-play-directory-apa"
+                                playlist_generate "${tmp_dir}/videoinfox.nt-play-directory-apa"
 
                                 # REMOVE PATH ONLY LEAVING FILENAME
                                 sed -i 's/.*\///' ${tmp_dir}/videoinfox.nt-play-directory-apa2
@@ -1816,7 +1944,7 @@ while true; do
                                         dovideosexist=$(find_supported_files --count)
                                         if [[ $dovideosexist -ne 0 ]]; then RUN PLAY LINE
                                             # Create a playlist of available files
-                                            generate_playlist "${tmp_dir}/videoinfox.nt-play-directory-apa"
+                                            playlist_generate "${tmp_dir}/videoinfox.nt-play-directory-apa"
 
                                             # REMOVE PATH ONLY LEAVING FILENAME
                                             sed -i 's/.*\///' ${tmp_dir}/videoinfox.nt-play-directory-apa2
@@ -1877,7 +2005,7 @@ while true; do
                                         if [[ $dovideosexist -ne 0 ]]; then  # IF VIDEOS EXIST IN THE CURRENT DIRECTORY 
                                             #########################################function ntplaylistaddnavnum {
                                             # Create a playlist of available files
-                                            generate_playlist "${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa"
+                                            playlist_generate "${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa"
 
                                             # REMOVE PATH ONLY LEAVING FILENAME
                                             sed -i 's/.*\///' ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa2
@@ -1983,9 +2111,9 @@ while true; do
 
                                             #  #  START WRITING
                                             while read -r line; do
-                                            if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
-                                                echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2  
-                                            fi
+                                                if [[ -f "$line" ]]; then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
+                                                    echo "$line" >> ${tmp_dir}/videoinfo.playlist-apa2  
+                                                fi
                                             done < "$input"
                                             #  DONE WRITING ONLY VALID FILES
 
@@ -2358,191 +2486,7 @@ while true; do
                                                     fi
                                                 ;;
                                                 ######
-                                                c)
-                                                # CHANGE PLAYLIST
-                                                ######
-                                                    changepl() {
-                                                        #read -r savepl < ${base_dir}/videoinfo.playlist.current
-                                                        #cp ${base_dir}/videoinfo.playlist "$savepl"
-
-                                                        # cd ${base_dir}/playlists
-
-                                                        # FIND PLAYLISTS
-                                                        find "$PWD" -type f \( -iname "vplaylist.*" \) > ${base_dir}/videoinfo.playlist.dirlist
-
-                                                        # SORT BACK INTO ORDER
-                                                        sort -u ${base_dir}/videoinfo.playlist.dirlist > ${tmp_dir}/playlist.dirlist.tmp
-                                                        mv ${tmp_dir}/playlist.dirlist.tmp ${base_dir}/videoinfo.playlist.dirlist 
-
-                                                        #  REMOVE BLANK LINES
-                                                        sed '/^$/d' ${base_dir}/videoinfo.playlist.dirlist > ${tmp_dir}/playlist.dirlist.tmp
-                                                        mv ${tmp_dir}/playlist.dirlist.tmp ${base_dir}/videoinfo.playlist.dirlist
-
-                                                        # REMOVE PATH
-                                                        sed 's/.*\///' ${base_dir}/videoinfo.playlist.dirlist > ${tmp_dir}/playlist.dirlist.tmp
-
-                                                        # REMOVE FILENAME AND LEAVE EXTENSION
-                                                        cat ${tmp_dir}/playlist.dirlist.tmp | sed 's/.*\.//' > ${tmp_dir}/playlist.dirlist.tmp2 
-                                                        mv ${tmp_dir}/playlist.dirlist.tmp2 ${tmp_dir}/playlist.dirlist.tmp
-                                                        # CREATE NUMBERED lIST
-                                                        sed '/./=' ${tmp_dir}/playlist.dirlist.tmp | sed '/./N; s/\n/ /' > ${tmp_dir}/playlist.dirlist.tmp2
-                                                        mv ${tmp_dir}/playlist.dirlist.tmp2 ${tmp_dir}/playlist.dirlist.tmp 
-                                                        clear
-                                                        cat ${tmp_dir}/playlist.dirlist.tmp
-                                                        hr 80 -
-                                                        echo
-                                                        echo " ${der} >>> CHANGE PLAYLIST >>>" "$setplaylist"        
-                                                        hr 80 -
-                                                        echo
-                                                        echo " c - Change Playlist     a - Create Playlist     d - Delete Playlist                                      q - Quit"
-                                                        echo 
-                                                        echo -en " Enter Option: "
-                                                        read -r -n1 optioncpl
-                                                        echo
-                                                    }
-                                                    while true; do
-                                                        changepl
-                                                        case $optioncpl in
-                                                            q)  # QUIT
-                                                                ###) ## Exit Subshell
-                                                                break
-                                                            ;;
-                                                            c)  # CHANGE PLAYLIST
-                                                                # GET CURRENT PLAYLIST
-                                                                read -r activeplaylistm < ${base_dir}/videoinfo.playlist.current
-
-                                                                # SAVE CURRENT PLAYLIST
-                                                                cp ${base_dir}/videoinfo.playlist "$activeplaylistm" 2>/dev/null
-
-                                                                # GETTING NUMBER OF PLAYLISTS
-                                                                linecount=$(wc -l ${base_dir}/videoinfo.playlist.dirlist | cut -d' ' -f1)
-
-                                                                # LOAD A PLAYLIST
-                                                                echo
-                                                                read -r -p " Enter line number: " linenumber  # waiting fot user input
-                                                                if is_integer "${linenumber}"; then
-                                                                    if [[ -z "$linenumber" ]]; then
-                                                                        :
-                                                                    else
-                                                                        if [[ $linenumber -gt $linecount ]]; then
-                                                                            echo
-                                                                            echo " Number out of range . . ."
-                                                                            sleep .9
-                                                                        else
-                                                                            # CREATE FILE MOVING SELECTION TO THE TOP
-                                                                            tail -n +"$linenumber" ${base_dir}/videoinfo.playlist.dirlist > ${tmp_dir}/playlist.dirlist.tmp3
-
-                                                                            # READ FIRST LINE OF FILE
-                                                                            read plselected < ${tmp_dir}/playlist.dirlist.tmp3
-
-                                                                            # WRITE SELECTED PLAYLIST
-                                                                            echo "$plselected" > ${base_dir}/videoinfo.playlist.current
-
-                                                                            # LOAD SELECTED PLAY LIST
-                                                                            cp "$plselected" ${base_dir}/videoinfo.playlist 2>/dev/null
-                                                                        fi
-                                                                    fi
-                                                                fi
-                                                                break
-                                                            ;;
-                                                            d)  # DELETE PLAYLIST
-
-                                                                # GETTING NUMBER OF PLAYLISTS
-                                                                linecount=$(wc -l ${base_dir}/videoinfo.playlist.dirlist | cut -d' ' -f1)
-
-                                                                # SELECT A PLAYLIST TO DELETE
-                                                                echo
-                                                                read -r -p " Enter line number to delete: " linenumber  # waiting fot user input
-                                                                if is_integer "${linenumber}"; then
-                                                                    if [[ -z "$linenumber" ]]; then
-                                                                            :
-                                                                    else
-                                                                        if [[ $linenumber -gt $linecount ]]; then 
-                                                                            echo
-                                                                            echo " Number out of range . . ."
-                                                                            sleep .9
-                                                                        else
-                                                                            echo
-                                                                            # CREATE FILE MOVING SELECTION TO THE TOP
-                                                                            tail -n +"$linenumber" ${base_dir}/videoinfo.playlist.dirlist > ${tmp_dir}/playlist.playlist.delete.tmp
-
-                                                                            # READ FIRST LINE OF FILE
-                                                                            read plselected < ${tmp_dir}/playlist.playlist.delete.tmp
-
-                                                                            if confirm " Delete playlist: ${plselected}"; then
-                                                                                optioncpl="y"
-                                                                            else
-                                                                                optioncpl="n"
-                                                                            fi
-
-                                                                            case $optioncpl in
-                                                                                y)  # YES
-                                                                                    rm "$plselected" 2> /dev/null
-
-                                                                                    echo "$plselected"| sed 's/.*\.//' > ${tmp_dir}/plread.tmp  # REMOVE FULL PATH ONLY LEAVING PLAYLIST NAME
-                                                                                    read -r plselectedla < ${tmp_dir}/plread.tmp  # READING PLAYLIST NAME ONLY INTO VARIABLE  $pselecteda
-                                                                                    rm ${base_dir}/playlists/"$plselectedla".last-autoplay  # REMOVE PLAYLIST.last.autoplay  file
-                                                                
-                                                                                    echo
-                                                                                    echo  " Playlist Deleted . . ."
-
-                                                                                    if [[ "$setplaylistfull" = "$plselected" ]]; then # SET DEFAULT PLAYLIST TO ACTIVE PLAYLIST
-                                                                                        echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ${base_dir}/videoinfo.playlist.current
-                                                                                        cp ${base_dir}/playlists/vplaylist.Default ${base_dir}/videoinfo.playlist 2> /dev/null
-                                                                                        setplaylist="Default"
-                                                                                    fi
-
-                                                                                    sleep 1.7  
-                                                                                    break
-                                                                                ;;
-                                                                                n)  # NO
-                                                                                    break
-                                                                                ;;
-                                                                            esac
-                                                                        fi
-                                                                    fi
-                                                                fi
-                
-                                                            ;;        
-                                                            a)
-                                                                # CREATE PLAYLIST
-                                                                echo
-                                                                echo " If any dots are entered, they will be stripped from the playlist name."
-                                                                echo " If a space is used as the first character, it will be stripped from the playlist name."
-                                                                echo " Spaces can be used after the first character of the playlist name."
-                                                                echo
-                                                                read -r -p " Create Playlist: " createpl1  # waiting fot user input. grabbing new filename
-
-                                                                # Strip out any dots from user entry
-                                                                echo "$createpl1" > ${tmp_dir}/plremovedot.tmp
-                                                                sed -i -e 's/\.//g' ${tmp_dir}/plremovedot.tmp
-                                                                read createpl < ${tmp_dir}/plremovedot.tmp
-
-                                                                if [[ -z "$createpl" ]]; then
-                                                                    echo
-                                                                    echo " Nothing was entered . . ."
-                                                                    sleep .75
-                                                                else
-                                                                    if [[ -f ${base_dir}/playlists/vplaylist."$createpl" ]]; then
-                                                                        echo
-                                                                        echo " File already exists . . ."
-                                                                        sleep .75
-                                                                    else
-                                                                        plname="$HOME/.config/videoinfox/playlists/vplaylist.""$createpl"  # add user input as file extension
-                                                                        touch "$plname"  #  create user list with full path and filename
-
-                                                                        touch "$HOME"/.config/videoinfox/playlists/"$createpl1".last-autoplay
-
-                                                                        echo
-                                                                        echo " Playlist Created: "$plname""
-                                                                        echo
-                                                                        sleep 1.7
-                                                                    fi
-                                                                fi
-                                                            ;; 
-                                                        esac
-                                                    done
-                                                ;;
+                                                c) playlist_menu ;;
                                                 p) 
                                                 #  @PLAY CLIPBOARD - <PLAYLIST>        
 
@@ -2693,7 +2637,6 @@ while true; do
                                             read -t 3 -p " Press any key then press enter to quit : " playdir
                                             [[ "${playdir}" ]] && break
                                         done
-    
                                         IFS=$OLDIFS
                                     ;;
                                 esac
@@ -2711,7 +2654,7 @@ while true; do
         d)  # (@PLAY DIRECTORY) HOME   ################################################
         
             # Create a playlist of available files
-            generate_playlist "${tmp_dir}/videoinfox.home-play-directory-apa"
+            playlist_generate "${tmp_dir}/videoinfox.home-play-directory-apa"
 
             # REMOVE PATH ONLY LEAVING FILENAME
             sed -i 's/.*\///' ${tmp_dir}/videoinfox.home-play-directory-apa2
@@ -2990,7 +2933,6 @@ while true; do
                 fi
             fi
         ;;
-        
         v)                                  ###########################################
             #  VIEW/PLAYED LIST - <HOME>   ###########################################
             menuvv() {
@@ -3087,11 +3029,7 @@ while true; do
                 ######echo "Directory: ""$PWD"
                 ######echo "Clipboard: ""$pasteclip"
 
-                
-
                 #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
-
-                
 
                 # the 2 lines of below code are creating two new variables for the following loop.
                 # 1st variable <$grabpaste>   <cut> is used to cut all characters after the 4th character from the variable. Only 4 chatacters are needed to look for <http>
@@ -3269,7 +3207,7 @@ while true; do
                     ######################################################
                     s) # @PLAYLIST PLAYED LIST
                     ######################################################
-                        (
+                        #(
                             cd ${base_dir}/playlists
                             menuvhome() {
                                 squash ${base_dir}/videoinfo.playlist  # remove all blank lines
@@ -3713,189 +3651,7 @@ while true; do
                                         fi
                                     ;;       
                                     ######
-                                    c)
-                                    # CHANGE PLAYLIST
-                                    ######
-                                        changepl() {
-                                            #read -r savepl < ${base_dir}/videoinfo.playlist.current
-                                            #cp ${base_dir}/videoinfo.playlist "$savepl"
-
-                                            # cd ${base_dir}/playlists
-
-                                            # FIND PLAYLISTS
-                                            find "$PWD" -type f \( -iname "vplaylist.*" \) > ${base_dir}/videoinfo.playlist.dirlist
-
-                                            # SORT BACK INTO ORDER
-                                            sort -u ${base_dir}/videoinfo.playlist.dirlist > ${tmp_dir}/playlist.dirlist.tmp
-                                            mv ${tmp_dir}/playlist.dirlist.tmp ${base_dir}/videoinfo.playlist.dirlist 
-
-                                            #  REMOVE BLANK LINES
-                                            sed '/^$/d' ${base_dir}/videoinfo.playlist.dirlist > ${tmp_dir}/playlist.dirlist.tmp
-                                            mv ${tmp_dir}/playlist.dirlist.tmp ${base_dir}/videoinfo.playlist.dirlist
-
-                                            # REMOVE PATH
-                                            sed 's/.*\///' ${base_dir}/videoinfo.playlist.dirlist > ${tmp_dir}/playlist.dirlist.tmp
-
-                                            # REMOVE FILENAME AND LEAVE EXTENSION
-                                            cat ${tmp_dir}/playlist.dirlist.tmp | sed 's/.*\.//' > ${tmp_dir}/playlist.dirlist.tmp2 
-                                            mv ${tmp_dir}/playlist.dirlist.tmp2 ${tmp_dir}/playlist.dirlist.tmp
-                                            # CREATE NUMBERED lIST
-                                            sed '/./=' ${tmp_dir}/playlist.dirlist.tmp | sed '/./N; s/\n/ /' > ${tmp_dir}/playlist.dirlist.tmp2
-                                            mv ${tmp_dir}/playlist.dirlist.tmp2 ${tmp_dir}/playlist.dirlist.tmp 
-                                            clear
-                                            cat ${tmp_dir}/playlist.dirlist.tmp
-                                            hr 80 -
-                                            echo
-                                            echo " ${der} >>> CHANGE PLAYLIST >>>" "$setplaylist"        
-                                            hr 80 -
-                                            echo
-                                            echo " c - Change Playlist     a - Create Playlist     d - Delete Playlist                                      q - Quit"
-                                            echo 
-                                            echo -en " Enter Option: "
-                                            read -r -n1 optioncpl
-                                            echo
-                                        }
-                                        while true; do
-                                            changepl
-                                            case $optioncpl in
-                                                q)  # QUIT
-                                                    ###) ## Exit Subshell
-                                                    break ;;
-                                                c)  # CHANGE PLAYLIST
-                                                    # GET CURRENT PLAYLIST
-                                                    read -r activeplaylistm < ${base_dir}/videoinfo.playlist.current
-
-                                                    # SAVE CURRENT PLAYLIST
-                                                    cp ${base_dir}/videoinfo.playlist "$activeplaylistm" 2>/dev/null
-
-                                                    # GETTING NUMBER OF PLAYLISTS
-                                                    linecount=$(wc -l ${base_dir}/videoinfo.playlist.dirlist | cut -d' ' -f1)
-
-                                                    # LOAD A PLAYLIST
-                                                    echo
-                                                    read -r -p " Enter line number: " linenumber  # waiting fot user input
-                                                    if is_integer "${linenumber}"; then
-                                                        if [[ -z "$linenumber" ]]; then
-                                                            :
-                                                        else
-                                                            if [[ $linenumber -gt $linecount ]]; then
-                                                                echo
-                                                                echo " Number out of range . . ."
-                                                                sleep .9
-
-                                                            else
-
-                                                                # CREATE FILE MOVING SELECTION TO THE TOP
-                                                                tail -n +"$linenumber" ${base_dir}/videoinfo.playlist.dirlist > ${tmp_dir}/playlist.dirlist.tmp3
-
-                                                                # READ FIRST LINE OF FILE
-                                                                read plselected < ${tmp_dir}/playlist.dirlist.tmp3
-
-                                                                # WRITE SELECTED PLAYLIST
-                                                                echo "$plselected" > ${base_dir}/videoinfo.playlist.current
-
-                                                                # LOAD SELECTED PLAY LIST
-                                                                cp "$plselected" ${base_dir}/videoinfo.playlist 2>/dev/null
-                                                        
-                                                            fi
-                                                        fi
-                                                    fi
-                                                    break
-                                                ;;
-                                                d)  # DELETE PLAYLIST
-                                                    # GETTING NUMBER OF PLAYLISTS
-                                                    linecount=$(wc -l ${base_dir}/videoinfo.playlist.dirlist | cut -d' ' -f1)
-
-                                                    # SELECT A PLAYLIST TO DELETE
-                                                    echo
-                                                    read -r -p " Enter line number to delete: " linenumber  # waiting fot user input
-                                                    if is_integer "${linenumber}"; then
-                                                        if ! [[ -z "$linenumber" ]]; then
-                                                            if [[ $linenumber -gt $linecount ]]; then 
-                                                                    echo
-                                                                    echo " Number out of range . . ."
-                                                                    sleep .9
-
-                                                                else
-                                                                    echo
-                                                                    # CREATE FILE MOVING SELECTION TO THE TOP
-                                                                    tail -n +"$linenumber" ${base_dir}/videoinfo.playlist.dirlist > ${tmp_dir}/playlist.playlist.delete.tmp
-
-                                                                    # READ FIRST LINE OF FILE
-                                                                    read plselected < ${tmp_dir}/playlist.playlist.delete.tmp
-
-                                                                    if confirm " Delete playlist: ${plselected}"; then
-                                                                        optioncpl="y"
-                                                                    else
-                                                                        optioncpl="n"
-                                                                    fi
-                                                                    case $optioncpl in
-                                                                        y)  # YES
-                                                                            rm "$plselected" 2> /dev/null
-
-                                                                            echo "$plselected"| sed 's/.*\.//' > ${tmp_dir}/plread.tmp  # REMOVE FULL PATH ONLY LEAVING PLAYLIST NAME
-                                                                            read -r plselectedla < ${tmp_dir}/plread.tmp  # READING PLAYLIST NAME ONLY INTO VARIABLE  $pselecteda
-                                                                            rm ${base_dir}/playlists/"$plselectedla".last-autoplay  # REMOVE PLAYLIST.last.autoplay  file
-                                                        
-                                                                            echo
-                                                                            echo  " Playlist Deleted . . ."
-
-                                                                            if [[ "$setplaylistfull" = "$plselected" ]]; then # SET DEFAULT PLAYLIST TO ACTIVE PLAYLIST
-                                                                                    echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ${base_dir}/videoinfo.playlist.current
-                                                                                    cp ${base_dir}/playlists/vplaylist.Default ${base_dir}/videoinfo.playlist 2> /dev/null
-                                                                                    setplaylist="Default"
-                                                                            fi
-
-                                                                            sleep 1.7  
-                                                                            break
-                                                                        ;;
-                                                                        n)  # NO
-                                                                            break
-                                                                        ;;
-                                                                    esac
-                                                                fi
-                                                        fi
-                                                    fi
-                                                ;;        
-                                                a)
-                                                    # CREATE PLAYLIST
-                                                    echo
-                                                    echo " If any dots are entered, they will be stripped from the playlist name."
-                                                    echo " If a space is used as the first character, it will be stripped from the playlist name."
-                                                    echo " Spaces can be used after the first character of the playlist name."
-                                                    echo
-                                                    read -r -p " Create Playlist: " createpl1  # waiting fot user input. grabbing new filename
-
-                                                    # Strip out any dots from user entry
-                                                    echo "$createpl1" > ${tmp_dir}/plremovedot.tmp
-                                                    sed -i -e 's/\.//g' ${tmp_dir}/plremovedot.tmp
-                                                    read createpl < ${tmp_dir}/plremovedot.tmp
-
-                                                    if [[ -z "$createpl" ]]; then
-                                                        echo
-                                                        echo " Nothing was entered . . ."
-                                                        sleep .75
-                                                    else
-                                                        if [[ -f ${base_dir}/playlists/vplaylist."$createpl" ]]; then
-                                                            echo
-                                                            echo " File already exists . . ."
-                                                            sleep .75
-                                                        else
-                                                            plname="$HOME/.config/videoinfox/playlists/vplaylist.""$createpl"  # add user input as file extension
-                                                            touch "$plname"  #  create user list with full path and filename
-
-                                                            touch "$HOME"/.config/videoinfox/playlists/"$createpl1".last-autoplay
-
-                                                            echo
-                                                            echo " Playlist Created: "$plname""
-                                                            echo
-                                                            sleep 1.7
-                                                        fi
-                                                    fi
-                                                ;; 
-                                            esac
-                                        done
-                                    ;;
+                                    c) playlist_menu ;;
                                     p) 
                                     #  @PLAY CLIPBOARD - <PLAYLIST>        
                                         pasteclip  # grab clipboard content
@@ -4210,9 +3966,7 @@ while true; do
                     esac
                 done
         ;; 
-        
         s) #######################  @PLAYLIST - (HOME)  ############################### 
-        
         #(
 
             cd ${base_dir}/playlists
@@ -4607,191 +4361,7 @@ while true; do
                         fi
                     ;;       
                     ######
-                    c)
-                    # CHANGE PLAYLIST
-                    ######
-                        changepl() {
-                            #read -r savepl < ${base_dir}/videoinfo.playlist.current
-                            #cp ${base_dir}/videoinfo.playlist "$savepl"
-
-                            # cd ${base_dir}/playlists
-
-                            # FIND PLAYLISTS
-                            find "$PWD" -type f \( -iname "vplaylist.*" \) > ${base_dir}/videoinfo.playlist.dirlist
-
-                            # SORT BACK INTO ORDER
-                            sort -u ${base_dir}/videoinfo.playlist.dirlist > ${tmp_dir}/playlist.dirlist.tmp
-                            mv ${tmp_dir}/playlist.dirlist.tmp ${base_dir}/videoinfo.playlist.dirlist 
-
-                            #  REMOVE BLANK LINES
-                            sed '/^$/d' ${base_dir}/videoinfo.playlist.dirlist > ${tmp_dir}/playlist.dirlist.tmp
-                            mv ${tmp_dir}/playlist.dirlist.tmp ${base_dir}/videoinfo.playlist.dirlist
-
-                            # REMOVE PATH
-                            sed 's/.*\///' ${base_dir}/videoinfo.playlist.dirlist > ${tmp_dir}/playlist.dirlist.tmp
-
-                            # REMOVE FILENAME AND LEAVE EXTENSION
-                            cat ${tmp_dir}/playlist.dirlist.tmp | sed 's/.*\.//' > ${tmp_dir}/playlist.dirlist.tmp2 
-                            mv ${tmp_dir}/playlist.dirlist.tmp2 ${tmp_dir}/playlist.dirlist.tmp
-                            # CREATE NUMBERED lIST
-                            sed '/./=' ${tmp_dir}/playlist.dirlist.tmp | sed '/./N; s/\n/ /' > ${tmp_dir}/playlist.dirlist.tmp2
-                            mv ${tmp_dir}/playlist.dirlist.tmp2 ${tmp_dir}/playlist.dirlist.tmp 
-                            clear
-                            cat ${tmp_dir}/playlist.dirlist.tmp
-                            hr 80 -
-                            echo
-                            echo " ${der} >>> CHANGE PLAYLIST >>>" "$setplaylist"        
-                            hr 80 -
-                            echo
-                            echo " c - Change Playlist     a - Create Playlist     d - Delete Playlist                                      q - Quit"
-                            echo 
-                            echo -en " Enter Option: "
-                            read -r -n1 optioncpl
-                            echo
-                        }
-
-                        while true; do
-                            changepl
-                            case $optioncpl in
-                                q)  # QUIT
-                                    ###) ## Exit Subshell
-                                    break
-                                ;;
-                                c)  # CHANGE PLAYLIST
-
-                                    # GET CURRENT PLAYLIST
-                                    read -r activeplaylistm < ${base_dir}/videoinfo.playlist.current
-
-                                    # SAVE CURRENT PLAYLIST
-                                    cp ${base_dir}/videoinfo.playlist "$activeplaylistm" 2>/dev/null
-
-                                    # GETTING NUMBER OF PLAYLISTS
-                                    linecount=$(wc -l ${base_dir}/videoinfo.playlist.dirlist | cut -d' ' -f1)
-
-                                    # LOAD A PLAYLIST
-                                    echo
-                                    read -r -p " Enter line number: " linenumber  # waiting fot user input
-                                    if is_integer "${linenumber}"; then
-                                        if [[ -z "$linenumber" ]]; then
-                                            :
-                                        else
-                                            if [[ $linenumber -gt $linecount ]]; then
-                                                print_error " Number out of range . . ."
-                                            else
-                                                # CREATE FILE MOVING SELECTION TO THE TOP
-                                                tail -n +"$linenumber" ${base_dir}/videoinfo.playlist.dirlist > ${tmp_dir}/playlist.dirlist.tmp3
-
-                                                # READ FIRST LINE OF FILE
-                                                read plselected < ${tmp_dir}/playlist.dirlist.tmp3
-
-                                                # WRITE SELECTED PLAYLIST
-                                                echo "$plselected" > ${base_dir}/videoinfo.playlist.current
-
-                                                # LOAD SELECTED PLAY LIST
-                                                cp "$plselected" ${base_dir}/videoinfo.playlist 2>/dev/null
-                                            fi
-                                        fi
-                                    fi
-                                    break
-
-                                ;;
-                                d)  # DELETE PLAYLIST
-
-                                    # GETTING NUMBER OF PLAYLISTS
-                                    linecount=$(wc -l ${base_dir}/videoinfo.playlist.dirlist | cut -d' ' -f1)
-
-                                    # SELECT A PLAYLIST TO DELETE
-                                    echo
-                                    read -r -p " Enter line number to delete: " linenumber  # waiting fot user input
-                                    if is_integer "${linenumber}"; then
-                                        if ! [[ -z "$linenumber" ]]; then
-                                            if [[ $linenumber -gt $linecount ]]; then 
-                                                echo
-                                                echo " Number out of range . . ."
-                                                sleep .9
-                                            else
-                                                echo
-                                                # CREATE FILE MOVING SELECTION TO THE TOP
-                                                tail -n +"$linenumber" ${base_dir}/videoinfo.playlist.dirlist > ${tmp_dir}/playlist.playlist.delete.tmp
-
-                                                # READ FIRST LINE OF FILE
-                                                read plselected < ${tmp_dir}/playlist.playlist.delete.tmp
-
-                                                if confirm " Delete playlist: ${plselected}"; then
-                                                    optioncpl="y"
-                                                else
-                                                    optioncpl="n"
-                                                fi
-
-                                                case $optioncpl in
-                                                    y)  # YES
-                                                        rm "$plselected" 2> /dev/null
-
-                                                        echo "$plselected"| sed 's/.*\.//' > ${tmp_dir}/plread.tmp  # REMOVE FULL PATH ONLY LEAVING PLAYLIST NAME
-                                                        read -r plselectedla < ${tmp_dir}/plread.tmp  # READING PLAYLIST NAME ONLY INTO VARIABLE  $pselecteda
-                                                        rm ${base_dir}/playlists/"$plselectedla".last-autoplay  # REMOVE PLAYLIST.last.autoplay  file
-
-                                                        echo
-                                                        echo  " Playlist Deleted . . ."
-
-                                                        if [[ "$setplaylistfull" = "$plselected" ]]; then # SET DEFAULT PLAYLIST TO ACTIVE PLAYLIST
-                                                            echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ${base_dir}/videoinfo.playlist.current
-                                                            cp ${base_dir}/playlists/vplaylist.Default ${base_dir}/videoinfo.playlist 2> /dev/null
-                                                            setplaylist="Default"
-                                                        fi
-
-                                                        sleep 1.7  
-                                                        break
-                                                    ;;
-                                                    n)  # NO
-                                                        break
-                                                    ;;
-                                                esac
-                                            fi
-                                        fi
-                                    fi
-                                        
-                                ;;        
-                                a)
-                                # CREATE PLAYLIST
-                                    echo
-                                    echo " If any dots are entered, they will be stripped from the playlist name."
-                                    echo " If a space is used as the first character, it will be stripped from the playlist name."
-                                    echo " Spaces can be used after the first character of the playlist name."
-                                    echo
-                                    read -r -p " Create Playlist: " createpl1  # waiting fot user input. grabbing new filename
-
-                                    # Strip out any dots from user entry
-                                    echo "$createpl1" > ${tmp_dir}/plremovedot.tmp
-                                    sed -i -e 's/\.//g' ${tmp_dir}/plremovedot.tmp
-                                    read createpl < ${tmp_dir}/plremovedot.tmp
-
-                                    if [[ -z "$createpl" ]]; then
-                                        echo
-                                        echo " Nothing was entered . . ."
-                                        sleep .75
-                                    else
-                                        if [[ -f ${base_dir}/playlists/vplaylist."$createpl" ]]; then
-                                            echo
-                                            echo " File already exists . . ."
-                                            sleep .75
-                                        else
-                                            plname="$HOME/.config/videoinfox/playlists/vplaylist.""$createpl"  # add user input as file extension
-                                            touch "$plname"  #  create user list with full path and filename
-
-                                            touch "$HOME"/.config/videoinfox/playlists/"$createpl1".last-autoplay
-
-                                            echo
-                                            echo " Playlist Created: "$plname""
-                                            echo
-                                            sleep 1.7
-
-                                        fi
-                                    fi
-                                ;; 
-                                esac
-                            done
-                    ;;
+                    c) playlist_menu ;;
                     p) 
                         #  @PLAY CLIPBOARD - <PLAYLIST>        
                         pasteclip  # grab clipboard content
@@ -4983,7 +4553,6 @@ while true; do
                 sleep 1.7
             fi
         ;;
-        
         f)  ################  FIND ROUTINE - <HOME>  ##################################
         
             pasteclip  # grab clipboard content
@@ -5032,7 +4601,6 @@ while true; do
                 fi
             fi
         ;;
-        
         z)  # SETTINGS - <HOME>  ######################################################
         
             menusettings() {
@@ -5148,12 +4716,9 @@ while true; do
                 esac
             done
         ;;
-        
         ###########################  HOME OPTION  y  Yt-dlp Menu  #####################
-        
-        y)       
-
-            (  # grab working directory
+        y)
+            #(  # grab working directory
                 pasteclip3=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content to restore to before this function was run
                 menuy() {
                     pasteclip  # grab clipboard content
@@ -5280,7 +4845,7 @@ while true; do
                             dwnlist() {
                                 pasteclip  # grab clipboard content
 
-                                if ![[ -f "$pasteclip" ]]; then
+                                if ! [[ -f "$pasteclip" ]]; then
                                     echo "" | xclip -sel clip  # clearing out the clipboard
                                     pasteclip  # grab clipboard content
                                 fi
@@ -6383,7 +5948,7 @@ while true; do
                 echo "" | xclip -sel clip  # clearing out the clipboard
                 pasteclip  # grab clipboard content
                 
-            ) ## Exit Subshell   # restore dir prior to entering yt-dlp menu              
+            #) ## Exit Subshell   # restore dir prior to entering yt-dlp menu              
 
             else
 
@@ -6667,7 +6232,7 @@ while true; do
                             fi 
                         fi
 
-                        ) ## Exit Subshell
+                        #) ## Exit Subshell
                     ;;  
                     i)  # INFO - <VIEW DOWNLOADS>
                         if [[ "$istherefiles" = 0 ]]; then
@@ -6718,7 +6283,7 @@ while true; do
                     d)  # (@PLAY DIRECTORY) VIEW DOWNLOADS  #################
                     #########################################################
                         # Create a playlist of available files
-                        generate_playlist "${tmp_dir}/videoinfox.navtree-play-directory-apa"
+                        playlist_generate "${tmp_dir}/videoinfox.navtree-play-directory-apa"
 
                         # REMOVE PATH ONLY LEAVING FILENAME
                         sed -i 's/.*\///' ${tmp_dir}/videoinfox.navtree-play-directory-apa2
@@ -6942,7 +6507,7 @@ while true; do
                 print_error " Clipboard is empty or contained invalid video url . . ."
             fi
             
-            ) ## Exit Subshell
+           # ) ## Exit Subshell
         ;;
         c)  # DOWNLOAD CHOOSE
             read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
@@ -6990,7 +6555,7 @@ while true; do
                 print_error " Clipboard is empty or contained invalid video url . . ."
             fi
             
-            ) ## Exit Subshell
+           # ) ## Exit Subshell
         ;; 
     esac
 done
