@@ -206,6 +206,24 @@ generate_options_menu() {
                 esac
             done | column -c 80
         ;;
+        (clipboard)
+            print_header "${2}"
+            shift 2
+            while getopts ":cdglpPqsvx" opt; do
+                case "${opt}" in
+                    (c) printf -- '-%s: %s\n' "${opt}" "${dash} Download Choose" ;;
+                    (d) printf -- '-%s: %s\n' "${opt}" "${dash} Download Default" ;;
+                    (g) printf -- '-%s: %s\n' "${opt}" "Download List" ;;
+                    (l) printf -- '-%s: %s\n' "${opt}" "Last Download" ;;
+                    (p) printf -- '-%s: %s\n' "${opt}" "Play Clipboard" ;;
+                    (P) printf -- '-%s: \033[5m%s\033m\033[0m\033[5m\033[5m\033[0m' "${opt}" "Play Clipboard" ;;
+                    (q) printf -- '-%s: %s\n' "${opt}" "Quit" ;;
+                    (s) printf -- '-%s: %s\n' "${opt}" "Self Destruct" ;;
+                    (v) printf -- '-%s: %s\n' "${opt}" "View Downloads" ;;
+                    (x) printf -- '-%s: %s\n' "${opt}" "Clear Clipboard" ;;
+                esac
+            done | column -c 80
+        ;;
         (*)
             print_header "${1}"
             shift 1
@@ -4765,66 +4783,28 @@ while true; do
                         ytdlpconfirm=$(yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
                         if [[ "$ytdlpconfirm" = "" ]]; then
                             pasteclip  # grab clipboard content
-                            dash0=$(echo "-") # not blinking
-                            generate_options_menu" ${der} >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlp_ver" 
-
-                            echo " d "$dash0" Download Default     l - Last Download     v - View Downloads     p - Play Clipboard                 q - Quit"
-                            echo " c "$dash0" Download Choose"
-                            echo " s "$dash0" Self Destruct        g - Download List                            x - Clear Clipboard"
-                            echo
+                            dash=$(echo "-") # not blinking
+                            generate_options_menu clipboard " ${der} >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: ${ytdlp_ver}" -dlvpqcsgx 
                         
                             echo "" | xclip -sel clip  # clearing out the clipboard
                             pasteclip  # grab clipboard content
                         else 
-                            
-                            dash1=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
+                            dash=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
                             
                             echo
                             echo "YT-DLP Confirmed: "$ytdlpconfirm""
                             echo
                             echo "Download Directory: $dirsaved"  # dislpay default download directory
-                            hr 80 -
-                            echo
-                            echo " ${der} >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlp_ver"
-                            hr 80 -
-                            echo
-
-                            echo -e " d "$dash1" Download Default     l - Last Download     v - View Downloads     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                 q - Quit "
-                            echo " c "$dash1" Download Choose"
-                            echo " s "$dash1" Self Destruct        g - Download List                            x - Clear Clipboard"
-                            echo                                                                                  
-                        fi
+                            generate_options_menu clipboard " ${der} >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: ${ytdlp_ver}" -dlvPqcsgx 
                     else
-
                         if [[ -f "$pasteclip" ]]; then
                             echo      
                             echo "Valid file in clipboard"
-                            hr 80 -
-                            echo
-                            echo " ${der} >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlp_ver"
-                            hr 80 -
-                            echo
-
-                            echo -e " d - Download Default     l - Last Download     v - View Downloads     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                 q - Quit "
-                                                                        
-                            echo " c - Download Choose"
-                            echo " s - Self Destruct        g - Download List                            x - Clear Clipboard"
-                            echo                                                             
-
-                        else 
-
+                            generate_options_menu clipboard " ${der} >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: ${ytdlp_ver}" -dlvPqcsgx
+                        else
                             echo "" | xclip -sel clip  # clearing out the clipboard
                             pasteclip  # grab clipboard content
-
-                            hr 80 -
-                            echo
-                            echo " ${der} >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlp_ver"        
-                            hr 80 -
-                            echo
-                            echo " d - Download Default     l - Last Download     v - View Downloads     p - Play Clipboard                 q - Quit"
-                            echo " c - Download Choose"
-                            echo " s - Self Destruct        g - Download List                            x - Clear Clipboard"
-                            echo
+                            generate_options_menu clipboard " ${der} >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: ${ytdlp_ver}" -dlvpqcsgx 
                         fi
                     fi
 
@@ -4834,10 +4814,196 @@ while true; do
                 while true; do 
                     menuy
                     case $optiony in
-                        q) clear; break ;;
-                        x)  # CLEAR CLIPBOARD  (DOWNLOAD LIST)
+                        c)  # DOWNLOAD CHOOSE
+                            read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
+                            cd "$dirsaved"   # change to download directory
+
+                            pasteclip  # grab clipboard content
+
+                            grabpaste3=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
+
+                            if [[ "$grabpaste3" = "http" ]]; then
+                            
+                            clear
+                            echo
+                            echo
+                            
+                            # <yt-dlp> gets the filename minus the extension. this is done becuase the user can pick different video file types to download.
+                            yt-dlp --get-filename -o "%(title)s" "${pasteclip}" > "${base_dir}/videoinfo.lastdownload"
+
+                            # <yt-dlp> giving options for quality and file type to download
+                            yt-dlp -F "${pasteclip}"
+                            
+                            echo
+                            echo
+                            echo "Find what video quality and format you want. (Code on far left)"
+                            read -r -p "Enter that Code and Press enter : " svrcode
+                            echo
+                            clear
+                            yt-dlp -f "$svrcode" "$pasteclip"
+
+                            # remove first dot and everything after it in filename. file names with dots before the extension were breking find results
+                            sed "s/\..*//" ${base_dir}/videoinfo.lastdownload > ${base_dir}/videoinfo.lastdownload.work
+
+                            # remove first [ and everything after it in filename. this was done because file names with [ 
+                            sed -i "s/\[.*//" ${base_dir}/videoinfo.lastdownload.work
+
+                            # rename videoinfo.lastdownload.work to videoinfox/videoinfo.lastdownload
+                            mv ${base_dir}/videoinfo.lastdownload.work ${base_dir}/videoinfo.lastdownload
+                            
+                            read -r lastdownload < ${base_dir}/videoinfo.lastdownload  # reading last download video file
+                            notify-send "Videoinfox messsage: YT-DLP done downloading . . ." "$lastdownload"              
+                            
                             echo "" | xclip -sel clip  # clearing out the clipboard
                             pasteclip  # grab clipboard content
+                            else 
+                                print_error " Clipboard is empty or contained invalid video url . . ."
+                            fi
+                            
+                        # ) ## Exit Subshell
+                        ;;
+                        d)  # DOWNLOAD THE URL LIST <DOWNLOAD LIST>
+                            clear
+
+                            dirclip="$PWD"
+
+                            pasteclip  # grab clipboard content
+
+                            if [[ -f "$pasteclip" ]]; then
+                                # check if   $pasteclip   contains   Default List   or   User Created list 
+                                find ${base_dir}/videoinfox-dl-Default > ${base_dir}/videoinfox.default2
+                                checkclip=$(cat ${base_dir}/videoinfox.default2)
+                                # PROCESSING DEFAULT LIST
+                                if [[ "$checkclip" = "$pasteclip" ]]; then 
+                                    read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null
+                                    cd "$dirsaved" # Change directory to default download directory
+
+                                    # DEFAULT LIST - REMOVE DUPLICATES, BLANK LINES and ANY LINES NOT STARTING WITH HTTP
+                                    cat -n ${base_dir}/videoinfox-dl-Default | sort -uk2 | sort -n | cut -f2- > ${base_dir}/videoinfox-dl-Default.tmp
+                                    mv ${base_dir}/videoinfox-dl-Default.tmp ${base_dir}/videoinfox-dl-Default
+                                    squash ${base_dir}/videoinfox-dl-Default 2>/dev/null  # remove any blank lines in the list
+                                    sed -i '/http/!d' ${base_dir}/videoinfox-dl-Default  # remove all lines not starting with  http
+                                else # PROCESSING USER CREATED LIST
+                                    echo "$pasteclip" | sed 's|\(.*\)/.*|\1|' > ${base_dir}/videoinfox.userlist-tmp # remove last slash and filenname leaving only path
+                                    read -r grablistdir < ${base_dir}/videoinfox.userlist-tmp 2> /dev/null
+                                    cd "$grablistdir"  # change directory to list location
+
+                                    # USER CREATED LIST - REMOVE DUPLICATES, BLANK LINES and ANY LINES NOT STARTING WITH HTTP
+                                    cat -n "$pasteclip" | sort -uk2 | sort -n | cut -f2- > ${base_dir}/videoinfox-dl-userlist.tmp  # remove duplicates
+                                    mv ${base_dir}/videoinfox-dl-userlist.tmp "$pasteclip"
+                                    squash "$pasteclip" 2>/dev/null  # remove any blank lines in the list
+                                    sed -i '/http/!d' "$pasteclip" 2>/dev/null  # remove all lines not starting with  http
+                                    #######
+                                    # START Routine to find out if clipboard content  =  set user list filename  if it does, the file will be cleared from the screen after list download
+                                    #######
+
+                                    # REFORMAT PASTECLIP VARIBLE FOR COMPARISON TO CONTROL VARIBLE
+                                    echo "$pasteclip" > ${base_dir}/videoinfox.c.tmp  # write clipboard contents to to file
+                                    cat ${base_dir}/videoinfox.c.tmp | tr "/" " " > ${base_dir}/videoinfox.c.tmp2  # remove all froward slashes / and write file
+                                    sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.c.tmp2 # remove horizontal whitespace from file an write
+                                    # REFORMATTED PASTECLIP
+                                    read -r ctmp2 < ${base_dir}/videoinfox.c.tmp2  # filename in clipboard with full path: with slashes and spaces removed
+                                                
+                                    # CONTROL VARIABLE
+                                    read -r getuserlist < ${base_dir}/videoinfox.set-user-list
+                                    # REFORMAT CONTROL VARIABLE FOR COMPARISON TO PASTECLIP VARIBLE
+                                    echo "$getuserlist" > ${base_dir}/videoinfox.checku.tmp  # write filename to file: ${base_dir}/videoinfox.checku.tmp 
+                                    cat ${base_dir}/videoinfox.checku.tmp | tr "/" " " > ${base_dir}/videoinfox.checku.tmp2  # remove all froward slashes / and write file
+                                    sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.checku.tmp2  # remove horizontal whitespace from file an write
+                                    # REFORMATTED CONTROL VARIABLE
+                                    read -r ctmp5 < ${base_dir}/videoinfox.checku.tmp2  # set user list filename with full path: with slashes and spaces removed
+                                    if [[ "$ctmp2" = "$ctmp5" ]]; then
+                                        touch ${base_dir}/videoinfox.set-user-list
+                                    fi 
+                                fi
+                                #######
+                                # END Routine to find out if clipboard content  =  set user list filename  if it does, the file will be cleared from the screen after list download
+                                #######
+                                rm videoinfox-dl*~ &> /dev/null  # duplicate lists were showing up with   ~   added onto the filename
+
+                                logfile="$pasteclip".log  # tag  .log  onto the users Download List  */.videoinfox-dl*.log 
+                                echo ""${ver}" >>> DOWNLOAD LIST >>> Logfile:" "$pasteclip"".log" > "$logfile"  # create file
+                                echo >> "$logfile"
+
+                                #justfile=$(echo "$pasteclip" | sed 's|.*/||')  # ended up not using. grabs filename minus path
+
+                                input="$pasteclip"  # input file for download loop (clipboard contents)
+                                ################  DOWNLOAD LOOP START  ####################################
+
+                                while read -r line; do
+                                    echo
+                                    yt-dlp "${line}"  # download url
+                                    echo
+                                    echo "Logging URL and Filename to:" "$logfile" 
+                                    # logging yt-dlp output
+                                    echo "$line" >> "$logfile" 
+                                    yt-dlp "${line}" | tee >> "$logfile"
+                                    echo >> "$logfile" 
+                                done < "$input"
+
+                                ################  DOWNLOAD LOOP END  ######################################
+                                ############  REMOVE UNWANTED LOG INFO  ############# 
+
+                                sed -i '/\[youtube\]/d' "$pasteclip".log &> /dev/null  # removing lines that start with  [youtube]
+                                sed -i '/\[info\]/d' "$pasteclip".log &> /dev/null  # removing lines that start with  [info]
+                                sed -i 's/\[download\]//' "$pasteclip".log &> /dev/null  # remove   [download]   from the end of the line.
+                                sed -i 's/has already been downloaded//' "$pasteclip".log &> /dev/null  # remove   has already been downloaded   from the end of the line.
+                                sed -i -e 's/^[ \t]*//' "$pasteclip".log &> /dev/null  # remove spaces at beginning of line.
+
+                                #####################################################
+                                echo
+                                echo
+                                echo -e "${der}" "\033[5mdone processing download list . . .\033m\033[0m"
+                                echo
+                                echo "List:" "$pasteclip"  # display list filename with full path
+                                echo "Log :" "$logfile"  # display log filename with full path
+                                echo
+                                echo "Press enter to exit this screen"
+
+                                notify-send "Videoinfox messsage: Done Processing Download List . . ." "$pasteclip"
+
+                                read -p ""
+                                echo "" | xclip -sel clip  # clearing out the clipboard
+                            else  # File didn't exist. clipboard cleared
+                                echo "" | xclip -sel clip  # clearing out the clipboard
+                                pasteclip  # grab clipboard content
+                            fi
+                            cd "$dirclip"  # restore directory to before  Download List
+                        ;;
+                        d)  # DOWNLOAD DEFAULT
+                            read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
+                            cd "$dirsaved"  # change to download directory
+
+                            pasteclip  # grab clipboard content              
+                            #!!!
+                            grabpaste3=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
+
+                            if [[ "$grabpaste3" = "http" ]]; then
+                                clear
+                        
+                                yt-dlp --get-filename -o "%(title)s" "${pasteclip}" > "${base_dir}/videoinfo.lastdownload" 
+                                yt-dlp "${pasteclip}"
+                        
+                                # remove first dot and everything after it in filename. file names with dots before the extension were breking find results
+                                sed "s/\..*//" ${base_dir}/videoinfo.lastdownload > ${base_dir}/videoinfo.lastdownload.work
+
+                                # remove first [ and everything after it in filename. this was done because file names with [ 
+                                sed -i "s/\[.*//" ${base_dir}/videoinfo.lastdownload.work
+
+                                # rename videoinfo.lastdownload.work to videoinfox/videoinfo.lastdownload
+                                mv ${base_dir}/videoinfo.lastdownload.work ${base_dir}/videoinfo.lastdownload
+                        
+                                read -r lastdownload < ${base_dir}/videoinfo.lastdownload  # reading last download video file
+                                
+                                notify-send "Videoinfox messsage: YT-DLP done downloading . . ." "$lastdownload"
+                                
+                                echo "" | xclip -sel clip  # clearing out the clipboard
+                                pasteclip  # grab clipboard content
+                            else 
+                                print_error " Clipboard is empty or contained invalid video url . . ."
+                            fi
+                            
+                        # ) ## Exit Subshell
                         ;;
                         g)  # DOWNLOAD LIST  <YT-DLP MENU>
                             echo "" | xclip -sel clip  # clearing out the clipboard
@@ -5675,127 +5841,40 @@ while true; do
                                 esac
                             done
                         ;;
-                        d)  # DOWNLOAD THE URL LIST <DOWNLOAD LIST>
-                            clear
-
-                            dirclip="$PWD"
-
-                            pasteclip  # grab clipboard content
-
-                            if [[ -f "$pasteclip" ]]; then
-                                # check if   $pasteclip   contains   Default List   or   User Created list 
-                                find ${base_dir}/videoinfox-dl-Default > ${base_dir}/videoinfox.default2
-                                checkclip=$(cat ${base_dir}/videoinfox.default2)
-                                # PROCESSING DEFAULT LIST
-                                if [[ "$checkclip" = "$pasteclip" ]]; then 
-                                    read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null
-                                    cd "$dirsaved" # Change directory to default download directory
-
-                                    # DEFAULT LIST - REMOVE DUPLICATES, BLANK LINES and ANY LINES NOT STARTING WITH HTTP
-                                    cat -n ${base_dir}/videoinfox-dl-Default | sort -uk2 | sort -n | cut -f2- > ${base_dir}/videoinfox-dl-Default.tmp
-                                    mv ${base_dir}/videoinfox-dl-Default.tmp ${base_dir}/videoinfox-dl-Default
-                                    squash ${base_dir}/videoinfox-dl-Default 2>/dev/null  # remove any blank lines in the list
-                                    sed -i '/http/!d' ${base_dir}/videoinfox-dl-Default  # remove all lines not starting with  http
-                                else # PROCESSING USER CREATED LIST
-                                    echo "$pasteclip" | sed 's|\(.*\)/.*|\1|' > ${base_dir}/videoinfox.userlist-tmp # remove last slash and filenname leaving only path
-                                    read -r grablistdir < ${base_dir}/videoinfox.userlist-tmp 2> /dev/null
-                                    cd "$grablistdir"  # change directory to list location
-
-                                    # USER CREATED LIST - REMOVE DUPLICATES, BLANK LINES and ANY LINES NOT STARTING WITH HTTP
-                                    cat -n "$pasteclip" | sort -uk2 | sort -n | cut -f2- > ${base_dir}/videoinfox-dl-userlist.tmp  # remove duplicates
-                                    mv ${base_dir}/videoinfox-dl-userlist.tmp "$pasteclip"
-                                    squash "$pasteclip" 2>/dev/null  # remove any blank lines in the list
-                                    sed -i '/http/!d' "$pasteclip" 2>/dev/null  # remove all lines not starting with  http
-                                    #######
-                                    # START Routine to find out if clipboard content  =  set user list filename  if it does, the file will be cleared from the screen after list download
-                                    #######
-
-                                    # REFORMAT PASTECLIP VARIBLE FOR COMPARISON TO CONTROL VARIBLE
-                                    echo "$pasteclip" > ${base_dir}/videoinfox.c.tmp  # write clipboard contents to to file
-                                    cat ${base_dir}/videoinfox.c.tmp | tr "/" " " > ${base_dir}/videoinfox.c.tmp2  # remove all froward slashes / and write file
-                                    sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.c.tmp2 # remove horizontal whitespace from file an write
-                                    # REFORMATTED PASTECLIP
-                                    read -r ctmp2 < ${base_dir}/videoinfox.c.tmp2  # filename in clipboard with full path: with slashes and spaces removed
-                                                
-                                    # CONTROL VARIABLE
-                                    read -r getuserlist < ${base_dir}/videoinfox.set-user-list
-                                    # REFORMAT CONTROL VARIABLE FOR COMPARISON TO PASTECLIP VARIBLE
-                                    echo "$getuserlist" > ${base_dir}/videoinfox.checku.tmp  # write filename to file: ${base_dir}/videoinfox.checku.tmp 
-                                    cat ${base_dir}/videoinfox.checku.tmp | tr "/" " " > ${base_dir}/videoinfox.checku.tmp2  # remove all froward slashes / and write file
-                                    sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.checku.tmp2  # remove horizontal whitespace from file an write
-                                    # REFORMATTED CONTROL VARIABLE
-                                    read -r ctmp5 < ${base_dir}/videoinfox.checku.tmp2  # set user list filename with full path: with slashes and spaces removed
-                                    if [[ "$ctmp2" = "$ctmp5" ]]; then
-                                        touch ${base_dir}/videoinfox.set-user-list
-                                    fi 
-                                fi
-                                #######
-                                # END Routine to find out if clipboard content  =  set user list filename  if it does, the file will be cleared from the screen after list download
-                                #######
-                                rm videoinfox-dl*~ &> /dev/null  # duplicate lists were showing up with   ~   added onto the filename
-
-                                logfile="$pasteclip".log  # tag  .log  onto the users Download List  */.videoinfox-dl*.log 
-                                echo ""${ver}" >>> DOWNLOAD LIST >>> Logfile:" "$pasteclip"".log" > "$logfile"  # create file
-                                echo >> "$logfile"
-
-                                #justfile=$(echo "$pasteclip" | sed 's|.*/||')  # ended up not using. grabs filename minus path
-
-                                input="$pasteclip"  # input file for download loop (clipboard contents)
-                                ################  DOWNLOAD LOOP START  ####################################
-
-                                while read -r line; do
-                                    echo
-                                    yt-dlp "${line}"  # download url
-                                    echo
-                                    echo "Logging URL and Filename to:" "$logfile" 
-                                    # logging yt-dlp output
-                                    echo "$line" >> "$logfile" 
-                                    yt-dlp "${line}" | tee >> "$logfile"
-                                    echo >> "$logfile" 
-                                done < "$input"
-
-                                ################  DOWNLOAD LOOP END  ######################################
-                                ############  REMOVE UNWANTED LOG INFO  ############# 
-
-                                sed -i '/\[youtube\]/d' "$pasteclip".log &> /dev/null  # removing lines that start with  [youtube]
-                                sed -i '/\[info\]/d' "$pasteclip".log &> /dev/null  # removing lines that start with  [info]
-                                sed -i 's/\[download\]//' "$pasteclip".log &> /dev/null  # remove   [download]   from the end of the line.
-                                sed -i 's/has already been downloaded//' "$pasteclip".log &> /dev/null  # remove   has already been downloaded   from the end of the line.
-                                sed -i -e 's/^[ \t]*//' "$pasteclip".log &> /dev/null  # remove spaces at beginning of line.
-
-                                #####################################################
-                                echo
-                                echo
-                                echo -e "${der}" "\033[5mdone processing download list . . .\033m\033[0m"
-                                echo
-                                echo "List:" "$pasteclip"  # display list filename with full path
-                                echo "Log :" "$logfile"  # display log filename with full path
-                                echo
-                                echo "Press enter to exit this screen"
-
-                                notify-send "Videoinfox messsage: Done Processing Download List . . ." "$pasteclip"
-
-                                read -p ""
-                                echo "" | xclip -sel clip  # clearing out the clipboard
-                            else  # File didn't exist. clipboard cleared
-                                echo "" | xclip -sel clip  # clearing out the clipboard
-                                pasteclip  # grab clipboard content
-                            fi
-                            cd "$dirclip"  # restore directory to before  Download List
+                        h) # DOWNLOAD LIST HELP
+                            less ${base_dir}/videoinfox.download-list-help
                         ;;
-                        v)  # VIEW A DOWNLOAD LIST
+                        l)  # play last download
+                            (  # storing directory to restore at the end of this function
+                                read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
+                                cd "$dirsaved"   # change to download directory
 
-                            pasteclip  # grab clipboard content
+                                if [[ -s ${base_dir}/videoinfo.lastdownload ]]; then
+                                    read -r lastdownload < ${base_dir}/videoinfo.lastdownload  # reading last download attempt         
+                                    ylast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))
+                                    echo "$ylast" > ${base_dir}/videoinfo.find-last-download  # write find result to file
+                                    read -r ytdlplast < ${base_dir}/videoinfo.find-last-download  # read first find result from file
 
-                            if [[ -f "$pasteclip" ]]; then
+                                else
+                                    read -r lastdownloadbak < ${base_dir}/videoinfo.lastdownload.bak  # reading last successful download
+                                    ylast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownloadbak*" \))
+                                    echo "$ylast" > ${base_dir}/videoinfo.find-last-download  # write find result to file
+                                    read -r ytdlplast < ${base_dir}/videoinfo.find-last-download  # read first find result from file
+                                fi   
                                 clear
-                                cat "$pasteclip" 2>/dev/null
-                                echo
-                                read -p "Up/Down arrows or mouse to scroll.  Press enter to quit"
-                            else  # File didn't exist. clipboard cleared
-                                echo "" | xclip -sel clip  # clearing out the clipboard
+
+                                print_header " ${der} >>> PLAY LAST DOWNLOAD" " [PLAY]> ${ytdlplast}"
+                                
+                                    get_file_stats "${ytdlplast}"
+
+                                print_video_controls_help
+                            
+                                notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
+                                        
+                                echo "$ytdlplast" >> ${base_dir}/videoinfo.playedlist  # write clipboard content to file  
+                                ffplay -fs -autoexit &> /dev/null "$ytdlplast"
                                 pasteclip  # grab clipboard content
-                            fi
+                            ) ## Exit Subshell   # restore dir prior to entering yt-dlp menu
                         ;;
                         l)  # VIEW LOGS
                             echo "" | xclip -sel clip  # clearing out the clipboard clipboard
@@ -5865,701 +5944,598 @@ while true; do
                                 esac
                             done
                         ;;
-                        h) # DOWNLOAD LIST HELP
-                            less ${base_dir}/videoinfox.download-list-help
+                        ########################################################
+                        ########################   (PLAY ClIPBOARD) YT-DLP MENU 
+                        ########################################################
+                        p) 
+                            #  @PLAY CLIPBOARD - <VIEW DOWNLOADS>
+                            pasteclip  # grab clipboard content
+
+                            if [[ "$grabpaste" = "http" ]]; then
+                                #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
+                            
+                                ################# (  # storing directory to restore at the end of this function
+                                    
+                                #  DOWNLOAD LINK AND PLAY
+                                
+                                read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
+                                cd "$dirsaved"   # change to download directory
+                            
+                                pasteclip  # grab clipboard content
+                                clear
+                                
+                                # make a backup copy of:   ${base_dir}/videoinfo.lastdownload   to restore on Play Clipboard with invalid url
+                                cp ${base_dir}/videoinfo.lastdownload ${base_dir}/videoinfo.lastdownload.bak
+                            
+                                yt-dlp --get-filename -o "%(title)s" "${pasteclip}" > "${base_dir}/videoinfo.lastdownload" 
+                                yt-dlp "${pasteclip}"
+                                
+                                # remove first dot and everything after it in filename. this was done because file names with dots before the extension were breking find results
+                                sed "s/\..*//" ${base_dir}/videoinfo.lastdownload > ${base_dir}/videoinfo.lastdownload.work
+
+                                # remove first [ and everything after it in filename. this was done because file names with [ 
+                                sed -i "s/\[.*//" ${base_dir}/videoinfo.lastdownload.work
+
+                                # rename videoinfo.lastdownload.work to videoinfox/videoinfo.lastdownload
+                                mv ${base_dir}/videoinfo.lastdownload.work ${base_dir}/videoinfo.lastdownload
+                                
+                                if [[ -s ${base_dir}/videoinfo.lastdownload ]]; then
+                                    # make a backup copy of:   ${base_dir}/videoinfo.lastdownload to restore on Play Clipboard with invalid url
+                                    cp ${base_dir}/videoinfo.lastdownload ${base_dir}/videoinfo.lastdownload.bak
+                                fi
+
+                                read -r lastdownload < ${base_dir}/videoinfo.lastdownload  # reading last download attempt
+                                read -r lastdownloadbak < ${base_dir}/videoinfo.lastdownload.bak  # reading last successful download 
+                                        
+                                ylast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))  # finding the file to play
+
+                                echo "$ylast" > ${base_dir}/videoinfo.find-last-download  # write find result to file
+
+                                # IF THERE ARE IDENTICAL FILENAMES WITH DIFFERENT FILE EXTENSIONS FIND WILL PRODUCE MORE THAN ONE RESULT      
+                                correcterror=$(wc -l ${base_dir}/videoinfo.find-last-download | cut -d' ' -f1)  # getting line count.
+                                
+                                if [[ "$correcterror" -gt 1 ]]; then                
+                                    if [[ "$lastdownload" == "$lastdownloadbak" ]]; then
+                                        read -r ytdlplast < ${base_dir}/videoinfo.find-last-download  # read first find result from file
+                                    else
+                                        touch ${base_dir}/videoinfo.find-last-download
+                                        read -r ytdlplast < ${base_dir}/videoinfo.find-last-download
+                                    fi
+                                else
+                                    read -r ytdlplast < ${base_dir}/videoinfo.find-last-download      
+                                fi      
+
+                                clear
+                                print_header " ${der} >>> PLAY LAST DOWNLOAD"" [PLAY]> "$ytdlplast""
+                                get_file_stats "${ytdlplast}"
+                                print_video_controls_help
+                        
+                                if [[ -z "$ytdlplast" ]]; then
+                                    :
+                                else     
+                                    notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
+                                    echo "$ytdlplast" >> ${base_dir}/videoinfo.playedlist  # write clipboard content to Played List File  
+                                    ffplay -fs -autoexit &> /dev/null "$ytdlplast"  
+                                fi 
+                                
+                                echo "" | xclip -sel clip  # clearing out the clipboard
+                                pasteclip  # grab clipboard content
+                                
+                            #) ## Exit Subshell   # restore dir prior to entering yt-dlp menu              
+
+                            else
+
+                                if [[ -f "$pasteclip" ]]; then
+                                    #  PLAY FILE if <$grabpaste> WAS ANYTHING BUT <HTTP> 
+                                    clear
+                                    print_header " ${der} >>> PLAY CLIPBOARD" " [PLAY]> "$pasteclip" "
+
+                                    get_file_stats "${pasteclip}"
+
+                                    print_video_controls_help
+                                    #read -p " Press enter to Continue"
+                                    
+                                    # video filename with full path <$pasteclip> strip from the bgininning of line to the last slash leaving only the filename <$getfilenameonly>
+                                    getfilenameonly=$(echo "$pasteclip" |  awk -F '/' '{print $NF}')  
+                                    notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"
+                                    
+                                    echo "$pasteclip" >> ${base_dir}/videoinfo.playedlist  # write clipboard content to Played List file
+                                    ffplay -fs -autoexit "$pasteclip" 2>/dev/null  # play video in clipboard
+
+                                    echo "" | xclip -sel clip  # clearing out the clipboard
+                                    pasteclip  # grab clipboard content
+
+                                    echo " Played List Closed"
+                                else
+                                    print_error " No playable content in the clipboard . . ."
+                                fi
+                            fi
+
+                        #) ## Exit Subshell
+                        ;;
+                        q) clear; break ;;
+                        s)  # DOWNLOAD VIDEO PLAY, THEN DELETE ON VIDEO PLAYER CLOSE 
+                            (
+                                read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
+                                cd "$dirsaved"   # change to download directory              
+
+                                pasteclip  # grab clipboard content
+                                
+                                grabpaste3=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
+
+                                if [[ "$grabpaste3" = "http" ]]; then
+                                    clear
+                                    yt-dlp "${pasteclip}" -o "$dirsaved"/download.tmp  # downloading temporary video
+                                    notify-send "Videoinfox messsage: YT-DLP is done downloading . . ." "$pasteclip" 
+
+                                    clear
+
+                                    print_header" ${der} >>> YT-DLP MENU >>> Play Video >>> Self Destruct" " [PLAY]> ${pasteclip}"
+
+                                    print_video_controls_help
+                                    
+                                    ffplay -fs -autoexit &> /dev/null "$dirsaved"/download.tmp*  # play temporary video
+                                    rm "$dirsaved"/download.tmp*  # on player close, delete temporary video
+                                    echo "" | xclip -sel clip  # clearing out the clipboard
+                                    pasteclip  # grab clipboard content
+                                else 
+                                        print_error " Clipboard is empty or contained invalid video url . . ."
+                                fi
+
+                            ) ## Exit Subshell # restore dir
+                        ;;
+                        v)  # VIEW A DOWNLOAD LIST
+
+                            pasteclip  # grab clipboard content
+
+                            if [[ -f "$pasteclip" ]]; then
+                                clear
+                                cat "$pasteclip" 2>/dev/null
+                                echo
+                                read -p "Up/Down arrows or mouse to scroll.  Press enter to quit"
+                            else  # File didn't exist. clipboard cleared
+                                echo "" | xclip -sel clip  # clearing out the clipboard
+                                pasteclip  # grab clipboard content
+                            fi
+                        ;;
+                        ######
+                        v)  # VIEW DOWNLOADS
+                        ###### 
+                            clipsave=$(xclip -o -selection clipboard 2> /dev/null)  # save clipboard content         
+
+                            keepdir="$PWD"  # save dir for exit      
+                            menuyt() {  # LIST ALL VIDEO FILES RECURSIVELY IN THE DEFAULT DOWNLOAD DIRECTORY 
+                                cd "$dirsaved"
+
+                                pasteclip  # grab clipboard content
+
+                                grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
+
+                                if [[ "$grabclip" = "http" ]]; then
+                                    :
+                                else      
+                                    if ! [[ -f "$pasteclip" ]]; then
+                                        echo "" | xclip -sel clip  # clearing out the clipboaed
+                                        pasteclip  # grab clipboard content
+                                    fi
+                                fi
+
+                                # Find video files.
+                                find_supported_files --rescursive > ${base_dir}/videoinfo.view-downloads
+
+                                # CHECK FOR FILES FOR BLINKING DASH
+                                istherefiles=$(find_supported_files --recursive-count)
+
+                                # not blinking dash
+                                vdash0=$(echo "-")
+                                # blinking dash
+                                vdash1=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
+
+                                if [[ "$istherefiles" = 0 ]]; then
+                                    vdash="$vdash0"
+                                else
+                                    vdash="$vdash1"
+                                fi
+
+                                #tac ${base_dir}/videoinfo.viewdownloads >  ${base_dir}/videoinfo.viewdownloads.tmp
+                                #mv ${base_dir}/videoinfo.viewdownloads.tmp ${base_dir}/videoinfo.viewdownloads
+
+                                pasteclip  # grab clipboard content                  
+                                clear
+                                #cat ${base_dir}/videoinfo.view-downloads
+
+                                # SORT BACK INTO ORDER
+                                sort -u ${base_dir}/videoinfo.view-downloads > ${base_dir}/videoinfo.view-downloads.tmp
+                                mv ${base_dir}/videoinfo.view-downloads.tmp ${base_dir}/videoinfo.view-downloads 
+
+                                #  REMOVE BLANK LINES
+                                sed '/^$/d' ${base_dir}/videoinfo.view-downloads > ${tmp_dir}/videoinfo-view-downloads.tmp 2>/dev/null
+
+                                # REMOVE PATH ONLY LEAVING FILENAME
+                                sed 's/.*\///' ${tmp_dir}/videoinfo-view-downloads.tmp > ${tmp_dir}/videoinfo-number-view-downloads.tmp2 2>/dev/null
+
+                                # CREATE NUMBERED lIST
+                                sed '/./=' ${tmp_dir}/videoinfo-number-view-downloads.tmp2 | sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfo-number-view-downloads.tmp 2>/dev/null
+
+                                cat ${tmp_dir}/videoinfo-number-view-downloads.tmp  # display numbered find results 
+                                echo
+                                echo "Directory: ""$PWD"
+                                echo "Clipboard: ""$pasteclip"
+                                
+                                #=================================================================================================================================================
+                                #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
+                                #=================================================================================================================================================
+                                
+
+                                # the 2 lines of below code are creating two new variables for the following loop.
+                                # 1st variable <$grabpaste>   <cut> is used to cut all characters after the 4th character from the variable. Only 4 chatacters are needed to look for <http>
+                                # 2nd variable <$grabpaste2>  <cut> is used to cut all characters after the 1st character from the variable. Only 1 character is needed to look for </>  
+
+                                # for main if loop - to look for <http>
+                                grabpaste=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
+
+                                # for nested if loop - to look for </>
+                                grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st character
+
+                                # the following code checks to see if the clipbooard has a url in it by lookin for <http> from <$grabpaste>  
+                                # If it is <http>, YT-DLP will get the clipboard. yt-dlp will check if its a valid link by trying to extract the name of the video file.
+                                # If it isn't <http>  the ytdlp loop will be skipped
+
+                                if [[ "$grabpaste" = "http" ]]; then
+                                    read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
+                                    ytdlpconfirm=$(yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
+
+                                    if [[ "$ytdlpconfirm" = "" ]]; then
+
+                                        echo "" | xclip -sel clip  # clearing out the clipboard
+                                        pasteclip  # grab clipboard content
+
+                                        print_header " ${der} >>> VIEW DOWNLOADS"
+
+                                        echo " o "$vdash" Autoplay Line     d "$vdash" Play Directory    p - Play Clipboard                                           q - Quit"
+                                        echo " j "$vdash" Play Line"
+                                        echo " i "$vdash" Info"     
+                                        echo            
+
+                                    else 
+                                        echo
+                                        echo "YT-DLP Confirmed: "$ytdlpconfirm""
+                                        echo
+                                        echo "Download Directory: $dirsaved"  # dislpay default download directory
+
+                                            print_header " ${der} >>> VIEW DOWNLOADS"
+
+                                        echo -e " o "$vdash" Autoplay Line     d "$vdash" Play Directory     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                                          q - Quit"
+                                        echo " j "$vdash" Play Line"
+                                        echo " i "$vdash" Info"     
+                                        echo
+                                    fi
+                                else
+                                    if [[ -f "$pasteclip" ]]; then
+                                        echo      
+                                        echo "Valid file in clipboard"
+
+                                        print_header " ${der} >>> VIEW DOWNLOADS"
+
+                                        echo -e " o "$vdash" Autoplay Line     d "$vdash" Play Directory     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                                          q - Quit"
+                                        echo " j "$vdash" Play Line"
+                                        echo " i "$vdash" Info"
+                                        echo                                                             
+
+                                    else 
+
+                                        echo "" | xclip -sel clip  # clearing out the clipboard
+                                        pasteclip  # grab clipboard content
+
+                                        print_header " ${der} >>> VIEW DOWNLOADS"
+
+                                        echo " o "$vdash" Autoplay Line     d "$vdash" Play Directory    p - Play Clipboard                                           q - Quit"
+                                        echo " j "$vdash" Play Line"
+                                        echo " i "$vdash" Info"     
+                                        echo                                          
+                                    fi
+                                fi
+
+                                echo -en " Enter Option: "
+                                read -r -n1 optionyt
+
+                            }
+                        
+                            while true; do
+                                menuyt
+                                case $optionyt in
+                                    q)  # QUIT        
+                                        cd "$keepdir"
+                                        break
+                                    ;;
+                                    p)
+                                        #  @PLAY CLIPBOARD - <VIEW DOWNLOADS>
+                                        pasteclip  # grab clipboard content
+
+                                        if [[ "$grabpaste" = "http" ]]; then
+                                            #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
+                                        
+                                            (  # storing directory to restore at the end of this function
+                                                
+                                            #  DOWNLOAD LINK AND PLAY
+                                            
+                                            read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
+                                            cd "$dirsaved"   # change to download directory
+                                        
+                                            pasteclip  # grab clipboard content
+                                            clear
+                                            
+                                            # make a backup copy of:   ${base_dir}/videoinfo.lastdownload   to restore on Play Clipboard with invalid url
+                                            cp ${base_dir}/videoinfo.lastdownload ${base_dir}/videoinfo.lastdownload.bak
+                                        
+                                            yt-dlp --get-filename -o "%(title)s" "${pasteclip}" > "${base_dir}/videoinfo.lastdownload" 
+                                            yt-dlp "${pasteclip}"
+                                            
+                                            # remove first dot and everything after it in filename. this was done because file names with dots before the extension were breking find results
+                                            sed "s/\..*//" ${base_dir}/videoinfo.lastdownload > ${base_dir}/videoinfo.lastdownload.work
+
+                                            # remove first [ and everything after it in filename. this was done because file names with [ 
+                                            sed -i "s/\[.*//" ${base_dir}/videoinfo.lastdownload.work
+
+                                            # rename videoinfo.lastdownload.work to videoinfox/videoinfo.lastdownload
+                                            mv ${base_dir}/videoinfo.lastdownload.work ${base_dir}/videoinfo.lastdownload
+                                            
+                                            if [[ -s ${base_dir}/videoinfo.lastdownload ]]; then
+                                                # make a backup copy of:   ${base_dir}/videoinfo.lastdownload to restore on Play Clipboard with invalid url
+                                                cp ${base_dir}/videoinfo.lastdownload ${base_dir}/videoinfo.lastdownload.bak
+                                            fi
+                                            read -r lastdownload < ${base_dir}/videoinfo.lastdownload  # reading last download attempt
+                                            read -r lastdownloadbak < ${base_dir}/videoinfo.lastdownload.bak  # reading last successful download 
+                                                    
+                                            ylast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))  # finding the file to play
+
+                                            echo "$ylast" > ${base_dir}/videoinfo.find-last-download  # write find result to file
+
+                                            # IF THERE ARE IDENTICAL FILENAMES WITH DIFFERENT FILE EXTENSIONS FIND WILL PRODUCE MORE THAN ONE RESULT      
+                                            correcterror=$(wc -l ${base_dir}/videoinfo.find-last-download | cut -d' ' -f1)  # getting line count.
+                                                
+                                            if [[ "$correcterror" -gt 1 ]]; then                
+                                                if [[ "$lastdownload" == "$lastdownloadbak" ]]; then
+                                                    read -r ytdlplast < ${base_dir}/videoinfo.find-last-download  # read first find result from file
+                                                else
+                                                    touch ${base_dir}/videoinfo.find-last-download
+                                                    read -r ytdlplast < ${base_dir}/videoinfo.find-last-download
+                                                fi
+                                            else
+                                                read -r ytdlplast < ${base_dir}/videoinfo.find-last-download      
+                                            fi      
+
+                                            clear
+                                            print_header " ${der} >>> PLAY LAST DOWNLOAD"" [PLAY]> "$ytdlplast""
+                                            get_file_stats "${ytdlplast}"   
+                                            print_video_controls_help
+                                            
+                                            if [[ -z "$ytdlplast" ]]; then
+                                                notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
+                                                echo "$ytdlplast" >> ${base_dir}/videoinfo.playedlist  # write clipboard content to Played List File  
+                                                ffplay -fs -autoexit &> /dev/null "$ytdlplast"  
+                                            fi 
+                                            
+                                            echo "" | xclip -sel clip  # clearing out the clipboard
+                                            pasteclip  # grab clipboard content
+                                            
+                                            ) ## Exit Subshell   # restore dir prior to entering yt-dlp menu              
+
+                                        else
+                                            if [[ -f "$pasteclip" ]]; then
+                                                #  PLAY FILE if <$grabpaste> WAS ANYTHING BUT <HTTP> 
+                                                clear
+                                                print_header " ${der} >>> PLAY CLIPBOARD" " [PLAY]> "$pasteclip" "
+                                                get_file_stats "${pasteclip}"
+                                                print_video_controls_help
+                                                #read -p " Press enter to Continue"
+                                                
+                                                # video filename with full path <$pasteclip> strip from the bgininning of line to the last slash leaving only the filename <$getfilenameonly>
+                                                getfilenameonly=$(echo "$pasteclip" |  awk -F '/' '{print $NF}')  
+                                                notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"
+                                                
+                                                echo "$pasteclip" >> ${base_dir}/videoinfo.playedlist  # write clipboard content to Played List file
+                                                ffplay -fs -autoexit "$pasteclip" 2>/dev/null  # play video in clipboard
+                                                echo "" | xclip -sel clip  # clearing out the clipboard
+                                                pasteclip  # grab clipboard content
+
+                                                echo " Played List Closed"
+                                        
+                                                else
+                                                    
+                                                echo
+                                                echo
+                                                echo " No playable content in the clipboard . . ."
+                                                sleep 1.2
+                                            fi 
+                                        fi
+
+                                        #) ## Exit Subshell
+                                    ;;  
+                                    i)  # INFO - <VIEW DOWNLOADS>
+                                        if [[ "$istherefiles" = 0 ]]; then
+                                            print_error " No video files in the current directory . . ."
+                                        else
+                                            if [[ -f "$pasteclip" ]]; then
+                                                pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
+                                                echo
+                                                echo
+                                                echo " ""$pasteclip"
+                                                echo  
+
+                                                get_file_stats "${pasteclip}"
+
+                                                echo
+                                                read -r -p " Press enter to Continue" 
+
+                                            else
+                                                if [[ -f ${tmp_dir}/videoinfo-view-downloads.tmp ]]; then
+                                                    echo
+                                                    echo
+                                                    read -r -p " Enter line number to get info: " linenumber  # waiting fot user input
+
+                                                    # create file moving selected line number to the top
+                                                    tail -n +"$linenumber" ${tmp_dir}/videoinfo-view-downloads.tmp > ${tmp_dir}/videoinfo-view-downloads-autoplay.tmp 2>/dev/null
+                                            
+                                                    # read first line of file for play
+                                                    read playnumber < ${tmp_dir}/videoinfo-view-downloads-autoplay.tmp
+
+                                                    if ! [[ -z "$playnumber" ]]; then
+                                                        #echo
+                                                        echo
+                                                        echo "$playnumber"
+                                                        echo
+                                            
+                                                        get_file_stats "${playnumber}"
+
+                                                        echo
+                                                        read -r -p " Press enter to Continue" 
+                                                        
+                                                    fi
+                                                fi
+                                            fi
+                                        fi
+                                    ;;
+                                    ###### Check this area.  pulled possible misplaced code. test playclipboard
+                                    #########################################################
+                                    d)  # (@PLAY DIRECTORY) VIEW DOWNLOADS  #################
+                                    #########################################################
+                                        # Create a playlist of available files
+                                        playlist_generate "${tmp_dir}/videoinfox.navtree-play-directory-apa"
+
+                                        # REMOVE PATH ONLY LEAVING FILENAME
+                                        sed -i 's/.*\///' ${tmp_dir}/videoinfox.navtree-play-directory-apa2
+
+                                        # NUMBER THE LIST
+                                        sed '/./='  ${tmp_dir}/videoinfox.navtree-play-directory-apa2 | sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfox.numbered-navtree-play-directory-list 2>/dev/null
+
+                                        ################clear
+
+                                        if [[ -f ${tmp_dir}/videoinfox.numbered-navtree-play-directory-list ]]; then
+                                            cat ${tmp_dir}/videoinfox.numbered-navtree-play-directory-list 2>/dev/null
+                                        else
+                                            print_error " No video files in the current directory . . ."
+                                        fi
+                                        linenumber=1
+
+                                        tail -n +"$linenumber" ${tmp_dir}/videoinfox.navtree-play-directory-apa > ${tmp_dir}/videoinfox.navtree-play-directory-apa.tmp 2>/dev/null
+                                        mv ${tmp_dir}/videoinfox.navtree-play-directory-apa.tmp ${tmp_dir}/videoinfox.navtree-play-directory-apa 2>/dev/null
+
+                                        OLDIFS=$IFS
+                                        IFS=$'\n'
+
+                                        for line in $(cat "$input" 2>/dev/null); do
+                                            clear
+                                            print_header " ${der} >>> VIEW DOWNLOADS >>> PLAY DIRECTORY" " [PLAY]> ${line}"
+                                            get_file_stats "${line}"
+                                            print_video_controls_help
+                                            ffplay -fs -autoexit "$line" 2> /dev/null
+                                            print_three_second_notice
+                                            read -t 3 -p " Press any key then press enter to quit : " playdir
+                                            [[ "${playdir}" ]] && break
+                                        done
+                                        
+                                        IFS=$OLDIFS
+                                    ;;           
+                                    o)
+                                        
+                                        ###########################   AUTOPLAY LINE  o   <VIEW DOWNLOADS>  
+                                        
+                                        if [[ "$istherefiles" = 0 ]]; then
+                                            print_error " No video files in the current directory . . ."
+                                        else
+                                            if [[ -f ${tmp_dir}/videoinfo-view-downloads.tmp ]]; then
+                                                echo
+                                                echo
+                                                read -r -p " Autoplay Line: " linenumber  # waiting fot user input
+
+                                                tail -n +"$linenumber" ${tmp_dir}/videoinfo-view-downloads.tmp > ${tmp_dir}/videoinfo-view-downloads-autoplay.tmp 2>/dev/null
+                                                input="$HOME""/.config/videoinfox/tmp/videoinfo-view-downloads-autoplay.tmp"
+
+                                                OLDIFS=$IFS
+                                                IFS=$'\n'
+
+                                                for line in $(cat "$input" 2>/dev/null); do
+                                                    clear
+                                                    print_header " ${der} >>> SEARCH RESULTS >>> AUTOPLAY LINE" " [PLAY]> ${line}"
+
+                                                    get_file_stats "${line}"
+                                                    
+                                                    print_video_controls_help
+
+                                                    ffplay -fs -autoexit "$line" 2> /dev/null
+
+                                                    print_three_second_notice
+                                                    read -t 3 -p " Press any key then press enter to quit : " playdir
+
+                                                    # if no input is entered within 3 seconds the next video will play
+                                                    # if enter is pressed without any input the next video will play
+                                                    [[ "${playdir}" ]] && break
+                                                done
+                                            
+                                                IFS=$OLDIFS
+                                            else
+                                                echo
+                                                echo
+                                                echo " Select Show All or use Find to acess this feature . . ."
+                                                sleep 1.7
+                                            fi
+                                        fi
+                                    ;;
+                                    j)
+                                        
+                                        ###########################   PLAY LINE  j   <VIEW DOWNLOADS>  ################
+
+                                        if [[ "$istherefiles" = 0 ]]; then
+                                            print_error " No video files in the current directory . . ."
+                                        else
+                                            if [[ -f ${tmp_dir}/videoinfo-view-downloads.tmp ]]; then
+                                                echo
+                                                echo
+                                                read -r -p " Play Line: " linenumber  # waiting fot user input
+
+                                                # create file moving selected line number to the top
+                                                tail -n +"$linenumber" ${tmp_dir}/videoinfo-view-downloads.tmp > ${tmp_dir}/videoinfo-view-downloads-playnumber.tmp 2>/dev/null
+                                                
+                                                # read first line of file for play
+                                                read playnumber < ${tmp_dir}/videoinfo-view-downloads-playnumber.tmp
+
+                                                if ! [[ -z "$playnumber" ]]; then
+                                                    clear
+
+                                                    print_header " ${der} >>> SEARCH RESULTS >>> PLAY LINE" " [PLAY]> ${playnumber}"
+
+                                                    get_file_stats "${playnumber}"
+                                                    
+                                                    print_video_controls_help
+                                                    
+                                                    # video filename with full path <$pasteclip> strip from the bgininning of line to the last slash leaving only the filename <$getfilenameonly>
+                                                    getfilenameonly=$(echo "$playnumber" |  awk -F '/' '{print $NF}')  
+                                                
+                                                    notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"      
+
+                                                    echo "$playnumber" >> ${base_dir}/videoinfo.playedlist  # write clipboard content to Played List file
+                                                    ffplay -fs -autoexit "$playnumber" 2>/dev/null  # play video
+                                                fi
+                                            else
+                                                echo
+                                                echo
+                                                echo " Select Show All or use Find to acess this feature . . ."
+                                                sleep 1.7
+                                            fi
+                                        fi
+
+                                    ;;
+                                esac
+                            done
+                        ;;
+                        x)  # CLEAR CLIPBOARD  (DOWNLOAD LIST)
+                            echo "" | xclip -sel clip  # clearing out the clipboard
+                            pasteclip  # grab clipboard content
                         ;;
                     esac
                 done
-        ;;
-        ########################################################
-        ########################   (PLAY ClIPBOARD) YT-DLP MENU 
-        ########################################################
-        p) 
-            #  @PLAY CLIPBOARD - <VIEW DOWNLOADS>
-            pasteclip  # grab clipboard content
-
-            if [[ "$grabpaste" = "http" ]]; then
-                #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
-            
-                ################# (  # storing directory to restore at the end of this function
-                    
-                #  DOWNLOAD LINK AND PLAY
-                
-                read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
-                cd "$dirsaved"   # change to download directory
-            
-                pasteclip  # grab clipboard content
-                clear
-                
-                # make a backup copy of:   ${base_dir}/videoinfo.lastdownload   to restore on Play Clipboard with invalid url
-                cp ${base_dir}/videoinfo.lastdownload ${base_dir}/videoinfo.lastdownload.bak
-            
-                yt-dlp --get-filename -o "%(title)s" "${pasteclip}" > "${base_dir}/videoinfo.lastdownload" 
-                yt-dlp "${pasteclip}"
-                
-                # remove first dot and everything after it in filename. this was done because file names with dots before the extension were breking find results
-                sed "s/\..*//" ${base_dir}/videoinfo.lastdownload > ${base_dir}/videoinfo.lastdownload.work
-
-                # remove first [ and everything after it in filename. this was done because file names with [ 
-                sed -i "s/\[.*//" ${base_dir}/videoinfo.lastdownload.work
-
-                # rename videoinfo.lastdownload.work to videoinfox/videoinfo.lastdownload
-                mv ${base_dir}/videoinfo.lastdownload.work ${base_dir}/videoinfo.lastdownload
-                
-                if [[ -s ${base_dir}/videoinfo.lastdownload ]]; then
-                    # make a backup copy of:   ${base_dir}/videoinfo.lastdownload to restore on Play Clipboard with invalid url
-                    cp ${base_dir}/videoinfo.lastdownload ${base_dir}/videoinfo.lastdownload.bak
-                fi
-
-                read -r lastdownload < ${base_dir}/videoinfo.lastdownload  # reading last download attempt
-                read -r lastdownloadbak < ${base_dir}/videoinfo.lastdownload.bak  # reading last successful download 
-                        
-                ylast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))  # finding the file to play
-
-                echo "$ylast" > ${base_dir}/videoinfo.find-last-download  # write find result to file
-
-                # IF THERE ARE IDENTICAL FILENAMES WITH DIFFERENT FILE EXTENSIONS FIND WILL PRODUCE MORE THAN ONE RESULT      
-                correcterror=$(wc -l ${base_dir}/videoinfo.find-last-download | cut -d' ' -f1)  # getting line count.
-                
-                if [[ "$correcterror" -gt 1 ]]; then                
-                    if [[ "$lastdownload" == "$lastdownloadbak" ]]; then
-                        read -r ytdlplast < ${base_dir}/videoinfo.find-last-download  # read first find result from file
-                    else
-                        touch ${base_dir}/videoinfo.find-last-download
-                        read -r ytdlplast < ${base_dir}/videoinfo.find-last-download
-                    fi
-                else
-                    read -r ytdlplast < ${base_dir}/videoinfo.find-last-download      
-                fi      
-
-                clear
-                print_header " ${der} >>> PLAY LAST DOWNLOAD"" [PLAY]> "$ytdlplast""
-                get_file_stats "${ytdlplast}"
-                print_video_controls_help
-        
-                if [[ -z "$ytdlplast" ]]; then
-                    :
-                else     
-                    notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
-                    echo "$ytdlplast" >> ${base_dir}/videoinfo.playedlist  # write clipboard content to Played List File  
-                    ffplay -fs -autoexit &> /dev/null "$ytdlplast"  
-                fi 
-                
-                echo "" | xclip -sel clip  # clearing out the clipboard
-                pasteclip  # grab clipboard content
-                
-            #) ## Exit Subshell   # restore dir prior to entering yt-dlp menu              
-
-            else
-
-                if [[ -f "$pasteclip" ]]; then
-                    #  PLAY FILE if <$grabpaste> WAS ANYTHING BUT <HTTP> 
-                    clear
-                    print_header " ${der} >>> PLAY CLIPBOARD" " [PLAY]> "$pasteclip" "
-
-                    get_file_stats "${pasteclip}"
-
-                    print_video_controls_help
-                    #read -p " Press enter to Continue"
-                    
-                    # video filename with full path <$pasteclip> strip from the bgininning of line to the last slash leaving only the filename <$getfilenameonly>
-                    getfilenameonly=$(echo "$pasteclip" |  awk -F '/' '{print $NF}')  
-                    notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"
-                    
-                    echo "$pasteclip" >> ${base_dir}/videoinfo.playedlist  # write clipboard content to Played List file
-                    ffplay -fs -autoexit "$pasteclip" 2>/dev/null  # play video in clipboard
-
-                    echo "" | xclip -sel clip  # clearing out the clipboard
-                    pasteclip  # grab clipboard content
-
-                    echo " Played List Closed"
-                else
-                    print_error " No playable content in the clipboard . . ."
-                fi
             fi
-
-        #) ## Exit Subshell
-        ;;
-        ######
-        v)  # VIEW DOWNLOADS
-        ###### 
-            clipsave=$(xclip -o -selection clipboard 2> /dev/null)  # save clipboard content         
-
-            keepdir="$PWD"  # save dir for exit      
-            menuyt() {  # LIST ALL VIDEO FILES RECURSIVELY IN THE DEFAULT DOWNLOAD DIRECTORY 
-                cd "$dirsaved"
-
-                pasteclip  # grab clipboard content
-
-                grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
-
-                if [[ "$grabclip" = "http" ]]; then
-                    :
-                else      
-                    if ! [[ -f "$pasteclip" ]]; then
-                        echo "" | xclip -sel clip  # clearing out the clipboaed
-                        pasteclip  # grab clipboard content
-                    fi
-                fi
-
-                # Find video files.
-                find_supported_files --rescursive > ${base_dir}/videoinfo.view-downloads
-
-                # CHECK FOR FILES FOR BLINKING DASH
-                istherefiles=$(find_supported_files --recursive-count)
-
-                # not blinking dash
-                vdash0=$(echo "-")
-                # blinking dash
-                vdash1=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
-
-                if [[ "$istherefiles" = 0 ]]; then
-                    vdash="$vdash0"
-                else
-                    vdash="$vdash1"
-                fi
-
-                #tac ${base_dir}/videoinfo.viewdownloads >  ${base_dir}/videoinfo.viewdownloads.tmp
-                #mv ${base_dir}/videoinfo.viewdownloads.tmp ${base_dir}/videoinfo.viewdownloads
-
-                pasteclip  # grab clipboard content                  
-                clear
-                #cat ${base_dir}/videoinfo.view-downloads
-
-                # SORT BACK INTO ORDER
-                sort -u ${base_dir}/videoinfo.view-downloads > ${base_dir}/videoinfo.view-downloads.tmp
-                mv ${base_dir}/videoinfo.view-downloads.tmp ${base_dir}/videoinfo.view-downloads 
-
-                #  REMOVE BLANK LINES
-                sed '/^$/d' ${base_dir}/videoinfo.view-downloads > ${tmp_dir}/videoinfo-view-downloads.tmp 2>/dev/null
-
-                # REMOVE PATH ONLY LEAVING FILENAME
-                sed 's/.*\///' ${tmp_dir}/videoinfo-view-downloads.tmp > ${tmp_dir}/videoinfo-number-view-downloads.tmp2 2>/dev/null
-
-                # CREATE NUMBERED lIST
-                sed '/./=' ${tmp_dir}/videoinfo-number-view-downloads.tmp2 | sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfo-number-view-downloads.tmp 2>/dev/null
-
-                cat ${tmp_dir}/videoinfo-number-view-downloads.tmp  # display numbered find results 
-                echo
-                echo "Directory: ""$PWD"
-                echo "Clipboard: ""$pasteclip"
-                
-                #=================================================================================================================================================
-                #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
-                #=================================================================================================================================================
-                
-
-                # the 2 lines of below code are creating two new variables for the following loop.
-                # 1st variable <$grabpaste>   <cut> is used to cut all characters after the 4th character from the variable. Only 4 chatacters are needed to look for <http>
-                # 2nd variable <$grabpaste2>  <cut> is used to cut all characters after the 1st character from the variable. Only 1 character is needed to look for </>  
-
-                # for main if loop - to look for <http>
-                grabpaste=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
-
-                # for nested if loop - to look for </>
-                grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st character
-
-                # the following code checks to see if the clipbooard has a url in it by lookin for <http> from <$grabpaste>  
-                # If it is <http>, YT-DLP will get the clipboard. yt-dlp will check if its a valid link by trying to extract the name of the video file.
-                # If it isn't <http>  the ytdlp loop will be skipped
-
-                if [[ "$grabpaste" = "http" ]]; then
-                    read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
-                    ytdlpconfirm=$(yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
-
-                    if [[ "$ytdlpconfirm" = "" ]]; then
-
-                        echo "" | xclip -sel clip  # clearing out the clipboard
-                        pasteclip  # grab clipboard content
-
-                        print_header " ${der} >>> VIEW DOWNLOADS"
-
-                        echo " o "$vdash" Autoplay Line     d "$vdash" Play Directory    p - Play Clipboard                                           q - Quit"
-                        echo " j "$vdash" Play Line"
-                        echo " i "$vdash" Info"     
-                        echo            
-
-                    else 
-                        echo
-                        echo "YT-DLP Confirmed: "$ytdlpconfirm""
-                        echo
-                        echo "Download Directory: $dirsaved"  # dislpay default download directory
-
-                            print_header " ${der} >>> VIEW DOWNLOADS"
-
-                        echo -e " o "$vdash" Autoplay Line     d "$vdash" Play Directory     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                                          q - Quit"
-                        echo " j "$vdash" Play Line"
-                        echo " i "$vdash" Info"     
-                        echo
-                    fi
-                else
-                    if [[ -f "$pasteclip" ]]; then
-                        echo      
-                        echo "Valid file in clipboard"
-
-                        print_header " ${der} >>> VIEW DOWNLOADS"
-
-                        echo -e " o "$vdash" Autoplay Line     d "$vdash" Play Directory     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                                          q - Quit"
-                        echo " j "$vdash" Play Line"
-                        echo " i "$vdash" Info"
-                        echo                                                             
-
-                    else 
-
-                        echo "" | xclip -sel clip  # clearing out the clipboard
-                        pasteclip  # grab clipboard content
-
-                        print_header " ${der} >>> VIEW DOWNLOADS"
-
-                        echo " o "$vdash" Autoplay Line     d "$vdash" Play Directory    p - Play Clipboard                                           q - Quit"
-                        echo " j "$vdash" Play Line"
-                        echo " i "$vdash" Info"     
-                        echo                                          
-                    fi
-                fi
-
-                echo -en " Enter Option: "
-                read -r -n1 optionyt
-
-            }
-        
-            while true; do
-                menuyt
-                case $optionyt in
-                    q)  # QUIT        
-                        cd "$keepdir"
-                        break
-                    ;;
-                    p)
-                        #  @PLAY CLIPBOARD - <VIEW DOWNLOADS>
-                        pasteclip  # grab clipboard content
-
-                        if [[ "$grabpaste" = "http" ]]; then
-                            #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
-                        
-                            (  # storing directory to restore at the end of this function
-                                
-                            #  DOWNLOAD LINK AND PLAY
-                            
-                            read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
-                            cd "$dirsaved"   # change to download directory
-                        
-                            pasteclip  # grab clipboard content
-                            clear
-                            
-                            # make a backup copy of:   ${base_dir}/videoinfo.lastdownload   to restore on Play Clipboard with invalid url
-                            cp ${base_dir}/videoinfo.lastdownload ${base_dir}/videoinfo.lastdownload.bak
-                        
-                            yt-dlp --get-filename -o "%(title)s" "${pasteclip}" > "${base_dir}/videoinfo.lastdownload" 
-                            yt-dlp "${pasteclip}"
-                            
-                            # remove first dot and everything after it in filename. this was done because file names with dots before the extension were breking find results
-                            sed "s/\..*//" ${base_dir}/videoinfo.lastdownload > ${base_dir}/videoinfo.lastdownload.work
-
-                            # remove first [ and everything after it in filename. this was done because file names with [ 
-                            sed -i "s/\[.*//" ${base_dir}/videoinfo.lastdownload.work
-
-                            # rename videoinfo.lastdownload.work to videoinfox/videoinfo.lastdownload
-                            mv ${base_dir}/videoinfo.lastdownload.work ${base_dir}/videoinfo.lastdownload
-                            
-                            if [[ -s ${base_dir}/videoinfo.lastdownload ]]; then
-                                # make a backup copy of:   ${base_dir}/videoinfo.lastdownload to restore on Play Clipboard with invalid url
-                                cp ${base_dir}/videoinfo.lastdownload ${base_dir}/videoinfo.lastdownload.bak
-                            fi
-                            read -r lastdownload < ${base_dir}/videoinfo.lastdownload  # reading last download attempt
-                            read -r lastdownloadbak < ${base_dir}/videoinfo.lastdownload.bak  # reading last successful download 
-                                    
-                            ylast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))  # finding the file to play
-
-                            echo "$ylast" > ${base_dir}/videoinfo.find-last-download  # write find result to file
-
-                            # IF THERE ARE IDENTICAL FILENAMES WITH DIFFERENT FILE EXTENSIONS FIND WILL PRODUCE MORE THAN ONE RESULT      
-                            correcterror=$(wc -l ${base_dir}/videoinfo.find-last-download | cut -d' ' -f1)  # getting line count.
-                                
-                            if [[ "$correcterror" -gt 1 ]]; then                
-                                if [[ "$lastdownload" == "$lastdownloadbak" ]]; then
-                                    read -r ytdlplast < ${base_dir}/videoinfo.find-last-download  # read first find result from file
-                                else
-                                    touch ${base_dir}/videoinfo.find-last-download
-                                    read -r ytdlplast < ${base_dir}/videoinfo.find-last-download
-                                fi
-                            else
-                                read -r ytdlplast < ${base_dir}/videoinfo.find-last-download      
-                            fi      
-
-                            clear
-                            print_header " ${der} >>> PLAY LAST DOWNLOAD"" [PLAY]> "$ytdlplast""
-                            get_file_stats "${ytdlplast}"   
-                            print_video_controls_help
-                            
-                            if [[ -z "$ytdlplast" ]]; then
-                                notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
-                                echo "$ytdlplast" >> ${base_dir}/videoinfo.playedlist  # write clipboard content to Played List File  
-                                ffplay -fs -autoexit &> /dev/null "$ytdlplast"  
-                            fi 
-                            
-                            echo "" | xclip -sel clip  # clearing out the clipboard
-                            pasteclip  # grab clipboard content
-                            
-                            ) ## Exit Subshell   # restore dir prior to entering yt-dlp menu              
-
-                        else
-                            if [[ -f "$pasteclip" ]]; then
-                                #  PLAY FILE if <$grabpaste> WAS ANYTHING BUT <HTTP> 
-                                clear
-                                print_header " ${der} >>> PLAY CLIPBOARD" " [PLAY]> "$pasteclip" "
-                                get_file_stats "${pasteclip}"
-                                print_video_controls_help
-                                #read -p " Press enter to Continue"
-                                
-                                # video filename with full path <$pasteclip> strip from the bgininning of line to the last slash leaving only the filename <$getfilenameonly>
-                                getfilenameonly=$(echo "$pasteclip" |  awk -F '/' '{print $NF}')  
-                                notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"
-                                
-                                echo "$pasteclip" >> ${base_dir}/videoinfo.playedlist  # write clipboard content to Played List file
-                                ffplay -fs -autoexit "$pasteclip" 2>/dev/null  # play video in clipboard
-                                echo "" | xclip -sel clip  # clearing out the clipboard
-                                pasteclip  # grab clipboard content
-
-                                echo " Played List Closed"
-                        
-                                else
-                                    
-                                echo
-                                echo
-                                echo " No playable content in the clipboard . . ."
-                                sleep 1.2
-                            fi 
-                        fi
-
-                        #) ## Exit Subshell
-                    ;;  
-                    i)  # INFO - <VIEW DOWNLOADS>
-                        if [[ "$istherefiles" = 0 ]]; then
-                            print_error " No video files in the current directory . . ."
-                        else
-                            if [[ -f "$pasteclip" ]]; then
-                                pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
-                                echo
-                                echo
-                                echo " ""$pasteclip"
-                                echo  
-
-                                get_file_stats "${pasteclip}"
-
-                                echo
-                                read -r -p " Press enter to Continue" 
-
-                            else
-                                if [[ -f ${tmp_dir}/videoinfo-view-downloads.tmp ]]; then
-                                    echo
-                                    echo
-                                    read -r -p " Enter line number to get info: " linenumber  # waiting fot user input
-
-                                    # create file moving selected line number to the top
-                                    tail -n +"$linenumber" ${tmp_dir}/videoinfo-view-downloads.tmp > ${tmp_dir}/videoinfo-view-downloads-autoplay.tmp 2>/dev/null
-                            
-                                    # read first line of file for play
-                                    read playnumber < ${tmp_dir}/videoinfo-view-downloads-autoplay.tmp
-
-                                    if ! [[ -z "$playnumber" ]]; then
-                                        #echo
-                                        echo
-                                        echo "$playnumber"
-                                        echo
-                            
-                                        get_file_stats "${playnumber}"
-
-                                        echo
-                                        read -r -p " Press enter to Continue" 
-                                        
-                                    fi
-                                fi
-                            fi
-                        fi
-                    ;;
-                    ###### Check this area.  pulled possible misplaced code. test playclipboard
-                    #########################################################
-                    d)  # (@PLAY DIRECTORY) VIEW DOWNLOADS  #################
-                    #########################################################
-                        # Create a playlist of available files
-                        playlist_generate "${tmp_dir}/videoinfox.navtree-play-directory-apa"
-
-                        # REMOVE PATH ONLY LEAVING FILENAME
-                        sed -i 's/.*\///' ${tmp_dir}/videoinfox.navtree-play-directory-apa2
-
-                        # NUMBER THE LIST
-                        sed '/./='  ${tmp_dir}/videoinfox.navtree-play-directory-apa2 | sed '/./N; s/\n/ /' > ${tmp_dir}/videoinfox.numbered-navtree-play-directory-list 2>/dev/null
-
-                        ################clear
-
-                        if [[ -f ${tmp_dir}/videoinfox.numbered-navtree-play-directory-list ]]; then
-                            cat ${tmp_dir}/videoinfox.numbered-navtree-play-directory-list 2>/dev/null
-                        else
-                            print_error " No video files in the current directory . . ."
-                        fi
-                        linenumber=1
-
-                        tail -n +"$linenumber" ${tmp_dir}/videoinfox.navtree-play-directory-apa > ${tmp_dir}/videoinfox.navtree-play-directory-apa.tmp 2>/dev/null
-                        mv ${tmp_dir}/videoinfox.navtree-play-directory-apa.tmp ${tmp_dir}/videoinfox.navtree-play-directory-apa 2>/dev/null
-
-                        OLDIFS=$IFS
-                        IFS=$'\n'
-
-                        for line in $(cat "$input" 2>/dev/null); do
-                            clear
-                            print_header " ${der} >>> VIEW DOWNLOADS >>> PLAY DIRECTORY" " [PLAY]> ${line}"
-                            get_file_stats "${line}"
-                            print_video_controls_help
-                            ffplay -fs -autoexit "$line" 2> /dev/null
-                            print_three_second_notice
-                            read -t 3 -p " Press any key then press enter to quit : " playdir
-                            [[ "${playdir}" ]] && break
-                        done
-                        
-                        IFS=$OLDIFS
-                    ;;           
-                    o)
-                        
-                        ###########################   AUTOPLAY LINE  o   <VIEW DOWNLOADS>  
-                        
-                        if [[ "$istherefiles" = 0 ]]; then
-                            print_error " No video files in the current directory . . ."
-                        else
-                            if [[ -f ${tmp_dir}/videoinfo-view-downloads.tmp ]]; then
-                                echo
-                                echo
-                                read -r -p " Autoplay Line: " linenumber  # waiting fot user input
-
-                                tail -n +"$linenumber" ${tmp_dir}/videoinfo-view-downloads.tmp > ${tmp_dir}/videoinfo-view-downloads-autoplay.tmp 2>/dev/null
-                                input="$HOME""/.config/videoinfox/tmp/videoinfo-view-downloads-autoplay.tmp"
-
-                                OLDIFS=$IFS
-                                IFS=$'\n'
-
-                                for line in $(cat "$input" 2>/dev/null); do
-                                    clear
-                                    print_header " ${der} >>> SEARCH RESULTS >>> AUTOPLAY LINE" " [PLAY]> ${line}"
-
-                                    get_file_stats "${line}"
-                                    
-                                    print_video_controls_help
-
-                                    ffplay -fs -autoexit "$line" 2> /dev/null
-
-                                    print_three_second_notice
-                                    read -t 3 -p " Press any key then press enter to quit : " playdir
-
-                                    # if no input is entered within 3 seconds the next video will play
-                                    # if enter is pressed without any input the next video will play
-                                    [[ "${playdir}" ]] && break
-                                done
-                            
-                                IFS=$OLDIFS
-                            else
-                                echo
-                                echo
-                                echo " Select Show All or use Find to acess this feature . . ."
-                                sleep 1.7
-                            fi
-                        fi
-                    ;;
-                    j)
-                        
-                        ###########################   PLAY LINE  j   <VIEW DOWNLOADS>  ################
-                        
-
-                        if [[ "$istherefiles" = 0 ]]; then
-                            print_error " No video files in the current directory . . ."
-                        else
-                            if [[ -f ${tmp_dir}/videoinfo-view-downloads.tmp ]]; then
-                                echo
-                                echo
-                                read -r -p " Play Line: " linenumber  # waiting fot user input
-
-                                # create file moving selected line number to the top
-                                tail -n +"$linenumber" ${tmp_dir}/videoinfo-view-downloads.tmp > ${tmp_dir}/videoinfo-view-downloads-playnumber.tmp 2>/dev/null
-                                
-                                # read first line of file for play
-                                read playnumber < ${tmp_dir}/videoinfo-view-downloads-playnumber.tmp
-
-                                if ! [[ -z "$playnumber" ]]; then
-                                    clear
-
-                                    print_header " ${der} >>> SEARCH RESULTS >>> PLAY LINE" " [PLAY]> ${playnumber}"
-
-                                    get_file_stats "${playnumber}"
-                                    
-                                    print_video_controls_help
-                                    
-                                    # video filename with full path <$pasteclip> strip from the bgininning of line to the last slash leaving only the filename <$getfilenameonly>
-                                    getfilenameonly=$(echo "$playnumber" |  awk -F '/' '{print $NF}')  
-                                
-                                    notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"      
-
-                                    echo "$playnumber" >> ${base_dir}/videoinfo.playedlist  # write clipboard content to Played List file
-                                    ffplay -fs -autoexit "$playnumber" 2>/dev/null  # play video
-                                fi
-                            else
-                                echo
-                                echo
-                                echo " Select Show All or use Find to acess this feature . . ."
-                                sleep 1.7
-                            fi
-                        fi
-
-                    ;;
-                esac
-            done
-        ;;
-        s)  # DOWNLOAD VIDEO PLAY, THEN DELETE ON VIDEO PLAYER CLOSE 
-            (
-                read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
-                cd "$dirsaved"   # change to download directory              
-
-                pasteclip  # grab clipboard content
-                
-                grabpaste3=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
-
-                if [[ "$grabpaste3" = "http" ]]; then
-                    clear
-                    yt-dlp "${pasteclip}" -o "$dirsaved"/download.tmp  # downloading temporary video
-                    notify-send "Videoinfox messsage: YT-DLP is done downloading . . ." "$pasteclip" 
-
-                    clear
-
-                    print_header" ${der} >>> YT-DLP MENU >>> Play Video >>> Self Destruct" " [PLAY]> ${pasteclip}"
-
-                    print_video_controls_help
-                    
-                    ffplay -fs -autoexit &> /dev/null "$dirsaved"/download.tmp*  # play temporary video
-                    rm "$dirsaved"/download.tmp*  # on player close, delete temporary video
-                    echo "" | xclip -sel clip  # clearing out the clipboard
-                    pasteclip  # grab clipboard content
-                else 
-                        print_error " Clipboard is empty or contained invalid video url . . ."
-                fi
-
-            ) ## Exit Subshell # restore dir
-        ;; 
-        l)  # play last download
-            (  # storing directory to restore at the end of this function
-                read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
-                cd "$dirsaved"   # change to download directory
-
-                if [[ -s ${base_dir}/videoinfo.lastdownload ]]; then
-                    read -r lastdownload < ${base_dir}/videoinfo.lastdownload  # reading last download attempt         
-                    ylast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownload*" \))
-                    echo "$ylast" > ${base_dir}/videoinfo.find-last-download  # write find result to file
-                    read -r ytdlplast < ${base_dir}/videoinfo.find-last-download  # read first find result from file
-
-                else
-                    read -r lastdownloadbak < ${base_dir}/videoinfo.lastdownload.bak  # reading last successful download
-                    ylast=$(find "$PWD" -maxdepth 1 -type f \( -iname "$lastdownloadbak*" \))
-                    echo "$ylast" > ${base_dir}/videoinfo.find-last-download  # write find result to file
-                    read -r ytdlplast < ${base_dir}/videoinfo.find-last-download  # read first find result from file
-                fi   
-                clear
-
-                print_header " ${der} >>> PLAY LAST DOWNLOAD" " [PLAY]> ${ytdlplast}"
-                
-                    get_file_stats "${ytdlplast}"
-
-                print_video_controls_help
-            
-                notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
-                        
-                echo "$ytdlplast" >> ${base_dir}/videoinfo.playedlist  # write clipboard content to file  
-                ffplay -fs -autoexit &> /dev/null "$ytdlplast"
-                pasteclip  # grab clipboard content
-            ) ## Exit Subshell   # restore dir prior to entering yt-dlp menu
-        ;;  
-        d)  # DOWNLOAD DEFAULT
-            read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
-            cd "$dirsaved"  # change to download directory
-
-            pasteclip  # grab clipboard content              
-            #!!!
-            grabpaste3=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
-
-            if [[ "$grabpaste3" = "http" ]]; then
-                clear
-        
-                yt-dlp --get-filename -o "%(title)s" "${pasteclip}" > "${base_dir}/videoinfo.lastdownload" 
-                yt-dlp "${pasteclip}"
-        
-                # remove first dot and everything after it in filename. file names with dots before the extension were breking find results
-                sed "s/\..*//" ${base_dir}/videoinfo.lastdownload > ${base_dir}/videoinfo.lastdownload.work
-
-                # remove first [ and everything after it in filename. this was done because file names with [ 
-                sed -i "s/\[.*//" ${base_dir}/videoinfo.lastdownload.work
-
-                # rename videoinfo.lastdownload.work to videoinfox/videoinfo.lastdownload
-                mv ${base_dir}/videoinfo.lastdownload.work ${base_dir}/videoinfo.lastdownload
-        
-                read -r lastdownload < ${base_dir}/videoinfo.lastdownload  # reading last download video file
-                
-                notify-send "Videoinfox messsage: YT-DLP done downloading . . ." "$lastdownload"
-                
-                echo "" | xclip -sel clip  # clearing out the clipboard
-                pasteclip  # grab clipboard content
-            else 
-                print_error " Clipboard is empty or contained invalid video url . . ."
-            fi
-            
-           # ) ## Exit Subshell
-        ;;
-        c)  # DOWNLOAD CHOOSE
-            read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
-            cd "$dirsaved"   # change to download directory
-
-            pasteclip  # grab clipboard content
-
-            grabpaste3=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
-
-            if [[ "$grabpaste3" = "http" ]]; then
-            
-            clear
-            echo
-            echo
-            
-            # <yt-dlp> gets the filename minus the extension. this is done becuase the user can pick different video file types to download.
-            yt-dlp --get-filename -o "%(title)s" "${pasteclip}" > "${base_dir}/videoinfo.lastdownload"
-
-            # <yt-dlp> giving options for quality and file type to download
-            yt-dlp -F "${pasteclip}"
-            
-            echo
-            echo
-            echo "Find what video quality and format you want. (Code on far left)"
-            read -r -p "Enter that Code and Press enter : " svrcode
-            echo
-            clear
-            yt-dlp -f "$svrcode" "$pasteclip"
-
-            # remove first dot and everything after it in filename. file names with dots before the extension were breking find results
-            sed "s/\..*//" ${base_dir}/videoinfo.lastdownload > ${base_dir}/videoinfo.lastdownload.work
-
-            # remove first [ and everything after it in filename. this was done because file names with [ 
-            sed -i "s/\[.*//" ${base_dir}/videoinfo.lastdownload.work
-
-            # rename videoinfo.lastdownload.work to videoinfox/videoinfo.lastdownload
-            mv ${base_dir}/videoinfo.lastdownload.work ${base_dir}/videoinfo.lastdownload
-            
-            read -r lastdownload < ${base_dir}/videoinfo.lastdownload  # reading last download video file
-            notify-send "Videoinfox messsage: YT-DLP done downloading . . ." "$lastdownload"              
-            
-            echo "" | xclip -sel clip  # clearing out the clipboard
-            pasteclip  # grab clipboard content
-            else 
-                print_error " Clipboard is empty or contained invalid video url . . ."
-            fi
-            
-           # ) ## Exit Subshell
-        ;; 
-    esac
-done
-fi
         ################### ) ## Exit Subshell   # restore dir prior to entering yt-dlp menu
         ;; 
 
