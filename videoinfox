@@ -194,18 +194,6 @@ find_supported_files() {
 # Note:    Because of the order of operations, options must go after the headline
 generate_options_menu() {
     case "${1}" in
-        (playlist)
-            print_header "${2}"
-            shift 2
-            while getopts ":acdq" opt; do
-                case "${opt}" in
-                    (a) printf -- '-%s: %s\n' "${opt}" "Create Playlist" ;;
-                    (c) printf -- '-%s: %s\n' "${opt}" "Change Playlist" ;;
-                    (d) printf -- '-%s: %s\n' "${opt}" "Delete Playlist" ;;
-                    (q) printf -- '-%s: %s\n' "${opt}" "Quit" ;;
-                esac
-            done | column -c 80
-        ;;
         (clipboard)
             print_header "${2}"
             shift 2
@@ -221,6 +209,34 @@ generate_options_menu() {
                     (s) printf -- '-%s: %s\n' "${opt}" "Self Destruct" ;;
                     (v) printf -- '-%s: %s\n' "${opt}" "View Downloads" ;;
                     (x) printf -- '-%s: %s\n' "${opt}" "Clear Clipboard" ;;
+                esac
+            done | column -c 80
+        ;;
+        (navtree)
+            print_header "${2}"
+            shift 2
+            while getopts ":acdmnqut" opt; do
+                case "${opt}" in
+                    (a) printf -- '-%s: %s\n' "${opt}" "${dashit} Show All" ;;
+                    (c) printf -- '-%s: %s\n' "${opt}" "Change Directory" ;;
+                    (d) printf -- '-%s: %s\n' "${opt}" "${dashit} Play Directory" ;;
+                    (m) printf -- '-%s: %s\n' "${opt}" "Create Directory" ;;
+                    (n) printf -- '-%s: %s\n' "${opt}" "Change Treetop";;
+                    (q) printf -- '-%s: %s\n' "${opt}" "Quit" ;;
+                    (t) printf -- '-%s: %s\n' "${opt}" "Treetop" ;;
+                    (u) printf -- '-%s: %s\n' "${opt}" "Up One Level" ;;
+                esac
+            done | column -c 80
+        ;;
+        (playlist)
+            print_header "${2}"
+            shift 2
+            while getopts ":acdq" opt; do
+                case "${opt}" in
+                    (a) printf -- '-%s: %s\n' "${opt}" "Create Playlist" ;;
+                    (c) printf -- '-%s: %s\n' "${opt}" "Change Playlist" ;;
+                    (d) printf -- '-%s: %s\n' "${opt}" "Delete Playlist" ;;
+                    (q) printf -- '-%s: %s\n' "${opt}" "Quit" ;;
                 esac
             done | column -c 80
         ;;
@@ -960,10 +976,10 @@ navtree() {
     # if find results are zero goto then
     if [[ "$blinkit" = 0 ]]; then
         blinkit2="$playdir1"  # zero files. non bliking  Playdirectory
-        bdash="$dash0"
+        dashit="${dash0}"
     else
         blinkit2="$playdir2" # not zero files. blinking  Play Directory
-        bdash="$dash1"
+        dashit="${dash1}"
     fi
     # not blinking
     changedir1=$(echo "Change Directory")
@@ -989,14 +1005,7 @@ navtree() {
             echo "Video Files:" "$blinkit"
             # echo
             # echo "Clipboard:" "$pasteclip"
-
-            print_header " ${der} >>> NAVIGATE TREE                               "$dirdisp" - Default Dirs"
-
-            #echo " c - "$changedir3"     a "$bdash" Show All     d "$bdash" Play Directory     n - Change Treetop                     q - Quit"
-            echo " c - Change Directory     a "$bdash" Show All     d "$bdash" Play Directory     n - Change Treetop                      q - Quit"
-            echo " u - Up One Level"
-            echo " t - Treetop"
-            echo   
+            generate_options_menu navtree " ${der} >>> NAVIGATE TREE    ${dirdisp} - Default Dirs" -cadnqut
             echo -en " Enter Option: "
             read -r -n1 option
             echo
@@ -1012,15 +1021,7 @@ navtree() {
             #echo "Video Files:" "$blinkit"
             #echo
             #echo "Clipboard:" "$pasteclip"
-            hr 80 -
-            echo  
-            echo " ${der} >>> CREATE DIRECTORY                                                  "$dirdisp" - Default Dirs"
-            hr 80 - 
-            echo
-            echo " c - "$changedir3"     m - Create Directory     n - Change Treetop                                     q - Quit"
-            echo " u - Up One Level"
-            echo " t - Treetop"
-            echo
+            generate_options_menu navtree " ${der} >>> CREATE DIRECTORY    ${dirdisp} - Default Dirs" -cmnqut
             echo -en " Enter Option: "
             read -r -n1 option
             echo
