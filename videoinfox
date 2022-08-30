@@ -224,6 +224,21 @@ generate_options_menu() {
                 esac
             done | column -c 80
         ;;
+        (viewdownloads)
+            print_header "${2}"
+            shift 2
+            while getopts ":odijpPq" opt; do
+                case "${opt}" in
+                    (d) printf -- '-%s: %s\n' "${opt}" "Clear Playlist" ;;
+                    (i) printf -- '-%s: %s\n' "${opt}" "${dashit} Info" ;;
+                    (j) printf -- '-%s: %s\n' "${opt}" "${dashit} Play Line" ;;
+                    (o) printf -- '-%s: %s\n' "${opt}" "${dashit} Autoplay Line" ;;
+                    (p) printf -- '-%s: %s\n' "${opt}" "Play Clipboard" ;;
+                    (P) printf -- '-%s: \033[5m%s\033m\033[0m\033[5m\033[5m\033[0m' "${opt}" "Play Clipboard" ;;
+                    (q) printf -- '-%s: %s\n' "${opt}" "Quit" ;;
+                esac
+            done | column -c 80
+        ;;
         (*)
             print_header "${1}"
             shift 1
@@ -490,7 +505,6 @@ print_three_second_notice() {
 echo 
 
 #  videoinfox -v     DISPLAY VERSION NUMBER THEN EXIT  
-
 print_version() {
     printf -- '%s\n' "${ver}"
     exit 0
@@ -3350,47 +3364,20 @@ while true; do
                                     if [[ "$ytdlpconfirm" = "" ]]; then
                                         echo "" | xclip -sel clip  # clearing out the clipboard
                                         pasteclip  # grab clipboard content
-
-                                        hr 80 -
-                                        echo
-                                        echo " ${der} >>> PLAYLIST >>>" "$setplaylist"
-                                        hr 80 -
-                                        echo
-                                        echo " o "$dashit" Autoplay Line     l - Last Autoplay      c - Change Playlist     p - Play Clipboard                  q - Quit"
-                                        echo " j "$dashit" Play Line"
-                                        echo " i "$dashit" Info                                     d - Clear Playlist"
-                                        echo           
+                                        generate_options_menu " ${der} >>> PLAYLIST >>> ${setplaylist}" -olcpqjid
                                     else 
                                         echo
                                         echo "YT-DLP Confirmed: "$ytdlpconfirm""
                                         echo
                                         echo "Download Directory: $dirsaved"  # dislpay default download directory
-                                        hr 80 -
-                                        echo
-                                        echo " ${der} >>> PLAYLIST >>>" "$setplaylist"
-                                        hr 80 -
-                                        echo
-                                        echo -e " o "$dashit" Autoplay Line     l - Last Autoplay     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                   q - Quit"
-                                        echo " j "$dashit" Play Line"
-                                        echo " i "$dashit" Info                                    d - Clear Playlist"
-                                        echo                                                                                    
+                                        generate_options_menu " ${der} >>> PLAYLIST >>> ${setplaylist}" -olcPqjid
                                     fi
                                 else
                                     if [[ -f "$pasteclip" ]]; then
                                         echo      
                                         echo "Valid file in clipboard"
-                                        hr 80 -
-                                        echo
-                                        echo " ${der} >>> PLAYLIST >>>" "$setplaylist"
-                                        hr 80 -
-                                        echo
-                                        echo -e " o "$dashit" Autoplay Line     l - Last Autoplay     c - Change Playlist     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                   q - Quit"
-                                        echo " j "$dashit" Play Line"
-                                        echo " i "$dashit" Info                                    d - Clear Playlist"
-                                        echo                                                                     
-
+                                        generate_options_menu " ${der} >>> PLAYLIST >>> ${setplaylist}" -olcPqjid
                                     else 
-
                                         echo "" | xclip -sel clip  # clearing out the clipboard
                                         pasteclip  # grab clipboard content
 
@@ -6078,14 +6065,14 @@ while true; do
                                 istherefiles=$(find_supported_files --recursive-count)
 
                                 # not blinking dash
-                                vdash0=$(echo "-")
+                                dashit0=$(echo "-")
                                 # blinking dash
-                                vdash1=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
+                                dashit1=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
 
                                 if [[ "$istherefiles" = 0 ]]; then
-                                    vdash="$vdash0"
+                                    dashit="${dashit0}"
                                 else
-                                    vdash="$vdash1"
+                                    dashit="${dashit1}"
                                 fi
 
                                 #tac ${base_dir}/videoinfo.viewdownloads >  ${base_dir}/videoinfo.viewdownloads.tmp
@@ -6116,8 +6103,6 @@ while true; do
                                 #=================================================================================================================================================
                                 #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
                                 #=================================================================================================================================================
-                                
-
                                 # the 2 lines of below code are creating two new variables for the following loop.
                                 # 1st variable <$grabpaste>   <cut> is used to cut all characters after the 4th character from the variable. Only 4 chatacters are needed to look for <http>
                                 # 2nd variable <$grabpaste2>  <cut> is used to cut all characters after the 1st character from the variable. Only 1 character is needed to look for </>  
@@ -6138,55 +6123,30 @@ while true; do
                                         echo "" | xclip -sel clip  # clearing out the clipboard
                                         pasteclip  # grab clipboard content
 
-                                        print_header " ${der} >>> VIEW DOWNLOADS"
-
-                                        echo " o "$vdash" Autoplay Line     d "$vdash" Play Directory    p - Play Clipboard                                           q - Quit"
-                                        echo " j "$vdash" Play Line"
-                                        echo " i "$vdash" Info"     
-                                        echo            
-
+                                        generate_options_menu viewdownloads " ${der} >>> VIEW DOWNLOADS" -odpqji
                                     else 
                                         echo
                                         echo "YT-DLP Confirmed: "$ytdlpconfirm""
                                         echo
                                         echo "Download Directory: $dirsaved"  # dislpay default download directory
 
-                                            print_header " ${der} >>> VIEW DOWNLOADS"
-
-                                        echo -e " o "$vdash" Autoplay Line     d "$vdash" Play Directory     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                                          q - Quit"
-                                        echo " j "$vdash" Play Line"
-                                        echo " i "$vdash" Info"     
-                                        echo
+                                        generate_options_menu viewdownloads " ${der} >>> VIEW DOWNLOADS" -odPqji
                                     fi
                                 else
                                     if [[ -f "$pasteclip" ]]; then
                                         echo      
                                         echo "Valid file in clipboard"
-
-                                        print_header " ${der} >>> VIEW DOWNLOADS"
-
-                                        echo -e " o "$vdash" Autoplay Line     d "$vdash" Play Directory     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                                          q - Quit"
-                                        echo " j "$vdash" Play Line"
-                                        echo " i "$vdash" Info"
-                                        echo                                                             
-
-                                    else 
-
+                                        generate_options_menu viewdownloads " ${der} >>> VIEW DOWNLOADS" -odPqji
+                                    else
                                         echo "" | xclip -sel clip  # clearing out the clipboard
                                         pasteclip  # grab clipboard content
 
-                                        print_header " ${der} >>> VIEW DOWNLOADS"
-
-                                        echo " o "$vdash" Autoplay Line     d "$vdash" Play Directory    p - Play Clipboard                                           q - Quit"
-                                        echo " j "$vdash" Play Line"
-                                        echo " i "$vdash" Info"     
-                                        echo                                          
+                                        generate_options_menu viewdownloads " ${der} >>> VIEW DOWNLOADS" -odpqji
                                     fi
                                 fi
 
                                 echo -en " Enter Option: "
                                 read -r -n1 optionyt
-
                             }
                         
                             while true; do
