@@ -562,6 +562,14 @@ set_directory() {
     sleep 1.5
 }
 
+# Check if a given string starts with "http"
+string_check_http() {
+    local string
+    string="${1:?No string specified}"
+    # Split off the first four chars and test
+    [[ "${string:0:4}" = "http" ]]
+}
+
 # Remove empty lines from a given file
 squash() {
     sed -i '/^$/d' "${1:?No file specified}"
@@ -1026,9 +1034,8 @@ use_custom_list() {
     if [[ "$filecount" = 1 ]]; then
         chkforhttp=$(find "$PWD" -type f \( -iname "$2" \))  # getting list name to check the first line for http
         read chkforhttp2 < "$chkforhttp"  # reading first line into varible $chkforhhtp2
-        chkforhttp=$(echo "$chkforhttp2" | cut -c-4)   # cut everything after the 4th character
 
-        if [[ ! "$chkforhttp" = "http" ]]; then
+        if string_check_http "${chkforhttp2}"; then
             echo
             echo -e "\033[5m error\033m\033[0m:   The first 4 characters on the first line don't start with http"
             echo "          This is a safety feature to prevent accidental deletion of a file that is not a Download List."
@@ -1255,14 +1262,15 @@ fi
 menuf() {
     pasteclip  # grab clipboard content
 
-    grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
-
-    if [[ "$grabclip" != "http" ]]; then
-        if [[ ! -f "$pasteclip" ]]; then
-            echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
-            pasteclip  # grab clipboard content
+    if string_check_http "${pasteclip}"; then
+        if ! [[ -f "${pasteclip}" ]]; then
+            # clearing out the clipboaed
+            echo "$pastetemp" | xclip -sel clip
+            # grab clipboard content
+            pasteclip
         fi
     fi
+    
     # playedlist sort routine removed here
 
     pasteclip  # grab clipboard content
@@ -1437,20 +1445,15 @@ menuf() {
     # 1st variable <$grabpaste>   <cut> is used to cut all characters after the 4th character from the variable. Only 4 chatacters are needed to look for <http>
     # 2nd variable <$grabpaste2>  <cut> is used to cut all characters after the 1st character from the variable. Only 1 character is needed to look for </>  
 
-    # for main if loop - to look for <http>
-    grabpaste=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
-
     # for nested if loop - to look for </>
     grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st character
 
-    # the following code checks to see if the clipbooard has a url in it by lookin for <http> from <$grabpaste>  
+    # the following code checks to see if the clipbooard has a url in it by lookin for <http> from <$pasteclip>  
     # If it is <http>, YT-DLP will get the clipboard. yt-dlp will check if its a valid link by trying to extract the name of the video file.
     # If it isn't <http>  the ytdlp loop will be skipped
 
-    if [[ "$grabpaste" = "http" ]]; then
-        echo "Clipboard: ""$pasteclip"
-    fi
-    if [[ "$grabpaste" = "http" ]]; then
+    if string_check_http "${pasteclip}"; then
+        echo "Clipboard: ${pasteclip}"
         read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
         ytdlpconfirm=$(yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
 
@@ -2098,14 +2101,11 @@ while true; do
 
                                         cd ${base_dir}/playlists
                                         menuvhome() {
-
-                                            squash ${base_dir}/videoinfo.playlist  # remove all blank lines
+                                            squash "${base_dir}/videoinfo.playlist"  # remove all blank lines
 
                                             pasteclip  # grab clipboard content
 
-                                            grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
-
-                                            if ! [[ "$grabclip" = "http" ]]; then
+                                            if ! string_check_http "${pasteclip}"; then
                                                 if ! [[ -f "$pasteclip" ]]; then
                                                     echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
                                                     pasteclip  # grab clipboard content
@@ -2212,23 +2212,19 @@ while true; do
                                             # 1st variable <$grabpaste>   <cut> is used to cut all characters after the 4th character from the variable. Only 4 chatacters are needed to look for <http>
                                             # 2nd variable <$grabpaste2>  <cut> is used to cut all characters after the 1st character from the variable. Only 1 character is needed to look for </>  
 
-                                            # for main if loop - to look for <http>
-                                            grabpaste=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
                                             # for nested if loop - to look for </>
                                             grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st character
 
-                                            # the following code checks to see if the clipbooard has a url in it by lookin for <http> from <$grabpaste>  
+                                            # the following code checks to see if the clipbooard has a url in it by lookin for <http> from <$pasteclip>  
                                             # If it is <http>, YT-DLP will get the clipboard. yt-dlp will check if its a valid link by trying to extract the name of the video file.
                                             # If it isn't <http>  the ytdlp loop will be skipped
 
                                             #echo "Directory: ""$PWD"
 
-                                            if [[ "$grabpaste" = "http" ]]; then
+                                            if string_check_http "${pasteclip}"; then
                                                 echo
                                                 echo "Clipboard: ""$pasteclip"
-                                            fi
-                                            if [[ "$grabpaste" = "http" ]]; then
                                                 read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
                                                 ytdlpconfirm=$(yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
 
@@ -2515,8 +2511,8 @@ while true; do
 
                                                     pasteclip  # grab clipboard content
 
-                                                    if [[ "$grabpaste" = "http" ]]; then
-                                                        #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
+                                                    if string_check_http "${pasteclip}"; then
+                                                        #  DOWNLOAD AND PLAY FILE if <$pasteclip> ONLY IF IT =  http        
                                                     
                                                         grabdirz="$PWD"  # storing directory to restore at the end of this function
                                                             
@@ -2811,8 +2807,8 @@ while true; do
         ##############################################################
             pasteclip  # grab clipboard content
 
-            if [[ "$grabpaste" = "http" ]]; then
-                #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
+            if string_check_http "${pasteclip}"; then
+                #  DOWNLOAD AND PLAY FILE if <$pasteclip> ONLY IF IT =  http        
                 # Start subshell
                 (  # storing directory to restore at the end of this function
                 
@@ -2961,9 +2957,7 @@ while true; do
             menuvv() {
                 pasteclip  # grab clipboard content
 
-                grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
-
-                if ! [[ "$grabclip" = "http" ]]; then
+                if ! string_check_http "${pasteclip}"; then
                     if ! [[ -f "$pasteclip" ]]; then
                         echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
                         pasteclip  # grab clipboard content
@@ -3043,7 +3037,7 @@ while true; do
 
                 #cat ${base_dir}/videoinfo.playedlist 
 
-                if [[ "$grabpaste" = "http" ]]; then
+                if string_check_http "${pasteclip}"; then
                     echo
                     echo "Clipboard: ""$pasteclip"
                 fi
@@ -3058,17 +3052,14 @@ while true; do
                 # 1st variable <$grabpaste>   <cut> is used to cut all characters after the 4th character from the variable. Only 4 chatacters are needed to look for <http>
                 # 2nd variable <$grabpaste2>  <cut> is used to cut all characters after the 1st character from the variable. Only 1 character is needed to look for </>  
 
-                # for main if loop - to look for <http>
-                grabpaste=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
-
                 # for nested if loop - to look for </>
                 grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st character
 
-                # the following code checks to see if the clipbooard has a url in it by lookin for <http> from <$grabpaste>  
+                # the following code checks to see if the clipbooard has a url in it by lookin for <http> from <$pasteclip>  
                 # If it is <http>, YT-DLP will get the clipboard. yt-dlp will check if its a valid link by trying to extract the name of the video file.
                 # If it isn't <http>  the ytdlp loop will be skipped
 
-                if [[ "$grabpaste" = "http" ]]; then
+                if string_check_http "${pasteclip}"; then
                     read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
                     ytdlpconfirm=$(yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
 
@@ -3237,9 +3228,7 @@ while true; do
 
                                 pasteclip  # grab clipboard content
 
-                                grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
-
-                                if ! [[ "$grabclip" = "http" ]]; then
+                                if ! string_check_http "${pasteclip}"; then
                                     if [[ -f "$pasteclip" ]]; then
                                         :
                                     else
@@ -3325,7 +3314,7 @@ while true; do
                                     echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ${base_dir}/videoinfo.playlist.current             
                                     cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/plread.tmp 
                                     read -r setplaylist < ${tmp_dir}/plread.tmp
-                                        # GET CURRENT PLAYLIST
+                                    # GET CURRENT PLAYLIST
                                     read -r activeplaylist < ${base_dir}/videoinfo.playlist.current
                                     read -r setplaylistfull < ${base_dir}/videoinfo.playlist.current
 
@@ -3334,24 +3323,14 @@ while true; do
                                     
                                 else
                                     cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/plread.tmp 
-                                    
                                     read -r setplaylistfull < ${base_dir}/videoinfo.playlist.current
-
                                     read -r setplaylist < ${tmp_dir}/plread.tmp
-
                                 fi
-                                
-
                                 #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
-
-                                
 
                                 # the 2 lines of below code are creating two new variables for the following loop.
                                 # 1st variable <$grabpaste>   <cut> is used to cut all characters after the 4th character from the variable. Only 4 chatacters are needed to look for <http>
                                 # 2nd variable <$grabpaste2>  <cut> is used to cut all characters after the 1st character from the variable. Only 1 character is needed to look for </>  
-
-                                # for main if loop - to look for <http>
-                                grabpaste=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
                                 # for nested if loop - to look for </>
                                 grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st character
@@ -3362,11 +3341,9 @@ while true; do
 
                                 #echo "Directory: ""$PWD"
 
-                                if [[ "$grabpaste" = "http" ]]; then
+                                if string_check_http "${pasteclip}"; then
                                     echo
                                     echo "Clipboard: ""$pasteclip"
-                                fi
-                                if [[ "$grabpaste" = "http" ]]; then
                                     read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
                                     ytdlpconfirm=$(yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
 
@@ -3679,8 +3656,8 @@ while true; do
                                     #  @PLAY CLIPBOARD - <PLAYLIST>        
                                         pasteclip  # grab clipboard content
 
-                                        if [[ "$grabpaste" = "http" ]]; then
-                                            #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
+                                        if string_check_http "${pasteclip}"; then
+                                            #  DOWNLOAD AND PLAY FILE if <$pasteclip> ONLY IF IT =  http        
                                         
                                             grabdirz="$PWD"  # storing directory to restore at the end of this function
                                                 
@@ -3868,7 +3845,7 @@ while true; do
 
                             pasteclip  # grab clipboard content
 
-                            if [[ "$grabpaste" = "http" ]]; then
+                            if string_check_http "${pasteclip}"; then
                                 #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
                                 # start subshell
                                 (  # storing directory to restore at the end of this function
@@ -3998,9 +3975,7 @@ while true; do
 
                 pasteclip  # grab clipboard content
 
-                grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
-
-                if [[ ! "$grabclip" = "http" ]]; then
+                if ! string_check_http "${pasteclip}"; then
                     if [[ ! -f "$pasteclip" ]]; then
                         echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
                         pasteclip  # grab clipboard content
@@ -4092,24 +4067,16 @@ while true; do
                     
                 else
                     cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/plread.tmp 
-                    
                     read -r setplaylistfull < ${base_dir}/videoinfo.playlist.current
-
                     read -r setplaylist < ${tmp_dir}/plread.tmp
 
                     fi
-                
 
                 #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
-
-                
 
                 # the 2 lines of below code are creating two new variables for the following loop.
                 # 1st variable <$grabpaste>   <cut> is used to cut all characters after the 4th character from the variable. Only 4 chatacters are needed to look for <http>
                 # 2nd variable <$grabpaste2>  <cut> is used to cut all characters after the 1st character from the variable. Only 1 character is needed to look for </>  
-
-                # for main if loop - to look for <http>
-                grabpaste=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
                 # for nested if loop - to look for </>
                 grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st character
@@ -4120,11 +4087,9 @@ while true; do
 
                 #echo "Directory: ""$PWD"
 
-                if [[ "$grabpaste" = "http" ]]; then
+                if string_check_http "${pasteclip}"; then
                     echo
                     echo "Clipboard: ""$pasteclip"
-                fi
-                if [[ "$grabpaste" = "http" ]]; then
                     read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
                     ytdlpconfirm=$(yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
 
@@ -4389,7 +4354,7 @@ while true; do
                         #  @PLAY CLIPBOARD - <PLAYLIST>        
                         pasteclip  # grab clipboard content
 
-                        if [[ "$grabpaste" = "http" ]]; then
+                        if string_check_http "${pasteclip}"; then
                             #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
                         
                             grabdirz="$PWD"  # storing directory to restore at the end of this function
@@ -4746,9 +4711,7 @@ while true; do
                 menuy() {
                     pasteclip  # grab clipboard content
 
-                    grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
-
-                    if ! [[ "$grabclip" = "http" ]]; then
+                    if ! string_check_http "${pasteclip}"; then
                         if ! [[ -f "$pasteclip" ]]; then
                             echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
                             pasteclip  # grab clipboard content
@@ -4773,9 +4736,6 @@ while true; do
                     # 1st variable <$grabpaste>   <cut> is used to cut all characters after the 4th character from the variable. Only 4 chatacters are needed to look for <http>
                     # 2nd variable <$grabpaste2>  <cut> is used to cut all characters after the 1st character from the variable. Only 1 character is needed to look for </>  
 
-                    # for main if loop - to look for <http>
-                    grabpaste=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
-
                     # for nested if loop - to look for </>
                     grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st character
 
@@ -4783,7 +4743,7 @@ while true; do
                     # If it is <http>, YT-DLP will get the clipboard. yt-dlp will check if its a valid link by trying to extract the name of the video file.
                     # If it isn't <http>  the ytdlp loop will be skipped
 
-                    if [[ "$grabpaste" = "http" ]]; then
+                    if string_check_http "${pasteclip}"; then
                         read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
                         ytdlpconfirm=$(yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
                         if [[ "$ytdlpconfirm" = "" ]]; then
@@ -4825,42 +4785,39 @@ while true; do
 
                             pasteclip  # grab clipboard content
 
-                            grabpaste3=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
+                            if string_check_http "${pasteclip}"; then
+                                clear
+                                echo
+                                echo
+                                
+                                # <yt-dlp> gets the filename minus the extension. this is done becuase the user can pick different video file types to download.
+                                yt-dlp --get-filename -o "%(title)s" "${pasteclip}" > "${base_dir}/videoinfo.lastdownload"
 
-                            if [[ "$grabpaste3" = "http" ]]; then
-                            
-                            clear
-                            echo
-                            echo
-                            
-                            # <yt-dlp> gets the filename minus the extension. this is done becuase the user can pick different video file types to download.
-                            yt-dlp --get-filename -o "%(title)s" "${pasteclip}" > "${base_dir}/videoinfo.lastdownload"
+                                # <yt-dlp> giving options for quality and file type to download
+                                yt-dlp -F "${pasteclip}"
+                                
+                                echo
+                                echo
+                                echo "Find what video quality and format you want. (Code on far left)"
+                                read -r -p "Enter that Code and Press enter : " svrcode
+                                echo
+                                clear
+                                yt-dlp -f "$svrcode" "$pasteclip"
 
-                            # <yt-dlp> giving options for quality and file type to download
-                            yt-dlp -F "${pasteclip}"
-                            
-                            echo
-                            echo
-                            echo "Find what video quality and format you want. (Code on far left)"
-                            read -r -p "Enter that Code and Press enter : " svrcode
-                            echo
-                            clear
-                            yt-dlp -f "$svrcode" "$pasteclip"
+                                # remove first dot and everything after it in filename. file names with dots before the extension were breking find results
+                                sed "s/\..*//" ${base_dir}/videoinfo.lastdownload > ${base_dir}/videoinfo.lastdownload.work
 
-                            # remove first dot and everything after it in filename. file names with dots before the extension were breking find results
-                            sed "s/\..*//" ${base_dir}/videoinfo.lastdownload > ${base_dir}/videoinfo.lastdownload.work
+                                # remove first [ and everything after it in filename. this was done because file names with [ 
+                                sed -i "s/\[.*//" ${base_dir}/videoinfo.lastdownload.work
 
-                            # remove first [ and everything after it in filename. this was done because file names with [ 
-                            sed -i "s/\[.*//" ${base_dir}/videoinfo.lastdownload.work
-
-                            # rename videoinfo.lastdownload.work to videoinfox/videoinfo.lastdownload
-                            mv ${base_dir}/videoinfo.lastdownload.work ${base_dir}/videoinfo.lastdownload
-                            
-                            read -r lastdownload < ${base_dir}/videoinfo.lastdownload  # reading last download video file
-                            notify-send "Videoinfox messsage: YT-DLP done downloading . . ." "$lastdownload"              
-                            
-                            echo "" | xclip -sel clip  # clearing out the clipboard
-                            pasteclip  # grab clipboard content
+                                # rename videoinfo.lastdownload.work to videoinfox/videoinfo.lastdownload
+                                mv ${base_dir}/videoinfo.lastdownload.work ${base_dir}/videoinfo.lastdownload
+                                
+                                read -r lastdownload < ${base_dir}/videoinfo.lastdownload  # reading last download video file
+                                notify-send "Videoinfox messsage: YT-DLP done downloading . . ." "$lastdownload"              
+                                
+                                echo "" | xclip -sel clip  # clearing out the clipboard
+                                pasteclip  # grab clipboard content
                             else 
                                 print_error " Clipboard is empty or contained invalid video url . . ."
                             fi
@@ -4979,11 +4936,9 @@ while true; do
                             read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
                             cd "$dirsaved"  # change to download directory
 
-                            pasteclip  # grab clipboard content              
-                            #!!!
-                            grabpaste3=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
+                            pasteclip
 
-                            if [[ "$grabpaste3" = "http" ]]; then
+                            if string_check_http "${pasteclip}"; then
                                 clear
                         
                                 yt-dlp --get-filename -o "%(title)s" "${pasteclip}" > "${base_dir}/videoinfo.lastdownload" 
@@ -5758,16 +5713,13 @@ while true; do
 
                                             # not blinking
                                             addtodefault0=$(echo "Add to Default List")
-                                            checktheclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
-                                            if [[ "$checktheclip" = "http" ]]; then
+                                            if string_check_http "${pasteclip}"; then
                                                 atd="$addtodefault1"
-                                                
-                                            else      
+                                            else
                                                 atd="$addtodefault0"
                                                 echo "" | xclip -sel clip  # clearing out the clipboard
                                                 pasteclip  # grab clipboard content      
-
                                             fi
 
                                             ########## end blinking and error correcting routine #################
@@ -5956,7 +5908,7 @@ while true; do
                             #  @PLAY CLIPBOARD - <VIEW DOWNLOADS>
                             pasteclip  # grab clipboard content
 
-                            if [[ "$grabpaste" = "http" ]]; then
+                            if string_check_http "${pasteclip}"; then
                                 #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
                             
                                 ################# (  # storing directory to restore at the end of this function
@@ -6065,10 +6017,8 @@ while true; do
                                 cd "$dirsaved"   # change to download directory              
 
                                 pasteclip  # grab clipboard content
-                                
-                                grabpaste3=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
 
-                                if [[ "$grabpaste3" = "http" ]]; then
+                                if string_check_http "${pasteclip}"; then
                                     clear
                                     yt-dlp "${pasteclip}" -o "$dirsaved"/download.tmp  # downloading temporary video
                                     notify-send "Videoinfox messsage: YT-DLP is done downloading . . ." "$pasteclip" 
@@ -6114,11 +6064,7 @@ while true; do
 
                                 pasteclip  # grab clipboard content
 
-                                grabclip=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
-
-                                if [[ "$grabclip" = "http" ]]; then
-                                    :
-                                else      
+                                if ! string_check_http "${pasteclip}"; then
                                     if ! [[ -f "$pasteclip" ]]; then
                                         echo "" | xclip -sel clip  # clearing out the clipboaed
                                         pasteclip  # grab clipboard content
@@ -6176,9 +6122,6 @@ while true; do
                                 # 1st variable <$grabpaste>   <cut> is used to cut all characters after the 4th character from the variable. Only 4 chatacters are needed to look for <http>
                                 # 2nd variable <$grabpaste2>  <cut> is used to cut all characters after the 1st character from the variable. Only 1 character is needed to look for </>  
 
-                                # for main if loop - to look for <http>
-                                grabpaste=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
-
                                 # for nested if loop - to look for </>
                                 grabpaste2=$(echo "$pasteclip" | cut -c-1)  # cut everything after the 1st character
 
@@ -6186,7 +6129,7 @@ while true; do
                                 # If it is <http>, YT-DLP will get the clipboard. yt-dlp will check if its a valid link by trying to extract the name of the video file.
                                 # If it isn't <http>  the ytdlp loop will be skipped
 
-                                if [[ "$grabpaste" = "http" ]]; then
+                                if string_check_http "${pasteclip}"; then
                                     read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
                                     ytdlpconfirm=$(yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
 
@@ -6257,7 +6200,7 @@ while true; do
                                         #  @PLAY CLIPBOARD - <VIEW DOWNLOADS>
                                         pasteclip  # grab clipboard content
 
-                                        if [[ "$grabpaste" = "http" ]]; then
+                                        if string_check_http "${pasteclip}"; then
                                             #  DOWNLOAD AND PLAY FILE if <$grabpaste> ONLY IF IT =  http        
                                         
                                             (  # storing directory to restore at the end of this function
