@@ -1477,8 +1477,6 @@ menuf() {
             echo "" | xclip -sel clip  # clearing out the clipboard
             pasteclip  # grab clipboard content
 
-            # Videoinfox v2.00________________________________________ Videoinfox v2.00_________________________________________
-            #________________x________________________________________ _________________________________________________________
             hr 80 -
             echo
             echo " ${der} $viv4      Enter - Update Clipboard Display                $dirdisp - Default Dirs"
@@ -2625,27 +2623,15 @@ while true; do
                                                     fi
                                                 ;;  
                                                 d)  # CLEAR PLAYLIST (VIEW PLAYLIST)
-
                                                     if confirm " Clear current playlist: ${setplaylist}"; then
-                                                        optioncpl="y"
-                                                    else
-                                                        optioncpl="n"
+                                                        rm ${base_dir}/videoinfo.playlist 2> /dev/null
+                                                        touch ${base_dir}/videoinfo.playlist
+                                                        touch ${base_dir}/playlists/"$setplaylist".last-autoplay 
+                                                        echo
+                                                        echo " ""$setplaylist"" Playlist Cleared . . ."
+                                                        sleep 1.7
                                                     fi
-
-                                                    case $optioncpl in
-                                                        y)  # YES
-                                                            rm ${base_dir}/videoinfo.playlist 2> /dev/null
-                                                            touch ${base_dir}/videoinfo.playlist
-                                                            touch ${base_dir}/playlists/"$setplaylist".last-autoplay 
-                                                            echo
-                                                            echo " ""$setplaylist"" Playlist Cleared . . ."
-                                                            sleep 1.7  
-                                                            break
-                                                        ;;
-                                                        n)  # NO
-                                                            break
-                                                        ;;
-                                                    esac
+                                                    break
                                                 ;;
                                             esac
                                         done
@@ -3650,7 +3636,6 @@ while true; do
                                             grabdirz="$PWD"  # storing directory to restore at the end of this function
                                                 
                                             #  DOWNLOAD LINK AND PLAY
-                                            
                                             read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir  # reading download directory 
                                             cd "$dirsaved"   # change to download directory
                                         
@@ -3676,7 +3661,6 @@ while true; do
                                                     # make a backup copy of:   ${base_dir}/videoinfo.lastdownload to restore on Play Clipboard with invalid url
                                                     cp ${base_dir}/videoinfo.lastdownload ${base_dir}/videoinfo.lastdownload.bak
                                             fi
-
                                         
                                             read -r lastdownload < ${base_dir}/videoinfo.lastdownload  # reading last download attempt
                                             read -r lastdownloadbak < ${base_dir}/videoinfo.lastdownload.bak  # reading last successful download 
@@ -3685,7 +3669,6 @@ while true; do
 
                                             echo "$ylast" > ${base_dir}/videoinfo.find-last-download  # write find result to file
 
-                                        
                                             # IF THERE ARE IDENTICAL FILENAMES WITH DIFFERENT FILE EXTENSIONS FIND WILL PRODUCE MORE THAN ONE RESULT      
                                             correcterror=$(wc -l ${base_dir}/videoinfo.find-last-download | cut -d' ' -f1)  # getting line count.
                                                 
@@ -3736,7 +3719,6 @@ while true; do
                                                 echo "" | xclip -sel clip  # clearing out the clipboard
                                                 pasteclip  # grab clipboard content
                                                 echo " PLAYLIST Closed"
-                                        
                                             else
                                                 echo
                                                 echo
@@ -3746,27 +3728,15 @@ while true; do
                                         fi
                                     ;;  
                                     d)  # CLEAR PLAYLIST (VIEW PLAYLIST)
-
                                         if confirm " Clear current playlist: ${setplaylist}"; then
-                                            optioncpl="y"
-                                        else
-                                            optioncpl="n"
+                                            rm ${base_dir}/videoinfo.playlist 2> /dev/null
+                                            touch ${base_dir}/videoinfo.playlist
+                                            touch ${base_dir}/playlists/"$setplaylist".last-autoplay 
+                                            echo
+                                            echo " ""$setplaylist"" Playlist Cleared . . ."
+                                            sleep 1.7
                                         fi
-
-                                        case $optioncpl in
-                                            y)  # YES
-                                                rm ${base_dir}/videoinfo.playlist 2> /dev/null
-                                                touch ${base_dir}/videoinfo.playlist
-                                                touch ${base_dir}/playlists/"$setplaylist".last-autoplay 
-                                                echo
-                                                echo " ""$setplaylist"" Playlist Cleared . . ."
-                                                sleep 1.7  
-                                                break
-                                            ;;
-                                            n)  # NO
-                                                break
-                                            ;;
-                                        esac
+                                        break
                                     ;;
                                 esac
                             done
@@ -3885,7 +3855,6 @@ while true; do
                                     else
                                         read -r ytdlplast < ${base_dir}/videoinfo.find-last-download      
                                     fi
-
                                         
                                     clear
                                     print_header " ${der} >>> PLAY LAST DOWNLOAD" " [PLAY]> ${ytdlplast}"
@@ -3894,9 +3863,7 @@ while true; do
 
                                     print_video_controls_help
                                     
-                                    if [[ -z "$ytdlplast" ]]; then
-                                        :
-                                    else     
+                                    if ! [[ -z "$ytdlplast" ]]; then
                                         notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
                                         echo "$ytdlplast" >> ${base_dir}/videoinfo.playedlist  # write clipboard content to Played List File  
                                         ffplay -fs -autoexit &> /dev/null "$ytdlplast"  
@@ -3926,14 +3893,12 @@ while true; do
                                     echo "" | xclip -sel clip  # clearing out the clipboard
                                     pasteclip  # grab clipboard content
                                     echo " Played List Closed"
-                            
                                 else
-                                    
                                     echo
                                     echo
                                     echo " No playable content in the clipboard . . ."
                                     sleep 1.2
-                                fi   
+                                fi
                             fi
                         ;;  
                         D)  # DELETE PLAYED LIST - <find menu>
@@ -3956,7 +3921,6 @@ while true; do
         ;; 
         s) #######################  @PLAYLIST - (HOME)  ############################### 
         #(
-
             cd ${base_dir}/playlists
             menuvhome() {
                 squash "${base_dir}/videoinfo.playlist"  # remove all blank lines
@@ -4373,8 +4337,6 @@ while true; do
                             if [[ -s ${base_dir}/videoinfo.lastdownload ]]; then
                                 # make a backup copy of:   ${base_dir}/videoinfo.lastdownload to restore on Play Clipboard with invalid url
                                 cp ${base_dir}/videoinfo.lastdownload ${base_dir}/videoinfo.lastdownload.bak
-                            else
-                                :
                             fi
                         
                             read -r lastdownload < ${base_dir}/videoinfo.lastdownload  # reading last download attempt
@@ -4447,25 +4409,14 @@ while true; do
                     ;;  
                     d)  # CLEAR PLAYLIST (VIEW PLAYLIST)
                         if confirm " Clear current playlist: ${setplaylist}"; then
-                            optioncpl="y"
-                        else
-                            optioncpl="n"
-                        fi
-
-                        case $optioncpl in
-                            y)  # YES
-                                rm ${base_dir}/videoinfo.playlist 2> /dev/null
-                                touch ${base_dir}/videoinfo.playlist
-                                touch ${base_dir}/playlists/"$setplaylist".last-autoplay 
-                                echo
-                                echo " ""$setplaylist"" Playlist Cleared . . ."
-                                sleep 1.7  
-                                break
-                            ;;
-                            n)  # NO
-                                break
-                            ;;
-                        esac
+                            rm ${base_dir}/videoinfo.playlist 2> /dev/null
+                            touch ${base_dir}/videoinfo.playlist
+                            touch ${base_dir}/playlists/"$setplaylist".last-autoplay 
+                            echo
+                            echo " ""$setplaylist"" Playlist Cleared . . ."
+                            sleep 1.7
+                        fi 
+                        break
                     ;;
                 esac
             done
@@ -4718,7 +4669,6 @@ while true; do
                     #=================================================================================================================================================
                     #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
                     #=================================================================================================================================================
-                    
 
                     # the 2 lines of below code are creating two new variables for the following loop.
                     # 1st variable <$grabpaste>   <cut> is used to cut all characters after the 4th character from the variable. Only 4 chatacters are needed to look for <http>
@@ -5186,21 +5136,11 @@ while true; do
                                     #read -r dir4 < ${base_dir}/videoinfo.parent-dir 2> /dev/null
                                     #read -r dir5 < ${base_dir}/videoinfo.dir-at-exit 2> /dev/null
 
-                                    1)
-                                        cd "$dir1"
-                                    ;;
-                                    2)
-                                        cd "$dir2"
-                                    ;;
-                                    3)
-                                        cd "$dirsaved"
-                                    ;;
-                                    4)
-                                        cd "$dir4"
-                                    ;;
-                                    5)
-                                        cd "$dir5"
-                                    ;;
+                                    1) cd "$dir1" ;;
+                                    2) cd "$dir2" ;;
+                                    3) cd "$dirsaved" ;;
+                                    4) cd "$dir4" ;;
+                                    5) cd "$dir5" ;;
                                     q)  # QUIT (DOWNLOAD LIST)
                                         echo "$pasteclip3" | xclip -sel clip  # restore clipboard
                                         pasteclip  # grab clipboard content
@@ -5356,9 +5296,7 @@ while true; do
                                         ddlist=${base_dir}/videoinfox-dl-Default
 
                                         if [[ -f "$pasteclip" ]]; then
-                                            if [[ "$pasteclip" == "$ddlist" ]]; then
-                                                :
-                                            else
+                                            if ! [[ "$pasteclip" = "$ddlist" ]]; then
                                                 echo "$pasteclip" >> ${base_dir}/videoinfox-download.queue
                                                 echo
                                                 echo " ""$pasteclip"
@@ -5407,38 +5345,18 @@ while true; do
                                                     break
                                                 ;;
                                                 d)  # DELETE QUEUE LIST  (DOWNLOAD QUEUE)
-                                                    menudelq() {
-                                                        echo
-                                                        echo " Delete Download Queue?"
-                                                        echo
-                                                        echo " y - Yes     n - No"  
-                                                        echo 
-                                                        echo -en " Enter Option: "
-                                                        read -r -n1 optiondelq
-                                                        echo
-                                                    }
-
-                                                    while true; do
-                                                        menudelq
-                                                        case $optiondelq in
-                                                            y)  # YES
-                                                                if [[ -f ${base_dir}/videoinfox-download.queue ]]; then
-                                                                    rm ${base_dir}/videoinfox-download.queue 2> /dev/null
-                                                                    echo
-                                                                    echo " Download Queue Deleted . . ."
-                                                                    sleep 1.7
-                                                                else
-                                                                    echo
-                                                                    echo " Download Queue Was Already Deleted . . ."
-                                                                    sleep 1.7
-                                                                fi
-                                                                break
-                                                            ;;
-                                                            n)  # NO
-                                                                break
-                                                            ;;
-                                                        esac
-                                                    done
+                                                    if confirm " Delete Download Queue"; then
+                                                        if [[ -f "${base_dir}/videoinfox-download.queue" ]]; then
+                                                            rm "${base_dir}/videoinfox-download.queue" 2>/dev/null
+                                                            echo
+                                                            echo " Download Queue Deleted . . ."
+                                                            sleep 1.7
+                                                        else
+                                                            echo
+                                                            echo " Download Queue Was Already Deleted . . ."
+                                                            sleep 1.7
+                                                        fi
+                                                    fi
                                                 ;;
                                                 b)  # DOWNLOAD QUEUE  (DOWNLOAD QUEUE)
                                                     # READ USER SET LIST FOR REMOVAL IF IT IS IN THE DOWNLOAD QUEUE
@@ -5449,9 +5367,7 @@ while true; do
                                                     #################################################
 
                                                     if [[ -f ${base_dir}/videoinfox-download.queue ]]; then
-
                                                         clear
-
                                                         # DOWNLOAD QUEUE FILE
                                                         input1=${base_dir}/videoinfox-download.queue
                                                         # LOOP 1 READ LINE BY LINE DOWNLOAD QUEUE LIST
@@ -5644,44 +5560,27 @@ while true; do
                                         read -r ctmp4 < ${base_dir}/videoinfox.chkulist.tmp2  # default list name with full path: with slashes and spaces removed
                                         if ! [[ -z "$pasteclip" ]]; then
                                             if ! [[ "$ctmp2" = "$ctmp3" ]]; then
-                                                menudul() {
-                                                    clear
-                                                    echo
-                                                    echo " Delete User List:" "$pasteclip"
-                                                    echo
-                                                    echo " y - Yes     n - No"  
-                                                    echo 
-                                                    echo -en " Enter Option: "
-                                                    read -r -n1 option
-                                                    echo
-                                                }
-                                                while true; do
-                                                    menudul
-                                                    case $option in
-                                                        y)  # YES
-                                                            if [[ "$ctmp2" = "$ctmp4" ]]; then
-                                                                    touch ${base_dir}/videoinfox.set-user-list
-                                                                    echo "" | xclip -sel clip  # clearing out the clipboard
-                                                                    pasteclip  # grab clipboard content
-                                                            fi
-                                                            rm "$pasteclip" 2>/dev/null
-                                                            rm "$pasteclip".log 2>/dev/null
+                                                if confirm " Delete User List: ${pasteclip}"; then
+                                                    if [[ "$ctmp2" = "$ctmp4" ]]; then
+                                                        touch ${base_dir}/videoinfox.set-user-list
+                                                        echo "" | xclip -sel clip  # clearing out the clipboard
+                                                        pasteclip  # grab clipboard content
+                                                    fi
+                                                    rm "$pasteclip" 2>/dev/null
+                                                    rm "$pasteclip".log 2>/dev/null
 
-                                                            echo
-                                                            echo " User List DELETED . . ."
-                                                            echo 
-                                                            sleep .75
-                                                            break
-                                                        ;; 
-                                                        n)  # NO 
-                                                            echo
-                                                            echo " User List SAVED . . ."
-                                                            echo   
-                                                            sleep .75
-                                                            break
-                                                        ;;
-                                                    esac
-                                                done
+                                                    echo
+                                                    echo " User List DELETED . . ."
+                                                    echo 
+                                                    sleep .75
+                                                    break
+                                                else
+                                                    echo
+                                                    echo " User List SAVED . . ."
+                                                    echo   
+                                                    sleep .75
+                                                    break
+                                                fi
                                             fi
                                         fi
 
@@ -5749,7 +5648,7 @@ while true; do
                                                     pasteclip  # grab clipboard content
                                                 ;;
                                                 c)  # CLEAR DEFAULT LIST   <DEFAULT LIST>  
-                                                    if confirm " Clear the Default List?"; then
+                                                    if confirm " Clear the Default List"; then
                                                         # CREATING EMPTY DEFAULT DOWNLOAD LIST WITH LIST EMPTY MESSAGE
                                                         touch ${base_dir}/videoinfox-dl-Default
                                                         echo "Default Download List Empty" >> ${base_dir}/videoinfox-dl-Default
@@ -6345,11 +6244,9 @@ while true; do
                                         done
                                         
                                         IFS=$OLDIFS
-                                    ;;           
+                                    ;;
                                     o)
-                                        
                                         ###########################   AUTOPLAY LINE  o   <VIEW DOWNLOADS>  
-                                        
                                         if [[ "$istherefiles" = 0 ]]; then
                                             print_error " No video files in the current directory . . ."
                                         else
@@ -6392,9 +6289,7 @@ while true; do
                                         fi
                                     ;;
                                     j)
-                                        
                                         ###########################   PLAY LINE  j   <VIEW DOWNLOADS>  ################
-
                                         if [[ "$istherefiles" = 0 ]]; then
                                             print_error " No video files in the current directory . . ."
                                         else
@@ -6433,7 +6328,6 @@ while true; do
                                                 sleep 1.7
                                             fi
                                         fi
-
                                     ;;
                                 esac
                             done
