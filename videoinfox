@@ -46,6 +46,26 @@ cleanup() {
     print_header " ${ver} >>> EXIT"
 }
 
+# die() code provenance:
+# https://github.com/rawiriblundell/sh_libpath/blob/main/lib/sh/core/die.sh
+# Get the top level PID and setup a trap so that we can call die() within subshells
+trap "cleanup; exit 1" TERM
+_self_pid="${$}"
+export _self_pid
+
+# Ensure cleanup on any exit
+trap "cleanup" EXIT
+
+die() {
+    if [ -t 0 ]; then
+        printf '\e[31;1m====>%s\e[0m\n' "${0}:(${LINENO}): ${*}" >&2
+    else
+        printf -- '====>%s\n' "${0}:(${LINENO}): ${*}" >&2
+    fi
+    # Send a TERM signal to the top level PID, this is trapped and exit 1 is forced
+    kill -s TERM "${_self_pid}"
+}
+
 # A function to clear the contents of the clipboard
 clearclip() {
     xclip -sel clip < /dev/null
@@ -67,24 +87,87 @@ confirm() {
     esac
 }
 
-# die() code provenance:
-# https://github.com/rawiriblundell/sh_libpath/blob/main/lib/sh/core/die.sh
-# Get the top level PID and setup a trap so that we can call die() within subshells
-trap "cleanup; exit 1" TERM
-_self_pid="${$}"
-export _self_pid
+default_dirs() {
+    ##########  START   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
 
-# Ensure cleanup on any exit
-trap "cleanup" EXIT
+    # DIRECTORY SELECTED IS NORMAL TEXT AND THE OTHER 4 ARE LESS BOLD. 
 
-die() {
-    if [ -t 0 ]; then
-        printf '\e[31;1m====>%s\e[0m\n' "${0}:(${LINENO}): ${*}" >&2
-    else
-        printf -- '====>%s\n' "${0}:(${LINENO}): ${*}" >&2
+    # DEFAULT DIR NUMBER 1 FORMAT
+    dirdisplay1=$(echo -e "1\033[2m 2 3 4 5\033[0m")
+    # DEFAULT DIR NUMBER 2 FORMAT
+    dirdisplay2=$(echo -e "\033[2m1 \033[0m2 \033[2m3 4 5\033[0m") 
+    # DEFAULT DIR NUMBER 3 FORMAT
+    dirdisplay3=$(echo -e "\033[2m1 2 \033[0m3 \033[2m4 5\033[0m")
+    # DEFAULT DIR NUMBER 4 FORMAT
+    dirdisplay4=$(echo -e "\033[2m1 2 3 \033[0m4 \033[2m5\033[0m")
+    # DEFAULT DIR NUMBER 5 FORMAT
+    dirdisplay5=$(echo -e "\033[2m1 2 3 4 \033[0m5\033[0m")
+    # NO MATCH ALL LESS BOLD
+    dirdisplayno=$(echo -e "\033[2m1 2 3 4 5\033[0m")
+    # FORMAT PWD NAME FOR COMPARISON
+    echo "$PWD" > ${base_dir}/videoinfox.pwd.tmp  # write PWD to a tmp file: videoinfox.pwd.tmp
+    cat ${base_dir}/videoinfox.pwd.tmp | tr "/" " " > ${base_dir}/videoinfox.pwd  # remove all froward slashes / write file: videoinfox.pwd
+    sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.pwd  # remove horizontal whitespace write file: videoinfox.pwd
+
+    # FORMAT DEFAULT DIR 1 NAME FOR COMPARISON
+    echo "$dir1" > ${base_dir}/videoinfox.dir1.tmp  # write dir 1 to a tmp file: videoinfox.dir1.tmp
+    cat ${base_dir}/videoinfox.dir1.tmp | tr "/" " " > ${base_dir}/videoinfox.dir1  # remove all froward slashes / write file: videoinfox.dir1
+    sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir1  # remove horizontal whitespace write file: videoinfox.dir1
+
+    # FORMAT DEFAULT DIR 2 NAME FOR COMPARISON
+    echo "$dir2" > ${base_dir}/videoinfox.dir2.tmp  # write dir 2 to a tmp file: videoinfox.dir2.tmp
+    cat ${base_dir}/videoinfox.dir2.tmp | tr "/" " " > ${base_dir}/videoinfox.dir2  # remove all froward slashes / write file: videoinfox.dir2
+    sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir2 # remove horizontal whitespace write file: videoinfox.dir2
+
+    # FORMAT DEFAULT DIR 3 NAME FOR COMPARISON
+    echo "$dirsaved" > ${base_dir}/videoinfox.dir3.tmp  # write dir 3 to a tmp file: videoinfox.dir3.tmp
+    cat ${base_dir}/videoinfox.dir3.tmp | tr "/" " " > ${base_dir}/videoinfox.dir3  # remove all froward slashes / write file: videoinfox.dir3
+    sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir3 # remove horizontal whitespace write file: videoinfox.dir3
+
+    # FORMAT DEFAULT DIR 4 NAME FOR COMPARISON
+    echo "$dir4" > ${base_dir}/videoinfox.dir4.tmp  # write dir 4 to a tmp file: videoinfox.dir4.tmp
+    cat ${base_dir}/videoinfox.dir4.tmp | tr "/" " " > ${base_dir}/videoinfox.dir4  # remove all froward slashes / write file: videoinfox.dir4
+    sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir4 # remove horizontal whitespace write file: videoinfox.dir4
+
+    # FORMAT DEFAULT DIR 5 NAME FOR COMPARISON
+    echo "$dir5" > ${base_dir}/videoinfox.dir5.tmp  # write dir 5 to a tmp file: videoinfox.dir5.tmp
+    cat ${base_dir}/videoinfox.dir5.tmp | tr "/" " " > ${base_dir}/videoinfox.dir5  # remove all froward slashes / write file: videoinfox.dir5
+    sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir5 # remove horizontal whitespace write file: videoinfox.dir5
+    # LOAD EDITED PWD AND DEFAULT DIRECTORY NAMES FOR BELOW  IF LOOPS   (all frorward slashes / and white spaces removed from the below directory names)
+
+    read -r controldir < ${base_dir}/videoinfox.pwd    # load reformatted current directory name 
+    read -r dir1display < ${base_dir}/videoinfox.dir1  # load reformatted default directory 1 name
+    read -r dir2display < ${base_dir}/videoinfox.dir2  # load reformatted default directory 2 name
+    read -r dir3display < ${base_dir}/videoinfox.dir3  # load reformatted default directory 3 name
+    read -r dir4display < ${base_dir}/videoinfox.dir4  # load reformatted default directory 4 name
+    read -r dir5display < ${base_dir}/videoinfox.dir5  # load reformatted default directory 5 name
+    # DEFAULT DIR 5  DISPLAY     IF DIRECTORY ON EXIT  =  DEFAULT DIRECTORIES 1-4 then Display that directory number.
+
+    if [[ "$controldir" = "$dir5display" ]]; then 
+        [[ "$dir5display" = "$dir1display" ]] && dirdisp="$dirdisplay1"
+        [[ "$dir5display" = "$dir2display" ]] && dirdisp="$dirdisplay2"
+        [[ "$dir5display" = "$dir3display" ]] && dirdisp="$dirdisplay3"
+        [[ "$dir5display" = "$dir4display" ]] && dirdisp="$dirdisplay4"
     fi
-    # Send a TERM signal to the top level PID, this is trapped and exit 1 is forced
-    kill -s TERM "${_self_pid}"
+
+    # DEFAULT DIR 5 DISPLAY
+    if [[ "$controldir" = "$dir5display" ]]; then
+        # if directory is changed to  Default Dir 5 :  The number 5 is normal text and the other 4 are less bold.
+        dirdisp="$dirdisplay5"
+    else
+        # if directory doesn't match  Default Dirs 1-5 : All 5 numbers are less bold.  
+        dirdisp="$dirdisplayno"
+    fi 
+
+    # DEFAULT DIR 1  DISPLAY
+    [[ "$controldir" = "$dir1display" ]] && dirdisp="$dirdisplay1"
+    # DEFAULT DIR 2  DISPLAY
+    [[ "$controldir" = "$dir2display" ]] && dirdisp="$dirdisplay2"
+    # DEFAULT DIR 3  DISPLAY
+    [[ "$controldir" = "$dir3display" ]] && dirdisp="$dirdisplay3"
+    # DEFAULT DIR 4  DISPLAY
+    # if directory is changed to  Default Dir 4 :  The number 4 is normal text and the other 4 are less bold.
+    [[ "$controldir" = "$dir4display" ]] && dirdisp="$dirdisplay4"
 }
 
 ffplay_list() {
@@ -1016,90 +1099,9 @@ navtree() {
 
     # recursive number of files found
     ttotalnum=$(find_supported_files --recursive-count)
-    ##########  START   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
 
-    # DIRECTORY SELECTED IS NORMAL TEXT AND THE OTHER 4 ARE LESS BOLD. 
+    default_dirs
 
-    # DEFAULT DIR NUMBER 1 FORMAT
-    dirdisplay1=$(echo -e "1\033[2m 2 3 4 5\033[0m")
-    # DEFAULT DIR NUMBER 2 FORMAT
-    dirdisplay2=$(echo -e "\033[2m1 \033[0m2 \033[2m3 4 5\033[0m") 
-    # DEFAULT DIR NUMBER 3 FORMAT
-    dirdisplay3=$(echo -e "\033[2m1 2 \033[0m3 \033[2m4 5\033[0m")
-    # DEFAULT DIR NUMBER 4 FORMAT
-    dirdisplay4=$(echo -e "\033[2m1 2 3 \033[0m4 \033[2m5\033[0m")
-    # DEFAULT DIR NUMBER 5 FORMAT
-    dirdisplay5=$(echo -e "\033[2m1 2 3 4 \033[0m5\033[0m")
-    # NO MATCH ALL LESS BOLD
-    dirdisplayno=$(echo -e "\033[2m1 2 3 4 5\033[0m")
-    # FORMAT PWD NAME FOR COMPARISON
-    echo "$PWD" > ${base_dir}/videoinfox.pwd.tmp  # write PWD to a tmp file: videoinfox.pwd.tmp
-    cat ${base_dir}/videoinfox.pwd.tmp | tr "/" " " > ${base_dir}/videoinfox.pwd  # remove all froward slashes / write file: videoinfox.pwd
-    sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.pwd  # remove horizontal whitespace write file: videoinfox.pwd
-
-    # FORMAT DEFAULT DIR 1 NAME FOR COMPARISON
-    echo "$dir1" > ${base_dir}/videoinfox.dir1.tmp  # write dir 1 to a tmp file: videoinfox.dir1.tmp
-    cat ${base_dir}/videoinfox.dir1.tmp | tr "/" " " > ${base_dir}/videoinfox.dir1  # remove all froward slashes / write file: videoinfox.dir1
-    sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir1  # remove horizontal whitespace write file: videoinfox.dir1
-
-    # FORMAT DEFAULT DIR 2 NAME FOR COMPARISON
-    echo "$dir2" > ${base_dir}/videoinfox.dir2.tmp  # write dir 2 to a tmp file: videoinfox.dir2.tmp
-    cat ${base_dir}/videoinfox.dir2.tmp | tr "/" " " > ${base_dir}/videoinfox.dir2  # remove all froward slashes / write file: videoinfox.dir2
-    sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir2 # remove horizontal whitespace write file: videoinfox.dir2
-
-    # FORMAT DEFAULT DIR 3 NAME FOR COMPARISON
-    echo "$dirsaved" > ${base_dir}/videoinfox.dir3.tmp  # write dir 3 to a tmp file: videoinfox.dir3.tmp
-    cat ${base_dir}/videoinfox.dir3.tmp | tr "/" " " > ${base_dir}/videoinfox.dir3  # remove all froward slashes / write file: videoinfox.dir3
-    sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir3 # remove horizontal whitespace write file: videoinfox.dir3
-
-    # FORMAT DEFAULT DIR 4 NAME FOR COMPARISON
-    echo "$dir4" > ${base_dir}/videoinfox.dir4.tmp  # write dir 4 to a tmp file: videoinfox.dir4.tmp
-    cat ${base_dir}/videoinfox.dir4.tmp | tr "/" " " > ${base_dir}/videoinfox.dir4  # remove all froward slashes / write file: videoinfox.dir4
-    sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir4 # remove horizontal whitespace write file: videoinfox.dir4
-
-    # FORMAT DEFAULT DIR 5 NAME FOR COMPARISON
-    echo "$dir5" > ${base_dir}/videoinfox.dir5.tmp  # write dir 5 to a tmp file: videoinfox.dir5.tmp
-    cat ${base_dir}/videoinfox.dir5.tmp | tr "/" " " > ${base_dir}/videoinfox.dir5  # remove all froward slashes / write file: videoinfox.dir5
-    sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir5 # remove horizontal whitespace write file: videoinfox.dir5
-    # LOAD EDITED PWD AND DEFAULT DIRECTORY NAMES FOR BELOW  IF LOOPS   (all frorward slashes / and white spaces removed from the below directory names)
-
-    read -r controldir < ${base_dir}/videoinfox.pwd    # load reformatted current directory name 
-    read -r dir1display < ${base_dir}/videoinfox.dir1  # load reformatted default directory 1 name
-    read -r dir2display < ${base_dir}/videoinfox.dir2  # load reformatted default directory 2 name
-    read -r dir3display < ${base_dir}/videoinfox.dir3  # load reformatted default directory 3 name
-    read -r dir4display < ${base_dir}/videoinfox.dir4  # load reformatted default directory 4 name
-    read -r dir5display < ${base_dir}/videoinfox.dir5  # load reformatted default directory 5 name
-    # DEFAULT DIR 5  DISPLAY     IF DIRECTORY ON EXIT  =  DEFAULT DIRECTORIES 1-4 then Display that directory number.
-
-    if [[ "$controldir" = "$dir5display" ]]; then 
-        [[ "$dir5display" = "$dir1display" ]] && dirdisp="$dirdisplay1"
-        [[ "$dir5display" = "$dir2display" ]] && dirdisp="$dirdisplay2"
-        [[ "$dir5display" = "$dir3display" ]] && dirdisp="$dirdisplay3"
-        [[ "$dir5display" = "$dir4display" ]] && dirdisp="$dirdisplay4"
-    fi
-
-    # DEFAULT DIR 5 DISPLAY
-    if [[ "$controldir" = "$dir5display" ]]; then
-        # if directory is changed to  Default Dir 5 :  The number 5 is normal text and the other 4 are less bold.
-        dirdisp="$dirdisplay5"
-    else
-        # if directory doesn't match  Default Dirs 1-5 : All 5 numbers are less bold.  
-        dirdisp="$dirdisplayno"
-    fi 
-
-    # DEFAULT DIR 1  DISPLAY
-    [[ "$controldir" = "$dir1display" ]] && dirdisp="$dirdisplay1"
-    # DEFAULT DIR 2  DISPLAY
-    [[ "$controldir" = "$dir2display" ]] && dirdisp="$dirdisplay2"
-    # DEFAULT DIR 3  DISPLAY
-    [[ "$controldir" = "$dir3display" ]] && dirdisp="$dirdisplay3"
-    # DEFAULT DIR 4  DISPLAY
-    # if directory is changed to  Default Dir 4 :  The number 4 is normal text and the other 4 are less bold.
-    [[ "$controldir" = "$dir4display" ]] && dirdisp="$dirdisplay4"
-
-    #
-    ##########  END   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
-    #
     ########## blinking routines for display ##########
 
     # not blinking Play Directory
@@ -1384,90 +1386,8 @@ menuf() {
 
     pasteclip  # grab clipboard content
 
-    ##########  START   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
+    default_dirs
 
-    # DIRECTORY SELECTED IS NORMAL TEXT AND THE OTHER 4 ARE LESS BOLD. 
-
-    # DEFAULT DIR NUMBER 1 FORMAT
-    dirdisplay1=$(echo -e "1\033[2m 2 3 4 5\033[0m")
-    # DEFAULT DIR NUMBER 2 FORMAT
-    dirdisplay2=$(echo -e "\033[2m1 \033[0m2 \033[2m3 4 5\033[0m") 
-    # DEFAULT DIR NUMBER 3 FORMAT
-    dirdisplay3=$(echo -e "\033[2m1 2 \033[0m3 \033[2m4 5\033[0m")
-    # DEFAULT DIR NUMBER 4 FORMAT
-    dirdisplay4=$(echo -e "\033[2m1 2 3 \033[0m4 \033[2m5\033[0m")
-    # DEFAULT DIR NUMBER 5 FORMAT
-    dirdisplay5=$(echo -e "\033[2m1 2 3 4 \033[0m5\033[0m")
-    # NO MATCH ALL LESS BOLD
-    dirdisplayno=$(echo -e "\033[2m1 2 3 4 5\033[0m")
-    # FORMAT PWD NAME FOR COMPARISON
-    echo "$PWD" > ${base_dir}/videoinfox.pwd.tmp  # write PWD to a tmp file: videoinfox.pwd.tmp
-    cat ${base_dir}/videoinfox.pwd.tmp | tr "/" " " > ${base_dir}/videoinfox.pwd  # remove all froward slashes / write file: videoinfox.pwd
-    sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.pwd  # remove horizontal whitespace write file: videoinfox.pwd
-
-    # FORMAT DEFAULT DIR 1 NAME FOR COMPARISON
-    echo "$dir1" > ${base_dir}/videoinfox.dir1.tmp  # write dir 1 to a tmp file: videoinfox.dir1.tmp
-    cat ${base_dir}/videoinfox.dir1.tmp | tr "/" " " > ${base_dir}/videoinfox.dir1  # remove all froward slashes / write file: videoinfox.dir1
-    sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir1  # remove horizontal whitespace write file: videoinfox.dir1
-
-    # FORMAT DEFAULT DIR 2 NAME FOR COMPARISON
-    echo "$dir2" > ${base_dir}/videoinfox.dir2.tmp  # write dir 2 to a tmp file: videoinfox.dir2.tmp
-    cat ${base_dir}/videoinfox.dir2.tmp | tr "/" " " > ${base_dir}/videoinfox.dir2  # remove all froward slashes / write file: videoinfox.dir2
-    sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir2 # remove horizontal whitespace write file: videoinfox.dir2
-
-    # FORMAT DEFAULT DIR 3 NAME FOR COMPARISON
-    echo "$dirsaved" > ${base_dir}/videoinfox.dir3.tmp  # write dir 3 to a tmp file: videoinfox.dir3.tmp
-    cat ${base_dir}/videoinfox.dir3.tmp | tr "/" " " > ${base_dir}/videoinfox.dir3  # remove all froward slashes / write file: videoinfox.dir3
-    sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir3 # remove horizontal whitespace write file: videoinfox.dir3
-
-    # FORMAT DEFAULT DIR 4 NAME FOR COMPARISON
-    echo "$dir4" > ${base_dir}/videoinfox.dir4.tmp  # write dir 4 to a tmp file: videoinfox.dir4.tmp
-    cat ${base_dir}/videoinfox.dir4.tmp | tr "/" " " > ${base_dir}/videoinfox.dir4  # remove all froward slashes / write file: videoinfox.dir4
-    sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir4 # remove horizontal whitespace write file: videoinfox.dir4
-
-    # FORMAT DEFAULT DIR 5 NAME FOR COMPARISON
-    echo "$dir5" > ${base_dir}/videoinfox.dir5.tmp  # write dir 5 to a tmp file: videoinfox.dir5.tmp
-    cat ${base_dir}/videoinfox.dir5.tmp | tr "/" " " > ${base_dir}/videoinfox.dir5  # remove all froward slashes / write file: videoinfox.dir5
-    sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir5 # remove horizontal whitespace write file: videoinfox.dir5
-    # LOAD EDITED PWD AND DEFAULT DIRECTORY NAMES FOR BELOW  IF LOOPS   (all frorward slashes / and white spaces removed from the below directory names)
-
-    read -r controldir < ${base_dir}/videoinfox.pwd    # load reformatted current directory name 
-    read -r dir1display < ${base_dir}/videoinfox.dir1  # load reformatted default directory 1 name
-    read -r dir2display < ${base_dir}/videoinfox.dir2  # load reformatted default directory 2 name
-    read -r dir3display < ${base_dir}/videoinfox.dir3  # load reformatted default directory 3 name
-    read -r dir4display < ${base_dir}/videoinfox.dir4  # load reformatted default directory 4 name
-    read -r dir5display < ${base_dir}/videoinfox.dir5  # load reformatted default directory 5 name
-    # DEFAULT DIR 5  DISPLAY     IF DIRECTORY ON EXIT  =  DEFAULT DIRECTORIES 1-4 then Display that directory number.
-
-    if [[ "$controldir" = "$dir5display" ]]; then 
-        [[ "$dir5display" = "$dir1display" ]] && dirdisp="$dirdisplay1"
-        [[ "$dir5display" = "$dir2display" ]] && dirdisp="$dirdisplay2"
-        [[ "$dir5display" = "$dir3display" ]] && dirdisp="$dirdisplay3"
-        [[ "$dir5display" = "$dir4display" ]] && dirdisp="$dirdisplay4"
-    fi
-
-    # DEFAULT DIR 5 DISPLAY
-    if [[ "$controldir" = "$dir5display" ]]; then
-        # if directory is changed to  Default Dir 5 :  The number 5 is normal text and the other 4 are less bold.
-        dirdisp="$dirdisplay5"
-    else
-        # if directory doesn't match  Default Dirs 1-5 : All 5 numbers are less bold.  
-        dirdisp="$dirdisplayno"
-    fi 
-
-    # DEFAULT DIR 1  DISPLAY
-    [[ "$controldir" = "$dir1display" ]] && dirdisp="$dirdisplay1"
-    # DEFAULT DIR 2  DISPLAY
-    [[ "$controldir" = "$dir2display" ]] && dirdisp="$dirdisplay2"
-    # DEFAULT DIR 3  DISPLAY
-    [[ "$controldir" = "$dir3display" ]] && dirdisp="$dirdisplay3"
-    # DEFAULT DIR 4  DISPLAY
-    # if directory is changed to  Default Dir 4 :  The number 4 is normal text and the other 4 are less bold.
-    [[ "$controldir" = "$dir4display" ]] && dirdisp="$dirdisplay4"
-
-    #
-    ##########  END   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
-    #
     # CHECKING FOR VIDEOS IN CURRENT DIRECTORY.  if video(s) exist:  the dash @ Play Directory will blink on the home screen
     dovideosexist=$(find_supported_files --count)
 
@@ -4500,92 +4420,10 @@ while true; do
 
                                 # count lines file for message display below:  (Copy 1 above User List to the the clipboard to: Download or Set...) 
                                 copymessage=$(sed -n '$=' ${base_dir}/videoinfox.dowload.list 2> /dev/null)  # only reading, no writing
-                                ##########  START   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
+                                
+                                default_dirs
 
-                                # DIRECTORY SELECTED IS NORMAL TEXT AND THE OTHER 4 ARE LESS BOLD. 
-
-                                # DEFAULT DIR NUMBER 1 FORMAT
-                                dirdisplay1=$(echo -e "1\033[2m 2 3 4 5\033[0m")
-                                # DEFAULT DIR NUMBER 2 FORMAT
-                                dirdisplay2=$(echo -e "\033[2m1 \033[0m2 \033[2m3 4 5\033[0m") 
-                                # DEFAULT DIR NUMBER 3 FORMAT
-                                dirdisplay3=$(echo -e "\033[2m1 2 \033[0m3 \033[2m4 5\033[0m")
-                                # DEFAULT DIR NUMBER 4 FORMAT
-                                dirdisplay4=$(echo -e "\033[2m1 2 3 \033[0m4 \033[2m5\033[0m")
-                                # DEFAULT DIR NUMBER 5 FORMAT
-                                dirdisplay5=$(echo -e "\033[2m1 2 3 4 \033[0m5\033[0m")
-                                # NO MATCH ALL LESS BOLD
-                                dirdisplayno=$(echo -e "\033[2m1 2 3 4 5\033[0m")
-                                # FORMAT PWD NAME FOR COMPARISON
-                                echo "$PWD" > ${base_dir}/videoinfox.pwd.tmp  # write PWD to a tmp file: videoinfox.pwd.tmp
-                                cat ${base_dir}/videoinfox.pwd.tmp | tr "/" " " > ${base_dir}/videoinfox.pwd  # remove all froward slashes / write file: videoinfox.pwd
-                                sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.pwd  # remove horizontal whitespace write file: videoinfox.pwd
-
-                                # FORMAT DEFAULT DIR 1 NAME FOR COMPARISON
-                                echo "$dir1" > ${base_dir}/videoinfox.dir1.tmp  # write dir 1 to a tmp file: videoinfox.dir1.tmp
-                                cat ${base_dir}/videoinfox.dir1.tmp | tr "/" " " > ${base_dir}/videoinfox.dir1  # remove all froward slashes / write file: videoinfox.dir1
-                                sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir1  # remove horizontal whitespace write file: videoinfox.dir1
-
-                                # FORMAT DEFAULT DIR 2 NAME FOR COMPARISON
-                                echo "$dir2" > ${base_dir}/videoinfox.dir2.tmp  # write dir 2 to a tmp file: videoinfox.dir2.tmp
-                                cat ${base_dir}/videoinfox.dir2.tmp | tr "/" " " > ${base_dir}/videoinfox.dir2  # remove all froward slashes / write file: videoinfox.dir2
-                                sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir2 # remove horizontal whitespace write file: videoinfox.dir2
-
-                                # FORMAT DEFAULT DIR 3 NAME FOR COMPARISON
-                                echo "$dirsaved" > ${base_dir}/videoinfox.dir3.tmp  # write dir 3 to a tmp file: videoinfox.dir3.tmp
-                                cat ${base_dir}/videoinfox.dir3.tmp | tr "/" " " > ${base_dir}/videoinfox.dir3  # remove all froward slashes / write file: videoinfox.dir3
-                                sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir3 # remove horizontal whitespace write file: videoinfox.dir3
-
-                                # FORMAT DEFAULT DIR 4 NAME FOR COMPARISON
-                                echo "$dir4" > ${base_dir}/videoinfox.dir4.tmp  # write dir 4 to a tmp file: videoinfox.dir4.tmp
-                                cat ${base_dir}/videoinfox.dir4.tmp | tr "/" " " > ${base_dir}/videoinfox.dir4  # remove all froward slashes / write file: videoinfox.dir4
-                                sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir4 # remove horizontal whitespace write file: videoinfox.dir4
-
-                                # FORMAT DEFAULT DIR 5 NAME FOR COMPARISON
-                                echo "$dir5" > ${base_dir}/videoinfox.dir5.tmp  # write dir 5 to a tmp file: videoinfox.dir5.tmp
-                                cat ${base_dir}/videoinfox.dir5.tmp | tr "/" " " > ${base_dir}/videoinfox.dir5  # remove all froward slashes / write file: videoinfox.dir5
-                                sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir5 # remove horizontal whitespace write file: videoinfox.dir5
-                                # LOAD EDITED PWD AND DEFAULT DIRECTORY NAMES FOR BELOW  IF LOOPS   (all frorward slashes / and white spaces removed from the below directory names)
-
-                                read -r controldir < ${base_dir}/videoinfox.pwd    # load reformatted current directory name 
-                                read -r dir1display < ${base_dir}/videoinfox.dir1  # load reformatted default directory 1 name
-                                read -r dir2display < ${base_dir}/videoinfox.dir2  # load reformatted default directory 2 name
-                                read -r dir3display < ${base_dir}/videoinfox.dir3  # load reformatted default directory 3 name
-                                read -r dir4display < ${base_dir}/videoinfox.dir4  # load reformatted default directory 4 name
-                                read -r dir5display < ${base_dir}/videoinfox.dir5  # load reformatted default directory 5 name
-                                # DEFAULT DIR 5  DISPLAY     IF DIRECTORY ON EXIT  =  DEFAULT DIRECTORIES 1-4 then Display that directory number.
-
-                                if [[ "$controldir" = "$dir5display" ]]; then 
-                                    [[ "$dir5display" = "$dir1display" ]] && dirdisp="$dirdisplay1"
-                                    [[ "$dir5display" = "$dir2display" ]] && dirdisp="$dirdisplay2"
-                                    [[ "$dir5display" = "$dir3display" ]] && dirdisp="$dirdisplay3"
-                                    [[ "$dir5display" = "$dir4display" ]] && dirdisp="$dirdisplay4"
-                                fi
-
-                                # DEFAULT DIR 5 DISPLAY
-                                if [[ "$controldir" = "$dir5display" ]]; then
-                                    # if directory is changed to  Default Dir 5 :  The number 5 is normal text and the other 4 are less bold.
-                                    dirdisp="$dirdisplay5"
-                                else
-                                    # if directory doesn't match  Default Dirs 1-5 : All 5 numbers are less bold.  
-                                    dirdisp="$dirdisplayno"
-                                fi 
-
-                                # DEFAULT DIR 1  DISPLAY
-                                [[ "$controldir" = "$dir1display" ]] && dirdisp="$dirdisplay1"
-                                # DEFAULT DIR 2  DISPLAY
-                                [[ "$controldir" = "$dir2display" ]] && dirdisp="$dirdisplay2"
-                                # DEFAULT DIR 3  DISPLAY
-                                [[ "$controldir" = "$dir3display" ]] && dirdisp="$dirdisplay3"
-                                # DEFAULT DIR 4  DISPLAY
-                                # if directory is changed to  Default Dir 4 :  The number 4 is normal text and the other 4 are less bold.
-                                [[ "$controldir" = "$dir4display" ]] && dirdisp="$dirdisplay4"
-
-                                #
-                                ##########  END   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
-                                #
                                 ########## blinking routine for display ##########
-
                                 # blinking
                                 downloadlist1=$(echo -e "\033[5mDOWNLOAD LIST\033m\033[0m\033[5m\033[5m\033[0m")
 
@@ -5862,90 +5700,8 @@ while true; do
         ################### ) ## Exit Subshell   # restore dir prior to entering yt-dlp menu
         ;; 
         m)  # MORE OPTIONS   ##########################################################
-            menu() {
-                ##########  START   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
-
-                # DIRECTORY SELECTED IS NORMAL TEXT AND THE OTHER 4 ARE LESS BOLD. 
-
-                # DEFAULT DIR NUMBER 1 FORMAT
-                dirdisplay1=$(echo -e "1\033[2m 2 3 4 5\033[0m")
-                # DEFAULT DIR NUMBER 2 FORMAT
-                dirdisplay2=$(echo -e "\033[2m1 \033[0m2 \033[2m3 4 5\033[0m") 
-                # DEFAULT DIR NUMBER 3 FORMAT
-                dirdisplay3=$(echo -e "\033[2m1 2 \033[0m3 \033[2m4 5\033[0m")
-                # DEFAULT DIR NUMBER 4 FORMAT
-                dirdisplay4=$(echo -e "\033[2m1 2 3 \033[0m4 \033[2m5\033[0m")
-                # DEFAULT DIR NUMBER 5 FORMAT
-                dirdisplay5=$(echo -e "\033[2m1 2 3 4 \033[0m5\033[0m")
-                # NO MATCH ALL LESS BOLD
-                dirdisplayno=$(echo -e "\033[2m1 2 3 4 5\033[0m")
-                # FORMAT PWD NAME FOR COMPARISON
-                echo "$PWD" > ${base_dir}/videoinfox.pwd.tmp  # write PWD to a tmp file: videoinfox.pwd.tmp
-                cat ${base_dir}/videoinfox.pwd.tmp | tr "/" " " > ${base_dir}/videoinfox.pwd  # remove all froward slashes / write file: videoinfox.pwd
-                sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.pwd  # remove horizontal whitespace write file: videoinfox.pwd
-
-                # FORMAT DEFAULT DIR 1 NAME FOR COMPARISON
-                echo "$dir1" > ${base_dir}/videoinfox.dir1.tmp  # write dir 1 to a tmp file: videoinfox.dir1.tmp
-                cat ${base_dir}/videoinfox.dir1.tmp | tr "/" " " > ${base_dir}/videoinfox.dir1  # remove all froward slashes / write file: videoinfox.dir1
-                sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir1  # remove horizontal whitespace write file: videoinfox.dir1
-
-                # FORMAT DEFAULT DIR 2 NAME FOR COMPARISON
-                echo "$dir2" > ${base_dir}/videoinfox.dir2.tmp  # write dir 2 to a tmp file: videoinfox.dir2.tmp
-                cat ${base_dir}/videoinfox.dir2.tmp | tr "/" " " > ${base_dir}/videoinfox.dir2  # remove all froward slashes / write file: videoinfox.dir2
-                sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir2 # remove horizontal whitespace write file: videoinfox.dir2
-
-                # FORMAT DEFAULT DIR 3 NAME FOR COMPARISON
-                echo "$dirsaved" > ${base_dir}/videoinfox.dir3.tmp  # write dir 3 to a tmp file: videoinfox.dir3.tmp
-                cat ${base_dir}/videoinfox.dir3.tmp | tr "/" " " > ${base_dir}/videoinfox.dir3  # remove all froward slashes / write file: videoinfox.dir3
-                sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir3 # remove horizontal whitespace write file: videoinfox.dir3
-
-                # FORMAT DEFAULT DIR 4 NAME FOR COMPARISON
-                echo "$dir4" > ${base_dir}/videoinfox.dir4.tmp  # write dir 4 to a tmp file: videoinfox.dir4.tmp
-                cat ${base_dir}/videoinfox.dir4.tmp | tr "/" " " > ${base_dir}/videoinfox.dir4  # remove all froward slashes / write file: videoinfox.dir4
-                sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir4 # remove horizontal whitespace write file: videoinfox.dir4
-
-                # FORMAT DEFAULT DIR 5 NAME FOR COMPARISON
-                echo "$dir5" > ${base_dir}/videoinfox.dir5.tmp  # write dir 5 to a tmp file: videoinfox.dir5.tmp
-                cat ${base_dir}/videoinfox.dir5.tmp | tr "/" " " > ${base_dir}/videoinfox.dir5  # remove all froward slashes / write file: videoinfox.dir5
-                sed -i 's/[[:blank:]]//g' ${base_dir}/videoinfox.dir5 # remove horizontal whitespace write file: videoinfox.dir5
-                # LOAD EDITED PWD AND DEFAULT DIRECTORY NAMES FOR BELOW  IF LOOPS   (all frorward slashes / and white spaces removed from the below directory names)
-
-                read -r controldir < ${base_dir}/videoinfox.pwd    # load reformatted current directory name 
-                read -r dir1display < ${base_dir}/videoinfox.dir1  # load reformatted default directory 1 name
-                read -r dir2display < ${base_dir}/videoinfox.dir2  # load reformatted default directory 2 name
-                read -r dir3display < ${base_dir}/videoinfox.dir3  # load reformatted default directory 3 name
-                read -r dir4display < ${base_dir}/videoinfox.dir4  # load reformatted default directory 4 name
-                read -r dir5display < ${base_dir}/videoinfox.dir5  # load reformatted default directory 5 name
-                # DEFAULT DIR 5  DISPLAY     IF DIRECTORY ON EXIT  =  DEFAULT DIRECTORIES 1-4 then Display that directory number.
-
-                if [[ "$controldir" = "$dir5display" ]]; then 
-                    [[ "$dir5display" = "$dir1display" ]] && dirdisp="$dirdisplay1"
-                    [[ "$dir5display" = "$dir2display" ]] && dirdisp="$dirdisplay2"
-                    [[ "$dir5display" = "$dir3display" ]] && dirdisp="$dirdisplay3"
-                    [[ "$dir5display" = "$dir4display" ]] && dirdisp="$dirdisplay4"
-                fi
-
-                # DEFAULT DIR 5 DISPLAY
-                if [[ "$controldir" = "$dir5display" ]]; then
-                    # if directory is changed to  Default Dir 5 :  The number 5 is normal text and the other 4 are less bold.
-                    dirdisp="$dirdisplay5"
-                else
-                    # if directory doesn't match  Default Dirs 1-5 : All 5 numbers are less bold.  
-                    dirdisp="$dirdisplayno"
-                fi 
-
-                # DEFAULT DIR 1  DISPLAY
-                [[ "$controldir" = "$dir1display" ]] && dirdisp="$dirdisplay1"
-                # DEFAULT DIR 2  DISPLAY
-                [[ "$controldir" = "$dir2display" ]] && dirdisp="$dirdisplay2"
-                # DEFAULT DIR 3  DISPLAY
-                [[ "$controldir" = "$dir3display" ]] && dirdisp="$dirdisplay3"
-                # DEFAULT DIR 4  DISPLAY
-                # if directory is changed to  Default Dir 4 :  The number 4 is normal text and the other 4 are less bold.
-                [[ "$controldir" = "$dir4display" ]] && dirdisp="$dirdisplay4"
-
-                #
-                ##########  END   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
+            while true; do
+                default_dirs
                 #
                 clear
                 printf -- '\n%s\n' "Directory: ${PWD}" "Clipboard: ${pasteclip}"
@@ -5956,10 +5712,6 @@ while true; do
                 echo " l - List Directory"
                 echo
                 read -r -n1 -p " Enter Option: " option
-            }
-  
-            while true; do
-                menu
                 case $option in
                     q)
                         # QUIT - <HOME> 
