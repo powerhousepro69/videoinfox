@@ -1071,7 +1071,7 @@ codestats() {
     echo
     echo " File Location:" "$vlocat"
     #echo " White Spaces ....." $(wc -w < /usr/local/bin/videoinfox 2> /dev/null)  # White Space COUNT
-    printf -- '\n\n%s' ""
+    printf -- '%s\n' "" ""
     read -r -n1 -p " Enter Option: " optionstats
 }
 
@@ -1259,9 +1259,8 @@ use_custom_list() {
         sed -i -e 's/^[ \t]*//' "$2".log &> /dev/null  # remove spaces at beginning of line.
         #####  DISPLAY AFTER THE LIST IS DONE DOWNLOADING  #####
 
-        echo
-        echo
-        echo -e "${ver}" "\033[5mdone processing download list . . .\033m\033[0m"                 
+        printf -- '%s\n' "" ""
+        echo -e "${ver}" "\033[5mdone processing download list . . .\033m\033[0m"
         echo
         echo "List:" "$PWD/""$2"  # display list filename with full path
         echo "Log :" "$PWD/""$ulogfile"  # display log filename with full path
@@ -1295,7 +1294,7 @@ play_directory() {
     if [[ -f "${tmp_dir}/videoinfox.numbered-optiond-play-directory-list" ]]; then
         cat "${tmp_dir}/videoinfox.numbered-optiond-play-directory-list" 2>/dev/null
     else
-        printf -- '\n\n%s' ""
+        printf -- '%s\n' "" ""
         echo "${der}  No playable content in the current directory . . ."
         echo
     fi
@@ -1554,7 +1553,7 @@ while true; do
         o)
             ###########################   AUTOPLAY LINE  o   <HOME>  ######################
             if [[ -f ${tmp_dir}/videoinfo-findwork.tmp ]]; then
-                printf -- '\n\n%s' ""
+                printf -- '%s\n' "" ""
                 read -r -p " Autoplay Line: " linenumber  # waiting fot user input
 
                 tail -n +"$linenumber" ${tmp_dir}/videoinfo-findwork.tmp > ${tmp_dir}/videoinfo-home-autoplay.tmp 2>/dev/null
@@ -1562,7 +1561,7 @@ while true; do
 
                 ffplay_list "SEARCH RESULTS >>> AUTOPLAY LINE" "${input}"
             else
-                printf -- '\n\n%s' ""
+                printf -- '%s\n' "" ""
                 echo " Select Show All or use Find to acess this feature . . ."
                 sleep 1.7
             fi
@@ -1570,8 +1569,7 @@ while true; do
         j)
             ###########################   PLAY LINE  j   <HOME>  ##########################
             if [[ -f ${tmp_dir}/videoinfo-findwork.tmp ]]; then
-                echo
-                echo
+                printf -- '%s\n' "" ""
                 read -r -p " Play Line: " linenumber  # waiting fot user input
 
                 # create file moving selected line number to the top
@@ -1594,9 +1592,7 @@ while true; do
                     ffplay -fs -autoexit "$playnumber" 2>/dev/null  # play video
                 fi
             else
-                echo
-                echo
-                echo " Select Show All or use Find to acess this feature . . ."
+                printf -- '%s\n' "" "" " Select Show All or use Find to acess this feature . . ."
                 sleep 1.7
             fi
         ;;
@@ -1779,11 +1775,7 @@ while true; do
                                 i)  # INFO - <HOME>
                                     if [[ -f "$pasteclip" ]]; then
                                         pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
-                                        echo
-                                        echo
-                                        echo " ""$pasteclip"
-                                        echo  
-
+                                        printf -- '%s\n' "" "" "$pasteclip" ""
                                         get_file_stats "${pasteclip}"
 
                                         echo
@@ -1792,8 +1784,7 @@ while true; do
                                     else
 
                                         if [[ -f ${tmp_dir}/videoinfox.nt-play-directory-apa ]]; then
-                                            echo
-                                            echo
+                                            printf -- '%s\n' "" ""
                                             read -r -p " Enter line number to get info: " linenumber  # waiting fot user input
 
                                             # create file moving selected line number to the top
@@ -1814,9 +1805,7 @@ while true; do
                                                 ######
                                             fi
                                         else
-                                            echo
-                                            echo
-                                            echo " Select Show All or use Find to acess this feature . . ."
+                                            printf -- '%s\n' "" "" " Select Show All or use Find to acess this feature . . ."
                                             sleep 1.7
                                         fi
                                     fi
@@ -1841,19 +1830,16 @@ while true; do
                                         # clear
 
                                         if [[ ! -f ${tmp_dir}/videoinfox.numbered-nt-play-directory-list ]]; then
-                                            echo
-                                            echo " No videos in the current directory . . ."
+                                            printf -- '\n%s\n' " No videos in the current directory . . ."
                                         fi
                                         # GETTING LINECOUNT
                                         linecount=$(wc -l ${tmp_dir}/videoinfox.nt-play-directory-apa | cut -d' ' -f1)
 
-                                        echo
-                                        echo
+                                        printf -- '%s\n' "" ""
                                         read -r -p " Play Line: " linenumber  # waiting fot user input
                                         if is_integer "${linenumber}"; then
                                             if [[ $linenumber -gt $linecount ]]; then 
-                                                echo
-                                                echo " Number out of range . . ."
+                                                printf -- '\n%s\n'  " Number out of range . . ."
                                                 sleep .9
                                             else
                                                 tail -n +"$linenumber" ${tmp_dir}/videoinfox.nt-play-directory-apa > ${tmp_dir}/videoinfox.nt-play-directory-apa.tmp 2>/dev/null
@@ -1863,8 +1849,7 @@ while true; do
                                                     "${tmp_dir}/videoinfox.nt-play-directory-apa"
                                             fi
                                         else
-                                            echo
-                                            echo " No video files in the current directory . . ."
+                                            printf -- '\n%s\n'  " No video files in the current directory . . ."
                                             sleep 1.7
 
                                         fi
@@ -2122,7 +2107,7 @@ while true; do
                                                 i=0
 
                                                 if [[ -f ${tmp_dir}/videoinfo.number.play-list ]]; then
-                                                    printf -- '\n\n%s' ""
+                                                    printf -- '%s\n' "" ""
                                                     read -r -p " Start Autoplay from line: " linenumber  # waiting fot user input
 
                                                     tail -n +"$linenumber" ${tmp_dir}/videoinfo.playlist-apa > ${tmp_dir}/videoinfo.playlist-apa.tmp 2>/dev/null
@@ -2198,7 +2183,7 @@ while true; do
 
                                                 # READ FIRST LINE TO DISPLAY VIDEO NAME BEFORE PLAY
                                                 read < $HOME/.config/videoinfox/playlists/"$setplaylist".last-autoplay resumedisplay
-                                                printf -- '\n\n%s' ""
+                                                printf -- '%s\n' "" ""
                                                 echo " Resume: ""$resumedisplay"
                                                 sleep 3
 
@@ -2218,7 +2203,7 @@ while true; do
                                             ;;
                                             j) # PLAY LINE  (HOME >>> PLAYLIST)
                                                 if [[ -f ${tmp_dir}/videoinfo.number.play-list ]]; then
-                                                    printf -- '\n\n%s' ""
+                                                    printf -- '%s\n' "" ""
                                                     read -r -p " Play Line: " linenumber  # waiting fot user input
 
                                                     tail -n +"$linenumber" ${tmp_dir}/videoinfo.playlist-apa > ${tmp_dir}/videoinfo.playlist-apa.tmp 2>/dev/null
@@ -2233,7 +2218,7 @@ while true; do
                                             i)  # INFO - <PLAYLIST>
                                                 if [[ -f "$pasteclip" ]]; then
                                                     pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
-                                                    printf -- '\n\n%s' ""
+                                                    printf -- '%s\n' "" ""
                                                     echo " ""$pasteclip"
                                                     echo  
 
@@ -2244,7 +2229,7 @@ while true; do
 
                                                 else
                                                     if [[ -f ${tmp_dir}/videoinfo.playlist-apa ]]; then
-                                                    printf -- '\n\n%s' ""
+                                                    printf -- '%s\n' "" ""
                                                     read -r -p " Enter line number to get info: " linenumber  # waiting fot user input
 
                                                     # create file moving selected line number to the top
@@ -2389,7 +2374,7 @@ while true; do
                                     done
                                 ;;
                                 o) # AUTOPLAY (NAVIGATE TREE)
-                                    printf -- '\n\n%s' ""
+                                    printf -- '%s\n' "" ""
                                     read -r -p " Autoplay Line: " linenumber  # waiting fot user input
 
                                     tail -n +"$linenumber" ${tmp_dir}/videoinfox.nt-play-directory-apa > ${tmp_dir}/videoinfox.nt-play-directory-apa.tmp 2>/dev/null
@@ -2464,9 +2449,7 @@ while true; do
             searchtotal=$(find_supported_files --recursive-count)    
                                                                                 
             if [[ "$searchtotal" = 0 ]]; then
-                echo
-                echo
-                echo " No video files recursively reachable from the current directory . . ."
+                printf -- '%s\n' "" "" " No video files recursively reachable from the current directory . . ."
                 sleep 1
                 #cp ${base_dir}/videoinfo.findwork3 ${base_dir}/videoinfo.findwork
                 #cp ${base_dir}/videoinfo.lastsearchtotal2  ${base_dir}/videoinfo.lastsearchtotal
@@ -2610,9 +2593,7 @@ while true; do
 
                     echo " Played List Closed"
                 else
-                    echo
-                    echo
-                    echo " No playable content in the clipboard . . ."
+                    printf -- '%s\n' "" "" " No playable content in the clipboard . . ."
                     sleep 1.2
                 fi
             fi
@@ -2620,19 +2601,14 @@ while true; do
         i)  # INFO - <HOME>
             if [[ -f "$pasteclip" ]]; then
                 pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
-                echo
-                echo
-                echo " ""$pasteclip"
-                echo  
-
+                printf -- '%s\n' "" "" "$pasteclip" ""
                 get_file_stats "${pasteclip}"
 
                 echo
                 read -r -p " Press enter to Continue" 
             else
                 if [[ -f ${tmp_dir}/videoinfo-findwork.tmp ]]; then
-                    echo
-                    echo
+                    printf -- '%s\n' "" ""
                     read -r -p " Enter line number to get info: " linenumber  # waiting fot user input
 
                     # create file moving selected line number to the top
@@ -2653,9 +2629,7 @@ while true; do
                         read -r -p " Press enter to Continue" 
                     fi
                 else
-                    echo
-                    echo
-                    echo " Select Show All or use Find to acess this feature . . ."
+                    printf -- '%s\n' "" "" " Select Show All or use Find to acess this feature . . ."
                     sleep 1.7
                 fi
             fi
@@ -2800,8 +2774,7 @@ while true; do
                     q) break ;;
                     o) # AUTOPLAY LINE  (PLAYED LIST)
                         if [[ -f ${tmp_dir}/videoinfo.number.played-list ]]; then
-                            echo
-                            echo
+                            printf -- '%s\n' "" ""
                             read -r -p " Autoplay Line: " linenumber  # waiting fot user input
 
                             tail -n +"$linenumber" ${tmp_dir}/videoinfo.playedlist-apa > ${tmp_dir}/videoinfo.playedlist-apa.tmp 2>/dev/null
@@ -2809,9 +2782,7 @@ while true; do
 
                             ffplay_list "PLAYED LIST >>> AUTOPLAY LINE" "${input}"
                         else
-                            echo
-                            echo
-                            echo " Played List Empty . . ."
+                            printf -- '%s\n' "" "" " Played List Empty . . ."
                             sleep 1.7
                         fi
                     ;;
@@ -2821,14 +2792,12 @@ while true; do
 
 
                         if [[ -f ${tmp_dir}/videoinfo.number.played-list ]]; then
-                            echo
-                            echo
+                            printf -- '%s\n' "" ""
                             read -r -p " Play Line: " linenumber  # waiting fot user input
 
                             if is_integer "${linenumber}"; then
                                 if [[ $linenumber -gt $linecount ]]; then
-                                    echo
-                                    echo " Number out of range . . ."
+                                    printf -- '%s\n' "" " Number out of range . . ."
                                     sleep .9
                                 else
                                     tail -n +"$linenumber" ${tmp_dir}/videoinfo.playedlist-apa > ${tmp_dir}/videoinfo.playedlist-apa.tmp 2>/dev/null
@@ -2844,19 +2813,14 @@ while true; do
                                 ffplay_list "PLAYED LIST >>> PLAY LINE" "${tmp_dir}/videoinfo.playedlist-apa"
                             fi
                         else  # FILE IS EMPTY"
-                            echo
-                            echo
-                            echo " Played List Empty . . ."
+                            printf -- '%s\n' "" "" " Played List Empty . . ."
                             sleep 1.7
                         fi
                     ;;
                     i)  # INFO - <PLAYED LIST>
                         if [[ -f "$pasteclip" ]]; then
                             pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
-                            echo
-                            echo
-                            echo " ""$pasteclip"
-                            echo  
+                            printf -- '%s\n' "" "" "$pasteclip" ""
 
                             get_file_stats "${pasteclip}"
 
@@ -2864,8 +2828,7 @@ while true; do
                             read -r -p " Press enter to Continue" 
                         else
                             if [[ -f ${tmp_dir}/videoinfo.playedlist-apa ]]; then
-                                echo
-                                echo
+                                printf -- '%s\n' "" ""
                                 read -r -p " Enter line number to get info: " linenumber  # waiting fot user input
 
                                 # create file moving selected line number to the top
@@ -2877,20 +2840,15 @@ while true; do
                                 if [[ -z "$playnumber" ]]; then
                                     :
                                 else
-                                    #echo
-                                    echo
-                                    echo "$playnumber"
-                                    echo
-                        
-                                        get_file_stats "${playnumber}"
+                                    printf -- '%s\n' "" "" "$playnumber" ""
+
+                                    get_file_stats "${playnumber}"
 
                                     echo
                                     read -r -p " Press enter to Continue" 
                                 fi
                             else
-                                echo
-                                echo
-                                echo " Play List Empty . . ."
+                                printf -- '%s\n' "" "" " Play List Empty . . ."
                                 sleep 1.7            
                              fi
                         fi
@@ -3070,7 +3028,7 @@ while true; do
                                         i=0
 
                                         if [[ -f ${tmp_dir}/videoinfo.number.play-list ]]; then
-                                            printf -- '\n\n%s' ""
+                                            printf -- '%s\n' "" ""
                                             read -r -p " Start Autoplay from line: " linenumber  # waiting fot user input
 
                                             tail -n +"$linenumber" ${tmp_dir}/videoinfo.playlist-apa > ${tmp_dir}/videoinfo.playlist-apa.tmp 2>/dev/null
@@ -3144,9 +3102,7 @@ while true; do
 
                                         # READ FIRST LINE TO DISPLAY VIDEO NAME BEFORE PLAY
                                         read < $HOME/.config/videoinfox/playlists/"$setplaylist".last-autoplay resumedisplay
-                                        echo
-                                        echo
-                                        echo " Resume: ""$resumedisplay"
+                                        printf -- '%s\n' "" "" " Resume: ""$resumedisplay"
                                         sleep 3
 
                                         if [[ -f ${tmp_dir}/videoinfo.number.play-list ]]; then
@@ -3162,8 +3118,7 @@ while true; do
                                     j) # PLAY LINE  (HOME >>> PLAYLIST)
 
                                         if [[ -f ${tmp_dir}/videoinfo.number.play-list ]]; then
-                                            echo
-                                            echo
+                                            printf -- '%s\n' "" ""
                                             read -r -p " Play Line: " linenumber  # waiting fot user input
 
                                             tail -n +"$linenumber" ${tmp_dir}/videoinfo.playlist-apa > ${tmp_dir}/videoinfo.playlist-apa.tmp 2>/dev/null
@@ -3184,10 +3139,7 @@ while true; do
                                     i)  # INFO - <PLAYLIST>
                                         if [[ -f "$pasteclip" ]]; then
                                             pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
-                                            echo
-                                            echo
-                                            echo " ""$pasteclip"
-                                            echo  
+                                            printf -- '%s\n' "" "" "$pasteclip" ""
 
                                             get_file_stats "${pasteclip}"
 
@@ -3196,8 +3148,7 @@ while true; do
 
                                         else
                                             if [[ -f ${tmp_dir}/videoinfo.playlist-apa ]]; then
-                                                echo
-                                                echo
+                                                printf -- '%s\n' "" ""
                                                 read -r -p " Enter line number to get info: " linenumber  # waiting fot user input
 
                                                 # create file moving selected line number to the top
@@ -3209,10 +3160,7 @@ while true; do
                                                 if [[ -z "$playnumber" ]]; then
                                                     :
                                                 else
-                                                    #echo
-                                                    echo
-                                                    echo "$playnumber"
-                                                    echo
+                                                    printf -- '%s\n' "" "" "$playnumber" ""
                                         
                                                     get_file_stats "${playnumber}"
 
@@ -3318,9 +3266,7 @@ while true; do
                                                 pasteclip  # grab clipboard content
                                                 echo " PLAYLIST Closed"
                                             else
-                                                echo
-                                                echo
-                                                echo " No playable content in the clipboard . . ."
+                                                printf -- '%s\n' "" "" " No playable content in the clipboard . . ."
                                                 sleep 1.2
                                             fi   
                                         fi
@@ -3389,9 +3335,7 @@ while true; do
                                     fi
                                 fi
                             else
-                                echo
-                                echo
-                                echo " Select Show All or use Find to acess this feature . . ."
+                                printf -- '%s\n' "" "" " Select Show All or use Find to acess this feature . . ."
                                 sleep 1.7
                             fi
                         ;;
@@ -3491,9 +3435,7 @@ while true; do
                                     pasteclip  # grab clipboard content
                                     echo " Played List Closed"
                                 else
-                                    echo
-                                    echo
-                                    echo " No playable content in the clipboard . . ."
+                                    printf -- '%s\n' "" "" " No playable content in the clipboard . . ."
                                     sleep 1.2
                                 fi
                             fi
@@ -3506,10 +3448,7 @@ while true; do
                             #echo >> ${base_dir}/videoinfo.playedlist
                             #echo "This File was Created: $(date) by" "$USER" >> ${base_dir}/videoinfo.playedlist
                             #echo >> ${base_dir}/videoinfo.playedlist      
-                            echo
-                            echo
-                            echo " Played List DELETED . . ."
-                            echo
+                            printf -- '%s\n' "" "" " Played List DELETED . . ." ""
                             #read -p " Press enter to Continue"    
                             sleep .7
                         ;;
@@ -3676,7 +3615,7 @@ while true; do
                     h) print_playlist_help ;;
                     o) # AUTOPLAY LINE  (HOME >>> PLAYLIST)
                         if [[ -f ${tmp_dir}/videoinfo.number.play-list ]]; then
-                            printf -- '\n\n%s' ""
+                            printf -- '%s\n' "" ""
                             read -r -p " Start Autoplay from line: " linenumber  # waiting fot user input
                             # 
                             tail -n +"$linenumber" ${tmp_dir}/videoinfo.playlist-apa > ${tmp_dir}/videoinfo.playlist-apa.tmp 2>/dev/null
@@ -3740,9 +3679,7 @@ while true; do
                     ###########################################################
                         # READ FIRST LINE TO DISPLAY VIDEO NAME BEFORE PLAY
                         read < $HOME/.config/videoinfox/playlists/"$setplaylist".last-autoplay resumedisplay
-                        echo
-                        echo
-                        echo " Resume: ""$resumedisplay"
+                        printf -- '%s\n' "" "" " Resume: $resumedisplay"
                         sleep 3
 
                         if [[ -f ${tmp_dir}/videoinfo.number.play-list ]]; then
@@ -3757,7 +3694,7 @@ while true; do
                     ;;
                     j) # PLAY LINE  (HOME >>> PLAYLIST)
                         if [[ -f ${tmp_dir}/videoinfo.number.play-list ]]; then
-                            printf -- '\n\n%s' ""
+                            printf -- '%s\n' "" ""
                             read -r -p " Play Line: " linenumber  # waiting fot user input
 
                             tail -n +"$linenumber" ${tmp_dir}/videoinfo.playlist-apa > ${tmp_dir}/videoinfo.playlist-apa.tmp 2>/dev/null
@@ -3778,7 +3715,7 @@ while true; do
                             read -r -p " Press enter to Continue" 
                         else
                             if [[ -f ${tmp_dir}/videoinfo.playlist-apa ]]; then
-                            printf -- '\n\n%s' ""
+                            printf -- '%s\n' "" ""
                             read -r -p " Enter line number to get info: " linenumber  # waiting fot user input
 
                             # create file moving selected line number to the top
@@ -4219,8 +4156,7 @@ while true; do
 
                             if string_check_http "${pasteclip}"; then
                                 clear
-                                echo
-                                echo
+                                printf -- '%s\n' "" ""
                                 
                                 # <yt-dlp> gets the filename minus the extension. this is done becuase the user can pick different video file types to download.
                                 yt-dlp --get-filename -o "%(title)s" "${pasteclip}" > "${base_dir}/videoinfo.lastdownload"
@@ -4228,9 +4164,7 @@ while true; do
                                 # <yt-dlp> giving options for quality and file type to download
                                 yt-dlp -F "${pasteclip}"
                                 
-                                echo
-                                echo
-                                echo "Find what video quality and format you want. (Code on far left)"
+                                printf -- '%s\n' "" "" "Find what video quality and format you want. (Code on far left)"
                                 read -r -p "Enter that Code and Press enter : " svrcode
                                 echo
                                 clear
@@ -4872,8 +4806,7 @@ while true; do
                                                 touch "$ulistname"  #  create user list with full path and filename
                                                 echo
                                                 echo " User List Created: "$ulistname""
-                                                echo
-                                                echo
+                                                printf -- '%s\n' "" ""
                                                 sleep .75
                                             fi
                                         fi
@@ -5549,9 +5482,7 @@ while true; do
                                         
                                                 else
                                                     
-                                                echo
-                                                echo
-                                                echo " No playable content in the clipboard . . ."
+                                                printf -- '%s\n' "" "" " No playable content in the clipboard . . ."
                                                 sleep 1.2
                                             fi 
                                         fi
@@ -5564,10 +5495,7 @@ while true; do
                                         else
                                             if [[ -f "$pasteclip" ]]; then
                                                 pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
-                                                echo
-                                                echo
-                                                echo " ""$pasteclip"
-                                                echo  
+                                                printf -- '%s\n' "" "" "$pasteclip" ""
 
                                                 get_file_stats "${pasteclip}"
 
@@ -5576,8 +5504,7 @@ while true; do
 
                                             else
                                                 if [[ -f ${tmp_dir}/videoinfo-view-downloads.tmp ]]; then
-                                                    echo
-                                                    echo
+                                                    printf -- '%s\n' "" ""
                                                     read -r -p " Enter line number to get info: " linenumber  # waiting fot user input
 
                                                     # create file moving selected line number to the top
@@ -5587,10 +5514,7 @@ while true; do
                                                     read playnumber < ${tmp_dir}/videoinfo-view-downloads-autoplay.tmp
 
                                                     if ! [[ -z "$playnumber" ]]; then
-                                                        #echo
-                                                        echo
-                                                        echo "$playnumber"
-                                                        echo
+                                                        printf -- '%s\n' "" "" "$playnumber" ""
                                             
                                                         get_file_stats "${playnumber}"
 
@@ -5635,8 +5559,7 @@ while true; do
                                             print_error " No video files in the current directory . . ."
                                         else
                                             if [[ -f ${tmp_dir}/videoinfo-view-downloads.tmp ]]; then
-                                                echo
-                                                echo
+                                                printf -- '%s\n' "" ""
                                                 read -r -p " Autoplay Line: " linenumber  # waiting fot user input
 
                                                 tail -n +"$linenumber" ${tmp_dir}/videoinfo-view-downloads.tmp > ${tmp_dir}/videoinfo-view-downloads-autoplay.tmp 2>/dev/null
@@ -5644,9 +5567,7 @@ while true; do
 
                                                 ffplay_list "SEARCH RESULTS >>> AUTOPLAY LINE" "${input}"
                                             else
-                                                echo
-                                                echo
-                                                echo " Select Show All or use Find to acess this feature . . ."
+                                                printf -- '%s\n' "" "" " Select Show All or use Find to acess this feature . . ."
                                                 sleep 1.7
                                             fi
                                         fi
@@ -5657,8 +5578,7 @@ while true; do
                                             print_error " No video files in the current directory . . ."
                                         else
                                             if [[ -f ${tmp_dir}/videoinfo-view-downloads.tmp ]]; then
-                                                echo
-                                                echo
+                                                printf -- '%s\n' "" ""
                                                 read -r -p " Play Line: " linenumber  # waiting fot user input
 
                                                 # create file moving selected line number to the top
@@ -5680,9 +5600,7 @@ while true; do
                                                     ffplay -fs -autoexit "$playnumber" 2>/dev/null  # play video
                                                 fi
                                             else
-                                                echo
-                                                echo
-                                                echo " Select Show All or use Find to acess this feature . . ."
+                                                printf -- '%s\n' "" "" " Select Show All or use Find to acess this feature . . ."
                                                 sleep 1.7
                                             fi
                                         fi
