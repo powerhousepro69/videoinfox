@@ -282,23 +282,16 @@ init() {
         echo         
         echo " Created config directory: "$HOME"/.config/videoinfox and required files "
         hr 80 -
-        echo
-        echo " NOTE: Do not randomly paste in Videoinfox.  It will cause unwanted code to run producing"  
+        printf -- '%s\n' ""  " NOTE: Do not randomly paste in Videoinfox.  It will cause unwanted code to run producing"  
         echo " undesired results and can corrupt Videoinfox's data integrity and retention."
-        echo
-        echo " Everywhere the dot is blinking in the version number, don't paste and Videoinfox will function as intended."
-        echo
-        echo " ""${der}"
+        printf -- '%s\n' ""  " Everywhere the dot is blinking in the version number, don't paste and Videoinfox will function as intended."
+        printf -- '%s\n' ""  " ""${der}"
         hr 80 -
-        echo
-        echo " Yt-dlp will be downloaded to: "$HOME"/.config/videoinfox  "
+        printf -- '%s\n' ""  " Yt-dlp will be downloaded to: "$HOME"/.config/videoinfox  "
         hr 80 -
-        echo
-        echo -e " A sample video url was copied to the clipboard to show how the \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m feature works."
-        echo
-        echo " Video playing:  [ f - toggle fullscreen ]   [ spacebar - play/pause ]   [ l/r arrows - fwd/rew ]   [ q -quit ]"
-        echo
-        echo " Press  p  when Videoinfox starts up. That will download the video url that is in the clipboard and auto play it."
+        printf -- '%s\n' ""  -e " A sample video url was copied to the clipboard to show how the \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m feature works."
+        printf -- '%s\n' ""  " Video playing:  [ f - toggle fullscreen ]   [ spacebar - play/pause ]   [ l/r arrows - fwd/rew ]   [ q -quit ]"
+        printf -- '%s\n' ""  " Press  p  when Videoinfox starts up. That will download the video url that is in the clipboard and auto play it."
         hr 80 -
         echo -e "\n" 
         echo " Setup for the first run or if the videoinfox directory gets deleted anytime after the first run."
@@ -333,7 +326,7 @@ init() {
         echo "https://www.youtube.com/watch?v=5tSAKS8LRj0" >> $HOME/Downloads/videoinfox-dl-sample-list
         echo "https://www.youtube.com/watch?v=DAPkOxRnh4c" >> $HOME/Downloads/videoinfox-dl-sample-list
 
-        echo
+        printf -- '%s\n' ""
         
         noisy_timeout 36 "Downloading Yt-dlp"
     fi
@@ -564,11 +557,10 @@ print_info() {
 
 playlist_create() {
     # CREATE PLAYLIST
-    echo
-    echo " If any dots are entered, they will be stripped from the playlist name."
+    printf -- '%s\n' ""  " If any dots are entered, they will be stripped from the playlist name."
     echo " If a space is used as the first character, it will be stripped from the playlist name."
     echo " Spaces can be used after the first character of the playlist name."
-    echo
+    printf -- '%s\n' ""
     read -r -p " Create Playlist: " createpl1  # waiting fot user input. grabbing new filename
 
     # Strip out any dots from user entry
@@ -577,12 +569,10 @@ playlist_create() {
     read createpl < ${tmp_dir}/plremovedot.tmp
 
     if [[ -z "$createpl" ]]; then
-        echo
-        echo " Nothing was entered . . ."
+        printf -- '%s\n' ""  " Nothing was entered . . ."
         sleep .75
     elif [[ -f ${base_dir}/playlists/vplaylist."$createpl" ]]; then
-        echo
-        echo " File already exists . . ."
+        printf -- '%s\n' ""  " File already exists . . ."
         sleep .75
     else
         plname="$HOME/.config/videoinfox/playlists/vplaylist.""$createpl"  # add user input as file extension
@@ -593,9 +583,8 @@ playlist_create() {
 
         touch "$HOME"/.config/videoinfox/playlists/"$createpl1".last-autoplay
 
-        echo
-        echo " Playlist Created: "$plname""
-        echo
+        printf -- '%s\n' ""  " Playlist Created: "$plname""
+        printf -- '%s\n' ""
         sleep 1.7
     fi
 }
@@ -605,16 +594,15 @@ playlist_delete() {
     linecount=$(wc -l ${base_dir}/videoinfo.playlist.dirlist | cut -d' ' -f1)
 
     # SELECT A PLAYLIST TO DELETE
-    echo
+    printf -- '%s\n' ""
     read -r -p " Enter line number to delete: " linenumber  # waiting fot user input
     if is_integer "${linenumber}"; then
         if ! [[ -z "$linenumber" ]]; then
             if [[ $linenumber -gt $linecount ]]; then 
-                echo
-                echo " Number out of range . . ."
+                printf -- '%s\n' ""  " Number out of range . . ."
                 sleep .9
             else
-                echo
+                printf -- '%s\n' ""
                 # CREATE FILE MOVING SELECTION TO THE TOP
                 tail -n +"$linenumber" ${base_dir}/videoinfo.playlist.dirlist > ${tmp_dir}/playlist.playlist.delete.tmp
 
@@ -628,8 +616,7 @@ playlist_delete() {
                     read -r plselectedla < ${tmp_dir}/plread.tmp  # READING PLAYLIST NAME ONLY INTO VARIABLE  $pselecteda
                     rm ${base_dir}/playlists/"$plselectedla".last-autoplay  # REMOVE PLAYLIST.last.autoplay  file
 
-                    echo
-                    echo  " Playlist Deleted . . ."
+                    printf -- '%s\n' ""   " Playlist Deleted . . ."
 
                     if [[ "$setplaylistfull" = "$plselected" ]]; then # SET DEFAULT PLAYLIST TO ACTIVE PLAYLIST
                         echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ${base_dir}/videoinfo.playlist.current
@@ -744,8 +731,7 @@ EOF
 print_three_second_notice() {
     printf -- '%s\n' "To bypass the 3 second wait press enter with no entry" ""
     printf -- '\033[5m %s\033m\033[0m\033[5m\033[5m\033[0m\n' "3 seconds remaining to quit Playlist Autoplay"
-    printf -- '%s\n' ""
-echo 
+    printf -- '%s\n' ""  
 
 #  videoinfox -v     DISPLAY VERSION NUMBER THEN EXIT  
 print_version() {
@@ -1055,21 +1041,19 @@ codestats() {
     vlocat=$(cat ${base_dir}/videoinfox.code-stats.tmp | cut -c 6-)
     printf " Code Lines .......  %s\n" "$d"
 
-    echo
+    printf -- '%s\n' ""
     printf " Comment Lines ....  %s\n" "$b"
 
-    echo
+    printf -- '%s\n' ""
     printf " Blank Lines ......  %s\n" "$a"
 
     echo " _________________________"
 
-    echo
+    printf -- '%s\n' ""
     printf " Total Lines ...... %s\n" "$c"
-    echo
-    echo
-    echo " File Size:" "$vsize"
-    echo
-    echo " File Location:" "$vlocat"
+    printf -- '%s\n' ""
+    printf -- '%s\n' ""  " File Size:" "$vsize"
+    printf -- '%s\n' ""  " File Location:" "$vlocat"
     #echo " White Spaces ....." $(wc -w < /usr/local/bin/videoinfox 2> /dev/null)  # White Space COUNT
     printf -- '%s\n' "" ""
     read -r -n1 -p " Enter Option: " optionstats
@@ -1139,33 +1123,27 @@ navtree() {
     case "${1}" in
         (--first-instance)
             ########## end blinking routines ################## 
-            echo
-            echo "Treetop:" "$grabdirfornav2"
+            printf -- '%s\n' ""  "Treetop:" "$grabdirfornav2"
             echo "Total Directories: "$ttotal" "
             echo "Total Video Files:" "$ttotalnum"
-            echo
-            echo "Current Directory:" "$PWD"
+            printf -- '%s\n' ""  "Current Directory:" "$PWD"
             echo "Video Files:" "$blinkit"
-            # echo
-            # echo "Clipboard:" "$pasteclip"
+            # printf -- '%s\n' ""  "Clipboard:" "$pasteclip"
             generate_options_menu navtree " ${der} >>> NAVIGATE TREE    ${dirdisp} - Default Dirs" -cadnqut
             read -r -n1 -p " Enter Option: " option
-            echo
+            printf -- '%s\n' ""
         ;;
         (--second-instance)
             ########## end blinking routines ################## 
-            echo
-            echo "Treetop:" "$grabdirfornav2"
+            printf -- '%s\n' ""  "Treetop:" "$grabdirfornav2"
             echo "Total Directories: "$ttotal" "
             #echo "Total Video Files:" "$ttotalnum"
-            echo
-            echo "Current Directory:" "$PWD"
+            printf -- '%s\n' ""  "Current Directory:" "$PWD"
             #echo "Video Files:" "$blinkit"
-            #echo
-            #echo "Clipboard:" "$pasteclip"
+            #printf -- '%s\n' ""  "Clipboard:" "$pasteclip"
             generate_options_menu navtree " ${der} >>> CREATE DIRECTORY    ${dirdisp} - Default Dirs" -cmnqut
             read -r -n1 -p " Enter Option: " option
-            echo
+            printf -- '%s\n' ""
         ;;
     esac
 }
@@ -1191,17 +1169,13 @@ use_custom_list() {
         read chkforhttp2 < "$chkforhttp"  # reading first line into varible $chkforhhtp2
 
         if string_check_http "${chkforhttp2}"; then
-            echo
-            echo -e "\033[5m error\033m\033[0m:   The first 4 characters on the first line don't start with http"
+            printf -- '%s\n' ""  -e "\033[5m error\033m\033[0m:   The first 4 characters on the first line don't start with http"
             echo "          This is a safety feature to prevent accidental deletion of a file that is not a Download List."
-            echo
-            echo "          If this file was processed, The following lines would have been removed:"
-            echo
-            echo "          - All lines that don't begin with: http"
+            printf -- '%s\n' ""  "          If this file was processed, The following lines would have been removed:"
+            printf -- '%s\n' ""  "          - All lines that don't begin with: http"
             echo "          - All duplicate lines"
             echo "          - All blank lines"
-            echo
-            echo "          ** The first line of all Download Lists must begin with http to be processed with: videoinfox -u"
+            printf -- '%s\n' ""  "          ** The first line of all Download Lists must begin with http to be processed with: videoinfox -u"
             echo 
             exit
         fi
@@ -1228,8 +1202,7 @@ use_custom_list() {
         echo >> "$ulogfile"  # create the log file header Line 3 (blank line)
         echo >> "$ulogfile"  # create the log file header Line 4 (blank line)
 
-        echo
-        echo "Processing list:" "$PWD/""$2"
+        printf -- '%s\n' ""  "Processing list:" "$PWD/""$2"
             
         #####  DOWNLOAD LIST  #####
         
@@ -1237,10 +1210,9 @@ use_custom_list() {
         #####  DOWNLOAD LOOP START  #####
 
         while read -r line; do
-            echo
+            printf -- '%s\n' ""
             yt-dlp "${line}"  # download url
-            echo
-            echo "Logging URL and Filename to:" "$PWD/""$ulogfile" 
+            printf -- '%s\n' ""  "Logging URL and Filename to:" "$PWD/""$ulogfile" 
 
             # logging yt-dlp output to the log file
             echo "$line" >> "$ulogfile" 
@@ -1261,17 +1233,15 @@ use_custom_list() {
 
         printf -- '%s\n' "" ""
         echo -e "${ver}" "\033[5mdone processing download list . . .\033m\033[0m"
-        echo
-        echo "List:" "$PWD/""$2"  # display list filename with full path
+        printf -- '%s\n' ""  "List:" "$PWD/""$2"  # display list filename with full path
         echo "Log :" "$PWD/""$ulogfile"  # display log filename with full path
-        echo
+        printf -- '%s\n' ""
         
         notify-send "Videoinfox -u messsage: Done Processing Download List . . ." "$PWD/""$2"
         exit  # exit videoinfox
     else
-        echo
-        echo " Videoinfox Error: List not found. List must be recursively reachable from the current directory."
-        echo
+        printf -- '%s\n' ""  " Videoinfox Error: List not found. List must be recursively reachable from the current directory."
+        printf -- '%s\n' ""
         exit
     fi    
 }
@@ -1296,7 +1266,7 @@ play_directory() {
     else
         printf -- '%s\n' "" ""
         echo "${der}  No playable content in the current directory . . ."
-        echo
+        printf -- '%s\n' ""
     fi
     linenumber=1
 
@@ -1398,8 +1368,7 @@ menuf() {
     # if [[ "$searchtotal" = "" ]]; then
     #      :
     #  else
-    #      echo
-    #      echo "Copy 1 above result to clipboard then press enter"
+    #      printf -- '%s\n' ""  "Copy 1 above result to clipboard then press enter"
     # fi
 
     printf -- '\n%s\n' "Directory: ${PWD}" "Clipboard: ${pasteclip}"
@@ -1429,25 +1398,20 @@ menuf() {
             pasteclip  # grab clipboard content
 
             hr 80 -
-            echo
-            echo " ${der} $viv4      Enter - Update Clipboard Display                $dirdisp - Default Dirs"
+            printf -- '%s\n' ""  " ${der} $viv4      Enter - Update Clipboard Display                $dirdisp - Default Dirs"
             hr 80 -
-            echo
-            echo " f - Find              n - Navigate Tree     p - Play Clipboard     d $dash Play Directory     y - Yt-dlp     e - Exit"
+            printf -- '%s\n' ""  " f - Find              n - Navigate Tree     p - Play Clipboard     d $dash Play Directory     y - Yt-dlp     e - Exit"
             echo " a - Show All          l - Last Download     s - View Playlist      o $dashj Autoplay Line      i $dashj Info       z - Set" 
             echo " c - Clear Results     v - Played List       k $dashj Playlist Add       j $dashj Play Line          x - Clrclp     h - Help"
             echo " m - More Options"
             echo         
         else  # yt-dlp extracted a filename
-            echo
-            echo "YT-DLP Confirmed: $ytdlpconfirm"
-            echo
-            echo "Download Directory: $dirsaved"  # dislpay default download directory
+            printf -- '%s\n' ""  "YT-DLP Confirmed: $ytdlpconfirm"
+            printf -- '%s\n' ""  "Download Directory: $dirsaved"  # dislpay default download directory
             hr 80 -
-            echo
-            echo " ${der} $viv4      Enter - Update Clipboard Display                $dirdisp - Default Dirs"
+            printf -- '%s\n' ""  " ${der} $viv4      Enter - Update Clipboard Display                $dirdisp - Default Dirs"
             hr 80 -
-            echo
+            printf -- '%s\n' ""
 
             echo -e " f - Find              n - Navigate Tree     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     d $dash Play Directory     y - Yt-dlp     e - Exit"
 
@@ -1461,10 +1425,9 @@ menuf() {
             echo      
             echo "Valid file in clipboard"
             hr 80 -
-            echo
-            echo " ${der} $viv4      Enter - Update Clipboard Display                $dirdisp - Default Dirs"
+            printf -- '%s\n' ""  " ${der} $viv4      Enter - Update Clipboard Display                $dirdisp - Default Dirs"
             hr 80 -
-            echo
+            printf -- '%s\n' ""
 
             echo -e " f - Find              n - Navigate Tree     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     d $dash Play Directory     y - Yt-dlp     e - Exit"
 
@@ -1481,8 +1444,7 @@ menuf() {
             echo 
             echo " ${der} $viv4      Enter - Update Clipboard Display                $dirdisp - Default Dirs"
             hr 80 -
-            echo
-            echo " f - Find              n - Navigate Tree     p - Play Clipboard     d $dash Play Directory     y - Yt-dlp     e - Exit"
+            printf -- '%s\n' ""  " f - Find              n - Navigate Tree     p - Play Clipboard     d $dash Play Directory     y - Yt-dlp     e - Exit"
             echo " a - Show All          l - Last Download     s - View Playlist      o $dashj Autoplay Line      i $dashj Info       z - Set" 
             echo " c - Clear Results     v - Played List       k $dashj Playlist Add       j $dashj Play Line          x - Clrclp     h - Help"
             echo " m - More Options"
@@ -1521,7 +1483,7 @@ while true; do
                     print_header " ${der} >>> LAST SEARCH"
                     echo -en " 1 - Save Search Results     2 - Clear Search Results "
                     read -r -n1 optionq
-                    echo
+                    printf -- '%s\n' ""
                 }
 
                 while true; do
@@ -1632,8 +1594,7 @@ while true; do
                     ;;
                     u)  # UP ONE LEVEL 
                         if [[ "$grabdirfornav2" = "$PWD" ]]; then
-                            echo
-                            echo " At treetop. Can't go any higher . . ."
+                            printf -- '%s\n' ""  " At treetop. Can't go any higher . . ."
                             sleep .50
                         else
                             cd .. &>/dev/null
@@ -1646,12 +1607,11 @@ while true; do
                         # GETTING LINECOUNT
                         linecount=$(wc -l ${tmp_dir}/nt-list.tmp | cut -d' ' -f1)
 
-                        echo
+                        printf -- '%s\n' ""
                         read -r -p " Enter line number to change directory: " linenumber  # waiting fot user input
                         if is_integer "${linenumber}"; then
                             if [[ $linenumber -gt $linecount ]]; then 
-                                echo
-                                echo " Number out of range . . ."
+                                printf -- '%s\n' ""  " Number out of range . . ."
                                 sleep .9
                             else
                                 tail -n +"$linenumber" ${tmp_dir}/nt-list.tmp > ${tmp_dir}/nt-list.tmp2 2>/dev/null
@@ -1681,8 +1641,7 @@ while true; do
                         if [[ -f ${tmp_dir}/videoinfox.numbered-navtree-play-directory-list ]]; then
                             cat ${tmp_dir}/videoinfox.numbered-navtree-play-directory-list 2>/dev/null
                         else
-                            echo
-                            echo " No video files in the current directory . . ."
+                            printf -- '%s\n' ""  " No video files in the current directory . . ."
                             sleep 1.7
                         fi
                         linenumber=1
@@ -1706,7 +1665,7 @@ while true; do
                         echo " No quotations needed for paths with spaces. Case sensative."
                         echo 
                         echo " Enter directory or paste directory if in clipboard."
-                        echo
+                        printf -- '%s\n' ""
                         read -r -p " " specifydir  # waiting fot user input - the directory you want to chang to 
                             
                             if [[ -z "$specifydir" ]]; then
@@ -1714,7 +1673,7 @@ while true; do
                                 sleep .75
                             else
                                 if [[ -d "$specifydir" ]]; then
-                                    echo
+                                    printf -- '%s\n' ""
                                     grabdirfornav2="$specifydir"
                                     cd "$specifydir"   # change the directory
                                     echo " Treetop changed to: $PWD"  # <pwd>  print current working directory to the screen
@@ -1723,7 +1682,7 @@ while true; do
                                     print_error "No such directory . . ."
                                 fi
                             fi       
-                        echo
+                        printf -- '%s\n' ""
                     ;;
                     a)
                         #####################################################
@@ -1751,8 +1710,7 @@ while true; do
                             if [[ -f ${tmp_dir}/videoinfox.numbered-nt-play-directory-list ]]; then
                                 cat ${tmp_dir}/videoinfox.numbered-nt-play-directory-list 2>/dev/null
                             else
-                                echo
-                                echo " No video files in the current directory . . ."
+                                printf -- '%s\n' ""  " No video files in the current directory . . ."
                             fi
 
                             printf -- '\n%s\n' "Directory: ${PWD}" "Clipboard: ${pasteclip}"
@@ -1761,7 +1719,7 @@ while true; do
                             echo " o - Autoplay Line     s - View Playlist                                                                  q - Quit"
                             echo " j - Play Line         k - Playlist Add"
                             echo " i - Info              z - Directory To Playlist"
-                            echo
+                            printf -- '%s\n' ""
                             read -r -n1 -p " Enter Option: " optionaplist
                         }
 
@@ -1778,11 +1736,9 @@ while true; do
                                         printf -- '%s\n' "" "" "$pasteclip" ""
                                         get_file_stats "${pasteclip}"
 
-                                        echo
+                                        printf -- '%s\n' ""
                                         read -r -p " Press enter to Continue" 
-
                                     else
-
                                         if [[ -f ${tmp_dir}/videoinfox.nt-play-directory-apa ]]; then
                                             printf -- '%s\n' "" ""
                                             read -r -p " Enter line number to get info: " linenumber  # waiting fot user input
@@ -1794,13 +1750,12 @@ while true; do
                                             read playnumber < ${tmp_dir}/videoinfox.nt-play-directory-apa
 
                                             if [[ ! -z "$playnumber" ]]; then
-                                                echo
-                                                echo "$playnumber"
-                                                echo
+                                                printf -- '%s\n' ""  "$playnumber"
+                                                printf -- '%s\n' ""
                     
                                                 get_file_stats "${playnumber}"
 
-                                                echo
+                                                printf -- '%s\n' ""
                                                 read -r -p " Press enter to Continue" 
                                                 ######
                                             fi
@@ -1879,14 +1834,13 @@ while true; do
                                         if [[ -f ${tmp_dir}/videoinfox.numbered-nt-playlistaddnav-directory-list ]]; then
                                             cat ${tmp_dir}/videoinfox.numbered-nt-playlistaddnav-directory-list 2>/dev/null
                                         else
-                                            echo
-                                            echo " No videos in the current directory . . ."
+                                            printf -- '%s\n' "" " No videos in the current directory . . ."
                                         fi
                                         # REMOVE EVERYTHING FROM THE BEGINNING OF THE LINE UP TO AND INCLUDING THE DOT). LEAVING ONLY PLAYLIST NAME
                                         cat ${base_dir}/videoinfo.playlist.current | sed 's/.*\.//' > ${tmp_dir}/whatplnt.tmp 
                                         read -r whatplnt < ${tmp_dir}/whatplnt.tmp
                                 
-                                        echo
+                                        printf -- '%s\n' ""
                                         read -r -p "Enter line number to add video to playlist $whatplnt: " linenumber  # waiting fot user input
 
                                         tail -n +"$linenumber" ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa > ${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa.tmp 2>/dev/null
@@ -1901,8 +1855,7 @@ while true; do
                                         if is_integer "${linenumber}"; then
                                             if [[ ! -z "$linenumber" ]]; then
                                                 if [[ $linenumber -gt $linecount ]]; then 
-                                                    echo
-                                                    echo "Number out of range . . ."
+                                                    printf -- '%s\n' "" "Number out of range . . ."
                                                     sleep .9
                                                 else
                                                     OLDIFS=$IFS
@@ -1912,10 +1865,7 @@ while true; do
 
                                                     if [[ ! -z "$linenumber" ]]; then
                                                         echo "$line" >> ${base_dir}/videoinfo.playlist
-                                                        echo
-                                                        echo " ""$line" 
-                                                        echo
-                                                        echo " Added to Playlist . . ."
+                                                        printf -- '%s\n' "" "$line"  "" " Added to Playlist . . ."
                                                         sleep .25
                                                     fi
                                                 fi
@@ -1923,8 +1873,7 @@ while true; do
                                         fi
                                         IFS=$OLDIFS
                                     else
-                                        echo
-                                        echo " No video files in the current directory . . ."
+                                        printf -- '%s\n' "" " No video files in the current directory . . ."
                                         sleep 1.7
                                     fi
                                 ;;
@@ -2007,8 +1956,7 @@ while true; do
                                             dashit=$(echo "~") #
                                         else
                                             dashit=$(echo "-") # 
-                                            echo
-                                            echo "Playlist Empty . . ."
+                                            printf -- '%s\n' "" "Playlist Empty . . ."
                                         fi
 
                                         #cat ${base_dir}/videoinfo.playlist 
@@ -2049,8 +1997,7 @@ while true; do
                                         # If it isn't <http>  the ytdlp loop will be skipped
 
                                         if string_check_http "${pasteclip}"; then
-                                            echo
-                                            echo "Clipboard: ""$pasteclip"
+                                            printf -- '%s\n' "" "Clipboard: $pasteclip"
                                             read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
                                             ytdlpconfirm=$(yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
 
@@ -2062,10 +2009,8 @@ while true; do
                                                 generate_options_menu " ${der} >>> PLAYLIST >>> ${setplaylist}" -olcpqjid
 
                                             else 
-                                                echo
-                                                echo "YT-DLP Confirmed: "$ytdlpconfirm""
-                                                echo
-                                                echo "Download Directory: $dirsaved"  # dislpay default download directory
+                                                printf -- '%s\n' "" "YT-DLP Confirmed: $ytdlpconfirm"
+                                                printf -- '%s\n' "" "Download Directory: $dirsaved"  # dislpay default download directory
                                                 
                                                 generate_options_menu " ${der} >>> PLAYLIST >>> ${setplaylist}" -olcPqjid
                                             fi
@@ -2079,11 +2024,9 @@ while true; do
                                                 pasteclip  # grab clipboard content
 
                                                 hr 80 -
-                                                echo
-                                                echo " ${der} >>> PLAYLIST >>>" "$setplaylist"
+                                                printf -- '%s\n' "" " ${der} >>> PLAYLIST >>>" "$setplaylist"
                                                 hr 80 -
-                                                echo
-                                                echo " j - Play Line     o - Start Autoplay      c - Change Playlist     p - Play Clipboard                     q - Quit"
+                                                printf -- '%s\n' ""  " j - Play Line     o - Start Autoplay      c - Change Playlist     p - Play Clipboard                     q - Quit"
                                                 echo " i - Info          l - Resume Autoplay     r - Remove Line"
                                                 echo "                                           d - Clear Playlist                                             h - Help"
                                                 echo                                                             
@@ -2140,7 +2083,7 @@ while true; do
                                                     clear
                                                     cat ${tmp_dir}/videoinfo.number.play-list 2> /dev/null
 
-                                                    echo
+                                                    printf -- '%s\n' ""
                                                     read -r -p "Enter line number to remove video from the playlist $whatplpld: " linenumber  # waiting fot user input
 
                                                     # REMOVE BLANK LINES
@@ -2157,8 +2100,7 @@ while true; do
                                                                 :
                                                             else
                                                                 if [[ $linenumber -gt $linecount ]]; then 
-                                                                    echo
-                                                                    echo "Number out of range . . ."
+                                                                    printf -- '%s\n' "" "Number out of range . . ."
                                                                     sleep .9
                                                                 else
                                                                     if [[ -z "$linenumber" ]]; then
@@ -2166,8 +2108,7 @@ while true; do
                                                                     else
                                                                         # DELETE LINE NUMBER
                                                                         sed -i "${linenumber}d" ${base_dir}/videoinfo.playlist 2> /dev/null 
-                                                                        echo
-                                                                        echo "Line deleted from the playlist . . ."
+                                                                        printf -- '%s\n' "" "Line deleted from the playlist . . ."
                                                                         sleep .25
                                                                     fi
                                                                 fi
@@ -2218,13 +2159,11 @@ while true; do
                                             i)  # INFO - <PLAYLIST>
                                                 if [[ -f "$pasteclip" ]]; then
                                                     pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
-                                                    printf -- '%s\n' "" ""
-                                                    echo " ""$pasteclip"
-                                                    echo  
-
+                                                    printf -- '%s\n' "" "" "$pasteclip" ""
+\
                                                     get_file_stats "${pasteclip}"
 
-                                                    echo
+                                                    printf -- '%s\n' ""
                                                     read -r -p " Press enter to Continue" 
 
                                                 else
@@ -2241,14 +2180,11 @@ while true; do
                                                         if [[ -z "$playnumber" ]]; then
                                                             :
                                                         else
-                                                            #echo
-                                                            echo
-                                                            echo "$playnumber"
-                                                            echo
+                                                            printf -- '%s\n' "" "" "$playnumber" ""
                                                 
                                                             get_file_stats "${playnumber}"
 
-                                                            echo
+                                                            printf -- '%s\n' ""
                                                             read -r -p " Press enter to Continue" 
                                                         fi
                                                     fi
@@ -2364,8 +2300,7 @@ while true; do
                                                     rm ${base_dir}/videoinfo.playlist 2> /dev/null
                                                     touch ${base_dir}/videoinfo.playlist
                                                     touch ${base_dir}/playlists/"$setplaylist".last-autoplay 
-                                                    echo
-                                                    echo " ""$setplaylist"" Playlist Cleared . . ."
+                                                    printf -- '%s\n' "" "$setplaylist Playlist Cleared . . ."
                                                     sleep 1.7
                                                 fi
                                                 break
@@ -2604,7 +2539,7 @@ while true; do
                 printf -- '%s\n' "" "" "$pasteclip" ""
                 get_file_stats "${pasteclip}"
 
-                echo
+                printf -- '%s\n' ""
                 read -r -p " Press enter to Continue" 
             else
                 if [[ -f ${tmp_dir}/videoinfo-findwork.tmp ]]; then
@@ -2618,14 +2553,11 @@ while true; do
                     read playnumber < ${tmp_dir}/videoinfo-findwork-playnumber.tmp
 
                     if [[ -z "$playnumber" ]]; then
-                        #echo
-                        echo
-                        echo "$playnumber"
-                        echo
-            
-                            get_file_stats "${playnumber}"
+                        printf -- '%s\n' "" "" "$playnumber" ""
 
-                        echo
+                        get_file_stats "${playnumber}"
+
+                        printf -- '%s\n' ""
                         read -r -p " Press enter to Continue" 
                     fi
                 else
@@ -2713,15 +2645,13 @@ while true; do
                     dashit=$(echo -e "~")
                 else
                     dashit=$(echo "-") 
-                    echo
-                    echo "Played List Empty . . ."
+                    printf -- '%s\n' "" "Played List Empty . . ."
                 fi
 
                 #cat ${base_dir}/videoinfo.playedlist 
 
                 if string_check_http "${pasteclip}"; then
-                    echo
-                    echo "Clipboard: ""$pasteclip"
+                    printf -- '%s\n' "" "Clipboard: $pasteclip"
                 fi
 
                 #                           @CHECK TO SEE IF THE CLIPBOARD CONTENTS CONTAIN A URL OR A FILE AND ACT UPON THAT DISPLAY
@@ -2747,16 +2677,13 @@ while true; do
 
                         generate_options_menu " ${der} >>> PLAYED LIST" -osDpqjki
                     else 
-                        echo
-                        echo "YT-DLP Confirmed: "$ytdlpconfirm""
-                        echo
-                        echo "Download Directory: $dirsaved"  # dislpay default download directory
+                        printf -- '%s\n' "" "YT-DLP Confirmed: $ytdlpconfirm"
+                        printf -- '%s\n' "" "Download Directory: $dirsaved"  # dislpay default download directory
                         generate_options_menu " ${der} >>> PLAYED LIST" -osDPqjki
                     fi
                 else
                     if [[ -f "$pasteclip" ]]; then
-                        echo      
-                        echo "Valid file in clipboard"
+                        printf -- '%s\n' "" "Valid file in clipboard"
                         generate_options_menu " ${der} >>> PLAYED LIST" -osDPqjki
                     else 
                         clearclip
@@ -2824,7 +2751,7 @@ while true; do
 
                             get_file_stats "${pasteclip}"
 
-                            echo
+                            printf -- '%s\n' ""
                             read -r -p " Press enter to Continue" 
                         else
                             if [[ -f ${tmp_dir}/videoinfo.playedlist-apa ]]; then
@@ -2844,7 +2771,7 @@ while true; do
 
                                     get_file_stats "${playnumber}"
 
-                                    echo
+                                    printf -- '%s\n' ""
                                     read -r -p " Press enter to Continue" 
                                 fi
                             else
@@ -2936,8 +2863,7 @@ while true; do
                                     dashit=$(echo "~") #
                                 else
                                     dashit=$(echo "-") # 
-                                    echo
-                                    echo "Playlist Empty . . ."
+                                    printf -- '%s\n' "" "Playlist Empty . . ."
                                 fi
 
                                 #cat ${base_dir}/videoinfo.playlist 
@@ -2975,8 +2901,7 @@ while true; do
                                 # If it isn't <http>  the ytdlp loop will be skipped
 
                                 if string_check_http "${pasteclip}"; then
-                                    echo
-                                    echo "Clipboard: ""$pasteclip"
+                                    printf -- '%s\n' "" "Clipboard: ""$pasteclip"
                                     read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
                                     ytdlpconfirm=$(yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
 
@@ -2985,27 +2910,22 @@ while true; do
                                         pasteclip  # grab clipboard content
                                         generate_options_menu " ${der} >>> PLAYLIST >>> ${setplaylist}" -olcpqjid
                                     else 
-                                        echo
-                                        echo "YT-DLP Confirmed: "$ytdlpconfirm""
-                                        echo
-                                        echo "Download Directory: $dirsaved"  # dislpay default download directory
+                                        printf -- '%s\n' "" "YT-DLP Confirmed: "$ytdlpconfirm""
+                                        printf -- '%s\n' "" "Download Directory: $dirsaved"  # dislpay default download directory
                                         generate_options_menu " ${der} >>> PLAYLIST >>> ${setplaylist}" -olcPqjid
                                     fi
                                 else
                                     if [[ -f "$pasteclip" ]]; then
-                                        echo      
-                                        echo "Valid file in clipboard"
+                                        printf -- '%s\n' "Valid file in clipboard"
                                         generate_options_menu " ${der} >>> PLAYLIST >>> ${setplaylist}" -olcPqjid
                                     else 
                                         clearclip
                                         pasteclip  # grab clipboard content
 
                                         hr 80 -
-                                        echo
-                                        echo " ${der} >>> PLAYLIST >>>" "$setplaylist"
+                                        printf -- '%s\n' "" " ${der} >>> PLAYLIST >>>" "$setplaylist"
                                         hr 80 -
-                                        echo
-                                        echo " j - Play Line     o - Start Autoplay      c - Change Playlist     p - Play Clipboard                     q - Quit"
+                                        printf -- '%s\n' ""  " j - Play Line     o - Start Autoplay      c - Change Playlist     p - Play Clipboard                     q - Quit"
                                         echo " i - Info          l - Resume Autoplay     r - Remove Line"
                                         echo "                                           d - Clear Playlist                                             h - Help"
                                         echo                                                             
@@ -3060,7 +2980,7 @@ while true; do
                                             clear
                                             cat ${tmp_dir}/videoinfo.number.play-list 2> /dev/null
 
-                                            echo
+                                            printf -- '%s\n' ""
                                             read -r -p "Enter line number to remove video from the playlist $whatplpld: " linenumber  # waiting fot user input
 
                                             # REMOVE BLANK LINES
@@ -3077,8 +2997,7 @@ while true; do
                                                         :
                                                     else
                                                         if [[ $linenumber -gt $linecount ]]; then 
-                                                            echo
-                                                            echo "Number out of range . . ."
+                                                            printf -- '%s\n' "" "Number out of range . . ."
                                                             sleep .9
                                                         else
                                                             if [[ -z "$linenumber" ]]; then
@@ -3086,8 +3005,7 @@ while true; do
                                                             else
                                                                 # DELETE LINE NUMBER
                                                                 sed -i "${linenumber}d" ${base_dir}/videoinfo.playlist 2> /dev/null 
-                                                                echo
-                                                                echo "Line deleted from the playlist . . ."
+                                                                printf -- '%s\n' "" "Line deleted from the playlist . . ."
                                                                 sleep .25
                                                             fi
                                                         fi
@@ -3143,7 +3061,7 @@ while true; do
 
                                             get_file_stats "${pasteclip}"
 
-                                            echo
+                                            printf -- '%s\n' ""
                                             read -r -p " Press enter to Continue" 
 
                                         else
@@ -3164,7 +3082,7 @@ while true; do
                                         
                                                     get_file_stats "${playnumber}"
 
-                                                    echo
+                                                    printf -- '%s\n' ""
                                                     read -r -p " Press enter to Continue" 
                                                 fi
                                             fi
@@ -3276,8 +3194,7 @@ while true; do
                                             rm ${base_dir}/videoinfo.playlist 2> /dev/null
                                             touch ${base_dir}/videoinfo.playlist
                                             touch ${base_dir}/playlists/"$setplaylist".last-autoplay 
-                                            echo
-                                            echo " ""$setplaylist"" Playlist Cleared . . ."
+                                            printf -- '%s\n' "" "$setplaylist Playlist Cleared . . ."
                                             sleep 1.7
                                         fi
                                         break
@@ -3301,7 +3218,7 @@ while true; do
                                 clear
                                 cat ${tmp_dir}/videoinfo.number.played-list
 
-                                echo
+                                printf -- '%s\n' ""
                                 read -r -p "Enter line number to add video to playlist $whatplpld: " linenumber  # waiting fot user input
 
                                 # REMOVE BLANK LINES
@@ -3325,10 +3242,8 @@ while true; do
                                                 :
                                             else
                                                 echo "$playnumber" >> ${base_dir}/videoinfo.playlist   
-                                                echo
-                                                echo " ""$playnumber" 
-                                                echo
-                                                echo " Added to Playlist . . ."
+                                                printf -- '%s\n' "" "$playnumber" 
+                                                printf -- '%s\n' "" " Added to Playlist . . ."
                                                 sleep .25
                                             fi
                                         fi
@@ -3533,8 +3448,7 @@ while true; do
                     dashit=$(echo "~") #
                 else
                     dashit=$(echo "-") # 
-                    echo
-                    echo "Playlist Empty . . ."
+                    printf -- '%s\n' "" "Playlist Empty . . ."
                 fi
 
                 #cat ${base_dir}/videoinfo.playlist 
@@ -3574,8 +3488,7 @@ while true; do
                 # If it isn't <http>  the ytdlp loop will be skipped
 
                 if string_check_http "${pasteclip}"; then
-                    echo
-                    echo "Clipboard: ""$pasteclip"
+                    printf -- '%s\n' "" "Clipboard: ""$pasteclip"
                     read -r dirsaved < ${base_dir}/videoinfo.yt-download-dir 2> /dev/null  # reding default download directory
                     ytdlpconfirm=$(yt-dlp --get-filename -o "%(title)s" "$pasteclip" 2> /dev/null)
 
@@ -3584,16 +3497,13 @@ while true; do
                         pasteclip  # grab clipboard content
                         generate_options_menu " ${der} >>> PLAYLIST >>>" "$setplaylist" -olcpqjid
                     else 
-                        echo
-                        echo "YT-DLP Confirmed: "$ytdlpconfirm""
-                        echo
-                        echo "Download Directory: $dirsaved"  # dislpay default download directory
+                        printf -- '%s\n' "" "YT-DLP Confirmed: "$ytdlpconfirm""
+                        printf -- '%s\n' "" "Download Directory: $dirsaved"  # dislpay default download directory
                         generate_options_menu " ${der} >>> PLAYLIST >>>" "$setplaylist" -olcPqjid
                     fi
                 else
                     if [[ -f "$pasteclip" ]]; then
-                        echo      
-                        echo "Valid file in clipboard"
+                        printf -- '%s\n' "Valid file in clipboard"
                         generate_options_menu " ${der} >>> PLAYLIST >>>" "$setplaylist" -olcPqjid
                     else
                         clearclip
@@ -3644,7 +3554,7 @@ while true; do
                             clear
                             cat ${tmp_dir}/videoinfo.number.play-list 2> /dev/null
 
-                            echo
+                            printf -- '%s\n' ""
                             read -r -p "Enter line number to remove video from the playlist $whatplpld: " linenumber  # waiting fot user input
 
                             # REMOVE BLANK LINES
@@ -3665,8 +3575,7 @@ while true; do
                                         else
                                             # DELETE LINE NUMBER
                                             sed -i "${linenumber}d" ${base_dir}/videoinfo.playlist 2> /dev/null 
-                                            echo
-                                            echo "Line deleted from the playlist . . ."
+                                            printf -- '%s\n' "" "Line deleted from the playlist . . ."
                                             sleep .25
                                         fi
                                     fi
@@ -3727,14 +3636,11 @@ while true; do
                                 if [[ -z "$playnumber" ]]; then
                                     :
                                 else
-                                    #echo
-                                    echo
-                                    echo "$playnumber"
-                                    echo
-                        
-                                        get_file_stats "${playnumber}"
+                                    printf -- '%s\n' "" "" "$playnumber" ""
+                                    
+                                    get_file_stats "${playnumber}"
 
-                                    echo
+                                    printf -- '%s\n' ""
                                     read -r -p " Press enter to Continue" 
                                     
                                 fi
@@ -3853,8 +3759,7 @@ while true; do
                             rm ${base_dir}/videoinfo.playlist 2> /dev/null
                             touch ${base_dir}/videoinfo.playlist
                             touch ${base_dir}/playlists/"$setplaylist".last-autoplay 
-                            echo
-                            echo " ""$setplaylist"" Playlist Cleared . . ."
+                            printf -- '%s\n' "" "$setplaylist Playlist Cleared . . ."
                             sleep 1.7
                         fi 
                         break
@@ -3877,7 +3782,7 @@ while true; do
                 clear
                 cat ${tmp_dir}/videoinfo-number-findwork.tmp
 
-                echo
+                printf -- '%s\n' ""
                 read -r -p "Enter line number to add video to playlist $whatplhome: " linenumber  # waiting fot user input
 
                 # create file moving selected line number to the top
@@ -3891,8 +3796,7 @@ while true; do
                         :
                     else
                         if [[ $linenumber -gt $linecount ]]; then 
-                            echo
-                            echo "Number out of range . . ."
+                            printf -- '%s\n' ""  "Number out of range . . ."
                             sleep .9
                         else
                             # read first line of file for play
@@ -3902,10 +3806,8 @@ while true; do
                                     :
                                 else
                                     echo "$playnumber" >> ${base_dir}/videoinfo.playlist
-                                    echo
-                                    echo " ""$playnumber" 
-                                    echo
-                                    echo " Added to Playlist . . ."
+                                    printf -- '%s\n' ""  " ""$playnumber" 
+                                    printf -- '%s\n' ""  " Added to Playlist . . ."
                                     sleep .25
                             fi
                         fi
@@ -3921,14 +3823,14 @@ while true; do
             pasteclip  # grab clipboard content
 
             clear
-            echo
+            printf -- '%s\n' ""
             printf -- '%s\n' "Working Directory: ${PWD}"  # <pwd>  print current working directory to the screen 
             echo "Clipboard Content: ""$pasteclip"
 
             print_header " ${ver} >>> Find Video File(s) - Recursive                         wildcard * ok"
 
             echo " Find a video file to play, add it to the playlist or get info.  No file extensions." 
-            echo
+            printf -- '%s\n' ""
             read -r -p " File Name: " videofind  # waiting fot user input - video file that you want to find
 
             searchtotal=$(find_supported_files --recursive-count)    
@@ -3956,8 +3858,7 @@ while true; do
                         read -r searchtotal < ${base_dir}/videoinfo.lastsearchtotal    
                         cp ${base_dir}/videoinfo.findwork ${base_dir}/videoinfo.findwork3
                         cp ${base_dir}/videoinfo.lastsearchtotal ${base_dir}/videoinfo.lastsearchtotal2                 
-                        echo
-                        echo " Total files found: " "$searchtotal"  # number of files found
+                        printf -- '%s\n' ""  " Total files found: " "$searchtotal"  # number of files found
                         notify-send  "Videoinfox messsage: Find results in $PWD" "$searchtotal files found using search term: $fterm"
                         sleep 1.5
                     fi
@@ -3975,15 +3876,13 @@ while true; do
                 read -r dir5 < ${base_dir}/videoinfo.dir-at-exit 2> /dev/null
 
                 clear
-                echo
-                echo "Directory:" "$PWD"
+                printf -- '%s\n' ""  "Directory:" "$PWD"
                 echo "Clipboard:" "$pasteclip"
 
                 print_header " ${der} >>> SETTINGS                            Enter - Update Clipboard Display"
 
                 echo " Set Default Directories                                                                     q - Quit"
-                echo
-                echo "                                                                                             v - Videoinfox Update"
+                printf -- '%s\n' ""  "                                                                                             v - Videoinfox Update"
                 echo " 1 - TV:" "$dir1"
                 echo "                                                                                             y - Yt-dlp Update"
                 echo " 2 - Movies:" "$dir2"
@@ -3992,11 +3891,10 @@ while true; do
                 echo "                                                                                             h - Version History"
                 echo " 4 - Extra:" "$dir4"
                 echo "                                                                                             c - Code Stats"
-                echo
-                echo "                                                                                             x - Clear Clipboard"
+                printf -- '%s\n' ""  "                                                                                             x - Clear Clipboard"
                 echo " Last Exit Dir 5:" "$dir5"
-                echo
-                echo
+                printf -- '%s\n' ""
+                printf -- '%s\n' ""
                 read -r -n1 -p " Enter Option: " optionsettings
             }
 
@@ -4028,17 +3926,14 @@ while true; do
                             print_header " ${der}  >>> SETTINGS >>> LAST SEARCH                         Current Setting: "$lsearch" "
 
                             echo " If there are search results on the the home screen on exit, the below always applies to the next run."
-                            echo
-                            echo
-                            echo " 1 - Always Save                                                                                          q - Quit"  
-                            echo
-                            echo " 2 - Never Save"
-                            echo
-                            echo " 3 - Ask on Exit"
-                            echo
-                            echo
+                            printf -- '%s\n' ""
+                            printf -- '%s\n' ""  " 1 - Always Save                                                                                          q - Quit"  
+                            printf -- '%s\n' ""  " 2 - Never Save"
+                            printf -- '%s\n' ""  " 3 - Ask on Exit"
+                            printf -- '%s\n' ""
+                            printf -- '%s\n' ""
                             read -r -n1 -p " Enter Option: " optionz
-                            echo
+                            printf -- '%s\n' ""
                         }
                         while true; do
                             lastsearch
@@ -4048,20 +3943,17 @@ while true; do
                                 ;;
                                 1)
                                     echo "1" > ${base_dir}/videoinfo.lastsearch-set
-                                    echo
-                                    echo " Always Save . . ."
+                                    printf -- '%s\n' ""  " Always Save . . ."
                                     sleep .7
                                 ;;
                                 2)
                                     echo "2" > ${base_dir}/videoinfo.lastsearch-set
-                                    echo
-                                    echo " Never Save . . . "
+                                    printf -- '%s\n' ""  " Never Save . . . "
                                     sleep .7
                                 ;;
                                 3)
                                     echo "3" > ${base_dir}/videoinfo.lastsearch-set
-                                    echo
-                                    echo " Ask on Exit . . ."
+                                    printf -- '%s\n' ""  " Ask on Exit . . ."
                                     sleep .7
                                 ;;
                             esac
@@ -4125,10 +4017,8 @@ while true; do
                         else 
                             dash=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
                             
-                            echo
-                            echo "YT-DLP Confirmed: "$ytdlpconfirm""
-                            echo
-                            echo "Download Directory: $dirsaved"  # dislpay default download directory
+                            printf -- '%s\n' ""  "YT-DLP Confirmed: "$ytdlpconfirm""
+                            printf -- '%s\n' ""  "Download Directory: $dirsaved"  # dislpay default download directory
                             generate_options_menu clipboard " ${der} >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: ${ytdlp_ver}" -dlvPqcsgx 
                         fi
                     else
@@ -4166,7 +4056,7 @@ while true; do
                                 
                                 printf -- '%s\n' "" "" "Find what video quality and format you want. (Code on far left)"
                                 read -r -p "Enter that Code and Press enter : " svrcode
-                                echo
+                                printf -- '%s\n' ""
                                 clear
                                 yt-dlp -f "$svrcode" "$pasteclip"
 
@@ -4259,10 +4149,9 @@ while true; do
                                 ################  DOWNLOAD LOOP START  ####################################
 
                                 while read -r line; do
-                                    echo
+                                    printf -- '%s\n' ""
                                     yt-dlp "${line}"  # download url
-                                    echo
-                                    echo "Logging URL and Filename to:" "$logfile" 
+                                    printf -- '%s\n' ""  "Logging URL and Filename to:" "$logfile" 
                                     # logging yt-dlp output
                                     echo "$line" >> "$logfile" 
                                     yt-dlp "${line}" | tee >> "$logfile"
@@ -4279,14 +4168,11 @@ while true; do
                                 sed -i -e 's/^[ \t]*//' "$pasteclip".log &> /dev/null  # remove spaces at beginning of line.
 
                                 #####################################################
-                                echo
-                                echo
-                                echo -e "${der}" "\033[5mdone processing download list . . .\033m\033[0m"
-                                echo
-                                echo "List:" "$pasteclip"  # display list filename with full path
+                                printf -- '%s\n' ""
+                                printf -- '%s\n' ""  -e "${der}" "\033[5mdone processing download list . . .\033m\033[0m"
+                                printf -- '%s\n' ""  "List:" "$pasteclip"  # display list filename with full path
                                 echo "Log :" "$logfile"  # display log filename with full path
-                                echo
-                                echo "Press enter to exit this screen"
+                                printf -- '%s\n' ""  "Press enter to exit this screen"
 
                                 notify-send "Videoinfox messsage: Done Processing Download List . . ." "$pasteclip"
 
@@ -4423,20 +4309,18 @@ while true; do
 
                                 clear
                                 cat ${base_dir}/videoinfox.dowload.list  # display user created download lists recursively reachable fron current directory.
-                                echo
-                                echo "Default List:" 
+                                printf -- '%s\n' ""  "Default List:" 
                                 cat ${base_dir}/videoinfox.dowload.list.default  # display default download list name with full path
 
                                 #if [[ -z "$copymessage" ]]; then  # empty user list  (no user lists recursively reachable from the curent directory)
                                 #       :
 
                                 #  else  # at least 1 list  (1 or more user lists recursively reachable from the curent directory)        
-                                    # echo
-                                    # echo "Copy 1 above List to the the clipboard."
+                                    # printf -- '%s\n' ""  "Copy 1 above List to the the clipboard."
                                 #fi
 
                                 read -r ulistset < ${base_dir}/videoinfox.set-user-list  # set user list for videoinfox -u shortcut
-                                echo
+                                printf -- '%s\n' ""
                                 # CEAR USER SET LIST IF IT GETS DELETED OUTSIDE OF THE VIDEOINFOX INTERFACE
                                 if ! [[ -f "$chkulistset" ]]; then
                                     touch ${base_dir}/videoinfox.set-user-list
@@ -4446,11 +4330,11 @@ while true; do
                                 if [[ ! -z "$ctmp4" ]]; then
                                     echo "User Set List:"   # display if there is at least one line
                                     echo "$ulistset"
-                                    echo
+                                    printf -- '%s\n' ""
                                 fi
 
                                 echo "Copy 1 above list to the the clipboard. Then press enter."
-                                echo
+                                printf -- '%s\n' ""
 
                                 echo "Directory:" "$PWD"
                                 echo "Clipboard:" "$pasteclip"          #
@@ -4458,13 +4342,12 @@ while true; do
                                 echo  
                                 echo " ${der} >>> DOWNLOAD LIST       Enter - Update Clipboard Display              "$dirdisp" - Default Dirs"
                                 hr 80 - 
-                                echo
-                                echo " d "$finalresult2" Download List     s "$dashit2" Set User List        k - Default List       m - Create Directory               q - Quit"
+                                printf -- '%s\n' ""  " d "$finalresult2" Download List     s "$dashit2" Set User List        k - Default List       m - Create Directory               q - Quit"
                                 echo " v "$finalresult2" View List         c - Create User List     a "$dashit2" Add to Queue       x - Clear Clipboard"    
                                 echo " l - View Logs         r "$dashit2" Delete User List     b - Download Queue                                        h - Help"
                                 echo 
                                 read -r -n1 -p " Enter Option: " optiond
-                                echo
+                                printf -- '%s\n' ""
 
                                 pasteclip  # grab clipboard content
 
@@ -4530,8 +4413,7 @@ while true; do
                                                 ;;
                                                 u)  # UP ONE LEVEL 
                                                     if [[ "$grabdirfornav2" = "$PWD" ]]; then
-                                                        echo
-                                                        echo " At treetop. Can't go any higher . . ."
+                                                        printf -- '%s\n' ""  " At treetop. Can't go any higher . . ."
                                                         sleep .50
 
                                                     else
@@ -4545,12 +4427,11 @@ while true; do
                                                     # GETTING LINECOUNT
                                                     linecount=$(wc -l ${tmp_dir}/nt-list.tmp | cut -d' ' -f1)
 
-                                                    echo
+                                                    printf -- '%s\n' ""
                                                     read -r -p " Enter line number to change directory: " linenumber  # waiting fot user input
                                                     if is_integer "${linenumber}"; then
                                                         if [[ $linenumber -gt $linecount ]]; then 
-                                                            echo
-                                                            echo " Number out of range . . ."
+                                                            printf -- '%s\n' ""  " Number out of range . . ."
                                                             sleep .9
                                                         else
                                                             tail -n +"$linenumber" ${tmp_dir}/nt-list.tmp > ${tmp_dir}/nt-list.tmp2 2>/dev/null
@@ -4567,28 +4448,24 @@ while true; do
                                                     fi
                                                 ;;        
                                                 m)  # CREATE DIRECTORY  (CREATE DIRECTORY)
-                                                    echo
-                                                    echo " Enter name for new directory or enter with no entry to cancel . . ."
-                                                    echo
+                                                    printf -- '%s\n' ""  " Enter name for new directory or enter with no entry to cancel . . ."
+                                                    printf -- '%s\n' ""
                                                     read -r -p " Create Directory: " newdir  # waiting fot user input.
 
                                                     direxist4="$PWD""/""$newdir"
 
                                                     if [[ -z "$newdir" ]]; then
-                                                        echo
-                                                        echo " Nothing was entered . . ."
+                                                        printf -- '%s\n' ""  " Nothing was entered . . ."
                                                         sleep 1.2
 
                                                     else
                                                         if [[ -d "$direxist4" ]]; then
-                                                            echo
-                                                            echo " Directory already exists . . ."
+                                                            printf -- '%s\n' ""  " Directory already exists . . ."
                                                             sleep 1.2
 
                                                         else
                                                             mkdir "$newdir" 2> /dev/null
-                                                            echo
-                                                            echo " Directory Created:" "$PWD""/""$newdir"
+                                                            printf -- '%s\n' ""  " Directory Created:" "$PWD""/""$newdir"
                                                             sleep 1.2
                                                         fi
                                                     fi
@@ -4604,27 +4481,25 @@ while true; do
                                                     echo " No quotations needed for paths with spaces. Case sensative."
                                                     echo 
                                                     echo " Enter directory or paste directory if in clipboard."
-                                                    echo
+                                                    printf -- '%s\n' ""
                                                     read -r -p " " specifydir  # waiting fot user input - the directory you want to chang to 
                                                     
                                                     if [[ -z "$specifydir" ]]; then
-                                                        echo
-                                                        echo " Nothing was entered . . ."
+                                                        printf -- '%s\n' ""  " Nothing was entered . . ."
                                                         sleep .75
                                                     else
                                                         if [[ -d "$specifydir" ]]; then
-                                                            echo
+                                                            printf -- '%s\n' ""
                                                             grabdirfornav2="$specifydir"
                                                             cd "$specifydir"   # change the directory
                                                             echo " Treetop changed to: $PWD"  # <pwd>  print current working directory to the screen
                                                             sleep 1.5                   
                                                         else
-                                                            echo
-                                                            echo " No such directory . . ."
+                                                            printf -- '%s\n' ""  " No such directory . . ."
                                                             sleep 1.5                   
                                                         fi
                                                     fi       
-                                                    echo
+                                                    printf -- '%s\n' ""
                                                 ;;
                                             esac
                                         done
@@ -4637,10 +4512,8 @@ while true; do
                                         if [[ -f "$pasteclip" ]]; then
                                             if ! [[ "$pasteclip" = "$ddlist" ]]; then
                                                 echo "$pasteclip" >> ${base_dir}/videoinfox-download.queue
-                                                echo
-                                                echo " ""$pasteclip"
-                                                echo
-                                                echo " Download list added to queue . . ."
+                                                printf -- '%s\n' ""  " ""$pasteclip"
+                                                printf -- '%s\n' ""  " Download list added to queue . . ."
                                                 clearclip
                                                 sleep 1.7
                                             fi
@@ -4663,9 +4536,8 @@ while true; do
                                                 
                                                 cat ${base_dir}/videoinfox-download.queue
                                             else
-                                                echo
-                                                echo " Download queue empty . . ."
-                                                echo
+                                                printf -- '%s\n' ""  " Download queue empty . . ."
+                                                printf -- '%s\n' ""
                                             fi
 
                                             print_header " ${der} >>> DOWNLOAD QUEUE"        
@@ -4673,7 +4545,7 @@ while true; do
                                             echo " b - Download Queue     d - Delete Queue                                                                  q - Quit"
                                             echo 
                                             read -r -n1 -p " Enter Option: " optiondq
-                                            echo
+                                            printf -- '%s\n' ""
                                         }
                                         while true; do
                                             dwnque
@@ -4685,12 +4557,10 @@ while true; do
                                                     if confirm " Delete Download Queue"; then
                                                         if [[ -f "${base_dir}/videoinfox-download.queue" ]]; then
                                                             rm "${base_dir}/videoinfox-download.queue" 2>/dev/null
-                                                            echo
-                                                            echo " Download Queue Deleted . . ."
+                                                            printf -- '%s\n' ""  " Download Queue Deleted . . ."
                                                             sleep 1.7
                                                         else
-                                                            echo
-                                                            echo " Download Queue Was Already Deleted . . ."
+                                                            printf -- '%s\n' ""  " Download Queue Was Already Deleted . . ."
                                                             sleep 1.7
                                                         fi
                                                     fi
@@ -4711,8 +4581,7 @@ while true; do
                                                         while read -r line; do
                                                             input2="$line"
 
-                                                            echo
-                                                            echo 
+                                                            printf -- '%s\n' ""  
                                                             echo -e "Processing Download List:" "\033[5m"$line"\033m\033[0m"
 
                                                             # REMOVE BLANK LINES IN CURRENT DOWNLOAD LIST
@@ -4741,12 +4610,11 @@ while true; do
                                                             fi
                                                             # LOOP 2 READ LINE BY LINE FROM CURRENT DOWNLOAD LIST
                                                             while read -r line; do
-                                                                echo
+                                                                printf -- '%s\n' ""
 
                                                                 yt-dlp "${line}"  # download url
 
-                                                                echo
-                                                                echo "Logging URL and Filename to:" "$logfile"
+                                                                printf -- '%s\n' ""  "Logging URL and Filename to:" "$logfile"
 
                                                                 # logging yt-dlp output
                                                                 echo "$line" >> "$logfile" 
@@ -4767,11 +4635,9 @@ while true; do
                                                         ##########  END DOWNLOAD QUEUE LOOP  ########## 
                                                         ###############################################
 
-                                                        echo
-                                                        echo
-                                                        echo -e "${der}" "\033[5mdone processing download queue . . .\033m\033[0m"
-                                                        echo
-                                                        echo "Press enter to exit this screen"
+                                                        printf -- '%s\n' ""
+                                                        printf -- '%s\n' ""  -e "${der}" "\033[5mdone processing download queue . . .\033m\033[0m"
+                                                        printf -- '%s\n' ""  "Press enter to exit this screen"
 
                                                         notify-send "Videoinfox messsage: Done Processing Download Queue . . ."
 
@@ -4785,27 +4651,22 @@ while true; do
                                         done
                                     ;;
                                     c)  # CREATE USER LIST  <DOWNLOAD LIST>
-                                        echo
-                                        echo " If the name starts with any spaces they will be ignored. Spaces are fine after the first character."
-                                        echo
-                                        echo " The first character for the filename can be:  a dash -  or  an underscore _   or  a dot ."
-                                        echo
+                                        printf -- '%s\n' ""  " If the name starts with any spaces they will be ignored. Spaces are fine after the first character."
+                                        printf -- '%s\n' ""  " The first character for the filename can be:  a dash -  or  an underscore _   or  a dot ."
+                                        printf -- '%s\n' ""
                                         read -r -p " Create New List: " createulist  # waiting fot user input. grabbing new filename
 
                                         if [[ -z "$createulist" ]]; then
-                                            echo
-                                            echo " Nothing was entered . . ."
+                                            printf -- '%s\n' ""  " Nothing was entered . . ."
                                             sleep .7
                                         else
                                             if [[ -f "videoinfox-dl""$createulist" ]]; then
-                                                echo
-                                                echo " File already exists . . ."
+                                                printf -- '%s\n' ""  " File already exists . . ."
                                                 sleep .75
                                             else
                                                 ulistname="$PWD/videoinfox-dl"$createulist""  # add user input to end of:  current directory/videoinfox-dl
                                                 touch "$ulistname"  #  create user list with full path and filename
-                                                echo
-                                                echo " User List Created: "$ulistname""
+                                                printf -- '%s\n' ""  " User List Created: "$ulistname""
                                                 printf -- '%s\n' "" ""
                                                 sleep .75
                                             fi
@@ -4837,17 +4698,15 @@ while true; do
                                             if [[ "$ctmp2" = "$ctmp3" ]]; then
                                                 echo 
                                                 echo " The Default List can't be a User Set List. Only user created lists . . ."
-                                                echo
+                                                printf -- '%s\n' ""
                                                 read -p " Press enter to Continue"
 
                                             else  # clipbaord = User List
                                                 echo "$pasteclip" > ${base_dir}/videoinfox.set-user-list
                                                 
-                                                echo
-                                                echo " ""$pasteclip"
-                                                echo
-                                                echo " User List Set for option: videoinfox -l"
-                                                echo
+                                                printf -- '%s\n' ""  " ""$pasteclip"
+                                                printf -- '%s\n' ""  " User List Set for option: videoinfox -l"
+                                                printf -- '%s\n' ""
                                                 notify-send "Videoinfox Message: User List Set for option: videoinfox -l" ""$pasteclip"" # GUI Notification.
 
                                                 read -p " Press enter to Continue"
@@ -4905,14 +4764,12 @@ while true; do
                                                     rm "$pasteclip" 2>/dev/null
                                                     rm "$pasteclip".log 2>/dev/null
 
-                                                    echo
-                                                    echo " User List DELETED . . ."
+                                                    printf -- '%s\n' ""  " User List DELETED . . ."
                                                     echo 
                                                     sleep .75
                                                     break
                                                 else
-                                                    echo
-                                                    echo " User List SAVED . . ."
+                                                    printf -- '%s\n' ""  " User List SAVED . . ."
                                                     echo   
                                                     sleep .75
                                                     break
@@ -4956,18 +4813,16 @@ while true; do
 
                                             clear
                                             cat ${base_dir}/videoinfox-dl-Default  # display default download list
-                                            echo
-                                            echo "Copy 1 url to the clipboard then Add to Default List to add the url."
-                                            echo
-                                            echo "Directory:" "$PWD"
+                                            printf -- '%s\n' ""  "Copy 1 url to the clipboard then Add to Default List to add the url."
+                                            printf -- '%s\n' ""  "Directory:" "$PWD"
                                             echo "Clipboard:" "$pasteclip"
 
                                             print_header " ${der} >>> DEFAULT DOWNLOAD LIST               Enter - Update Clipboard Display"
 
                                             echo " a - "$atd"     r - Remove Last Entry     c - Clear Default List     x - Clear Clipboard     q - Quit"
-                                            echo
+                                            printf -- '%s\n' ""
                                             read -r -n1 -p " Enter Option: " optiondd
-                                            echo
+                                            printf -- '%s\n' ""
                                         }
 
                                         while true; do
@@ -4990,14 +4845,12 @@ while true; do
 
                                                         rm ${base_dir}/videoinfox-dl-Default.log 2> /dev/null    
 
-                                                        echo
-                                                        echo " Default List CLEARED . . ."
+                                                        printf -- '%s\n' ""  " Default List CLEARED . . ."
                                                         echo 
                                                         sleep .75
                                                         break
                                                     else
-                                                        echo
-                                                        echo " Default List SAVED . . ."
+                                                        printf -- '%s\n' ""  " Default List SAVED . . ."
                                                         echo     
                                                         sleep .75
 
@@ -5081,22 +4934,20 @@ while true; do
 
                                 # find user created list logs 
                                 find "$PWD" -type f \( -iname "videoinfox-dl*.log" \)  # find log files  */.videoinfox-dl*log
-                                echo
+                                printf -- '%s\n' ""
 
                                 cat ${base_dir}/videoinfox.dowload.list.default.log 
 
-                                echo
-                                echo "Copy 1 above log to the clipboard to view"
-                                echo
-                                echo "Directory:" "$PWD"
+                                printf -- '%s\n' ""  "Copy 1 above log to the clipboard to view"
+                                printf -- '%s\n' ""  "Directory:" "$PWD"
                                 echo "Clipboard:" "$pasteclip"
 
                                 print_header " ${der} >>> DOWNLOAD LIST >>> VIEW LOGS                               Enter - Update Clipboard Display"
 
                                 echo " l - "$finalresult"                                                                                             q - Quit"
-                                echo
+                                printf -- '%s\n' ""
                                 read -r -n1 -p " Enter Option: " optionvl
-                                echo
+                                printf -- '%s\n' ""
                             }
 
                             while true; do
@@ -5267,7 +5118,7 @@ while true; do
                             if [[ -f "$pasteclip" ]]; then
                                 clear
                                 cat "$pasteclip" 2>/dev/null
-                                echo
+                                printf -- '%s\n' ""
                                 read -p "Up/Down arrows or mouse to scroll.  Press enter to quit"
                             else  # File didn't exist. clipboard cleared
                                 clearclip
@@ -5357,10 +5208,8 @@ while true; do
 
                                         generate_options_menu viewdownloads " ${der} >>> VIEW DOWNLOADS" -odpqji
                                     else 
-                                        echo
-                                        echo "YT-DLP Confirmed: "$ytdlpconfirm""
-                                        echo
-                                        echo "Download Directory: $dirsaved"  # dislpay default download directory
+                                        printf -- '%s\n' ""  "YT-DLP Confirmed: "$ytdlpconfirm""
+                                        printf -- '%s\n' ""  "Download Directory: $dirsaved"  # dislpay default download directory
 
                                         generate_options_menu viewdownloads " ${der} >>> VIEW DOWNLOADS" -odPqji
                                     fi
@@ -5499,7 +5348,7 @@ while true; do
 
                                                 get_file_stats "${pasteclip}"
 
-                                                echo
+                                                printf -- '%s\n' ""
                                                 read -r -p " Press enter to Continue" 
 
                                             else
@@ -5518,7 +5367,7 @@ while true; do
                                             
                                                         get_file_stats "${playnumber}"
 
-                                                        echo
+                                                        printf -- '%s\n' ""
                                                         read -r -p " Press enter to Continue" 
                                                         
                                                     fi
@@ -5628,7 +5477,7 @@ while true; do
                 echo " c - Change Directory     n - Video Count        v - Video Info                                           q - Quit"                     
                 echo " f - Find Directory       d - Video Duration"
                 echo " l - List Directory"
-                echo
+                printf -- '%s\n' ""
                 read -r -n1 -p " Enter Option: " option
                 case $option in
                     q)
@@ -5703,23 +5552,19 @@ while true; do
                             echo "Total Video Files:" "$currentdirfilecount"
                             echo >> videoinfo.List-Directory
                             echo "Total Video Files:" "$currentdirfilecount" >> videoinfo.List-Directory
-                            echo
-                            echo
-                            echo >> videoinfo.List-Directory
+                            printf -- '%s\n' ""
+                            printf -- '%s\n' ""  >> videoinfo.List-Directory
                             printf -- '%s\n' ">>> Listing is not recursive <<<" | tee -a videoinfo.List-Directory
-                            echo
-                            echo >> videoinfo.List-Directory
+                            printf -- '%s\n' ""  >> videoinfo.List-Directory
                             printf -- '%s\n' "Working Directory: ${PWD}" | tee -a videoinfo.List-Directory
 
-                            echo
+                            printf -- '%s\n' ""
                             if [[ "$currentdirfilecount" != 0 ]]; then
                                 echo "$rer"
-                                echo
-                                echo -e "\033[5mProbing $currentdirfilecount \033[5mVideo Files for Duration\033[0m"  #  file count of find results
-                                echo
-                                echo "This can take a while if there are a lot of video files to process."
+                                printf -- '%s\n' ""  -e "\033[5mProbing $currentdirfilecount \033[5mVideo Files for Duration\033[0m"  #  file count of find results
+                                printf -- '%s\n' ""  "This can take a while if there are a lot of video files to process."
                                 echo "You will get a GUI Notification when this process is complete."
-                                echo
+                                printf -- '%s\n' ""
                                 
                                 #  This is where the file <${base_dir}/videoinfo.duration.tmp> is created to store duration in seconds with the format being  (x.xxxxxx)
                                 #  Video files are found in current directory and processed with ffprobe and written to <${base_dir}/videoinfo.duration.tmp>. 
@@ -5745,68 +5590,49 @@ while true; do
                                 echo "Seconds" >> videoinfo.List-Directory
                                 echo "$totalseconds"  # display total seconds
                                 echo "$totalseconds" >> videoinfo.List-Directory
-                                echo
-                                echo >> videoinfo.List-Directory 
+                                printf -- '%s\n' ""  >> videoinfo.List-Directory 
                                 echo "Minutes"
                                 echo "Minutes" >> videoinfo.List-Directory
                                 echo "$totalminutes"  # display total minutes
                                 echo "$totalminutes" >> videoinfo.List-Directory
-                                echo
-                                echo >> videoinfo.List-Directory
+                                printf -- '%s\n' ""  >> videoinfo.List-Directory
                                 echo "Hrs:Mi:Sec"
                                 echo "Hrs:Mi:Sec" >> videoinfo.List-Directory
                                 printf '%d:%d:%d\n' $((secs/3600)) $((secs%3600/60)) $((secs%60))  # calculation to display hours, minutes and seconds
                                 printf '%d:%d:%d\n' $((secs/3600)) $((secs%3600/60)) $((secs%60)) >> videoinfo.List-Directory
-                                echo
-                                echo >> videoinfo.List-Directory
+                                printf -- '%s\n' ""  >> videoinfo.List-Directory
                                 echo "Days     Hrs:Min:Sec"
                                 echo "Days     Hrs:Min:Sec" >> videoinfo.List-Directory
                                 printf '%d        %d:%d:%d\n' $(($secs/86400)) $(($secs%86400/3600)) $(($secs%3600/60)) $(($secs%60))  # same as above except Days are added
                                 printf '%d        %d:%d:%d\n' $(($secs/86400)) $(($secs%86400/3600)) $(($secs%3600/60)) $(($secs%60)) >> videoinfo.List-Directory
-                                echo
-                                echo >> videoinfo.List-Directory
+                                printf -- '%s\n' ""  >> videoinfo.List-Directory
                                 echo -e "\033[5mNEW RESULTS LOADED \033[5m \033[0m(use Mouse Wheel to Scroll)"
                                 echo "EXISTING RESULTS LOADED FROM FILE videoinfo.List-Directory " $(stat -c '%y' "videoinfo.List-Directory") >> videoinfo.List-Directory
                                 echo >> videoinfo.List-Directory
-                                echo
-                                echo >> videoinfo.List-Directory
+                                printf -- '%s\n' ""  >> videoinfo.List-Directory
                                 notify-send "Videoinfox is done processing: List Directory" "$PWD"  # GUI Notification is displayed when this function <option 1> has completed.
                             fi
                         fi
                         # Everytime You Save.  The File <videoinfo.List-Directory> is saved to the directory that option 1 was run in.
-                        menu1() {
+                        while true; do
                             clear
                             less videoinfo.List-Directory  # view results from file
-                            echo
-                            echo " Directory: ""$PWD"
+                            printf -- '\n%s\n' " Directory: $PWD"
 
                             print_header " ${der} >>> LIST DIRECTORY"
 
-                            echo " Save or Delete Directory Listing"
-                            echo
-                            echo " s - Save     d - Delete"  
-                            echo 
+                            printf -- '%s\n' " Save or Delete Directory Listing"
+                            printf -- '%s\n\n' " s - Save     d - Delete"
                             read -r -n1 -p " Enter Option: " option1
-                            echo
-                        }
-
-                        while true; do
-                            menu1
                             case $option1 in
                                 s) 
-                                    echo
-                                    echo " Results SAVED . . ."
-                                    echo 
-                                    #read -p "Press enter to Continue"
+                                    printf -- '\n%s\n\n' " Results SAVED . . ."
                                     sleep .75
                                     break
                                 ;; 
                                 d) 
                                     rm videoinfo.List-Directory
-                                    echo
-                                    echo " Results DELETED . . ."
-                                    echo 
-                                    #read -p "Press enter to Continue"    
+                                    printf -- '\n%s\n\n' " Results DELETED . . ."
                                     sleep .75
                                     break
                                 ;;
@@ -5828,7 +5654,7 @@ while true; do
                             print_error "Nothing was entered"
                         else
                             if [[ -d "$specifydir" ]]; then
-                                echo
+                                printf -- '%s\n' ""
                                 cd "$specifydir"   # change the directory
                                 echo " Working Driectory changed to: $PWD"  # <pwd>  print current working directory to the screen
                                 sleep 1.5
@@ -5836,7 +5662,7 @@ while true; do
                                 print_error "No such file or directory"
                             fi
                         fi
-                        echo
+                        printf -- '%s\n' ""
                         #read -p "     Press enter to Continue" 
                     ;;
                     f)     
@@ -5856,10 +5682,9 @@ while true; do
                                 if echo "$dirfind" | grep -q "/"; then
                                     print_error "No slashes directory name only"
                                 else
-                                    echo
+                                    printf -- '%s\n' ""
                                     find . -type d -iname "$dirfind" | sort -u 2>/dev/null  # directory(s) found   
-                                    echo
-                                    echo " Total Directories Found:" "$findmeadir"  # number of files found
+                                    printf -- '%s\n' ""  " Total Directories Found:" "$findmeadir"  # number of files found
                                         
                                     if [[ "$findmeadir" = 0 ]]; then
                                         sleep .75
@@ -5881,20 +5706,19 @@ while true; do
                                     fi
                                 fi
                             fi
-                        echo
+                        printf -- '%s\n' ""
                         #read -p "Press enter to Continue"
                     ;;
                     n)
                         ###########################   MORE OPTIONS  4  VIDEO COUNT  ###################
                         clear
-                        echo
-                        echo "Directory: ${PWD}"
+                        printf -- '%s\n' ""  "Directory: ${PWD}"
                         echo "Clipboard: ${pasteclip}"
 
                         print_header " ${der} >>> VIDEO COUNT - Recursive"
 
                         echo " RECURSIVE COUNT OF VIDEO FILES"
-                        echo
+                        printf -- '%s\n' ""
 
                         mapfile -t supported_files < <(find_supported_files --recursive)
 
@@ -5914,7 +5738,7 @@ while true; do
                             " TOTAL = " $totalcount  # display Sum
                         # GUI Notification is displayed when this function <option 6> has completed. 
                         notify-send  "Videoinfox is done processing Video File Count " "Total Video Files located in $PWD : $totalcount"
-                        echo
+                        printf -- '%s\n' ""
                         read -r -p " Press enter to Continue" 
                     ;;
                     d)
@@ -5922,11 +5746,9 @@ while true; do
                         if ! [[ -f "videoinfo.Video-Duration" ]]; then
                             clear
                             print_info "Creating file: videoinfo.Video-Duration"
-                            echo
-                            echo "This can take a while if there are a lot of video files to process."
+                            printf -- '%s\n' ""  "This can take a while if there are a lot of video files to process."
                             echo "You will get a GUI Notification when this process is complete."
-                            echo
-                            echo -e "\033[5mProbing $alldirfilecount \033[5mVideo Files for Duration\033[0m"  #  file count of find results
+                            printf -- '%s\n' ""  -e "\033[5mProbing $alldirfilecount \033[5mVideo Files for Duration\033[0m"  #  file count of find results
                             echo -e "\n"
 
                             #     >>>>>>>>>>>>>>>>>>>>>>>>>> CREATE NEW RESULTS >>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -6019,9 +5841,9 @@ while true; do
                         print_header " ${ver} >>> ENTER VIDEO FILE - For Info"
 
                         echo " Full path needed. No quotations needed for paths or files with spaces. Case Sensative."
-                        echo
+                        printf -- '%s\n' ""
                         read -r -p " Video File: " specifyfile  # waiting fot user input - video file to display
-                        echo
+                        printf -- '%s\n' ""
 
                         if [[ -z "$specifyfile" ]]; then
                             print_error "Nothing was entered"
@@ -6031,15 +5853,14 @@ while true; do
                                 pasteclip  # grab clipboard content
 
                                 get_file_stats "${pasteclip}"
-                                echo
-                                echo " Filename copied to clipboard for play"
-                                echo
+                                printf -- '%s\n' ""  " Filename copied to clipboard for play"
+                                printf -- '%s\n' ""
                                 read -r -p " Press enter to Continue" 
                             else
                                 print_error "No such file or directory"
                             fi
                         fi
-                        echo
+                        printf -- '%s\n' ""
                     ;;
                 esac
             done
