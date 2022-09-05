@@ -1,4 +1,4 @@
-# Videoinfox v4.0.00
+# Videoinfox v4.0.01
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -325,73 +325,14 @@ FIRST RUN
 ##### Reddit /Videoinfox for discussion.
 <br />
 
+###  v4.0.01 Download List Help edit.
+
 ###  v4.0.00 No more copy to clipboard for options in YT-DLP >>> DOWNLOAD LIST.
          
          Enter line number for all options in YT-DLP >>> DOWNLOAD LIST.
 
          Note: The only place left that needs converted over to selection by number is 
          MORE OPTIONS >>> FIND DIRECTORY.
-
-###  v3.9.16 Add: Help in Navigate Tree.
-
-         Change: Autoplay Line to Autoplay.
-
-         Change: Play Line to Play.
-
-###  v3.9.13 Add: In -Set -Video Player -Custom. Added -Set to set custom and -Edit to edit custom. 
-
-         If Custom isn't found, notification given and the currently set video player is kept.
-
-###  v3.9.12 Add: In -Set -Video Player. If Mpv isn't found, notification is given and the currently set video player is kept.
-
-         Add: Info added to home help: Start Autoplay from anywhere in the playlist. Then Resume 
-              Autoplay to start the last video that was playing on quit. 
-              More info located in View Playlist >>> Help
-
-         Removed: Features List in home help
-
-###  v3.9.10 Add: Watch videos with (default) ffplay, mpv or any video player.
-
-         Home Screen: - Set - Video Player
-
-###  v3.9.03 Fix: Unknowingly deleted 1 charater on 1 line and broke Resume Autoplay with the last update.
-
-###  v3.9.02 Fix: Option display in View Playlist with a valid http video link in the clipboard.
-
-         Fix: Resume Autoplay would error on a new Playlist without initially running Start Autoplay.
-
-         Added below line to Playlist >>> Help
-         When Resume Autoplay reaches the end of the playlist, it will remain there until Start Autoplay is run again.
-
-###  v3.9.00 View Playlist appearance update + new options in View Playlist and Navigate Tree >>> Show All.
-
-         Add: Start Autoplay in View Playlist saves the last played video to Resume Autoplay.
-              Resume Autoplay will also save the last played video.
-              ** Use Start Autoplay first to begin watching **
-              ** Use Resume Autoplay after to continue watching and keep track of where you left off in the playlist **
-              More info. located in View Playlist >>> Help 
-
-         Add: Delete Line in View Playlist. Delete line number entered from the playlist.
-
-         Add: Directory To Playlist in Navigate Tree >>> Show All.
-              This option will write a one level deep directory listing to a new playlist.
-              Good for creating a tv show season number x playlist.
-
-         Change: All blinking  -  changed to non blinking  ~  everywhere except the Yt-dlp Menu
-                 ** This will be updated in the Yt-dlp Menu along with selection by number instead of clipboard copy.
-
-         Change: Home Screen, Played List and Playlist
-                 Clipboard: is hidden if there isn't a valid video url available in the clipboard.
-
-         Fix: Home Screen >>> View Playlist
-              After using Play Clipboard, the user set directory wasn't being restored on quit to home screen.
-
-         Fix: View Playlist >>> Change Playlist
-              The playlist name display wasn't updating if the loaded playlist was deleted.
-              Note: If the loaded playlist is deleted, the default playlist will be loaded.
-
-         Note: The loaded playlist is auto saved when another playlist is loaded.
-
 
 <br />
 
