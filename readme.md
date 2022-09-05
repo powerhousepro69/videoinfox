@@ -24,7 +24,7 @@ sudo chmod +x /usr/local/bin/videoinfox
 
 #### NEW in v4.0.00 &nbsp; No more copy to clipboard for options in YT-DLP >>> DOWNLOAD LIST.
 
-         Enter line number for all options in YT-DLP >>> DOWNLOAD LIST.
+Enter line number for all options in YT-DLP >>> DOWNLOAD LIST.
 
 <br />
 Download multiple URL User Lists simultaneously.
