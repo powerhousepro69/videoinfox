@@ -1,4 +1,4 @@
-# Videoinfox v3.9.16
+# Videoinfox v4.0.00
 
 ## *Where Video Play is a Clipboard Copy Away*
 <br />
@@ -21,6 +21,10 @@ sudo chmod +x /usr/local/bin/videoinfox
 ```
 
 ** Features List and Screenshots below still need updated.
+
+#### NEW in v4.0.00 &nbsp; No more copy to clipboard for options in YT-DLP >>> DOWNLOAD LIST.
+
+         Enter line number for all options in YT-DLP >>> DOWNLOAD LIST.
 
 <br />
 Download multiple URL User Lists simultaneously.
@@ -321,6 +325,13 @@ FIRST RUN
 ##### Reddit /Videoinfox for discussion.
 <br />
 
+###  v4.0.00 No more copy to clipboard for options in YT-DLP >>> DOWNLOAD LIST.
+         
+         Enter line number for all options in YT-DLP >>> DOWNLOAD LIST.
+
+         Note: The only place left that needs converted over to selection by number is 
+         MORE OPTIONS >>> FIND DIRECTORY.
+
 ###  v3.9.16 Add: Help in Navigate Tree.
 
          Change: Autoplay Line to Autoplay.
@@ -384,17 +395,11 @@ FIRST RUN
 
 <br />
 
- Note: There are only 2 areas left in Videoinfox that still use the clipboard feature.
+ Note: There is only one area left in Videoinfox that still use the clipboard feature.
 
        1. More Options >>> Find Directory
 
-       2. Yt-dlp Menu >>> Download List
-
-       - Download List     - Set User List
-       - View List
-       - View Logs         - Delete User List     - Add to Queue
-
- The above will all eventually be converted over from clipboard copy to line number for all selections.
+ The above will be converted over from clipboard copy to line number for selection.
  Once that is finished, the only time the clipboard feature will be used is in the gui. Copying video
  url's to the clipboard to download or when building a download list with a videoinfox keyboard shortcut.
 
