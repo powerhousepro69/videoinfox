@@ -22,7 +22,7 @@ sudo chmod +x /usr/local/bin/videoinfox
 ```
 <br />
 
-** Screenshots below still need updated.
+** Some screenshots below still need updated.
 
 #### NEW in v4.0.00 &nbsp; No more copy to clipboard for options in YT-DLP >>> DOWNLOAD LIST.
 
@@ -153,26 +153,27 @@ DOWNLOAD LIST MENU WITH DOWNLOAD QUEUE
 
 CREATE USER LISTS AND ADD URL'S TO THEM WITHOUT LEAVING YOUR GUI.
 
-![download list menu](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/download-list.png)
+![download list menu](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/DOWNLOAD-LIST.png)
 
 
 <br />
 DEFAULT DOWNLOAD LIST.
 
 ADD TO THE DEFAULT LIST WITHOUT LEAVING YOUR GUI.
-![Videoinfox download list help](https://i.imgur.com/vEIx5DB.png)
+
+![Videoinfox download list help](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/DEFAULT-LIST.png)
 
 
 <br />
-NAVIGATE TREE WITH PLAY DIRECTORY, AUTOPLAY PLAY AND PLAY LINE
+NAVIGATE TREE WITH PLAY DIRECTORY, AUTOPLAY and PLAY
 
-![Navigate Tree](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/navigate-tree.png)
+![Navigate Tree](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/NAVIGATE-TREE.png)
 
 
 <br />
-NAVIGATE TREE >>> AUTOPLAY LINE. &nbsp; START AUTOPLAY FROM ANY LINE BY ENTERING THE LINE NUMBER.
+NAVIGATE TREE >>> SHOW ALL
 
-![Navigate Tree Play Line](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/navigate-tree-autoplay-line.png)
+![NT Show All](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/NT-SHOW-ALL.png)
 
 
 <br />
@@ -184,15 +185,9 @@ SELECT PLAY NUMBER AND ENTER THE NUMBER THAT YOU WANT TO PLAY.
 
 
 <br />
-PLAYED LIST
-
-![Videoinfox Played List](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/playedlist.png)
-
-
-<br />
 PLAYLIST
 
-![Videoinfox Playlist](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/playlist.png)
+![Videoinfox Playlist](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PLAYLIST.png)
 
 
 <br />
