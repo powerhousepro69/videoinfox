@@ -219,7 +219,7 @@ FIND DIRECTORY
 <br />
 SETTINGS
 
-![Videoinfox Settings](https://i.imgur.com/vun9YFS.png)
+![Videoinfox Settings](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/SETTINGS.png)
 
 <br />
 videoinfox -h
