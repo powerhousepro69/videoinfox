@@ -1,7 +1,8 @@
 # Videoinfox v4.0.01
 
-## *Where Video Play is a Clipboard Copy Away*
-<br />
+### *Where video download and play is a clipboard copy away . . .*
+
+![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/HOME.png)
 
 ### 100% Linux Shell Script. Videoinfox is one file under one megabyte.
 
@@ -19,6 +20,7 @@ sudo wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/vide
 ```
 sudo chmod +x /usr/local/bin/videoinfox
 ```
+<br />
 
 ** Features List and Screenshots below still need updated.
 
@@ -130,25 +132,9 @@ FFprobe - Get codec, resolution & duration in seconds.
 #### Copy a video url to the clipboard then press enter to verify validity then &nbsp; p &nbsp; to download and auto play.
 
 
-
 <br />
 
 #### Dependencies listed at bottom of page.
-
-
-
-<br />
-HOME SCREEN WITH A VIDEO URL IN THE CLIPBOARD. 
-
-PRESS &nbsp; p &nbsp; TO DOWNLOAD AND AUTO PLAY FULLSCREEN. 
-![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/HOME.png)
-
-
-<br />
-PLAY CLIPBOARD
-
-![Play Clipboard](https://i.imgur.com/JPGT8Cd.png)
-
 
 <br />
 PLAY DIRECTORY
@@ -171,7 +157,7 @@ YT-DLP MENU
 <br />
 DOWNLOAD LIST MENU WITH DOWNLOAD QUEUE
 
-CREATE USER LISTS AND ADD URL'S TO THEM WITHOUT LEAVING YOUR GUI OR STARTING VIDEOINFOX.
+CREATE USER LISTS AND ADD URL'S TO THEM WITHOUT LEAVING YOUR GUI.
 
 ![download list menu](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/download-list.png)
 
@@ -179,20 +165,8 @@ CREATE USER LISTS AND ADD URL'S TO THEM WITHOUT LEAVING YOUR GUI OR STARTING VID
 <br />
 DEFAULT DOWNLOAD LIST.
 
-ADD TO THE DEFAULT LIST WITHOUT LEAVING YOUR GUI OR STARTING VIDEOINFOX.
+ADD TO THE DEFAULT LIST WITHOUT LEAVING YOUR GUI.
 ![Videoinfox download list help](https://i.imgur.com/vEIx5DB.png)
-
-
-<br />
-DEFAULT DOWNLOAD LIST HELP.
-
-![Videoinfox Download list help 2](https://i.imgur.com/LPNoA47.png)
-
-
-<br />
-USER LIST HELP.
-
-![Videoinfox User List help](https://i.imgur.com/nHBamaY.jpg)
 
 
 <br />
