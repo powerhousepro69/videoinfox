@@ -22,7 +22,6 @@ sudo chmod +x /usr/local/bin/videoinfox
 ```
 <br />
 
-** Some screenshots below still need updated.
 
 #### NEW in v4.0.00 &nbsp; No more copy to clipboard for options in YT-DLP >>> DOWNLOAD LIST.
 
@@ -179,9 +178,9 @@ NAVIGATE TREE >>> SHOW ALL
 <br />
 FIND VIDEOS TO PLAY OR GET INFO.
 
-SELECT PLAY NUMBER AND ENTER THE NUMBER THAT YOU WANT TO PLAY.
+SELECT PLAY, AUTOPLAY, INFO OR PLAYLIST ADD
 
-![Videoinfox Find](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/find.png)
+![Videoinfox Find](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/FIND.png)
 
 
 <br />
