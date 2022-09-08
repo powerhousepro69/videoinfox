@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v4.0.01								         
+#  file : videoinfox v4.1.00								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v4.0.01"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m0.01")  # Version Number: with blinking dot
+ver="Videoinfox v4.1.00"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m1.00")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -184,7 +184,7 @@ if [ "$1" = "-h" ]
        echo
        echo "___________________________________________________________________________________________________________________"
        echo  
-       echo " ""$ver"" >>> COMMAND LINE OPTIONS >>> HELP              Where Video Play is a Clipboard Copy Away . . ."    
+       echo " ""$ver"" >>> COMMAND LINE OPTIONS >>> HELP   Where video download and play is a clipboard copy away . ."    
        echo "___________________________________________________________________________________________________________________" 
        echo
        echo " Note: Videoinfox won't accept multiple options. Only one option per instance."
@@ -1250,7 +1250,7 @@ echo >> ~/.config/videoinfox/videoinfox.download-list-help
 
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " $ver  Where Video Play Is A Clipboard Copy Away" >> ~/.config/videoinfox/videoinfo.help
+echo " $ver            Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1259,9 +1259,9 @@ echo " q - quit                                                                 
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo  >> ~/.config/videoinfox/videoinfo.help
 echo " Find local Video Files fast and watch immediately. Download Video URL's effortlessly and watch immediately." >> ~/.config/videoinfox/videoinfo.help
-echo " Add URL's to The Default Download list on the fly without leaving your gui or starting up Videoinfox." >> ~/.config/videoinfox/videoinfo.help
-echo " Add URL's to any User Set List on the fly without leaving your gui or starting up Videoinfox." >> ~/.config/videoinfox/videoinfo.help
-echo " Batch download all of your User Created url Lists with Yt-dlp and Videoinfox's Download Queue." >> ~/.config/videoinfox/videoinfo.help
+echo " Build playlists from recursive search results and directory listings. Directory To Playlist. Good for tv seasons." >> ~/.config/videoinfox/videoinfo.help
+echo " Add URL's to the default download list or user list on the fly without leaving the web browser." >> ~/.config/videoinfox/videoinfo.help
+echo " Batch download all of your user created url Lists with Yt-dlp and Videoinfox's Download Queue." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Version History is located in: Home Screen: -Set -Vesion History" >> ~/.config/videoinfox/videoinfo.help
@@ -1303,19 +1303,13 @@ echo " Copy a video url to the clipboard and press enter to verify the url is va
 echo " Then  p  to Download and Autoplay Fullscreen." >> ~/.config/videoinfox/videoinfo.help 
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help 
+echo " Clipboard copy is used to interact with Videoinfox with the following options:" >> ~/.config/videoinfox/videoinfo.help 
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " Clipboard copy is used to interact with Videoinfox in the following areas:" >> ~/.config/videoinfox/videoinfo.help 
-echo >> ~/.config/videoinfox/videoinfo.help
-echo " Play Clipboard, Download Default, Download Choose and Self Destruct." >> ~/.config/videoinfox/videoinfo.help 
-echo " Add to Default List located in Yt-dlp Menu >>> Download List >>> Default List" >> ~/.config/videoinfox/videoinfo.help
+echo " - Play Clipboard  - Download Default  - Download Choose  - Self Destruct." >> ~/.config/videoinfox/videoinfo.help 
+echo " - Add to Default List (located in Yt-dlp Menu >>> Download List >>> Default List)" >> ~/.config/videoinfox/videoinfo.help
+echo "   Also, the videoinfox -a and videoinfox -l keyboard shortcut." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Copy a video url link (entire line) to the clipboard before selecting any of the above options." >> ~/.config/videoinfox/videoinfo.help
-echo >> ~/.config/videoinfox/videoinfo.help
-echo " Note: Optional... Press enter after url clipboard copy to update the clipboard display." >> ~/.config/videoinfox/videoinfo.help
-echo >> ~/.config/videoinfox/videoinfo.help
-echo " *** The only place left that needs converted over to selection by number is MORE OPTIONS >>> FIND DIRECTORY." >> ~/.config/videoinfox/videoinfo.help
-echo >> ~/.config/videoinfox/videoinfo.help
-
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Yt-dlp Menu    d - Download Default... Yt-dlp with no arguements." >> ~/.config/videoinfox/videoinfo.help
@@ -1363,9 +1357,9 @@ echo >> ~/.config/videoinfox/videoinfo.help
 echo " - Directory To Playlist in Navigate Tree >>> Show All. Add all videos in the current directory to a new Playlist." >>~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " - Played List. Add videos from Played List to the Playlist." >>~/.config/videoinfox/videoinfo.help
-echo "                Play Clipboard, Last Download and Play Line all write to the Played List." >>~/.config/videoinfox/videoinfo.help
+echo "                Play, Play Clipboard, Last Download all write to the Played List." >>~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo "                Note: One exception. Play Line in View Playlist never writes to the Played List." >>~/.config/videoinfox/videoinfo.help
+echo "                Note: One exception. Play in View Playlist never writes to the Played List." >>~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Start Autoplay from anywhere in the playlist. Then Resume Autoplay to start the last video that was playing" >>~/.config/videoinfox/videoinfo.help
 echo " on quit. More info located in View Playlist >>> Help" >>~/.config/videoinfox/videoinfo.help
@@ -1374,9 +1368,7 @@ echo >> ~/.config/videoinfox/videoinfo.help
 echo " Navigate Tree: Whatever the directory is when entering Navigate Tree will be set as the Treetop." >> ~/.config/videoinfox/videoinfo.help
 echo "                Recursive Navigation from the Treetop. Directory listing is only 1 level deep." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo "                While in Navigate Tree, there are two ways to change the Treetop. Default Dirs and Change Treetop." >> ~/.config/videoinfox/videoinfo.help
-echo >> ~/.config/videoinfox/videoinfo.help
-echo "                Change Directory doesn't change the Treetop." >> ~/.config/videoinfox/videoinfo.help
+echo "                While in Navigate Tree, there are two ways to change the treetop. Default Dirs and Change Treetop." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " videoinfox -h to see command line options." >> ~/.config/videoinfox/videoinfo.help
@@ -1385,7 +1377,7 @@ echo >> ~/.config/videoinfox/videoinfo.help
 echo " When you use:  Videoinfox Update in Settings (Set), the update will always be applied to: /usr/local/bin" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " Play Clipboard wouldn't have been possible without XCLIP" >> ~/.config/videoinfox/videoinfo.help
+echo " Play Clipboard and Download List building from the web browser wouldn't have been possible without XCLIP" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Download feature wouldn't have been possible without YT-DLP" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
@@ -1424,7 +1416,7 @@ echo >> ~/.config/videoinfox/videoinfo.help
 
 echo " _________________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " $ver  Where Video Play Is A Clipboard Copy Away                                            VERSION HISTORY" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " $ver  Where video download and play is a clipboard copy away . . .                         VERSION HISTORY" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
@@ -1442,6 +1434,19 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v4.1.00 No more copying screen results to interact with Videoinfox. All Keyboard driven." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Change: More Options >>> Find Directory" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                 No more copying the directory to the clipboard. Enter Line Number." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Add: Find Directory added to Navigate Tree" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Edit: Help" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " Note: Clipboard copy is only needed when copying video urls for immediate download or to add the url to a download list" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "       in Videoinfox or a keyboard shortcut. Stay in web browser and use: (default) videoinfox -a or (user) videoinfox -l" >> ~/.config/videoinfox/videoinfo-ver-history  
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v4.0.01 Download List Help edit." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -3116,11 +3121,11 @@ echo "Current Directory:" "$PWD"
 echo "Video Files:" "$blinkit"
 echo "___________________________________________________________________________________________________________________"
 echo  
-echo " ""$der"" >>> NAVIGATE TREE                                                     "$dirdisp" - Default Dirs"
+echo " ""$der"" >>> NAVIGATE TREE          Video listing only 1 level deep            "$dirdisp" - Default Dirs"
 echo "___________________________________________________________________________________________________________________" 
 echo
 echo " c - Change Directory     a "$bdash" Show All     d "$bdash" Play Directory     n - Change Treetop                      q - Quit"
-echo " u - Up One Level"
+echo " u - Up One Level                                                 f - Find Directory"
 echo " t - Treetop                                                                                              h - Help"
 echo   
 echo -en " Enter Option: "
@@ -3138,24 +3143,85 @@ echo
          ;;
 
 
-        h)
-        echo
-        echo
-        echo " NAVIGATE TREE >>> HELP"        
-        echo
-        echo " Whatever the directory is when entering Navigate Tree will be set as the Treetop."
-        echo " Recursive Navigation from the Treetop. Directory listing is only 1 level deep."
-        echo
-        echo " While in Navigate Tree, there are two ways to change the Treetop. Defaults Dirs and Change Treetop"
-        echo 
-        echo " Change Directory doesn't change the Treetop."
-        echo 
-        echo " *** Directory To Playlist is located in Show All. Add all videos in the current directory to a new Playlist."
-        echo
-        echo
-        read -p " Press enter to Continue . . ."
-        ;;
+         h)
+         echo
+         echo
+         echo " NAVIGATE TREE >>> HELP"        
+         echo
+         echo " Whatever the directory is when entering Navigate Tree will be set as the Treetop."
+         echo " Recursive Navigation from the Treetop. Directory listing is only 1 level deep."
+         echo
+         echo " While in Navigate Tree, there are two ways to change the treetop. Defaults Dirs and Change Treetop"
+         echo 
+         echo " *** Directory To Playlist is located in Show All. Add all videos in the current directory to a new playlist."
+         echo
+         echo
+         read -p " Press enter to Continue . . ."
+         ;;
 
+
+         f)  # FIND DIRECTORY
+clear
+echo
+echo "Directory: ""$PWD"
+echo "___________________________________________________________________________________________________________________"
+echo  
+echo " ""$ver"" >>> FIND DIRECTORY       (enter only to stay in current directory)                * - Show All"
+echo "___________________________________________________________________________________________________________________" 
+echo
+read -r -p " Directory Name: " dirfind  # waiting fot user input - dierectory that you want to find
+linecount=$(find . -type d -iname "$dirfind" 2>/dev/null | wc -l)   # number of files found
+                                                                                    	
+if [ -z "$dirfind" ]  # if no input was entered goto  <then>  
+then
+echo
+echo " error: Nothing was entered"  
+sleep .75
+else               
+     if echo "$dirfind" | grep "/" > /dev/null # if any slashes were entered goto <then>
+     then
+     echo
+     echo " error: No slashes directory name only"
+     sleep .75  
+     else
+     echo
+     find . -type d -iname "$dirfind" | sort -u > ~/.config/videoinfox/tmp/finthedir.tmp 2>/dev/null  # directory(s) found
+
+     # CREATE NUMBERED lIST
+sed '/./=' ~/.config/videoinfox/tmp/finthedir.tmp | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/finthedir.numberlist.tmp 2>/dev/null
+   
+     cat ~/.config/videoinfox/tmp/finthedir.numberlist.tmp
+     echo
+     echo " Total Directories Found:" "$linecount"  # number of files found         
+	    if [ "$findmeadir" = 0 ]  # if find returned no results goto <then>
+	    then
+	    sleep .75
+          :
+	    else
+          echo
+read -r -p " Enter line number to change directory: " linenumber  # waiting fot user input
+              if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
+              then  # IF ENTRY IS NOT A NUMBER
+              :
+              else  # ENTRY IS A NUMBER
+              if [[ $linenumber -gt $linecount ]]
+              then 
+              echo
+              echo " Number out of range . . ."
+              sleep .9
+              else
+tail -n +"$linenumber" ~/.config/videoinfox/tmp/finthedir.tmp > ~/.config/videoinfox/tmp/finthedir.tmp2 2>/dev/null
+              OLDIFS=$IFS
+              IFS=$'\n'
+              read line < ~/.config/videoinfox/tmp/finthedir.tmp2
+              cd "$line" 2> /dev/null
+              IFS=$OLDIFS
+fi
+fi
+fi
+fi
+fi              
+;;
 
          1)  # CD DIRECTORY TO TV    
           
@@ -9384,7 +9450,7 @@ case $optionsettings in
     break;;
 
 
-    x) #  CLEAR CLIPBOARD  <DOWNLOAD LIST> 
+    x) #  CLEAR CLIPBOARD
     echo "" | xclip -sel clip  # clearing out the clipboard
     pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
     ;;
@@ -10374,42 +10440,11 @@ read -r -n1 optiony
      ;;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
      g)  # DOWNLOAD LIST  <YT-DLP MENU>
 
-########################################################################3rm ~/.config/videoinfox/videoinfox-dl-Default~ 2> /dev/null  # tmp fix
-
-echo "" | xclip -sel clip  # clearing out the clipboard
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null) # grab clipboard content
-
+grabclip=$(xclip -o -selection clipboard 2> /dev/null) # grab clipboard content
 
 function dwnlist {
-
-echo "" | xclip -sel clip  # clearing out the clipboard
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-
-if [ -f "$pasteclip" ]
-then
-:
-else
-echo "" | xclip -sel clip  # clearing out the clipboard
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-fi
- 
-######## MOVED
-
 
 ##################################################################################
 ##########  START   1 2 3 4 5 - DEFAULT DIRS   DISPLAY ROUTINE  ##################
@@ -10637,7 +10672,6 @@ find "$PWD" -type f \( -iname "videoinfox-dl*" \) > ~/.config/videoinfox/videoin
 
 # removing all lines that contain  .log   this removes all  */.videoinfox-dl*.log listings from results. write file: videoinfox.dowload.list  
 sed -i '/.log/d' ~/.config/videoinfox/videoinfox.dowload.list 
-######################### sed -i '/videoinfox-dl-Default/d' ~/.config/videoinfox/videoinfox.dowload.list  # remove default list from user list and write file
 
 #################################### count lines file for message display below:  (Copy 1 above User List to the the clipboard to: Download or Set...) 
 copymessage=$(sed -n '$=' ~/.config/videoinfox/videoinfox.dowload.list 2> /dev/null)
@@ -10658,12 +10692,6 @@ sed '/^$/d' ~/.config/videoinfox/videoinfox.dowload.list > ~/.config/videoinfox/
 
 # CREATE NUMBERED lIST
 sed '/./=' ~/.config/videoinfox/tmp/videoinfo-number-dowload.list.tmp | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/videoinfo-number-dowload.list.tmp2 2>/dev/null
-
-
-
-
-### !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ###
-
 
 clear
 cat ~/.config/videoinfox/tmp/videoinfo-number-dowload.list.tmp2  # display numbered list
@@ -10733,7 +10761,7 @@ cd "$dir5"
 
          
 q)  # QUIT (DOWNLOAD LIST)
-echo "$pasteclip3" | xclip -sel clip  # restore clipboard
+echo "$grabclip" | xclip -sel clip  # restore clipboard
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 break;;
 
@@ -13107,11 +13135,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
  done
 
 fi
-
-
-################################################## cd "$grabdir"   # restore dir prior to entering yt-dlp menu
 ;; 
-
 
 
 ##################################################################################################################################################
@@ -13596,65 +13620,66 @@ f)
 ###########################   MORE OPTIONS f  FIND DIRECTORY  ####################################################################################
 ##################################################################################################################################################
 
-pasteclip=$(xclip -o -selection clipboard > /dev/null)  # grab clipboard content
 clear
 echo
 echo "Directory: ""$PWD"
-echo "Clipboard: ""$pasteclip"
 echo "___________________________________________________________________________________________________________________"
 echo  
-echo " ""$ver"" >>> FIND DIRECTORY                                                               wildcard * ok"
+echo " ""$ver"" >>> FIND DIRECTORY       (enter only to stay in current directory)                * - Show All"
 echo "___________________________________________________________________________________________________________________" 
 echo
 read -r -p " Directory Name: " dirfind  # waiting fot user input - dierectory that you want to find
-findmeadir=$(find . -type d -iname "$dirfind" 2>/dev/null | wc -l)   # number of files found
-       
-                                                                                   	
-	if [ -z "$dirfind" ]  # if no input was entered goto  <then>  
-          then
-               echo
-               echo " error: Nothing was entered"  
-               sleep .75  # EXIT THIS LOOP
-          else
-               
-               
-               if echo "$dirfind" | grep "/" > /dev/null 2>/dev/null  # if any slashes were entered goto <then>
-                 then
-                      echo
-                      echo " error: No slashes directory name only"
-                      sleep .75  # EXIT THIS LOOP  
-                 else
-                      echo
-		             find . -type d -iname "$dirfind" | sort -u 2>/dev/null  # directory(s) found   
-	                  echo
-	                  echo " Total Directories Found:" "$findmeadir"  # number of files found
-	  
-	              
-	             if [ "$findmeadir" = 0 ]  # if find returned no results goto <then>
-	               then
-	                   sleep .75
-                        :  # the colon can be used in place of a command to 'Do Nothing'  Exit this nested loop
-	               else 	                    
-                        pastetemp=$(xclip -o -selection clipboard 2>/dev/null)  # perserve clipboard content prioir to runnin this function
-                        notify-send "Videoinfox is done processing: Find Directory" "Total Directories Found: $findmeadir" # GUI Notification.
-                        echo       
-	                   echo " Chang the directory: Copy 1 line (including the dot) to the Clipboard then press enter"
-                        echo     		                
-                        echo " Stay in current directory: enter without copy."
-		              read -r -p " "
-		              pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
-                        cd "$pasteclip" 2>/dev/null 
-                        echo " Working Driectory: ""$PWD"""  # <pwd>  print current working directory to the screen 
-                        echo "$pastetemp" | xclip -sel clip 2>/dev/null  #  reload clipboard content prior to running this function
-                        pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
-                        sleep 1.5            
-        fi
-        fi
-        fi              
+linecount=$(find . -type d -iname "$dirfind" 2>/dev/null | wc -l)   # number of files found
+                                                                                    	
+if [ -z "$dirfind" ]  # if no input was entered goto  <then>  
+then
 echo
+echo " error: Nothing was entered"  
+sleep .75
+else               
+     if echo "$dirfind" | grep "/" > /dev/null # if any slashes were entered goto <then>
+     then
+     echo
+     echo " error: No slashes directory name only"
+     sleep .75  
+     else
+     echo
+     find . -type d -iname "$dirfind" | sort -u > ~/.config/videoinfox/tmp/finthedir.tmp 2>/dev/null  # directory(s) found
 
-#read -p "Press enter to Continue"              
-
+     # CREATE NUMBERED lIST
+sed '/./=' ~/.config/videoinfox/tmp/finthedir.tmp | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/finthedir.numberlist.tmp 2>/dev/null
+   
+     cat ~/.config/videoinfox/tmp/finthedir.numberlist.tmp
+     echo
+     echo " Total Directories Found:" "$linecount"  # number of files found         
+	    if [ "$findmeadir" = 0 ]  # if find returned no results goto <then>
+	    then
+	    sleep .75
+          :
+	    else
+          echo
+read -r -p " Enter number to change directory: " linenumber  # waiting fot user input
+              if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
+              then  # IF ENTRY IS NOT A NUMBER
+              :
+              else  # ENTRY IS A NUMBER
+              if [[ $linenumber -gt $linecount ]]
+              then 
+              echo
+              echo " Number out of range . . ."
+              sleep .9
+              else
+tail -n +"$linenumber" ~/.config/videoinfox/tmp/finthedir.tmp > ~/.config/videoinfox/tmp/finthedir.tmp2 2>/dev/null
+              OLDIFS=$IFS
+              IFS=$'\n'
+              read line < ~/.config/videoinfox/tmp/finthedir.tmp2
+              cd "$line" 2> /dev/null
+              IFS=$OLDIFS
+fi
+fi
+fi
+fi
+fi              
 ;;
 
 
