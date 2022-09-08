@@ -1,4 +1,4 @@
-# Videoinfox v4.0.01
+# Videoinfox v4.1.00
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -150,7 +150,9 @@ YT-DLP MENU
 <br />
 DOWNLOAD LIST MENU WITH DOWNLOAD QUEUE
 
-CREATE USER LISTS AND ADD URL'S TO THEM WITHOUT LEAVING YOUR GUI.
+CREATE UNLIMITED USER LISTS AND ADD VIDEO URL'S TO THE LIST TO DOWNLOAD.
+ADD VIDEO URL'S TO A USER SET LIST WITH THE videoinfox -l GUI KEYBOARD SHORTCUT.
+LOAD UNLIMITED USER LISTS INTO THE DOWNLOAD QUEUE FOR BATCH DOWNLOAD.
 
 ![download list menu](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/DOWNLOAD-LIST.png)
 
@@ -158,7 +160,7 @@ CREATE USER LISTS AND ADD URL'S TO THEM WITHOUT LEAVING YOUR GUI.
 <br />
 DEFAULT DOWNLOAD LIST.
 
-ADD TO THE DEFAULT LIST WITHOUT LEAVING YOUR GUI.
+ADD VIDEO URL'S TO THE DEFAULT LIST IN VIDEOINFOX OR WITH THE videoinfox -a GUI KEYBOARD SHORTCUT
 
 ![Videoinfox download list help](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/DEFAULT-LIST.png)
 
@@ -170,7 +172,7 @@ NAVIGATE TREE WITH PLAY DIRECTORY, AUTOPLAY and PLAY
 
 
 <br />
-NAVIGATE TREE >>> SHOW ALL
+NAVIGATE TREE >>> SHOW ALL WITH DIRECTORY TO PLAYLIST
 
 ![NT Show All](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/NT-SHOW-ALL.png)
 
@@ -286,6 +288,20 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+###  v4.1.00 No more copying screen results to interact with Videoinfox. All Keyboard driven.
+
+         Change: More Options >>> Find Directory
+                 No more copying the directory to the clipboard. Enter Line Number.
+
+         Add: Find Directory added to Navigate Tree
+
+         Edit: Help
+
+         Note: Clipboard copy is only needed when copying video urls for immediate
+               download or to add the url to a download list in Videoinfox or a keyboard shortcut.
+               Stay in the web browser and use: (default) videoinfox -a or (user) videoinfox -l
+
 
 ###  v4.0.01 Download List Help edit.
 
