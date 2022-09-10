@@ -598,7 +598,7 @@ playlist_delete() {
     read -r -p " Enter line number to delete: " linenumber  # waiting fot user input
     if is_integer "${linenumber}"; then
         if ! [[ -z "$linenumber" ]]; then
-            if [[ $linenumber -gt $linecount ]]; then 
+            if (( linenumber > linecount )); then 
                 printf -- '%s\n' ""  " Number out of range . . ."
                 sleep .9
             else
@@ -1063,7 +1063,7 @@ navtree() {
     pasteclip  # grab clipboard content
 
     if [[ ! -d "$pasteclip" ]]; then
-        echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
+        clearclip  # clearing out the clipboaed
         pasteclip  # grab clipboard content
     fi
     clear
@@ -1284,8 +1284,8 @@ menuf() {
 
     if string_check_http "${pasteclip}"; then
         if ! [[ -f "${pasteclip}" ]]; then
-            # clearing out the clipboaed
-            echo "$pastetemp" | xclip -sel clip
+            # clearing out the clipboard
+            clearclip
             # grab clipboard content
             pasteclip
         fi
@@ -1560,15 +1560,17 @@ while true; do
         ;;
         n)
             ###########################   (@NAVIGATE TREE)  n  ############################
-            pasteclip2=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content   save to restore on option quit
-            echo "" | xclip -sel clip  # clearing the clipboard
+             # grab clipboard content   save to restore on option quit
+            pasteclip2=$(xclip -o -selection clipboard 2> /dev/null)
+            # clearing the clipboard
+            clearclip
   
             while true; do
                 navtree --first-instance
                 case $option in
                     q)  # QUIT
                         ##############################     cd "$grabdirfornav2" &>/dev/null   # restore directory
-                        echo "" | xclip -sel clip  # clearing the clipboard
+                        clearclip
                         pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
                         break
                     ;;
@@ -1610,7 +1612,7 @@ while true; do
                         printf -- '%s\n' ""
                         read -r -p " Enter line number to change directory: " linenumber  # waiting fot user input
                         if is_integer "${linenumber}"; then
-                            if [[ $linenumber -gt $linecount ]]; then 
+                            if (( linenumber > linecount )); then 
                                 printf -- '%s\n' ""  " Number out of range . . ."
                                 sleep .9
                             else
@@ -1793,7 +1795,7 @@ while true; do
                                         printf -- '%s\n' "" ""
                                         read -r -p " Play Line: " linenumber  # waiting fot user input
                                         if is_integer "${linenumber}"; then
-                                            if [[ $linenumber -gt $linecount ]]; then 
+                                            if (( linenumber > linecount )); then 
                                                 printf -- '\n%s\n'  " Number out of range . . ."
                                                 sleep .9
                                             else
@@ -1854,7 +1856,7 @@ while true; do
 
                                         if is_integer "${linenumber}"; then
                                             if [[ ! -z "$linenumber" ]]; then
-                                                if [[ $linenumber -gt $linecount ]]; then 
+                                                if (( linenumber > linecount )); then 
                                                     printf -- '%s\n' "" "Number out of range . . ."
                                                     sleep .9
                                                 else
@@ -1887,7 +1889,7 @@ while true; do
 
                                         if ! string_check_http "${pasteclip}"; then
                                             if ! [[ -f "$pasteclip" ]]; then
-                                                echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
+                                                clearclip  # clearing out the clipboaed
                                                 pasteclip  # grab clipboard content
                                             fi
                                         fi
@@ -2099,7 +2101,7 @@ while true; do
                                                             if [[ "$linenumber" = 0 ]]; then
                                                                 :
                                                             else
-                                                                if [[ $linenumber -gt $linecount ]]; then 
+                                                                if (( linenumber > linecount )); then 
                                                                     printf -- '%s\n' "" "Number out of range . . ."
                                                                     sleep .9
                                                                 else
@@ -2242,8 +2244,8 @@ while true; do
                                                     # IF THERE ARE IDENTICAL FILENAMES WITH DIFFERENT FILE EXTENSIONS FIND WILL PRODUCE MORE THAN ONE RESULT      
                                                     correcterror=$(wc -l ${base_dir}/videoinfo.find-last-download | cut -d' ' -f1)  # getting line count.
                                                         
-                                                    if [[ "$correcterror" -gt 1 ]]; then                
-                                                        if [[ "$lastdownload" == "$lastdownloadbak" ]]; then
+                                                    if (( correcterror > 1 )); then                
+                                                        if [[ "$lastdownload" = "$lastdownloadbak" ]]; then
                                                             read -r ytdlplast < ${base_dir}/videoinfo.find-last-download  # read first find result from file
                                                         else
                                                             touch ${base_dir}/videoinfo.find-last-download
@@ -2428,7 +2430,7 @@ while true; do
         ;;
         x) 
             #CLEAR CLIPBOARD - <HOME> 
-            echo "" | xclip -sel clip  # copy message in quotes to the clipboard. clearing out the clipboard
+            clearclip  # copy message in quotes to the clipboard. clearing out the clipboard
             pasteclip  # grab clipboard content
         ;;    
         p) 
@@ -2474,8 +2476,8 @@ while true; do
                     # IF THERE ARE IDENTICAL FILENAMES WITH DIFFERENT FILE EXTENSIONS FIND WILL PRODUCE MORE THAN ONE RESULT      
                     correcterror=$(wc -l ${base_dir}/videoinfo.find-last-download | cut -d' ' -f1)  # getting line count.
                         
-                    if [[ "$correcterror" -gt 1 ]]; then                
-                        if [[ "$lastdownload" == "$lastdownloadbak" ]]; then
+                    if (( correcterror > 1 )); then                
+                        if [[ "$lastdownload" = "$lastdownloadbak" ]]; then
                             read -r ytdlplast < ${base_dir}/videoinfo.find-last-download  # read first find result from file
                         else
                             touch ${base_dir}/videoinfo.find-last-download
@@ -2573,7 +2575,7 @@ while true; do
 
                 if ! string_check_http "${pasteclip}"; then
                     if ! [[ -f "$pasteclip" ]]; then
-                        echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
+                        clearclip  # clearing out the clipboaed
                         pasteclip  # grab clipboard content
                     fi
                 fi
@@ -2723,7 +2725,7 @@ while true; do
                             read -r -p " Play Line: " linenumber  # waiting fot user input
 
                             if is_integer "${linenumber}"; then
-                                if [[ $linenumber -gt $linecount ]]; then
+                                if (( linenumber > linecount )); then
                                     printf -- '%s\n' "" " Number out of range . . ."
                                     sleep .9
                                 else
@@ -2794,7 +2796,7 @@ while true; do
                                     if [[ -f "$pasteclip" ]]; then
                                         :
                                     else
-                                        echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
+                                        clearclip  # clearing out the clipboaed
                                         pasteclip  # grab clipboard content
                                     fi
                                 fi
@@ -2996,7 +2998,7 @@ while true; do
                                                     if [[ "$linenumber" = 0 ]]; then
                                                         :
                                                     else
-                                                        if [[ $linenumber -gt $linecount ]]; then 
+                                                        if (( linenumber > linecount )); then 
                                                             printf -- '%s\n' "" "Number out of range . . ."
                                                             sleep .9
                                                         else
@@ -3136,8 +3138,8 @@ while true; do
                                             # IF THERE ARE IDENTICAL FILENAMES WITH DIFFERENT FILE EXTENSIONS FIND WILL PRODUCE MORE THAN ONE RESULT      
                                             correcterror=$(wc -l ${base_dir}/videoinfo.find-last-download | cut -d' ' -f1)  # getting line count.
                                                 
-                                            if [[ "$correcterror" -gt 1 ]]; then                
-                                                if [[ "$lastdownload" == "$lastdownloadbak" ]]; then
+                                            if (( correcterror > 1 )); then                
+                                                if [[ "$lastdownload" = "$lastdownloadbak" ]]; then
                                                     read -r ytdlplast < ${base_dir}/videoinfo.find-last-download  # read first find result from file
                                                 else
                                                     touch ${base_dir}/videoinfo.find-last-download
@@ -3232,7 +3234,7 @@ while true; do
                                     if [[ -z "$linenumber" ]]; then
                                         :
                                     else
-                                        if [[ $linenumber -gt $linecount ]]; then 
+                                        if (( linenumber > linecount )); then 
                                             print_error "Number out of range . . ."
                                         else
                                             # read first line of file for play
@@ -3301,8 +3303,8 @@ while true; do
                                     # IF THERE ARE IDENTICAL FILENAMES WITH DIFFERENT FILE EXTENSIONS FIND WILL PRODUCE MORE THAN ONE RESULT      
                                     correcterror=$(wc -l ${base_dir}/videoinfo.find-last-download | cut -d' ' -f1)  # getting line count.
                                         
-                                    if [[ "$correcterror" -gt 1 ]]; then
-                                        if [[ "$lastdownload" == "$lastdownloadbak" ]]; then
+                                    if (( correcterror > 1 )); then
+                                        if [[ "$lastdownload" = "$lastdownloadbak" ]]; then
                                             read -r ytdlplast < ${base_dir}/videoinfo.find-last-download  # read first find result from file
                                         else
                                             touch ${base_dir}/videoinfo.find-last-download
@@ -3380,7 +3382,7 @@ while true; do
 
                 if ! string_check_http "${pasteclip}"; then
                     if [[ ! -f "$pasteclip" ]]; then
-                        echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
+                        clearclip  # clearing out the clipboaed
                         pasteclip  # grab clipboard content
                     fi
                 fi
@@ -3567,7 +3569,7 @@ while true; do
                                 if [[ -z "$linenumber" ]]; then
                                     :
                                 else
-                                    if [[ $linenumber -gt $linecount ]]; then 
+                                    if (( linenumber > linecount )); then 
                                         print_error "Number out of range . . ."
                                     else
                                         if [[ -z "$linenumber" ]]; then
@@ -3696,15 +3698,15 @@ while true; do
                             # IF THERE ARE IDENTICAL FILENAMES WITH DIFFERENT FILE EXTENSIONS FIND WILL PRODUCE MORE THAN ONE RESULT      
                             correcterror=$(wc -l ${base_dir}/videoinfo.find-last-download | cut -d' ' -f1)  # getting line count.
                                 
-                            if [[ "$correcterror" -gt 1 ]]; then                
-                                if [[ "$lastdownload" == "$lastdownloadbak" ]]; then
+                            if (( correcterror > 1 )); then
+                                if [[ "$lastdownload" = "$lastdownloadbak" ]]; then
                                     read -r ytdlplast < ${base_dir}/videoinfo.find-last-download  # read first find result from file
                                 else
                                     touch ${base_dir}/videoinfo.find-last-download
                                     read -r ytdlplast < ${base_dir}/videoinfo.find-last-download
                                 fi
                             else
-                                read -r ytdlplast < ${base_dir}/videoinfo.find-last-download      
+                                read -r ytdlplast < ${base_dir}/videoinfo.find-last-download
                             fi
                                 
                             clear
@@ -3795,7 +3797,7 @@ while true; do
                     if [[ -z "$linenumber" ]]; then
                         :
                     else
-                        if [[ $linenumber -gt $linecount ]]; then 
+                        if (( linenumber > linecount )); then 
                             printf -- '%s\n' ""  "Number out of range . . ."
                             sleep .9
                         else
@@ -3977,7 +3979,7 @@ while true; do
 
                     if ! string_check_http "${pasteclip}"; then
                         if ! [[ -f "$pasteclip" ]]; then
-                            echo "$pastetemp" | xclip -sel clip  # clearing out the clipboaed
+                            clearclip  # clearing out the clipboaed
                             pasteclip  # grab clipboard content
                         fi
                     fi
@@ -4381,13 +4383,13 @@ while true; do
                                     m)
                                         ###########################   CREATE DIRECTORY  n   (DOWNLOAD LIST)   #########
                                         pasteclip2=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content   save to restore on option quit
-                                        echo "" | xclip -sel clip  # clearing the clipboard
+                                       clearclip
                                         while true; do
                                             navtree --second-instance
                                             case $option in
                                                 q)  # QUIT
                                                     ##############################     cd "$grabdirfornav2" &>/dev/null   # restore directory
-                                                    echo "" | xclip -sel clip  # clearing the clipboard
+                                                   clearclip
                                                     pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
                                                     break
                                                 ;;
@@ -4430,7 +4432,7 @@ while true; do
                                                     printf -- '%s\n' ""
                                                     read -r -p " Enter line number to change directory: " linenumber  # waiting fot user input
                                                     if is_integer "${linenumber}"; then
-                                                        if [[ $linenumber -gt $linecount ]]; then 
+                                                        if (( linenumber > linecount )); then 
                                                             printf -- '%s\n' ""  " Number out of range . . ."
                                                             sleep .9
                                                         else
@@ -4605,7 +4607,7 @@ while true; do
                                                             echo >> "$logfile"
 
                                                             # IF DOWNLOAD LIST = SET USER LIST THEN REMOVE
-                                                            if [[ "$line" == "$usersetlist" ]]; then
+                                                            if [[ "$line" = "$usersetlist" ]]; then
                                                                 touch ${base_dir}/videoinfox.set-user-list
                                                             fi
                                                             # LOOP 2 READ LINE BY LINE FROM CURRENT DOWNLOAD LIST
@@ -5023,8 +5025,8 @@ while true; do
                                 # IF THERE ARE IDENTICAL FILENAMES WITH DIFFERENT FILE EXTENSIONS FIND WILL PRODUCE MORE THAN ONE RESULT      
                                 correcterror=$(wc -l ${base_dir}/videoinfo.find-last-download | cut -d' ' -f1)  # getting line count.
                                 
-                                if [[ "$correcterror" -gt 1 ]]; then                
-                                    if [[ "$lastdownload" == "$lastdownloadbak" ]]; then
+                                if (( correcterror > 1 )); then                
+                                    if [[ "$lastdownload" = "$lastdownloadbak" ]]; then
                                         read -r ytdlplast < ${base_dir}/videoinfo.find-last-download  # read first find result from file
                                     else
                                         touch ${base_dir}/videoinfo.find-last-download
@@ -5138,7 +5140,7 @@ while true; do
 
                                 if ! string_check_http "${pasteclip}"; then
                                     if ! [[ -f "$pasteclip" ]]; then
-                                        echo "" | xclip -sel clip  # clearing out the clipboaed
+                                        clearclip  # clearing out the clipboaed
                                         pasteclip  # grab clipboard content
                                     fi
                                 fi
@@ -5282,8 +5284,8 @@ while true; do
                                             # IF THERE ARE IDENTICAL FILENAMES WITH DIFFERENT FILE EXTENSIONS FIND WILL PRODUCE MORE THAN ONE RESULT      
                                             correcterror=$(wc -l ${base_dir}/videoinfo.find-last-download | cut -d' ' -f1)  # getting line count.
                                                 
-                                            if [[ "$correcterror" -gt 1 ]]; then                
-                                                if [[ "$lastdownload" == "$lastdownloadbak" ]]; then
+                                            if (( correcterror > 1 )); then                
+                                                if [[ "$lastdownload" = "$lastdownloadbak" ]]; then
                                                     read -r ytdlplast < ${base_dir}/videoinfo.find-last-download  # read first find result from file
                                                 else
                                                     touch ${base_dir}/videoinfo.find-last-download
@@ -5548,23 +5550,17 @@ while true; do
                                 } | tee -a videoinfo.List-Directory
                             done
 
-                            # echo >> videoinfo.List-Directory
-                            echo "Total Video Files:" "$currentdirfilecount"
-                            echo >> videoinfo.List-Directory
-                            echo "Total Video Files:" "$currentdirfilecount" >> videoinfo.List-Directory
-                            printf -- '%s\n' ""
-                            printf -- '%s\n' ""  >> videoinfo.List-Directory
-                            printf -- '%s\n' ">>> Listing is not recursive <<<" | tee -a videoinfo.List-Directory
-                            printf -- '%s\n' ""  >> videoinfo.List-Directory
-                            printf -- '%s\n' "Working Directory: ${PWD}" | tee -a videoinfo.List-Directory
+                            {
+                                printf -- '%s\n' "Total Video Files: ${currentdirfilecount}"
+                                printf -- '%s\n' "" ">>> Listing is not recursive <<<" ""
+                                printf -- '%s\n' "Working Directory: ${PWD}"
+                            } | tee -a videoinfo.List-Directory
 
                             printf -- '%s\n' ""
                             if [[ "$currentdirfilecount" != 0 ]]; then
-                                echo "$rer"
-                                printf -- '%s\n' ""  -e "\033[5mProbing $currentdirfilecount \033[5mVideo Files for Duration\033[0m"  #  file count of find results
+                                printf -- '%s\n' "$rer" ""  -e "\033[5mProbing $currentdirfilecount \033[5mVideo Files for Duration\033[0m"  #  file count of find results
                                 printf -- '%s\n' ""  "This can take a while if there are a lot of video files to process."
-                                echo "You will get a GUI Notification when this process is complete."
-                                printf -- '%s\n' ""
+                                printf -- '%s\n' "You will get a GUI Notification when this process is complete." ""
                                 
                                 #  This is where the file <${base_dir}/videoinfo.duration.tmp> is created to store duration in seconds with the format being  (x.xxxxxx)
                                 #  Video files are found in current directory and processed with ffprobe and written to <${base_dir}/videoinfo.duration.tmp>. 
@@ -5581,35 +5577,28 @@ while true; do
                                 totalseconds=$(echo "$floatingseconds" | awk '{ print substr( $0, 1, length($0)-7 ) }')
                                 
                                 #  Calculation of  <$totalseconds>  into different formats.
-                                secs=$(echo "$totalseconds")  # $totalseconds variable stored in $secs variable
-                                totalminutes=$(($(($totalseconds/60))))  # total minutes calculation
+                                secs="${totalseconds}"
+                                # convert seconds into minutes
+                                totalminutes=$((totalseconds/60))
+                                {
+                                    # display total seconds and minutes
+                                    printf -- '%s\n\n' "Seconds ${totalseconds}"
+                                    printf -- '%s\n\n' "Minutes ${totalminutes}"
+                                    printf -- '%s\n' "Hrs:Mi:Sec"
 
-                                echo >> videoinfo.List-Directory
-                                echo >> videoinfo.List-Directory
-                                echo "Seconds"
-                                echo "Seconds" >> videoinfo.List-Directory
-                                echo "$totalseconds"  # display total seconds
-                                echo "$totalseconds" >> videoinfo.List-Directory
-                                printf -- '%s\n' ""  >> videoinfo.List-Directory 
-                                echo "Minutes"
-                                echo "Minutes" >> videoinfo.List-Directory
-                                echo "$totalminutes"  # display total minutes
-                                echo "$totalminutes" >> videoinfo.List-Directory
-                                printf -- '%s\n' ""  >> videoinfo.List-Directory
-                                echo "Hrs:Mi:Sec"
-                                echo "Hrs:Mi:Sec" >> videoinfo.List-Directory
-                                printf '%d:%d:%d\n' $((secs/3600)) $((secs%3600/60)) $((secs%60))  # calculation to display hours, minutes and seconds
-                                printf '%d:%d:%d\n' $((secs/3600)) $((secs%3600/60)) $((secs%60)) >> videoinfo.List-Directory
-                                printf -- '%s\n' ""  >> videoinfo.List-Directory
-                                echo "Days     Hrs:Min:Sec"
-                                echo "Days     Hrs:Min:Sec" >> videoinfo.List-Directory
-                                printf '%d        %d:%d:%d\n' $(($secs/86400)) $(($secs%86400/3600)) $(($secs%3600/60)) $(($secs%60))  # same as above except Days are added
-                                printf '%d        %d:%d:%d\n' $(($secs/86400)) $(($secs%86400/3600)) $(($secs%3600/60)) $(($secs%60)) >> videoinfo.List-Directory
-                                printf -- '%s\n' ""  >> videoinfo.List-Directory
-                                echo -e "\033[5mNEW RESULTS LOADED \033[5m \033[0m(use Mouse Wheel to Scroll)"
-                                echo "EXISTING RESULTS LOADED FROM FILE videoinfo.List-Directory " $(stat -c '%y' "videoinfo.List-Directory") >> videoinfo.List-Directory
-                                echo >> videoinfo.List-Directory
-                                printf -- '%s\n' ""  >> videoinfo.List-Directory
+                                    # calculation to display hours, minutes and seconds
+                                    printf -- '%d:%d:%d\n\n' "$((secs/3600))" "$((secs%3600/60))" "$((secs%60))"
+                                    printf -- '%s\n' "Days     Hrs:Min:Sec"
+
+                                    # same as above + Days
+                                    printf -- '%d        %d:%d:%d\n\n' \
+                                        "$((secs/86400))" "$((secs%86400/3600))" "$((secs%3600/60))" "$((secs%60))" 
+
+                                    printf -- '\033[5m%s \033[5m \033[0m%s\n' "NEW RESULTS LOADED" "(use Mouse Wheel to Scroll)"
+                                    printf -- '%s\n' "EXISTING RESULTS LOADED FROM FILE videoinfo.List-Directory"
+                                    stat -c '%y' "videoinfo.List-Directory"
+                                    printf -- '%s\n' ""
+                                } | tee -a videoinfo.List-Directory
                                 notify-send "Videoinfox is done processing: List Directory" "$PWD"  # GUI Notification is displayed when this function <option 1> has completed.
                             fi
                         fi
@@ -5625,12 +5614,12 @@ while true; do
                             printf -- '%s\n\n' " s - Save     d - Delete"
                             read -r -n1 -p " Enter Option: " option1
                             case $option1 in
-                                s) 
+                                s)
                                     printf -- '\n%s\n\n' " Results SAVED . . ."
                                     sleep .75
                                     break
                                 ;; 
-                                d) 
+                                d)
                                     rm videoinfo.List-Directory
                                     printf -- '\n%s\n\n' " Results DELETED . . ."
                                     sleep .75
@@ -5643,11 +5632,10 @@ while true; do
                         ###########################   MORE OPTIONS c  CHANGE DIRECTORY  ###
                         pasteclip  # grab clipboard content
                         clear
-                        printf -- '\n%s\n' "Directory: ${PWD}" "Clipboard: ${pasteclip}"
+                        printf -- '%s\n' "" "Directory: ${PWD}" "Clipboard: ${pasteclip}"
                         print_header " ${ver} >>> CHANGE DIRECTORY"
 
-                        echo " No quotations needed for paths with spaces. Case sensative."
-                        echo 
+                        printf -- '%s\n' " No quotations needed for paths with spaces. Case sensative." ""
                         read -r -p " Enter Directory: " specifydir  # waiting fot user input - the directory you want to chang to 
                             
                         if [[ -z "$specifydir" ]]; then
@@ -5656,7 +5644,7 @@ while true; do
                             if [[ -d "$specifydir" ]]; then
                                 printf -- '%s\n' ""
                                 cd "$specifydir"   # change the directory
-                                echo " Working Driectory changed to: $PWD"  # <pwd>  print current working directory to the screen
+                                printf -- '%s\n' " Working Driectory changed to: $PWD"  # <pwd>  print current working directory to the screen
                                 sleep 1.5
                             else
                                 print_error "No such file or directory"
@@ -5692,10 +5680,10 @@ while true; do
                                     else                         
                                         pastetemp=$(xclip -o -selection clipboard 2>/dev/null)  # perserve clipboard content prioir to runnin this function
                                         notify-send "Videoinfox is done processing: Find Directory" "Total Directories Found: $findmeadir" # GUI Notification.
-                                        echo       
-                                        echo " Chang the directory: Copy 1 line (including the dot) to the Clipboard then press enter"
-                                        echo                             
-                                        echo " Stay in current directory: enter without copy."
+                                        printf -- '%s\n' "" /
+                                            " Chang the directory: Copy 1 line (including the dot) to the Clipboard then press enter" /
+                                            "" /
+                                            " Stay in current directory: enter without copy."
                                         read -r -p " "
                                         pasteclip=$(xclip -o -selection clipboard 2>/dev/null)  # grab clipboard content
                                         cd "$pasteclip" 2>/dev/null 
@@ -5791,8 +5779,8 @@ while true; do
                                 totalminutes=$((totalseconds/60))
 
                                 # display total seconds and minutes
-                                printf -- '%s\n\n' "Seconds" "${totalseconds}"
-                                printf -- '%s\n\n' "Minutes" "${totalminutes}"
+                                printf -- '%s\n\n' "Seconds ${totalseconds}"
+                                printf -- '%s\n\n' "Minutes ${totalminutes}"
                                 printf -- '%s\n' "Hrs:Mi:Sec"
 
                                 # calculation to display hours, minutes and seconds
