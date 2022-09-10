@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v4.1.00								         
+#  file : videoinfox v4.1.03								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v4.1.00"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m1.00")  # Version Number: with blinking dot
+ver="Videoinfox v4.1.03"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m1.03")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -71,6 +71,8 @@ fi
 
 if [ "$1" = "-l" ]
    then
+       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+       grabpaste=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
        direxist="$HOME/.config/videoinfox/tmp"
 
        if [ -d "$direxist" ]  #  if directoty exists goto  <then>
@@ -78,30 +80,35 @@ if [ "$1" = "-l" ]
              read -r grabuserlist < ~/.config/videoinfox/videoinfox.set-user-list
 
                  if [ -f "$grabuserlist" ]  # if file exists then 
-                   then
-                       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-                       echo "$pasteclip" >> "$grabuserlist"  # write url to the user set list
-                       notify-send "Videoinfox Message: Added link to List "$grabuserlist"  . . ." ""$pasteclip"" # GUI Notification.                     
+                   then                      
+                          
+                       if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
+                         then
+                             pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+                             echo "$pasteclip" >> "$grabuserlist"  # write url to the user set list             
+                             notify-send "Videoinfox Message: ADDED LINK TO USER LIST" "$grabuserlist"
+                             cat -n "$grabuserlist" | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/videoinfox.ulistfly.tmp  # REMOVE DUPLICATES
+                             sed -i '/^$/d' ~/.config/videoinfox/videoinfox.ulistfly.tmp  # remove any blank lines in the list
+                             sed -i '/http/!d' ~/.config/videoinfox/videoinfox.ulistfly.tmp  # remove all lines not starting with  http
+                             mv ~/.config/videoinfox/videoinfox.ulistfly.tmp "$grabuserlist"
+                             echo "" | xclip -sel clip  # clearing out the clipboard
+                             exit
 
-                       cat -n "$grabuserlist" | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/videoinfox.ulistfly.tmp  # REMOVE DUPLICATES
-                       sed -i '/^$/d' ~/.config/videoinfox/videoinfox.ulistfly.tmp  # remove any blank lines in the list
-                       sed -i '/http/!d' ~/.config/videoinfox/videoinfox.ulistfly.tmp  # remove all lines not starting with  http
-                       mv ~/.config/videoinfox/videoinfox.ulistfly.tmp "$grabuserlist"
-                       echo "" | xclip -sel clip  # clearing out the clipboard
-                       exit
-          
+                         else
+                             notify-send "Videoinfox -l Error . . ." "Clipboard content didn't start wit http."
+                             exit
+                       fi
                    else
                        notify-send "Videoinfox -l Error . . ." "No user list has been set for this feature.  Set User List in Videoinfox first."
                        exit
-             fi
-
-       else
-           echo
-           echo "Videoinfox error: Config directory not found. Run videoinfox first with no command line options to setup."
-           echo
-           notify-send "Videoinfox error: Config directory not found. Run videoinfox first with no command line options to setup."
-           exit
-       fi
+                 fi
+   else
+       echo
+       echo "Videoinfox error: Config directory not found. Run videoinfox first with no command line options to setup."
+       echo
+       notify-send "Videoinfox error: Config directory not found. Run videoinfox first with no command line options to setup."
+       exit
+    fi       
 
    else
        :
@@ -119,29 +126,27 @@ fi
 
 if [ "$1" = "-a" ]
    then
-
-direxist="$HOME/.config/videoinfox/tmp"
+       pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+       grabpaste=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
+       direxist="$HOME/.config/videoinfox/tmp"
 
 if [ -d "$direxist" ]  #  if directoty exists goto  <then>
 then
-
-        if [ -f ~/.config/videoinfox/videoinfox-dl-Default ]  # if file exists then 
-           then
-               :
-
-           else  # This file should always exist:   ~/.config/videoinfox/videoinfox-dl-Default   if it doesn't, it will be created
-
-                 # CREATING EMPTY DEFAULT DOWNLOAD LIST WITH LIST EMPTY MESSAGE
-                 echo > ~/.config/videoinfox/videoinfox-dl-Default
-                 echo "Default Download List Empty" >> ~/.config/videoinfox/videoinfox-dl-Default
-
-        fi
+    if [ -f ~/.config/videoinfox/videoinfox-dl-Default ]  # if file exists then 
+      then
+          :
+      else # This file should always exist:   ~/.config/videoinfox/videoinfox-dl-Default   if it doesn't, it will be created
+           # CREATING EMPTY DEFAULT DOWNLOAD LIST WITH LIST EMPTY MESSAGE
+           echo > ~/.config/videoinfox/videoinfox-dl-Default
+           echo "Default Download List Empty" >> ~/.config/videoinfox/videoinfox-dl-Default
+    fi
 
 
+if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
+then
 # ADD TO DEFAULT LIST  <DEFAULT LIST>
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 echo "$pasteclip" >> ~/.config/videoinfox/videoinfox-dl-Default  # write url to the default download list
-notify-send "Videoinfox added link to the Default Download List . . ." ""$pasteclip"" # GUI Notification.
+notify-send "Videoinfox Message: ADDED LINK TO DEFAULT LIST"
 
 # REMOVE DUPLICATES
 cat -n ~/.config/videoinfox/videoinfox-dl-Default | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/videoinfox-dl-Default.tmp
@@ -151,9 +156,12 @@ sed -i '/^$/d' ~/.config/videoinfox/videoinfox-dl-Default 2>/dev/null  # remove 
 sed -i '/http/!d' ~/.config/videoinfox/videoinfox-dl-Default  # remove all lines not starting with  http
 
 echo "" | xclip -sel clip  # clearing out the clipboard
-
 exit
 
+else
+notify-send "Videoinfox -a Error . . ." "Clipboard content didn't start wit http."
+exit
+fi
 
 else
     echo
@@ -1098,8 +1106,11 @@ echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo " "$ver" >>> DOWNLOAD LIST >>> HELP                                                            q - Quit" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
-echo " There is a Default List and User Created Lists.  If a list is deleted, it's log file will also be deleted." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " ***** The Download List Display Is Sorted Recursively By Directory. Not By Filename. *****" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " There is a Default List and User Created Lists.  If a list is deleted, it's log file will also be deleted." >> ~/.config/videoinfox/videoinfox.download-list-help
+
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo " DEFAULT LIST:  - There is just one Default List." >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1128,7 +1139,7 @@ echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "                  Note: Clipboard will be cleared everytime you run the shortcut." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "                        Videoinfox doesn't need to be running to use the shortcut." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
-echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
+
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo " USER LISTS:    - Unlimited User Lists." >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1165,15 +1176,10 @@ echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "                  Note: Clipboard will be cleared everytime you run the shortcut." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "                        Videoinfox doesn't need to be running to use the shortcut." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "                  When a User List is set, it will be cleared after download" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
-echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "   *** The User Lists can be anywhere so lists need to be recursively reachable from the current directory ***" >> ~/.config/videoinfox/videoinfox.download-list-help
-echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
-echo >> ~/.config/videoinfox/videoinfox.download-list-help
-echo >> ~/.config/videoinfox/videoinfox.download-list-help
-echo "                  When a User List is set, it will be cleared after download" >> ~/.config/videoinfox/videoinfox.download-list-help
-echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "                  You can also make a list with your preferred text editor." >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1303,7 +1309,7 @@ echo " Copy a video url to the clipboard and press enter to verify the url is va
 echo " Then  p  to Download and Autoplay Fullscreen." >> ~/.config/videoinfox/videoinfo.help 
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help 
-echo " Clipboard copy is used to interact with Videoinfox with the following options:" >> ~/.config/videoinfox/videoinfo.help 
+echo " Copying video url's to the clipboard is supported by the following options:" >> ~/.config/videoinfox/videoinfo.help 
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " - Play Clipboard  - Download Default  - Download Choose  - Self Destruct." >> ~/.config/videoinfox/videoinfo.help 
 echo " - Add to Default List (located in Yt-dlp Menu >>> Download List >>> Default List)" >> ~/.config/videoinfox/videoinfo.help
@@ -1431,9 +1437,24 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " KNOWN ISSUES: v3.5.08 In Change Playlist when attempting to delete the Default Playlist." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v4.1.03 Change: Yt-dlp Menu >>> Download List display of user download lists." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                 Old display: line number -- /path/filename" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                 New display: line number -- filename (with videoinfox-dl- removed from the beginning of the filename.)" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                 Note: The path of a user list will be displayed when a user list is set." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Fix: Videoinfox -a gui notification would display when the clipboard was empty or didn't start with http" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              MESSAGE: Clipboard content didn't start with http (message will also display if the clipboard is empty)" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Fix: Videoinfox -l gui notification would display when the clipboard was empty or didn't start with http" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              MESSAGE: Clipboard content didn't start with http (message will also display if the clipboard is empty)" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Add: Line to Download List Help - The Download List Display Is Sorted Recursively By Directory. Not By Filename." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v4.1.00 No more copying screen results to interact with Videoinfox. All Keyboard driven." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -10684,11 +10705,10 @@ sed '/^$/d' ~/.config/videoinfox/videoinfox.dowload.list > ~/.config/videoinfox/
 
 #############
 # REMOVE PATH
-#  sed 's/.*\///' ~/.config/videoinfox/tmp/videoinfox.dowload.list.tmp > ~/.config/videoinfox/tmp/videoinfo-number-dowload.list.tmp 2>/dev/null
-# ......OR........... uncomment one and comment the other. Choose either sed or cp to change format of the Download List disply.
-# LEAVE PATH
-   cp ~/.config/videoinfox/tmp/videoinfox.dowload.list.tmp ~/.config/videoinfox/tmp/videoinfo-number-dowload.list.tmp
-#############
+   sed 's/.*\///' ~/.config/videoinfox/tmp/videoinfox.dowload.list.tmp > ~/.config/videoinfox/tmp/videoinfo-number-dowload.list.tmp
+
+cat ~/.config/videoinfox/tmp/videoinfo-number-dowload.list.tmp | cut -c 15- > ~/.config/videoinfox/tmp/videoinfo-number-dowload.list.sorted.tmp
+mv ~/.config/videoinfox/tmp/videoinfo-number-dowload.list.sorted.tmp ~/.config/videoinfox/tmp/videoinfo-number-dowload.list.tmp
 
 # CREATE NUMBERED lIST
 sed '/./=' ~/.config/videoinfox/tmp/videoinfo-number-dowload.list.tmp | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/videoinfo-number-dowload.list.tmp2 2>/dev/null
@@ -10697,7 +10717,7 @@ clear
 cat ~/.config/videoinfox/tmp/videoinfo-number-dowload.list.tmp2  # display numbered list
 read -r ulistset < ~/.config/videoinfox/videoinfox.set-user-list  # set user list for videoinfox -u shortcut
 
-# CEAR USER SET LIST IF IT GETS DELETED OUTSIDE OF THE VIDEOINFOX INTERFACE
+# CLEAR USER SET LIST IF IT GETS DELETED OUTSIDE OF THE VIDEOINFOX INTERFACE
 if [ -f "$chkulistset" ]  # if the user set list exists goto then
    then
        :
@@ -11444,13 +11464,9 @@ done
 
 c)  # CREATE USER LIST  <DOWNLOAD LIST>
 echo
-echo " All spaces will be removed . . ."
+echo " Spaces can be used after the firest character."
 echo
 read -r -p " Create New List: " createulist  # waiting fot user input. grabbing new filename
-
-echo "$createulist" > ~/.config/videoinfox/tmp/plremovespace.tmp
-sed -i -e 's/\ //g' ~/.config/videoinfox/tmp/plremovespace.tmp
-read -r createulist < ~/.config/videoinfox/tmp/plremovespace.tmp
 
 if [ -z "$createulist" ]  # if enter is pressed with no entry
   then
@@ -11510,7 +11526,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
               then  # if the default download list is selected          
                   echo
                   echo " The default download list cannot be set as a user list . . ."
-                  sleep 1.1
+                  sleep 1.9
                   else
                   echo "$playnumber" > ~/.config/videoinfox/videoinfox.set-user-list
 fi
@@ -11548,7 +11564,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
               then  # if the default download list is selected          
                   echo
                   echo " The default download list cannot be deleted. It can only be cleared . . ."
-                  sleep 1.1
+                  sleep 1.9
                   else
                       function menudul {
                       clear
