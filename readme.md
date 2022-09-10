@@ -1,4 +1,4 @@
-# Videoinfox v4.1.00
+# Videoinfox v4.1.03
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -287,6 +287,21 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+###  v4.1.03 Change: Yt-dlp Menu >>> Download List display of user download lists.
+
+          Old display: line number -- /path/filename
+          New display: line number -- filename (with videoinfox-dl- removed from the beginning of the filename.)
+          Note: The path of a user list will be displayed when a user list is set.
+
+          Fix: Videoinfox -a gui notification would display when the clipboard was empty or didn't start with http
+              MESSAGE: Clipboard content didn't start with http (message will also display if the clipboard is empty)
+
+          Fix: Videoinfox -l gui notification would display when the clipboard was empty or didn't start with http
+              MESSAGE: Clipboard content didn't start with http (message will also display if the clipboard is empty)
+
+          Add: Line to Download List Help - The Download List Display Is Sorted Recursively By Directory. Not By Filename.
+
 
 ###  v4.1.00 No more copying screen results to interact with Videoinfox. All Keyboard driven.
 
