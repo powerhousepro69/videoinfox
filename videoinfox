@@ -1360,7 +1360,7 @@ menuf() {
     # CHECKING FOR VIDEOS IN CURRENT DIRECTORY.  if video(s) exist:  the dash @ Play Directory will blink on the home screen
     dovideosexist=$(find_supported_files --count)
 
-    if [[ $dovideosexist -ne 0 ]]; then 
+    if (( dovideosexist != 0 )); then 
         dash=$(echo "~")  
     else
         dash=$(echo "-")  
@@ -1774,7 +1774,7 @@ while true; do
 
                                     #checking for videos in the current directory.  if no videos exist,   Play Directory   won't execute
                                     dovideosexist=$(find_supported_files --count)
-                                    if [[ $dovideosexist -ne 0 ]]; then RUN PLAY LINE
+                                    if (( dovideosexist != 0 )); then
                                         # Create a playlist of available files
                                         playlist_generate "${tmp_dir}/videoinfox.nt-play-directory-apa"
 
@@ -1819,7 +1819,7 @@ while true; do
 
                                     #checking for videos in the current directory.  if no videos exist,   playlistaddnav Directory   won't execute
                                     dovideosexist=$(find_supported_files --count)
-                                    if [[ $dovideosexist -ne 0 ]]; then  # IF VIDEOS EXIST IN THE CURRENT DIRECTORY 
+                                    if (( dovideosexist != 0 )); then  # IF VIDEOS EXIST IN THE CURRENT DIRECTORY 
                                         #########################################function ntplaylistaddnavnum {
                                         # Create a playlist of available files
                                         playlist_generate "${tmp_dir}/videoinfox.nt-playlistaddnav-directory-apa"
