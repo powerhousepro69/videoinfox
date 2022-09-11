@@ -1,4 +1,4 @@
-# Videoinfox v4.1.03
+# Videoinfox v4.1.04
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -287,6 +287,8 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+###  v4.1.04 Change: Dashes would blink when entering Yt-dlp Menu >>> Download List with a valid url in the clipboard.
 
 ###  v4.1.03 Change: Yt-dlp Menu >>> Download List display of user download lists.
 
