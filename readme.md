@@ -1,4 +1,4 @@
-# Videoinfox v4.1.04
+# Videoinfox v4.1.05
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -287,6 +287,12 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+###  v4.1.05 Update in Yt-dlp >>> Download List
+
+          Add: No execute if entry is not a number in: -View List -View Log -Delete User List -Add to Queue
+
+          Fix: Spacing at option -View List
 
 ###  v4.1.04 Change: Dashes would blink when entering Yt-dlp Menu >>> Download List with a valid url in the clipboard.
 
