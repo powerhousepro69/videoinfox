@@ -1,4 +1,4 @@
-# Videoinfox v4.1.08
+# Videoinfox v4.1.09
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -287,6 +287,8 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+###  v4.1.09 Change: Clipboard is no longer cleared when entering or quitting -Default List in Yt-dlp >>> Download List.
 
 ###  v4.1.08 Removed one line that was accidently pasted with last update.
 
