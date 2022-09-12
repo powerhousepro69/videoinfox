@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v4.1.06								         
+#  file : videoinfox v4.1.07								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v4.1.06"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m1.06")  # Version Number: with blinking dot
+ver="Videoinfox v4.1.07"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m1.07")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -1440,12 +1440,16 @@ echo " _________________________________________________________________________
 
 
 
+
+videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.1.06 Update in View PlayList and View Playlist >>> Change Playlist" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v4.1.07 Add: No execute if not a number in: -Set User list located in Yt-dlp Menu >>> Download List" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: No execute if entry is not a number in: -Remove Line" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v4.1.06 Updated more options to prevent script errors if entry isn't a number." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: No execute if entry is not a number in: -Change Playlist -Delete Playlist" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Add: No execute if not a number in: -Remove Line in View Playlist" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Add: No execute if not a number in: -Change Playlist -Delete Playlist in View Playlist >>> Change Playlist" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v4.1.05 Update in Yt-dlp >>> Download List" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -10098,7 +10102,7 @@ done
                  echo
                  echo "___________________________________________________________________________________________________________________"
                  echo  
-                 echo " $der >>> Updated to: "$gver"                             Restart to use updated version."
+                 echo " $der >>> Updated to "$gver"                              Restart to use updated version."
                  echo "___________________________________________________________________________________________________________________" 
                  echo -e "\n"
                 
@@ -10810,7 +10814,7 @@ echo "__________________________________________________________________________
 echo
 echo " d - Download List     s - Set User List        k - Default List       m - Create/Change Directory        q - Quit"
 echo " v - View List         c - Create User List     a - Add to Queue"    
-echo " l - View Log          r - Delete User List     b - Download Queue     z - Clear User Set List            h - Help"
+echo " l - View Log          r - Delete User List     b - Download Queue     Z - Clear User Set List            h - Help"
 echo 
 echo -en " Enter Option: "
 read -r -n1 optiond
@@ -10852,7 +10856,7 @@ pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard conten
 break;;
 
 
-z)  # CLEAR User Set List
+Z)  # CLEAR User Set List
 echo > ~/.config/videoinfox/videoinfox.set-user-list
 ;;
 
@@ -11573,13 +11577,19 @@ fi
 s)  # SET USER LIST  <DOWNLOAD LIST>
 linecount=$(wc -l ~/.config/videoinfox/videoinfox.dowload.list | cut -d' ' -f1)  # GETTING LINECOUNT
 echo
-read -r -p " Enter a number to set user list or enter a letter to clear user set list: " linenumber  # waiting fot user input
+read -r -p " Set user list number: " linenumber  # waiting fot user input
 read -r defaultlist < $HOME/.config/videoinfox/videoinfox.dowload.list.default 2> /dev/null
 
 if [ -z "$linenumber" ]
 then # BLANK ENTRY
     :
 else
+
+re='^[0-9]+$'
+if ! [[ $linenumber =~ $re ]]
+  then
+      :
+  else
 
 if ! [[ "$linenumber" -eq "$linenumber" ]]
   then 
@@ -11602,6 +11612,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
                   sleep 1.9
                   else
                   echo "$playnumber" > ~/.config/videoinfox/videoinfox.set-user-list
+fi
 fi
 fi
 fi
