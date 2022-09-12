@@ -1,4 +1,4 @@
-# Videoinfox v4.1.05
+# Videoinfox v4.1.06
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -7,7 +7,7 @@
 ### 100% Linux Shell Script. Videoinfox is one file under one megabyte.
 
 Find local Video Files fast, immediately play and get info on. Download Videos effortlessly and autoplay.
-Add URL's to unlimited User Set Lists on the fly without leaving the gui. Download all your video url lists
+Add URL's to unlimited User Set Lists on the fly without leaving the browser. Download all your video url lists
 with Videoinfox's Yt-dlp integration including a Download Queue. Watch videos with (default) ffplay, mpv or
 any video player.
 <br />
@@ -287,6 +287,12 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+###  v4.1.06 Update in View PlayList and View Playlist >>> Change Playlist
+         
+          Add: No execute if entry is not a number in: -Remove Line
+
+          Add: No execute if entry is not a number in: -Change Playlist -Delete Playlist
 
 ###  v4.1.05 Update in Yt-dlp >>> Download List
 
