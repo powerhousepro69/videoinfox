@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v4.1.09								         
+#  file : videoinfox v4.1.12								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v4.1.09"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m1.09")  # Version Number: with blinking dot
+ver="Videoinfox v4.1.12"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m1.12")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -1433,13 +1433,22 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 # KNOWN ISSUE
+#echo >> ~/.config/videoinfox/videoinfo-ver-history
+#echo " KNOWN ISSUES: ." >> ~/.config/videoinfox/videoinfo-ver-history
+#echo >> ~/.config/videoinfox/videoinfo-ver-history
+#echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+
+
+
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " KNOWN ISSUES: v3.5.08 In Change Playlist when attempting to delete the Default Playlist." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v4.1.12 Change: Blinking dash in Ytd-lp menu options -Download Default -Download Choose -Self Destruct changed to ~" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Change: Clipboard was saved when entering Yt-dlp >>> Download List and restored on quit even if the clipboard" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                 was cleared while in Yt-dlp >>> Download List -Default List. Now the clipboard isn't restored if cleared." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Fix: The default playlist could be deleted." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Message: The default playlist list can't be deleted. It can only be cleared . . ." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-
-
-
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v4.1.09 Change: Clipboard is no longer cleared when entering or quitting -Default List in Yt-dlp >>> Download List." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2713,13 +2722,7 @@ if [ "$lsearch" = 2 ]  # NEVER SAVE
      echo " " > ~/.config/videoinfox/videoinfo.lastfindstring
      echo " " > ~/.config/videoinfox/videoinfo.lastfinddir
 
-# CREATE FIND RESULT MESSAGE THAT THERE ARE NO STORED FINDS
-#echo "                                                                                                                 " > ~/.config/videoinfox/videoinfo.findwork
-#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-#echo "Select find to search for files.                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork     
+
 echo > ~/.config/videoinfox/videoinfo.findwork
 
 
@@ -5119,6 +5122,15 @@ if ! [[ $linenumber =~ $re ]]
                       # READ FIRST LINE OF FILE
                       read plselected < ~/.config/videoinfox/tmp/playlist.playlist.delete.tmp
 
+                      echo "$plselected"| sed 's/.*\.//' > ~/.config/videoinfox/tmp/plread0.tmp  # REMOVE PATH UP TO DOT. LEAVING PLAYLIST NAME
+                      read -r plselected2 < ~/.config/videoinfox/tmp/plread0.tmp  # READING PLAYLIST NAME ONLY INTO VARIABLE $pselecteda                     
+
+                      if [[ "$plselected2" == "Default" ]]
+                      then
+                      echo " The default playlist list can't be deleted. It can only be cleared . . ."
+                      sleep 1.9
+                      else
+
                       function menucpl {
                   
                       clear
@@ -5176,6 +5188,7 @@ if ! [[ $linenumber =~ $re ]]
         
             fi
       fi
+fi
 fi
 fi            
 ;;        
@@ -7461,7 +7474,7 @@ fi
 ;;
         
 
-        d)  # DELETE PLAYLIST
+         d)  # DELETE PLAYLIST
 
 # GETTING NUMBER OF PLAYLISTS
 linecount=$(wc -l ~/.config/videoinfox/videoinfo.playlist.dirlist | cut -d' ' -f1)
@@ -7501,6 +7514,15 @@ if ! [[ $linenumber =~ $re ]]
 
                       # READ FIRST LINE OF FILE
                       read plselected < ~/.config/videoinfox/tmp/playlist.playlist.delete.tmp
+
+                      echo "$plselected"| sed 's/.*\.//' > ~/.config/videoinfox/tmp/plread0.tmp  # REMOVE PATH UP TO DOT. LEAVING PLAYLIST NAME
+                      read -r plselected2 < ~/.config/videoinfox/tmp/plread0.tmp  # READING PLAYLIST NAME ONLY INTO VARIABLE $pselecteda                     
+
+                      if [[ "$plselected2" == "Default" ]]
+                      then
+                      echo " The default playlist list can't be deleted. It can only be cleared . . ."
+                      sleep 1.9
+                      else
 
                       function menucpl {
                   
@@ -7560,8 +7582,10 @@ if ! [[ $linenumber =~ $re ]]
             fi
       fi
 fi
+fi
 fi            
-;;       
+;;        
+
 
          a)
          # CREATE PLAYLIST
@@ -8962,7 +8986,7 @@ fi
 ;;
         
 
-       d)  # DELETE PLAYLIST
+     d)  # DELETE PLAYLIST
 
 # GETTING NUMBER OF PLAYLISTS
 linecount=$(wc -l ~/.config/videoinfox/videoinfo.playlist.dirlist | cut -d' ' -f1)
@@ -9002,6 +9026,15 @@ if ! [[ $linenumber =~ $re ]]
 
                       # READ FIRST LINE OF FILE
                       read plselected < ~/.config/videoinfox/tmp/playlist.playlist.delete.tmp
+
+                      echo "$plselected"| sed 's/.*\.//' > ~/.config/videoinfox/tmp/plread0.tmp  # REMOVE PATH UP TO DOT. LEAVING PLAYLIST NAME
+                      read -r plselected2 < ~/.config/videoinfox/tmp/plread0.tmp  # READING PLAYLIST NAME ONLY INTO VARIABLE $pselecteda                     
+
+                      if [[ "$plselected2" == "Default" ]]
+                      then
+                      echo " The default playlist list can't be deleted. It can only be cleared . . ."
+                      sleep 1.9
+                      else
 
                       function menucpl {
                   
@@ -9061,8 +9094,10 @@ if ! [[ $linenumber =~ $re ]]
             fi
       fi
 fi
+fi
 fi            
-;;       
+;;        
+
 
          a)
          # CREATE PLAYLIST
@@ -10437,12 +10472,12 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                            #________________x________________________________________ _________________________________________________________
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " ""$der"" >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlpver"
+                      echo " ""$der"" >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlpver"        
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " d "$dash0" Download Default     l - Last Download     v - View Downloads     p - Play Clipboard                 q - Quit"
-                      echo " c "$dash0" Download Choose"
-                      echo " s "$dash0" Self Destruct        g - Download List                            x - Clear Clipboard"
+                      echo " d - Download Default     l - Last Download     v - View Downloads     p - Play Clipboard                 q - Quit"
+                      echo " c - Download Choose"
+                      echo " s - Self Destruct        g - Download List                            x - Clear Clipboard"
                       echo
                   
                       echo "" | xclip -sel clip  # clearing out the clipboard
@@ -10463,10 +10498,9 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo "___________________________________________________________________________________________________________________"
                       echo
 
-echo -e " d "$dash1" Download Default     l - Last Download     v - View Downloads     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                 q - Quit "
-
-                      echo " c "$dash1" Download Choose"
-                      echo " s "$dash1" Self Destruct        g - Download List                            x - Clear Clipboard"
+echo -e " d ~ Download Default     l - Last Download     v - View Downloads     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                 q - Quit "
+                      echo " c ~ Download Choose"
+                      echo " s ~ Self Destruct        g - Download List                            x - Clear Clipboard"
                       echo                                                                                  
             fi
   else
@@ -10481,11 +10515,10 @@ echo -e " d "$dash1" Download Default     l - Last Download     v - View Downloa
             echo "___________________________________________________________________________________________________________________"
             echo
 
-echo -e " d - Download Default     l - Last Download     v - View Downloads     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                 q - Quit "
-                                                      
-            echo " c - Download Choose"
-            echo " s - Self Destruct        g - Download List                            x - Clear Clipboard"
-            echo                                                             
+echo -e " d ~ Download Default     l - Last Download     v - View Downloads     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m                 q - Quit "
+                      echo " c ~ Download Choose"
+                      echo " s ~ Self Destruct        g - Download List                            x - Clear Clipboard"
+                      echo                                                                      
 
         else 
 
@@ -10847,8 +10880,8 @@ cd "$dir5"
 
          
 q)  # QUIT (DOWNLOAD LIST)
-echo "$grabclip" | xclip -sel clip  # restore clipboard
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+#####echo "$grabclip" | xclip -sel clip  # restore clipboard
+#####pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 break;;
 
 
