@@ -1,4 +1,4 @@
-# Videoinfox v4.1.07
+# Videoinfox v4.1.08
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -287,6 +287,8 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+###  v4.1.08 Removed one line that was accidently pasted with last update.
 
 ###  v4.1.07 Add: No execute if not a number in: -Set User list located in Yt-dlp Menu >>> Download List
 
