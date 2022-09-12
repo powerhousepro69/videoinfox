@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v4.1.05								         
+#  file : videoinfox v4.1.06								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v4.1.05"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m1.05")  # Version Number: with blinking dot
+ver="Videoinfox v4.1.06"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m1.06")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -1440,6 +1440,13 @@ echo " _________________________________________________________________________
 
 
 
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v4.1.06 Update in View PlayList and View Playlist >>> Change Playlist" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Add: No execute if entry is not a number in: -Remove Line" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Add: No execute if entry is not a number in: -Change Playlist -Delete Playlist" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v4.1.05 Update in Yt-dlp >>> Download List" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
@@ -4671,7 +4678,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
             then  
                 :
 
-            else
+            else 
 
                 if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
                   then
@@ -4679,6 +4686,11 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
 
                   else
 
+re='^[0-9]+$'
+if ! [[ $linenumber =~ $re ]]
+  then
+      :
+  else
                       if [ "$linenumber" = 0 ]
                         then
                             :
@@ -4702,15 +4714,16 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                                         sed -i "${linenumber}d" ~/.config/videoinfox/videoinfo.playlist 2> /dev/null 
                                         echo
                                         echo "Line deleted from the playlist . . ."
-                                        sleep .9
+                                        sleep .25
                                   fi
                             fi
                       fi
                fi
          fi
 fi
-
+fi
 ;;
+
 
 
 ##################################################################
@@ -5018,6 +5031,11 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
 
   else
 
+re='^[0-9]+$'
+if ! [[ $linenumber =~ $re ]]
+  then
+      :
+  else
 
 if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
   then
@@ -5044,6 +5062,11 @@ if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
 
             # LOAD SELECTED PLAY LIST
             cp "$plselected" ~/.config/videoinfox/videoinfo.playlist 2>/dev/null
+
+            # READ ACTIVE PLAYLIST FOR DISPLAY
+            cat ~/.config/videoinfox/videoinfo.playlist.current | sed 's/.*\.//' > ~/.config/videoinfox/tmp/plread.tmp       
+            read -r setplaylistfull < ~/.config/videoinfox/videoinfo.playlist.current
+            read -r setplaylist < ~/.config/videoinfox/tmp/plread.tmp
     
    fi
 
@@ -5051,10 +5074,7 @@ if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
       fi
 
 fi
-
-
-break
-
+fi
 ;;
         
 
@@ -5074,6 +5094,11 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
 
   else
 
+re='^[0-9]+$'
+if ! [[ $linenumber =~ $re ]]
+  then
+      :
+  else
 
       if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
         then
@@ -5152,7 +5177,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
             fi
       fi
 fi
-            
+fi            
 ;;        
 
 
@@ -7045,6 +7070,11 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
 
                   else
 
+re='^[0-9]+$'
+if ! [[ $linenumber =~ $re ]]
+  then
+      :
+  else
                       if [ "$linenumber" = 0 ]
                         then
                             :
@@ -7075,7 +7105,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                fi
          fi
 fi
-
+fi
 ;;
 
 
@@ -7379,11 +7409,16 @@ read -r -p " Enter line number: " linenumber  # waiting fot user input
 
 
 if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
-  then  
+  then
       :
 
   else
 
+re='^[0-9]+$'
+if ! [[ $linenumber =~ $re ]]
+  then
+      :
+  else
 
 if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
   then
@@ -7410,6 +7445,11 @@ if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
 
             # LOAD SELECTED PLAY LIST
             cp "$plselected" ~/.config/videoinfox/videoinfo.playlist 2>/dev/null
+
+            # READ ACTIVE PLAYLIST FOR DISPLAY
+            cat ~/.config/videoinfox/videoinfo.playlist.current | sed 's/.*\.//' > ~/.config/videoinfox/tmp/plread.tmp       
+            read -r setplaylistfull < ~/.config/videoinfox/videoinfo.playlist.current
+            read -r setplaylist < ~/.config/videoinfox/tmp/plread.tmp
     
    fi
 
@@ -7417,14 +7457,11 @@ if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
       fi
 
 fi
-
-
-break
-
+fi
 ;;
         
 
-         d)  # DELETE PLAYLIST
+        d)  # DELETE PLAYLIST
 
 # GETTING NUMBER OF PLAYLISTS
 linecount=$(wc -l ~/.config/videoinfox/videoinfo.playlist.dirlist | cut -d' ' -f1)
@@ -7440,6 +7477,11 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
 
   else
 
+re='^[0-9]+$'
+if ! [[ $linenumber =~ $re ]]
+  then
+      :
+  else
 
       if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
         then
@@ -7518,9 +7560,8 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
             fi
       fi
 fi
-            
-;;        
-
+fi            
+;;       
 
          a)
          # CREATE PLAYLIST
@@ -8519,10 +8560,10 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
       linecount=$(wc -l ~/.config/videoinfox/tmp/videoinfo.playlist-apa 2> /dev/null | cut -d' ' -f1) # 
 
           if ! [[ "$linenumber" -eq "$linenumber" ]] #2> /dev/null
-            then
+            then  
                 :
 
-            else
+            else 
 
                 if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
                   then
@@ -8530,6 +8571,11 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
 
                   else
 
+re='^[0-9]+$'
+if ! [[ $linenumber =~ $re ]]
+  then
+      :
+  else
                       if [ "$linenumber" = 0 ]
                         then
                             :
@@ -8560,7 +8606,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                fi
          fi
 fi
-
+fi
 ;;
 
 
@@ -8847,7 +8893,7 @@ case $optioncpl in
         break ;;
 
     
-        c)  # CHANGE PLAYLIST
+    c)  # CHANGE PLAYLIST
 
 # GET CURRENT PLAYLIST
 read -r activeplaylistm < ~/.config/videoinfox/videoinfo.playlist.current
@@ -8864,11 +8910,16 @@ read -r -p " Enter line number: " linenumber  # waiting fot user input
 
 
 if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
-  then  
+  then
       :
 
-  else 
+  else
 
+re='^[0-9]+$'
+if ! [[ $linenumber =~ $re ]]
+  then
+      :
+  else
 
 if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
   then
@@ -8895,6 +8946,11 @@ if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
 
             # LOAD SELECTED PLAY LIST
             cp "$plselected" ~/.config/videoinfox/videoinfo.playlist 2>/dev/null
+
+            # READ ACTIVE PLAYLIST FOR DISPLAY
+            cat ~/.config/videoinfox/videoinfo.playlist.current | sed 's/.*\.//' > ~/.config/videoinfox/tmp/plread.tmp       
+            read -r setplaylistfull < ~/.config/videoinfox/videoinfo.playlist.current
+            read -r setplaylist < ~/.config/videoinfox/tmp/plread.tmp
     
    fi
 
@@ -8902,14 +8958,11 @@ if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
       fi
 
 fi
-
-
-break
-
+fi
 ;;
         
 
-         d)  # DELETE PLAYLIST
+       d)  # DELETE PLAYLIST
 
 # GETTING NUMBER OF PLAYLISTS
 linecount=$(wc -l ~/.config/videoinfox/videoinfo.playlist.dirlist | cut -d' ' -f1)
@@ -8920,11 +8973,16 @@ read -r -p " Enter line number to delete: " linenumber  # waiting fot user input
 
 
 if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
-  then  
+  then
       :
 
-  else 
+  else
 
+re='^[0-9]+$'
+if ! [[ $linenumber =~ $re ]]
+  then
+      :
+  else
 
       if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
         then
@@ -9003,9 +9061,8 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
             fi
       fi
 fi
-            
-;;        
-
+fi            
+;;       
 
          a)
          # CREATE PLAYLIST
