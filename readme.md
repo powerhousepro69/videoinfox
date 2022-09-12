@@ -1,4 +1,4 @@
-# Videoinfox v4.1.09
+# Videoinfox v4.1.12
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -288,6 +288,14 @@ FIRST RUN
 ##### Reddit /Videoinfox for discussion.
 <br />
 
+###  v4.1.12 Change: Blinking dash in Ytd-lp menu options -Download Default -Download Choose -Self Destruct changed to ~
+
+          Change: Clipboard was saved when entering Yt-dlp >>> Download List and restored on quit even if the clipboard
+                  was cleared while in Yt-dlp >>> Download List -Default List. Now the clipboard isn't restored if cleared.
+
+          Fix: The default playlist could be deleted.
+          Message: The default playlist list can't be deleted. It can only be cleared . . .
+    
 ###  v4.1.09 Change: Clipboard is no longer cleared when entering or quitting -Default List in Yt-dlp >>> Download List.
 
 ###  v4.1.08 Removed one line that was accidently pasted with last update.
