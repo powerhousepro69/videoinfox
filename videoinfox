@@ -1441,10 +1441,11 @@ echo " _________________________________________________________________________
 
 
 echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v4.1.09 Change: Clipboard is no longer cleared when entering or quitting -Default List in Yt-dlp >>> Download List." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v4.1.08 Removed one line that was accidently pasted with last update." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-
-
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v4.1.07 Add: No execute if not a number in: -Set User list located in Yt-dlp Menu >>> Download List" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2759,14 +2760,6 @@ if [ "$lsearch" = 3 ]  # ASK TO SAVE
      echo " " > ~/.config/videoinfox/videoinfo.lastsearchtotal
      echo " " > ~/.config/videoinfox/videoinfo.lastfindstring
      echo " " > ~/.config/videoinfox/videoinfo.lastfinddir
-
-# CREATE FIND RESULT MESSAGE THAT THERE ARE NO STORED FINDS
-#echo "                                                                                                                 " > ~/.config/videoinfox/videoinfo.findwork
-#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-#echo "Select find to search for files.                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork
-#echo "                                                                                                                 " >> ~/.config/videoinfox/videoinfo.findwork     
 
 echo > ~/.config/videoinfox/videoinfo.findwork
 
@@ -11705,7 +11698,7 @@ fi
 
 k)  # DEFAULT LIST  <DOWNLOAD LIST>
 
-echo "" | xclip -sel clip  # clearing out the clipboard
+###############echo "" | xclip -sel clip  # clearing out the clipboard
 
 function ddefault {
 
@@ -11768,8 +11761,8 @@ ddefault
 case $optiondd in
          
 q)  # QUIT  <DEFAULT LIST>
-echo "" | xclip -sel clip  # clearing out the clipboard
-pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+###echo "" | xclip -sel clip  # clearing out the clipboard
+###pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 break;;
 
 
