@@ -1,4 +1,4 @@
-# Videoinfox v4.1.06
+# Videoinfox v4.1.07
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -288,11 +288,12 @@ FIRST RUN
 ##### Reddit /Videoinfox for discussion.
 <br />
 
-###  v4.1.06 Update in View PlayList and View Playlist >>> Change Playlist
-         
-          Add: No execute if entry is not a number in: -Remove Line
+###  v4.1.07 Add: No execute if not a number in: -Set User list located in Yt-dlp Menu >>> Download List
 
-          Add: No execute if entry is not a number in: -Change Playlist -Delete Playlist
+###  v4.1.06 Updated more options to prevent script errors if entry isn't a number.
+         
+          Add: No execute if not a number in: -Remove Line in View Playlist
+          Add: No execute if not a number in: -Change Playlist -Delete Playlist in View Playlist >>> Change Playlist          
 
 ###  v4.1.05 Update in Yt-dlp >>> Download List
 
