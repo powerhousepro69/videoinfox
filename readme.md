@@ -168,7 +168,7 @@ DEFAULT DOWNLOAD LIST.
 
 Copy the url to clipboard then add video url to to the default list in videoinfox
 
-or with the videoinfox -a gui keyboard shortcut.
+or stay in your browser and add url with the videoinfox -a gui keyboard shortcut.
 
 ![Videoinfox download list help](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/DEFAULT-LIST.png)
 
