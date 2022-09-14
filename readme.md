@@ -1,4 +1,4 @@
-# Videoinfox v4.1.12
+# Videoinfox v4.1.20
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -287,6 +287,10 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+###  v4.1.20 Add: Loaded playlist is now displayed on the below screens which have option -Playlist Add in common.
+
+          [Home]     [>>> Navigate Tree >>> Show All]     [Played List]
 
 ###  v4.1.12 Change: Blinking dash in Ytd-lp menu options -Download Default -Download Choose -Self Destruct changed to ~
 
