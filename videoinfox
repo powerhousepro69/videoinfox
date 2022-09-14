@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v4.1.12								         
+#  file : videoinfox v4.1.20								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v4.1.12"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m1.12")  # Version Number: with blinking dot
+ver="Videoinfox v4.1.20"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m1.20")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -1106,7 +1106,7 @@ echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo " "$ver" >>> DOWNLOAD LIST >>> HELP                                                            q - Quit" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
-echo " ***** The Download List Display Is Sorted Recursively By Directory. Not By Filename. *****" >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " ***** The Download List Display is Sorted Recursively By Directory. Not By Filename. *****" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo " There is a Default List and User Created Lists.  If a list is deleted, it's log file will also be deleted." >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1441,13 +1441,18 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v4.1.20 Add: Loaded playlist is now displayed on the below screens which have option -Playlist Add in common." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              [Home]     [>>> Navigate Tree >>> Show All]     [Played List]" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v4.1.12 Change: Blinking dash in Ytd-lp menu options -Download Default -Download Choose -Self Destruct changed to ~" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Change: Clipboard was saved when entering Yt-dlp >>> Download List and restored on quit even if the clipboard" >> ~/.config/videoinfox/videoinfo-ver-history
 echo "                 was cleared while in Yt-dlp >>> Download List -Default List. Now the clipboard isn't restored if cleared." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Fix: The default playlist could be deleted." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Message: The default playlist list can't be deleted. It can only be cleared . . ." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Message: The default playlist list cannot be deleted. It can only be cleared . . ." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v4.1.09 Change: Clipboard is no longer cleared when entering or quitting -Default List in Yt-dlp >>> Download List." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2288,6 +2293,9 @@ fi
 
 function menuf {
 
+# read current playlist 
+cat ~/.config/videoinfox/videoinfo.playlist.current | sed 's/.*\.//' > ~/.config/videoinfox/tmp/plread.tmp 
+read -r setplaylist < ~/.config/videoinfox/tmp/plread.tmp
 
 if [ -f ~/.config/videoinfox/videoinfox.video-player ]
   then
@@ -2572,6 +2580,7 @@ fi
 
 echo
 echo "Directory: ""$PWD"
+echo "Playlist : ""$setplaylist"
 #echo "Clipboard: ""$pasteclip"
 
 ##################################################################################################################################################
@@ -2629,7 +2638,6 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                   else  # yt-dlp extracted a filename
                       echo
                       echo "YT-DLP Confirmed: "$ytdlpconfirm""
-                      echo
                       echo "Download Directory: $dirsaved"  # dislpay default download directory
                       echo "___________________________________________________________________________________________________________________"
                       echo
@@ -3576,6 +3584,10 @@ if [ $dovideosexist -ne 0 ]  # If the find result doesn't =   0   goto then
 
 function ntplaynum {
 
+# read current playlist 
+cat ~/.config/videoinfox/videoinfo.playlist.current | sed 's/.*\.//' > ~/.config/videoinfox/tmp/plread.tmp 
+read -r setplaylist < ~/.config/videoinfox/tmp/plread.tmp
+
 # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
 find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) > ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa-work 2>/dev/null
 
@@ -3685,6 +3697,7 @@ fi
 
 echo
 echo "Directory: ""$PWD"
+echo "Playlist : ""$setplaylist"
 echo "___________________________________________________________________________________________________________________"
 echo  
 echo " $der >>> NAVIGATE TREE >>> SHOW ALL"
@@ -3717,7 +3730,6 @@ z) # DIRECTORY TO PAYLIST
 echo
 echo
 echo " If any dots are entered, they will be stripped from the playlist name."
-echo " If a space is used as the first character, it will be stripped from the playlist name."
 echo " Spaces can be used after the first character of the playlist name."
 echo
 read -r -p " Create Playlist: " createpl1  # waiting fot user input. grabbing new filename
@@ -4474,7 +4486,6 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                   else 
                       echo
                       echo "YT-DLP Confirmed: "$ytdlpconfirm""
-                      echo
                       echo "Download Directory: $dirsaved"  # dislpay default download directory
                       echo "___________________________________________________________________________________________________________________"
                       echo
@@ -5127,7 +5138,7 @@ if ! [[ $linenumber =~ $re ]]
 
                       if [[ "$plselected2" == "Default" ]]
                       then
-                      echo " The default playlist list can't be deleted. It can only be cleared . . ."
+                      echo " The default playlist list cannot be deleted. It can only be cleared . . ."
                       sleep 1.9
                       else
 
@@ -5198,7 +5209,6 @@ fi
          # CREATE PLAYLIST
 echo
 echo " If any dots are entered, they will be stripped from the playlist name."
-echo " If a space is used as the first character, it will be stripped from the playlist name."
 echo " Spaces can be used after the first character of the playlist name."
 echo
 read -r -p " Create Playlist: " createpl1  # waiting fot user input. grabbing new filename
@@ -6256,11 +6266,15 @@ if [ -f ~/.config/videoinfox/tmp/videoinfo.number.played-list ]
         echo "Played List Empty . . ."
 fi
 
+
+echo
+echo "Playlist : ""$setplaylist"
+
 #cat ~/.config/videoinfox/videoinfo.playedlist 
 
 if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
   then
-      echo
+      #echo
       echo "Clipboard: ""$pasteclip"
   else
       :
@@ -6316,7 +6330,6 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                   else 
                       echo
                       echo "YT-DLP Confirmed: "$ytdlpconfirm""
-                      echo
                       echo "Download Directory: $dirsaved"  # dislpay default download directory
                       echo "___________________________________________________________________________________________________________________"
                       echo
@@ -6868,7 +6881,6 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                   else 
                       echo
                       echo "YT-DLP Confirmed: "$ytdlpconfirm""
-                      echo
                       echo "Download Directory: $dirsaved"  # dislpay default download directory
                       echo "___________________________________________________________________________________________________________________"
                       echo
@@ -7520,7 +7532,7 @@ if ! [[ $linenumber =~ $re ]]
 
                       if [[ "$plselected2" == "Default" ]]
                       then
-                      echo " The default playlist list can't be deleted. It can only be cleared . . ."
+                      echo " The default playlist list cannot be deleted. It can only be cleared . . ."
                       sleep 1.9
                       else
 
@@ -7591,7 +7603,6 @@ fi
          # CREATE PLAYLIST
 echo
 echo " If any dots are entered, they will be stripped from the playlist name."
-echo " If a space is used as the first character, it will be stripped from the playlist name."
 echo " Spaces can be used after the first character of the playlist name."
 echo
 read -r -p " Create Playlist: " createpl1  # waiting fot user input. grabbing new filename
@@ -8380,7 +8391,6 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                   else 
                       echo
                       echo "YT-DLP Confirmed: "$ytdlpconfirm""
-                      echo
                       echo "Download Directory: $dirsaved"  # dislpay default download directory
                       echo "___________________________________________________________________________________________________________________"
                       echo
@@ -9032,7 +9042,7 @@ if ! [[ $linenumber =~ $re ]]
 
                       if [[ "$plselected2" == "Default" ]]
                       then
-                      echo " The default playlist list can't be deleted. It can only be cleared . . ."
+                      echo " The default playlist list cannot be deleted. It can only be cleared . . ."
                       sleep 1.9
                       else
 
@@ -9103,7 +9113,6 @@ fi
          # CREATE PLAYLIST
 echo
 echo " If any dots are entered, they will be stripped from the playlist name."
-echo " If a space is used as the first character, it will be stripped from the playlist name."
 echo " Spaces can be used after the first character of the playlist name."
 echo
 read -r -p " Create Playlist: " createpl1  # waiting fot user input. grabbing new filename
@@ -10490,7 +10499,6 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       
                       echo
                       echo "YT-DLP Confirmed: "$ytdlpconfirm""
-                      echo
                       echo "Download Directory: $dirsaved"  # dislpay default download directory
                       echo "___________________________________________________________________________________________________________________"
                       echo
@@ -12408,7 +12416,6 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                   else 
                       echo
                       echo "YT-DLP Confirmed: "$ytdlpconfirm""
-                      echo
                       echo "Download Directory: $dirsaved"  # dislpay default download directory
                       echo "___________________________________________________________________________________________________________________"
                       echo
