@@ -288,9 +288,9 @@ FIRST RUN
 ##### Reddit /Videoinfox for discussion.
 <br />
 
-###  v4.1.31 Add: Download Directory: is now displayed in YT-DLP MENU >>> DOWNLOAD LIST >>> DEFAULT LIST
+###  v4.1.31 Add: Download Directory: is now displayed in Yt-dlp Menu >>> Download List >>> Default List
 
-          Change: Screen is cleared for option -Clear Default List in YT-DLP MENU >>> DOWNLOAD LIST >>> DEFAULT LIST
+          Change: Screen is cleared for option -Clear Default List in Yt-dlp Menu >>> Download List >>> Default List
 
 ###  v4.1.20 Add: Loaded playlist is now displayed on the below screens which have option -Playlist Add in common.
 
