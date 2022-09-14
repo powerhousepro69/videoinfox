@@ -131,11 +131,15 @@ FFprobe - Get codec, resolution & duration in seconds.
 <br />
 PLAY DIRECTORY
 
+Autoplay directory one level deep.
+
 ![Play Directory](https://i.imgur.com/4sw8VR6.png)
 
 
 <br />
-OPTION TO QUIT PLAY DIRECTORY EVERYTIME A VIDEO ENDS OR THE VIDEO PLAYER IS QUIT.
+OPTION TO QUIT A WHEN A VIDEO ENDS OR THE VIDEO PLAYER IS QUIT.
+
+Applies to Play Directory, Autoplay, Start Autoplay and Resume Autoplay
 
 ![Play Directory](https://i.imgur.com/c6N5iJ3.png)
 
@@ -149,9 +153,12 @@ YT-DLP MENU
 <br />
 DOWNLOAD LIST MENU WITH DOWNLOAD QUEUE
 
-CREATE UNLIMITED USER LISTS AND ADD VIDEO URL'S TO THE LIST TO DOWNLOAD.
-ADD VIDEO URL'S TO A USER SET LIST WITH THE videoinfox -l GUI KEYBOARD SHORTCUT.
-LOAD UNLIMITED USER LISTS INTO THE DOWNLOAD QUEUE FOR BATCH DOWNLOAD.
+1. Create unlimited user lists. Add video url's to the list from the clipboard without leaving the browser.
+   
+   (Copy the url to clipboard then add video url to a user set list with the videoinfox -l gui keyboard shortcut.)
+
+2. Download single list or
+   Load unlimited user lists into the download queue for batch download.
 
 ![download list menu](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/DOWNLOAD-LIST.png)
 
@@ -159,7 +166,9 @@ LOAD UNLIMITED USER LISTS INTO THE DOWNLOAD QUEUE FOR BATCH DOWNLOAD.
 <br />
 DEFAULT DOWNLOAD LIST.
 
-ADD VIDEO URL'S TO THE DEFAULT LIST IN VIDEOINFOX OR WITH THE videoinfox -a GUI KEYBOARD SHORTCUT
+Copy the url to clipboard then add video url to to the default list in videoinfox
+
+or with the videoinfox -a gui keyboard shortcut.
 
 ![Videoinfox download list help](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/DEFAULT-LIST.png)
 
