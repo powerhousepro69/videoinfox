@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v4.1.20								         
+#  file : videoinfox v4.1.31								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v4.1.20"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m1.20")  # Version Number: with blinking dot
+ver="Videoinfox v4.1.31"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m1.31")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -1440,6 +1440,11 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v4.1.31 Add: Download Directory: is now displayed in YT-DLP MENU >>> DOWNLOAD LIST >>> DEFAULT LIST" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Change: Screen is cleared for option -Clear Default List in YT-DLP MENU >>> DOWNLOAD LIST >>> DEFAULT LIST" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v4.1.20 Add: Loaded playlist is now displayed on the below screens which have option -Playlist Add in common." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
@@ -11780,7 +11785,9 @@ sed -i '/http/!d' ~/.config/videoinfox/videoinfox-dl-Default  # remove all lines
 clear
 cat ~/.config/videoinfox/videoinfox-dl-Default  # display default download list
 echo
-echo "Copy 1 url to the clipboard then Add to Default List to add the url."
+echo "Download Directory: $dirsaved"  # dislpay default download directory
+echo
+echo "Copy 1 video url to the clipboard then -Add to Default List to add the url to the default list."
 echo
 echo "Directory:" "$PWD"
 echo "Clipboard:" "$pasteclip"
@@ -11815,6 +11822,7 @@ pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard conten
 
 c)  # CLEAR DEFAULT LIST   <DEFAULT LIST>  
 function yesorno {
+clear
 echo
 echo " Clear the Default List?"
 echo
