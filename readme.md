@@ -141,11 +141,13 @@ OPTION TO QUIT A WHEN A VIDEO ENDS OR THE VIDEO PLAYER IS QUIT.
 
 Applies to Play Directory, Autoplay, Start Autoplay and Resume Autoplay
 
-![Play Directory](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PD-QUIT.png)
+![Quit Play Directory](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PD-QUIT.png)
 
 
 <br />
 YT-DLP MENU
+
+Download video url in clipboard or download and autoplay with Play Clipboard
 
 ![Yt-dlp Menu](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/YT-DLP-MENU.png)
 
@@ -163,7 +165,7 @@ DOWNLOAD LIST MENU WITH DOWNLOAD QUEUE
 
 
 <br />
-DEFAULT DOWNLOAD LIST.
+DEFAULT DOWNLOAD LIST
 
 Copy the url to clipboard then add video url to to the default list in videoinfox
 
@@ -173,21 +175,19 @@ or stay in your browser and add url with the videoinfox -a gui keyboard shortcut
 
 
 <br />
-NAVIGATE TREE WITH PLAY DIRECTORY, AUTOPLAY and PLAY
+NAVIGATE TREE
 
 ![Navigate Tree](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/NAVIGATE-TREE.png)
 
 
 <br />
-NAVIGATE TREE >>> SHOW ALL WITH DIRECTORY TO PLAYLIST
+NAVIGATE TREE >>> SHOW ALL with Autoplay, Play, Directory To Playlist and Playlist Add
 
 ![NT Show All](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/NT-SHOW-ALL.png)
 
 
 <br />
-FIND VIDEOS TO PLAY OR GET INFO.
-
-SELECT PLAY, AUTOPLAY, INFO OR PLAYLIST ADD
+FIND VIDEOS TO Play, Autoplay, Playlist Add or get Info
 
 ![Videoinfox Find](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/FIND.png)
 
