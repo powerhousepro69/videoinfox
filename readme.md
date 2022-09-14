@@ -359,16 +359,7 @@ FIRST RUN
 
 <br />
 
- Note: There is only one area left in Videoinfox that still use the clipboard feature.
 
-       1. More Options >>> Find Directory
-
- The above will be converted over from clipboard copy to line number for selection.
- Once that is finished, the only time the clipboard feature will be used is in the gui. Copying video
- url's to the clipboard to download or when building a download list with a videoinfox keyboard shortcut.
-
-
-<br />
 
 ![Code Stats](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/code-stats.png)
 
