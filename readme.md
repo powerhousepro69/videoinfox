@@ -1,4 +1,4 @@
-# Videoinfox v4.1.31
+# Videoinfox v4.1.32
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -296,78 +296,9 @@ FIRST RUN
 ##### Reddit /Videoinfox for discussion.
 <br />
 
-###  v4.1.31 Add: Download Directory: is now displayed in Yt-dlp Menu >>> Download List >>> Default List
+###  v4.1.32  After extensive testing, everything appears to be working as expected without any script errors.
 
-          Change: Screen is cleared for option -Clear Default List in Yt-dlp Menu >>> Download List >>> Default List
-
-###  v4.1.20 Add: Loaded playlist is now displayed on the below screens which have option -Playlist Add in common.
-
-          [Home]     [>>> Navigate Tree >>> Show All]     [Played List]
-
-###  v4.1.12 Change: Blinking dash in Ytd-lp menu options -Download Default -Download Choose -Self Destruct changed to ~
-
-          Change: Clipboard was saved when entering Yt-dlp >>> Download List and restored on quit even if the clipboard
-                  was cleared while in Yt-dlp >>> Download List -Default List. Now the clipboard isn't restored if cleared.
-
-          Fix: The default playlist could be deleted.
-          Message: The default playlist list can't be deleted. It can only be cleared . . .
-    
-###  v4.1.09 Change: Clipboard is no longer cleared when entering or quitting -Default List in Yt-dlp >>> Download List.
-
-###  v4.1.08 Removed one line that was accidently pasted with last update.
-
-###  v4.1.07 Add: No execute if not a number in: -Set User list located in Yt-dlp Menu >>> Download List
-
-###  v4.1.06 Updated more options to prevent script errors if entry isn't a number.
-         
-          Add: No execute if not a number in: -Remove Line in View Playlist
-          Add: No execute if not a number in: -Change Playlist -Delete Playlist in View Playlist >>> Change Playlist          
-
-###  v4.1.05 Update in Yt-dlp >>> Download List
-
-          Add: No execute if entry is not a number in: -View List -View Log -Delete User List -Add to Queue
-
-          Fix: Spacing at option -View List
-
-###  v4.1.04 Change: Dashes would blink when entering Yt-dlp Menu >>> Download List with a valid url in the clipboard.
-
-###  v4.1.03 Change: Yt-dlp Menu >>> Download List display of user download lists.
-
-          Old display: line number -- /path/filename
-          New display: line number -- filename (with videoinfox-dl- removed from the beginning of the filename.)
-          Note: The path of a user list will be displayed when a user list is set.
-
-          Fix: Videoinfox -a gui notification would display when the clipboard was empty or didn't start with http
-              MESSAGE: Clipboard content didn't start with http (message will also display if the clipboard is empty)
-
-          Fix: Videoinfox -l gui notification would display when the clipboard was empty or didn't start with http
-              MESSAGE: Clipboard content didn't start with http (message will also display if the clipboard is empty)
-
-          Add: Line to Download List Help - The Download List Display Is Sorted Recursively By Directory. Not By Filename.
-
-
-###  v4.1.00 No more copying screen results to interact with Videoinfox. All Keyboard driven.
-
-         Change: More Options >>> Find Directory
-                 No more copying the directory to the clipboard. Enter Line Number.
-
-         Add: Find Directory added to Navigate Tree
-
-         Edit: Help
-
-         Note: Clipboard copy is only needed when copying video urls for immediate
-               download or to add the url to a download list in Videoinfox or a keyboard shortcut.
-               Stay in the web browser and use: (default) videoinfox -a or (user) videoinfox -l
-
-
-###  v4.0.01 Download List Help edit.
-
-###  v4.0.00 No more copy to clipboard for options in YT-DLP >>> DOWNLOAD LIST.
-         
-         Enter line number for all options in YT-DLP >>> DOWNLOAD LIST.
-
-         Note: The only place left that needs converted over to selection by number is 
-         MORE OPTIONS >>> FIND DIRECTORY.
+          Change: Home Screen: -Find changed to -Find Video
 
 <br />
 
