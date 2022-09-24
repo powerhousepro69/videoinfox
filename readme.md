@@ -202,6 +202,18 @@ PLAYLIST
 
 
 <br />
+PLAYLIST -Change and Queue
+
+![Videoinfox Change and Queue](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/CHANGEANDQUEUE.png)
+
+
+<br />
+PLAYLIST -Play Queue
+
+![Videoinfox Play Queue](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PLAYQUEUE.png)
+
+
+<br />
 MORE OPTIONS
 
 ![Videoinfox More Options](https://i.imgur.com/HXyfhCU.png)
