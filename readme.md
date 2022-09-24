@@ -247,7 +247,7 @@ SETTINGS
 <br />
 videoinfox -h
 
-![videoinfox -h](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/videoinfox-h.png)
+![videoinfox -h](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/VIDEOINFOX-H.png)
 
 <br />
  
