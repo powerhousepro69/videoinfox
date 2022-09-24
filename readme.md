@@ -1,4 +1,4 @@
-# Videoinfox v4.2.00
+# Videoinfox v4.2.02
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -310,6 +310,14 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+###  v4.2.02 Add: added message to Home -Find if there are no video files.
+    
+          MSG: No video files recursively reachable from the current directory . . .
+
+          Change: View Playlist options: -Remove Line -Remove Duplicates -Clear Playlist all autosave the changes.
+          Before this change the active playlist was only saved when selecting option -Change Playlist
+
 
 ###  v4.2.00 Playlist Queue added. Load unlimied playlists into the queue for autoplay with last played video marker.
 
