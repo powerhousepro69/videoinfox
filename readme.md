@@ -346,6 +346,6 @@ FIRST RUN
 
 
 
-![Code Stats](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/code-stats.png)
+![Code Stats](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/CODE-STATS.png)
 
 
