@@ -1,4 +1,4 @@
-# Videoinfox v4.1.32
+# Videoinfox v4.2.00
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -22,9 +22,8 @@ sudo chmod +x /usr/local/bin/videoinfox
 ```
 <br />
 
-
+#### NEW in v4.2.00 Added Playlist Queue. Added Intermission in Settings + more options.
 #### NEW in v4.1.00 &nbsp; All keyboard driven. No more copying screen results to the clipboard.
-
 
 <br />
 Download multiple URL User Lists simultaneously.
@@ -296,9 +295,27 @@ FIRST RUN
 ##### Reddit /Videoinfox for discussion.
 <br />
 
-###  v4.1.32  After extensive testing, everything appears to be working as expected without any script errors.
+###  v4.2.00 Playlist Queue added. Load unlimied playlists into the queue for autoplay with last played video marker.
 
-          Change: Home Screen: -Find changed to -Find Video
+          >>> View Playlist option: -Change Paylist was renamed to -Change and Queue.
+          
+          New Options in -Change and Queue:     -Add to Queue     -Queue List     -Play Queue.
+
+          Queue List options:     g - Remove Duplicate Playlists     r - Rewrite Queue With Current List     d - Delete Queue
+
+          Play Queue options:     j - Play     o - Start Autoplay      z - Queue to Playlist     r - Remove Line
+                                  i - Info     l - Resume Autoplay                               g - Remove Duplicates
+                                                                                                 d - Delete Queue
+
+         Add: -Remove Duplictes added to >>> View Playlist. Duplicates were auto-removed. Now they are not.
+
+         Add: -Find Directory added to YT-DLP MENU >>> DOWNLOAD LIST -Create/Change Directory
+
+         Add: -Intermission option in Settings. Change the time in seconds on video end/player quit. Initially set to 10.
+
+         Change: in FIRST RUN >>> SETUP Timeout changed to Press enter to continue . . . . . .
+
+         Fix: -Set -Videoinfox Update. Directory wasn't being restored on -Update
 
 <br />
 
