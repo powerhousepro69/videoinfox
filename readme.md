@@ -237,7 +237,7 @@ VIDEO DURATION
 <br />
 FIND DIRECTORY
 
-![Videoinfox Find Directory](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/find-directory.png)
+![Videoinfox Find Directory](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/FIND-DIRECTORY.png)
 
 <br />
 SETTINGS
