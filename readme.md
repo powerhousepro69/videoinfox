@@ -288,7 +288,7 @@ DEPENDENCIES
 <br />
 FIRST RUN
 
-![Videoinfox FIRST RUN](https://i.imgur.com/IzaDGUs.png)
+![Videoinfox FIRST RUN](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/FIRST-RUN.png)
 <br />
 
 
