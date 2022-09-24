@@ -196,19 +196,19 @@ FIND VIDEOS TO Play, Autoplay, Playlist Add or get Info
 
 
 <br />
-PLAYLIST
+VIEW PLAYLIST
 
 ![Videoinfox Playlist](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PLAYLIST.png)
 
 
 <br />
-PLAYLIST -Change and Queue
+VIEW PLAYLIST -Change and Queue
 
 ![Videoinfox Change and Queue](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/CHANGEANDQUEUE.png)
 
 
 <br />
-PLAYLIST -Play Queue
+VIEW PLAYLIST -Change and Queue -Play Queue
 
 ![Videoinfox Play Queue](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PLAYQUEUE.png)
 
