@@ -73,12 +73,15 @@ FFprobe - Get codec, resolution & duration in seconds.
   - Check for update on startup and notifity if update is available. Download and update in Videoinfox.
   - Play a local file by entering the line number. Play single video or autoplay the entire list.
   - Create unlimited Playlists from: Recusive search results, Recursive directory listings and the Played List
-  - Directory To Playlist: Create a new playlist from a 1 level deep dir listing. Good for seasons of TV shows. 
+  - Directory To Playlist: Create a new playlist from a 1 level deep dir listing. Good for seasons of TV shows.
+  - Playlist Queue to load unlimited playlists for autoplay with last played video marker.
+  - Queue to Playlist: Save the Playlist Queue to a Playlist. 
   - Play Clipboard: Download a video url that is in the clipboard via Yt-dlp and autoplay.
   - Play Clipboard is available in: Home  Played List  Play List  Yt-dlp Menu  View Downloads
   - See codec, resolution and duration on the playing video.
   - Play Directory autoplay available on: Home Screen, Navigate Tree and View Downloads.
-  - Autoplay video files in the current directory with option to quit. videoinfox -d
+  - Set Intermission time in seconds. Change the time in seconds on video end/player quit. Initially set to 10.
+  - Command Line Option: Autoplay video files in the current directory with option to quit. videoinfox -d
   - Navigate Tree with Play Directory, Play and Autoplay. Select line number to start play.
   - Video Player auto closes when the video ends. Ffplay is used by default. Any video player can be used.
   - Auto clear the video url from clipboard after the video player is closed.
@@ -90,8 +93,9 @@ FFprobe - Get codec, resolution & duration in seconds.
   - Default Dirs - 1 2 3 4 5  available in: Home  Navigate Tree  Download List  More Options
   - Played List: log everything played except for: Play Directory, Autoplay, and anything played from a Played List.  
   - Played List: Play All option that will auto play the entire list with option to quit.
+  - Duplicates auto-removed from the Played List.
   - Playlist: Save a list of videos from search results, directory listings and Played List.
-  - Remove duplicates from the Playlist and Played List.
+  - Remove duplicates from the Playlist.
   - Enter a video file with full path to get info on and play.
   - Auto save last find result(s) and autoload until deleted. Defaulted to never save. Change in Settings.
   - Yt-dlp integration for easy download and play of single url's or entire lists.
@@ -113,7 +117,7 @@ FFprobe - Get codec, resolution & duration in seconds.
   - Recursive count of videos broken down by video type.
   - Recursive duration (days:hrs:min:sec) Save per directory.
   - GUI notifications.
-  - More features . . .
+  - + more options . . .
 
 
  
