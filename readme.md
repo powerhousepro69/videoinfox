@@ -182,6 +182,11 @@ NAVIGATE TREE
 
 ![Navigate Tree](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/NAVIGATE-TREE.png)
 
+<br />
+FIND DIRECTORY
+
+![Videoinfox Find Directory](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/FIND-DIRECTORY.png)
+
 
 <br />
 NAVIGATE TREE >>> SHOW ALL with Autoplay, Play, Directory To Playlist and Playlist Add
@@ -234,10 +239,6 @@ VIDEO DURATION
 
 ![Videoinfox Duration](https://i.imgur.com/03KxKlU.png)
 
-<br />
-FIND DIRECTORY
-
-![Videoinfox Find Directory](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/FIND-DIRECTORY.png)
 
 <br />
 SETTINGS
