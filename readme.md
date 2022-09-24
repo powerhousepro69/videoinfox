@@ -221,7 +221,7 @@ VIEW PLAYLIST -Change and Queue -Play Queue
 <br />
 MORE OPTIONS
 
-![Videoinfox More Options](https://i.imgur.com/HXyfhCU.png)
+![Videoinfox More Options](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/MORE-OPTIONS.png)
 
 
 <br />
