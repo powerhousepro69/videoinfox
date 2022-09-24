@@ -278,7 +278,7 @@ videoinfox -h
 <br />
 DEPENDENCIES
   
-![Videoinfox DEPENDENCY CHECK](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/DEPENDENCY.png))
+![Videoinfox DEPENDENCY CHECK](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/DEPENDENCY.png)
 
 
 <br />
