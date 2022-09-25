@@ -1,4 +1,4 @@
-# Videoinfox v4.2.04
+# Videoinfox v4.2.11
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -21,7 +21,7 @@ sudo wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/vide
 sudo chmod +x /usr/local/bin/videoinfox
 ```
 <br />
-
+#### NEW is v4.2.11 Add: -Make Playlist on Home Screen. Save all search results as a Playlist.
 #### NEW in v4.2.00 Added Playlist Queue. Added Intermission in Settings + more options.
 #### NEW in v4.1.00 &nbsp; All keyboard driven. No more copying screen results to the clipboard.
 
@@ -35,13 +35,17 @@ Videoinfox is a Linux shell script that feels like an app. If you enjoy watching
 
 #### Create unlimited playlists. Add videos to the Playlist from: 
 
-- Search Results: &nbsp; Find for recursive searching and Show All for recursive directory listing.
-                                 
-- Directory Listings: &nbsp; Navigate Tree for one level deep directory listing. 
+- Add to Playlist: Search Results. &nbsp; Find for recursive searching and Show All for recursive directory listing.
 
-- Directory To Playlist: &nbsp; Add all videos in the current directory to a new Playlist.
+- Make Playlist on Home Screen. Save all search results as a Playlist.
 
-- Played List: &nbsp; Play Clipboard, Last Download and Play Line all write to the Played List.  
+- Add to Playlist: Directory Listings. &nbsp; Navigate Tree >>> Show All for one level deep directory listing. 
+
+- Directory to Playlist in Navigate Tree >>> Show All &nbsp; Add all videos in the current directory to a new Playlist.
+
+- Queue to Playlist:
+
+- Add to Playlist: Played List. &nbsp; Play Clipboard, Last Download and Play Line all write to the Played List.  
 
 #### Start Autoplay on a playlist from the beginning to the end of the list or Start Autoplay from anywhere in the list and play to the end of the list. Resume Autoplay will start with last the video that was playing on Start Autoplay quit. Resume Autoplay will also keep track of the last video that was playing on quit.
 
@@ -312,6 +316,12 @@ FIRST RUN
 ##### Reddit /Videoinfox for discussion.
 <br />
 
+###  v4.2.11 Add: -Make Playlist on Home Screen. Save all search results as a Playlist.
+
+          Add: -Find Dir on Home Screen.
+
+          Edit: Home Help.
+  
 ###  v4.2.04 Change: Another edit in Quit message on video end/player quit in -Play Directory and Autoplay.
 
 ###  v4.2.03 Change: Quit message on video end/player quit in -Play Directory and Autoplay.
