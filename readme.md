@@ -1,4 +1,4 @@
-# Videoinfox v4.2.11
+# Videoinfox v4.2.12
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -22,6 +22,7 @@ sudo chmod +x /usr/local/bin/videoinfox
 ```
 <br />
 
+#### New in v4.2.12 Add: -Download Only on Home Screen. Download a video url that is in the clipboard.
 #### NEW in v4.2.11 Add: -Make Playlist on Home Screen. Save all search results as a Playlist.
 #### NEW in v4.2.00 Added Playlist Queue. Added Intermission in Settings + more options.
 #### NEW in v4.1.00 &nbsp; All keyboard driven. No more copying screen results to the clipboard.
@@ -316,6 +317,10 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+###  v4.2.12 Add: -Download Only on Home Screen. Download a video url that is in the clipboard.
+
+          -Download Only is the same as Download Default in Yt-dlp Menu.
 
 ###  v4.2.11 Add: -Make Playlist on Home Screen. Save all search results as a Playlist.
 
