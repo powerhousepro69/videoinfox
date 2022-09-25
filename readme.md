@@ -243,7 +243,7 @@ VIDEO COUNT
 <br />
 VIDEO DURATION
 
-![Videoinfox Duration](https://i.imgur.com/03KxKlU.png)
+![Videoinfox Duration](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/VIDEO-DURATION.png)
 
 
 <br />
