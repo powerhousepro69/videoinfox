@@ -1,4 +1,4 @@
-# Videoinfox v4.2.03
+# Videoinfox v4.2.04
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -311,6 +311,8 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+###  v4.2.04 Change: Another edit in Quit message on video end/player quit in -Play Directory and Autoplay.
 
 ###  v4.2.03 Change: Quit message on video end/player quit in -Play Directory and Autoplay.
 
