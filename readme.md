@@ -233,7 +233,7 @@ MORE OPTIONS
 <br />
 LIST DIRECTORY
 
-![Videoinfox List Directory](https://i.imgur.com/kIMMech.png)
+![Videoinfox List Directory](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/LIST-DIRECTORY.png)
 
 <br />
 VIDEO COUNT
