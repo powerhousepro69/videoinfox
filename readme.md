@@ -238,7 +238,7 @@ LIST DIRECTORY
 <br />
 VIDEO COUNT
 
-![Videoinfox Video Count](https://i.imgur.com/ORPVFGz.png)
+![Videoinfox Video Count](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/VIDEO-COUNT.png)
 
 <br />
 VIDEO DURATION
