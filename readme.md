@@ -45,7 +45,7 @@ Videoinfox is a Linux shell script that feels like an app. If you enjoy watching
 
 - Directory to Playlist in Navigate Tree >>> Show All &nbsp; Add all videos in the current directory to a new Playlist.
 
-- Queue to Playlist:
+- Queue to Playlist in Play Queue to save the queue as a playlist.
 
 - Add to Playlist: Played List. &nbsp; Play Clipboard, Last Download and Play Line all write to the Played List.  
 
