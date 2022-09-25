@@ -22,9 +22,9 @@ sudo chmod +x /usr/local/bin/videoinfox
 ```
 <br />
 
-#### New in v4.2.12 Add: -Download Only on Home Screen. Download a video url that is in the clipboard.
-#### NEW in v4.2.11 Add: -Make Playlist on Home Screen. Save all search results as a Playlist.
-#### NEW in v4.2.00 Added Playlist Queue. Added Intermission in Settings + more options.
+#### NEW in v4.2.12 &nbsp; Add: -Download Only on Home Screen. Download a video url that is in the clipboard.
+#### NEW in v4.2.11 &nbsp; Add: -Make Playlist on Home Screen. Save all search results as a Playlist.
+#### NEW in v4.2.00 &nbsp; Added Playlist Queue. Added Intermission in Settings + more options.
 #### NEW in v4.1.00 &nbsp; All keyboard driven. No more copying screen results to the clipboard.
 
 <br />
