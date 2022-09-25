@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v4.2.11								         
+#  file : videoinfox v4.2.12								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v4.2.11"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m2.11")  # Version Number: with blinking dot
+ver="Videoinfox v4.2.12"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m2.12")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -1454,6 +1454,10 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v4.2.12 Add: -Download Only on Home Screen. Download a video url that is in the clipboard." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              -Download Only is the same as Download Default in Yt-dlp Menu." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v4.2.11 Add: -Make Playlist on Home Screen. Save all search results as a Playlist." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Add: -Find Dir on Home Screen." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2703,7 +2707,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " f - Find Video        n - Navigate Tree     p - Play Clipboard     d "$dash" Play Directory     y - Yt-dlp     e - Exit"
                       echo " a - Show All          l - Last Download     s - View Playlist      o "$dashj" Autoplay           i "$dashj" Info       z - Set" 
                       echo " c - Clear Results     v - Played List       k "$dashj" Playlist Add       j "$dashj" Play               x - Clrclp     h - Help"
-                      echo " m - More Options      g - Find Dir          b "$dashj" Make Playlist"
+                      echo " m - More Options      g - Find Dir          b "$dashj" Make Playlist      r - Download Only"
                       echo         
                   
                   else  # yt-dlp extracted a filename
@@ -2720,7 +2724,7 @@ echo -e " f - Find Video        n - Navigate Tree     p - \033[5mPlay Clipboard\
  
                       echo " a - Show All          l - Last Download     s - View Playlist      o "$dashj" Autoplay           i "$dashj" Info       z - Set" 
                       echo " c - Clear Results     v - Played List       k "$dashj" Playlist Add       j "$dashj" Play               x - Clrclp     h - Help"
-                      echo " m - More Options      g - Find Dir          b "$dashj" Make Playlist"
+echo -e " m - More Options      g - Find Dir          b "$dashj" Make Playlist      r \033[5m-\033m\033[0m\033[5m\033[5m\033[0m Download Only"
                       echo                                                             
             fi
     else
@@ -2739,7 +2743,7 @@ echo -e " f - Find Video        n - Navigate Tree     p - \033[5mPlay Clipboard\
  
                       echo " a - Show All          l - Last Download     s - View Playlist      o "$dashj" Autoplay           i "$dashj" Info       z - Set" 
                       echo " c - Clear Results     v - Played List       k "$dashj" Playlist Add       j "$dashj" Play               x - Clrclp     h - Help"
-                      echo " m - More Options      g - Find Dir          b "$dashj" Make Playlist"
+                      echo " m - More Options      g - Find Dir          b "$dashj" Make Playlist      r - Download Only"
                       echo                                                             
 
   else  # file does not exist
@@ -2755,7 +2759,7 @@ echo
 echo " f - Find Video        n - Navigate Tree     p - Play Clipboard     d "$dash" Play Directory     y - Yt-dlp     e - Exit"
 echo " a - Show All          l - Last Download     s - View Playlist      o "$dashj" Autoplay           i "$dashj" Info       z - Set" 
 echo " c - Clear Results     v - Played List       k "$dashj" Playlist Add       j "$dashj" Play               x - Clrclp     h - Help"
-echo " m - More Options      g - Find Dir          b "$dashj" Make Playlist"
+echo " m - More Options      g - Find Dir          b "$dashj" Make Playlist      r - Download Only"
 echo         
                                          
 
@@ -2777,6 +2781,48 @@ h)  # HELP
      #clear
      less ~/.config/videoinfox/videoinfo.help  # This help file is recreated on every start
      ;;	
+
+
+r)  # DOWNLOAD ONLY (default)
+grabdir="$PWD"
+read -r dirsaved < ~/.config/videoinfox/videoinfo.yt-download-dir  # reading download directory 
+cd "$dirsaved"  # change to download directory
+ 
+pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content              
+grabpaste3=$(echo "$pasteclip" | cut -c-4)   # cut everything after the 4th character
+
+if [ "$grabpaste3" = "http" ]  # if the 4 characters = <http> go then
+then                  
+clear  
+~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload 
+~/.config/videoinfox/yt-dlp "$pasteclip"     
+      
+# remove first dot and everything after it in filename. file names with dots before the extension were breking find results
+sed "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload > ~/.config/videoinfox/videoinfo.lastdownload.work
+
+# remove first [ and everything after it in filename. this was done because file names with [ 
+sed -i "s/\[.*//" ~/.config/videoinfox/videoinfo.lastdownload.work
+
+# rename videoinfo.lastdownload.work to videoinfox/videoinfo.lastdownload
+mv ~/.config/videoinfox/videoinfo.lastdownload.work ~/.config/videoinfox/videoinfo.lastdownload
+      
+read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
+              
+notify-send "Videoinfox messsage: YT-DLP done downloading . . ." "$lastdownload"
+              
+echo "" | xclip -sel clip  # clearing out the clipboard
+pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+
+            
+else 
+echo
+echo
+echo " Clipboard is empty or contained invalid video url . . ."
+sleep 1
+fi
+              
+cd "$grabdir"
+;;
 
 
 b) # MAKE PLAYLIST
