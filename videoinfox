@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v4.2.12								         
+#  file : videoinfox v4.2.13								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v4.2.12"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m2.12")  # Version Number: with blinking dot
+ver="Videoinfox v4.2.13"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m2.13")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -206,13 +206,12 @@ if [ "$1" = "-h" ]
        echo
        echo "   -l  Write clipboard content to the User Set List. For instructions on use: Yt-dlp >>> Download List >>> Help"
        echo
-       echo "   -u  This option can be used with your own ready to download url list that can be any name and location."
-       echo "       There is no need to use the Videoinfox interface with this option. Videos will be downloaded to the"
-       echo "       directory of the list location.  Example: videoinfox -u mylist  Only enter the list filename."
-       echo "       The list must be recursively reachable from the current directory."
-       echo "       The first line in the list must begin with http to be processed."
+       echo "   -d  Play Directory. Autoplay video files in the current directory. (Intermission time can be changed in Settings)"
        echo
-       echo "   -d  Autoplay video files in the current directory."
+       echo "   -u  This option can be used with your own ready to download url list that can be any name."
+       echo "       Videos will be downloaded to the directory of the list location. Example: videoinfox -u mylist"
+       echo "       Only enter the list filename. No Paths. The list must be recursively reachable from the current directory."
+       echo "       The first line in the list must begin with http to be processed."
        echo -e "\n"     
        exit
   
@@ -544,7 +543,10 @@ elif [[ "$vplaym" = 2 ]]
       defplayargu=(--fs --no-terminal)
 elif [[ "$vplaym" = 3 ]]
   then
-      :
+      read -r cplayer1 < ~/.config/videoinfox/videoinfox.customplayer.1 
+      read -r cplayer2 < ~/.config/videoinfox/videoinfox.customplayer.2 
+      defplayer=($cplayer1)
+      defplayargu=($cplayer2)
 fi
 
 OLDIFS=$IFS
@@ -1352,11 +1354,24 @@ echo "                 Available in: Home Screen, Navigate Tree and View Downloa
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Autoplay:       Autoplay from line number entered to the end of the list." >> ~/.config/videoinfox/videoinfo.help
 echo "                 This option never writes to the Played List." >> ~/.config/videoinfox/videoinfo.help
-echo "                 Available in: Home Screen, Navigate Tree, Played List, Play List and View Downloads." >> ~/.config/videoinfox/videoinfo.help
+echo "                 Available in: Home Screen, Navigate Tree, Played List, Playlist and View Downloads." >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo " Start Autoplay: Autoplay from line number entered to the end of the list." >> ~/.config/videoinfox/videoinfo.help
+echo "                 This option never writes to the Played List." >> ~/.config/videoinfox/videoinfo.help
+echo "                 Available here in View Playlist and Play Queue located in Change and Queue." >> ~/.config/videoinfox/videoinfo.help
+echo "                 Note: Everytime Start Autoplay is used and quit by user, it will rewrite Resume Autoplay." >> ~/.config/videoinfox/videoinfo.help
+echo "                 Last video played marker is saved for each playlist. " >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo " Resume Autoplay: Start with the last video that was playing on Start Autoplay quit." >> ~/.config/videoinfox/videoinfo.help
+echo "                 Then keep using Resume Autoplay to start with last video that was playing on quit." >> ~/.config/videoinfox/videoinfo.help
+echo "                 This option never writes to the Played List." >> ~/.config/videoinfox/videoinfo.help
+echo "                 Available here in View Playlist and Play Queue located in Change and Queue." >> ~/.config/videoinfox/videoinfo.help
+echo "                 Note: Everytime Start Autoplay is used and quit by user, it will rewrite Resume Autoplay." >> ~/.config/videoinfox/videoinfo.help
+echo "                 Last video played marker is saved for each playlist. " >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Play:           Only play the line number entered." >> ~/.config/videoinfox/videoinfo.help
 echo "                 This option always writes to the Played List." >> ~/.config/videoinfox/videoinfo.help
-echo "                 Available in: Home Screen, Navigate Tree, Played List. Play List and View Downloads" >> ~/.config/videoinfox/videoinfo.help
+echo "                 Available in: Home Screen, Navigate Tree, Played List. Playlist, Playlist Queue & View Downloads" >> ~/.config/videoinfox/videoinfo.help
 echo "                 Note: One exception. The Playlist will never write to the Played List." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1450,12 +1465,15 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 #echo " KNOWN ISSUES: ." >> ~/.config/videoinfox/videoinfo-ver-history
 #echo >> ~/.config/videoinfox/videoinfo-ver-history
 #echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
-
+echo " v4.2.13 Fix: Custom player settings now available to videoinfox -d" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Edit: Help in videoinfox -h, Home Help and View Playlist Help" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v4.2.12 Add: -Download Only on Home Screen. Download a video url that is in the clipboard." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              -Download Only is the same as Download Default in Yt-dlp Menu." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              -Download Only is the same as -Download Default in Yt-dlp Menu." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v4.2.11 Add: -Make Playlist on Home Screen. Save all search results as a Playlist." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -4786,14 +4804,19 @@ read -r -n1 optionv
         echo
         echo " PLAYLIST >>> HELP"        
         echo
-        echo " Everytime Start Autoplay is used, it will write a new file for Resume Autoplay."
-        echo " Run Start Autoplay first. Then use Resume Autoplay to continue watching where you left off."
-        echo " Resume Autoplay will start with the last video that was playing when Start Autoplay was quit."
-        echo " Resume Autoplay will also keep track of the last video that was playing when quit."
-        echo " When Resume Autoplay reaches the end of the playlist, it will remain there until Start Autoplay is run again."
+        echo " Start Autoplay:   Autoplay from line number entered to the end of the list."
+        echo "                   This option never writes to the Played List."
+        echo "                   Available here in View Playlist and Play Queue located in Change and Queue."
+        echo "                   Note: Everytime Start Autoplay is used and quit by user, it will rewrite Resume Autoplay."
+        echo "                   Last video played marker is saved for each playlist."
+        echo 
+        echo " Resume Autoplay:  Start with the last video that was playing on Start Autoplay quit."
+        echo "                   Then keep using Resume Autoplay to start with last video that was playing on quit."
+        echo "                   This option never writes to the Played List."
+        echo "                   Available here in View Playlist and Play Queue located in Change and Queue."
+        echo "                   Note: Everytime Start Autoplay is used and quit by user, it will rewrite Resume Autoplay."
+        echo "                   Last video played marker is saved for each playlist."
         echo
-        echo " Note: If the playlist is changed with Playlist Add or Remove Line after running Start Autoplay,"
-        echo "       Resume Autoplay won't get updated with the changes until Start Autoplay is run again."
         echo
         read -p " Press enter to continue . . ."
         ;;
@@ -8178,18 +8201,22 @@ read -r -n1 optionv
         echo
         echo " PLAYLIST >>> HELP"        
         echo
-        echo " Everytime Start Autoplay is used, it will write a new file for Resume Autoplay."
-        echo " Run Start Autoplay first. Then use Resume Autoplay to continue watching where you left off."
-        echo " Resume Autoplay will start with the last video that was playing when Start Autoplay was quit."
-        echo " Resume Autoplay will also keep track of the last video that was playing when quit."
-        echo " When Resume Autoplay reaches the end of the playlist, it will remain there until Start Autoplay is run again."
+        echo " Start Autoplay:   Autoplay from line number entered to the end of the list."
+        echo "                   This option never writes to the Played List."
+        echo "                   Available here in View Playlist and Play Queue located in Change and Queue."
+        echo "                   Note: Everytime Start Autoplay is used and quit by user, it will rewrite Resume Autoplay."
+        echo "                   Last video played marker is saved for each playlist."
+        echo 
+        echo " Resume Autoplay:  Start with the last video that was playing on Start Autoplay quit."
+        echo "                   Then keep using Resume Autoplay to start with last video that was playing on quit."
+        echo "                   This option never writes to the Played List."
+        echo "                   Available here in View Playlist and Play Queue located in Change and Queue."
+        echo "                   Note: Everytime Start Autoplay is used and quit by user, it will rewrite Resume Autoplay."
+        echo "                   Last video played marker is saved for each playlist."
         echo
-        echo " Note: If the playlist is changed with Playlist Add or Remove Line after running Start Autoplay,"
-        echo "       Resume Autoplay won't get updated with the changes until Start Autoplay is run again."
         echo
         read -p " Press enter to continue . . ."
         ;;
-
 
         g)  # Remove Duplicates playlist
         function menurdup {
@@ -10685,14 +10712,19 @@ read -r -n1 optionv
         echo
         echo " PLAYLIST >>> HELP"        
         echo
-        echo " Everytime Start Autoplay is used, it will write a new file for Resume Autoplay."
-        echo " Run Start Autoplay first. Then use Resume Autoplay to continue watching where you left off."
-        echo " Resume Autoplay will start with the last video that was playing when Start Autoplay was quit."
-        echo " Resume Autoplay will also keep track of the last video that was playing when quit."
-        echo " When Resume Autoplay reaches the end of the playlist, it will remain there until Start Autoplay is run again."
+        echo " Start Autoplay:   Autoplay from line number entered to the end of the list."
+        echo "                   This option never writes to the Played List."
+        echo "                   Available here in View Playlist and Play Queue located in Change and Queue."
+        echo "                   Note: Everytime Start Autoplay is used and quit by user, it will rewrite Resume Autoplay."
+        echo "                   Last video played marker is saved for each playlist."
+        echo 
+        echo " Resume Autoplay:  Start with the last video that was playing on Start Autoplay quit."
+        echo "                   Then keep using Resume Autoplay to start with last video that was playing on quit."
+        echo "                   This option never writes to the Played List."
+        echo "                   Available here in View Playlist and Play Queue located in Change and Queue."
+        echo "                   Note: Everytime Start Autoplay is used and quit by user, it will rewrite Resume Autoplay."
+        echo "                   Last video played marker is saved for each playlist."
         echo
-        echo " Note: If the playlist is changed with Playlist Add or Remove Line after running Start Autoplay,"
-        echo "       Resume Autoplay won't get updated with the changes until Start Autoplay is run again."
         echo
         read -p " Press enter to continue . . ."
         ;;
