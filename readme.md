@@ -1,4 +1,4 @@
-# Videoinfox v4.2.12
+# Videoinfox v4.2.13
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -317,6 +317,10 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+###  v4.2.13 Fix: Custom player settings now available to videoinfox -d
+
+          Edit: Help in videoinfox -h, Home Help and View Playlist Help
 
 ###  v4.2.12 Add: -Download Only on Home Screen. Download a video url that is in the clipboard.
 
