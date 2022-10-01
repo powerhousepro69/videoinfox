@@ -1,43 +1,34 @@
 #!/bin/bash
 
-#  file : videoinfox v4.2.13								         
+#  file : videoinfox v4.3.00								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v4.2.13"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m2.13")  # Version Number: with blinking dot
+ver="Videoinfox v4.3.00"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m3.00")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
 ################################################################################################################################################## 
 
-# - xclip needed for autopaste feature.  xclip only works with Xsession
-  
+# - xclip needed for autopaste feature.  xclip only works with Xsession  
 # - ffmpeg is used to extrat Duration in <hrs:min:sec> format
 # - ffprobe is used to extract Codec, Resolution and Duration in floating seconds format (x.xxxxxx)
-# - ffplay is used to play videos (mp4, webm, mkxv, avi, divx).                                        
-  
-# - bc (already installed on most disrtros)  needed to do floating point math.
-  
+# - ffplay is used to play videos (mp4, webm, mkxv, avi, divx).                                          
+# - bc (already installed on most disrtros)  needed to do floating point math.  
 # - notify-send (already installed on most disrtros) needed to display gui notifications.
-
  
 ##########  Videoinfox runs a dependency check at startup. If any dependencies are Not Found, the script will exit. 
 ##########  Missing dependencies will be displayed.
-
 
 # YT-DLP is not on the dependeny list becuase Videoinfox will dowload it to:   ~/.config/videoinfox   All calls to yt-dlp are pointed to:   
 # ~/.config/videoinfox/yt-dlp   There is an update option in:   <Set>  Settings to update yt-dlp   (just the copy in ~/.config/videoinfox)
 # I didn't want to overwrite anyones copy of:   /user/local/bin/yt-dlp     Also, I wanted to make sure all new Videoinfox script installs
 # included the most recent version of Yt-dlp
-
-
-# THIS SCRIPT HAS BEEN HEAVILY COMMENTED FOR ANYONE INTERESTED IN HOW IT WORKS AND TO MAKE IT EASIER TO EDIT THE CODE.
-
 
 ##################################################################################################################################################
 #  START COMMAND LINE OPTIONS  ###################################################################################################################
@@ -399,7 +390,7 @@ fi
 
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------
-#  videoinfox -d     PLAY DIRECTORY.  AUTOPLAY VIDEO FILES IN THE CURRENT DIRECTORY
+#  videoinfox -d     @PLAY DIRECTORY.  AUTOPLAY VIDEO FILES IN THE CURRENT DIRECTORY
 #-------------------------------------------------------------------------------------------------------------------------------------------------
 
 if [ "$1" = "-d" ]
@@ -549,6 +540,7 @@ elif [[ "$vplaym" = 3 ]]
       defplayargu=($cplayer2)
 fi
 
+i=0
 OLDIFS=$IFS
 IFS=$'\n'
 
@@ -578,35 +570,54 @@ for line in $(cat "$input" 2>/dev/null)
       echo
       echo " - Quit: q"      
       echo -e "\n"
-
+      notify-send "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line"
       
-      echo
-      echo -e " ""$vto" "sec. intermission timer running\033[5m . . .\033m\033[0m\033[5m\033[5m\033[0m" 
-      echo
-      echo " Skip the timer and start the next video:  press enter with no entry"
-      echo 
-      read -t "$vto" -p " Quit: press spacebar then press enter" playdir
-           
-           # option te escape loop everytime ffplay closes               # read will timeout for 5 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 5 seconds the next video will play
-                 clear
-                 break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 clear                                                   # press any key then enter within 5 seconds to quit Play Played List
-           fi
+i=$((i+1)) # line number of video that was playing on video end/user quit.
+total="$vto" #  set intermission time in seconds
+count=0  # counter
+nextup=0  # line number of next video up
+
+while [ ${count} -lt ${total} ] ; do
+    nextup=$((i+1))
+    tail -n +"$nextup" ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa > ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa-nextup 2>/dev/null
+    read -r nextplay < ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa-nextup
+    tlimit=$(( $total - $count ))
+    clear
+    echo
+    echo " Last:" "$line"
+    echo
+    echo " Next:" "$nextplay"    
+    echo "___________________________________________________________________________________________________________________"  
+    echo
+    echo " $der >>> Intermission Timer"
+    echo "___________________________________________________________________________________________________________________" 
+    echo        
+    echo " Anykey Enter - Play     Spacebar Enter - Quit     Hold (Enter) - Speed Up Timer"
+    echo
+    echo    
+    echo -e "\r Next video starting in ${tlimit} seconds\c"
+    echo
+    echo
+    read -t 1 playoption 
+    test ! -z "$playoption" && { break ; }
+    count=$((count+1))
+done
+
+if [[ "$playoption" = " " ]] # if entry equals (spacebar enter) then break out of play loop
+  then                      
+  break
+fi
+
 done
  
 IFS=$OLDIFS
 
-rm ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa 2>/dev/null
-rm ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa2 2>/dev/null
-rm ~/.config/videoinfox/tmp/videoinfox.numbered-optiond-play-directory-list 2>/dev/null
-rm ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa-work 2>/dev/null
-
+clear
+echo
+echo "$der" "done playing directory . . ."
+echo
 exit
-
 
 else
   echo
@@ -1358,14 +1369,14 @@ echo "                 Available in: Home Screen, Navigate Tree, Played List, Pl
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Start Autoplay: Autoplay from line number entered to the end of the list." >> ~/.config/videoinfox/videoinfo.help
 echo "                 This option never writes to the Played List." >> ~/.config/videoinfox/videoinfo.help
-echo "                 Available here in View Playlist and Play Queue located in Change and Queue." >> ~/.config/videoinfox/videoinfo.help
+echo "                 Available in View Playlist and Play Queue located in Change and Queue." >> ~/.config/videoinfox/videoinfo.help
 echo "                 Note: Everytime Start Autoplay is used and quit by user, it will rewrite Resume Autoplay." >> ~/.config/videoinfox/videoinfo.help
 echo "                 Last video played marker is saved for each playlist. " >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Resume Autoplay: Start with the last video that was playing on Start Autoplay quit." >> ~/.config/videoinfox/videoinfo.help
 echo "                 Then keep using Resume Autoplay to start with last video that was playing on quit." >> ~/.config/videoinfox/videoinfo.help
 echo "                 This option never writes to the Played List." >> ~/.config/videoinfox/videoinfo.help
-echo "                 Available here in View Playlist and Play Queue located in Change and Queue." >> ~/.config/videoinfox/videoinfo.help
+echo "                 Available in View Playlist and Play Queue located in Change and Queue." >> ~/.config/videoinfox/videoinfo.help
 echo "                 Note: Everytime Start Autoplay is used and quit by user, it will rewrite Resume Autoplay." >> ~/.config/videoinfox/videoinfo.help
 echo "                 Last video played marker is saved for each playlist. " >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1468,6 +1479,18 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
+echo " v4.3.00 New: Intermission screen with next video up for play and countdown timer for Autoplay and Play Directory." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              Options:     Anykey Enter - PLAY     Spacebar Enter - QUIT     Hold Enter - Speed Up Timer" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                           Next video starting in x seconds" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Fix: All play and autoplay now show a gui notification." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Change: Display times of some error messages and confirmation messages." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v4.2.13 Fix: Custom player settings now available to videoinfox -d" >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Edit: Help in videoinfox -h, Home Help and View Playlist Help" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2374,6 +2397,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist.current ]
       echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ~/.config/videoinfox/videoinfo.playlist.current
 fi
 
+#read -r vto < ~/.config/videoinfox/videoinfox.intermission
 
 ##################################################################################################################################################
 ###########################  HOME LOOP START #####################################################################################################
@@ -2836,7 +2860,7 @@ else
 echo
 echo
 echo " Clipboard is empty or contained invalid video url . . ."
-sleep 1
+sleep 1.9
 fi
               
 cd "$grabdir"
@@ -2852,7 +2876,7 @@ then
     echo
     echo
     echo " Select Show All or use Find to acess this feature . . ."
-    sleep 1.7
+    sleep .7
 else
 clear
 echo
@@ -2873,7 +2897,7 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
   then
       echo
       echo " Nothing was entered . . ."
-      sleep .75
+      sleep 1.9
 
   else
 
@@ -2881,7 +2905,7 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
         then
             echo
             echo " File already exists . . ."
-            sleep .75
+            sleep 1.9
 
         else
 
@@ -2895,7 +2919,7 @@ echo > "$HOME"/.config/videoinfox/playlists/"$createpl1".last-autoplay
 echo
 echo " Playlist Created: "$plname""
 echo
-sleep 1.7
+sleep 1.9
 
       fi
 fi
@@ -2912,6 +2936,8 @@ echo
 echo " ""$ver"" >>> FIND DIRECTORY                 Enter only to quit                             * - Show All"
 echo "___________________________________________________________________________________________________________________" 
 echo
+echo " The directory enterd must be recursively reachable from the current directory."
+echo
 read -r -p " Directory Name: " dirfind  # waiting fot user input - dierectory that you want to find
 linecount=$(find . -type d -iname "$dirfind" 2>/dev/null | wc -l)   # number of files found
                                                                                     	
@@ -2919,13 +2945,13 @@ if [ -z "$dirfind" ]  # if no input was entered goto  <then>
 then
 echo
 echo " error: Nothing was entered"  
-sleep .75
+sleep 1.9
 else               
      if echo "$dirfind" | grep "/" > /dev/null # if any slashes were entered goto <then>
      then
      echo
      echo " error: No slashes directory name only"
-     sleep .75  
+     sleep 1.9  
      else
      echo
      find . -type d -iname "$dirfind" | sort -u > ~/.config/videoinfox/tmp/finthedir.tmp 2>/dev/null  # directory(s) found
@@ -2938,7 +2964,7 @@ sed '/./=' ~/.config/videoinfox/tmp/finthedir.tmp | sed '/./N; s/\n/ /' > ~/.con
      echo " Total Directories Found:" "$linecount"  # number of files found         
 	    if [ "$findmeadir" = 0 ]  # if find returned no results goto <then>
 	    then
-	    sleep .75
+	    sleep 1.9
           :
 	    else
           echo
@@ -2951,7 +2977,7 @@ read -r -p " Enter line number to change directory: " linenumber  # waiting fot 
               then 
               echo
               echo " Number out of range . . ."
-              sleep .9
+              sleep .7
               else
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/finthedir.tmp > ~/.config/videoinfox/tmp/finthedir.tmp2 2>/dev/null
               OLDIFS=$IFS
@@ -3053,9 +3079,8 @@ echo " $der >>> EXIT"
 echo "___________________________________________________________________________________________________________________" 
 echo
 echo
-echo " Directory state SAVED for next run:" "$PWD"
+echo " Directory saved for next run:" "$PWD"
 sleep .7
-
 break ;;
 
 
@@ -3063,19 +3088,20 @@ o)
 ##################################################################################################################################################
 ###########################   AUTOPLAY LINE  o   <HOME>  #########################################################################################
 ##################################################################################################################################################
+read -r vto < ~/.config/videoinfox/videoinfox.intermission  # read intermission setting
 
 if [ -f ~/.config/videoinfox/tmp/videoinfo-findwork.tmp ]
   then
+      echo
+      echo
+      read -r -p " Autoplay Line: " linenumber  # waiting fot user input
 
-echo
-echo
-read -r -p " Autoplay Line: " linenumber  # waiting fot user input
-
+# write new list starting with selected line   
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfo-findwork.tmp > ~/.config/videoinfox/tmp/videoinfo-home-autoplay.tmp 2>/dev/null
-input="$HOME""/.config/videoinfox/tmp/videoinfo-home-autoplay.tmp"
-
+input="$HOME""/.config/videoinfox/tmp/videoinfo-home-autoplay.tmp" # video list for play loop
 OLDIFS=$IFS
 IFS=$'\n'
+i=0
 
 for line in $(cat "$input" 2>/dev/null)
  do
@@ -3088,9 +3114,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo " [PLAY]>" "$line"
       echo "___________________________________________________________________________________________________________________"
       echo
-
-      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$line")  " Duration:" $(ffmpeg -i "$line" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration
-      
+      echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 -select_streams v:0 -show_entries stream=width,height -of default=nw=1 "$line")  " Duration:" $(ffmpeg -i "$line" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//)  # codec, width, height and duration      
       echo
       echo
       echo " Video Player Controls:"
@@ -3103,35 +3127,55 @@ for line in $(cat "$input" 2>/dev/null)
       echo
       echo " - Quit: q"      
       echo -e "\n"
+      notify-send "Videoinfox messsage: Playing . . ." "$line"
+      $defplayer "${defplayargu[@]}" "$line" 2> /dev/null # PLAY VIDEO
 
-      $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
+i=$((i+1)) # line number of video that was playing on video end/user quit.
+total="$vto" #  set intermission time in seconds
+count=0  # counter
+nextup=0  # line number of next video up
 
-      echo
-      echo -e " ""$vto" "sec. intermission timer running\033[5m . . .\033m\033[0m\033[5m\033[5m\033[0m" 
-      echo
-      echo " Skip the timer and start the next video:  press enter with no entry"
-      echo 
-      read -t "$vto" -p " Quit: press spacebar then press enter" playdir
-           
-           # option te escape loop everytime ffplay closes               # read will timeout for 5 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 5 seconds the next video will play
-                 break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 5 seconds to quit                      
-           fi
+while [ ${count} -lt ${total} ] ; do
+    nextup=$((i+1))
+    tail -n +"$nextup" ~/.config/videoinfox/tmp/videoinfo-home-autoplay.tmp > ~/.config/videoinfox/tmp/videoinfox-nextup.tmp 2>/dev/null
+    read -r nextplay < ~/.config/videoinfox/tmp/videoinfox-nextup.tmp
+    tlimit=$(( $total - $count ))
+    clear
+    echo
+    echo " Last:" "$line"
+    echo
+    echo " Next:" "$nextplay"    
+    echo "___________________________________________________________________________________________________________________"  
+    echo
+    echo " $der >>> Intermission Timer"
+    echo "___________________________________________________________________________________________________________________" 
+    echo        
+    echo " Anykey Enter - Play     Spacebar Enter - Quit     Hold (Enter) - Speed Up Timer"
+    echo
+    echo    
+    echo -e "\r Next video starting in ${tlimit} seconds\c"
+    echo
+    echo
+    read -t 1 playoption 
+    test ! -z "$playoption" && { break ; }
+    count=$((count+1))
 done
- 
-rm ~/.config/videoinfox/tmp/videoinfo-home-autoplay.tmp 2> /dev/null
+
+if [[ "$playoption" = " " ]] # if entry equals (spacebar enter) then break out of play loop
+  then
+      break
+fi
+
+done
+
 IFS=$OLDIFS
 
 else
     echo
     echo
     echo " Select Show All or use Find to acess this feature . . ."
-    sleep 1.7
+    sleep .7
 fi
-
 ;;
 
 
@@ -3199,7 +3243,7 @@ else
     echo
     echo
     echo " Select Show All or use Find to acess this feature . . ."
-    sleep 1.7
+    sleep .7
 
 fi
 
@@ -3475,7 +3519,9 @@ echo "Directory: ""$PWD"
 echo "___________________________________________________________________________________________________________________"
 echo  
 echo " ""$ver"" >>> FIND DIRECTORY                 Enter only to quit                             * - Show All"
-echo "___________________________________________________________________________________________________________________" 
+echo "___________________________________________________________________________________________________________________"
+echo
+echo " The directory enterd must be recursively reachable from the current directory."
 echo
 read -r -p " Directory Name: " dirfind  # waiting fot user input - dierectory that you want to find
 linecount=$(find . -type d -iname "$dirfind" 2>/dev/null | wc -l)   # number of files found
@@ -3484,13 +3530,13 @@ if [ -z "$dirfind" ]  # if no input was entered goto  <then>
 then
 echo
 echo " error: Nothing was entered"  
-sleep .75
+sleep 1.9
 else               
      if echo "$dirfind" | grep "/" > /dev/null # if any slashes were entered goto <then>
      then
      echo
      echo " error: No slashes directory name only"
-     sleep .75  
+     sleep 1.9  
      else
      echo
      find . -type d -iname "$dirfind" | sort -u > ~/.config/videoinfox/tmp/finthedir.tmp 2>/dev/null  # directory(s) found
@@ -3503,7 +3549,7 @@ sed '/./=' ~/.config/videoinfox/tmp/finthedir.tmp | sed '/./N; s/\n/ /' > ~/.con
      echo " Total Directories Found:" "$linecount"  # number of files found         
 	    if [ "$findmeadir" = 0 ]  # if find returned no results goto <then>
 	    then
-	    sleep .75
+	    sleep 1.9
           :
 	    else
           echo
@@ -3516,7 +3562,7 @@ read -r -p " Enter line number to change directory: " linenumber  # waiting fot 
               then 
               echo
               echo " Number out of range . . ."
-              sleep .9
+              sleep .7
               else
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/finthedir.tmp > ~/.config/videoinfox/tmp/finthedir.tmp2 2>/dev/null
               OLDIFS=$IFS
@@ -3563,7 +3609,7 @@ fi
            then
                echo
                echo " At treetop. Can't go any higher . . ."
-               sleep .50
+               sleep 1.9
 
            else
                cd .. &>/dev/null
@@ -3595,7 +3641,7 @@ if [[ $linenumber -gt $linecount ]]
   then 
       echo
       echo " Number out of range . . ."
-      sleep .9
+      sleep .7
   else
 
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/nt-list.tmp > ~/.config/videoinfox/tmp/nt-list.tmp2 2>/dev/null
@@ -3722,7 +3768,7 @@ if [ -f ~/.config/videoinfox/tmp/videoinfox.numbered-navtree-play-directory-list
    else
        echo
        echo " No video files in the current directory . . ."
-       sleep 1.7
+       sleep 1.9
 fi
 
 
@@ -3731,6 +3777,7 @@ linenumber=1
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa > ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa.tmp 2>/dev/null
 mv ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa.tmp ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa 2>/dev/null
 
+i=0
 OLDIFS=$IFS
 IFS=$'\n'
 
@@ -3760,31 +3807,48 @@ for line in $(cat "$input" 2>/dev/null)
       echo
       echo " - Quit: q"      
       echo -e "\n"
-
+      notify-send "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
-      echo
-      echo -e " ""$vto" "sec. intermission timer running\033[5m . . .\033m\033[0m\033[5m\033[5m\033[0m" 
-      echo
-      echo " Skip the timer and start the next video:  press enter with no entry"
-      echo 
-      read -t "$vto" -p " Quit: press spacebar then press enter" playdir
-           
-           # option te escape loop everytime ffplay closes               # read will timeout for 5 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 5 seconds the next video will play
-                 break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 5 seconds to quit Play Played List
-           fi
+i=$((i+1)) # line number of video that was playing on video end/user quit.
+total="$vto" #  set intermission time in seconds
+count=0  # counter
+nextup=0  # line number of next video up
+
+while [ ${count} -lt ${total} ] ; do
+    nextup=$((i+1))
+    tail -n +"$nextup" ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa > ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa-nextup 2>/dev/null
+    read -r nextplay < ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa-nextup
+    tlimit=$(( $total - $count ))
+    clear
+    echo
+    echo " Last:" "$line"
+    echo
+    echo " Next:" "$nextplay"    
+    echo "___________________________________________________________________________________________________________________"  
+    echo
+    echo " $der >>> Intermission Timer"
+    echo "___________________________________________________________________________________________________________________" 
+    echo        
+    echo " Anykey Enter - Play     Spacebar Enter - Quit     Hold (Enter) - Speed Up Timer"
+    echo
+    echo    
+    echo -e "\r Next video starting in ${tlimit} seconds\c"
+    echo
+    echo
+    read -t 1 playoption 
+    test ! -z "$playoption" && { break ; }
+    count=$((count+1))
+done
+
+if [[ "$playoption" = " " ]] # if entry equals (spacebar enter) then break out of play loop
+  then                      
+  break
+fi
+
 done
  
 IFS=$OLDIFS
-
-rm ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa 2>/dev/null
-rm ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2 2>/dev/null
-rm ~/.config/videoinfox/tmp/videoinfox.numbered-navtree-play-directory-list 2>/dev/null
-rm ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa-work 2>/dev/null 
 
 ;;           
 
@@ -3812,7 +3876,7 @@ read -r -p " " specifydir  # waiting fot user input - the directory you want to 
 	if [ -z "$specifydir" ]  # if no input was entered goto  <then> 
           then
                echo " Nothing was entered . . ."
-               sleep .75
+               sleep 1.9
           else
               if [ -d "$specifydir" ]  #  if directoty exists goto  <then>
                 then
@@ -3820,11 +3884,11 @@ read -r -p " " specifydir  # waiting fot user input - the directory you want to 
                      grabdirfornav2="$specifydir"
                      cd "$specifydir"   # change the directory
                      echo " Treetop changed to: $PWD"  # <pwd>  print current working directory to the screen
-                     sleep 1.5                   
+                     sleep 1.9                   
                 else
                      echo
                      echo " No such directory . . ."
-                     sleep 1.5                   
+                     sleep 1.9                   
               fi
       fi       
 echo
@@ -4006,7 +4070,7 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
   then
       echo
       echo " Nothing was entered . . ."
-      sleep .75
+      sleep 1.9
 
   else
 
@@ -4014,7 +4078,7 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
         then
             echo
             echo " File already exists . . ."
-            sleep .75
+            sleep 1.9
 
         else
 
@@ -4028,7 +4092,7 @@ echo > "$HOME"/.config/videoinfox/playlists/"$createpl1".last-autoplay
 echo
 echo " Playlist Created: "$plname""
 echo
-sleep 1.7
+sleep 1.9
 
       fi
 fi
@@ -4087,7 +4151,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
             echo
             echo
             echo " Select Show All or use Find to acess this feature . . ."
-            sleep 1.7
+            sleep .7
 
 
             fi
@@ -4234,7 +4298,7 @@ if [[ $linenumber -gt $linecount ]]
   then 
       echo
       echo " Number out of range . . ."
-      sleep .9
+      sleep .7
   else
 
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa > ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa.tmp 2>/dev/null
@@ -4270,7 +4334,8 @@ read line < ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa
       echo " - Quit: q"      
       echo -e "\n"
 
-      echo "$line" >> ~/.config/videoinfox/videoinfo.playedlist  # write to the played list 
+      echo "$line" >> ~/.config/videoinfox/videoinfo.playedlist  # write to the played list
+      notify-send "Videoinfox messsage: Playing . . ." "$line" 
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
  
       IFS=$OLDIFS
@@ -4291,7 +4356,7 @@ read line < ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa
 else
     echo
     echo " No video files in the current directory . . ."
-    sleep 1.7
+    sleep 1.9
 
 fi
 
@@ -4453,7 +4518,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
               then 
                   echo
                   echo "Number out of range . . ."
-                  sleep .9
+                  sleep .7
 
               else
 
@@ -4476,7 +4541,7 @@ if [ -z "$linenumber" ]
               echo " Added to Playlist . . ."
               read -r activeplaylistm < ~/.config/videoinfox/videoinfo.playlist.current # GET CURRENT PLAYLIST
               cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST
-              sleep .9
+              sleep 1.9
       fi
 
 fi
@@ -4495,7 +4560,7 @@ rm ~/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-directory-apa-work 2>/d
 else
     echo
     echo " No video files in the current directory . . ."
-    sleep 1.7
+    sleep 1.9
 
 fi
 
@@ -4847,7 +4912,7 @@ read -r -n1 optionv
           then
               echo
               echo " Playlist Empty . . ."
-              sleep .9
+              sleep 1.9
           else
               # Remove Duplicates
               cat -n ~/.config/videoinfox/videoinfo.playlist | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfo.playlist.tmp
@@ -4856,7 +4921,7 @@ read -r -n1 optionv
               cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST
               echo
               echo " Duplicates Removed . . ."
-              sleep .9
+              sleep 1.9
         fi
         break
         ;;
@@ -4871,24 +4936,20 @@ read -r -n1 optionv
         ;;
 
 
-        o) # START AUTOPLAY  (PLAYLIST)
-
-# SET COUNTER TO ZERO. $i in below play loop to get line number from last played video
-i=0
+        o) # START AUTOPLAY (NAVIGATE TREE >>> SHOW ALL >>> VIEW PLAYLIST)
 
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
    then
+       echo
+       echo
+       read -r -p " Start Autoplay from line: " linenumber  # waiting fot user input
 
-echo
-echo
-read -r -p " Start Autoplay from line: " linenumber  # waiting fot user input
+       tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfo.playlist-apa > ~/.config/videoinfox/tmp/videoinfo.playlist-apa.tmp 2>/dev/null
+       mv ~/.config/videoinfox/tmp/videoinfo.playlist-apa.tmp ~/.config/videoinfox/tmp/videoinfo.playlist-apa 2>/dev/null
 
-# 
-tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfo.playlist-apa > ~/.config/videoinfox/tmp/videoinfo.playlist-apa.tmp 2>/dev/null
-mv ~/.config/videoinfox/tmp/videoinfo.playlist-apa.tmp ~/.config/videoinfox/tmp/videoinfo.playlist-apa 2>/dev/null
-
-OLDIFS=$IFS
-IFS=$'\n'
+       OLDIFS=$IFS
+       IFS=$'\n'
+       i=0
 
 for line in $(cat "$input" 2>/dev/null)
  do
@@ -4916,26 +4977,45 @@ for line in $(cat "$input" 2>/dev/null)
       echo
       echo " - Quit: q"      
       echo -e "\n"
-
+      notify-send "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
-      # COUNTER TO KEEP TRACK OF LINE NUMBER THAT IS CURRENTLY PLAYING.
-      i=$((i+1))
+i=$((i+1)) # line number of video that was playing on video end/user quit.
+total="$vto" #  set intermission time in seconds
+count=0  # counter
+nextup=0  # line number of next video up
 
-      echo
-      echo -e " ""$vto" "sec. intermission timer running\033[5m . . .\033m\033[0m\033[5m\033[5m\033[0m" 
-      echo
-      echo " Skip the timer and start the next video:  press enter with no entry"
-      echo 
-      read -t "$vto" -p " Quit: press spacebar then press enter" playdir
-           
-           # option te escape loop everytime ffplay closes               # read will timeout for 5 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 5 seconds the next video will play
-                 break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 5 seconds to quit Play PLAYLIST
-           fi
+while [ ${count} -lt ${total} ] ; do
+    nextup=$((i+1))
+    tail -n +"$nextup" ~/.config/videoinfox/tmp/videoinfo.playlist-apa > ~/.config/videoinfox/tmp/videoinfo.playlist-apa-nextup.tmp 2>/dev/null
+    read -r nextplay < ~/.config/videoinfox/tmp/videoinfo.playlist-apa-nextup.tmp
+    tlimit=$(( $total - $count ))
+    clear
+    echo
+    echo " Last:" "$line"
+    echo
+    echo " Next:" "$nextplay"    
+    echo "___________________________________________________________________________________________________________________"  
+    echo
+    echo " $der >>> Intermission Timer"
+    echo "___________________________________________________________________________________________________________________" 
+    echo        
+    echo " Anykey Enter - Play     Spacebar Enter - Quit     Hold (Enter) - Speed Up Timer"
+    echo
+    echo    
+    echo -e "\r Next video starting in ${tlimit} seconds\c"
+    echo
+    echo
+    read -t 1 playoption 
+    test ! -z "$playoption" && { break ; }
+    count=$((count+1))
+done
+
+if [[ "$playoption" = " " ]] # if entry equals (spacebar enter) then break out of play loop
+  then                      
+  break
+fi
+
 done
 
 # WRITE 2nd PLAYLIST FOR RESUME AUTOPLAY OPTION . File: ~/.config/videoinfox/playlists/$playlistname.last-autoplay
@@ -4943,15 +5023,11 @@ tail -n +"$i" ~/.config/videoinfox/tmp/videoinfo.playlist-apa > "$setplaylist".l
 
 IFS=$OLDIFS
 
-rm ~/.config/videoinfox/tmp/videoinfo.playlist-apa 2>/dev/null
-rm ~/.config/videoinfox/tmp/videoinfo.playlist-apa2 2>/dev/null
-rm ~/.config/videoinfox/tmp/videoinfo.number.play-list 2>/dev/null
-
    else
        echo
        echo
        echo " Playlist Empty . . ."
-       sleep 1.7
+       sleep 1.9
 fi
 
 ;;
@@ -5019,7 +5095,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .9
+                                  sleep .7
 
                               else
 
@@ -5034,7 +5110,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                                         echo "Line deleted from the playlist . . ."
                                         read -r activeplaylistm < ~/.config/videoinfox/videoinfo.playlist.current # GET CURRENT PLAYLIST
                                         cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST
-                                        sleep .9
+                                        sleep 1.9
 fi
 fi
 fi
@@ -5047,11 +5123,8 @@ fi
 
 
 ##################################################################
-l) # LAST AUTOPLAY - RESUME AUOTOPLAY (NAVIGATE TREE >>> PLAYLIST)
+l) # RESUME AUOTOPLAY (NAVIGATE TREE >>> PLAYLIST)
 ##################################################################
-
-###### SET COUNTER TO ZERO. $i in below play loop to get line number from last played video
-i=0
 
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
    then
@@ -5062,9 +5135,10 @@ if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
               echo
               echo
               echo " Run Start Autoplay first to enable this feature . . ."
-              sleep 1.7
+              sleep 1.9
 
           else
+              i=0
               OLDIFS=$IFS
               IFS=$'\n'
     
@@ -5073,7 +5147,7 @@ if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
               echo
               echo
               echo " Resume: ""$resumedisplay"
-              sleep 3
+              sleep 2.3
           
 input2=$HOME/.config/videoinfox/playlists/"$setplaylist".last-autoplay
 
@@ -5103,27 +5177,46 @@ for line in $(cat "$input2" 2>/dev/null)
       echo
       echo " - Quit: q"      
       echo -e "\n"
-
+      notify-send "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
-      ###### COUNTER TO KEEP TRACK OF LINE NUMBER THAT IS CURRENTLY PLAYING FOR WRITE ON EXIT.
-      i=$((i+1))
+i=$((i+1)) # line number of video that was playing on video end/user quit.
+total="$vto" #  set intermission time in seconds
+count=0  # counter
+nextup=0  # line number of next video up
 
-      echo
-      echo -e " ""$vto" "sec. intermission timer running\033[5m . . .\033m\033[0m\033[5m\033[5m\033[0m" 
-      echo
-      echo " Skip the timer and start the next video:  press enter with no entry"
-      echo 
-      read -t "$vto" -p " Quit: press spacebar then press enter" playdir
-           
-           # option te escape loop everytime ffplay closes               # read will timeout for 5 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 5 seconds the next video will play
-                 break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 5 seconds to quit Play PLAYLIST
-           fi
+while [ ${count} -lt ${total} ] ; do
+    nextup=$((i+1))
+    tail -n +"$nextup" ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay.nextup 2>/dev/null
+    read -r nextplay < ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay.nextup
+    tlimit=$(( $total - $count ))
+    clear
+    echo
+    echo " Last:" "$line"
+    echo
+    echo " Next:" "$nextplay"    
+    echo "___________________________________________________________________________________________________________________"  
+    echo
+    echo " $der >>> Intermission Timer"
+    echo "___________________________________________________________________________________________________________________" 
+    echo        
+    echo " Anykey Enter - Play     Spacebar Enter - Quit     Hold (Enter) - Speed Up Timer"
+    echo
+    echo    
+    echo -e "\r Next video starting in ${tlimit} seconds\c"
+    echo
+    echo
+    read -t 1 playoption 
+    test ! -z "$playoption" && { break ; }
+    count=$((count+1))
 done
+
+if [[ "$playoption" = " " ]] # if entry equals (spacebar enter) then break out of play loop
+  then                      
+  break
+fi
+
+done      
 
 tail -n +"$i" ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay > ~/.config/videoinfox/playlists/pl-tmp
 mv ~/.config/videoinfox/playlists/pl-tmp ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay
@@ -5136,7 +5229,7 @@ fi
        echo
        echo
        echo " Playlist Empty . . ."
-       sleep 1.7
+       sleep 1.9
 
 fi
 ;;
@@ -5192,7 +5285,7 @@ if [ -z "$line" ]
       echo -e "\n"
 
       echo " Screen will close after video player is quit."
-
+      notify-send "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
  
 IFS=$OLDIFS
@@ -5207,7 +5300,7 @@ else
        echo
        echo
        echo " Playlist Empty . . ."
-       sleep 1.7
+       sleep 1.9
 fi
 
 ;;
@@ -5405,7 +5498,7 @@ case $option in
           then
               echo
               echo " Playlist Queue Empty . . ."
-              sleep .9
+              sleep 1.9
           else
               # Remove Duplicates
               cat -n ~/.config/videoinfox/videoinfox-playlist.queue | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfox-playlist.queue.tmp
@@ -5413,7 +5506,7 @@ case $option in
    
               echo
               echo " Duplicates Removed . . ."
-              sleep .9
+              sleep 1.9
         fi
         break
         ;;
@@ -5469,7 +5562,7 @@ then
 echo
 echo
 echo " Playlist Queue Empty . . ."
-sleep .9
+sleep 1.9
 break
 
 else
@@ -5502,7 +5595,7 @@ sed '/./=' ~/.config/videoinfox/tmp/videoinfox-playlist.Aque.tmp2 | sed '/./N; s
 echo
 echo
 echo " Queue Rebuilt . . ."
-sleep .9                      
+sleep 1.9                      
 fi
 break
 ;;
@@ -5541,7 +5634,7 @@ done
           then
               echo
               echo " Playlist Queue Was Already Deleted . . ."
-              sleep .9
+              sleep 1.9
 
           else
               echo > ~/.config/videoinfox/videoinfox-playlist.queue
@@ -5549,7 +5642,7 @@ done
               echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay
               echo
               echo " Playlist Queue Deleted . . ."
-              sleep .9
+              sleep 1.9
 
         fi
         break
@@ -5595,7 +5688,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
         then  # ENTRY EXCEEDS TOTAL NUMBER OF LINES 
             echo  
             echo " Number out of range . . ."
-            sleep .9
+            sleep .7
         else  # ENTRY IS A VALID NUMBER            
             tail -n +"$linenumber" ~/.config/videoinfox/videoinfo.playlist.dirlist > ~/.config/videoinfox/tmp/videoinfox.playlist.q.tmp 2>/dev/null
             read playnumber < ~/.config/videoinfox/tmp/videoinfox.playlist.q.tmp # read first line         
@@ -5607,7 +5700,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
       
             echo
             echo " ""$playnumber2" " Playlist added to the queue . . ."
-            sleep .9
+            sleep 1.9
 # REMOVE BLANK LINES
 sed -i '/^$/d' ~/.config/videoinfox/videoinfox-playlist.queue &>/dev/null
       
@@ -5703,7 +5796,7 @@ if [ -z "$qempty" ]
 then
 echo
 echo " Playlist Queue Empty . . ."
-sleep .9
+sleep 1.9
 
 else
 clear
@@ -5725,7 +5818,7 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
   then
       echo
       echo " Nothing was entered . . ."
-      sleep .75
+      sleep 1.9
 
   else
 
@@ -5733,7 +5826,7 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
         then
             echo
             echo " File already exists . . ."
-            sleep .75
+            sleep 1.9
 
         else
 
@@ -5747,7 +5840,7 @@ cp ~/.config/videoinfox/playlists/playlist.queue "$plname"
 echo
 echo " Playlist Created: "$plname""
 echo
-sleep 1.7
+sleep 1.9
 
       fi
 fi
@@ -5781,7 +5874,7 @@ fi
           then
               echo
               echo " Playlist Queue Was Already Deleted . . ."
-              sleep .9
+              sleep 1.9
 
           else
               echo > ~/.config/videoinfox/videoinfox-playlist.queue
@@ -5789,7 +5882,7 @@ fi
               echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay
               echo
               echo " Playlist Queue Deleted . . ."
-              sleep .9
+              sleep 1.9
 
         fi
         break
@@ -5839,7 +5932,7 @@ fi
           then
               echo
               echo " Playlist Queue Empty . . ."
-              sleep .9
+              sleep 1.9
           else
               # Remove Duplicates     
               cat -n ~/.config/videoinfox/playlists/playlist.queue | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfox-playlist.queue.tmp
@@ -5847,7 +5940,7 @@ fi
 
               echo
               echo " Duplicates Removed . . ."
-              sleep .9
+              sleep 1.9
         fi
         break
         ;;
@@ -5909,7 +6002,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
             echo
             echo
             echo " Play Queue Empty . . ."
-            sleep 1.7            
+            sleep 1.9            
 
 
             fi
@@ -5948,7 +6041,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
               then 
                   echo
                   echo " Number out of range . . ."
-                  sleep .9
+                  sleep .7
 
               else
 
@@ -6000,7 +6093,7 @@ fi
              echo -e "\n"
 
              echo " Screen will close after video player is quit."
-
+             notify-send "Videoinfox messsage: Playing . . ." "$line"
              $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
  
              IFS=$OLDIFS
@@ -6011,7 +6104,7 @@ fi
         echo
         echo
         echo " Playlist Queue Empty . . ."
-        sleep 1.7
+        sleep 1.9
 
 
 fi
@@ -6070,7 +6163,7 @@ sed '/./='  ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' 
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .9
+                                  sleep .7
 
                               else
 
@@ -6083,7 +6176,7 @@ sed '/./='  ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' 
                                         sed -i "${linenumber}d" ~/.config/videoinfox/playlists/playlist.queue 2> /dev/null 
                                         echo
                                         echo "Line deleted from the playlist queue . . ."
-                                        sleep .9
+                                        sleep 1.9
 
 
 fi
@@ -6099,8 +6192,8 @@ echo > ~/.config/videoinfox/playlists/playlist.queue
 fi
 ;;
 
-        # START AUTOPLAY PLAYLIST QUEUE @@@@@@@@
-o) # START AUTOPLAY
+
+o) # START AUTOPLAY (NAVIGATE TREE >>> SHOW ALL >>> VIEW PLAYLIST >>> CHANGE AND QUEUE >>> PLAY QUEUE)
 
 # SET COUNTER TO ZERO. $i in below play loop to get line number from last played video
 i=0
@@ -6110,20 +6203,18 @@ moddedplayedlist="$HOME""/.config/videoinfox/playlists/playlist.queue"
 #  PLAYED LIST INPUT FOR LOOP
 input="$moddedplayedlist"
 
-
 read chkplq < ~/.config/videoinfox/playlists/playlist.queue
 
 if [ -z "$chkplq" ]
    then
        echo
        echo " Playlist Queue Empty . . ."
-       sleep .9
+       sleep 1.9
  
    else      
 echo
 read -r -p " Start Autoplay from line: " linenumber  # waiting fot user input
 
-# 
 tail -n +"$linenumber" ~/.config/videoinfox/playlists/playlist.queue > ~/.config/videoinfox/tmp/playlist.queue.autoplay 2>/dev/null
 
 OLDIFS=$IFS
@@ -6160,29 +6251,48 @@ for line in $(cat "$input" 2>/dev/null)
       echo
       echo " - Quit: q"      
       echo -e "\n"
-
+      notify-send "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
-      # COUNTER TO KEEP TRACK OF LINE NUMBER THAT IS CURRENTLY PLAYING.
-      i=$((i+1))
+i=$((i+1)) # line number of video that was playing on video end/user quit.
+total="$vto" #  set intermission time in seconds
+count=0  # counter
+nextup=0  # line number of next video up
 
-      echo
-      echo -e " ""$vto" "sec. intermission timer running\033[5m . . .\033m\033[0m\033[5m\033[5m\033[0m" 
-      echo
-      echo " Skip the timer and start the next video:  press enter with no entry"
-      echo 
-      read -t "$vto" -p " Quit: press spacebar then press enter" playdir
-           
-           # option te escape loop everytime ffplay closes               # read will timeout for 5 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 5 seconds the next video will play
-                 break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 5 seconds to quit Play PLAYLIST
-           fi
+while [ ${count} -lt ${total} ] ; do
+    nextup=$((i+1))
+    tail -n +"$nextup" ~/.config/videoinfox/tmp/playlist.queue.autoplay > ~/.config/videoinfox/tmp/playlist.queue.autoplay.nextup 2>/dev/null
+    read -r nextplay < ~/.config/videoinfox/tmp/playlist.queue.autoplay.nextup
+    tlimit=$(( $total - $count ))
+    clear
+    echo
+    echo " Last:" "$line"
+    echo
+    echo " Next:" "$nextplay"    
+    echo "___________________________________________________________________________________________________________________"  
+    echo
+    echo " $der >>> Intermission Timer"
+    echo "___________________________________________________________________________________________________________________" 
+    echo        
+    echo " Anykey Enter - Play     Spacebar Enter - Quit     Hold (Enter) - Speed Up Timer"
+    echo
+    echo    
+    echo -e "\r Next video starting in ${tlimit} seconds\c"
+    echo
+    echo
+    read -t 1 playoption 
+    test ! -z "$playoption" && { break ; }
+    count=$((count+1))
 done
 
-# WRITE 2nd PLAYLIST FOR LAST AUTOPLAY OPTION . File: ~/.config/videoinfox/playlists/$playlistname.last-autoplay
+if [[ "$playoption" = " " ]] # if entry equals (spacebar enter) then break out of play loop
+  then                      
+  break
+fi
+
+done
+
+# WRITE 2nd PLAYLIST FOR RESUME AUTOPLAY OPTION . File: ~/.config/videoinfox/playlists/$playlistname.last-autoplay
 tail -n +"$i" ~/.config/videoinfox/tmp/playlist.queue.autoplay > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay
 
 IFS=$OLDIFS
@@ -6193,27 +6303,27 @@ fi
 
      # RESUME AUTOPLAY PLAYLIST QUEUE @@@@@@@@
 ############################################################
-l) # LAST AUTOPLAY - RESUME AUOTOPLAY (PLAYLIST QUEUE)
+l) # RESUME AUOTOPLAY (PLAYLIST QUEUE)
 ############################################################
 
-i=0  # SET COUNTER TO ZERO. $i in below play loop. Coubter to get line number from last played video
 read resumedisplay < $HOME/.config/videoinfox/playlists/playlist.queue.last-autoplay
 
         if [ -z "$resumedisplay" ]
           then
               echo
               echo " Run Start Autoplay first to enable this feature . . ."
-              sleep 1.7
+              sleep 1.9
 
           else
 
+              i=0
               OLDIFS=$IFS
               IFS=$'\n'
 
               # READ LINE TO DISPLAY VIDEO NAME BEFORE PLAY              
               echo
               echo " Resume: ""$resumedisplay"
-              sleep 3
+              sleep 2.3
           
 input2=$HOME/.config/videoinfox/playlists/playlist.queue.last-autoplay
 
@@ -6243,27 +6353,46 @@ for line in $(cat "$input2" 2>/dev/null)
       echo
       echo " - Quit: q"      
       echo -e "\n"
-
+      notify-send "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
-      ###### COUNTER TO KEEP TRACK OF LINE NUMBER THAT IS CURRENTLY PLAYING FOR WRITE ON EXIT.
-      i=$((i+1))
+i=$((i+1)) # line number of video that was playing on video end/user quit.
+total="$vto" #  set intermission time in seconds
+count=0  # counter
+nextup=0  # line number of next video up
 
-      echo
-      echo -e " ""$vto" "sec. intermission timer running\033[5m . . .\033m\033[0m\033[5m\033[5m\033[0m" 
-      echo
-      echo " Skip the timer and start the next video:  press enter with no entry"
-      echo 
-      read -t "$vto" -p " Quit: press spacebar then press enter" playdir
-           
-           # option te escape loop everytime ffplay closes               # read will timeout for 5 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 5 seconds the next video will play
-                 break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 5 seconds to quit Play PLAYLIST
-           fi
+while [ ${count} -lt ${total} ] ; do
+    nextup=$((i+1))
+    tail -n +"$nextup" ~/.config/videoinfox/playlists/playlist.queue.last-autoplay > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay.nextup 2>/dev/null
+    read -r nextplay < ~/.config/videoinfox/playlists/playlist.queue.last-autoplay.nextup
+    tlimit=$(( $total - $count ))
+    clear
+    echo
+    echo " Last:" "$line"
+    echo
+    echo " Next:" "$nextplay"    
+    echo "___________________________________________________________________________________________________________________"  
+    echo
+    echo " $der >>> Intermission Timer"
+    echo "___________________________________________________________________________________________________________________" 
+    echo        
+    echo " Anykey Enter - Play     Spacebar Enter - Quit     Hold (Enter) - Speed Up Timer"
+    echo
+    echo    
+    echo -e "\r Next video starting in ${tlimit} seconds\c"
+    echo
+    echo
+    read -t 1 playoption 
+    test ! -z "$playoption" && { break ; }
+    count=$((count+1))
 done
+
+if [[ "$playoption" = " " ]] # if entry equals (spacebar enter) then break out of play loop
+  then                      
+  break
+fi
+
+done      
 
 tail -n +"$i" ~/.config/videoinfox/playlists/playlist.queue.last-autoplay > ~/.config/videoinfox/tmp/playlist.queue.last-autoplay.tmp
 mv ~/.config/videoinfox/tmp/playlist.queue.last-autoplay.tmp ~/.config/videoinfox/playlists/playlist.queue.last-autoplay
@@ -6318,7 +6447,7 @@ if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
         then 
             echo
             echo " Number out of range . . ."
-            sleep .9
+            sleep .7
 
         else
 
@@ -6380,7 +6509,7 @@ if ! [[ $linenumber =~ $re ]]
               then 
                   echo
                   echo " Number out of range . . ."
-                  sleep .9
+                  sleep .7
 
               else
                   echo
@@ -6441,7 +6570,7 @@ if ! [[ $linenumber =~ $re ]]
                             :
                       fi
 
-                      sleep 1.7  
+                      sleep 1.9  
                       break
                       ;;
 
@@ -6482,7 +6611,7 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
   then
       echo
       echo " Nothing was entered . . ."
-      sleep .75
+      sleep 1.9
 
   else
 
@@ -6490,7 +6619,7 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
         then
             echo
             echo " File already exists . . ."
-            sleep .75
+            sleep 1.9
 
         else
 
@@ -6502,7 +6631,7 @@ echo > "$HOME"/.config/videoinfox/playlists/"$createpl1".last-autoplay
 echo
 echo " Playlist Created: "$plname""
 echo
-sleep 1.7
+sleep 1.9
 
       fi
 fi
@@ -6673,7 +6802,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
             echo
             echo
             echo " No playable content in the clipboard . . ."
-            sleep 1.2
+            sleep 1.9
       fi   
   fi
   ;;  
@@ -6710,7 +6839,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
         cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST 
         echo
         echo " ""$setplaylist"" Playlist Cleared . . ."
-        sleep 1.7  
+        sleep 1.9  
         break
         ;;
 
@@ -6733,7 +6862,7 @@ done
 #@@@@@@@@@@@@@ END NAVIGATE TREE >>> SHOW ALL >>> VIEW PLAYLIST
 
 
-o) # AUTOPLAY (NAVIGATE TREE)
+o) # AUTOPLAY (NAVIGATE TREE >>> SHOW ALL)
 echo
 echo
 read -r -p " Autoplay Line: " linenumber  # waiting fot user input
@@ -6741,6 +6870,7 @@ read -r -p " Autoplay Line: " linenumber  # waiting fot user input
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa > ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa.tmp 2>/dev/null
 mv ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa.tmp ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa 2>/dev/null
 
+i=0
 OLDIFS=$IFS
 IFS=$'\n'
 
@@ -6770,31 +6900,48 @@ for line in $(cat "$input" 2>/dev/null)
       echo
       echo " - Quit: q"      
       echo -e "\n"
-
+      notify-send "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
-      echo
-      echo -e " ""$vto" "sec. intermission timer running\033[5m . . .\033m\033[0m\033[5m\033[5m\033[0m" 
-      echo
-      echo " Skip the timer and start the next video:  press enter with no entry"
-      echo 
-      read -t "$vto" -p " Quit: press spacebar then press enter" playdir
-           
-           # option te escape loop everytime ffplay closes               # read will timeout for 5 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 5 seconds the next video will play
-                 break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 5 seconds to quit Play Played List
-           fi
+i=$((i+1)) # line number of video that was playing on video end/user quit.
+total="$vto" #  set intermission time in seconds
+count=0  # counter
+nextup=0  # line number of next video up
+
+while [ ${count} -lt ${total} ] ; do
+    nextup=$((i+1))
+    tail -n +"$nextup" ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa > ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa.nextup 2>/dev/null
+    read -r nextplay < ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa.nextup
+    tlimit=$(( $total - $count ))
+    clear
+    echo
+    echo " Last:" "$line"
+    echo
+    echo " Next:" "$nextplay"    
+    echo "___________________________________________________________________________________________________________________"  
+    echo
+    echo " $der >>> Intermission Timer"
+    echo "___________________________________________________________________________________________________________________" 
+    echo        
+    echo " Anykey Enter - Play     Spacebar Enter - Quit     Hold (Enter) - Speed Up Timer"
+    echo
+    echo    
+    echo -e "\r Next video starting in ${tlimit} seconds\c"
+    echo
+    echo
+    read -t 1 playoption 
+    test ! -z "$playoption" && { break ; }
+    count=$((count+1))
+done
+
+if [[ "$playoption" = " " ]] # if entry equals (spacebar enter) then break out of play loop
+  then                      
+  break
+fi
+
 done
  
 IFS=$OLDIFS
-
-rm ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa 2>/dev/null
-rm ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2 2>/dev/null
-rm ~/.config/videoinfox/tmp/videoinfox.numbered-nt-play-directory-list 2>/dev/null
-rm ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa-work 2>/dev/null 
           
 esac
 done
@@ -6803,7 +6950,7 @@ done
 else
     echo
     echo " No video files in the current directory . . ."
-    sleep 1.7
+    sleep 1.9
 
 fi
 ;;
@@ -6923,7 +7070,7 @@ if [ -f ~/.config/videoinfox/tmp/videoinfox.numbered-home-play-directory-list ]
         echo
         echo
         echo " No video files in the current directory . . ."
-        sleep 1.7
+        sleep 1.9
 
 
 fi
@@ -6934,6 +7081,7 @@ linenumber=1
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa > ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa.tmp 2>/dev/null
 mv ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa.tmp ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa 2>/dev/null
 
+i=0
 OLDIFS=$IFS
 IFS=$'\n'
 
@@ -6963,32 +7111,48 @@ for line in $(cat "$input" 2>/dev/null)
       echo
       echo " - Quit: q"      
       echo -e "\n"
-
+      notify-send "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
-      echo
-      echo -e " ""$vto" "sec. intermission timer running\033[5m . . .\033m\033[0m\033[5m\033[5m\033[0m" 
-      echo
-      echo " Skip the timer and start the next video:  press enter with no entry"
-      echo 
-      read -t "$vto" -p " Quit: press spacebar then press enter" playdir
-           
-           # option te escape loop everytime ffplay closes               # read will timeout for 5 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 5 seconds the next video will play
-                 break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 5 seconds to quit Play Played List
-           fi
+i=$((i+1)) # line number of video that was playing on video end/user quit.
+total="$vto" #  set intermission time in seconds
+count=0  # counter
+nextup=0  # line number of next video up
+
+while [ ${count} -lt ${total} ] ; do
+    nextup=$((i+1))
+    tail -n +"$nextup" ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa > ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa-nextup 2>/dev/null
+    read -r nextplay < ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa-nextup
+    tlimit=$(( $total - $count ))
+    clear
+    echo
+    echo " Last:" "$line"
+    echo
+    echo " Next:" "$nextplay"    
+    echo "___________________________________________________________________________________________________________________"  
+    echo
+    echo " $der >>> Intermission Timer"
+    echo "___________________________________________________________________________________________________________________" 
+    echo        
+    echo " Anykey Enter - Play     Spacebar Enter - Quit     Hold (Enter) - Speed Up Timer"
+    echo
+    echo    
+    echo -e "\r Next video starting in ${tlimit} seconds\c"
+    echo
+    echo
+    read -t 1 playoption 
+    test ! -z "$playoption" && { break ; }
+    count=$((count+1))
 done
- 
+
+if [[ "$playoption" = " " ]] # if entry equals (spacebar enter) then break out of play loop
+  then                      
+  break
+fi
+
+done
+      
 IFS=$OLDIFS
-
-rm ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa 2>/dev/null
-rm ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa2 2>/dev/null
-rm ~/.config/videoinfox/tmp/videoinfox.numbered-home-play-directory-list 2>/dev/null
-rm ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa-work 2>/dev/null 
-
 ;;           
 
 
@@ -7064,7 +7228,7 @@ searchtotal=$(find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname 
                            echo
                            echo
                            echo " No video files recursively reachable from the current directory . . ."
-                           sleep 1
+                           sleep 1.9
                            #cp ~/.config/videoinfox/videoinfo.findwork3 ~/.config/videoinfox/videoinfo.findwork
                            #cp ~/.config/videoinfox/videoinfo.lastsearchtotal2  ~/.config/videoinfox/videoinfo.lastsearchtotal
                         
@@ -7299,7 +7463,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
              echo
              echo
              echo " No playable content in the clipboard . . ."
-             sleep 1.2
+             sleep 1.9
 
 fi
 fi
@@ -7356,7 +7520,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
             echo
             echo
             echo " Select Show All or use Find to acess this feature . . ."
-            sleep 1.7
+            sleep .7
 
 
             fi
@@ -7668,6 +7832,7 @@ read -r -p " Autoplay Line: " linenumber  # waiting fot user input
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfo.playedlist-apa > ~/.config/videoinfox/tmp/videoinfo.playedlist-apa.tmp 2>/dev/null
 mv ~/.config/videoinfox/tmp/videoinfo.playedlist-apa.tmp ~/.config/videoinfox/tmp/videoinfo.playedlist-apa 2>/dev/null
 
+i=0
 OLDIFS=$IFS
 IFS=$'\n'
 
@@ -7697,36 +7862,54 @@ for line in $(cat "$input" 2>/dev/null)
       echo
       echo " - Quit: q"      
       echo -e "\n"
-
+      notify-send "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
-      echo
-      echo -e " ""$vto" "sec. intermission timer running\033[5m . . .\033m\033[0m\033[5m\033[5m\033[0m" 
-      echo
-      echo " Skip the timer and start the next video:  press enter with no entry"
-      echo 
-      read -t "$vto" -p " Quit: press spacebar then press enter" playdir
-           
-           # option te escape loop everytime ffplay closes               # read will timeout for 5 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 5 seconds the next video will play
-                 break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 5 seconds to quit Play Played List
-           fi
+i=$((i+1)) # line number of video that was playing on video end/user quit.
+total="$vto" #  set intermission time in seconds
+count=0  # counter
+nextup=0  # line number of next video up
+
+while [ ${count} -lt ${total} ] ; do
+    nextup=$((i+1))
+    tail -n +"$nextup" ~/.config/videoinfox/tmp/videoinfo.playedlist-apa > ~/.config/videoinfox/tmp/videoinfo.playedlist-apa-nextup 2>/dev/null
+    read -r nextplay < ~/.config/videoinfox/tmp/videoinfo.playedlist-apa-nextup
+    tlimit=$(( $total - $count ))
+    clear
+    echo
+    echo " Last:" "$line"
+    echo
+    echo " Next:" "$nextplay"    
+    echo "___________________________________________________________________________________________________________________"  
+    echo
+    echo " $der >>> Intermission Timer"
+    echo "___________________________________________________________________________________________________________________" 
+    echo        
+    echo " Anykey Enter - Play     Spacebar Enter - Quit     Hold (Enter) - Speed Up Timer"
+    echo
+    echo    
+    echo -e "\r Next video starting in ${tlimit} seconds\c"
+    echo
+    echo
+    read -t 1 playoption 
+    test ! -z "$playoption" && { break ; }
+    count=$((count+1))
 done
+
+if [[ "$playoption" = " " ]] # if entry equals (spacebar enter) then break out of play loop
+  then                      
+  break
+fi
+
+done    
  
 IFS=$OLDIFS
-
-rm ~/.config/videoinfox/tmp/videoinfo.playedlist-apa 2>/dev/null
-rm ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2 2>/dev/null
-rm ~/.config/videoinfox/tmp/videoinfo.number.played-list 2>/dev/null
 
    else
        echo
        echo
        echo " Played List Empty . . ."
-       sleep 1.7
+       sleep 1.9
 fi
 
 ;;
@@ -7762,7 +7945,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
               then 
                   echo
                   echo " Number out of range . . ."
-                  sleep .9
+                  sleep .7
 
               else
 
@@ -7814,7 +7997,7 @@ fi
              echo -e "\n"
 
              echo " Screen will close after video player is quit."
-
+             notify-send "Videoinfox messsage: Playing . . ." "$line"
              $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
  
              IFS=$OLDIFS
@@ -7830,7 +8013,7 @@ fi
         echo
         echo
         echo " Played List Empty . . ."
-        sleep 1.7
+        sleep 1.9
 
 
 fi
@@ -7888,7 +8071,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
             echo
             echo
             echo " Play List Empty . . ."
-            sleep 1.7            
+            sleep 1.9            
 
 
             fi
@@ -8243,7 +8426,7 @@ read -r -n1 optionv
           then
               echo
               echo " Playlist Empty . . ."
-              sleep .9
+              sleep 1.9
           else
               # Remove Duplicates
               cat -n ~/.config/videoinfox/videoinfo.playlist | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfo.playlist.tmp
@@ -8252,7 +8435,7 @@ read -r -n1 optionv
               cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST
               echo
               echo " Duplicates Removed . . ."
-              sleep .9
+              sleep 1.9
         fi
         break
         ;;
@@ -8269,9 +8452,6 @@ read -r -n1 optionv
 
         o) # START AUTOPLAY  (PLAYLIST)
 
-# SET COUNTER TO ZERO. $i in below play loop to get line number from last played video
-i=0
-
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
    then
 
@@ -8283,6 +8463,7 @@ read -r -p " Start Autoplay from line: " linenumber  # waiting fot user input
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfo.playlist-apa > ~/.config/videoinfox/tmp/videoinfo.playlist-apa.tmp 2>/dev/null
 mv ~/.config/videoinfox/tmp/videoinfo.playlist-apa.tmp ~/.config/videoinfox/tmp/videoinfo.playlist-apa 2>/dev/null
 
+i=0
 OLDIFS=$IFS
 IFS=$'\n'
 
@@ -8312,26 +8493,45 @@ for line in $(cat "$input" 2>/dev/null)
       echo
       echo " - Quit: q"      
       echo -e "\n"
-
+      notify-send "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
-      # COUNTER TO KEEP TRACK OF LINE NUMBER THAT IS CURRENTLY PLAYING.
-      i=$((i+1))
+      i=$((i+1)) # line number of video that was playing on video end/user quit.
+total="$vto" #  set intermission time in seconds
+count=0  # counter
+nextup=0  # line number of next video up
 
-      echo
-      echo -e " ""$vto" "sec. intermission timer running\033[5m . . .\033m\033[0m\033[5m\033[5m\033[0m" 
-      echo
-      echo " Skip the timer and start the next video:  press enter with no entry"
-      echo 
-      read -t "$vto" -p " Quit: press spacebar then press enter" playdir
-           
-           # option te escape loop everytime ffplay closes               # read will timeout for 5 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 5 seconds the next video will play
-                 break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 5 seconds to quit Play PLAYLIST
-           fi
+while [ ${count} -lt ${total} ] ; do
+    nextup=$((i+1))
+    tail -n +"$nextup" ~/.config/videoinfox/tmp/videoinfo.playlist-apa > ~/.config/videoinfox/tmp/videoinfo.playlist-apa.nextup 2>/dev/null
+    read -r nextplay < ~/.config/videoinfox/tmp/videoinfo.playlist-apa.nextup
+    tlimit=$(( $total - $count ))
+    clear
+    echo
+    echo " Last:" "$line"
+    echo
+    echo " Next:" "$nextplay"    
+    echo "___________________________________________________________________________________________________________________"  
+    echo
+    echo " $der >>> Intermission Timer"
+    echo "___________________________________________________________________________________________________________________" 
+    echo        
+    echo " Anykey Enter - Play     Spacebar Enter - Quit     Hold (Enter) - Speed Up Timer"
+    echo
+    echo    
+    echo -e "\r Next video starting in ${tlimit} seconds\c"
+    echo
+    echo
+    read -t 1 playoption 
+    test ! -z "$playoption" && { break ; }
+    count=$((count+1))
+done
+
+if [[ "$playoption" = " " ]] # if entry equals (spacebar enter) then break out of play loop
+  then                      
+  break
+fi
+
 done
 
 # WRITE 2nd PLAYLIST FOR RESUME AUTOPLAY OPTION . File: ~/.config/videoinfox/playlists/$playlistname.last-autoplay
@@ -8339,15 +8539,11 @@ tail -n +"$i" ~/.config/videoinfox/tmp/videoinfo.playlist-apa > "$setplaylist".l
 
 IFS=$OLDIFS
 
-rm ~/.config/videoinfox/tmp/videoinfo.playlist-apa 2>/dev/null
-rm ~/.config/videoinfox/tmp/videoinfo.playlist-apa2 2>/dev/null
-rm ~/.config/videoinfox/tmp/videoinfo.number.play-list 2>/dev/null
-
    else
        echo
        echo
        echo " Playlist Empty . . ."
-       sleep 1.7
+       sleep 1.9
 fi
 
 ;;
@@ -8415,7 +8611,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .9
+                                  sleep .7
 
                               else
 
@@ -8430,7 +8626,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                                         echo "Line deleted from the playlist . . ."
                                         read -r activeplaylistm < ~/.config/videoinfox/videoinfo.playlist.current # GET CURRENT PLAYLIST
                                         cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST
-                                        sleep .9
+                                        sleep 1.9
 fi
 fi
 fi
@@ -8446,9 +8642,6 @@ fi
 l) # RESUME AUOTOPLAY PLAYED LIST VIEW PLAYLIST
 ##################################################################
 
-###### SET COUNTER TO ZERO. $i in below play loop to get line number from last played video
-i=0
-
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
    then
         read < $HOME/.config/videoinfox/playlists/"$setplaylist".last-autoplay resumedisplay
@@ -8458,9 +8651,10 @@ if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
               echo
               echo
               echo " Run Start Autoplay first to enable this feature . . ."
-              sleep 1.7
+              sleep 1.9
 
           else
+              i=0
               OLDIFS=$IFS
               IFS=$'\n'
     
@@ -8469,7 +8663,7 @@ if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
               echo
               echo
               echo " Resume: ""$resumedisplay"
-              sleep 3
+              sleep 2.3
           
 input2=$HOME/.config/videoinfox/playlists/"$setplaylist".last-autoplay
 
@@ -8499,27 +8693,46 @@ for line in $(cat "$input2" 2>/dev/null)
       echo
       echo " - Quit: q"      
       echo -e "\n"
-
+      notify-send "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
-      ###### COUNTER TO KEEP TRACK OF LINE NUMBER THAT IS CURRENTLY PLAYING FOR WRITE ON EXIT.
-      i=$((i+1))
+i=$((i+1)) # line number of video that was playing on video end/user quit.
+total="$vto" #  set intermission time in seconds
+count=0  # counter
+nextup=0  # line number of next video up
 
-      echo
-      echo -e " ""$vto" "sec. intermission timer running\033[5m . . .\033m\033[0m\033[5m\033[5m\033[0m" 
-      echo
-      echo " Skip the timer and start the next video:  press enter with no entry"
-      echo 
-      read -t "$vto" -p " Quit: press spacebar then press enter" playdir
-           
-           # option te escape loop everytime ffplay closes               # read will timeout for 5 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 5 seconds the next video will play
-                 break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 5 seconds to quit Play PLAYLIST
-           fi
+while [ ${count} -lt ${total} ] ; do
+    nextup=$((i+1))
+    tail -n +"$nextup" ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay.nextup 2>/dev/null
+    read -r nextplay < ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay.nextup
+    tlimit=$(( $total - $count ))
+    clear
+    echo
+    echo " Last:" "$line"
+    echo
+    echo " Next:" "$nextplay"    
+    echo "___________________________________________________________________________________________________________________"  
+    echo
+    echo " $der >>> Intermission Timer"
+    echo "___________________________________________________________________________________________________________________" 
+    echo        
+    echo " Anykey Enter - Play     Spacebar Enter - Quit     Hold (Enter) - Speed Up Timer"
+    echo
+    echo    
+    echo -e "\r Next video starting in ${tlimit} seconds\c"
+    echo
+    echo
+    read -t 1 playoption 
+    test ! -z "$playoption" && { break ; }
+    count=$((count+1))
 done
+
+if [[ "$playoption" = " " ]] # if entry equals (spacebar enter) then break out of play loop
+  then                      
+  break
+fi
+
+done      
 
 tail -n +"$i" ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay > ~/.config/videoinfox/playlists/pl-tmp
 mv ~/.config/videoinfox/playlists/pl-tmp ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay
@@ -8532,7 +8745,7 @@ fi
        echo
        echo
        echo " Playlist Empty . . ."
-       sleep 1.7
+       sleep 1.9
 
 fi
 ;;
@@ -8588,7 +8801,7 @@ if [ -z "$line" ]
       echo -e "\n"
 
       echo " Screen will close after video player is quit."
-
+      notify-send "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
  
 IFS=$OLDIFS
@@ -8603,7 +8816,7 @@ else
        echo
        echo
        echo " Playlist Empty . . ."
-       sleep 1.7
+       sleep 1.9
 fi
 
 ;;
@@ -8801,7 +9014,7 @@ case $option in
           then
               echo
               echo " Playlist Queue Empty . . ."
-              sleep .9
+              sleep 1.9
           else
               # Remove Duplicates
               cat -n ~/.config/videoinfox/videoinfox-playlist.queue | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfox-playlist.queue.tmp
@@ -8809,7 +9022,7 @@ case $option in
    
               echo
               echo " Duplicates Removed . . ."
-              sleep .9
+              sleep 1.9
         fi
         break
         ;;
@@ -8865,7 +9078,7 @@ then
 echo
 echo
 echo " Playlist Queue Empty . . ."
-sleep .9
+sleep 1.9
 break
 
 else
@@ -8898,7 +9111,7 @@ sed '/./=' ~/.config/videoinfox/tmp/videoinfox-playlist.Aque.tmp2 | sed '/./N; s
 echo
 echo
 echo " Queue Rebuilt . . ."
-sleep .9                      
+sleep 1.9                      
 fi
 break
 ;;
@@ -8937,7 +9150,7 @@ done
           then
               echo
               echo " Playlist Queue Was Already Deleted . . ."
-              sleep .9
+              sleep 1.9
 
           else
               echo > ~/.config/videoinfox/videoinfox-playlist.queue
@@ -8945,7 +9158,7 @@ done
               echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay
               echo
               echo " Playlist Queue Deleted . . ."
-              sleep .9
+              sleep 1.9
 
         fi
         break
@@ -8991,7 +9204,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
         then  # ENTRY EXCEEDS TOTAL NUMBER OF LINES 
             echo  
             echo " Number out of range . . ."
-            sleep .9
+            sleep .7
         else  # ENTRY IS A VALID NUMBER            
             tail -n +"$linenumber" ~/.config/videoinfox/videoinfo.playlist.dirlist > ~/.config/videoinfox/tmp/videoinfox.playlist.q.tmp 2>/dev/null
             read playnumber < ~/.config/videoinfox/tmp/videoinfox.playlist.q.tmp # read first line         
@@ -9003,7 +9216,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
       
             echo
             echo " ""$playnumber2" " Playlist added to the queue . . ."
-            sleep .9
+            sleep 1.9
 # REMOVE BLANK LINES
 sed -i '/^$/d' ~/.config/videoinfox/videoinfox-playlist.queue &>/dev/null
       
@@ -9099,7 +9312,7 @@ if [ -z "$qempty" ]
 then
 echo
 echo " Playlist Queue Empty . . ."
-sleep .9
+sleep 1.9
 
 else
 clear
@@ -9121,7 +9334,7 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
   then
       echo
       echo " Nothing was entered . . ."
-      sleep .75
+      sleep 1.9
 
   else
 
@@ -9129,7 +9342,7 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
         then
             echo
             echo " File already exists . . ."
-            sleep .75
+            sleep 1.9
 
         else
 
@@ -9143,7 +9356,7 @@ cp ~/.config/videoinfox/playlists/playlist.queue "$plname"
 echo
 echo " Playlist Created: "$plname""
 echo
-sleep 1.7
+sleep 1.9
 
       fi
 fi
@@ -9177,7 +9390,7 @@ fi
           then
               echo
               echo " Playlist Queue Was Already Deleted . . ."
-              sleep .9
+              sleep 1.9
 
           else
               echo > ~/.config/videoinfox/videoinfox-playlist.queue
@@ -9185,7 +9398,7 @@ fi
               echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay
               echo
               echo " Playlist Queue Deleted . . ."
-              sleep .9
+              sleep 1.9
 
         fi
         break
@@ -9235,7 +9448,7 @@ fi
           then
               echo
               echo " Playlist Queue Empty . . ."
-              sleep .9
+              sleep 1.9
           else
               # Remove Duplicates     
               cat -n ~/.config/videoinfox/playlists/playlist.queue | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfox-playlist.queue.tmp
@@ -9243,7 +9456,7 @@ fi
 
               echo
               echo " Duplicates Removed . . ."
-              sleep .9
+              sleep 1.9
         fi
         break
         ;;
@@ -9305,7 +9518,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
             echo
             echo
             echo " Play Queue Empty . . ."
-            sleep 1.7            
+            sleep 1.9            
 
 
             fi
@@ -9344,7 +9557,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
               then 
                   echo
                   echo " Number out of range . . ."
-                  sleep .9
+                  sleep .7
 
               else
 
@@ -9396,7 +9609,7 @@ fi
              echo -e "\n"
 
              echo " Screen will close after video player is quit."
-
+             notify-send "Videoinfox messsage: Playing . . ." "$line"
              $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
  
              IFS=$OLDIFS
@@ -9407,7 +9620,7 @@ fi
         echo
         echo
         echo " Playlist Queue Empty . . ."
-        sleep 1.7
+        sleep 1.9
 
 
 fi
@@ -9466,7 +9679,7 @@ sed '/./='  ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' 
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .9
+                                  sleep .7
 
                               else
 
@@ -9479,7 +9692,7 @@ sed '/./='  ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' 
                                         sed -i "${linenumber}d" ~/.config/videoinfox/playlists/playlist.queue 2> /dev/null 
                                         echo
                                         echo "Line deleted from the playlist queue . . ."
-                                        sleep .9
+                                        sleep 1.9
 
 
 fi
@@ -9498,9 +9711,6 @@ fi
         # START AUTOPLAY PLAYLIST QUEUE @@@@@@@@
 o) # START AUTOPLAY
 
-# SET COUNTER TO ZERO. $i in below play loop to get line number from last played video
-i=0
-
 #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
 moddedplayedlist="$HOME""/.config/videoinfox/playlists/playlist.queue"
 #  PLAYED LIST INPUT FOR LOOP
@@ -9513,7 +9723,7 @@ if [ -z "$chkplq" ]
    then
        echo
        echo " Playlist Queue Empty . . ."
-       sleep .9
+       sleep 1.9
  
    else      
 echo
@@ -9522,6 +9732,7 @@ read -r -p " Start Autoplay from line: " linenumber  # waiting fot user input
 # 
 tail -n +"$linenumber" ~/.config/videoinfox/playlists/playlist.queue > ~/.config/videoinfox/tmp/playlist.queue.autoplay 2>/dev/null
 
+i=0
 OLDIFS=$IFS
 IFS=$'\n'
 
@@ -9556,26 +9767,45 @@ for line in $(cat "$input" 2>/dev/null)
       echo
       echo " - Quit: q"      
       echo -e "\n"
-
+      notify-send "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
-      # COUNTER TO KEEP TRACK OF LINE NUMBER THAT IS CURRENTLY PLAYING.
-      i=$((i+1))
+i=$((i+1)) # line number of video that was playing on video end/user quit.
+total="$vto" #  set intermission time in seconds
+count=0  # counter
+nextup=0  # line number of next video up
 
-      echo
-      echo -e " ""$vto" "sec. intermission timer running\033[5m . . .\033m\033[0m\033[5m\033[5m\033[0m" 
-      echo
-      echo " Skip the timer and start the next video:  press enter with no entry"
-      echo 
-      read -t "$vto" -p " Quit: press spacebar then press enter" playdir
-           
-           # option te escape loop everytime ffplay closes               # read will timeout for 5 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 5 seconds the next video will play
-                 break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 5 seconds to quit Play PLAYLIST
-           fi
+while [ ${count} -lt ${total} ] ; do
+    nextup=$((i+1))
+    tail -n +"$nextup" ~/.config/videoinfox/tmp/playlist.queue.autoplay > ~/.config/videoinfox/tmp/playlist.queue.autoplay.nextup 2>/dev/null
+    read -r nextplay < ~/.config/videoinfox/tmp/playlist.queue.autoplay.nextup
+    tlimit=$(( $total - $count ))
+    clear
+    echo
+    echo " Last:" "$line"
+    echo
+    echo " Next:" "$nextplay"    
+    echo "___________________________________________________________________________________________________________________"  
+    echo
+    echo " $der >>> Intermission Timer"
+    echo "___________________________________________________________________________________________________________________" 
+    echo        
+    echo " Anykey Enter - Play     Spacebar Enter - Quit     Hold (Enter) - Speed Up Timer"
+    echo
+    echo    
+    echo -e "\r Next video starting in ${tlimit} seconds\c"
+    echo
+    echo
+    read -t 1 playoption 
+    test ! -z "$playoption" && { break ; }
+    count=$((count+1))
+done
+
+if [[ "$playoption" = " " ]] # if entry equals (spacebar enter) then break out of play loop
+  then                      
+  break
+fi
+
 done
 
 # WRITE 2nd PLAYLIST FOR LAST AUTOPLAY OPTION . File: ~/.config/videoinfox/playlists/$playlistname.last-autoplay
@@ -9589,27 +9819,26 @@ fi
 
      # RESUME AUTOPLAY PLAYLIST QUEUE @@@@@@@@
 ############################################################
-l) # LAST AUTOPLAY - RESUME AUOTOPLAY (PLAYLIST QUEUE)
+l) # RESUME AUOTOPLAY (PLAYLIST QUEUE)
 ############################################################
 
-i=0  # SET COUNTER TO ZERO. $i in below play loop. Coubter to get line number from last played video
 read resumedisplay < $HOME/.config/videoinfox/playlists/playlist.queue.last-autoplay
 
         if [ -z "$resumedisplay" ]
           then
               echo
               echo " Run Start Autoplay first to enable this feature . . ."
-              sleep 1.7
+              sleep 1.9
 
           else
-
+              i=0
               OLDIFS=$IFS
               IFS=$'\n'
 
               # READ LINE TO DISPLAY VIDEO NAME BEFORE PLAY              
               echo
               echo " Resume: ""$resumedisplay"
-              sleep 3
+              sleep 2.3
           
 input2=$HOME/.config/videoinfox/playlists/playlist.queue.last-autoplay
 
@@ -9639,26 +9868,45 @@ for line in $(cat "$input2" 2>/dev/null)
       echo
       echo " - Quit: q"      
       echo -e "\n"
-
+      notify-send "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
-      ###### COUNTER TO KEEP TRACK OF LINE NUMBER THAT IS CURRENTLY PLAYING FOR WRITE ON EXIT.
-      i=$((i+1))
+i=$((i+1)) # line number of video that was playing on video end/user quit.
+total="$vto" #  set intermission time in seconds
+count=0  # counter
+nextup=0  # line number of next video up
 
-      echo
-      echo -e " ""$vto" "sec. intermission timer running\033[5m . . .\033m\033[0m\033[5m\033[5m\033[0m" 
-      echo
-      echo " Skip the timer and start the next video:  press enter with no entry"
-      echo 
-      read -t "$vto" -p " Quit: press spacebar then press enter" playdir
-           
-           # option te escape loop everytime ffplay closes               # read will timeout for 5 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 5 seconds the next video will play
-                 break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 5 seconds to quit Play PLAYLIST
-           fi
+while [ ${count} -lt ${total} ] ; do
+    nextup=$((i+1))
+    tail -n +"$nextup" ~/.config/videoinfox/playlists/playlist.queue.last-autoplay > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay-nextup 2>/dev/null
+    read -r nextplay < ~/.config/videoinfox/playlists/playlist.queue.last-autoplay-nextup
+    tlimit=$(( $total - $count ))
+    clear
+    echo
+    echo " Last:" "$line"
+    echo
+    echo " Next:" "$nextplay"    
+    echo "___________________________________________________________________________________________________________________"  
+    echo
+    echo " $der >>> Intermission Timer"
+    echo "___________________________________________________________________________________________________________________" 
+    echo        
+    echo " Anykey Enter - Play     Spacebar Enter - Quit     Hold (Enter) - Speed Up Timer"
+    echo
+    echo    
+    echo -e "\r Next video starting in ${tlimit} seconds\c"
+    echo
+    echo
+    read -t 1 playoption 
+    test ! -z "$playoption" && { break ; }
+    count=$((count+1))
+done
+
+if [[ "$playoption" = " " ]] # if entry equals (spacebar enter) then break out of play loop
+  then                      
+  break
+fi
+
 done
 
 tail -n +"$i" ~/.config/videoinfox/playlists/playlist.queue.last-autoplay > ~/.config/videoinfox/tmp/playlist.queue.last-autoplay.tmp
@@ -9714,7 +9962,7 @@ if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
         then 
             echo
             echo " Number out of range . . ."
-            sleep .9
+            sleep .7
 
         else
 
@@ -9776,7 +10024,7 @@ if ! [[ $linenumber =~ $re ]]
               then 
                   echo
                   echo " Number out of range . . ."
-                  sleep .9
+                  sleep .7
 
               else
                   echo
@@ -9837,7 +10085,7 @@ if ! [[ $linenumber =~ $re ]]
                             :
                       fi
 
-                      sleep 1.7  
+                      sleep 1.9  
                       break
                       ;;
 
@@ -9878,7 +10126,7 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
   then
       echo
       echo " Nothing was entered . . ."
-      sleep .75
+      sleep 1.9
 
   else
 
@@ -9886,7 +10134,7 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
         then
             echo
             echo " File already exists . . ."
-            sleep .75
+            sleep 1.9
 
         else
 
@@ -9898,7 +10146,7 @@ echo > "$HOME"/.config/videoinfox/playlists/"$createpl1".last-autoplay
 echo
 echo " Playlist Created: "$plname""
 echo
-sleep 1.7
+sleep 1.9
 
       fi
 fi
@@ -10069,7 +10317,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
             echo
             echo
             echo " No playable content in the clipboard . . ."
-            sleep 1.2
+            sleep 1.9
       fi   
   fi
   ;;  
@@ -10106,7 +10354,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
         cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST 
         echo
         echo " ""$setplaylist"" Playlist Cleared . . ."
-        sleep 1.7  
+        sleep 1.9  
         break
         ;;
 
@@ -10183,7 +10431,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
               then 
                   echo
                   echo "Number out of range . . ."
-                  sleep .9
+                  sleep .7
 
               else
 
@@ -10203,7 +10451,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
               echo " Added to Playlist . . ."
               read -r activeplaylistm < ~/.config/videoinfox/videoinfo.playlist.current # GET CURRENT PLAYLIST
               cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST
-              sleep .9
+              sleep 1.9
       fi
 
 fi
@@ -10215,7 +10463,7 @@ else
     echo
     echo
     echo " Select Show All or use Find to acess this feature . . ."
-    sleep 1.7
+    sleep .7
 
 fi
 ;;
@@ -10380,7 +10628,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
             echo
             echo
             echo " No playable content in the clipboard . . ."
-            sleep 1.2
+            sleep 1.9
       fi   
   fi
   ;;  
@@ -10399,7 +10647,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
                 echo " Played List DELETED . . ."
                 echo
                 #read -p " Press enter to continue . . ."    
-                sleep .7
+                sleep 1.9
                 ;;
 
                 *)
@@ -10755,7 +11003,7 @@ read -r -n1 optionv
           then
               echo
               echo " Playlist Empty . . ."
-              sleep .9
+              sleep 1.9
           else
               # Remove Duplicates
               cat -n ~/.config/videoinfox/videoinfo.playlist | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfo.playlist.tmp
@@ -10764,7 +11012,7 @@ read -r -n1 optionv
               cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST
               echo
               echo " Duplicates Removed . . ."
-              sleep .9
+              sleep 1.9
         fi
         break
         ;;
@@ -10781,9 +11029,6 @@ read -r -n1 optionv
 
         o) # START AUTOPLAY  (PLAYLIST)
 
-# SET COUNTER TO ZERO. $i in below play loop to get line number from last played video
-i=0
-
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
    then
 
@@ -10795,6 +11040,7 @@ read -r -p " Start Autoplay from line: " linenumber  # waiting fot user input
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfo.playlist-apa > ~/.config/videoinfox/tmp/videoinfo.playlist-apa.tmp 2>/dev/null
 mv ~/.config/videoinfox/tmp/videoinfo.playlist-apa.tmp ~/.config/videoinfox/tmp/videoinfo.playlist-apa 2>/dev/null
 
+i=0
 OLDIFS=$IFS
 IFS=$'\n'
 
@@ -10824,42 +11070,57 @@ for line in $(cat "$input" 2>/dev/null)
       echo
       echo " - Quit: q"      
       echo -e "\n"
-
+      notify-send "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
-      # COUNTER TO KEEP TRACK OF LINE NUMBER THAT IS CURRENTLY PLAYING.
-      i=$((i+1))
+i=$((i+1)) # line number of video that was playing on video end/user quit.
+total="$vto" #  set intermission time in seconds
+count=0  # counter
+nextup=0  # line number of next video up
 
-      echo
-      echo -e " ""$vto" "sec. intermission timer running\033[5m . . .\033m\033[0m\033[5m\033[5m\033[0m" 
-      echo
-      echo " Skip the timer and start the next video:  press enter with no entry"
-      echo 
-      read -t "$vto" -p " Quit: press spacebar then press enter" playdir
-           
-           # option te escape loop everytime ffplay closes               # read will timeout for 5 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 5 seconds the next video will play
-                 break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 5 seconds to quit Play PLAYLIST
-           fi
+while [ ${count} -lt ${total} ] ; do
+    nextup=$((i+1))
+    tail -n +"$nextup" ~/.config/videoinfox/tmp/videoinfo.playlist-apa > ~/.config/videoinfox/tmp/videoinfo.playlist-apa.nextup 2>/dev/null
+    read -r nextplay < ~/.config/videoinfox/tmp/videoinfo.playlist-apa.nextup
+    tlimit=$(( $total - $count ))
+    clear
+    echo
+    echo " Last:" "$line"
+    echo
+    echo " Next:" "$nextplay"    
+    echo "___________________________________________________________________________________________________________________"  
+    echo
+    echo " $der >>> Intermission Timer"
+    echo "___________________________________________________________________________________________________________________" 
+    echo        
+    echo " Anykey Enter - Play     Spacebar Enter - Quit     Hold (Enter) - Speed Up Timer"
+    echo
+    echo    
+    echo -e "\r Next video starting in ${tlimit} seconds\c"
+    echo
+    echo
+    read -t 1 playoption 
+    test ! -z "$playoption" && { break ; }
+    count=$((count+1))
 done
 
+if [[ "$playoption" = " " ]] # if entry equals (spacebar enter) then break out of play loop
+  then                      
+  break
+fi
+
+done
+      
 # WRITE 2nd PLAYLIST FOR RESUME AUTOPLAY OPTION . File: ~/.config/videoinfox/playlists/$playlistname.last-autoplay
 tail -n +"$i" ~/.config/videoinfox/tmp/videoinfo.playlist-apa > "$setplaylist".last-autoplay
 
 IFS=$OLDIFS
 
-rm ~/.config/videoinfox/tmp/videoinfo.playlist-apa 2>/dev/null
-rm ~/.config/videoinfox/tmp/videoinfo.playlist-apa2 2>/dev/null
-rm ~/.config/videoinfox/tmp/videoinfo.number.play-list 2>/dev/null
-
    else
        echo
        echo
        echo " Playlist Empty . . ."
-       sleep 1.7
+       sleep 1.9
 fi
 
 ;;
@@ -10927,7 +11188,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .9
+                                  sleep .7
 
                               else
 
@@ -10942,7 +11203,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                                         echo "Line deleted from the playlist . . ."
                                         read -r activeplaylistm < ~/.config/videoinfox/videoinfo.playlist.current # GET CURRENT PLAYLIST
                                         cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST
-                                        sleep .9
+                                        sleep 1.9
 fi
 fi
 fi
@@ -10958,9 +11219,6 @@ fi
 l) # RESUME AUOTOPLAY VIEW PLAYLIST
 ##################################################################
 
-###### SET COUNTER TO ZERO. $i in below play loop to get line number from last played video
-i=0
-
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
    then
         read < $HOME/.config/videoinfox/playlists/"$setplaylist".last-autoplay resumedisplay
@@ -10970,9 +11228,10 @@ if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
               echo
               echo
               echo " Run Start Autoplay first to enable this feature . . ."
-              sleep 1.7
+              sleep 1.9
 
           else
+              i=0
               OLDIFS=$IFS
               IFS=$'\n'
     
@@ -10981,7 +11240,7 @@ if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
               echo
               echo
               echo " Resume: ""$resumedisplay"
-              sleep 3
+              sleep 2.3
           
 input2=$HOME/.config/videoinfox/playlists/"$setplaylist".last-autoplay
 
@@ -11011,26 +11270,45 @@ for line in $(cat "$input2" 2>/dev/null)
       echo
       echo " - Quit: q"      
       echo -e "\n"
-
+      notify-send "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
-      ###### COUNTER TO KEEP TRACK OF LINE NUMBER THAT IS CURRENTLY PLAYING FOR WRITE ON EXIT.
-      i=$((i+1))
+i=$((i+1)) # line number of video that was playing on video end/user quit.
+total="$vto" #  set intermission time in seconds
+count=0  # counter
+nextup=0  # line number of next video up
 
-      echo
-      echo -e " ""$vto" "sec. intermission timer running\033[5m . . .\033m\033[0m\033[5m\033[5m\033[0m" 
-      echo
-      echo " Skip the timer and start the next video:  press enter with no entry"
-      echo 
-      read -t "$vto" -p " Quit: press spacebar then press enter" playdir
-           
-           # option te escape loop everytime ffplay closes               # read will timeout for 5 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 5 seconds the next video will play
-                 break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 5 seconds to quit Play PLAYLIST
-           fi
+while [ ${count} -lt ${total} ] ; do
+    nextup=$((i+1))
+    tail -n +"$nextup" ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay-nextup 2>/dev/null
+    read -r nextplay < ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay-nextup
+    tlimit=$(( $total - $count ))
+    clear
+    echo
+    echo " Last:" "$line"
+    echo
+    echo " Next:" "$nextplay"    
+    echo "___________________________________________________________________________________________________________________"  
+    echo
+    echo " $der >>> Intermission Timer"
+    echo "___________________________________________________________________________________________________________________" 
+    echo        
+    echo " Anykey Enter - Play     Spacebar Enter - Quit     Hold (Enter) - Speed Up Timer"
+    echo
+    echo    
+    echo -e "\r Next video starting in ${tlimit} seconds\c"
+    echo
+    echo
+    read -t 1 playoption 
+    test ! -z "$playoption" && { break ; }
+    count=$((count+1))
+done
+
+if [[ "$playoption" = " " ]] # if entry equals (spacebar enter) then break out of play loop
+  then                      
+  break
+fi
+
 done
 
 tail -n +"$i" ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay > ~/.config/videoinfox/playlists/pl-tmp
@@ -11044,7 +11322,7 @@ fi
        echo
        echo
        echo " Playlist Empty . . ."
-       sleep 1.7
+       sleep 1.9
 
 fi
 ;;
@@ -11100,7 +11378,7 @@ if [ -z "$line" ]
       echo -e "\n"
 
       echo " Screen will close after video player is quit."
-
+      notify-send "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
  
 IFS=$OLDIFS
@@ -11115,7 +11393,7 @@ else
        echo
        echo
        echo " Playlist Empty . . ."
-       sleep 1.7
+       sleep 1.9
 fi
 
 ;;
@@ -11313,7 +11591,7 @@ case $option in
           then
               echo
               echo " Playlist Queue Empty . . ."
-              sleep .9
+              sleep 1.9
           else
               # Remove Duplicates
               cat -n ~/.config/videoinfox/videoinfox-playlist.queue | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfox-playlist.queue.tmp
@@ -11321,7 +11599,7 @@ case $option in
    
               echo
               echo " Duplicates Removed . . ."
-              sleep .9
+              sleep 1.9
         fi
         break
         ;;
@@ -11377,7 +11655,7 @@ then
 echo
 echo
 echo " Playlist Queue Empty . . ."
-sleep .9
+sleep 1.9
 break
 
 else
@@ -11410,7 +11688,7 @@ sed '/./=' ~/.config/videoinfox/tmp/videoinfox-playlist.Aque.tmp2 | sed '/./N; s
 echo
 echo
 echo " Queue Rebuilt . . ."
-sleep .9                      
+sleep 1.9                      
 fi
 break
 ;;
@@ -11449,7 +11727,7 @@ done
           then
               echo
               echo " Playlist Queue Was Already Deleted . . ."
-              sleep .9
+              sleep 1.9
 
           else
               echo > ~/.config/videoinfox/videoinfox-playlist.queue
@@ -11457,7 +11735,7 @@ done
               echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay
               echo
               echo " Playlist Queue Deleted . . ."
-              sleep .9
+              sleep 1.9
 
         fi
         break
@@ -11503,7 +11781,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
         then  # ENTRY EXCEEDS TOTAL NUMBER OF LINES 
             echo  
             echo " Number out of range . . ."
-            sleep .9
+            sleep .7
         else  # ENTRY IS A VALID NUMBER            
             tail -n +"$linenumber" ~/.config/videoinfox/videoinfo.playlist.dirlist > ~/.config/videoinfox/tmp/videoinfox.playlist.q.tmp 2>/dev/null
             read playnumber < ~/.config/videoinfox/tmp/videoinfox.playlist.q.tmp # read first line         
@@ -11515,7 +11793,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
       
             echo
             echo " ""$playnumber2" " Playlist added to the queue . . ."
-            sleep .9
+            sleep 1.9
 # REMOVE BLANK LINES
 sed -i '/^$/d' ~/.config/videoinfox/videoinfox-playlist.queue &>/dev/null
       
@@ -11611,7 +11889,7 @@ if [ -z "$qempty" ]
 then
 echo
 echo " Playlist Queue Empty . . ."
-sleep .9
+sleep 1.9
 
 else
 clear
@@ -11633,7 +11911,7 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
   then
       echo
       echo " Nothing was entered . . ."
-      sleep .75
+      sleep 1.9
 
   else
 
@@ -11641,7 +11919,7 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
         then
             echo
             echo " File already exists . . ."
-            sleep .75
+            sleep 1.9
 
         else
 
@@ -11655,7 +11933,7 @@ cp ~/.config/videoinfox/playlists/playlist.queue "$plname"
 echo
 echo " Playlist Created: "$plname""
 echo
-sleep 1.7
+sleep 1.9
 
       fi
 fi
@@ -11689,7 +11967,7 @@ fi
           then
               echo
               echo " Playlist Queue Was Already Deleted . . ."
-              sleep .9
+              sleep 1.9
 
           else
               echo > ~/.config/videoinfox/videoinfox-playlist.queue
@@ -11697,7 +11975,7 @@ fi
               echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay
               echo
               echo " Playlist Queue Deleted . . ."
-              sleep .9
+              sleep 1.9
 
         fi
         break
@@ -11747,7 +12025,7 @@ fi
           then
               echo
               echo " Playlist Queue Empty . . ."
-              sleep .9
+              sleep 1.9
           else
               # Remove Duplicates     
               cat -n ~/.config/videoinfox/playlists/playlist.queue | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfox-playlist.queue.tmp
@@ -11755,7 +12033,7 @@ fi
 
               echo
               echo " Duplicates Removed . . ."
-              sleep .9
+              sleep 1.9
         fi
         break
         ;;
@@ -11817,7 +12095,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
             echo
             echo
             echo " Play Queue Empty . . ."
-            sleep 1.7            
+            sleep 1.9            
 
 
             fi
@@ -11856,7 +12134,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
               then 
                   echo
                   echo " Number out of range . . ."
-                  sleep .9
+                  sleep .7
 
               else
 
@@ -11908,7 +12186,7 @@ fi
              echo -e "\n"
 
              echo " Screen will close after video player is quit."
-
+             notify-send "Videoinfox messsage: Playing . . ." "$line"
              $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
  
              IFS=$OLDIFS
@@ -11919,7 +12197,7 @@ fi
         echo
         echo
         echo " Playlist Queue Empty . . ."
-        sleep 1.7
+        sleep 1.9
 
 
 fi
@@ -11978,7 +12256,7 @@ sed '/./='  ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' 
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .9
+                                  sleep .7
 
                               else
 
@@ -11991,7 +12269,7 @@ sed '/./='  ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' 
                                         sed -i "${linenumber}d" ~/.config/videoinfox/playlists/playlist.queue 2> /dev/null 
                                         echo
                                         echo "Line deleted from the playlist queue . . ."
-                                        sleep .9
+                                        sleep 1.9
 
 
 fi
@@ -12010,9 +12288,6 @@ fi
         # START AUTOPLAY PLAYLIST QUEUE @@@@@@@@
 o) # START AUTOPLAY
 
-# SET COUNTER TO ZERO. $i in below play loop to get line number from last played video
-i=0
-
 #  ASSIGN PLAYLIST TO VARIABLE: $moddedplayedlist 
 moddedplayedlist="$HOME""/.config/videoinfox/playlists/playlist.queue"
 #  PLAYLIST INPUT FOR LOOP
@@ -12025,15 +12300,15 @@ if [ -z "$chkplq" ]
    then
        echo
        echo " Playlist Queue Empty . . ."
-       sleep .9
+       sleep 1.9
  
    else      
 echo
 read -r -p " Start Autoplay from line: " linenumber  # waiting fot user input
 
-# 
 tail -n +"$linenumber" ~/.config/videoinfox/playlists/playlist.queue > ~/.config/videoinfox/tmp/playlist.queue.autoplay 2>/dev/null
 
+i=0
 OLDIFS=$IFS
 IFS=$'\n'
 
@@ -12068,27 +12343,47 @@ for line in $(cat "$input" 2>/dev/null)
       echo
       echo " - Quit: q"      
       echo -e "\n"
-
+      notify-send "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
-      # COUNTER TO KEEP TRACK OF LINE NUMBER THAT IS CURRENTLY PLAYING.
-      i=$((i+1))
+i=$((i+1)) # line number of video that was playing on video end/user quit.
+total="$vto" #  set intermission time in seconds
+count=0  # counter
+nextup=0  # line number of next video up
 
-      echo
-      echo -e " ""$vto" "sec. intermission timer running\033[5m . . .\033m\033[0m\033[5m\033[5m\033[0m" 
-      echo
-      echo " Skip the timer and start the next video:  press enter with no entry"
-      echo 
-      read -t "$vto" -p " Quit: press spacebar then press enter" playdir
-           
-           # option te escape loop everytime ffplay closes               # read will timeout for 5 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 5 seconds the next video will play
-                 break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 5 seconds to quit Play PLAYLIST
-           fi
+while [ ${count} -lt ${total} ] ; do
+    nextup=$((i+1))
+    tail -n +"$nextup" ~/.config/videoinfox/tmp/playlist.queue.autoplay > ~/.config/videoinfox/tmp/playlist.queue.autoplay.nextup 2>/dev/null
+    read -r nextplay < ~/.config/videoinfox/tmp/playlist.queue.autoplay.nextup
+    tlimit=$(( $total - $count ))
+    clear
+    echo
+    echo " Last:" "$line"
+    echo
+    echo " Next:" "$nextplay"    
+    echo "___________________________________________________________________________________________________________________"  
+    echo
+    echo " $der >>> Intermission Timer"
+    echo "___________________________________________________________________________________________________________________" 
+    echo        
+    echo " Anykey Enter - Play     Spacebar Enter - Quit     Hold (Enter) - Speed Up Timer"
+    echo
+    echo    
+    echo -e "\r Next video starting in ${tlimit} seconds\c"
+    echo
+    echo
+    read -t 1 playoption 
+    test ! -z "$playoption" && { break ; }
+    count=$((count+1))
 done
+
+if [[ "$playoption" = " " ]] # if entry equals (spacebar enter) then break out of play loop
+  then                      
+  break
+fi
+
+done
+
 
 # WRITE 2nd PLAYLIST FOR LAST AUTOPLAY OPTION . File: ~/.config/videoinfox/playlists/$playlistname.last-autoplay
 tail -n +"$i" ~/.config/videoinfox/tmp/playlist.queue.autoplay > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay
@@ -12101,27 +12396,26 @@ fi
 
      # RESUME AUTOPLAY PLAYLIST QUEUE @@@@@@@@
 ############################################################
-l) # LAST AUTOPLAY - RESUME AUOTOPLAY (PLAYLIST QUEUE)
+l) # RESUME AUOTOPLAY (PLAYLIST QUEUE)
 ############################################################
 
-i=0  # SET COUNTER TO ZERO. $i in below play loop. Coubter to get line number from last played video
 read resumedisplay < $HOME/.config/videoinfox/playlists/playlist.queue.last-autoplay
 
         if [ -z "$resumedisplay" ]
           then
               echo
               echo " Run Start Autoplay first to enable this feature . . ."
-              sleep 1.7
+              sleep 1.9
 
           else
-
+              i=0
               OLDIFS=$IFS
               IFS=$'\n'
 
               # READ LINE TO DISPLAY VIDEO NAME BEFORE PLAY              
               echo
               echo " Resume: ""$resumedisplay"
-              sleep 3
+              sleep 2.3
           
 input2=$HOME/.config/videoinfox/playlists/playlist.queue.last-autoplay
 
@@ -12151,26 +12445,45 @@ for line in $(cat "$input2" 2>/dev/null)
       echo
       echo " - Quit: q"      
       echo -e "\n"
-
+      notify-send "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
-      ###### COUNTER TO KEEP TRACK OF LINE NUMBER THAT IS CURRENTLY PLAYING FOR WRITE ON EXIT.
-      i=$((i+1))
+i=$((i+1)) # line number of video that was playing on video end/user quit.
+total="$vto" #  set intermission time in seconds
+count=0  # counter
+nextup=0  # line number of next video up
 
-      echo
-      echo -e " ""$vto" "sec. intermission timer running\033[5m . . .\033m\033[0m\033[5m\033[5m\033[0m" 
-      echo
-      echo " Skip the timer and start the next video:  press enter with no entry"
-      echo 
-      read -t "$vto" -p " Quit: press spacebar then press enter" playdir
-           
-           # option te escape loop everytime ffplay closes               # read will timeout for 5 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 5 seconds the next video will play
-                 break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 5 seconds to quit Play PLAYLIST
-           fi
+while [ ${count} -lt ${total} ] ; do
+    nextup=$((i+1))
+    tail -n +"$nextup" ~/.config/videoinfox/playlists/playlist.queue.last-autoplay > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay-nextup 2>/dev/null
+    read -r nextplay < ~/.config/videoinfox/playlists/playlist.queue.last-autoplay-nextup
+    tlimit=$(( $total - $count ))
+    clear
+    echo
+    echo " Last:" "$line"
+    echo
+    echo " Next:" "$nextplay"    
+    echo "___________________________________________________________________________________________________________________"  
+    echo
+    echo " $der >>> Intermission Timer"
+    echo "___________________________________________________________________________________________________________________" 
+    echo        
+    echo " Anykey Enter - Play     Spacebar Enter - Quit     Hold (Enter) - Speed Up Timer"
+    echo
+    echo    
+    echo -e "\r Next video starting in ${tlimit} seconds\c"
+    echo
+    echo
+    read -t 1 playoption 
+    test ! -z "$playoption" && { break ; }
+    count=$((count+1))
+done
+
+if [[ "$playoption" = " " ]] # if entry equals (spacebar enter) then break out of play loop
+  then                      
+  break
+fi
+
 done
 
 tail -n +"$i" ~/.config/videoinfox/playlists/playlist.queue.last-autoplay > ~/.config/videoinfox/tmp/playlist.queue.last-autoplay.tmp
@@ -12226,7 +12539,7 @@ if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
         then 
             echo
             echo " Number out of range . . ."
-            sleep .9
+            sleep .7
 
         else
 
@@ -12288,7 +12601,7 @@ if ! [[ $linenumber =~ $re ]]
               then 
                   echo
                   echo " Number out of range . . ."
-                  sleep .9
+                  sleep .7
 
               else
                   echo
@@ -12349,7 +12662,7 @@ if ! [[ $linenumber =~ $re ]]
                             :
                       fi
 
-                      sleep 1.7  
+                      sleep 1.9  
                       break
                       ;;
 
@@ -12390,7 +12703,7 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
   then
       echo
       echo " Nothing was entered . . ."
-      sleep .75
+      sleep 1.9
 
   else
 
@@ -12398,7 +12711,7 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
         then
             echo
             echo " File already exists . . ."
-            sleep .75
+            sleep 1.9
 
         else
 
@@ -12410,7 +12723,7 @@ echo > "$HOME"/.config/videoinfox/playlists/"$createpl1".last-autoplay
 echo
 echo " Playlist Created: "$plname""
 echo
-sleep 1.7
+sleep 1.9
 
       fi
 fi
@@ -12581,7 +12894,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
             echo
             echo
             echo " No playable content in the clipboard . . ."
-            sleep 1.2
+            sleep 1.9
       fi   
   fi
   ;;  
@@ -12618,7 +12931,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
         cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST 
         echo
         echo " ""$setplaylist"" Playlist Cleared . . ."
-        sleep 1.7  
+        sleep 1.9  
         break
         ;;
 
@@ -12690,7 +13003,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
               then 
                   echo
                   echo "Number out of range . . ."
-                  sleep .9
+                  sleep .7
 
               else
      
@@ -12709,7 +13022,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
               echo " Added to Playlist . . ."
               read -r activeplaylistm < ~/.config/videoinfox/videoinfo.playlist.current # GET CURRENT PLAYLIST
               cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST
-              sleep .9
+              sleep 1.9
       fi
 fi
 fi
@@ -12719,7 +13032,7 @@ else
     echo
     echo
     echo " Select Show All or use Find to acess this feature . . ."
-    sleep 1.7
+    sleep .7
 
 fi
 ;;
@@ -12737,7 +13050,7 @@ fi
                            echo
                            echo
                            echo " No video files recursively reachable from the current directory . . ."
-                           sleep 1.7
+                           sleep 1.9
                         
                        else
 
@@ -12752,6 +13065,7 @@ fi
     echo " ""$ver"" >>> Find Video File(s) - Recursive                                               wildcard * ok"
     echo "___________________________________________________________________________________________________________________"
     echo
+    echo " Video files must be recursively reachable from the current directory."
     echo " Find a video file to play, add it to the playlist or get info.  No file extensions." 
     echo
     read -r -p " File Name: " videofind  # waiting fot user input - video file that you want to find
@@ -12763,7 +13077,7 @@ fi
                echo
                echo " error: Nothing was entered."
                echo
-               sleep .7        
+               sleep 1.9        
           else
                 
               if echo "$videofind" | grep "/" > /dev/null  # if any slashehes were entered goto <then>
@@ -12771,7 +13085,7 @@ fi
                     echo
                     echo " error: No directories only filenames."
                     echo
-                    sleep .7 
+                    sleep 1.9 
                 else
                                 
                      if [ "$searchtotal" = 0 ]  # if find returned no results goto <then>
@@ -12780,9 +13094,9 @@ fi
                            #cp ~/.config/videoinfox/videoinfo.findwork3 ~/.config/videoinfox/videoinfo.findwork
                            #cp ~/.config/videoinfox/videoinfo.lastsearchtotal2  ~/.config/videoinfox/videoinfo.lastsearchtotal
                            echo
-                           echo " No files found"
+                           echo " No files found . . ."
                            echo
-                           sleep .7 
+                           sleep 1.9 
                           
                        else
                            echo "$videofind" > ~/.config/videoinfox/videoinfo.lastfindstring   # save last find string used                          
@@ -12800,7 +13114,7 @@ find "$PWD" -type f \( -iname "$videofind.mp4" -o -iname "$videofind.mkv" -o -in
                            echo
                            echo " Total files found: " "$searchtotal"  # number of files found
                            notify-send  "Videoinfox messsage: Find results in $PWD" "$searchtotal files found using search term: $fterm"
-                           sleep 1.5
+                           sleep 1.9
     fi
     fi              
     fi
@@ -12814,7 +13128,7 @@ z)  # SETTINGS - <HOME>  #######################################################
 
 function menusettings {
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
-
+read -r vto < ~/.config/videoinfox/videoinfox.intermission
 
 # LOAD STORED DIRECTORIES
 read -r dir1 < ~/.config/videoinfox/videoinfo.tv-dir 2> /dev/null
@@ -12829,7 +13143,7 @@ echo "Directory:" "$PWD"
 echo "Clipboard:" "$pasteclip"
 echo "___________________________________________________________________________________________________________________"
 echo  
-echo " $der >>> SETTINGS                                                  Enter - Update Clipboard Display"
+echo " $der >>> SETTINGS            Enter - Update Clipboard Display           Intermission:" "$vto" "seconds"
 echo "___________________________________________________________________________________________________________________" 
 echo
 echo " Set Default Directories                                                                     q - Quit"
@@ -12869,18 +13183,28 @@ case $optionsettings in
     echo
     echo " Current Intermission:" "$vto"
     echo
+    echo " Maximun intermission time is 86400 seconds (24 hours)"
+    echo
     read -r -p " Enter intermission time in seconds: " timeinsec  # waiting fot user input
 
     re='^[0-9]+$'
     if ! [[ $timeinsec =~ $re ]]
     then
     :
+    
     else
-    echo "$timeinsec" > ~/.config/videoinfox/videoinfox.intermission
-    read -r vto < ~/.config/videoinfox/videoinfox.intermission
-    echo
-    echo " Intermission changed to:" "$timeinsec" "seconds."    
-    sleep 1.7
+        if [[ $timeinsec > 86400 ]]
+          then
+              echo
+              echo " Entry was greater than 86400"
+              sleep 1.9
+          else
+              echo "$timeinsec" > ~/.config/videoinfox/videoinfox.intermission
+              read -r vto < ~/.config/videoinfox/videoinfox.intermission
+              echo
+              echo " Intermission changed to:" "$timeinsec" "seconds."    
+              sleep 1.9
+    fi
     fi
     ;;
     
@@ -12932,7 +13256,7 @@ case $optionsettings in
          echo "1" > ~/.config/videoinfox/videoinfox.video-player
          echo
          echo " ffplay set . . ."
-         sleep 1.7
+         sleep 1.9
          ;;
 
 
@@ -12941,12 +13265,12 @@ case $optionsettings in
            then
                echo
                echo " mpv not found . . ."
-               sleep 1.7
+               sleep 1.9
            else
                echo "2" > ~/.config/videoinfox/videoinfox.video-player
                echo
                echo " mpv set . . . "
-               sleep 1.7
+               sleep 1.9
          fi
          ;;
 
@@ -12984,7 +13308,7 @@ case $optionsettings in
           echo "3" > ~/.config/videoinfox/videoinfox.video-player
           echo
           echo " custom set . . ."
-          sleep 2.1
+          sleep 1.9
           break
           ;;
 
@@ -13003,7 +13327,7 @@ case $optionsettings in
                 if ! command -v "$customvpe" &> /dev/null ####### Check for custom and set if installed ########
                   then
                       echo " ""$customvpe" "not found . . ."               
-                      sleep 1.7
+                      sleep 1.9
                   else
                       echo "$customvpe" > ~/.config/videoinfox/videoinfox.customplayer.1
                       echo "3" > ~/.config/videoinfox/videoinfox.video-player
@@ -13016,7 +13340,7 @@ case $optionsettings in
                       echo " New parameters: " "$cplayer2"
                       echo
                       echo " custom set . . ."
-                      sleep 2.1
+                      sleep 1.9
           fi
           fi
           break
@@ -13155,7 +13479,7 @@ done
          echo "1" > ~/.config/videoinfox/videoinfo.lastsearch-set
          echo
          echo " Always Save . . ."
-         sleep .7
+         sleep 1.9
          ;;
 
 
@@ -13163,7 +13487,7 @@ done
          echo "2" > ~/.config/videoinfox/videoinfo.lastsearch-set
          echo
          echo " Never Save . . . "
-         sleep .7
+         sleep 1.9
          ;;
 
         
@@ -13171,7 +13495,7 @@ done
          echo "3" > ~/.config/videoinfox/videoinfo.lastsearch-set
          echo
          echo " Ask on Exit . . ."
-         sleep .7
+         sleep 1.9
          ;;
 
          *)
@@ -13218,7 +13542,7 @@ done
           
           #read -p "     Press enter to continue . . ." 
           cd "$grabdir"  # restore working directory
-          sleep 1.5
+          sleep 1.9
           ;;
 
 
@@ -13258,7 +13582,7 @@ done
           
           #read -p "     Press enter to continue . . ." 
           cd "$grabdir"  # restore working directory
-          sleep 1.5
+          sleep 1.9
           ;;
            
 
@@ -13298,7 +13622,7 @@ done
           
           #read -p "     Press enter to continue . . ." 
           cd "$grabdir"  # restore working directory
-          sleep 1.5
+          sleep 1.9
           ;;
 
 
@@ -13338,7 +13662,7 @@ done
           
           #read -p "     Press enter to continue . . ." 
           cd "$grabdir"  # restore working directory
-          sleep 1.5
+          sleep 1.9
           ;;
 
 
@@ -13405,7 +13729,7 @@ done
          rm ~/.config/videoinfox/tmp/* 2> /dev/null
          echo
          echo " Not Updated . . ."
-         sleep .6
+         sleep 1.9
          break;;
       
          u)
@@ -13438,7 +13762,7 @@ done
                  echo
                  echo
                  echo " Videoinfox Updated . . ."
-                 sleep 1.5
+                 sleep 1.9
        
   
                  clear
@@ -13572,7 +13896,7 @@ function chkytdlp {
          cd "$dirtemp"  # restore directory
          echo
          echo " Yt-dlp Not Updated . . ."
-         sleep .7
+         sleep 1.9
          break;;
       
          u)
@@ -14494,6 +14818,8 @@ echo
 echo " ""$ver"" >>> FIND DIRECTORY                 Enter only to quit                             * - Show All"
 echo "___________________________________________________________________________________________________________________" 
 echo
+echo " The directory enterd must be recursively reachable from the current directory."
+echo
 read -r -p " Directory Name: " dirfind  # waiting fot user input - dierectory that you want to find
 linecount=$(find . -type d -iname "$dirfind" 2>/dev/null | wc -l)   # number of files found
                                                                                     	
@@ -14501,13 +14827,13 @@ if [ -z "$dirfind" ]  # if no input was entered goto  <then>
 then
 echo
 echo " error: Nothing was entered"  
-sleep .75
+sleep 1.9
 else               
      if echo "$dirfind" | grep "/" > /dev/null # if any slashes were entered goto <then>
      then
      echo
      echo " error: No slashes directory name only"
-     sleep .75  
+     sleep 1.9  
      else
      echo
      find . -type d -iname "$dirfind" | sort -u > ~/.config/videoinfox/tmp/finthedir.tmp 2>/dev/null  # directory(s) found
@@ -14520,7 +14846,7 @@ sed '/./=' ~/.config/videoinfox/tmp/finthedir.tmp | sed '/./N; s/\n/ /' > ~/.con
      echo " Total Directories Found:" "$linecount"  # number of files found         
 	    if [ "$findmeadir" = 0 ]  # if find returned no results goto <then>
 	    then
-	    sleep .75
+	    sleep 1.9
           :
 	    else
           echo
@@ -14533,7 +14859,7 @@ read -r -p " Enter number to change directory: " linenumber  # waiting fot user 
               then 
               echo
               echo " Number out of range . . ."
-              sleep .9
+              sleep .7
               else
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/finthedir.tmp > ~/.config/videoinfox/tmp/finthedir.tmp2 2>/dev/null
               OLDIFS=$IFS
@@ -14553,7 +14879,7 @@ fi
            then
                echo
                echo " At treetop. Can't go any higher . . ."
-               sleep .50
+               sleep 1.9
 
            else
                cd .. &>/dev/null
@@ -14585,7 +14911,7 @@ if [[ $linenumber -gt $linecount ]]
   then 
       echo
       echo " Number out of range . . ."
-      sleep .9
+      sleep .7
   else
 
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/nt-list.tmp > ~/.config/videoinfox/tmp/nt-list.tmp2 2>/dev/null
@@ -14616,20 +14942,20 @@ read line < ~/.config/videoinfox/tmp/nt-list.tmp2
            then
                echo
                echo " Nothing was entered . . ."
-               sleep 1.2
+               sleep 1.9
 
            else
                if [ -d "$direxist4" ] 
                  then
                      echo
                      echo " Directory already exists . . ."
-                     sleep 1.2
+                     sleep 1.9
 
                  else
                      mkdir "$newdir" 2> /dev/null
                      echo
                      echo " Directory Created:" "$PWD""/""$newdir"
-                     sleep 1.2
+                     sleep 1.9
            fi
          fi
 
@@ -14660,7 +14986,7 @@ read -r -p " " specifydir  # waiting fot user input - the directory you want to 
           then
                echo
                echo " Nothing was entered . . ."
-               sleep .75
+               sleep 1.9
           else
               if [ -d "$specifydir" ]  #  if directoty exists goto  <then>
                 then
@@ -14668,11 +14994,11 @@ read -r -p " " specifydir  # waiting fot user input - the directory you want to 
                      grabdirfornav2="$specifydir"
                      cd "$specifydir"   # change the directory
                      echo " Treetop changed to: $PWD"  # <pwd>  print current working directory to the screen
-                     sleep 1.5                   
+                     sleep 1.9                   
                 else
                      echo
                      echo " No such directory . . ."
-                     sleep 1.5                   
+                     sleep 1.9                   
           fi
     fi       
 echo
@@ -14709,7 +15035,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
         then  # ENTRY EXCEEDS TOTAL NUMBER OF LINES 
             echo  
             echo " Number out of range . . ."
-            sleep .9
+            sleep .7
         else  # ENTRY IS A VALID NUMBER            
             # create file moving selected line number to the top
             tail -n +"$linenumber" ~/.config/videoinfox/videoinfox.dowload.list > ~/.config/videoinfox/tmp/videoinfox.dowload.list.tmp 2>/dev/null
@@ -14719,14 +15045,14 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
               then  # if the default download list is selected          
                   echo
                   echo " The default download list cannot be added to the queue . . ."
-                  sleep 1.1
+                  sleep 1.9
               else
                   echo "$playnumber" >> ~/.config/videoinfox/videoinfox-download.queue
                   echo
                   echo " ""$playnumber"
                   echo
                   echo " Download list added to queue . . ."
-                  sleep 1.7
+                  sleep 1.9
                       
 fi
 fi
@@ -14808,11 +15134,11 @@ case $optiondq in
               rm ~/.config/videoinfox/videoinfox-download.queue 2> /dev/null
               echo
               echo " Download Queue Deleted . . ."
-              sleep 1.7
+              sleep 1.9
           else
               echo
               echo " Download Queue Was Already Deleted . . ."
-              sleep 1.7
+              sleep 1.9
         fi
         break
         ;;
@@ -14950,7 +15276,7 @@ if [ -z "$createulist" ]  # if enter is pressed with no entry
   then
       echo
       echo " Nothing was entered . . ."
-      sleep .7
+      sleep 1.9
 
   else
 
@@ -14958,7 +15284,7 @@ if [ -z "$createulist" ]  # if enter is pressed with no entry
         then
             echo
             echo " File already exists . . ."
-            sleep .75
+            sleep 1.9
 
         else
 
@@ -14968,7 +15294,7 @@ echo
 echo " User List Created: "$ulistname""
 echo
 echo
-sleep .75
+sleep 1.9
 
       fi
 fi
@@ -15000,7 +15326,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
         then  # ENTRY EXCEEDS TOTAL NUMBER OF LINES 
             echo  
             echo " Number out of range . . ."
-            sleep .9
+            sleep .7
         else  # ENTRY IS A VALID NUMBER            
             # create file moving selected line number to the top
             tail -n +"$linenumber" ~/.config/videoinfox/videoinfox.dowload.list > ~/.config/videoinfox/tmp/videoinfox.dowload.list.tmp 2>/dev/null
@@ -15045,7 +15371,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
         then  # ENTRY EXCEEDS TOTAL NUMBER OF LINES 
             echo  
             echo " Number out of range . . ."
-            sleep .9
+            sleep .7
         else  # ENTRY IS A VALID NUMBER            
             # create file moving selected line number to the top
             tail -n +"$linenumber" ~/.config/videoinfox/videoinfox.dowload.list > ~/.config/videoinfox/tmp/videoinfox.dowload.list.tmp 2>/dev/null
@@ -15079,14 +15405,14 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
                       echo
                       echo " User List DELETED . . ."
                       echo 
-                      sleep .9
+                      sleep 1.9
                       break;; 
         
                       n)  # NO 
                       echo
                       echo " User List SAVED . . ."
                       echo   
-                      sleep .9
+                      sleep 1.9
                       break;;
       
                 *)
@@ -15207,7 +15533,7 @@ do
     echo
     echo " Default List CLEARED . . ."
     echo 
-    sleep .75
+    sleep 1.9
     break;; 
  
        
@@ -15215,7 +15541,7 @@ do
     echo
     echo " Default List SAVED . . ."
     echo     
-    sleep .75
+    sleep 1.9
 
     break;;
 
@@ -15269,7 +15595,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
         then  # ENTRY EXCEEDS TOTAL NUMBER OF LINES 
             echo  
             echo " Number out of range . . ."
-            sleep .9
+            sleep .7
         else  # ENTRY IS A VALID NUMBER            
             # create file moving selected line number to the top
             tail -n +"$linenumber" ~/.config/videoinfox/videoinfox.dowload.list > ~/.config/videoinfox/tmp/videoinfox.dowload.list.tmp 2>/dev/null
@@ -15294,7 +15620,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
                             then
                                 echo
                                 echo " List is empty . . ."
-                                sleep .9
+                                sleep 1.9
 else
 logfile="$playnumber".log  # tag  .log  onto the users Download List  */.videoinfox-dl*.log 
 echo "$ver" ">>> DOWNLOAD LIST >>> Logfile:" "$playnumber"".log" > "$logfile"  # create file
@@ -15398,7 +15724,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
         then  # ENTRY EXCEEDS TOTAL NUMBER OF LINES 
             echo  
             echo " Number out of range . . ."
-            sleep .9
+            sleep .7
         else  # ENTRY IS A VALID NUMBER            
             # create file moving selected line number to the top
             tail -n +"$linenumber" ~/.config/videoinfox/videoinfox.dowload.list > ~/.config/videoinfox/tmp/videoinfox.dowload.list.tmp 2>/dev/null         
@@ -15411,7 +15737,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
                  then
                      echo
                      echo " List is Empty . . ."
-                     sleep .9
+                     sleep 1.9
                  else
                      clear
                      cat "$playnumber" 2>/dev/null
@@ -15452,7 +15778,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
         then  # ENTRY EXCEEDS TOTAL NUMBER OF LINES 
             echo  
             echo " Number out of range . . ."
-            sleep .9
+            sleep .7
         else  # ENTRY IS A VALID NUMBER            
             # create file moving selected line number to the top
             tail -n +"$linenumber" ~/.config/videoinfox/videoinfox.dowload.list > ~/.config/videoinfox/tmp/videoinfox.dowload.list.tmp 2>/dev/null         
@@ -15470,7 +15796,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
                    else
                        echo
                        echo " List not downloaded yet . . ."
-                       sleep .9          
+                       sleep 1.9          
 fi
 fi
 fi
@@ -15655,7 +15981,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
            echo
            echo
            echo " No playable content in the clipboard . . ."
-           sleep 1.2
+           sleep 1.9
        fi
 fi
 
@@ -16006,7 +16332,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
            echo
            echo
            echo " No playable content in the clipboard . . ."
-           sleep 1.2
+           sleep 1.9
       fi 
 fi
 
@@ -16022,7 +16348,7 @@ if [ "$istherefiles" = 0 ]
       echo
       echo
       echo " No video files in the current directory . . ."
-      sleep 1
+      sleep 1.9
 
   else
  
@@ -16195,7 +16521,7 @@ if [ -f ~/.config/videoinfox/tmp/videoinfox.numbered-navtree-play-directory-list
        echo
        echo
        echo " No video files in the current directory . . ."
-       sleep 1.7
+       sleep 1.9
 fi
 
 
@@ -16204,6 +16530,7 @@ linenumber=1
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa > ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa.tmp 2>/dev/null
 mv ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa.tmp ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa 2>/dev/null
 
+i=0
 OLDIFS=$IFS
 IFS=$'\n'
 
@@ -16233,32 +16560,48 @@ for line in $(cat "$input" 2>/dev/null)
       echo
       echo " - Quit: q"      
       echo -e "\n"
-
+      notify-send "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
-      echo
-      echo -e " ""$vto" "sec. intermission timer running\033[5m . . .\033m\033[0m\033[5m\033[5m\033[0m" 
-      echo
-      echo " Skip the timer and start the next video:  press enter with no entry"
-      echo 
-      read -t "$vto" -p " Quit: press spacebar then press enter" playdir
-           
-           # option te escape loop everytime ffplay closes               # read will timeout for 5 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 5 seconds the next video will play
-                 break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 5 seconds to quit Play Played List
-           fi
+i=$((i+1)) # line number of video that was playing on video end/user quit.
+total="$vto" #  set intermission time in seconds
+count=0  # counter
+nextup=0  # line number of next video up
+
+while [ ${count} -lt ${total} ] ; do
+    nextup=$((i+1))
+    tail -n +"$nextup" ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa > ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa-nextup 2>/dev/null
+    read -r nextplay < ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa-nextup
+    tlimit=$(( $total - $count ))
+    clear
+    echo
+    echo " Last:" "$line"
+    echo
+    echo " Next:" "$nextplay"    
+    echo "___________________________________________________________________________________________________________________"  
+    echo
+    echo " $der >>> Intermission Timer"
+    echo "___________________________________________________________________________________________________________________" 
+    echo        
+    echo " Anykey Enter - Play     Spacebar Enter - Quit     Hold (Enter) - Speed Up Timer"
+    echo
+    echo    
+    echo -e "\r Next video starting in ${tlimit} seconds\c"
+    echo
+    echo
+    read -t 1 playoption 
+    test ! -z "$playoption" && { break ; }
+    count=$((count+1))
 done
+
+if [[ "$playoption" = " " ]] # if entry equals (spacebar enter) then break out of play loop
+  then                      
+  break
+fi
+
+done     
  
 IFS=$OLDIFS
-
-rm ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa 2>/dev/null
-rm ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2 2>/dev/null
-rm ~/.config/videoinfox/tmp/videoinfox.numbered-navtree-play-directory-list 2>/dev/null
-rm ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa-work 2>/dev/null 
-
 ;;           
 
 
@@ -16273,7 +16616,7 @@ if [ "$istherefiles" = 0 ]
       echo
       echo
       echo " No video files in the current directory . . ."
-      sleep 1
+      sleep 1.9
 
   else
 
@@ -16288,6 +16631,7 @@ read -r -p " Autoplay Line: " linenumber  # waiting fot user input
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfo-view-downloads.tmp > ~/.config/videoinfox/tmp/videoinfo-view-downloads-autoplay.tmp 2>/dev/null
 input="$HOME""/.config/videoinfox/tmp/videoinfo-view-downloads-autoplay.tmp"
 
+i=0
 OLDIFS=$IFS
 IFS=$'\n'
 
@@ -16317,33 +16661,54 @@ for line in $(cat "$input" 2>/dev/null)
       echo
       echo " - Quit: q"      
       echo -e "\n"
-
+      notify-send "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
-      echo
-      echo -e " ""$vto" "sec. intermission timer running\033[5m . . .\033m\033[0m\033[5m\033[5m\033[0m" 
-      echo
-      echo " Skip the timer and start the next video:  press enter with no entry"
-      echo 
-      read -t "$vto" -p " Quit: press spacebar then press enter" playdir
-           
-           # option te escape loop everytime ffplay closes               # read will timeout for 5 seconds    
-           if [[ $playdir ]]                                             
-             then                                                        # if no input is entered within 5 seconds the next video will play
-                 break                                                   # if enter is pressed without any input the next video will play
-             else                                                        
-                 :                                                       # press any key then enter within 5 seconds to quit                      
-           fi
+i=$((i+1)) # line number of video that was playing on video end/user quit.
+total="$vto" #  set intermission time in seconds
+count=0  # counter
+nextup=0  # line number of next video up
+
+while [ ${count} -lt ${total} ] ; do
+    nextup=$((i+1))
+    tail -n +"$nextup" ~/.config/videoinfox/tmp/videoinfo-view-downloads-autoplay.tmp > ~/.config/videoinfox/tmp/videoinfo-view-downloads-autoplay.nextup.tmp 2>/dev/null
+    read -r nextplay < ~/.config/videoinfox/tmp/videoinfo-view-downloads-autoplay.nextup.tmp
+    tlimit=$(( $total - $count ))
+    clear
+    echo
+    echo " Last:" "$line"
+    echo
+    echo " Next:" "$nextplay"    
+    echo "___________________________________________________________________________________________________________________"  
+    echo
+    echo " $der >>> Intermission Timer"
+    echo "___________________________________________________________________________________________________________________" 
+    echo        
+    echo " Anykey Enter - Play     Spacebar Enter - Quit     Hold (Enter) - Speed Up Timer"
+    echo
+    echo    
+    echo -e "\r Next video starting in ${tlimit} seconds\c"
+    echo
+    echo
+    read -t 1 playoption 
+    test ! -z "$playoption" && { break ; }
+    count=$((count+1))
 done
- 
-rm ~/.config/videoinfox/tmp/videoinfo-view-downloads-autoplay.tmp 2> /dev/null
+
+if [[ "$playoption" = " " ]] # if entry equals (spacebar enter) then break out of play loop
+  then                      
+  break
+fi
+
+done      
+
 IFS=$OLDIFS
 
 else
     echo
     echo
     echo " Select Show All or use Find to acess this feature . . ."
-    sleep 1.7
+    sleep .7
 fi
 
 fi
@@ -16361,7 +16726,7 @@ if [ "$istherefiles" = 0 ]
       echo
       echo
       echo " No video files in the current directory . . ."
-      sleep 1
+      sleep 1.9
 
   else
 
@@ -16425,7 +16790,7 @@ else
     echo
     echo
     echo " Select Show All or use Find to acess this feature . . ."
-    sleep 1.7
+    sleep .7
 
 fi
 
@@ -16492,7 +16857,7 @@ fi
                     echo
                     echo
                     echo " Clipboard is empty or contained invalid video url . . ."
-                    sleep 1
+                    sleep 1.9
               fi
 
               cd "$grabdir" # restore dir
@@ -16593,7 +16958,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
                     echo
                     echo
                     echo " Clipboard is empty or contained invalid video url . . ."
-                    sleep 1
+                    sleep 1.9
               fi
               
               cd "$grabdir"
@@ -16648,7 +17013,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
                     echo
                     echo
                     echo " Clipboard is empty or contained invalid video url . . ."
-                    sleep 1
+                    sleep 1.9
               fi
               
               cd "$grabdir"
@@ -17079,7 +17444,7 @@ do
     echo " Results SAVED . . ."
     echo 
     #read -p "Press enter to continue . . ."
-    sleep .75
+    sleep 1.9
     break;; 
         
     d) 
@@ -17088,7 +17453,7 @@ do
     echo " Results DELETED . . ."
     echo 
     #read -p "Press enter to continue . . ."    
-    sleep .75
+    sleep 1.9
     break;;
       
         *)
@@ -17121,18 +17486,18 @@ read -r -p " Enter Directory: " specifydir  # waiting fot user input - the direc
           then
                echo
                echo " error: Nothing was entered"
-               sleep .75
+               sleep 1.9
           else
               if [ -d "$specifydir" ]  #  if directoty exists goto  <then>
                 then
                      echo
                      cd "$specifydir"   # change the directory
                      echo " Working Driectory changed to: $PWD"  # <pwd>  print current working directory to the screen
-                     sleep 1.5                   
+                     sleep 1.9                   
                 else
                      echo
                      echo " error:  No such file or directory"
-                     sleep 1.5                   
+                     sleep 1.9                   
           fi
     fi       
 echo
@@ -17153,6 +17518,8 @@ echo
 echo " ""$ver"" >>> FIND DIRECTORY                 Enter only to quit                             * - Show All"
 echo "___________________________________________________________________________________________________________________" 
 echo
+echo " The directory enterd must be recursively reachable from the current directory."
+echo
 read -r -p " Directory Name: " dirfind  # waiting fot user input - dierectory that you want to find
 linecount=$(find . -type d -iname "$dirfind" 2>/dev/null | wc -l)   # number of files found
                                                                                     	
@@ -17160,13 +17527,13 @@ if [ -z "$dirfind" ]  # if no input was entered goto  <then>
 then
 echo
 echo " error: Nothing was entered"  
-sleep .75
+sleep 1.9
 else               
      if echo "$dirfind" | grep "/" > /dev/null # if any slashes were entered goto <then>
      then
      echo
      echo " error: No slashes directory name only"
-     sleep .75  
+     sleep 1.9  
      else
      echo
      find . -type d -iname "$dirfind" | sort -u > ~/.config/videoinfox/tmp/finthedir.tmp 2>/dev/null  # directory(s) found
@@ -17179,7 +17546,7 @@ sed '/./=' ~/.config/videoinfox/tmp/finthedir.tmp | sed '/./N; s/\n/ /' > ~/.con
      echo " Total Directories Found:" "$linecount"  # number of files found         
 	    if [ "$findmeadir" = 0 ]  # if find returned no results goto <then>
 	    then
-	    sleep .75
+	    sleep 1.9
           :
 	    else
           echo
@@ -17192,7 +17559,7 @@ read -r -p " Enter number to change directory: " linenumber  # waiting fot user 
               then 
               echo
               echo " Number out of range . . ."
-              sleep .9
+              sleep .7
               else
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/finthedir.tmp > ~/.config/videoinfox/tmp/finthedir.tmp2 2>/dev/null
               OLDIFS=$IFS
@@ -17391,7 +17758,7 @@ do
     echo " Results DELETED . . ."
     echo 
     #read -p "Press enter to continue . . ."    
-    sleep .75
+    sleep 1.9
     break;;
 
          *)
@@ -17423,7 +17790,7 @@ echo
         if [ -z "$specifyfile" ]  # if no input was entered goto  <then>
           then
               echo " error: Nothing was entered"
-              sleep .7
+              sleep 1.9
           else  
                if [ -f "$specifyfile" ]  # if file exists goto  <then>
                 then
@@ -17437,7 +17804,7 @@ echo " Video Info: "$(ffprobe -v error -show_entries stream=codec_name -of defau
                        read -r -p " Press enter to continue . . ." 
                 else
                        echo " error: No such file or directory"
-                       sleep .7
+                       sleep 1.9
           fi	  
           fi
 
