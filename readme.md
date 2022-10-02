@@ -52,7 +52,7 @@ Videoinfox is a Linux shell script that feels like an app. If you enjoy watching
 
 ### Harnessing the power of:
 
-Videoinfox - Over 8400 lines of code.
+Videoinfox - Over 11,000 lines of code.
 
 Xclip - Interact with the clipboard.
 
@@ -137,13 +137,15 @@ FFprobe - Get codec, resolution & duration in seconds.
 <br />
 PLAY DIRECTORY
 
-Autoplay directory one level deep.
+Autoplay directory one level deep. Option to quit on video end or player quit.
+
+Autoplay features: &nbsp; Play Directory, Autoplay, Start Autoplay and Resume Autoplay.
 
 ![Play Directory](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PLAY-DIRECTORY.png)
 
 
 <br />
-OPTION TO QUIT A WHEN A VIDEO ENDS OR THE VIDEO PLAYER IS QUIT.
+INTERMISSION SCREEN. Initially set to 10 seconds. Time can be changed in Settings.
 
 Applies to Play Directory, Autoplay, Start Autoplay and Resume Autoplay
 
