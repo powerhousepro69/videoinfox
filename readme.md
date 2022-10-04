@@ -1,4 +1,4 @@
-# Videoinfox v4.3.00
+# Videoinfox v4.3.01
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -305,7 +305,7 @@ FIRST RUN
       - On every start, Github will be contacted to download Videoinfox for Update Available Check.
       - Everytime Videoinfox Update or Yt-dlp Update is selected in Settings, Github will be contacted.
       - If there isn't a copy of Yt-dlp in Videoinfox's config directory, Github will be contacted
-        everytime you select the Yt-dlp Menu to attempt a download of Yt-dlp.
+        when you select the Yt-dlp Menu to attempt a download of Yt-dlp.
       - Everytime Yt-dlp is used to download a video url.
         Refer to Yt-dlp's site for their privacy policy. https://github.com/yt-dlp/yt-dlp
 
@@ -316,6 +316,9 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+###   v4.3.01 Removed code from View Playlist that wasn't needed since v3.3.00 
+          It would cause a bug if any of the file extensions contained at least one capital letter.
 
 ###   v4.3.00 New: Intermission screen with next video up for play and countdown timer for Autoplay and Play Directory.
 
@@ -328,54 +331,6 @@ FIRST RUN
 
           Change: Display times of some error messages and confirmation messages.
 
-
-###  v4.2.13 Fix: Custom player settings now available to videoinfox -d
-
-          Edit: Help in videoinfox -h, Home Help and View Playlist Help
-
-###  v4.2.12 Add: -Download Only on Home Screen. Download a video url that is in the clipboard.
-
-          -Download Only is the same as Download Default in Yt-dlp Menu.
-
-###  v4.2.11 Add: -Make Playlist on Home Screen. Save all search results as a Playlist.
-
-          Add: -Find Dir on Home Screen.
-
-          Edit: Home Help.
-  
-###  v4.2.04 Change: Another edit in Quit message on video end/player quit in -Play Directory and Autoplay.
-
-###  v4.2.03 Change: Quit message on video end/player quit in -Play Directory and Autoplay.
-
-###  v4.2.02 Add: added message to Home -Find if there are no video files.
-    
-          MSG: No video files recursively reachable from the current directory . . .
-
-          Change: View Playlist options: -Remove Line -Remove Duplicates -Clear Playlist all autosave the changes.
-          Before this change the active playlist was only saved when selecting option -Change Playlist
-
-
-###  v4.2.00 Playlist Queue added. Load unlimied playlists into the queue for autoplay with last played video marker.
-
-          >>> View Playlist option: -Change Paylist was renamed to -Change and Queue.
-          
-          New Options in -Change and Queue:     -Add to Queue     -Queue List     -Play Queue.
-
-          Queue List options:     g - Remove Duplicate Playlists     r - Rewrite Queue With Current List     d - Delete Queue
-
-          Play Queue options:     j - Play     o - Start Autoplay      z - Queue to Playlist     r - Remove Line
-                                  i - Info     l - Resume Autoplay                               g - Remove Duplicates
-                                                                                                 d - Delete Queue
-
-         Add: -Remove Duplictes added to >>> View Playlist. Duplicates were auto-removed. Now they are not.
-
-         Add: -Find Directory added to YT-DLP MENU >>> DOWNLOAD LIST -Create/Change Directory
-
-         Add: -Intermission option in Settings. Change the time in seconds on video end/player quit. Initially set to 10.
-
-         Change: in FIRST RUN >>> SETUP Timeout changed to Press enter to continue . . . . . .
-
-         Fix: -Set -Videoinfox Update. Directory wasn't being restored on -Update
 
 <br />
 
