@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v4.3.01								         
+#  file : videoinfox v4.3.02								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v4.3.01"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m3.01")  # Version Number: with blinking dot
+ver="Videoinfox v4.3.02"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m3.02")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -449,40 +449,9 @@ done < "$input"
 sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa2 2>/dev/null
 
 #  MOVE apa2 BACK TO apa
-mv ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa2 ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa 2>/dev/null
+cp ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa2 ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa 2>/dev/null
 
-#  CREATE FILE NEEDED FOR LOOP 
-echo > ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa2  
 
-#  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-while read -r line  # read line by line until end of file
-do
-
-   if [[ "$line" == *.mp4 ]] 
-        then # IF FILE IS MP4, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa2  
-     
-   elif [[ "$line" == *.webm ]]
-        then # IF FILE IS WEBM, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa2
-      
-   elif [[ "$line" == *.mkv ]]
-        then # IF FILE IS MKV, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa2
-
-   elif [[ "$line" == *.avi ]]
-        then # IF FILE IS AVI, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa2
-
-   elif [[ "$line" == *.divx ]]
-        then  # IF FILE IS DIVX, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa2
-   else
-        :  # IF THERE IS NO FILE MATCH, THERE IS NO WRITE
-   fi
-
-done < "$input"
-#  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
 
 #  REMOVE BLANK LINES
 sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa2 2>/dev/null
@@ -1479,6 +1448,9 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v4.3.02 Removed more uneeded code." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v4.3.01 Removed code from View Playlist that wasn't needed since v3.3.00" >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         It would cause a bug if any of the file extensions contained at least one capital letter." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -3709,40 +3681,8 @@ done < "$input"
 sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2 2>/dev/null
 
 #  MOVE apa2 BACK TO apa
-mv ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2 ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa 2>/dev/null
+cp ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2 ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa 2>/dev/null
 
-#  CREATE FILE NEEDED FOR LOOP 
-echo > ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2  
-
-#  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-while read -r line  # read line by line until end of file
-do
-
-   if [[ "$line" == *.mp4 ]] 
-        then # IF FILE IS MP4, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2  
-     
-   elif [[ "$line" == *.webm ]]
-        then # IF FILE IS WEBM, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2
-      
-   elif [[ "$line" == *.mkv ]]
-        then # IF FILE IS MKV, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2
-
-   elif [[ "$line" == *.avi ]]
-        then # IF FILE IS AVI, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2
-
-   elif [[ "$line" == *.divx ]]
-        then  # IF FILE IS DIVX, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2
-   else
-        :  # IF THERE IS NO FILE MATCH, THERE IS NO WRITE
-   fi
-
-done < "$input"
-#  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
 
 #  REMOVE BLANK LINES
 sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2 2>/dev/null
@@ -3958,40 +3898,9 @@ done < "$input"
 sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2 2>/dev/null
 
 #  MOVE apa2 BACK TO apa
-mv ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2 ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa 2>/dev/null
+cp ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2 ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa 2>/dev/null
 
-#  CREATE FILE NEEDED FOR LOOP 
-echo > ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2  
 
-#  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-while read -r line  # read line by line until end of file
-do
-
-   if [[ "$line" == *.mp4 ]] 
-        then # IF FILE IS MP4, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2  
-     
-   elif [[ "$line" == *.webm ]]
-        then # IF FILE IS WEBM, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2
-      
-   elif [[ "$line" == *.mkv ]]
-        then # IF FILE IS MKV, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2
-
-   elif [[ "$line" == *.avi ]]
-        then # IF FILE IS AVI, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2
-
-   elif [[ "$line" == *.divx ]]
-        then  # IF FILE IS DIVX, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2
-   else
-        :  # IF THERE IS NO FILE MATCH, THERE IS NO WRITE
-   fi
-
-done < "$input"
-#  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
 
 #  REMOVE BLANK LINES
 sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2 2>/dev/null
@@ -4217,40 +4126,9 @@ done < "$input"
 sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2 2>/dev/null
 
 #  MOVE apa2 BACK TO apa
-mv ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2 ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa 2>/dev/null
+cp ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2 ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa 2>/dev/null
 
-#  CREATE FILE NEEDED FOR LOOP 
-echo > ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2  
 
-#  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-while read -r line  # read line by line until end of file
-do
-
-   if [[ "$line" == *.mp4 ]] 
-        then # IF FILE IS MP4, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2  
-     
-   elif [[ "$line" == *.webm ]]
-        then # IF FILE IS WEBM, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2
-      
-   elif [[ "$line" == *.mkv ]]
-        then # IF FILE IS MKV, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2
-
-   elif [[ "$line" == *.avi ]]
-        then # IF FILE IS AVI, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2
-
-   elif [[ "$line" == *.divx ]]
-        then  # IF FILE IS DIVX, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2
-   else
-        :  # IF THERE IS NO FILE MATCH, THERE IS NO WRITE
-   fi
-
-done < "$input"
-#  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
 
 #  REMOVE BLANK LINES
 sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa2 2>/dev/null
@@ -4422,40 +4300,9 @@ done < "$input"
 sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-directory-apa2 2>/dev/null
 
 #  MOVE apa2 BACK TO apa
-mv ~/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-directory-apa2 ~/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-directory-apa 2>/dev/null
+cp ~/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-directory-apa2 ~/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-directory-apa 2>/dev/null
 
-#  CREATE FILE NEEDED FOR LOOP 
-echo > ~/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-directory-apa2  
 
-#  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-while read -r line  # read line by line until end of file
-do
-
-   if [[ "$line" == *.mp4 ]] 
-        then # IF FILE IS MP4, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-directory-apa2  
-     
-   elif [[ "$line" == *.webm ]]
-        then # IF FILE IS WEBM, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-directory-apa2
-      
-   elif [[ "$line" == *.mkv ]]
-        then # IF FILE IS MKV, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-directory-apa2
-
-   elif [[ "$line" == *.avi ]]
-        then # IF FILE IS AVI, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-directory-apa2
-
-   elif [[ "$line" == *.divx ]]
-        then  # IF FILE IS DIVX, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-directory-apa2
-   else
-        :  # IF THERE IS NO FILE MATCH, THERE IS NO WRITE
-   fi
-
-done < "$input"
-#  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
 
 #  REMOVE BLANK LINES
 sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-directory-apa2 2>/dev/null
@@ -6979,40 +6826,9 @@ done < "$input"
 sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa2 2>/dev/null
 
 #  MOVE apa2 BACK TO apa
-mv ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa2 ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa 2>/dev/null
+cp ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa2 ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa 2>/dev/null
 
-#  CREATE FILE NEEDED FOR LOOP 
-echo > ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa2  
 
-#  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-while read -r line  # read line by line until end of file
-do
-
-   if [[ "$line" == *.mp4 ]] 
-        then # IF FILE IS MP4, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa2  
-     
-   elif [[ "$line" == *.webm ]]
-        then # IF FILE IS WEBM, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa2
-      
-   elif [[ "$line" == *.mkv ]]
-        then # IF FILE IS MKV, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa2
-
-   elif [[ "$line" == *.avi ]]
-        then # IF FILE IS AVI, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa2
-
-   elif [[ "$line" == *.divx ]]
-        then  # IF FILE IS DIVX, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa2
-   else
-        :  # IF THERE IS NO FILE MATCH, THERE IS NO WRITE
-   fi
-
-done < "$input"
-#  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
 
 #  REMOVE BLANK LINES
 sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa2 2>/dev/null
@@ -7584,40 +7400,9 @@ done < "$input"
 ####################################################mv ~/.config/videoinfox/tmp/videoinfo.playedlist-apa3 ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2
 
 #  MOVE apa2 BACK TO apa
-mv ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2 ~/.config/videoinfox/tmp/videoinfo.playedlist-apa 2>/dev/null
+cp ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2 ~/.config/videoinfox/tmp/videoinfo.playedlist-apa 2>/dev/null
 
-#  CREATE FILE NEEDED FOR LOOP 
-echo > ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2  
 
-#  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-while read -r line  # read line by line until end of file
-do
-
-   if [[ "$line" == *.mp4 ]] 
-        then # IF FILE IS MP4, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2  
-     
-   elif [[ "$line" == *.webm ]]
-        then # IF FILE IS WEBM, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2
-      
-   elif [[ "$line" == *.mkv ]]
-        then # IF FILE IS MKV, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2
-
-   elif [[ "$line" == *.avi ]]
-        then # IF FILE IS AVI, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2
-
-   elif [[ "$line" == *.divx ]]
-        then  # IF FILE IS DIVX, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2
-   else
-        :  # IF THERE IS NO FILE MATCH, THERE IS NO WRITE
-   fi
-
-done < "$input"
-#  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
 
 #  REMOVE BLANK LINES
 sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2 2>/dev/null
@@ -16368,40 +16153,9 @@ done < "$input"
 sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2 2>/dev/null
 
 #  MOVE apa2 BACK TO apa
-mv ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2 ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa 2>/dev/null
+cp ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2 ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa 2>/dev/null
 
-#  CREATE FILE NEEDED FOR LOOP 
-echo > ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2  
 
-#  START WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
-while read -r line  # read line by line until end of file
-do
-
-   if [[ "$line" == *.mp4 ]] 
-        then # IF FILE IS MP4, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2  
-     
-   elif [[ "$line" == *.webm ]]
-        then # IF FILE IS WEBM, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2
-      
-   elif [[ "$line" == *.mkv ]]
-        then # IF FILE IS MKV, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2
-
-   elif [[ "$line" == *.avi ]]
-        then # IF FILE IS AVI, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2
-
-   elif [[ "$line" == *.divx ]]
-        then  # IF FILE IS DIVX, WRITE LINE TO FILE
-             echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2
-   else
-        :  # IF THERE IS NO FILE MATCH, THERE IS NO WRITE
-   fi
-
-done < "$input"
-#  END WRITING FILENAMES TO LIST THAT END IN:  .mp4  .webm  .mkv  .avi  .divx
 
 #  REMOVE BLANK LINES
 sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2 2>/dev/null
