@@ -1,4 +1,4 @@
-# Videoinfox v4.3.01
+# Videoinfox v4.3.02
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -316,6 +316,8 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+###   v4.3.02 Removed more uneeded code.
 
 ###   v4.3.01 Removed code from View Playlist that wasn't needed since v3.3.00 
           It would cause a bug if any of the file extensions contained at least one capital letter.
