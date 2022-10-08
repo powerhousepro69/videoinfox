@@ -1,4 +1,4 @@
-# Videoinfox v4.3.02
+# Videoinfox v4.3.03
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -316,6 +316,10 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+###   v4.3.03 Fix: Header on the home screen. This issue would be seen with an http link that wasn't a valid video url.
+
+          Note: On invalid link, YT-DLP Confirmed: won't be displayed. Press Enter to clear the invalid link.
 
 ###   v4.3.02 Removed more uneeded code.
 
