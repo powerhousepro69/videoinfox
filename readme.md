@@ -1,4 +1,4 @@
-# Videoinfox v4.3.03
+# Videoinfox v4.3.05
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -316,6 +316,17 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+###   v4.3.05 Add: When there is a video file with full path in the clipboard (no quotes for filenames with spaces),
+              
+          it will be displayed on screens with Play Clipboard.
+
+
+          Change Message for above event: Valid file in clipboard  to  Video file in clipboard:
+
+          Edit home help:  To use Play Clipboard section...
+
+          Add to home help: Played List Note: Duplicates are auto removed from the played list
 
 ###   v4.3.03 Fix: Header on the home screen. This issue would be seen with an http link that wasn't a valid video url.
 
