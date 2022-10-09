@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v4.3.03								         
+#  file : videoinfox v4.3.05								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v4.3.03"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m3.03")  # Version Number: with blinking dot
+ver="Videoinfox v4.3.05"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m3.05")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -897,15 +897,7 @@ if [ -d "$direxist" ]  #  if directoty exists goto  <then>
 
       echo
       read -p " Press enter to continue . . . . . ."
-           #sec=36
-           #while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>
-                                
-           #     echo -ne " Downloading Yt-dlp in: $sec\033[0K\r"
-           #     let "sec=sec-1"
-           #     sleep 1
-              
-           #done                  
-
+                        
  
 # Yt-dlp initial download attempt on the first run. If it fails, download will be re-attempted when you select the Yt-dlp Menu.
 clear
@@ -1293,10 +1285,13 @@ echo >> ~/.config/videoinfox/videoinfo.help
 echo "                     Three Choices:     1 - Always Save     2 - Never Save     3 - Ask on Exit" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " To use Play Clipboard:" >> ~/.config/videoinfox/videoinfo.help 
+echo " To use Play Clipboard: Works with a video url or a video file with full path." >> ~/.config/videoinfox/videoinfo.help 
 echo >> ~/.config/videoinfox/videoinfo.help 
-echo " Copy a video url to the clipboard and press enter to verify the url is valid." >> ~/.config/videoinfox/videoinfo.help  
-echo " Then  p  to Download and Autoplay Fullscreen." >> ~/.config/videoinfox/videoinfo.help 
+echo " Copy a video url to the clipboard and press enter to verify the clipboard content is valid." >> ~/.config/videoinfox/videoinfo.help  
+echo " Then  p  to Download and Autoplay Fullscreen." >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo " Copy a video file with full path to the clipboard and press enter to verify the clipboard content is valid." >> ~/.config/videoinfox/videoinfo.help  
+echo " Then  p  to Autoplay Fullscreen.    Note: No quotes for filenames with spaces" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help 
 echo " Copying video url's to the clipboard is supported by the following options:" >> ~/.config/videoinfox/videoinfo.help 
@@ -1353,6 +1348,8 @@ echo " Play:           Only play the line number entered." >> ~/.config/videoinf
 echo "                 This option always writes to the Played List." >> ~/.config/videoinfox/videoinfo.help
 echo "                 Available in: Home Screen, Navigate Tree, Played List. Playlist, Playlist Queue & View Downloads" >> ~/.config/videoinfox/videoinfo.help
 echo "                 Note: One exception. The Playlist will never write to the Played List." >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo " Played List Note: Duplicates are auto removed from the played list." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Create Unlimited Playlists." >>~/.config/videoinfox/videoinfo.help
@@ -1448,6 +1445,16 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v4.3.05 Add: When there is a video file with full path in the clipboard (no quotes for filenames with spaces)," >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              it will be displayed on screens with Play Clipboard." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Change Message for above event: Valid file in clipboard  to  Video file in clipboard:" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Edit home help:  To use Play Clipboard section..." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Add to home help: Played List Note: Duplicates are auto removed from the played list." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v4.3.03 Fix: Header on the home screen. This issue would be seen with an http link that wasn't a valid video url." >> ~/.config/videoinfox/videoinfo-ver-history
 echo "              Note: On invalid link, YT-DLP Confirmed: won't be displayed. Press Enter to clear the invalid link." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2449,9 +2456,6 @@ if [ "$grabclip" = "http" ]  # if the first 4 characters = <http> go then
 fi
 
 
-# playedlist sort routine removed here
-
-
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
                         
 dirinhome="$PWD" 
@@ -2759,7 +2763,8 @@ echo -e " m - More Options      g - Find Dir          b "$dashj" Make Playlist  
 if [ -f "$pasteclip" ]  #  if file exists goto <then>
  then
 echo      
-echo "Valid file in clipboard"
+echo "Video file in clipboard:"
+echo "$pasteclip"
 echo "___________________________________________________________________________________________________________________"
 echo
 echo " $der $viv4      Enter - Update Clipboard Display                "$dirdisp" - Default Dirs"
@@ -4648,7 +4653,8 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
       if [ -f "$pasteclip" ]  # 
         then
                       echo      
-                      echo "Valid file in clipboard"
+                      echo "Video file in clipboard:"
+                      echo "$pasteclip"
                       echo "___________________________________________________________________________________________________________________"
                       echo
                       echo " "$der" >>> VIEW PLAYLIST"
@@ -7541,7 +7547,8 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
       if [ -f "$pasteclip" ]  # 
         then
             echo      
-            echo "Valid file in clipboard"
+            echo "Video file in clipboard:"
+            echo "$pasteclip"
             echo "___________________________________________________________________________________________________________________"
             echo
             echo " "$der" >>> PLAYED LIST"
@@ -8070,7 +8077,8 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
       if [ -f "$pasteclip" ]  # 
         then
                       echo      
-                      echo "Valid file in clipboard"
+                      echo "Video file in clipboard:"
+                      echo "$pasteclip"
                       echo "___________________________________________________________________________________________________________________"
                       echo
                       echo " "$der" >>> VIEW PLAYLIST"
@@ -10615,7 +10623,8 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
       if [ -f "$pasteclip" ]  # 
         then
                       echo      
-                      echo "Valid file in clipboard"
+                      echo "Video file in clipboard:"
+                      echo "$pasteclip"
                       echo "___________________________________________________________________________________________________________________"
                       echo
                       echo " "$der" >>> VIEW PLAYLIST"
@@ -13846,7 +13855,8 @@ echo -e " d ~ Download Default     l - Last Download     v - View Downloads     
       if [ -f "$pasteclip" ]  # Valid file in the clipboard
         then
             echo      
-            echo "Valid file in clipboard"
+            echo "Video file in clipboard:"
+            echo "$pasteclip"
             echo "___________________________________________________________________________________________________________________"
             echo
             echo " ""$der"" >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlpver"
@@ -15830,7 +15840,8 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
       if [ -f "$pasteclip" ]  # 
         then
             echo      
-            echo "Valid file in clipboard"
+            echo "Video file in clipboard:"
+            echo "$pasteclip"
             echo "___________________________________________________________________________________________________________________"
             echo
             echo " "$der" >>> YT-DLP MENU >>> VIEW DOWNLOADS"
