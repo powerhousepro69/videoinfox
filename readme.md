@@ -1,4 +1,4 @@
-# Videoinfox v4.3.06
+# Videoinfox v4.4.00
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -21,6 +21,8 @@ sudo wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/vide
 sudo chmod +x /usr/local/bin/videoinfox
 ```
 <br />
+
+#### NEW in v4.4.00 -Move Line added to View Playlist and Play Queue.
 
 #### NEW in v4.3.00 Intermission screen with next video up for play and countdown timer for Autoplay and Play Directory.
 
@@ -120,7 +122,7 @@ FFprobe - Get codec, resolution & duration in seconds.
   - Recursive count of videos broken down by video type.
   - Recursive duration (days:hrs:min:sec) Save per directory.
   - GUI notifications.
-  - + more options . . .
+  - More options . . .
 
 
  
@@ -317,38 +319,19 @@ FIRST RUN
 ##### Reddit /Videoinfox for discussion.
 <br />
 
-###   v4.3.06 Edit home help.
+### v4.4.00 New: -Move Line added to View Playlist and Play Queue.
 
-###   v4.3.05 Add: When there is a video file with full path in the clipboard (no quotes for filenames with spaces),
-              
-          it will be displayed on screens with Play Clipboard.
+        Move line: x
 
-
-          Change Message for above event: Valid file in clipboard  to  Video file in clipboard:
-
-          Edit home help:  To use Play Clipboard section...
-
-          Add to home help: Played List Note: Duplicates are auto removed from the played list
-
-###   v4.3.03 Fix: Header on the home screen. This issue would be seen with an http link that wasn't a valid video url.
-
-          Note: On invalid link, YT-DLP Confirmed: won't be displayed. Press Enter to clear the invalid link.
-
-###   v4.3.02 Removed more uneeded code.
-
-###   v4.3.01 Removed code from View Playlist that wasn't needed since v3.3.00 
-          It would cause a bug if any of the file extensions contained at least one capital letter.
-
-###   v4.3.00 New: Intermission screen with next video up for play and countdown timer for Autoplay and Play Directory.
-
-          Options:     Anykey Enter - PLAY     Spacebar Enter - QUIT     Hold Enter - Speed Up Timer
-
-                       Next video starting in x seconds
+        Insert line x below line: (to insert above line 1 enter 0)
 
 
-          Fix: All play and autoplay now show a gui notification.
+        Added to -View Playlist -Help
 
-          Change: Display times of some error messages and confirmation messages.
+        Note: If -Remove Line, -Remove Dupes, -Move Line or -Add to Playlist is used after running -Start Autoplay,
+               -Start Autoplay will need to be run again to update -Resume Autoplay with any of the above changes.
+
+        Move Line: To insert above line 1 enter 0. To insert after the last line, enter the last line number.
 
 
 <br />
