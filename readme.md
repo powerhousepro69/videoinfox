@@ -1,4 +1,4 @@
-# Videoinfox v4.3.05
+# Videoinfox v4.3.06
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -316,6 +316,8 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+###   v4.3.06 Edit home help.
 
 ###   v4.3.05 Add: When there is a video file with full path in the clipboard (no quotes for filenames with spaces),
               
