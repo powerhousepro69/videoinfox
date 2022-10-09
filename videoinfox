@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v4.3.06								         
+#  file : videoinfox v4.4.00								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v4.3.06"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m3.06")  # Version Number: with blinking dot
+ver="Videoinfox v4.4.00"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.00")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -1448,6 +1448,21 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v4.4.00 New: -Move Line added to View Playlist and Play Queue." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                 Move line: x" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                 Insert line x below line: (to insert above line 1 enter 0)" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Added to -View Playlist -Help" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Note: If -Remove Line, -Remove Dupes, -Move Line or -Add to Playlist is used after running -Start Autoplay," >> ~/.config/videoinfox/videoinfo-ver-history 
+echo "               -Start Autoplay will need to be run again to update -Resume Autoplay with any of the above changes." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Move Line: To insert above line 1 enter 0. To insert after the last line, enter the last line number." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v4.3.06 Edit home help." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2390,7 +2405,6 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist.current ]
       echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ~/.config/videoinfox/videoinfo.playlist.current
 fi
 
-#read -r vto < ~/.config/videoinfox/videoinfox.intermission
 
 ##################################################################################################################################################
 ###########################  HOME LOOP START #####################################################################################################
@@ -4629,13 +4643,13 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
 
                            # Videoinfox v2.00________________________________________ Videoinfox v2.00_________________________________________
                            #________________x________________________________________ _________________________________________________________
-                       echo "___________________________________________________________________________________________________________________"
+                      echo "___________________________________________________________________________________________________________________"
                       echo
                       echo " "$der" >>> VIEW PLAYLIST"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " j - Play     o - Start Autoplay      c - Change and Queue     r - Remove Line                            q - Quit"
-                      echo " i - Info     l - Resume Autoplay     p - Play Clipboard       g - Remove Duplicates "
+                      echo " j - Play     o - Start Autoplay      c - Change and Queue     r - Remove Line        m - Move Line       q - Quit"
+                      echo " i - Info     l - Resume Autoplay     p - Play Clipboard       g - Remove Dupes"
                       echo "                                                               d - Clear Playlist                         h - Help"
                       echo                                  
 
@@ -4648,8 +4662,8 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" >>> VIEW PLAYLIST"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " j - Play     o - Start Autoplay      c - Change and Queue     r - Remove Line                            q - Quit"
-                      echo -e " i - Info     l - Resume Autoplay     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m       g - Remove Duplicates "
+                      echo " j - Play     o - Start Autoplay      c - Change and Queue     r - Remove Line        m - Move Line       q - Quit"
+                      echo -e " i - Info     l - Resume Autoplay     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m       g - Remove Dupes"
                       echo "                                                               d - Clear Playlist                         h - Help"
                       echo                                                                                    
             fi
@@ -4665,7 +4679,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" >>> VIEW PLAYLIST"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " j - Play     o - Start Autoplay      c - Change and Queue     r - Remove Line                            q - Quit"
+                      echo " j - Play     o - Start Autoplay      c - Change and Queue     r - Remove Line        m - Move Line       q - Quit"
                       echo -e " i - Info     l - Resume Autoplay     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m       g - Remove Duplicates "
                       echo "                                                               d - Clear Playlist                         h - Help"
                       echo                                                                                     
@@ -4680,8 +4694,8 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" >>> VIEW PLAYLIST"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " j - Play     o - Start Autoplay      c - Change and Queue     r - Remove Line                            q - Quit"
-                      echo " i - Info     l - Resume Autoplay     p - Play Clipboard       g - Remove Duplicates "
+                      echo " j - Play     o - Start Autoplay      c - Change and Queue     r - Remove Line        m - Move Line       q - Quit"
+                      echo " i - Info     l - Resume Autoplay     p - Play Clipboard       g - Remove Dupes"
                       echo "                                                               d - Clear Playlist                         h - Help"
                       echo                                                               
 fi
@@ -4721,6 +4735,12 @@ read -r -n1 optionv
         echo "                   Available here in View Playlist and Play Queue located in Change and Queue."
         echo "                   Note: Everytime Start Autoplay is used and quit by user, it will rewrite Resume Autoplay."
         echo "                   Last video played marker is saved for each playlist."
+        echo
+        echo
+        echo " Note: If -Remove Line, -Remove Dupes, -Move Line or -Add to Playlist is used after running -Start Autoplay, "
+        echo "       -Start Autoplay will need to be run again to update -Resume Autoplay with any of the above changes."
+        echo
+        echo " Move Line: To insert above line 1 enter 0. To insert after the last line, enter the last line number."
         echo
         echo
         read -p " Press enter to continue . . ."
@@ -4872,9 +4892,9 @@ fi
 
 ;;
 
-########################################
-r)  # REMOVE LINE  (HOME >>> PLAYLIST)
-########################################
+#################################################################
+r)  # REMOVE LINE  (NAVIGATE TREE >>> SHOW ALL >>> VIEW PLAYLIST)
+#################################################################
 
 # delete a line example to remove by pattern
 #sed '\?^/mnt/MEDIA1/MOVIES/identity thief.mp4?d' videoinfo.playlist
@@ -4950,7 +4970,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                                         echo "Line deleted from the playlist . . ."
                                         read -r activeplaylistm < ~/.config/videoinfox/videoinfo.playlist.current # GET CURRENT PLAYLIST
                                         cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST
-                                        sleep 1.9
+                                        sleep .7
 fi
 fi
 fi
@@ -4960,6 +4980,113 @@ fi
 fi
 ;;
 
+
+################################################################
+m)  # MOVE LINE  (NAVIGATE TREE >>> SHOW ALL >>> VIEW PLAYLIST)
+################################################################
+
+# REMOVE EVERYTHING FROM THE BEGINNING OF THE LINE UP TO AND INCLUDING THE DOT). LEAVING ONLY PLAYLIST NAME
+cat ~/.config/videoinfox/videoinfo.playlist.current | sed 's/.*\.//' > ~/.config/videoinfox/tmp/whatplpld.tmp 
+read -r whatplpld < ~/.config/videoinfox/tmp/whatplpld.tmp
+rm ~/.config/videoinfox/tmp/whatplpld.tmp
+
+
+if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
+  then
+      :
+  else
+      echo > ~/.config/videoinfox/videoinfo.playlist
+fi
+
+
+if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
+  then
+
+      clear
+      cat ~/.config/videoinfox/tmp/videoinfo.number.play-list 2> /dev/null
+
+      echo
+      # Home >>> Navigate Tree >>> Show All >>> View Playlist
+      read -r -p "Move line: " linenumber  # waiting fot user input
+      echo
+      read -r -p "Insert line $linenumber below line: " linenumber2
+
+      # GETTING NUMBER OF VIDEO FILES IN THE PLAYED LIST
+      linecount=$(wc -l ~/.config/videoinfox/tmp/videoinfo.playlist-apa 2> /dev/null | cut -d' ' -f1) # 
+
+          if ! [[ "$linenumber" -eq "$linenumber" ]] #2> /dev/null
+            then  
+                :
+
+            else 
+
+                if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
+                  then
+                      :
+
+                  else
+
+                      re='^[0-9]+$'
+                      if ! [[ $linenumber =~ $re ]]
+                      then
+                      :
+                      else
+
+                      if [ "$linenumber" = 0 ]
+                        then
+                            :
+
+                        else
+      
+                            if [[ $linenumber -gt $linecount ]]
+                              then 
+                                  echo
+                                  echo "Number out of range . . ."
+                                  sleep .7
+
+                              else
+
+                                  if [ -z "$linenumber" ]
+                                    then
+                                        :
+
+                                    else
+
+                                         if [ -z "$linenumber2" ] # IF NO ENTRY GOTO THEN
+                                           then
+                                               :
+
+                                                else
+                                                    re='^[0-9]+$'
+                                                    if ! [[ $linenumber2 =~ $re ]]
+                                                      then
+                                                          :
+                                                      else
+
+                                                          if [[ $linenumber2 -gt $linecount ]]
+                                                            then 
+                                                                echo
+                                                                echo "Number out of range . . ."
+                                                                sleep .7
+                                                            else 
+                                                                # MOVE LINE
+                                                                ex ~/.config/videoinfox/videoinfo.playlist <<<""$linenumber"m"$linenumber2"|wq" 
+                                                                echo
+                                                                echo "Line moved . . ."
+                                                            read -r activeplaylistm < ~/.config/videoinfox/videoinfo.playlist.current # GET CURRENT PLAYLIST
+                                                            cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST
+                                                                sleep .7
+fi
+fi
+fi
+fi
+fi
+fi
+fi
+fi
+fi
+fi
+;;
 
 
 ##################################################################
@@ -5609,8 +5736,8 @@ echo
 echo " ""$der"" >>> PLAY QUEUE"        
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " j - Play     o - Start Autoplay      z - Queue to Playlist     r - Remove Line                           q - Quit"
-echo " i - Info     l - Resume Autoplay                               g - Remove Duplicates" 
+echo " j - Play     o - Start Autoplay      z - Queue to Playlist     r - Remove Line      m - Move Line        q - Quit"
+echo " i - Info     l - Resume Autoplay                               g - Remove Dupes" 
 echo "                                                                d - Delete Queue"
 echo
 echo -en " Enter Option: "
@@ -5948,12 +6075,12 @@ fi
 
 
 fi
-
 ;;
 
-##################################################################
-r)  # REMOVE LINE in NAVIGATE TREE >>> SHOW ALL >>> VIEW PLAYLIST
-##################################################################
+
+####################################################################################################
+r)  # REMOVE LINE in NAVIGATE TREE >>> SHOW ALL >>> VIEW PLAYLIST >>> CHANGE and QUEUE - PLAY QUEUE
+####################################################################################################
 
 #sed '\?^/mnt/MEDIA1/MOVIES/identity thief.mp4?d' videoinfo.playlist   # delete a line example to remove by pattern
 
@@ -6033,7 +6160,111 @@ fi
 ;;
 
 
-o) # START AUTOPLAY (NAVIGATE TREE >>> SHOW ALL >>> VIEW PLAYLIST >>> CHANGE AND QUEUE >>> PLAY QUEUE)
+####################################################################################################
+m)  # MOVE LINE in NAVIGATE TREE >>> SHOW ALL >>> VIEW PLAYLIST >>> CHANGE and QUEUE - PLAY QUEUE
+####################################################################################################
+
+#sed '\?^/mnt/MEDIA1/MOVIES/identity thief.mp4?d' videoinfo.playlist   # delete a line example to remove by pattern
+
+if [ -f  ~/.config/videoinfox/playlists/playlist.queue ]  # if file exists goto then
+  then
+      # REMOVE EVERYTHING FROM THE BEGINNING OF THE LINE UP TO AND INCLUDING THE DOT). LEAVING ONLY PLAYLIST NAME
+      #cat  ~/.config/videoinfox/playlists/playlist.queue | sed 's/.*\.//' > ~/.config/videoinfox/tmp/videoinfox-playlist.queue.list 
+
+      clear
+
+      # NUMBER THE LIST
+sed '/./=' ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/playlist.queue.video.number 2>/dev/null
+
+
+      cat ~/.config/videoinfox/tmp/playlist.queue.video.number 2> /dev/null
+      echo
+
+      # Home >>> Navigate Tree >>> Show All >>> View Playlist
+      read -r -p "Move line: " linenumber  # waiting fot user input
+      echo
+      read -r -p "Insert line $linenumber below line: " linenumber2
+
+      # GETTING NUMBER OF VIDEO FILES IN THE QUEUE
+      linecount=$(wc -l ~/.config/videoinfox/playlists/playlist.queue 2> /dev/null | cut -d' ' -f1) # 
+
+          if ! [[ "$linenumber" -eq "$linenumber" ]] #2> /dev/null
+            then  
+                :
+
+            else 
+
+                if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
+                  then
+                      :
+
+                  else
+
+                      re='^[0-9]+$'
+                      if ! [[ $linenumber =~ $re ]]
+                      then
+                      :
+                      else
+
+                      if [ "$linenumber" = 0 ]
+                        then
+                            :
+
+                        else
+      
+                            if [[ $linenumber -gt $linecount ]]
+                              then 
+                                  echo
+                                  echo "Number out of range . . ."
+                                  sleep .7
+
+                              else
+
+                                  if [ -z "$linenumber" ]
+                                    then
+                                        :
+
+                                    else
+
+                                         if [ -z "$linenumber2" ] # IF NO ENTRY GOTO THEN
+                                           then
+                                               :
+
+                                                else
+                                                    re='^[0-9]+$'
+                                                    if ! [[ $linenumber2 =~ $re ]]
+                                                      then
+                                                          :
+                                                      else
+
+                                                          if [[ $linenumber2 -gt $linecount ]]
+                                                            then 
+                                                                echo
+                                                                echo "Number out of range . . ."
+                                                                sleep .7
+                                                            else 
+                                                                # MOVE LINE
+                                                                ex ~/.config/videoinfox/playlists/playlist.queue <<<""$linenumber"m"$linenumber2"|wq" 
+                                                                echo
+                                                                echo "Line moved . . ."
+                                                                sleep .7
+fi
+fi
+fi
+fi
+fi
+fi
+fi
+fi
+fi
+
+else
+echo > ~/.config/videoinfox/playlists/playlist.queue
+fi
+;;
+
+
+o) # START AUTOPLAY (NAVIGATE TREE >>> SHOW ALL >>> VIEW PLAYLIST >>> CHANGE AND QUEUE >> PLAY QUEUE)
 
 # SET COUNTER TO ZERO. $i in below play loop to get line number from last played video
 i=0
@@ -8053,13 +8284,13 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
 
                            # Videoinfox v2.00________________________________________ Videoinfox v2.00_________________________________________
                            #________________x________________________________________ _________________________________________________________
-                       echo "___________________________________________________________________________________________________________________"
+                      echo "___________________________________________________________________________________________________________________"
                       echo
                       echo " "$der" >>> VIEW PLAYLIST"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " j - Play     o - Start Autoplay      c - Change and Queue     r - Remove Line                            q - Quit"
-                      echo " i - Info     l - Resume Autoplay     p - Play Clipboard       g - Remove Duplicates "
+                      echo " j - Play     o - Start Autoplay      c - Change and Queue     r - Remove Line        m - Move Line       q - Quit"
+                      echo " i - Info     l - Resume Autoplay     p - Play Clipboard       g - Remove Dupes"
                       echo "                                                               d - Clear Playlist                         h - Help"
                       echo                                  
 
@@ -8072,8 +8303,8 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" >>> VIEW PLAYLIST"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " j - Play     o - Start Autoplay      c - Change and Queue     r - Remove Line                            q - Quit"
-                      echo -e " i - Info     l - Resume Autoplay     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m       g - Remove Duplicates "
+                      echo " j - Play     o - Start Autoplay      c - Change and Queue     r - Remove Line        m - Move Line       q - Quit"
+                      echo -e " i - Info     l - Resume Autoplay     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m       g - Remove Dupes"
                       echo "                                                               d - Clear Playlist                         h - Help"
                       echo                                                                                    
             fi
@@ -8089,7 +8320,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" >>> VIEW PLAYLIST"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " j - Play     o - Start Autoplay      c - Change and Queue     r - Remove Line                            q - Quit"
+                      echo " j - Play     o - Start Autoplay      c - Change and Queue     r - Remove Line        m - Move Line       q - Quit"
                       echo -e " i - Info     l - Resume Autoplay     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m       g - Remove Duplicates "
                       echo "                                                               d - Clear Playlist                         h - Help"
                       echo                                                                                     
@@ -8104,8 +8335,8 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" >>> VIEW PLAYLIST"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " j - Play     o - Start Autoplay      c - Change and Queue     r - Remove Line                            q - Quit"
-                      echo " i - Info     l - Resume Autoplay     p - Play Clipboard       g - Remove Duplicates "
+                      echo " j - Play     o - Start Autoplay      c - Change and Queue     r - Remove Line        m - Move Line       q - Quit"
+                      echo " i - Info     l - Resume Autoplay     p - Play Clipboard       g - Remove Dupes"
                       echo "                                                               d - Clear Playlist                         h - Help"
                       echo                                                               
 fi
@@ -8145,6 +8376,12 @@ read -r -n1 optionv
         echo "                   Available here in View Playlist and Play Queue located in Change and Queue."
         echo "                   Note: Everytime Start Autoplay is used and quit by user, it will rewrite Resume Autoplay."
         echo "                   Last video played marker is saved for each playlist."
+        echo
+        echo
+        echo " Note: If -Remove Line, -Remove Dupes, -Move Line or -Add to Playlist is used after running -Start Autoplay, "
+        echo "       -Start Autoplay will need to be run again to update -Resume Autoplay with any of the above changes."
+        echo
+        echo " Move Line: To insert above line 1 enter 0. To insert after the last line, enter the last line number."
         echo
         echo
         read -p " Press enter to continue . . ."
@@ -8297,9 +8534,9 @@ fi
 
 ;;
 
-########################################
-r)  # REMOVE LINE  (HOME >>> PLAYLIST)
-########################################
+############################################################
+r)  # REMOVE LINE  (HOME >>> PLAYED LIST >>> VIEW PLAYLIST)
+############################################################
 
 # delete a line example to remove by pattern
 #sed '\?^/mnt/MEDIA1/MOVIES/identity thief.mp4?d' videoinfo.playlist
@@ -8385,6 +8622,113 @@ fi
 fi
 ;;
 
+
+################################################################
+m)  # MOVE LINE  (HOME >>> PLAYED LIST >>> VIEW PLAYLIST)
+################################################################
+
+# REMOVE EVERYTHING FROM THE BEGINNING OF THE LINE UP TO AND INCLUDING THE DOT). LEAVING ONLY PLAYLIST NAME
+cat ~/.config/videoinfox/videoinfo.playlist.current | sed 's/.*\.//' > ~/.config/videoinfox/tmp/whatplpld.tmp 
+read -r whatplpld < ~/.config/videoinfox/tmp/whatplpld.tmp
+rm ~/.config/videoinfox/tmp/whatplpld.tmp
+
+
+if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
+  then
+      :
+  else
+      echo > ~/.config/videoinfox/videoinfo.playlist
+fi
+
+
+if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
+  then
+
+      clear
+      cat ~/.config/videoinfox/tmp/videoinfo.number.play-list 2> /dev/null
+
+      echo
+      # Home >>> Navigate Tree >>> Show All >>> View Playlist
+      read -r -p "Move line: " linenumber  # waiting fot user input
+      echo
+      read -r -p "Insert line $linenumber below line: " linenumber2
+
+      # GETTING NUMBER OF VIDEO FILES IN THE PLAYED LIST
+      linecount=$(wc -l ~/.config/videoinfox/tmp/videoinfo.playlist-apa 2> /dev/null | cut -d' ' -f1) # 
+
+          if ! [[ "$linenumber" -eq "$linenumber" ]] #2> /dev/null
+            then  
+                :
+
+            else 
+
+                if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
+                  then
+                      :
+
+                  else
+
+                      re='^[0-9]+$'
+                      if ! [[ $linenumber =~ $re ]]
+                      then
+                      :
+                      else
+
+                      if [ "$linenumber" = 0 ]
+                        then
+                            :
+
+                        else
+      
+                            if [[ $linenumber -gt $linecount ]]
+                              then 
+                                  echo
+                                  echo "Number out of range . . ."
+                                  sleep .7
+
+                              else
+
+                                  if [ -z "$linenumber" ]
+                                    then
+                                        :
+
+                                    else
+
+                                         if [ -z "$linenumber2" ] # IF NO ENTRY GOTO THEN
+                                           then
+                                               :
+
+                                                else
+                                                    re='^[0-9]+$'
+                                                    if ! [[ $linenumber2 =~ $re ]]
+                                                      then
+                                                          :
+                                                      else
+
+                                                          if [[ $linenumber2 -gt $linecount ]]
+                                                            then 
+                                                                echo
+                                                                echo "Number out of range . . ."
+                                                                sleep .7
+                                                            else 
+                                                                # MOVE LINE
+                                                                ex ~/.config/videoinfox/videoinfo.playlist <<<""$linenumber"m"$linenumber2"|wq" 
+                                                                echo
+                                                                echo "Line moved . . ."
+                                                            read -r activeplaylistm < ~/.config/videoinfox/videoinfo.playlist.current # GET CURRENT PLAYLIST
+                                                            cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST
+                                                                sleep .7
+fi
+fi
+fi
+fi
+fi
+fi
+fi
+fi
+fi
+fi
+;;
 
 
 ##################################################################
@@ -9034,8 +9378,8 @@ echo
 echo " ""$der"" >>> PLAY QUEUE"        
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " j - Play     o - Start Autoplay      z - Queue to Playlist     r - Remove Line                           q - Quit"
-echo " i - Info     l - Resume Autoplay                               g - Remove Duplicates" 
+echo " j - Play     o - Start Autoplay      z - Queue to Playlist     r - Remove Line      m - Move Line        q - Quit"
+echo " i - Info     l - Resume Autoplay                               g - Remove Dupes"
 echo "                                                                d - Delete Queue"
 echo
 echo -en " Enter Option: "
@@ -9376,9 +9720,9 @@ fi
 
 ;;
 
-##################################################################
-r)  # REMOVE LINE in PLAYED LIST >>> VIEW PLAYLIST
-##################################################################
+#############################################################################################
+r)  # REMOVE LINE (HOME >>> PLAYED LIST >>> VIEW PLAYLIST >>> CHANGE AND QUEUE - PLAY QUEUE)
+#############################################################################################
 
 #sed '\?^/mnt/MEDIA1/MOVIES/identity thief.mp4?d' videoinfo.playlist   # delete a line example to remove by pattern
 
@@ -9456,6 +9800,119 @@ echo > ~/.config/videoinfox/playlists/playlist.queue
 
 fi
 ;;
+
+
+####################################################################################################
+m)  # MOVE LINE in (HOME >>> PLAYED LIST >>> VIEW PLAYLIST >>> CHANGE AND QUEUE - PLAY QUEUE)
+####################################################################################################
+
+#sed '\?^/mnt/MEDIA1/MOVIES/identity thief.mp4?d' videoinfo.playlist   # delete a line example to remove by pattern
+
+if [ -f  ~/.config/videoinfox/playlists/playlist.queue ]  # if file exists goto then
+  then
+      # REMOVE EVERYTHING FROM THE BEGINNING OF THE LINE UP TO AND INCLUDING THE DOT). LEAVING ONLY PLAYLIST NAME
+      #cat  ~/.config/videoinfox/playlists/playlist.queue | sed 's/.*\.//' > ~/.config/videoinfox/tmp/videoinfox-playlist.queue.list 
+
+      clear
+
+      # NUMBER THE LIST
+sed '/./=' ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/playlist.queue.video.number 2>/dev/null
+
+
+      cat ~/.config/videoinfox/tmp/playlist.queue.video.number 2> /dev/null
+      echo
+
+      # Home >>> Navigate Tree >>> Show All >>> View Playlist
+      read -r -p "Move line: " linenumber  # waiting fot user input
+      echo
+      read -r -p "Insert line $linenumber below line: " linenumber2
+
+      # GETTING NUMBER OF VIDEO FILES IN THE QUEUE
+      linecount=$(wc -l ~/.config/videoinfox/playlists/playlist.queue 2> /dev/null | cut -d' ' -f1) # 
+
+          if ! [[ "$linenumber" -eq "$linenumber" ]] #2> /dev/null
+            then  
+                :
+
+            else 
+
+                if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
+                  then
+                      :
+
+                  else
+
+                      re='^[0-9]+$'
+                      if ! [[ $linenumber =~ $re ]]
+                      then
+                      :
+                      else
+
+                      if [ "$linenumber" = 0 ]
+                        then
+                            :
+
+                        else
+      
+                            if [[ $linenumber -gt $linecount ]]
+                              then 
+                                  echo
+                                  echo "Number out of range . . ."
+                                  sleep .7
+
+                              else
+
+                                  if [ -z "$linenumber" ]
+                                    then
+                                        :
+
+                                    else
+
+                                         if [ -z "$linenumber2" ] # IF NO ENTRY GOTO THEN
+                                           then
+                                               :
+
+                                                else
+                                                    re='^[0-9]+$'
+                                                    if ! [[ $linenumber2 =~ $re ]]
+                                                      then
+                                                          :
+                                                      else
+
+                                                          if [[ $linenumber2 -gt $linecount ]]
+                                                            then 
+                                                                echo
+                                                                echo "Number out of range . . ."
+                                                                sleep .7
+                                                            else 
+                                                                # MOVE LINE
+                                                                ex ~/.config/videoinfox/playlists/playlist.queue <<<""$linenumber"m"$linenumber2"|wq" 
+                                                                echo
+                                                                echo "Line moved . . ."
+                                                                sleep .7
+fi
+fi
+fi
+fi
+fi
+fi
+fi
+fi
+fi
+
+else
+echo > ~/.config/videoinfox/playlists/playlist.queue
+fi
+;;
+
+
+
+
+
+
+
+
+
 
         # START AUTOPLAY PLAYLIST QUEUE @@@@@@@@
 o) # START AUTOPLAY
@@ -10599,13 +11056,13 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
 
                            # Videoinfox v2.00________________________________________ Videoinfox v2.00_________________________________________
                            #________________x________________________________________ _________________________________________________________
-                       echo "___________________________________________________________________________________________________________________"
+                      echo "___________________________________________________________________________________________________________________"
                       echo
                       echo " "$der" >>> VIEW PLAYLIST"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " j - Play     o - Start Autoplay      c - Change and Queue     r - Remove Line                            q - Quit"
-                      echo " i - Info     l - Resume Autoplay     p - Play Clipboard       g - Remove Duplicates "
+                      echo " j - Play     o - Start Autoplay      c - Change and Queue     r - Remove Line        m - Move Line       q - Quit"
+                      echo " i - Info     l - Resume Autoplay     p - Play Clipboard       g - Remove Dupes"
                       echo "                                                               d - Clear Playlist                         h - Help"
                       echo                                  
 
@@ -10618,8 +11075,8 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" >>> VIEW PLAYLIST"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " j - Play     o - Start Autoplay      c - Change and Queue     r - Remove Line                            q - Quit"
-                      echo -e " i - Info     l - Resume Autoplay     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m       g - Remove Duplicates "
+                      echo " j - Play     o - Start Autoplay      c - Change and Queue     r - Remove Line        m - Move Line       q - Quit"
+                      echo -e " i - Info     l - Resume Autoplay     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m       g - Remove Dupes"
                       echo "                                                               d - Clear Playlist                         h - Help"
                       echo                                                                                    
             fi
@@ -10635,7 +11092,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" >>> VIEW PLAYLIST"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " j - Play     o - Start Autoplay      c - Change and Queue     r - Remove Line                            q - Quit"
+                      echo " j - Play     o - Start Autoplay      c - Change and Queue     r - Remove Line        m - Move Line       q - Quit"
                       echo -e " i - Info     l - Resume Autoplay     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m       g - Remove Duplicates "
                       echo "                                                               d - Clear Playlist                         h - Help"
                       echo                                                                                     
@@ -10650,13 +11107,12 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" >>> VIEW PLAYLIST"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " j - Play     o - Start Autoplay      c - Change and Queue     r - Remove Line                            q - Quit"
-                      echo " i - Info     l - Resume Autoplay     p - Play Clipboard       g - Remove Duplicates "
+                      echo " j - Play     o - Start Autoplay      c - Change and Queue     r - Remove Line        m - Move Line       q - Quit"
+                      echo " i - Info     l - Resume Autoplay     p - Play Clipboard       g - Remove Dupes"
                       echo "                                                               d - Clear Playlist                         h - Help"
                       echo                                                               
 fi
 fi
-
 
 echo -en " Enter Option: "
 read -r -n1 optionv
@@ -10691,6 +11147,12 @@ read -r -n1 optionv
         echo "                   Available here in View Playlist and Play Queue located in Change and Queue."
         echo "                   Note: Everytime Start Autoplay is used and quit by user, it will rewrite Resume Autoplay."
         echo "                   Last video played marker is saved for each playlist."
+        echo
+        echo
+        echo " Note: If -Remove Line, -Remove Dupes, -Move Line or -Add to Playlist is used after running -Start Autoplay, "
+        echo "       -Start Autoplay will need to be run again to update -Resume Autoplay with any of the above changes."
+        echo
+        echo " Move Line: To insert above line 1 enter 0. To insert after the last line, enter the last line number."
         echo
         echo
         read -p " Press enter to continue . . ."
@@ -10932,6 +11394,113 @@ fi
 fi
 ;;
 
+
+################################################################
+m)  # MOVE LINE  (HOME >>> VIEW PLAYLIST)
+################################################################
+
+# REMOVE EVERYTHING FROM THE BEGINNING OF THE LINE UP TO AND INCLUDING THE DOT). LEAVING ONLY PLAYLIST NAME
+cat ~/.config/videoinfox/videoinfo.playlist.current | sed 's/.*\.//' > ~/.config/videoinfox/tmp/whatplpld.tmp 
+read -r whatplpld < ~/.config/videoinfox/tmp/whatplpld.tmp
+rm ~/.config/videoinfox/tmp/whatplpld.tmp
+
+
+if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
+  then
+      :
+  else
+      echo > ~/.config/videoinfox/videoinfo.playlist
+fi
+
+
+if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
+  then
+
+      clear
+      cat ~/.config/videoinfox/tmp/videoinfo.number.play-list 2> /dev/null
+
+      echo
+      # Home >>> Navigate Tree >>> Show All >>> View Playlist
+      read -r -p "Move line: " linenumber  # waiting fot user input
+      echo
+      read -r -p "Insert line $linenumber below line: " linenumber2
+
+      # GETTING NUMBER OF VIDEO FILES IN THE PLAYED LIST
+      linecount=$(wc -l ~/.config/videoinfox/tmp/videoinfo.playlist-apa 2> /dev/null | cut -d' ' -f1) # 
+
+          if ! [[ "$linenumber" -eq "$linenumber" ]] #2> /dev/null
+            then  
+                :
+
+            else 
+
+                if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
+                  then
+                      :
+
+                  else
+
+                      re='^[0-9]+$'
+                      if ! [[ $linenumber =~ $re ]]
+                      then
+                      :
+                      else
+
+                      if [ "$linenumber" = 0 ]
+                        then
+                            :
+
+                        else
+      
+                            if [[ $linenumber -gt $linecount ]]
+                              then 
+                                  echo
+                                  echo "Number out of range . . ."
+                                  sleep .7
+
+                              else
+
+                                  if [ -z "$linenumber" ]
+                                    then
+                                        :
+
+                                    else
+
+                                         if [ -z "$linenumber2" ] # IF NO ENTRY GOTO THEN
+                                           then
+                                               :
+
+                                                else
+                                                    re='^[0-9]+$'
+                                                    if ! [[ $linenumber2 =~ $re ]]
+                                                      then
+                                                          :
+                                                      else
+
+                                                          if [[ $linenumber2 -gt $linecount ]]
+                                                            then 
+                                                                echo
+                                                                echo "Number out of range . . ."
+                                                                sleep .7
+                                                            else 
+                                                                # MOVE LINE
+                                                                ex ~/.config/videoinfox/videoinfo.playlist <<<""$linenumber"m"$linenumber2"|wq" 
+                                                                echo
+                                                                echo "Line moved . . ."
+                                                            read -r activeplaylistm < ~/.config/videoinfox/videoinfo.playlist.current # GET CURRENT PLAYLIST
+                                                            cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST
+                                                                sleep .7
+fi
+fi
+fi
+fi
+fi
+fi
+fi
+fi
+fi
+fi
+;;
 
 
 ##################################################################
@@ -11581,8 +12150,8 @@ echo
 echo " ""$der"" >>> PLAY QUEUE"        
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " j - Play     o - Start Autoplay      z - Queue to Playlist     r - Remove Line                           q - Quit"
-echo " i - Info     l - Resume Autoplay                               g - Remove Duplicates" 
+echo " j - Play     o - Start Autoplay      z - Queue to Playlist     r - Remove Line      m - Move Line        q - Quit"
+echo " i - Info     l - Resume Autoplay                               g - Remove Dupes"
 echo "                                                                d - Delete Queue"
 echo
 echo -en " Enter Option: "
@@ -11923,9 +12492,9 @@ fi
 
 ;;
 
-##################################################################
-r)  # REMOVE LINE in >>> VIEW PLAYLIST
-##################################################################
+#############################################################################
+r)  # REMOVE LINE (HOME >>> VIEW PLAYLIST >>> CHANGE AND QUEUE - PLAY QUEUE)
+#############################################################################
 
 #sed '\?^/mnt/MEDIA1/MOVIES/identity thief.mp4?d' videoinfo.playlist   # delete a line example to remove by pattern
 
@@ -12001,6 +12570,110 @@ fi
 else
 echo > ~/.config/videoinfox/playlists/playlist.queue
 
+fi
+;;
+
+
+####################################################################################################
+m)  # MOVE LINE (HOME >>> VIEW PLAYLIST >>> CHANGE AND QUEUE - PLAY QUEUE)
+####################################################################################################
+
+#sed '\?^/mnt/MEDIA1/MOVIES/identity thief.mp4?d' videoinfo.playlist   # delete a line example to remove by pattern
+
+if [ -f  ~/.config/videoinfox/playlists/playlist.queue ]  # if file exists goto then
+  then
+      # REMOVE EVERYTHING FROM THE BEGINNING OF THE LINE UP TO AND INCLUDING THE DOT). LEAVING ONLY PLAYLIST NAME
+      #cat  ~/.config/videoinfox/playlists/playlist.queue | sed 's/.*\.//' > ~/.config/videoinfox/tmp/videoinfox-playlist.queue.list 
+
+      clear
+
+      # NUMBER THE LIST
+sed '/./=' ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/playlist.queue.video.number 2>/dev/null
+
+
+      cat ~/.config/videoinfox/tmp/playlist.queue.video.number 2> /dev/null
+      echo
+
+      # Home >>> Navigate Tree >>> Show All >>> View Playlist
+      read -r -p "Move line: " linenumber  # waiting fot user input
+      echo
+      read -r -p "Insert line $linenumber below line: " linenumber2
+
+      # GETTING NUMBER OF VIDEO FILES IN THE QUEUE
+      linecount=$(wc -l ~/.config/videoinfox/playlists/playlist.queue 2> /dev/null | cut -d' ' -f1) # 
+
+          if ! [[ "$linenumber" -eq "$linenumber" ]] #2> /dev/null
+            then  
+                :
+
+            else 
+
+                if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
+                  then
+                      :
+
+                  else
+
+                      re='^[0-9]+$'
+                      if ! [[ $linenumber =~ $re ]]
+                      then
+                      :
+                      else
+
+                      if [ "$linenumber" = 0 ]
+                        then
+                            :
+
+                        else
+      
+                            if [[ $linenumber -gt $linecount ]]
+                              then 
+                                  echo
+                                  echo "Number out of range . . ."
+                                  sleep .7
+
+                              else
+
+                                  if [ -z "$linenumber" ]
+                                    then
+                                        :
+
+                                    else
+
+                                         if [ -z "$linenumber2" ] # IF NO ENTRY GOTO THEN
+                                           then
+                                               :
+
+                                                else
+                                                    re='^[0-9]+$'
+                                                    if ! [[ $linenumber2 =~ $re ]]
+                                                      then
+                                                          :
+                                                      else
+
+                                                          if [[ $linenumber2 -gt $linecount ]]
+                                                            then 
+                                                                echo
+                                                                echo "Number out of range . . ."
+                                                                sleep .7
+                                                            else 
+                                                                # MOVE LINE
+                                                                ex ~/.config/videoinfox/playlists/playlist.queue <<<""$linenumber"m"$linenumber2"|wq" 
+                                                                echo
+                                                                echo "Line moved . . ."
+                                                                sleep .7
+fi
+fi
+fi
+fi
+fi
+fi
+fi
+fi
+fi
+
+else
+echo > ~/.config/videoinfox/playlists/playlist.queue
 fi
 ;;
 
