@@ -1,4 +1,4 @@
-# Videoinfox v4.4.00
+# Videoinfox v4.4.01
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -318,6 +318,10 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+### v4.4.01 v4.4.01 Fix: Intermission time could be set to zero which would break Autoplay.
+
+        Error Message when 0 is entered: Entry cannot be less than 1 . . .
 
 ### v4.4.00 New: -Move Line added to View Playlist and Play Queue.
 
