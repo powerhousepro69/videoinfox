@@ -319,7 +319,7 @@ FIRST RUN
 ##### Reddit /Videoinfox for discussion.
 <br />
 
-### v4.4.01 v4.4.01 Fix: Intermission time could be set to zero which would break Autoplay.
+### v4.4.01 Fix: Intermission time could be set to zero which would break Autoplay.
 
         Error Message when 0 is entered: Entry cannot be less than 1 . . .
 
