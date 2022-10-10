@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v4.4.00								         
+#  file : videoinfox v4.4.01								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v4.4.00"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.00")  # Version Number: with blinking dot
+ver="Videoinfox v4.4.01"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.01")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -1447,6 +1447,11 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v4.4.01 Fix: Intermission time could be set to zero which would break Autoplay. " >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Error Message when 0 is enterted: Entry cannot be less than 1 . . ." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v4.4.00 New: -Move Line added to View Playlist and Play Queue." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
@@ -13575,7 +13580,7 @@ case $optionsettings in
     echo
     echo " Current Intermission:" "$vto"
     echo
-    echo " Maximun intermission time is 86400 seconds (24 hours)"
+    echo " Intermission range is 1 to 86400 seconds (24 hours)"
     echo
     read -r -p " Enter intermission time in seconds: " timeinsec  # waiting fot user input
 
@@ -13585,10 +13590,17 @@ case $optionsettings in
     :
     
     else
+        if [[ $timeinsec < 1 ]]
+          then
+              echo
+              echo " Entry cannot be less than 1 . . ."
+              sleep 1.9
+          else
+
         if [[ $timeinsec > 86400 ]]
           then
               echo
-              echo " Entry was greater than 86400"
+              echo " Entry cannot be greater than 86400 . . ."
               sleep 1.9
           else
               echo "$timeinsec" > ~/.config/videoinfox/videoinfox.intermission
@@ -13596,6 +13608,7 @@ case $optionsettings in
               echo
               echo " Intermission changed to:" "$timeinsec" "seconds"    
               sleep 1.9
+    fi
     fi
     fi
     ;;
