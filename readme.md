@@ -46,7 +46,8 @@ Videoinfox is a Linux shell script that feels like an app. If you enjoy watching
 
 - Queue to Playlist in Play Queue to save the playlist queue as a playlist.
 
-- Add to Playlist: Played List. &nbsp; Play Clipboard, Last Download and Play Line all write to the Played List.  
+- Add to Playlist: Played List. &nbsp; Play Clipboard, Last Download and Play all write to the Played List.        
+       *** The Playlist, Play Directory and Autoplay won't write to the Played list. 
 
 #### Start Autoplay on a playlist from the beginning to the end of the list or Start Autoplay from anywhere in the list and play to the end of the list. Resume Autoplay will start with last the video that was playing on Start Autoplay quit. Resume Autoplay will also keep track of the last video that was playing on quit.
 
@@ -79,8 +80,8 @@ FFprobe - Get codec, resolution & duration in seconds.
   - Play a local file by entering the line number. Play single video or autoplay the entire list.
   - File types searched for: &nbsp; .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx
   - Create unlimited Playlists from: &nbsp; Recusive search results, Recursive directory listings and the Played List
-  - Playlist edit options: &nbsp; -Remove Line &nbsp; -Remove Dupes &nbsp; -Move Line &nbsp; -Clear Playlist
-  - Playlist play options: &nbsp; -Play &nbsp; -Start Autoplay &nbsp; -Resume Autoplay  
+  - Playlist edit options: &nbsp; Remove Line &nbsp; Remove Dupes &nbsp; Move Line &nbsp; Clear Playlist
+  - Playlist play options: &nbsp; Play &nbsp; Start Autoplay &nbsp; Resume Autoplay  
   - Directory To Playlist: &nbsp; Create a new playlist from a 1 level deep dir listing. Good for seasons of TV shows.
   - Playlist Queue to load unlimited playlists for autoplay with last played video marker.
   - Queue to Playlist: &nbsp; Save the Playlist Queue to a new Playlist. 
@@ -96,8 +97,8 @@ FFprobe - Get codec, resolution & duration in seconds.
   - To watch the last download after Play Clipboard cleared the link select Last Download.
   - Auto clear the clipboard of invalid video urls.
   - Press enter after your copy to the clipboard to validate clipboard content.
-  - Rapid directory changing by setting default directories (4) in Settings. The 5th is dir at last exit.
-  - Default Dirs - 1 2 3 4 5  available in: Home  Navigate Tree  Download List  More Options
+  - Rapid directory changing by setting default directories (4) in Settings. The 5th is the directory at last exit.
+  - Default Dirs - 1 2 3 4 5  available in: Home &nbsp; Navigate Tree &nbsp; Download List &nbsp; More Options
   - Played List: log everything played except for: Play Directory, Autoplay, and anything played from a Played List.  
   - Played List: Play All option that will auto play the entire list with option to quit.
   - Duplicates auto-removed from the Played List.
