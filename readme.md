@@ -174,7 +174,7 @@ DOWNLOAD LIST MENU WITH DOWNLOAD QUEUE
 
 1. Create unlimited user lists. Add video url's to the list from the clipboard without leaving the browser.
    
-   (Copy the url to clipboard then add video url to a user set list with the videoinfox -l gui keyboard shortcut.)
+   Copy the url to clipboard then add video url to a user set list with the videoinfox -l keyboard shortcut.
 
 2. Download single list or load unlimited user lists into the download queue for batch download.
 
@@ -186,7 +186,7 @@ DEFAULT DOWNLOAD LIST
 
 Copy the url to clipboard then add video url to to the default list in videoinfox
 
-or stay in your browser and add url with the videoinfox -a gui keyboard shortcut.
+or stay in your browser and add the url with the videoinfox -a keyboard shortcut.
 
 ![Videoinfox download list help](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/DEFAULT-LIST.png)
 
