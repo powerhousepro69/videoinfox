@@ -80,8 +80,8 @@ FFprobe - Get codec, resolution & duration in seconds.
   - Play a local file by entering the line number. Play single video or autoplay the entire list.
   - File types searched for: &nbsp; .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx
   - Create unlimited Playlists from: &nbsp; Recusive search results, Recursive directory listings and the Played List
-  - Playlist edit options: &nbsp; Remove Line &nbsp; Remove Dupes &nbsp; Move Line &nbsp; Clear Playlist
-  - Playlist play options: &nbsp; Play &nbsp; Start Autoplay &nbsp; Resume Autoplay  
+  - Playlist & Playlist Queue Edit options: &nbsp; Remove Line &nbsp; Remove Dupes &nbsp; Move Line &nbsp; Clear Playlist
+  - Playlist & Playlist Queue Play options: &nbsp; Play &nbsp; Start Autoplay &nbsp; Resume Autoplay  
   - Directory To Playlist: &nbsp; Create a new playlist from a 1 level deep dir listing. Good for seasons of TV shows.
   - Playlist Queue to load unlimited playlists for autoplay with last played video marker.
   - Queue to Playlist: &nbsp; Save the Playlist Queue to a new Playlist. 
