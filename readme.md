@@ -104,7 +104,7 @@ FFprobe - Get codec, resolution & duration in seconds.
   - Duplicates auto-removed from the Played List.
   - Playlist: Save a list of videos from search results, directory listings and Played List.
   - Remove duplicates from the Playlist.
-  - Enter a video file with full path to get info on and play.
+  - Enter a video file with full path to get info on and/or play.
   - Auto save last find result(s) and autoload until deleted. Defaulted to never save. Change in Settings.
   - Yt-dlp integration for easy download of a single url, a list of url's or a queue of multiple url lists.
   - Download List: &nbsp; Download a list by entering line number.
@@ -116,10 +116,10 @@ FFprobe - Get codec, resolution & duration in seconds.
   - Last Download in: &nbsp; Home and Yt-dlp Menu for: Play Clipboard, Download Default and Download Choose.
   - Default List: &nbsp; Keep pasting Video URL's on the fly from the clipboard to the Default List.
 
-        Default List companion: Create a gui shortcut for: videoinfox -a  to add to the Default List.
+        Default List companion: Create a keyboard shortcut for: videoinfox -a  to add to the Default List.
   - Unlimited User Lists: Keep pasting Video URL's on the fly from the clipboard to the User Set List.
 
-        User Set List companion: Create a gui shortcut for: videoinfox -l  to add to the User Set list.
+        User Set List companion: Create a keyboard shortcut for: videoinfox -l  to add to the User Set list.
   - Command Line Option: &nbsp; videoinfox -u listname &nbsp; Download any url list to the directory of the list's location.
   - Download and update Yt-dlp in Videoinfox.
   - Save current working directory on exit to load on next run.
