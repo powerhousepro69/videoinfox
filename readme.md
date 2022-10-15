@@ -99,20 +99,22 @@ FFprobe - Get codec, resolution & duration in seconds.
   - Press enter after your copy to the clipboard to validate clipboard content.
   - Rapid directory changing by setting default directories (4) in Settings. The 5th is the directory at last exit.
   - Default Dirs - 1 2 3 4 5  available in: Home &nbsp; Navigate Tree &nbsp; Download List &nbsp; More Options
-  - Played List: log everything played except for: Play Directory, Autoplay, and anything played from a Played List.  
-  - Played List: Play All option that will auto play the entire list with option to quit.
+  - Played List: &nbsp; Log everything played except for: Play Directory, Autoplay, and anything played from a Played List.  
+  - Played List: &nbsp; Play All option that will auto play the entire list with option to quit.
   - Duplicates auto-removed from the Played List.
   - Playlist: Save a list of videos from search results, directory listings and Played List.
   - Remove duplicates from the Playlist.
   - Enter a video file with full path to get info on and play.
   - Auto save last find result(s) and autoload until deleted. Defaulted to never save. Change in Settings.
-  - Yt-dlp integration for easy download and play of single url's or entire lists.
-  - Download Queue: Add unlimited Videoinfox User Download Lists to the queue for download.
-  - Download Default: Yt-dlp with no arguments. Download only. No auto play.
-  - Download Choose: Choose video type and quality before download. Download only. No auto play.
-  - Self Destruct: Download, auto play, delete when the player is closed.
-  - Last Download in: Home and Yt-dlp Menu for: Play Clipboard, Download Default and Download Choose.
-  - Default List: Keep pasting Video URL's on the fly from the clipboard to the Default List.
+  - Yt-dlp integration for easy download of a single url, a list of url's or a queue of multiple url lists.
+  - Download List: &nbsp; Download a list by entering line number.
+  - Logging of downloaded url lists with link and downloaded filename provided by Yt-dlp. 
+  - Download Queue: &nbsp; Add unlimited Videoinfox User Download Lists to the queue for download.
+  - Download Default: &nbsp; Yt-dlp with no arguments. Download only. No auto play.
+  - Download Choose: &nbsp; Choose video type and quality before download. Download only. No auto play.
+  - Self Destruct: &nbsp; Download, auto play, delete when the player is closed.
+  - Last Download in: &nbsp; Home and Yt-dlp Menu for: Play Clipboard, Download Default and Download Choose.
+  - Default List: &nbsp; Keep pasting Video URL's on the fly from the clipboard to the Default List.
 
         Default List companion: Create a gui shortcut for: videoinfox -a  to add to the Default List.
   - Unlimited User Lists: Keep pasting Video URL's on the fly from the clipboard to the User Set List.
