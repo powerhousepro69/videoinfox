@@ -77,23 +77,25 @@ FFprobe - Get codec, resolution & duration in seconds.
 
   - Check for update on startup and notifity if update is available. Download and update in Videoinfox.
   - Play a local file by entering the line number. Play single video or autoplay the entire list.
-  - Create unlimited Playlists from: Recusive search results, Recursive directory listings and the Played List
-  - Directory To Playlist: Create a new playlist from a 1 level deep dir listing. Good for seasons of TV shows.
+  - File types searched for: &nbsp; .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx
+  - Create unlimited Playlists from: &nbsp; Recusive search results, Recursive directory listings and the Played List
+  - Playlist edit options: &nbsp; -Remove Line &nbsp; -Remove Dupes &nbsp; -Move Line &nbsp; -Clear Playlist
+  - Playlist play options: &nbsp; -Play &nbsp; -Start Autoplay &nbsp; -Resume Autoplay  
+  - Directory To Playlist: &nbsp; Create a new playlist from a 1 level deep dir listing. Good for seasons of TV shows.
   - Playlist Queue to load unlimited playlists for autoplay with last played video marker.
-  - Queue to Playlist: Save the Playlist Queue to a Playlist. 
-  - Play Clipboard: Download a video url that is in the clipboard via Yt-dlp and autoplay.
-  - Play Clipboard is available in: Home  Played List  Play List  Yt-dlp Menu  View Downloads
+  - Queue to Playlist: &nbsp; Save the Playlist Queue to a new Playlist. 
+  - Play Clipboard: &nbsp; Download a video url that is in the clipboard via Yt-dlp and autoplay.
+  - Play Clipboard is available in: &nbsp; Home &nbsp; Played List &nbsp; Play List &nbsp; Yt-dlp Menu &nbsp; View Downloads
   - See codec, resolution and duration on the playing video.
-  - Play Directory autoplay available on: Home Screen, Navigate Tree and View Downloads.
+  - Play Directory autoplay available on: &nbsp; Home Screen &nbsp; Navigate Tree &nbsp; View Downloads.
   - Set Intermission time in seconds. Change the time in seconds on video end/player quit. Initially set to 10.
-  - Command Line Option: Autoplay video files in the current directory with option to quit. videoinfox -d
+  - Command Line Option: &nbsp; videoinfox -d &nbsp; Autoplay video files in the current directory with option to quit.
   - Navigate Tree with Play Directory, Play and Autoplay. Select line number to start play.
   - Video Player auto closes when the video ends. Ffplay is used by default. Any video player can be used.
   - Auto clear the video url from clipboard after the video player is closed.
   - To watch the last download after Play Clipboard cleared the link select Last Download.
   - Auto clear the clipboard of invalid video urls.
   - Press enter after your copy to the clipboard to validate clipboard content.
-  - File types searched for: .webm   .mp4   .mkv   .avi   .divx
   - Rapid directory changing by setting default directories (4) in Settings. The 5th is dir at last exit.
   - Default Dirs - 1 2 3 4 5  available in: Home  Navigate Tree  Download List  More Options
   - Played List: log everything played except for: Play Directory, Autoplay, and anything played from a Played List.  
@@ -110,14 +112,16 @@ FFprobe - Get codec, resolution & duration in seconds.
   - Self Destruct: Download, auto play, delete when the player is closed.
   - Last Download in: Home and Yt-dlp Menu for: Play Clipboard, Download Default and Download Choose.
   - Default List: Keep pasting Video URL's on the fly from the clipboard to the Default List.
-  - Default List companion: Create a gui shortcut for: videoinfox -a  to add to the Default List.
+
+        Default List companion: Create a gui shortcut for: videoinfox -a  to add to the Default List.
   - Unlimited User Lists: Keep pasting Video URL's on the fly from the clipboard to the User Set List.
-  - User Set List companion: Create a gui shortcut for: videoinfox -l  to add to the User Set list.
-  - Download any list. Any name and location. No need to use the Videoinfox interface: videoinfox -u listname
+
+        User Set List companion: Create a gui shortcut for: videoinfox -l  to add to the User Set list.
+  - Command Line Option: &nbsp; videoinfox -u listname &nbsp; Download any url list to the directory of the list's location.
   - Download and update Yt-dlp in Videoinfox.
-  - Save directory state on exit to load on next run.
+  - Save current working directory on exit to load on next run.
   - Change directory by entering full path.
-  - Find directory and change to it by copying it to clipboard.
+  - Find directory and change to it by entering the line number.
   - List video info one directory deep. Save per directory.
   - Recursive count of videos broken down by video type.
   - Recursive duration (days:hrs:min:sec) Save per directory.
