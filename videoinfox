@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v4.4.01								         
+#  file : videoinfox v4.4.02								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v4.4.01"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.01")  # Version Number: with blinking dot
+ver="Videoinfox v4.4.02"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.02")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -1448,9 +1448,13 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v4.4.02 v4.4.02 Another fix in intermission time setting." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v4.4.01 Fix: Intermission time could be set to zero which would break Autoplay. " >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Error Message when 0 is enterted: Entry cannot be less than 1 . . ." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Error Message when 0 is entered: Entry cannot be less than 1 . . ." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v4.4.00 New: -Move Line added to View Playlist and Play Queue." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -5499,12 +5503,12 @@ case $option in
         function rewrque {
         clear
         echo
-        echo " Any edits in -Play Queue made with -Remove Line and/or -Remove Duplicates will be lost if yes is selected."
+        echo " Any edits in -Play Queue made with -Remove Line, -Remove Dupes, or -Move Line will be lost if yes is selected."
         echo
         echo
-        echo " Note: The current queue can be saved as a playlist with:"
+        echo " Note: The current queue can be saved as a playlist with -Queue to Playlist"
         echo
-        echo " -Queue to Playlist located in View Playlist >>> Change and Queue -Play Queue"
+        echo "       Located in View Playlist >>> Change and Queue -Play Queue"
         echo
         echo
         echo " Rebuild Queue?"
@@ -9141,12 +9145,12 @@ case $option in
         function rewrque {
         clear
         echo
-        echo " Any edits in -Play Queue made with -Remove Line and/or -Remove Duplicates will be lost if yes is selected."
+        echo " Any edits in -Play Queue made with -Remove Line, -Remove Dupes, or -Move Line will be lost if yes is selected."
         echo
         echo
-        echo " Note: The current queue can be saved as a playlist with:"
+        echo " Note: The current queue can be saved as a playlist with -Queue to Playlist"
         echo
-        echo " -Queue to Playlist located in View Playlist >>> Change and Queue -Play Queue"
+        echo "       Located in View Playlist >>> Change and Queue -Play Queue"
         echo
         echo
         echo " Rebuild Queue?"
@@ -11913,12 +11917,12 @@ case $option in
         function rewrque {
         clear
         echo
-        echo " Any edits in -Play Queue made with -Remove Line and/or -Remove Duplicates will be lost if yes is selected."
+        echo " Any edits in -Play Queue made with -Remove Line, -Remove Dupes, or -Move Line will be lost if yes is selected."
         echo
         echo
-        echo " Note: The current queue can be saved as a playlist with:"
+        echo " Note: The current queue can be saved as a playlist with -Queue to Playlist"
         echo
-        echo " -Queue to Playlist located in View Playlist >>> Change and Queue -Play Queue"
+        echo "       Located in View Playlist >>> Change and Queue -Play Queue"
         echo
         echo
         echo " Rebuild Queue?"
@@ -13585,24 +13589,24 @@ case $optionsettings in
     read -r -p " Enter intermission time in seconds: " timeinsec  # waiting fot user input
 
     re='^[0-9]+$'
-    if ! [[ $timeinsec =~ $re ]]
+    if ! [[ "$timeinsec" =~ $re ]]
     then
     :
     
     else
-        if [[ $timeinsec < 1 ]]
+        if [[ "$timeinsec" < 1 ]]
           then
               echo
               echo " Entry cannot be less than 1 . . ."
               sleep 1.9
           else
 
-        if [[ $timeinsec > 86400 ]]
-          then
-              echo
-              echo " Entry cannot be greater than 86400 . . ."
-              sleep 1.9
-          else
+         if [[ "$timeinsec" -gt 86400 ]]
+           then
+               echo
+               echo " Entry cannot be greater than 86400 . . ."
+               sleep 1.9
+           else
               echo "$timeinsec" > ~/.config/videoinfox/videoinfox.intermission
               read -r vto < ~/.config/videoinfox/videoinfox.intermission
               echo
