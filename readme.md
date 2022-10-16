@@ -1,4 +1,4 @@
-# Videoinfox v4.4.01
+# Videoinfox v4.4.02
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -325,6 +325,8 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+### v4.4.02 Another fix in intermission time setting.
 
 ### v4.4.01 Fix: Intermission time could be set to zero which would break Autoplay.
 
