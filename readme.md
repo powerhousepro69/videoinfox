@@ -131,7 +131,7 @@ FFprobe - Get codec, resolution & duration in seconds.
   - GUI notifications.
   - More options . . .
 
-
+<br />
  
 ### To use Play Clipboard:
 
@@ -141,9 +141,7 @@ FFprobe - Get codec, resolution & duration in seconds.
 
 <br />
 
-#### Dependencies listed at bottom of page.
 
-<br />
 PLAY DIRECTORY
 
 Autoplay directory one level deep. Option to quit on video end or player quit.
@@ -265,14 +263,6 @@ COMMAND LINE OPTIONS: &nbsp; videoinfox -h
 ![videoinfox -h](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/VIDEOINFOX-H.png)
 
 <br />
- 
- YT-DLP is not on the dependeny list becuase Videoinfox will dowload it to: &nbsp; ~/.config/videoinfox &nbsp;
- All calls to yt-dlp are pointed to: &nbsp; ~/.config/videoinfox/yt-dlp &nbsp;
- There is an update option in: &nbsp; \<Set\>&nbsp; Settings to update yt-dlp &nbsp; (just the copy in ~/.config/videoinfox) &nbsp;
- I didn't want to overwrite anyones copy of: &nbsp; /user/local/bin/yt-dlp &nbsp;  &nbsp;
- Also, I wanted to make sure all new Videoinfox script installs included the most recent version of Yt-dlp 
- 
-<br />
    
 #### Dependencies:   
  
@@ -283,14 +273,17 @@ COMMAND LINE OPTIONS: &nbsp; videoinfox -h
 - bc &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; floating point math
 - notify-send  &nbsp; &nbsp; &nbsp; display gui notifications
 
- <br />
+<br />
+
+YT-DLP is not on the dependeny list becuase Videoinfox will dowload it to: &nbsp; ~/.config/videoinfox &nbsp;
+ All calls to yt-dlp are pointed to: &nbsp; ~/.config/videoinfox/yt-dlp &nbsp;
+ There is an update option in: &nbsp; \<Set\>&nbsp; Settings to update yt-dlp &nbsp; (just the copy in ~/.config/videoinfox) &nbsp;
+ I didn't want to overwrite anyones copy of: &nbsp; /user/local/bin/yt-dlp &nbsp;  &nbsp;
+ Also, I wanted to make sure all new Videoinfox script installs included the most recent version of Yt-dlp
  
 #### Videoinfox runs a dependency check at startup.  If any dependencies are not found, the script will exit.
-  
-#### Any missing dependencies will be displayed.
 
-<br />
-DEPENDENCIES
+DEPENDENCIES &nbsp; Any missing dependencies will be displayed.
   
 ![Videoinfox DEPENDENCY CHECK](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/DEPENDENCY.png)
 
