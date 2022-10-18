@@ -1,4 +1,4 @@
-# Videoinfox v4.4.02
+# Videoinfox v4.4.12
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -318,6 +318,13 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+### v4.4.12 Overwrite of an existing playlist is now available for the following options:
+
+         -Make Playlist ............. home screen
+         -Directory to Playlist ..... navigate tree >>> show all
+         -Create Playlist ........... view playlist >>> change and queue
+         -Queue to Playlist ......... view playlist >>> change and queue >>> play queue
 
 ### v4.4.02 Another fix in intermission time setting.
 
