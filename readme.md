@@ -1,4 +1,4 @@
-# Videoinfox v4.4.12
+# Videoinfox v4.4.13
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -318,6 +318,8 @@ FIRST RUN
 
 ##### Reddit /Videoinfox for discussion.
 <br />
+
+### v4.4.13 Moved options around on Intermission Screen.
 
 ### v4.4.12 Overwrite of an existing playlist is now available for the following options:
 
