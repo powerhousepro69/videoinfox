@@ -1,4 +1,4 @@
-# Videoinfox v4.4.13
+# Videoinfox v4.5.00
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -22,9 +22,7 @@ sudo chmod +x /usr/local/bin/videoinfox
 ```
 <br />
 
-#### NEW in v4.4.00 -Move Line added to View Playlist and Play Queue.
-
-#### NEW in v4.3.00 Intermission screen with next video up for play and countdown timer for Autoplay and Play Directory.
+#### NEW in v4.5.00 -Playlist Find added to the home screen. Text search of all playlists.
 
 <br />
 Download multiple URL User Lists simultaneously.
@@ -316,37 +314,9 @@ FIRST RUN
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
 
-##### Reddit /Videoinfox for discussion.
-<br />
+### v4.5.00 New Feature: -Playlist Find added to the home screen. Text search of all playlists.
 
-### v4.4.13 Moved options around on Intermission Screen.
-
-### v4.4.12 Overwrite of an existing playlist is now available for the following options:
-
-         -Make Playlist ............. home screen
-         -Directory to Playlist ..... navigate tree >>> show all
-         -Create Playlist ........... view playlist >>> change and queue
-         -Queue to Playlist ......... view playlist >>> change and queue >>> play queue
-
-### v4.4.02 Another fix in intermission time setting.
-
-### v4.4.01 Fix: Intermission time could be set to zero which would break Autoplay.
-
-        Error Message when 0 is entered: Entry cannot be less than 1 . . .
-
-### v4.4.00 New: -Move Line added to View Playlist and Play Queue.
-
-        Move line: x
-
-        Insert line x below line: (to insert above line 1 enter 0)
-
-
-        Added to -View Playlist -Help
-
-        Note: If -Remove Line, -Remove Dupes, -Move Line or -Add to Playlist is used after running -Start Autoplay,
-               -Start Autoplay will need to be run again to update -Resume Autoplay with any of the above changes.
-
-        Move Line: To insert above line 1 enter 0. To insert after the last line, enter the last line number.
+         Change: Moved around a few options on the home screen to fit in the new feature.
 
 
 <br />
