@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v4.4.13								         
+#  file : videoinfox v4.5.00								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v4.4.13"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.13")  # Version Number: with blinking dot
+ver="Videoinfox v4.5.00"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m5.00")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -1438,6 +1438,11 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v4.5.00 New Feature: -Playlist Find added to the home screen. Text search of all playlists." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Change: Moved around a few options on the home screen to fit in the new feature." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v4.4.13 Moved options around on Intermission Screen." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2764,10 +2769,10 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo "___________________________________________________________________________________________________________________"
                       echo
                       echo " f - Find Video        n - Navigate Tree     p - Play Clipboard     d "$dash" Play Directory     y - Yt-dlp     e - Exit"
-                      echo " a - Show All          l - Last Download     s - View Playlist      o "$dashj" Autoplay           i "$dashj" Info       z - Set" 
-                      echo " c - Clear Results     v - Played List       k "$dashj" Playlist Add       j "$dashj" Play               x - Clrclp     h - Help"
-                      echo " m - More Options      g - Find Dir          b "$dashj" Make Playlist      r - Download Only"
-                      echo         
+                      echo " a - Show All          l - Last Download     s - View Playlist      r - Download Only      i "$dashj" Info       z - Set" 
+                      echo " c - Clear Results     v - Played List       k "$dashj" Playlist Add       o "$dashj" Autoplay           j "$dashj" Play       h - Help"
+                      echo " m - More Options      g - Find Dir          b "$dashj" Make Playlist      t - Playlist Find      x - Clrclp"
+                      echo                
                   
                   else  # yt-dlp extracted a filename
                       echo
@@ -2781,9 +2786,9 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
 
 echo -e " f - Find Video        n - Navigate Tree     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     d "$dash" Play Directory     y - Yt-dlp     e - Exit"
  
-                      echo " a - Show All          l - Last Download     s - View Playlist      o "$dashj" Autoplay           i "$dashj" Info       z - Set" 
-                      echo " c - Clear Results     v - Played List       k "$dashj" Playlist Add       j "$dashj" Play               x - Clrclp     h - Help"
-echo -e " m - More Options      g - Find Dir          b "$dashj" Make Playlist      r \033[5m-\033m\033[0m\033[5m\033[5m\033[0m Download Only"
+echo -e " a - Show All          l - Last Download     s - View Playlist      r \033[5m-\033m\033[0m\033[5m\033[5m\033[0m Download Only      i "$dashj" Info       z - Set" 
+                      echo " c - Clear Results     v - Played List       k "$dashj" Playlist Add       o "$dashj" Autoplay           j "$dashj" Play       h - Help"
+echo -e " m - More Options      g - Find Dir          b "$dashj" Make Playlist      t - Playlist Find      x - Clrclp "
                       echo                                                             
             fi
     else
@@ -2801,10 +2806,10 @@ echo
 
 echo -e " f - Find Video        n - Navigate Tree     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     d "$dash" Play Directory     y - Yt-dlp     e - Exit"
  
-                      echo " a - Show All          l - Last Download     s - View Playlist      o "$dashj" Autoplay           i "$dashj" Info       z - Set" 
-                      echo " c - Clear Results     v - Played List       k "$dashj" Playlist Add       j "$dashj" Play               x - Clrclp     h - Help"
-                      echo " m - More Options      g - Find Dir          b "$dashj" Make Playlist      r - Download Only"
-                      echo                                                             
+echo -e " a - Show All          l - Last Download     s - View Playlist      r \033[5m-\033m\033[0m\033[5m\033[5m\033[0m Download Only      i "$dashj" Info       z - Set" 
+                      echo " c - Clear Results     v - Played List       k "$dashj" Playlist Add       o "$dashj" Autoplay           j "$dashj" Play       h - Help"
+echo -e " m - More Options      g - Find Dir          b "$dashj" Make Playlist      t - Playlist Find      x - Clrclp "
+echo                                                                      
 
   else  # file does not exist
 
@@ -2817,9 +2822,9 @@ echo " $der $viv4      Enter - Update Clipboard Display                "$dirdisp
 echo "___________________________________________________________________________________________________________________"
 echo
 echo " f - Find Video        n - Navigate Tree     p - Play Clipboard     d "$dash" Play Directory     y - Yt-dlp     e - Exit"
-echo " a - Show All          l - Last Download     s - View Playlist      o "$dashj" Autoplay           i "$dashj" Info       z - Set" 
-echo " c - Clear Results     v - Played List       k "$dashj" Playlist Add       j "$dashj" Play               x - Clrclp     h - Help"
-echo " m - More Options      g - Find Dir          b "$dashj" Make Playlist      r - Download Only"
+echo " a - Show All          l - Last Download     s - View Playlist      r - Download Only      i "$dashj" Info       z - Set" 
+echo " c - Clear Results     v - Played List       k "$dashj" Playlist Add       o "$dashj" Autoplay           j "$dashj" Play       h - Help"
+echo " m - More Options      g - Find Dir          b "$dashj" Make Playlist      t - Playlist Find      x - Clrclp"
 echo         
                                          
 
@@ -2841,6 +2846,76 @@ h)  # HELP
      #clear
      less ~/.config/videoinfox/videoinfo.help  # This help file is recreated on every start
      ;;	
+
+
+##################################################################################################################################################
+    t)  ################  PLAYLIST FIND ROUTINE - <HOME>  ########################################################################################
+##################################################################################################################################################
+    pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+    clear
+    echo
+    #echo "Working Directory: ""$PWD" 
+    echo "Clipboard Content: ""$pasteclip"
+    echo "___________________________________________________________________________________________________________________"
+    echo
+    echo " ""$ver"" >>> Find Video File(s) - Text search of all playlists                            No wildcard *"
+    echo "___________________________________________________________________________________________________________________"
+    echo
+    echo " Find a video file to play, add it to the playlist or get info. No file extensions. Case ignored." 
+    echo
+    read -r -p " File Name: " videofind  # waiting fot user input - video file that you want to find
+
+    find ~/.config/videoinfox/playlists -type f | xargs -d '\n' grep -i -h "$videofind" > ~/.config/videoinfox/tmp/search-playlist.tmp 2> /dev/null
+    # REMOVE DUPES
+    cat -n ~/.config/videoinfox/tmp/search-playlist.tmp | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/search-playlist.tmp2
+    # COUNT LINES
+    searchtotal=$(wc -l < ~/.config/videoinfox/tmp/search-playlist.tmp2)
+                                                                                   	
+    if [ -z "$videofind" ] 
+          then
+               echo
+               echo " error: Nothing was entered."
+               echo
+               sleep 1.9        
+          else
+                
+              if echo "$videofind" | grep "/" > /dev/null
+                then
+                    echo
+                    echo " error: No directories only filenames."
+                    echo
+                    sleep 1.9 
+                else
+                                
+                     if [ "$searchtotal" = 0 ]  # if find returned no results goto <then>      
+                       then
+                           echo
+                           echo " No files found . . ."
+                           echo
+                           sleep 1.9 
+                       else
+
+                           echo "$videofind" > ~/.config/videoinfox/videoinfo.lastfindstring   # save last find string used                          
+                           read -r fterm < ~/.config/videoinfox/videoinfo.lastfindstring
+
+                           # save find results
+                           cp ~/.config/videoinfox/tmp/search-playlist.tmp2 ~/.config/videoinfox/videoinfo.findwork
+                           echo "Playlist Search" > ~/.config/videoinfox/videoinfo.lastfinddir  # save last directory that last find was run in 
+                           # write last search total file count
+                           echo "$searchtotal" > ~/.config/videoinfox/videoinfo.lastsearchtotal
+                           # read last search total file count
+                           read -r searchtotal < ~/.config/videoinfox/videoinfo.lastsearchtotal  
+  
+                           cp ~/.config/videoinfox/videoinfo.findwork ~/.config/videoinfox/videoinfo.findwork3
+                           cp ~/.config/videoinfox/videoinfo.lastsearchtotal ~/.config/videoinfox/videoinfo.lastsearchtotal2                 
+                           echo
+                           echo " Total files found: " "$searchtotal"  # number of files found
+                           notify-send  "Videoinfox messsage: Playlist Find Results" "$searchtotal files found using search term: $fterm"
+                           sleep 1.9
+    fi
+    fi              
+    fi
+    ;;
 
 
 r)  # DOWNLOAD ONLY (default)
