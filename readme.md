@@ -24,8 +24,8 @@ sudo chmod +x /usr/local/bin/videoinfox
 
 #### NEW in v4.5.00 -Playlist Find added to the home screen. Text search of all playlists.
 
-         Find videos without providing the files location.
-         More info located about Playlist Find in Home Help.
+
+Find videos without providing the files location. More info located about Playlist Find in Home Help.
 
 <br />
 Download multiple URL User Lists simultaneously.
