@@ -1,4 +1,4 @@
-# Videoinfox v4.5.00
+# Videoinfox v4.5.01
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -23,6 +23,9 @@ sudo chmod +x /usr/local/bin/videoinfox
 <br />
 
 #### NEW in v4.5.00 -Playlist Find added to the home screen. Text search of all playlists.
+
+         Find videos without providing the files location.
+         More info located about Playlist Find in Home Help.
 
 <br />
 Download multiple URL User Lists simultaneously.
@@ -313,6 +316,15 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+### v4.5.01 Added to home help.
+
+         - Find Video is located on the home screen. It is a recursive search from the current script directory.
+
+         - Playlist Find is located on the home screen. It is a text search of all playlists with duplicates removed.
+           
+               Create playlists for all video libraries to find videos without needing to know the location.
+               More info located in Home Help about Playlist Find.
 
 ### v4.5.00 New Feature: -Playlist Find added to the home screen. Text search of all playlists.
 
