@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v4.5.00								         
+#  file : videoinfox v4.5.01								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v4.5.00"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m5.00")  # Version Number: with blinking dot
+ver="Videoinfox v4.5.01"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m5.01")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -1252,7 +1252,7 @@ echo >> ~/.config/videoinfox/videoinfo.help
 echo " Watch videos with (default) ffplay, mpv or any video player. Home Screen: -Set -Video Player" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " Find videos to play or get info on: Change to a parent directory of your video library and select Find." >> ~/.config/videoinfox/videoinfo.help
+echo " Find videos to play or get info on: Change to a parent directory of your video library and select Find Video." >> ~/.config/videoinfox/videoinfo.help
 echo " You can also select Show All to display all videos recursively." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Search Tips:  The files you search for have to be in the path of the current directory." >> ~/.config/videoinfox/videoinfo.help
@@ -1367,6 +1367,20 @@ echo " Start Autoplay from anywhere in the playlist. Then Resume Autoplay to sta
 echo " on quit. More info located in View Playlist >>> Help" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
+echo " Find Video is located on the home screen. It is a recursive search from the current script directory." >> ~/.config/videoinfox/videoinfo.help
+echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo " Playlist Find is located on the home screen. It is a text search of all playlists with duplicates removed." >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo " Note: If video libraries are spread out over many drives and/or different directories, build a recursive playlist" >> ~/.config/videoinfox/videoinfo.help
+echo "       for each location of videos using -Show All then -Make Playlist. Both located on the home screen." >> ~/.config/videoinfox/videoinfo.help
+echo "       This will create a searchable index of videos for each location without needing to know the files location." >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo " Optional: Multiple playlists can be dumped into the playlist queue with -Add to Queue located in" >> ~/.config/videoinfox/videoinfo.help
+echo "           View Playlist >>> Change and Queue. Then use -Queue to Playlist in -Play Queue to condense the" >> ~/.config/videoinfox/videoinfo.help
+echo "           multiple playlists into one playlist." >> ~/.config/videoinfox/videoinfo.help
+echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
 echo " Navigate Tree: Whatever the directory is when entering Navigate Tree will be set as the Treetop." >> ~/.config/videoinfox/videoinfo.help
 echo "                Recursive Navigation from the Treetop. Directory listing is only 1 level deep." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1437,6 +1451,16 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v4.5.01 Added to home help." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         - Find Video is located on the home screen. It is a recursive search from the current script directory." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         - Playlist Find is located on the home screen. It is a text search of all playlists with duplicates removed." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                Create playlists for all video libraries to find videos without needing to know the location." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                More info located in Home Help about Playlist Find." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v4.5.00 New Feature: -Playlist Find added to the home screen. Text search of all playlists." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2861,9 +2885,9 @@ h)  # HELP
     echo " ""$ver"" >>> Find Video File(s) - Text search of all playlists                            No wildcard *"
     echo "___________________________________________________________________________________________________________________"
     echo
-    echo " Find a video file to play, add it to the playlist or get info. No file extensions. Case ignored." 
+    echo " Find a video file to play, add it to the playlist or get info. Case ignored." 
     echo
-    read -r -p " File Name: " videofind  # waiting fot user input - video file that you want to find
+    read -r -p " Enter File Name: " videofind  # waiting fot user input - video file that you want to find
 
     find ~/.config/videoinfox/playlists -type f | xargs -d '\n' grep -i -h "$videofind" > ~/.config/videoinfox/tmp/search-playlist.tmp 2> /dev/null
     # REMOVE DUPES
