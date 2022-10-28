@@ -1,4 +1,4 @@
-# Videoinfox v4.5.01
+# Videoinfox v4.6.00
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -21,6 +21,8 @@ sudo wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/vide
 sudo chmod +x /usr/local/bin/videoinfox
 ```
 <br />
+
+#### NEW in v4.6.00 New Option in Settings: Default Directories to Playlist
 
 #### NEW in v4.5.00 -Playlist Find added to the home screen. Text search of all playlists.
 
@@ -318,19 +320,17 @@ FIRST RUN
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
 
-### v4.5.01 Added to home help.
+### v4.6.00 New Option in Settings: Default Directories to Playlist
 
-         - Find Video is located on the home screen. It is a recursive search from the current script directory.
+         Playlist named Default Directories will be created with recursive listings from default directories 1-4
+         Then Playlist Find can be used to search for videos in all 4 default directories.
 
-         - Playlist Find is located on the home screen. It is a text search of all playlists with duplicates removed.
-           
-               Create playlists for all video libraries to find videos without needing to know the location.
-               More info located in Home Help about Playlist Find.
+         Change home screen option: z - Set ............... u - Set
+         Change home screen option: b - Make Playlist ..... z - Make Playlist
 
-### v4.5.00 New Feature: -Playlist Find added to the home screen. Text search of all playlists.
+         Added to Playlist Find: To show all: Press Enter with no entry.
 
-         Change: Moved around a few options on the home screen to fit in the new feature.
-
+         Added to Home Help: Default Directories to Playlist
 
 <br />
 
