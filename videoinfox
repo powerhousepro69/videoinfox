@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v4.5.01								         
+#  file : videoinfox v4.6.00								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v4.5.01"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m5.01")  # Version Number: with blinking dot
+ver="Videoinfox v4.6.00"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m6.00")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -825,16 +825,13 @@ if [ -d "$direxist" ]  #  if directoty exists goto  <then>
       echo "__________________________________________________________________________________________________________________"
       echo -e "\n" 
       echo " Setup for the first run or if the videoinfox directory gets deleted anytime after the first run."
-      
-                                        
- 
+     
       #####################
       # CREATE DIRECTORIES
       ####################
       mkdir ~/.config/videoinfox
       mkdir ~/.config/videoinfox/tmp
       mkdir ~/.config/videoinfox/playlists
-            
 
       # SET DEFAULT  LAST SEARCH  to <2> Never Save
       echo "2" > ~/.config/videoinfox/videoinfo.lastsearch-set
@@ -858,19 +855,13 @@ if [ -d "$direxist" ]  #  if directoty exists goto  <then>
       read -r diratexit < ~/.config/videoinfox/videoinfo.dir-at-exit
       cd "$diratexit" 2>/dev/null 
 
-      # Writing header for new blank Saved Search  playlist  ++++++++ this was added to get around a bug until the bug gets squashed.       
-      echo > ~/.config/videoinfox/videoinfo.keptsearch
-      echo "PLAYlIST" >> ~/.config/videoinfox/videoinfo.keptsearch
-      echo >> ~/.config/videoinfox/videoinfo.keptsearch
-      echo "This File was Created: $(date) by" "$USER" >> ~/.config/videoinfox/videoinfo.keptsearch
-      echo >> ~/.config/videoinfox/videoinfo.keptsearch
-
-      
+          
       ###############
       # CREATE FILES
       ###############
 
       # CREATING EMPTY FILES SO NO ERRORS ARE PRODUCED ON FIRST RUN
+      echo > ~/.config/videoinfox/playlists/vplaylist.Default
       echo > ~/.config/videoinfox/videoinfo.findwork
       echo > ~/.config/videoinfox/videoinfo.findwork2
       echo > ~/.config/videoinfox/videoinfo.findwork3
@@ -878,7 +869,6 @@ if [ -d "$direxist" ]  #  if directoty exists goto  <then>
       echo > ~/.config/videoinfox/videoinfo.lastsearchtotal
       echo > ~/.config/videoinfox/videoinfo.lastsearchtotal2
       echo > ~/.config/videoinfox/videoinfo.playedlist
-      echo > ~/.config/videoinfox/videoinfo.keptsearch
       echo > ~/.config/videoinfox/videoinfo.tv-dir
       echo > ~/.config/videoinfox/videoinfo.movies-dir
       echo > ~/.config/videoinfox/videoinfo.parent-dir
@@ -1269,9 +1259,15 @@ echo >> ~/.config/videoinfox/videoinfo.help
 echo " With search results on the screen, select Play Line and enter the number that you want to play." >> ~/.config/videoinfox/videoinfo.help  
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " 1 2 3 4 5 - Default Dirs  One keypress to change default directories. <Set> to set default directories" >> ~/.config/videoinfox/videoinfo.help     
+echo " 1 2 3 4 5 - Default Dirs  One keypress to change default directories. - Set to set default directories" >> ~/.config/videoinfox/videoinfo.help     
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " Default 1-4 have display priority over 5. So if your directory on last exit (5) equals 1-4,  1-4 gets the display.  " >> ~/.config/videoinfox/videoinfo.help
+echo " Default 1-4 have display priority over 5. So if the directory on last exit (5) equals 1-4,  1-4 gets the display.  " >> ~/.config/videoinfox/videoinfo.help
+echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo " Default Directories to Playlist" >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo " Playlist named Default Directories will be created with recursive listings from default directories 1-4" >> ~/.config/videoinfox/videoinfo.help
+echo " Then Playlist Find can be used to search for videos in all 4 default directories." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Last Search  <set>  If search results are not manually deleted <Clear Results> before exit," >> ~/.config/videoinfox/videoinfo.help
@@ -1451,6 +1447,18 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v4.6.00 New Option in Settings: Default Directories to Playlist" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Playlist named Default Directories will be created with recursive listings from default directories 1-4" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Then Playlist Find can be used to search for videos in all 4 default directories." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Change home screen option: z - Set ............... u - Set" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Change home screen option: b - Make Playlist ..... z - Make Playlist" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Added to Playlist Find: To show all: Press Enter with no entry." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Added to Home Help: Default Directories to Playlist" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v4.5.01 Added to home help." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2793,9 +2801,9 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo "___________________________________________________________________________________________________________________"
                       echo
                       echo " f - Find Video        n - Navigate Tree     p - Play Clipboard     d "$dash" Play Directory     y - Yt-dlp     e - Exit"
-                      echo " a - Show All          l - Last Download     s - View Playlist      r - Download Only      i "$dashj" Info       z - Set" 
+                      echo " a - Show All          l - Last Download     s - View Playlist      r - Download Only      i "$dashj" Info       u - Set" 
                       echo " c - Clear Results     v - Played List       k "$dashj" Playlist Add       o "$dashj" Autoplay           j "$dashj" Play       h - Help"
-                      echo " m - More Options      g - Find Dir          b "$dashj" Make Playlist      t - Playlist Find      x - Clrclp"
+                      echo " m - More Options      g - Find Dir          z "$dashj" Make Playlist      t - Playlist Find      x - Clrclp"
                       echo                
                   
                   else  # yt-dlp extracted a filename
@@ -2810,9 +2818,9 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
 
 echo -e " f - Find Video        n - Navigate Tree     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     d "$dash" Play Directory     y - Yt-dlp     e - Exit"
  
-echo -e " a - Show All          l - Last Download     s - View Playlist      r \033[5m-\033m\033[0m\033[5m\033[5m\033[0m Download Only      i "$dashj" Info       z - Set" 
+echo -e " a - Show All          l - Last Download     s - View Playlist      r \033[5m-\033m\033[0m\033[5m\033[5m\033[0m Download Only      i "$dashj" Info       u - Set" 
                       echo " c - Clear Results     v - Played List       k "$dashj" Playlist Add       o "$dashj" Autoplay           j "$dashj" Play       h - Help"
-echo -e " m - More Options      g - Find Dir          b "$dashj" Make Playlist      t - Playlist Find      x - Clrclp "
+echo -e " m - More Options      g - Find Dir          z "$dashj" Make Playlist      t - Playlist Find      x - Clrclp "
                       echo                                                             
             fi
     else
@@ -2830,9 +2838,9 @@ echo
 
 echo -e " f - Find Video        n - Navigate Tree     p - \033[5mPlay Clipboard\033m\033[0m\033[5m\033[5m\033[0m     d "$dash" Play Directory     y - Yt-dlp     e - Exit"
  
-echo -e " a - Show All          l - Last Download     s - View Playlist      r \033[5m-\033m\033[0m\033[5m\033[5m\033[0m Download Only      i "$dashj" Info       z - Set" 
+echo -e " a - Show All          l - Last Download     s - View Playlist      r \033[5m-\033m\033[0m\033[5m\033[5m\033[0m Download Only      i "$dashj" Info       u - Set" 
                       echo " c - Clear Results     v - Played List       k "$dashj" Playlist Add       o "$dashj" Autoplay           j "$dashj" Play       h - Help"
-echo -e " m - More Options      g - Find Dir          b "$dashj" Make Playlist      t - Playlist Find      x - Clrclp "
+echo -e " m - More Options      g - Find Dir          z "$dashj" Make Playlist      t - Playlist Find      x - Clrclp "
 echo                                                                      
 
   else  # file does not exist
@@ -2846,9 +2854,9 @@ echo " $der $viv4      Enter - Update Clipboard Display                "$dirdisp
 echo "___________________________________________________________________________________________________________________"
 echo
 echo " f - Find Video        n - Navigate Tree     p - Play Clipboard     d "$dash" Play Directory     y - Yt-dlp     e - Exit"
-echo " a - Show All          l - Last Download     s - View Playlist      r - Download Only      i "$dashj" Info       z - Set" 
+echo " a - Show All          l - Last Download     s - View Playlist      r - Download Only      i "$dashj" Info       u - Set" 
 echo " c - Clear Results     v - Played List       k "$dashj" Playlist Add       o "$dashj" Autoplay           j "$dashj" Play       h - Help"
-echo " m - More Options      g - Find Dir          b "$dashj" Make Playlist      t - Playlist Find      x - Clrclp"
+echo " m - More Options      g - Find Dir          z "$dashj" Make Playlist      t - Playlist Find      x - Clrclp"
 echo         
                                          
 
@@ -2873,7 +2881,7 @@ h)  # HELP
 
 
 ##################################################################################################################################################
-    t)  ################  PLAYLIST FIND ROUTINE - <HOME>  ########################################################################################
+    t)  ################  @PLAYLIST FIND ROUTINE - <HOME>  ########################################################################################
 ##################################################################################################################################################
     pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
     clear
@@ -2885,24 +2893,18 @@ h)  # HELP
     echo " ""$ver"" >>> Find Video File(s) - Text search of all playlists                            No wildcard *"
     echo "___________________________________________________________________________________________________________________"
     echo
-    echo " Find a video file to play, add it to the playlist or get info. Case ignored." 
+    echo " Find a video file to play, add it to the playlist or get info. Case ignored."
+    echo
+    echo " To show all: Enter with no entry."
     echo
     read -r -p " Enter File Name: " videofind  # waiting fot user input - video file that you want to find
 
-    find ~/.config/videoinfox/playlists -type f | xargs -d '\n' grep -i -h "$videofind" > ~/.config/videoinfox/tmp/search-playlist.tmp 2> /dev/null
+    find ~/.config/videoinfox/playlists -type f -iname "vplaylist.*" | xargs -d '\n' grep -i -h "$videofind" > ~/.config/videoinfox/tmp/search-playlist.tmp 2> /dev/null
     # REMOVE DUPES
     cat -n ~/.config/videoinfox/tmp/search-playlist.tmp | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/search-playlist.tmp2
     # COUNT LINES
     searchtotal=$(wc -l < ~/.config/videoinfox/tmp/search-playlist.tmp2)
                                                                                    	
-    if [ -z "$videofind" ] 
-          then
-               echo
-               echo " error: Nothing was entered."
-               echo
-               sleep 1.9        
-          else
-                
               if echo "$videofind" | grep "/" > /dev/null
                 then
                     echo
@@ -2938,7 +2940,6 @@ h)  # HELP
                            sleep 1.9
     fi
     fi              
-    fi
     ;;
 
 
@@ -2984,7 +2985,7 @@ cd "$grabdir"
 ;;
 
 
-b) # MAKE PLAYLIST
+z) # MAKE PLAYLIST
 
 # ARE SEARCH RESULTS EMPTY
 read -r isresultsempty < ~/.config/videoinfox/videoinfo.findwork
@@ -4611,7 +4612,7 @@ if [ -z "$linenumber" ]
               echo " Added to Playlist . . ."
               read -r activeplaylistm < ~/.config/videoinfox/videoinfo.playlist.current # GET CURRENT PLAYLIST
               cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST
-              sleep 1.9
+              sleep .7
       fi
 
 fi
@@ -11009,7 +11010,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
               echo " Added to Playlist . . ."
               read -r activeplaylistm < ~/.config/videoinfox/videoinfo.playlist.current # GET CURRENT PLAYLIST
               cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST
-              sleep 1.9
+              sleep .7
       fi
 
 fi
@@ -13848,7 +13849,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
               echo " Added to Playlist . . ."
               read -r activeplaylistm < ~/.config/videoinfox/videoinfo.playlist.current # GET CURRENT PLAYLIST
               cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST
-              sleep 1.9
+              sleep .7
       fi
 fi
 fi
@@ -13949,7 +13950,7 @@ fi
 
 
 ##################################################################################################################################################
-z)  # SETTINGS - <HOME>  #########################################################################################################################
+u)  # SETTINGS - <HOME>  #########################################################################################################################
 ##################################################################################################################################################
 
 function menusettings {
@@ -13983,11 +13984,11 @@ echo " 3 - Download:" "$dirsaved"
 echo "                                                                                             p - Video Player"
 echo " 4 - Extra:" "$dir4"
 echo "                                                                                             i - Intermission"
-echo
+echo " z - Default Directories to Playlist"
 echo "                                                                                             h - Version History"
-echo " Last Exit Dir 5:" "$dir5"
+echo 
 echo "                                                                                             c - Code Stats"
-echo
+echo " Last Exit Dir 5:" "$dir5"
 echo "                                                                                             x - Clear Clipboard"
 echo
 echo -en " Enter Option: "
@@ -14001,6 +14002,80 @@ case $optionsettings in
 
     q)  # QUIT
     break;;
+
+    z) # WRITE DEFAULT DIRECTORIES TO PLAYLIST
+    grabdir="$PWD"
+
+    echo
+    echo
+    echo " Building Playlist: Default Directories . . ."
+    sleep 1.9
+
+    if [ -f ~/.config/videoinfox/playlists/"vplaylist.Default Directories" ]
+      then
+          rm ~/.config/videoinfox/playlists/"vplaylist.Default Directories"
+      else
+          :
+    fi
+
+    if [ -z "$dir1" ]
+      then 
+          :
+      else 
+          cd "$dir1"
+find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) | sort -u >> ~/.config/videoinfox/tmp/"vplaylist.Default Directories.tmp"
+    fi
+
+    if [ -z "$dir2" ]
+      then 
+          :
+      else 
+          cd "$dir2"
+find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) | sort -u >> ~/.config/videoinfox/tmp/"vplaylist.Default Directories.tmp"
+    fi
+
+    if [ -z "$dirsaved" ]
+      then 
+          :
+      else 
+          cd "$dirsaved"
+find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) | sort -u >> ~/.config/videoinfox/tmp/"vplaylist.Default Directories.tmp"
+    fi
+
+    if [ -z "$dir4" ]
+      then 
+          :
+      else 
+          cd "$dir4"
+find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) | sort -u >> ~/.config/videoinfox/tmp/"vplaylist.Default Directories.tmp"
+    fi
+
+    defdirpl="Default Directories"
+
+    if [ -f ~/.config/videoinfox/tmp/"vplaylist.Default Directories.tmp" ]
+      then
+
+    if [[ "$setplaylist" = "$defdirpl" ]]
+        then  # PLAYLIST THAT IS BEING OVERWRITTEN IS LOADED
+            cp ~/.config/videoinfox/tmp/"vplaylist.Default Directories.tmp" ~/.config/videoinfox/playlists/"vplaylist.Default Directories" 
+            mv ~/.config/videoinfox/tmp/"vplaylist.Default Directories.tmp" ~/.config/videoinfox/videoinfo.playlist    
+            echo > "$HOME"/.config/videoinfox/playlists/"Default Directories".last-autoplay
+            echo
+            echo " Reloading" "$defdirpl . . ."
+            echo
+            sleep .9
+        else  # PLAYLIST THAT IS BEING OVERWRITTEN IS NOT LOADED
+            mv ~/.config/videoinfox/tmp/"vplaylist.Default Directories.tmp" ~/.config/videoinfox/playlists/"vplaylist.Default Directories"
+            echo > "$HOME"/.config/videoinfox/playlists/"Default Directories".last-autoplay
+    fi  
+       else
+           echo
+           echo " There are no default directories set. Set at least one default directory . . ."
+           sleep 3  
+    fi        
+        
+    cd "$grabdir"
+    ;;
 
 
     i) # Intermission
