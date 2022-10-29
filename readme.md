@@ -1,4 +1,4 @@
-# Videoinfox v4.6.00
+# Videoinfox v4.6.01
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -24,6 +24,9 @@ sudo chmod +x /usr/local/bin/videoinfox
 
 #### NEW in v4.6.00 New Option in Settings: Default Directories to Playlist
 
+
+Add recursive listings from Default Dirs 1-4 to a new Playlist. Then use Playlist Find to search all Default Dirs.
+
 #### NEW in v4.5.00 -Playlist Find added to the home screen. Text search of all playlists.
 
 
@@ -37,20 +40,24 @@ You have to start Download List first then run another instance of Videoinfox to
 
 Videoinfox is a Linux shell script that feels like an app. If you enjoy watching local videos on your PC and want the ability to download video url's, you won't be disappointed. You can also make your own URL lists to download. While downloading a list, a log file will be generated for each list. The log is each http link from your list with the downloaded video filename. If the download list is aborted before completion, Yt-dlp has you covered. Just run the Download List feature again. Yt-dlp won't re-download files that you already have. There is a Played List that keeps track of everything played by Play Clipboard, Last Download and Play Line. The Playlist will never write to the Played List. Create unlimited Playlists and autoplay. Download Queue to add unlimited Videoinfox created User Download Lists for batch processing.
 
-#### Create unlimited playlists. Add videos to the Playlist from: 
 
-- Add to Playlist: Search Results. &nbsp; Find for recursive searching and Show All for recursive directory listing.
+#### ADD VIDEOS TO A PLAYLIST FROM THE FOLLOWING 7 SOURCES:
 
-- Make Playlist on Home Screen. Save all search results as a Playlist.
+- Home Screen. Add videos from recursive search results or recursive directory listings to the loaded Playlist.
 
-- Add to Playlist: Directory Listings. &nbsp; Navigate Tree >>> Show All for one level deep directory listing. 
+- Make Playlist on the Home Screen. Add all search results to a new Playlist.
 
-- Directory to Playlist in Navigate Tree >>> Show All &nbsp; Add all videos in the current directory to a new Playlist.
+- Navigate Tree >>> Show All. Add videos from one level deep directory listings to the loaded Playlist.
 
-- Queue to Playlist in Play Queue to save the playlist queue as a playlist.
+- Directory to Playlist in Navigate Tree >>> Show All. Add all videos in the current directory to a new Playlist.
 
-- Add to Playlist: Played List. &nbsp; Play Clipboard, Last Download and Play all write to the Played List.        
-       *** The Playlist, Play Directory and Autoplay won't write to the Played list. 
+- Default Directories to Playlist in Settings. Add recursive listings from Default Dirs 1-4 to a new Playlist.
+
+- Queue to Playlist: Add the Playlist Queue to a new Playlist.
+
+- Played List. Add videos from Played List to the loaded Playlist.
+        Play, Play Clipboard, Last Download all write to the Played List.
+        *** The Playlist, Play Directory and Autoplay won't write to the Played list.
 
 #### Start Autoplay on a playlist from the beginning to the end of the list or Start Autoplay from anywhere in the list and play to the end of the list. Resume Autoplay will start with last the video that was playing on Start Autoplay quit. Resume Autoplay will also keep track of the last video that was playing on quit.
 
@@ -88,7 +95,8 @@ FFprobe - Get codec, resolution & duration in seconds.
   - Playlist & Playlist Queue Play options: &nbsp; Play &nbsp; Start Autoplay &nbsp; Resume Autoplay  
   - Directory To Playlist: &nbsp; Create a new playlist from a 1 level deep dir listing. Good for seasons of TV shows.
   - Playlist Queue to load unlimited playlists for autoplay with last played video marker.
-  - Queue to Playlist: &nbsp; Save the Playlist Queue to a new Playlist. 
+  - Queue to Playlist: &nbsp; Save the Playlist Queue to a new Playlist.
+  - Default Directories to Playlist: Add recursive listings from Default Dirs 1-4 to a new Playlist. 
   - Play Clipboard: &nbsp; Download a video url that is in the clipboard via Yt-dlp and autoplay.
   - Play Clipboard is available in: &nbsp; Home &nbsp; Played List &nbsp; Play List &nbsp; Yt-dlp Menu &nbsp; View Downloads
   - See codec, resolution and duration on the playing video.
@@ -319,6 +327,8 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+### v4.6.01 Edit: Home Help >>> Create Unlimited Playlists section.
 
 ### v4.6.00 New Option in Settings: Default Directories to Playlist
 
