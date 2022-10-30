@@ -1,4 +1,4 @@
-# Videoinfox v4.6.01
+# Videoinfox v4.6.02
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -324,6 +324,8 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+### v4.6.02 Change: Play Clipboard doesn't blink anymore with valid url in the clipboard. The dash blinks.
 
 ### v4.6.01 Edit: Home Help >>> Create Unlimited Playlists section.
 
