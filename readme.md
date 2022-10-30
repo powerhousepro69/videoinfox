@@ -111,11 +111,8 @@ FFprobe - Get codec, resolution & duration in seconds.
   - Press enter after your copy to the clipboard to validate clipboard content.
   - Rapid directory changing by setting default directories (4) in Settings. The 5th is the directory at last exit.
   - Default Dirs - 1 2 3 4 5  available in: Home &nbsp; Navigate Tree &nbsp; Download List &nbsp; More Options
-  - Played List: &nbsp; Log everything played except for: Play Directory, Autoplay, and anything played from a Played List.  
-  - Played List: &nbsp; Play All option that will auto play the entire list with option to quit.
+  - Played List: &nbsp; Log everything played except for: Play Directory, Autoplay, and anything played from a Played List.
   - Duplicates auto-removed from the Played List.
-  - Playlist: Save a list of videos from search results, directory listings and Played List.
-  - Remove duplicates from the Playlist.
   - Enter a video file with full path to get info on and/or play.
   - Auto save last find result(s) and autoload until deleted. Defaulted to never save. Change in Settings.
   - Yt-dlp integration for easy download of a single url, a list of url's or a queue of multiple url lists.
