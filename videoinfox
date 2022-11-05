@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#  file : videoinfox v4.6.02								         
+#  file : videoinfox v4.6.03								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v4.6.02"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m6.02")  # Version Number: with blinking dot
+ver="Videoinfox v4.6.03"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m6.03")  # Version Number: with blinking dot
 
 
 ##################################################################################################################################################
@@ -1319,7 +1319,7 @@ echo "                 Available in: Home Screen, Navigate Tree and View Downloa
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Autoplay:       Autoplay from line number entered to the end of the list." >> ~/.config/videoinfox/videoinfo.help
 echo "                 This option never writes to the Played List." >> ~/.config/videoinfox/videoinfo.help
-echo "                 Available in: Home Screen, Navigate Tree, Played List, Playlist and View Downloads." >> ~/.config/videoinfox/videoinfo.help
+echo "                 Available in: Home Screen, Navigate Tree, Played List and View Downloads." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Start Autoplay: Autoplay from line number entered to the end of the list." >> ~/.config/videoinfox/videoinfo.help
 echo "                 This option never writes to the Played List." >> ~/.config/videoinfox/videoinfo.help
@@ -1450,6 +1450,10 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v4.6.03 Change in Playlist Find." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Enter with no entry shows no results. Enter . to Show All" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v4.6.02 Change: Play Clipboard doesn't blink anymore with valid url in the clipboard. The dash blinks." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2895,25 +2899,30 @@ h)  # HELP
     pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
     clear
     echo
-    #echo "Working Directory: ""$PWD" 
-    echo "Clipboard Content: ""$pasteclip"
+    #echo "Directory: ""$PWD" 
+    echo "Clipboard: ""$pasteclip"
     echo "___________________________________________________________________________________________________________________"
     echo
-    echo " ""$ver"" >>> Find Video File(s) - Text search of all playlists                            No wildcard *"
+    echo " ""$ver"" >>> Playlist Find - Text search of all playlists                                 No wildcard *"
     echo "___________________________________________________________________________________________________________________"
     echo
-    echo " Find a video file to play, add it to the playlist or get info. Case ignored."
+    echo " Find a video file to play, add it to the playlist or get info. Case ignored.                  Enter . to Show All"
     echo
-    echo " To show all: Enter with no entry."
-    echo
-    read -r -p " Enter File Name: " videofind  # waiting fot user input - video file that you want to find
+    read -r -p " Search for text: " videofind  # waiting fot user input - video file that you want to find
 
     find ~/.config/videoinfox/playlists -type f -iname "vplaylist.*" | xargs -d '\n' grep -i -h "$videofind" > ~/.config/videoinfox/tmp/search-playlist.tmp 2> /dev/null
     # REMOVE DUPES
     cat -n ~/.config/videoinfox/tmp/search-playlist.tmp | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/search-playlist.tmp2
     # COUNT LINES
     searchtotal=$(wc -l < ~/.config/videoinfox/tmp/search-playlist.tmp2)
-                                                                                   	
+
+        if [ -z "$videofind" ]
+          then
+              echo
+              echo " Nothing was entered . . ."
+              echo
+              sleep 1.9 
+          else                                                                                   	
               if echo "$videofind" | grep "/" > /dev/null
                 then
                     echo
@@ -2947,6 +2956,7 @@ h)  # HELP
                            echo " Total files found: " "$searchtotal"  # number of files found
                            notify-send  "Videoinfox messsage: Playlist Find Results" "$searchtotal files found using search term: $fterm"
                            sleep 1.9
+    fi
     fi
     fi              
     ;;
@@ -13894,8 +13904,8 @@ fi
 
     clear
     echo
-    echo "Working Directory: ""$PWD"  # <pwd>  print current working directory to the screen 
-    echo "Clipboard Content: ""$pasteclip"
+    echo "Directory: ""$PWD"  # <pwd>  print current working directory to the screen 
+    echo "Clipboard: ""$pasteclip"
     echo "___________________________________________________________________________________________________________________"
     echo
     echo " ""$ver"" >>> Find Video File(s) - Recursive                                               wildcard * ok"
