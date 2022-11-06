@@ -1,15 +1,15 @@
 #!/bin/bash
 
-#  file : videoinfox v4.6.03								         
+#  file : videoinfox v4.6.07								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
 # This is where Videoinfox's Version Number is set.
 
-ver="Videoinfox v4.6.03"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m6.03")  # Version Number: with blinking dot
-
+ver="Videoinfox v4.6.07"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m6.07")  # Version Number: with blinking dot
+vn="v4.6.07"
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -877,8 +877,7 @@ if [ -d "$direxist" ]  #  if directoty exists goto  <then>
       echo > ~/.config/videoinfox/videoinfo.lastfinddir
       echo > ~/.config/videoinfox/videoinfo.lastsearchtotal
       echo > ~/.config/videoinfox/videoinfox.set-user-list
-      echo "1" > ~/.config/videoinfox/videoinfox.video-player
-          
+      echo "1" > ~/.config/videoinfox/videoinfox.video-player          
    
       # SAMPLE URL DOWLOAD LIST BEING CREATED WITH 3 VIDEO URL'S
       echo "https://www.youtube.com/watch?v=d59H0UxhyaY" > $HOME/Downloads/videoinfox-dl-sample-list
@@ -988,7 +987,54 @@ if [ -d "$direxist5" ]  #  if directoty exists goto  <then>
       mkdir ~/.config/videoinfox/playlists
 fi
 
-#sed -i '/^$/d' ~/.config/videoinfox/videoinfo.playlist  # remove all blank lines
+
+
+# UPDATE HELP FILES WITH VERSION NUMBER AND ANY HELP CONTENT CHANGES
+if [ -f ~/.config/videoinfox/videoinfox.download-list-help ]
+  then
+      echo ~/.config/videoinfox/videoinfox.download-list-help | xargs -d '\n' grep -i -h "$vn" > ~/.config/videoinfox/tmp/videoinfox.download-list-help.flag
+      read -r downloadlisthelp < ~/.config/videoinfox/tmp/videoinfox.download-list-help.flag
+
+      if [ -z "$downloadlisthelp" ] 
+        then
+            rm ~/.config/videoinfox/videoinfox.download-list-help
+        else
+            :
+      fi  
+else
+    :
+fi
+
+if [ -f ~/.config/videoinfox/videoinfo.help ]
+  then
+      echo ~/.config/videoinfox/videoinfo.help | xargs -d '\n' grep -i -h "$vn" > ~/.config/videoinfox/tmp/videoinfo.help.flag
+      read -r homehelp < ~/.config/videoinfox/tmp/videoinfo.help.flag
+
+      if [ -z "$homehelp" ] 
+        then
+            rm ~/.config/videoinfox/videoinfo.help
+        else
+            :
+      fi  
+else
+    :
+fi
+
+if [ -f ~/.config/videoinfox/videoinfo-ver-history ]
+  then
+      echo ~/.config/videoinfox/videoinfo-ver-history | xargs -d '\n' grep -i -h "$vn" > ~/.config/videoinfox/tmp/videoinfo-ver-history.flag
+      read -r versionhistory < ~/.config/videoinfox/tmp/videoinfo-ver-history.flag
+
+      if [ -z "$versionhistory" ] 
+        then
+            rm ~/.config/videoinfox/videoinfo-ver-history
+        else
+            :
+      fi  
+else
+    :
+fi
+
 
 ##################################################################################################################################################
 #####  4. CHECK FOR  (VIDEOINFOX NOTIFICATION UPDATE)                         routine to get version number from github          #################
@@ -1068,22 +1114,32 @@ echo "Default Download List Empty" >> ~/.config/videoinfox/videoinfox-dl-Default
 
 fi
 
-
 ##################################################################################################################################################
 #####  6. CREATE DOWNLOAD LIST HELP FILE  ######################################################################################################## 
 ##################################################################################################################################################
 
-echo  > ~/.config/videoinfox/videoinfox.download-list-help
+if [ -f ~/.config/videoinfox/videoinfox.download-list-help ]
+then
+    :
+else 
+echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+#VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+echo " Videoinfox v4.6.07   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
+echo >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Up & Down Arrows or Mouse wheel - scroll                                                             Home - top" >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " q - quit                                                                                             End - bottom" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help 
-echo " "$ver" >>> DOWNLOAD LIST >>> HELP                                                            q - Quit" >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " DOWNLOAD LIST HELP" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo " ***** The Download List Display is Sorted Recursively By Directory. Not By Filename. *****" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo " There is a Default List and User Created Lists.  If a list is deleted, it's log file will also be deleted." >> ~/.config/videoinfox/videoinfox.download-list-help
-
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo " DEFAULT LIST:  - There is just one Default List." >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1210,7 +1266,7 @@ echo " Note: There are 2 ways to change the treetop. Default Dirs and Change Tre
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
-
+fi
 
 #####  DOWNLOAD LIST HELP COMPLETED  ############################################################################################################# 
 ##################################################################################################################################################
@@ -1220,9 +1276,14 @@ echo >> ~/.config/videoinfox/videoinfox.download-list-help
 #####  7. CREATE HELP FILE  ###################################################################################################################### 
 ##################################################################################################################################################
 
+if [ -f ~/.config/videoinfox/videoinfo.help ]
+then
+    :
+else
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " $ver            Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
+#VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+echo " Videoinfox v4.6.07   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1412,12 +1473,17 @@ echo "                 - Everytime Yt-dlp is used to download a video url." >> ~
 echo "                   Refer to Yt-dlp's site for their privacy policy. https://github.com/yt-dlp/yt-dlp" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
+echo " * There is no code in this script to delete files other than the files" >> ~/.config/videoinfox/videoinfo.help
+
+echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
 echo "                                     Thanks for checking out Videoinfox!" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " If Videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
+fi
 
 #####  HELP COMPLETED  ########################################################################################################################### 
 ##################################################################################################################################################
@@ -1428,10 +1494,13 @@ echo >> ~/.config/videoinfox/videoinfo.help
 ##################################################################################################################################################
 #####  8. CREATE VERSION HISTORY FILE  ########################################################################################################### ################################################################################################################################################## 
 
-
+if [ -f ~/.config/videoinfox/videoinfo-ver-history ]
+then
+    :
+else 
 echo " _________________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " $ver  Where video download and play is a clipboard copy away . . .                         VERSION HISTORY" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " Videoinfox   Where video download and play is a clipboard copy away . . .                                VERSION HISTORY" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
@@ -1450,6 +1519,18 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v4.6.07 Change: Home Help, Download List Help and Version History." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                 The above files were written on every start. Now only written on update or delete." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Fix: Script error from Resume Autoplay. Located in View Playlist." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              error on Resume Autoplay if Start Autoplay wasn't run at least once before Resume Autoplay." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Fix: Script error from Resume Autoplay in View Playlist >>> Change and Queue >>> Play Queue." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              error on Resume Autoplay if Start Autoplay wasn't run at least once before Resume Autoplay." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Fix: When deleting or clearing a playlist, last video played marker for that playlist wasn't being removed." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v4.6.03 Change in Playlist Find." >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Enter with no entry shows no results. Enter . to Show All" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2446,6 +2527,7 @@ echo "                     Enter an Option: " >> ~/.config/videoinfox/videoinfo-
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
+fi
 ###########################  END VERSION HISTORY  ################################################################################################ 
 ##################################################################################################################################################
 
@@ -5299,6 +5381,20 @@ fi
 l) # RESUME AUOTOPLAY (NAVIGATE TREE >>> PLAYLIST)
 ##################################################################
 
+if [ -f ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay.nextup ]
+  then
+      :
+  else
+      echo > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay.nextup
+fi
+
+if [ -f ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay ]
+  then
+      :
+  else
+      echo > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay
+fi
+
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
    then
         read < $HOME/.config/videoinfox/playlists/"$setplaylist".last-autoplay resumedisplay
@@ -5813,6 +5909,7 @@ done
               echo > ~/.config/videoinfox/videoinfox-playlist.queue
               echo > ~/.config/videoinfox/playlists/playlist.queue
               echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay
+              echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay-nextup
               echo
               echo " Playlist Queue Deleted . . ."
               sleep 1.9
@@ -6094,6 +6191,7 @@ fi
               echo > ~/.config/videoinfox/videoinfox-playlist.queue
               echo > ~/.config/videoinfox/playlists/playlist.queue
               echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay
+              echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay-nextup
               echo
               echo " Playlist Queue Deleted . . ."
               sleep 1.9
@@ -6624,6 +6722,13 @@ fi
 l) # RESUME AUOTOPLAY (PLAYLIST QUEUE)
 ############################################################
 
+if [ -f ~/.config/videoinfox/playlists/playlist.queue.last-autoplay ]
+then
+    :
+else
+    echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay
+fi
+
 read resumedisplay < $HOME/.config/videoinfox/playlists/playlist.queue.last-autoplay
 
         if [ -z "$resumedisplay" ]
@@ -6681,8 +6786,8 @@ nextup=0  # line number of next video up
 
 while [ ${count} -lt ${total} ] ; do
     nextup=$((i+1))
-    tail -n +"$nextup" ~/.config/videoinfox/playlists/playlist.queue.last-autoplay > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay.nextup 2>/dev/null
-    read -r nextplay < ~/.config/videoinfox/playlists/playlist.queue.last-autoplay.nextup
+    tail -n +"$nextup" ~/.config/videoinfox/playlists/playlist.queue.last-autoplay > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay-nextup 2>/dev/null
+    read -r nextplay < ~/.config/videoinfox/playlists/playlist.queue.last-autoplay-nextup
     tlimit=$(( $total - $count ))
     clear
     echo
@@ -6873,9 +6978,8 @@ if ! [[ $linenumber =~ $re ]]
 
                       echo "$plselected"| sed 's/.*\.//' > ~/.config/videoinfox/tmp/plread.tmp  # REMOVE FULL PATH ONLY LEAVING PLAYLIST NAME
                       read -r plselectedla < ~/.config/videoinfox/tmp/plread.tmp  # READING PLAYLIST NAME ONLY INTO VARIABLE  $pselecteda
-                      rm ~/.config/videoinfox/tmp/plread.tmp  # remove temp file
                       rm ~/.config/videoinfox/playlists/"$plselectedla".last-autoplay  # REMOVE PLAYLIST.last.autoplay  file
- 
+                      rm ~/.config/videoinfox/playlists/"$plselectedla".last-autoplay.nextup  # REMOVE PLAYLIST.last.autoplay.nextup  file
                       echo
                       echo  " Playlist Deleted . . ."
 
@@ -7196,6 +7300,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
         rm ~/.config/videoinfox/videoinfo.playlist 2> /dev/null
         echo > ~/.config/videoinfox/videoinfo.playlist
         echo > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay
+        echo > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay.nextup
         read -r activeplaylistm < ~/.config/videoinfox/videoinfo.playlist.current # GET CURRENT PLAYLIST
         cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST 
         echo
@@ -9025,6 +9130,20 @@ fi
 l) # RESUME AUOTOPLAY PLAYED LIST VIEW PLAYLIST
 ##################################################################
 
+if [ -f ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay.nextup ]
+  then
+      :
+  else
+      echo > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay.nextup
+fi
+
+if [ -f ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay ]
+  then
+      :
+  else
+      echo > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay
+fi
+
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
    then
         read < $HOME/.config/videoinfox/playlists/"$setplaylist".last-autoplay resumedisplay
@@ -9539,6 +9658,7 @@ done
               echo > ~/.config/videoinfox/videoinfox-playlist.queue
               echo > ~/.config/videoinfox/playlists/playlist.queue
               echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay
+              echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay-nextup
               echo
               echo " Playlist Queue Deleted . . ."
               sleep 1.9
@@ -9819,6 +9939,7 @@ fi
               echo > ~/.config/videoinfox/videoinfox-playlist.queue
               echo > ~/.config/videoinfox/playlists/playlist.queue
               echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay
+              echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay-nextup
               echo
               echo " Playlist Queue Deleted . . ."
               sleep 1.9
@@ -10358,6 +10479,13 @@ fi
 l) # RESUME AUOTOPLAY (PLAYLIST QUEUE)
 ############################################################
 
+if [ -f ~/.config/videoinfox/playlists/playlist.queue.last-autoplay ]
+then
+    :
+else
+    echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay
+fi
+
 read resumedisplay < $HOME/.config/videoinfox/playlists/playlist.queue.last-autoplay
 
         if [ -z "$resumedisplay" ]
@@ -10606,9 +10734,8 @@ if ! [[ $linenumber =~ $re ]]
 
                       echo "$plselected"| sed 's/.*\.//' > ~/.config/videoinfox/tmp/plread.tmp  # REMOVE FULL PATH ONLY LEAVING PLAYLIST NAME
                       read -r plselectedla < ~/.config/videoinfox/tmp/plread.tmp  # READING PLAYLIST NAME ONLY INTO VARIABLE  $pselecteda
-                      rm ~/.config/videoinfox/tmp/plread.tmp  # remove temp file
                       rm ~/.config/videoinfox/playlists/"$plselectedla".last-autoplay  # REMOVE PLAYLIST.last.autoplay  file
- 
+                      rm ~/.config/videoinfox/playlists/"$plselectedla".last-autoplay.nextup  # REMOVE PLAYLIST.last.autoplay.nextup  file
                       echo
                       echo  " Playlist Deleted . . ."
 
@@ -10928,6 +11055,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
         rm ~/.config/videoinfox/videoinfo.playlist 2> /dev/null
         echo > ~/.config/videoinfox/videoinfo.playlist
         echo > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay
+        echo > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay.nextup
         read -r activeplaylistm < ~/.config/videoinfox/videoinfo.playlist.current # GET CURRENT PLAYLIST
         cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST 
         echo
@@ -11879,6 +12007,22 @@ fi
 l) # RESUME AUOTOPLAY VIEW PLAYLIST
 ##################################################################
 
+if [ -f ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay.nextup ]
+  then
+      :
+  else
+      echo > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay.nextup
+fi
+
+if [ -f ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay ]
+  then
+      :
+  else
+      echo > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay
+fi
+
+
+
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.play-list ]
    then
         read < $HOME/.config/videoinfox/playlists/"$setplaylist".last-autoplay resumedisplay
@@ -11940,8 +12084,8 @@ nextup=0  # line number of next video up
 
 while [ ${count} -lt ${total} ] ; do
     nextup=$((i+1))
-    tail -n +"$nextup" ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay-nextup 2>/dev/null
-    read -r nextplay < ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay-nextup
+    tail -n +"$nextup" ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay.nextup 2>/dev/null
+    read -r nextplay < ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay.nextup
     tlimit=$(( $total - $count ))
     clear
     echo
@@ -12393,6 +12537,7 @@ done
               echo > ~/.config/videoinfox/videoinfox-playlist.queue
               echo > ~/.config/videoinfox/playlists/playlist.queue
               echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay
+              echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay-nextup
               echo
               echo " Playlist Queue Deleted . . ."
               sleep 1.9
@@ -12673,6 +12818,7 @@ fi
               echo > ~/.config/videoinfox/videoinfox-playlist.queue
               echo > ~/.config/videoinfox/playlists/playlist.queue
               echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay
+              echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay-nextup
               echo
               echo " Playlist Queue Deleted . . ."
               sleep 1.9
@@ -13203,6 +13349,13 @@ fi
 l) # RESUME AUOTOPLAY (PLAYLIST QUEUE)
 ############################################################
 
+if [ -f ~/.config/videoinfox/playlists/playlist.queue.last-autoplay ]
+then
+    :
+else
+    echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay
+fi
+
 read resumedisplay < $HOME/.config/videoinfox/playlists/playlist.queue.last-autoplay
 
         if [ -z "$resumedisplay" ]
@@ -13451,9 +13604,8 @@ if ! [[ $linenumber =~ $re ]]
 
                       echo "$plselected"| sed 's/.*\.//' > ~/.config/videoinfox/tmp/plread.tmp  # REMOVE FULL PATH ONLY LEAVING PLAYLIST NAME
                       read -r plselectedla < ~/.config/videoinfox/tmp/plread.tmp  # READING PLAYLIST NAME ONLY INTO VARIABLE  $pselecteda
-                      rm ~/.config/videoinfox/tmp/plread.tmp  # remove temp file
                       rm ~/.config/videoinfox/playlists/"$plselectedla".last-autoplay  # REMOVE PLAYLIST.last.autoplay  file
- 
+                      rm ~/.config/videoinfox/playlists/"$plselectedla".last-autoplay.nextup  # REMOVE PLAYLIST.last.autoplay.nextup  file
                       echo
                       echo  " Playlist Deleted . . ."
 
@@ -13773,6 +13925,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
         rm ~/.config/videoinfox/videoinfo.playlist 2> /dev/null
         echo > ~/.config/videoinfox/videoinfo.playlist
         echo > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay
+        echo > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay.nextup
         read -r activeplaylistm < ~/.config/videoinfox/videoinfo.playlist.current # GET CURRENT PLAYLIST
         cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST 
         echo
