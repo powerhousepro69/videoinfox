@@ -1,4 +1,4 @@
-# Videoinfox v4.6.07
+# Videoinfox v4.6.08
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -325,6 +325,11 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v4.6.08 Added to Home Help:
+
+         * There isn't code in this script to delete any files other than Videoinfox created files.
+         * There is code in this script in Yt-dlp Menu >>> Download List to create a directory but not remove a directory.
 
 ###  v4.6.07 Change: Home Help, Download List Help and Version History.
 
