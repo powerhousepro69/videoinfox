@@ -1,4 +1,4 @@
-# Videoinfox v4.6.03
+# Videoinfox v4.6.07
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -325,6 +325,19 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v4.6.07 Change: Home Help, Download List Help and Version History.
+
+         The above files were written on every start. Now only written on update or delete.
+
+         Fix: Script error from Resume Autoplay. Located in View Playlist.
+              error on Resume Autoplay if Start Autoplay wasn't run at least once before Resume Autoplay.
+
+         Fix: Script error from Resume Autoplay in View Playlist >>> Change and Queue >>> Play Queue.
+              error on Resume Autoplay if Start Autoplay wasn't run at least once before Resume Autoplay.
+
+         Fix: When deleting or clearing a playlist, last video played marker for that playlist wasn't being removed.
+
 
 ### v4.6.03 Change in Playlist Find.
          
