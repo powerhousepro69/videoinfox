@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#  file : videoinfox v4.6.08								         
+#  file : videoinfox v4.6.11								         
 #  github and reddit: powerhousepro69
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
-ver="Videoinfox v4.6.08"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m6.08")  # Version Number: with blinking dot
-vn="v4.6.08"
+ver="Videoinfox v4.6.11"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v4\033[5m.\033m\033[0m\033[5m\033[5m\033[0m6.11")  # Version Number: with blinking dot
+vn="v4.6.11"
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -498,7 +498,7 @@ if [[ "$vplaym" = 1 ]]
 elif [[ "$vplaym" = 2 ]]
   then
       defplayer=(mpv)
-      defplayargu=(--fs --no-terminal)
+      defplayargu=(--fs --no-terminal --sid=no)
 elif [[ "$vplaym" = 3 ]]
   then
       read -r cplayer1 < ~/.config/videoinfox/videoinfox.customplayer.1 
@@ -883,7 +883,7 @@ if [ -d "$direxist" ]  #  if directoty exists goto  <then>
       echo "https://www.youtube.com/watch?v=DAPkOxRnh4c" >> $HOME/Downloads/videoinfox-dl-sample-list
 
       echo
-      read -p " Press enter to continue . . . . . ."
+      read -p " Press enter to continue . . ."
                         
  
 # Yt-dlp initial download attempt on the first run. If it fails, download will be re-attempted when you select the Yt-dlp Menu.
@@ -893,7 +893,7 @@ echo
 echo 
 echo "___________________________________________________________________________________________________________________"
 echo  
-echo " $der >>> Attempting to download the most recent version of Yt-dlp"
+echo " $der >>> Attempting to download the most recent version of Yt-dlp . . ."
 echo "___________________________________________________________________________________________________________________" 
 echo
 echo " If Yt-dlp can't be downloaded, the download attempt will be aborted."
@@ -1123,7 +1123,7 @@ else
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 #VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v4.6.08   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Videoinfox v4.6.11   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1281,7 +1281,7 @@ else
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 #VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v4.6.08   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
+echo " Videoinfox v4.6.11   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1471,7 +1471,7 @@ echo "                 - Everytime Yt-dlp is used to download a video url." >> ~
 echo "                   Refer to Yt-dlp's site for their privacy policy. https://github.com/yt-dlp/yt-dlp" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " * There isn't code in this script to delete any files other than Videoinfox created files." >> ~/.config/videoinfox/videoinfo.help
+echo " * There isn't code in this script to delete or overwrite any files other than Videoinfox created files." >> ~/.config/videoinfox/videoinfo.help
 echo " * There is code in this script in Yt-dlp Menu >>> Download List to create a directory but not remove a directory." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1517,6 +1517,13 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 
 
 
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v4.6.11 Fix: Suppress script error. Error occurred if Start Autoplay was never executed on a playlist being deleted." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Change: Default mpv options. Added: [--sid=no] Start mpv without displaying Closed Caption." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Add: Options being used with ffplay and mpv are now shown in: Set >>> Video Player" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v4.6.08 Added to Home Help:" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
@@ -1689,7 +1696,7 @@ echo "         Add: -Find Directory added to YT-DLP MENU >>> DOWNLOAD LIST -Crea
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Add: -Intermission option in Settings. Change the time in seconds on video end/player quit. Initially set to 10." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: in FIRST RUN >>> SETUP Timeout changed to Press enter to continue . . . . . ." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Change: in FIRST RUN >>> SETUP Timeout changed to Press enter to continue . . ." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Fix: -Set -Videoinfox Update. Directory wasn't being restored on -Update" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2592,7 +2599,7 @@ if [[ "$vplaym" = 1 ]]
 elif [[ "$vplaym" = 2 ]]
   then
       defplayer=(mpv)
-      defplayargu=(--fs --no-terminal)
+      defplayargu=(--fs --no-terminal --sid=no)
 elif [[ "$vplaym" = 3 ]]
   then
       read -r cplayer1 < ~/.config/videoinfox/videoinfox.customplayer.1 
@@ -3770,7 +3777,7 @@ echo
          echo " *** Directory To Playlist is located in Show All. Add all videos in the current directory to a new playlist."
          echo
          echo
-         read -p " Press enter to continue . . . . . ."
+         read -p " Press enter to continue . . ."
          ;;
 
 
@@ -5973,7 +5980,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
             read playnumber2 < ~/.config/videoinfox/tmp/videoinfox.playlist.q2.tmp # read first line
       
             echo
-            echo " ""$playnumber2" " Playlist added to the queue . . ."
+            echo " ""$playnumber2" "playlist added to the queue . . ."
             sleep 1.9
 # REMOVE BLANK LINES
 sed -i '/^$/d' ~/.config/videoinfox/videoinfox-playlist.queue &>/dev/null
@@ -6982,8 +6989,8 @@ if ! [[ $linenumber =~ $re ]]
 
                       echo "$plselected"| sed 's/.*\.//' > ~/.config/videoinfox/tmp/plread.tmp  # REMOVE FULL PATH ONLY LEAVING PLAYLIST NAME
                       read -r plselectedla < ~/.config/videoinfox/tmp/plread.tmp  # READING PLAYLIST NAME ONLY INTO VARIABLE  $pselecteda
-                      rm ~/.config/videoinfox/playlists/"$plselectedla".last-autoplay  # REMOVE PLAYLIST.last.autoplay  file
-                      rm ~/.config/videoinfox/playlists/"$plselectedla".last-autoplay.nextup  # REMOVE PLAYLIST.last.autoplay.nextup  file
+                      rm ~/.config/videoinfox/playlists/"$plselectedla".last-autoplay 2> /dev/null  # REMOVE PLAYLIST.last.autoplay  file
+                      rm ~/.config/videoinfox/playlists/"$plselectedla".last-autoplay.nextup 2> /dev/null  # REMOVE PLAYLIST.last.autoplay.nextup  file
                       echo
                       echo  " Playlist Deleted . . ."
 
@@ -9722,7 +9729,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
             read playnumber2 < ~/.config/videoinfox/tmp/videoinfox.playlist.q2.tmp # read first line
       
             echo
-            echo " ""$playnumber2" " Playlist added to the queue . . ."
+            echo " ""$playnumber2" "playlist added to the queue . . ."
             sleep 1.9
 # REMOVE BLANK LINES
 sed -i '/^$/d' ~/.config/videoinfox/videoinfox-playlist.queue &>/dev/null
@@ -10738,8 +10745,8 @@ if ! [[ $linenumber =~ $re ]]
 
                       echo "$plselected"| sed 's/.*\.//' > ~/.config/videoinfox/tmp/plread.tmp  # REMOVE FULL PATH ONLY LEAVING PLAYLIST NAME
                       read -r plselectedla < ~/.config/videoinfox/tmp/plread.tmp  # READING PLAYLIST NAME ONLY INTO VARIABLE  $pselecteda
-                      rm ~/.config/videoinfox/playlists/"$plselectedla".last-autoplay  # REMOVE PLAYLIST.last.autoplay  file
-                      rm ~/.config/videoinfox/playlists/"$plselectedla".last-autoplay.nextup  # REMOVE PLAYLIST.last.autoplay.nextup  file
+                      rm ~/.config/videoinfox/playlists/"$plselectedla".last-autoplay 2> /dev/null  # REMOVE PLAYLIST.last.autoplay  file
+                      rm ~/.config/videoinfox/playlists/"$plselectedla".last-autoplay.nextup 2> /dev/null  # REMOVE PLAYLIST.last.autoplay.nextup  file
                       echo
                       echo  " Playlist Deleted . . ."
 
@@ -12601,7 +12608,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
             read playnumber2 < ~/.config/videoinfox/tmp/videoinfox.playlist.q2.tmp # read first line
       
             echo
-            echo " ""$playnumber2" " Playlist added to the queue . . ."
+            echo " ""$playnumber2" "playlist added to the queue . . ."
             sleep 1.9
 # REMOVE BLANK LINES
 sed -i '/^$/d' ~/.config/videoinfox/videoinfox-playlist.queue &>/dev/null
@@ -13608,8 +13615,8 @@ if ! [[ $linenumber =~ $re ]]
 
                       echo "$plselected"| sed 's/.*\.//' > ~/.config/videoinfox/tmp/plread.tmp  # REMOVE FULL PATH ONLY LEAVING PLAYLIST NAME
                       read -r plselectedla < ~/.config/videoinfox/tmp/plread.tmp  # READING PLAYLIST NAME ONLY INTO VARIABLE  $pselecteda
-                      rm ~/.config/videoinfox/playlists/"$plselectedla".last-autoplay  # REMOVE PLAYLIST.last.autoplay  file
-                      rm ~/.config/videoinfox/playlists/"$plselectedla".last-autoplay.nextup  # REMOVE PLAYLIST.last.autoplay.nextup  file
+                      rm ~/.config/videoinfox/playlists/"$plselectedla".last-autoplay 2> /dev/null  # REMOVE PLAYLIST.last.autoplay  file
+                      rm ~/.config/videoinfox/playlists/"$plselectedla".last-autoplay.nextup 2> /dev/null  # REMOVE PLAYLIST.last.autoplay.nextup  file
                       echo
                       echo  " Playlist Deleted . . ."
 
@@ -14316,9 +14323,9 @@ find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -in
          echo
          echo " Choose video player                                                                                      q - Quit"
          echo
-         echo " 1 - ffplay"  
+         echo " 1 - ffplay -fs -autoexit -loglevel quiet"  
          echo
-         echo " 2 - mpv"
+         echo " 2 - mpv --fs --no-terminal --sid=no"
          echo
          echo " 3 - custom:" "$cplayer1" "$cplayer2"
          echo
@@ -14887,7 +14894,7 @@ echo
 echo 
 echo "___________________________________________________________________________________________________________________"
 echo  
-echo " $der >>> Attempting to download the most recent version of Yt-dlp"
+echo " $der >>> Attempting to download the most recent version of Yt-dlp . . ."
 echo "___________________________________________________________________________________________________________________" 
 echo
 echo " If Yt-dlp can't be downloaded, the download attempt will be aborted."
@@ -15047,7 +15054,7 @@ echo
 echo 
 echo "___________________________________________________________________________________________________________________"
 echo  
-echo " $der >>> Attempting to download the most recent version of Yt-dlp"
+echo " $der >>> Attempting to download the most recent version of Yt-dlp . . ."
 echo "___________________________________________________________________________________________________________________" 
 echo
 echo " If Yt-dlp can't be downloaded, the download attempt will be aborted."
@@ -16741,7 +16748,7 @@ echo
 echo "List:" "$playnumber"  # display list filename with full path
 echo "Log :" "$logfile"  # display log filename with full path
 echo
-echo "Press enter to continue . . . . . ."
+echo "Press enter to continue . . ."
 notify-send "Videoinfox messsage: Done Processing Download List . . ." "$playnumber"
 read -p ""
 
