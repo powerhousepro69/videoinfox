@@ -1,4 +1,4 @@
-# Videoinfox v4.6.08
+# Videoinfox v4.6.11
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -325,6 +325,12 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v4.6.11 Fix: Suppress script error. Error occurred if Start Autoplay was never executed on a playlist being deleted.
+
+         Change: Default mpv options. Added: [--sid=no] Start mpv without displaying Closed Caption.
+
+         Add: Options being used with ffplay and mpv are now shown in: Set >>> Video Player
 
 ###  v4.6.08 Added to Home Help:
 
