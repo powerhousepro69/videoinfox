@@ -1,4 +1,4 @@
-# Videoinfox v4.7.00
+# Videoinfox v4.7.01
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -22,7 +22,7 @@ sudo chmod +x /usr/local/bin/videoinfox
 ```
 <br />
 
-#### NEW in v4.7.00 Mpv now saves play postion on quit and added -Mpv Playlist option. 
+#### NEW in v4.7.00 Mpv option added to save play postion on quit and added -Mpv Playlist option. 
 
 Download multiple URL User Lists simultaneously.
 
@@ -319,6 +319,15 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v4.7.01 Add: Below added to Playlist >>> Help
+
+         Note: This applies to only to mpv . . .
+         If a video is quit(q) while playing in mpv, it will create a marker of the last play position.
+
+         If using Mpv Playlist and back track(<) or forward track(>) are selected, the mpv marker will be
+         erased for the video that was playing (if it had a marker) when < or > were selected. To avoid
+         any mpv markers from being erased use -Resume Autoplay instead of -Mpv Playlist to watch playlists.
 
 ###  v4.7.00 Add: --save-position-on-quit to mpv options.
 
