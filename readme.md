@@ -1,4 +1,4 @@
-# Videoinfox v4.6.11
+# Videoinfox v4.7.00
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -9,7 +9,7 @@
 Find local Video Files fast, immediately play and get info on. Download Videos effortlessly and autoplay.
 Add URL's to unlimited User Set Lists on the fly without leaving the browser. Download all your video url lists
 with Videoinfox's Yt-dlp integration including a Download Queue. Watch videos with (default) ffplay, mpv or
-any video player.
+any video player.  Mpv saves play postion on quit. 
 <br />
 
 
@@ -22,17 +22,8 @@ sudo chmod +x /usr/local/bin/videoinfox
 ```
 <br />
 
-#### NEW in v4.6.00 New Option in Settings: Default Directories to Playlist
+#### NEW in v4.7.00 Mpv now saves play postion on quit and added -Mpv Playlist option. 
 
-
-Add recursive listings from Default Dirs 1-4 to a new Playlist. Then use Playlist Find to search all Default Dirs.
-
-#### NEW in v4.5.00 -Playlist Find added to the home screen. Text search of all playlists.
-
-
-Find videos without providing the files location. More info located about Playlist Find in Home Help.
-
-<br />
 Download multiple URL User Lists simultaneously.
 
 You have to start Download List first then run another instance of Videoinfox to start downloading the next list.
@@ -89,15 +80,18 @@ FFprobe - Get codec, resolution & duration in seconds.
 
   - Check for update on startup and notifity if update is available. Download and update in Videoinfox.
   - Play a local file by entering the line number. Play single video or autoplay the entire list.
+  - Default Directories to Playlist: Add recursive listings from Default Dirs 1-4 to a new Playlist.
+  - Playlist Find to search all playlists. Find videos without needing to know the files location.
+  - Mpv saves play postion on quit. Ffplay does not save play position on quit.
   - File types searched for: &nbsp; .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx
   - Create unlimited Playlists from: &nbsp; Recusive search results, Recursive directory listings and the Played List
   - Make Playlist on the Home Screen to save all search results as a playlist.
+  - Mpv Playlist will keep track of playlist position. It will bypass Resume Autoplay and Intermission Screen.
   - Playlist & Playlist Queue Edit options: &nbsp; Remove Line &nbsp; Remove Dupes &nbsp; Move Line &nbsp; Clear Playlist
   - Playlist & Playlist Queue Play options: &nbsp; Play &nbsp; Start Autoplay &nbsp; Resume Autoplay  
   - Directory To Playlist: &nbsp; Create a new playlist from a 1 level deep dir listing. Good for seasons of TV shows.
   - Playlist Queue to load unlimited playlists for autoplay with last played video marker.
   - Queue to Playlist: &nbsp; Save the Playlist Queue to a new Playlist.
-  - Default Directories to Playlist: Add recursive listings from Default Dirs 1-4 to a new Playlist. 
   - Play Clipboard: &nbsp; Download a video url that is in the clipboard via Yt-dlp and autoplay.
   - Play Clipboard is available in: &nbsp; Home &nbsp; Played List &nbsp; Play List &nbsp; Yt-dlp Menu &nbsp; View Downloads
   - See codec, resolution and duration on the playing video.
@@ -326,49 +320,20 @@ FIRST RUN
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
 
-###  v4.6.11 Fix: Suppress script error. Error occurred if Start Autoplay was never executed on a playlist being deleted.
+###  v4.7.00 Add: --save-position-on-quit to mpv options.
 
-         Change: Default mpv options. Added: [--sid=no] Start mpv without displaying Closed Caption.
+         When Quit(q) is used to exit Mpv, the current play position will be saved for every video played with Mpv.
+         When a video is played that Mpv has a position marker for, the video will start playing from that marker.
+         Mpv handles the markers for the videos. Located in ~/.config/mpv/watch_later
 
-         Add: Options being used with ffplay and mpv are now shown in: Set >>> Video Player
+         Add: -Mpv Playlist to VIEW PLAYLIST >>> CHANGE AND QUEUE
+              The above option will load a playlist into Mpv. This will bypass the -Resume Autoplay option and the
+              Intermission Screen in Videoinfox. So when -Mpv Playlist is used, it will keep track of playlist position
+              instead of Videoinfox's Resume Autoplay option.
 
-###  v4.6.08 Added to Home Help:
+         Add to Home Help: * If Mpv is used, it will keep track of last play position on all videos played on Mpv quit(q)
 
-         * There isn't code in this script to delete any files other than Videoinfox created files.
-         * There is code in this script in Yt-dlp Menu >>> Download List to create a directory but not remove a directory.
-
-###  v4.6.07 Change: Home Help, Download List Help and Version History.
-
-         The above files were written on every start. Now only written on update or delete.
-
-         Fix: Script error from Resume Autoplay. Located in View Playlist.
-              error on Resume Autoplay if Start Autoplay wasn't run at least once before Resume Autoplay.
-
-         Fix: Script error from Resume Autoplay in View Playlist >>> Change and Queue >>> Play Queue.
-              error on Resume Autoplay if Start Autoplay wasn't run at least once before Resume Autoplay.
-
-         Fix: When deleting or clearing a playlist, last video played marker for that playlist wasn't being removed.
-
-
-### v4.6.03 Change in Playlist Find.
-         
-         Enter with no entry shows no results. Enter . to Show All
-
-### v4.6.02 Change: Play Clipboard doesn't blink anymore with valid url in the clipboard. The dash blinks.
-
-### v4.6.01 Edit: Home Help >>> Create Unlimited Playlists section.
-
-### v4.6.00 New Option in Settings: Default Directories to Playlist
-
-         Playlist named Default Directories will be created with recursive listings from default directories 1-4
-         Then Playlist Find can be used to search for videos in all 4 default directories.
-
-         Change home screen option: z - Set ............... u - Set
-         Change home screen option: b - Make Playlist ..... z - Make Playlist
-
-         Added to Playlist Find: To show all: Press Enter with no entry.
-
-         Added to Home Help: Default Directories to Playlist
+         Add -Mpv Playlist info to View Playlist >>> Help 
 
 <br />
 
