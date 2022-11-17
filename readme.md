@@ -1,4 +1,4 @@
-# Videoinfox v4.7.01
+# Videoinfox v4.7.13
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -82,7 +82,7 @@ FFprobe - Get codec, resolution & duration in seconds.
   - Play a local file by entering the line number. Play single video or autoplay the entire list.
   - Default Directories to Playlist: Add recursive listings from Default Dirs 1-4 to a new Playlist.
   - Playlist Find to search all playlists. Find videos without needing to know the files location.
-  - Mpv saves play postion on quit. Ffplay does not save play position on quit.
+  - Mpv saves play postion on quit of every video played. Ffplay does not save play position on quit.
   - File types searched for: &nbsp; .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx
   - Create unlimited Playlists from: &nbsp; Recusive search results, Recursive directory listings and the Played List
   - Make Playlist on the Home Screen to save all search results as a playlist.
@@ -319,6 +319,12 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v4.7.13 Add: Resume display in View Playlist of Video name -Resume Autoplay will start playing.
+
+         Added to Resume Autoplay prompt: Pressing enter with no entry or an invalid entry will clear resume autoplay.
+         Change: Video play display. All >>> Play Line changed to >>> Play
+         Change: Video play display. All >>> Autoplay Line changed to >>> Autoplay
 
 ###  v4.7.01 Add: Below added to Playlist >>> Help
 
