@@ -1,4 +1,4 @@
-# Videoinfox v4.7.13
+# Videoinfox v4.8.00
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -21,8 +21,6 @@ sudo wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/vide
 sudo chmod +x /usr/local/bin/videoinfox
 ```
 <br />
-
-#### NEW in v4.7.00 Mpv option added to save play postion on quit and added -Mpv Playlist option. 
 
 Download multiple URL User Lists simultaneously.
 
@@ -320,35 +318,25 @@ FIRST RUN
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
 
-###  v4.7.13 Add: Resume display in View Playlist of Video name -Resume Autoplay will start playing.
+###  v4.8.00 Change: -Start Autoplay changed to -Start in view playlist and play queue.
 
-         Added to Resume Autoplay prompt: Pressing enter with no entry or an invalid entry will clear resume autoplay.
-         Change: Video play display. All >>> Play Line changed to >>> Play
-         Change: Video play display. All >>> Autoplay Line changed to >>> Autoplay
+        Change: -Resume Autoplay changed to -Resume in view playlist and play queue.
+        Edit: Home Help and Playlist Help with the above changes.
+        Update to -Start in view playlist and play queue. Entering an invalid selection will no longer clear Resume:
 
-###  v4.7.01 Add: Below added to Playlist >>> Help
+        Add new option: -Clear Resume in view playlist and play queue.
 
-         Note: This applies to only to mpv . . .
-         If a video is quit(q) while playing in mpv, it will create a marker of the last play position.
+        Change: Menu in view playlist is now removed when executing -Start to provide more space for listing.
 
-         If using Mpv Playlist and back track(<) or forward track(>) are selected, the mpv marker will be
-         erased for the video that was playing (if it had a marker) when < or > were selected. To avoid
-         any mpv markers from being erased use -Resume Autoplay instead of -Mpv Playlist to watch playlists.
+        Change: Spacing on header with valid video url in clipboard on all screens with play clipboard.
 
-###  v4.7.00 Add: --save-position-on-quit to mpv options.
+        Change: Path removed from listing in play queue.
 
-         When Quit(q) is used to exit Mpv, the current play position will be saved for every video played with Mpv.
-         When a video is played that Mpv has a position marker for, the video will start playing from that marker.
-         Mpv handles the markers for the videos. Located in ~/.config/mpv/watch_later
+        Add: -Clrclp on all screens with play clipboard.
 
-         Add: -Mpv Playlist to VIEW PLAYLIST >>> CHANGE AND QUEUE
-              The above option will load a playlist into Mpv. This will bypass the -Resume Autoplay option and the
-              Intermission Screen in Videoinfox. So when -Mpv Playlist is used, it will keep track of playlist position
-              instead of Videoinfox's Resume Autoplay option.
-
-         Add to Home Help: * If Mpv is used, it will keep track of last play position on all videos played on Mpv quit(q)
-
-         Add -Mpv Playlist info to View Playlist >>> Help 
+        Add: Below 2 lines Home Help:
+             * Exception: videoinfox -u  will strip out the following errors and overwrite the download list.
+             - all lines that don't start with http   - all blank lines   - all duplicate lines
 
 <br />
 
