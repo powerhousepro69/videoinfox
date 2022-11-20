@@ -221,13 +221,13 @@ VIEW PLAYLIST
 
 
 <br />
-VIEW PLAYLIST -Change and Queue
+CHANGE AND QUEUE in View Playlist
 
 ![Videoinfox Change and Queue](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/CHANGEANDQUEUE.png)
 
 
 <br />
-VIEW PLAYLIST -Change and Queue -Play Queue
+PLAY QUEUE in View Playlist >>> Change and Queue
 
 ![Videoinfox Play Queue](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PLAYQUEUE.png)
 
