@@ -1,4 +1,4 @@
-# Videoinfox v4.8.02
+# Videoinfox v4.8.04
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -317,6 +317,10 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v4.8.04 Add: Intermission time display added to view playlist and play queue
+
+        Change: Moved -Info to far right in view playlist and play queue.
 
 ###  v4.8.02 Change: i - Intermission  to  t - Intermission
 
