@@ -1,4 +1,4 @@
-# Videoinfox v4.8.00
+# Videoinfox v4.8.02
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -317,6 +317,10 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v4.8.02 Change: i - Intermission  to  t - Intermission
+
+        Added -Intermission to view playlist and play queue.
 
 ###  v4.8.00 Change: -Start Autoplay changed to -Start in view playlist and play queue.
 
