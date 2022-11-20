@@ -1,4 +1,4 @@
-# Videoinfox v4.8.04
+# Videoinfox v4.8.05
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -55,7 +55,7 @@ for batch processing.There is a Played List that keeps track of everything playe
 
 ### Harnessing the power of:
 
-Videoinfox - Over 12,000 lines of code.
+Videoinfox - Over 13,000 lines of code.
 
 Xclip - Interact with the clipboard.
 
@@ -317,6 +317,8 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v4.8.05 Change: Moved options around in View Playlist, Ytdlp Menu and View Downloads.
 
 ###  v4.8.04 Add: Intermission time display added to view playlist and play queue
 
