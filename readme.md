@@ -20,8 +20,11 @@ sudo wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/vide
 ```
 sudo chmod +x /usr/local/bin/videoinfox
 ```
-<br />
 
+##### *** Videoinfox recommends Mpv to watch videos instead of default Ffplay. Mpv saves play postion on quit of every video played. Ffplay does not. Set on the home screen then Video Player and select Mpv.
+       
+
+<br />
 Download multiple URL User Lists simultaneously.
 
 You have to start Download List first then run another instance of Videoinfox to start downloading the next list.
@@ -52,6 +55,8 @@ for batch processing.There is a Played List that keeps track of everything playe
 #### Start Autoplay on a playlist from the beginning to the end of the list or Start Autoplay from anywhere in the list and play to the end of the list. Resume Autoplay will start with last the video that was playing on Start Autoplay quit. Resume Autoplay will also keep track of the last video that was playing on quit.
 
 <br />
+
+Help is located on the Home screen covering most of the features. Help also in Download List and View Playlist.
 
 ### Harnessing the power of:
 
