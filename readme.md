@@ -1,4 +1,4 @@
-# Videoinfox v4.8.05
+# Videoinfox v4.8.06
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -317,6 +317,26 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v4.8.06 Updated Playlist Find section in Home Help.
+
+        Playlist Find is located on the home screen. It is a text search of all playlists with duplicates removed.
+
+        Note: If video libraries are spread out over many drives and/or different directories, build a recursive playlist
+        for each location of videos using -Show All then -Make Playlist. Both located on the home screen.
+        This will create a searchable index of videos for that location. Then find content without providing a path or
+        changing the directory.
+
+        Optional: Multiple playlists can be dumped into the play queue with -Add to Queue located in
+        View Playlist >>> Change and Queue. Then use -Queue to Playlist in -Play Queue to condense the
+        multiple playlists into a new playlist. Combining multiple playlists with the play queue is always
+        optional because Playlist Find searches all of Videinfox's playlists.
+
+        * The above optional step has been automated for the Default Directories. Set default directories first then run
+        -Default Directories to Playlist. This will do a recursive search of default directories 1-4 and write the 
+        results to a playlist called Default Directories. This playlist will be overwritten everytime default
+        directories to playlist is run. It should be run after videos are added to any of the deault directories
+        or if any of the default directories have been changed. This will updated the list of recently added content.
 
 ###  v4.8.05 Change: Moved options around in View Playlist, Ytdlp Menu and View Downloads.
 
