@@ -21,7 +21,7 @@ sudo wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/vide
 sudo chmod +x /usr/local/bin/videoinfox
 ```
 
-##### *** Videoinfox recommends Mpv to watch videos instead of default Ffplay. Mpv saves play postion on quit of every video played. Ffplay does not. Set on the home screen then Video Player and select Mpv.
+##### *** Videoinfox recommends Mpv to watch videos instead of default Ffplay. Mpv saves play postion on quit of every video played. Ffplay does not. Select Set on the home screen then Video Player and select Mpv.
        
 
 <br />
