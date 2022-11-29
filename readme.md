@@ -1,4 +1,4 @@
-# Videoinfox v4.8.06
+# Videoinfox v5.0.00
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -343,35 +343,27 @@ FIRST RUN
         directories to playlist is run. It should be run after videos are added to any of the deault directories
         or if any of the default directories have been changed. This will updated the list of recently added content.
 
-###  v4.8.05 Change: Moved options around in View Playlist, Ytdlp Menu and View Downloads.
+###  v5.0.00 Add: -Make Playlist added to Played List
 
-###  v4.8.04 Add: Intermission time display added to view playlist and play queue
+        Add: Numbered lines now in -Queue List and added options -Move Line and -Remove Line
 
-        Change: Moved -Info to far right in view playlist and play queue.
+         Change: -Queue List. Options moved around.
+         Change: Everywhere -Play is used, is now written to the Played List including -Play in -View Playlist
+         Change: -Delete Queue renamed to -Clear Queue
+         Change: -Directory to Playlist and -Queue to Playlist have been renamed to -Make Playlist
+         Change: -View Playlist and -Play Queue.  Z - Clear Resume changed to  B - Clear Resume
+         Change: Options -Resume and -Clear Resume are now removed from the display when there is no resume marker set.
+         Change: d - Download Default  in Yt-dlp Menu changed to  r - Download Only 
+         Change: FIRST RUN >>> SETUP now checks for mpv and sets as default video player. If not found, ffplay is set.
+         Change: FIRST RUN >>> SETUP screen updated with mpv check.
 
-###  v4.8.02 Change: i - Intermission  to  t - Intermission
+         Fix: View Playlist. Suppress script errors when running -Start with an empty playlist.
+         Fix: Played List. Suppress script error when running -Play or -Playlist Add with an empty played list.
 
-        Added -Intermission to view playlist and play queue.
+         Updated Playlist and Find section in Home Help.
+         Updated Help in View Playlist.
 
-###  v4.8.00 Change: -Start Autoplay changed to -Start in view playlist and play queue.
 
-        Change: -Resume Autoplay changed to -Resume in view playlist and play queue.
-        Edit: Home Help and Playlist Help with the above changes.
-        Update to -Start in view playlist and play queue. Entering an invalid selection will no longer clear Resume:
-
-        Add new option: -Clear Resume in view playlist and play queue.
-
-        Change: Menu in view playlist is now removed when executing -Start to provide more space for listing.
-
-        Change: Spacing on header with valid video url in clipboard on all screens with play clipboard.
-
-        Change: Path removed from listing in play queue.
-
-        Add: -Clrclp on all screens with play clipboard.
-
-        Add: Below 2 lines Home Help:
-             * Exception: videoinfox -u  will strip out the following errors and overwrite the download list.
-             - all lines that don't start with http   - all blank lines   - all duplicate lines
 
 <br />
 
