@@ -5,9 +5,9 @@
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
-ver="Videoinfox v5.0.00"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m0.00")  # Version Number: with blinking dot
-vn="v5.0.00" #V!
+ver="Videoinfox v5.0.01"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m0.01")  # Version Number: with blinking dot
+vn="v5.0.01" #V!
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -478,12 +478,7 @@ clear
 if [ -f ~/.config/videoinfox/tmp/videoinfox.numbered-optiond-play-directory-list ]
    then
         cat ~/.config/videoinfox/tmp/videoinfox.numbered-optiond-play-directory-list 2>/dev/null
-   else
-        echo
-        echo
-        echo "$der  No playable content in the current directory . . ."
-        echo
-fi
+   
 
 
 linenumber=1
@@ -580,11 +575,16 @@ fi
 done
  
 IFS=$OLDIFS
-
 clear
-echo
-echo "$der" "Done playing directory . . ."
-echo
+
+else
+        echo
+        echo
+        echo "$ver  No playable content in the current directory . . ."
+        echo
+fi
+
+
 exit
 
 else
@@ -594,7 +594,6 @@ else
   notify-send "Videoinfox error: Config directory not found. Run videoinfox first with no command line options to setup."
   exit
   fi
-
 
 else
     :
@@ -1116,7 +1115,7 @@ else
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.0.00   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Videoinfox v5.0.01   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1274,7 +1273,7 @@ else
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.0.00   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
+echo " Videoinfox v5.0.01   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1535,7 +1534,7 @@ echo " q - quit                                                                 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 #V!
-echo " 160 Updates" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " 161 Updates" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 
 
@@ -1547,6 +1546,10 @@ echo " _________________________________________________________________________
 
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v5.0.01 Fix: -Play Directory and videoinfox -d" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.0.00 Add: -Make Playlist added to Played List" >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Add: Numbered lines now in -Queue List and added options -Move Line and -Remove Line" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -4028,8 +4031,9 @@ read line < ~/.config/videoinfox/tmp/nt-list.tmp2
 
         
          ########################################################################################################################################
-         d)  # (@PLAY DIRECTORY) NAVIGATE TREE  #################################################################################################
+         d)  # (@PLAY DIRECTORY) NAV TREEE  #####################################################################################################
          ########################################################################################################################################
+rm ~/.config/videoinfox/tmp/videoinfox.numbered-navtree-play-directory-list 2>/dev/null
 
 # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
 find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) > ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa-work 2>/dev/null
@@ -4087,25 +4091,14 @@ sed -i 's/.*\///' ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa
 sed '/./=' ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2 | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/videoinfox.numbered-navtree-play-directory-list 2>/dev/null
 
    
-else #  NO LINES START WITH A SLASH /   remove empty files
-     rm ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa 2>/dev/null
-     rm ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2 2>/dev/null
-     rm ~/.config/videoinfox/tmp/videoinfox.numbered-navtree-play-directory-list 2>/dev/null
-     rm ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa-work 2>/dev/null    
+else 
+    :
 fi
 
-
-################clear
 
 if [ -f ~/.config/videoinfox/tmp/videoinfox.numbered-navtree-play-directory-list ]
    then
         cat ~/.config/videoinfox/tmp/videoinfox.numbered-navtree-play-directory-list 2>/dev/null
-   else
-       echo
-       echo " No video files in the current directory . . ."
-       sleep 1.9
-fi
-
 
 linenumber=1
 
@@ -4132,7 +4125,7 @@ for line in $(cat "$input" 2>/dev/null)
       
       echo
       echo
-      echo " Video Player Controls:"
+      echo " QVideo Player Controls:"
       echo                             
       echo " - Fullscreen Toggle: f"
       echo
@@ -4185,6 +4178,11 @@ done
  
 IFS=$OLDIFS
 
+else
+     echo
+     echo " No video files in the current directory . . ."
+     sleep 1.9
+fi
 ;;           
 
 
@@ -8075,8 +8073,9 @@ done
 
 
 ##################################################################################################################################################
-d)  # (@PLAY DIRECTORY) HOME   ###################################################################################################################
+d)  # (@PLAY DIRECTORY) HOME  ####################################################################################################################
 ##################################################################################################################################################
+rm ~/.config/videoinfox/tmp/videoinfox.numbered-home-play-directory-list 2>/dev/null
 
 # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
 find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) > ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa-work 2>/dev/null
@@ -8087,7 +8086,7 @@ sort -u ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa-work > ~/.co
 #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
 atleastone=$(grep '^/' ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa 2>/dev/null | wc -l)
 
-#  IF THE NUMBER DOESN"T = 0  THEN PROCESS AUTO PLAY OF PLAYED LIST
+#  IF THE NUMBER DOESN"T = 0  THEN PROCESS AUTO PLAY
 if [ $atleastone -ne 0 ]  
    then
 
@@ -8120,8 +8119,6 @@ sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa2 2>/d
 #  MOVE apa2 BACK TO apa
 cp ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa2 ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa 2>/dev/null
 
-
-
 #  REMOVE BLANK LINES
 sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa2 2>/dev/null
 
@@ -8133,31 +8130,16 @@ sed -i 's/.*\///' ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa2
 
 # NUMBER THE LIST
 sed '/./=' ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa2 | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/videoinfox.numbered-home-play-directory-list 2>/dev/null
-
    
-else #  NO LINES START WITH A SLASH /   remove empty files
-     rm ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa 2>/dev/null
-     rm ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa2 2>/dev/null
-     rm ~/.config/videoinfox/tmp/videoinfox.numbered-home-play-directory-list 2>/dev/null
-     rm ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa-work 2>/dev/null    
+else         
+     :
 fi
 
-
-##################clear
 
 if [ -f ~/.config/videoinfox/tmp/videoinfox.numbered-home-play-directory-list ]
    then
         cat ~/.config/videoinfox/tmp/videoinfox.numbered-home-play-directory-list 2>/dev/null
-   else
-        echo
-        echo
-        echo " No video files in the current directory . . ."
-        sleep 1.9
-
-
-fi
-
-
+   
 linenumber=1
 
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa > ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa.tmp 2>/dev/null
@@ -8235,6 +8217,13 @@ fi
 done
       
 IFS=$OLDIFS
+
+else
+     echo
+     echo
+     echo " No video files in the current directory . . ."
+     sleep 1.9
+fi
 ;;           
 
 
@@ -19312,35 +19301,33 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
 
 ;;
 
-
-###### Check this area.  pulled possible misplaced code. test playclipboard
-
-
          ########################################################################################################################################
          d)  # (@PLAY DIRECTORY) VIEW DOWNLOADS  ################################################################################################
          ########################################################################################################################################
 
+rm ~/.config/videoinfox/tmp/videoinfox.numbered-viewdownloads-play-directory-list 2>/dev/null
+
 # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
-find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) > ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa-work 2>/dev/null
+find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) > ~/.config/videoinfox/tmp/videoinfox.viewdownloads-play-directory-apa-work 2>/dev/null
 
 # SORT BACK INTO ORDER
-sort -u ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa-work > ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa
+sort -u ~/.config/videoinfox/tmp/videoinfox.viewdownloads-play-directory-apa-work > ~/.config/videoinfox/tmp/videoinfox.viewdownloads-play-directory-apa
 
 #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
-atleastone=$(grep '^/' ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa 2>/dev/null | wc -l)
+atleastone=$(grep '^/' ~/.config/videoinfox/tmp/videoinfox.viewdownloads-play-directory-apa 2>/dev/null | wc -l)
 
 #  IF THE NUMBER DOESN"T = 0  THEN PROCESS AUTO PLAY OF PLAYED LIST
 if [ $atleastone -ne 0 ]  
    then
 
 #  ASSIGN PLAYED LIST TO VARIABLE: $moddedplayedlist 
-moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa"
+moddedplayedlist="$HOME""/.config/videoinfox/tmp/videoinfox.viewdownloads-play-directory-apa"
 
 #  PLAYED LIST INPUT FOR LOOP
 input="$moddedplayedlist"  
 
 #  CREATE TEMP FILE NEEDED FOR LOOP 
-echo > ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2
+echo > ~/.config/videoinfox/tmp/videoinfox.viewdownloads-play-directory-apa2
 
 #  #  START WRITING
 while read -r line  # read line by line and write line by line until end of file
@@ -19348,7 +19335,7 @@ do
 
    if [ -f "$line" ]
       then # ONLY WRITE LINE TO FILE IF IT IS A VALID PATH AND FILE
-           echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2  
+           echo "$line" >> ~/.config/videoinfox/tmp/videoinfox.viewdownloads-play-directory-apa2  
       else
            :
    fi        
@@ -19357,51 +19344,36 @@ done < "$input"
 #  DONE WRITING ONLY VALID FILES
 
 #  REMOVE BLANK LINES
-sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2 2>/dev/null
+sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfox.viewdownloads-play-directory-apa2 2>/dev/null
 
 #  MOVE apa2 BACK TO apa
-cp ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2 ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa 2>/dev/null
-
+cp ~/.config/videoinfox/tmp/videoinfox.viewdownloads-play-directory-apa2 ~/.config/videoinfox/tmp/videoinfox.viewdownloads-play-directory-apa 2>/dev/null
 
 
 #  REMOVE BLANK LINES
-sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2 2>/dev/null
+sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfox.viewdownloads-play-directory-apa2 2>/dev/null
 
 #  MOVE apa2 BACK TO apa
-cp ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2 ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa 2>/dev/null
+cp ~/.config/videoinfox/tmp/videoinfox.viewdownloads-play-directory-apa2 ~/.config/videoinfox/tmp/videoinfox.viewdownloads-play-directory-apa 2>/dev/null
 
 # REMOVE PATH ONLY LEAVING FILENAME
-sed -i 's/.*\///' ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2
+sed -i 's/.*\///' ~/.config/videoinfox/tmp/videoinfox.viewdownloads-play-directory-apa2
 
 # NUMBER THE LIST
-sed '/./=' ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2 | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/videoinfox.numbered-navtree-play-directory-list 2>/dev/null
-
+sed '/./=' ~/.config/videoinfox/tmp/videoinfox.viewdownloads-play-directory-apa2 | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/videoinfox.numbered-viewdownloads-play-directory-list 2>/dev/null
    
-else #  NO LINES START WITH A SLASH /   remove empty files
-     rm ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa 2>/dev/null
-     rm ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa2 2>/dev/null
-     rm ~/.config/videoinfox/tmp/videoinfox.numbered-navtree-play-directory-list 2>/dev/null
-     rm ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa-work 2>/dev/null    
+else 
+    :
 fi
 
-
-################clear
-
-if [ -f ~/.config/videoinfox/tmp/videoinfox.numbered-navtree-play-directory-list ]
+if [ -f ~/.config/videoinfox/tmp/videoinfox.numbered-viewdownloads-play-directory-list ]
    then
-        cat ~/.config/videoinfox/tmp/videoinfox.numbered-navtree-play-directory-list 2>/dev/null
-   else
-       echo
-       echo
-       echo " No video files in the current directory . . ."
-       sleep 1.9
-fi
-
+        cat ~/.config/videoinfox/tmp/videoinfox.numbered-viewdownloads-play-directory-list 2>/dev/null
 
 linenumber=1
 
-tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa > ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa.tmp 2>/dev/null
-mv ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa.tmp ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa 2>/dev/null
+tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfox.viewdownloads-play-directory-apa > ~/.config/videoinfox/tmp/videoinfox.viewdownloads-play-directory-apa.tmp 2>/dev/null
+mv ~/.config/videoinfox/tmp/videoinfox.viewdownloads-play-directory-apa.tmp ~/.config/videoinfox/tmp/videoinfox.viewdownloads-play-directory-apa 2>/dev/null
 
 i=0
 OLDIFS=$IFS
@@ -19423,7 +19395,7 @@ for line in $(cat "$input" 2>/dev/null)
       
       echo
       echo
-      echo " Video Player Controls:"
+      echo " QVideo Player Controls:"
       echo                             
       echo " - Fullscreen Toggle: f"
       echo
@@ -19443,8 +19415,8 @@ nextup=0  # line number of next video up
 
 while [ ${count} -lt ${total} ] ; do
     nextup=$((i+1))
-    tail -n +"$nextup" ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa > ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa-nextup 2>/dev/null
-    read -r nextplay < ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa-nextup
+    tail -n +"$nextup" ~/.config/videoinfox/tmp/videoinfox.viewdownloads-play-directory-apa > ~/.config/videoinfox/tmp/videoinfox.viewdownloads-play-directory-apa-nextup 2>/dev/null
+    read -r nextplay < ~/.config/videoinfox/tmp/videoinfox.viewdownloads-play-directory-apa-nextup
     tlimit=$(( $total - $count ))
     clear
     echo
@@ -19472,11 +19444,16 @@ if [[ "$playoption" = " " ]] # if entry equals (spacebar enter) then break out o
   break
 fi
 
-done     
+done
  
 IFS=$OLDIFS
-;;           
 
+else
+     echo
+     echo " No video files in the current directory . . ."
+     sleep 1.9
+fi
+;;           
 
               o)
 ##################################################################################################################################################
