@@ -1,4 +1,4 @@
-# Videoinfox v5.0.00
+# Videoinfox v5.0.01
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -322,6 +322,8 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.0.01 Fix: -Play Directory and videoinfox -d
 
 ###  v5.0.00 Add: -Make Playlist added to Played List
 
