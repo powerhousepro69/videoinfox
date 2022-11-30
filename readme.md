@@ -21,7 +21,7 @@ sudo wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/vide
 sudo chmod +x /usr/local/bin/videoinfox
 ```
 
-##### *** Videoinfox recommends Mpv to watch videos instead of default Ffplay. Mpv saves play postion on quit of every video played. Ffplay does not. Select Set on the home screen then Video Player and select Mpv.
+##### *** Videoinfox recommends Mpv to watch videos. Mpv saves play postion on quit of every video played and Videoinfox saves playlist position.
        
 
 <br />
@@ -34,25 +34,35 @@ Videoinfox is a Linux shell script that feels like an app. If you enjoy watching
 for batch processing.There is a Played List that keeps track of everything played by Play Clipboard, Last Download and Play. Create unlimited Playlists and autoplay with last video played marker. Playlist queue to load up multiple playlists.
 
 
-#### ADD VIDEOS TO A PLAYLIST FROM THE FOLLOWING 7 SOURCES:
+#### Watch and manage playlists and the play queue in -View Playlist 
 
-- Home Screen. Add videos from recursive search results or recursive directory listings to the loaded Playlist.
+     Create Unlimited Playlists. Create an empty playlist or load an existing playlist.
 
-- Make Playlist on the Home Screen. Add all search results to a new Playlist.
+     Play Queue to load up multiple playlists and watch with -start and -resume
 
-- Navigate Tree >>> Show All. Add videos from one level deep directory listings to the loaded Playlist.
+     - Playlist Add .... Add an individual video to the loaded playlist.
+     - Make Playlist ... Save the entire video listing as a new playlist.
 
-- Directory to Playlist in Navigate Tree >>> Show All. Add all videos in the current directory to a new Playlist.
+     The following 3 areas support  -Playlist Add  and  -Make Playlist:
 
-- Default Directories to Playlist in Settings. Add recursive listings from Default Dirs 1-4 to a new Playlist.
+       * Home Screen. Add videos from recursive search results or recursive directory listings.
 
-- Queue to Playlist: Add the Playlist Queue to a new Playlist.
+       * Navigate Tree >>> Show All. Add videos from one level deep directory listings.
 
-- Played List. Add videos from Played List to the loaded Playlist.
-        Play, Play Clipboard, Last Download all write to the Played List.
-        *** The Playlist, Play Directory and Autoplay won't write to the Played list.
+       * Played List. Add videos from the Played List.
+                   Play, Play Clipboard and Last Download all write to the Played List.
+                   Note: Play Directory, Autoplay, Start and Resume do not write to the Played list.
 
-#### Start Autoplay on a playlist from the beginning to the end of the list or Start Autoplay from anywhere in the list and play to the end of the list. Resume Autoplay will start with last the video that was playing on Start Autoplay quit. Resume Autoplay will also keep track of the last video that was playing on quit.
+
+     Save the entire list as a new playlist with the following 2 options:
+ 
+       * Save the Play Queue as a new playlist with:  - Make Playlist.
+
+       * Save a recursive listing of Default Directories 1-4 with:  - Default Directories to Playlist.
+
+
+     - Start to autoplay from anywhere in the playlist. 
+     - Resume to start the last video that was playing on quit.
 
 <br />
 
