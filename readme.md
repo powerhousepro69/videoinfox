@@ -8,8 +8,8 @@
 
 Find local Video Files fast, immediately play and get info on. Download Videos effortlessly and autoplay.
 Add URL's to unlimited User Set Lists on the fly without leaving the browser. Download all your video url lists
-with Videoinfox's Yt-dlp integration including a Download Queue. Watch videos with (default) ffplay, mpv or
-any video player.  Mpv saves play postion on quit. 
+with Videoinfox's Yt-dlp integration including a Download Queue. Watch videos with mpv, ffplay or any
+video player of your choice.  Mpv saves play postion on quit. 
 <br />
 
 
