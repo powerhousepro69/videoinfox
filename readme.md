@@ -21,7 +21,8 @@ sudo wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/vide
 sudo chmod +x /usr/local/bin/videoinfox
 ```
 
-##### *** Videoinfox recommends Mpv to watch videos. Mpv saves play postion on quit of every video played and Videoinfox saves playlist position.
+##### *** Videoinfox recommends Mpv to watch videos. 
+##### Mpv saves play postion on quit of every video played and Videoinfox saves playlist position.
        
 
 <br />
