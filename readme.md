@@ -22,7 +22,7 @@ sudo chmod +x /usr/local/bin/videoinfox
 ```
 
 ##### *** Videoinfox recommends Mpv to watch videos. 
-##### Mpv saves play postion on quit of every video played and Videoinfox saves playlist position.
+##### Mpv saves play postion on quit of every video played and Videoinfox saves Playlist and Play Queue position.
        
 
 <br />
