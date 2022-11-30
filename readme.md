@@ -64,6 +64,9 @@ for batch processing.There is a Played List that keeps track of everything playe
      - Start to autoplay from anywhere in the playlist. 
      - Resume to start the last video that was playing on quit.
 
+     - Playlist Find to search all playlists.
+       Find and play videos without needing to know the files location.
+
 <br />
 
 Help is located on the Home screen covering most of the features. Help also in Download List and View Playlist.
