@@ -66,7 +66,7 @@ for batch processing.There is a Played List that keeps track of everything playe
      - Resume to start the last video that was playing on quit.
 
      - Playlist Find to search all playlists.
-         Find and play videos without needing to know the files location.
+         Find and play videos or add videos to a playlist without needing to know the files location.
 
 <br />
 
