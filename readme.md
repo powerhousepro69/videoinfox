@@ -1,4 +1,4 @@
-# Videoinfox v5.0.03
+# Videoinfox v5.0.34
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -336,6 +336,28 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.0.34 Update: -Play  -Autoplay  -Start  -Resume   All hide Videoinfox's display to gain more screen space for listings.
+
+        add: There was no way to clear Default Directories (1-4) once they were set. The only option
+             was to provide avalid path to change it. There is now an option to clear a Default 
+             Directory where the directories are set.
+
+        Update: View Playlist >>> Change and Queue
+
+             -Change Playlist  -Delete Playlist  -Add to Queue  -Mpv Playlist
+
+        The above 4 options all hide Videoinfox's display to gain more screen space for listings.
+
+        Change: -Mpv Playlist info added. A message dispays everytime this option is run.
+
+        Change: View Playlist >>> Change and Queue -Queue List options condensed to one line.
+
+        Edit: View Playlist -Help
+
+        More cleaning up of prompts, messages and headers to provide a more consistent user
+        experience.
+         
 
 ###  v5.0.03 Edit: A few minor edits in help files.
 
