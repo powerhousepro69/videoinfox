@@ -35,38 +35,54 @@ Videoinfox is a Linux shell script that feels like an app. If you enjoy watching
 for batch processing.There is a Played List that keeps track of everything played by Play Clipboard, Last Download and Play. Create unlimited Playlists and autoplay with last video played marker. Playlist queue to load up multiple playlists.
 
 
-#### Watch and manage playlists and the play queue in -View Playlist 
+#### Create unlimited playlists. Watch and Manage playlists and the play queue in: -View Playlist
 
-     Create Unlimited Playlists. Create an empty playlist or load an existing playlist.
+#### Find videos by searching the text of all playlists using a keyword with: -Playlist Find
 
-     Play Queue to load up multiple playlists and watch with -start and -resume
+   Create and Add:
 
+     - Create .......... Create an empty playlist in: -Change and Queue
      - Playlist Add .... Add an individual video to the loaded playlist.
      - Make Playlist ... Save the entire video listing as a new playlist.
 
      The following 3 areas support  -Playlist Add  and  -Make Playlist:
 
        * Home Screen. Add videos from recursive search results or recursive directory listings.
-
        * Navigate Tree >>> Show All. Add videos from one level deep directory listings.
-
        * Played List. Add videos from the Played List.
-                   Play, Play Clipboard and Last Download all write to the Played List.
-                   Note: Play Directory, Autoplay, Start and Resume do not write to the Played list.
-
+         Note: Play, Play Clipboard and Last Download all write to the Played List.
+               Play Directory, Autoplay, Start and Resume do not write to the Played list.
 
      Save the entire list as a new playlist with the following 2 options:
  
-       * Save the Play Queue as a new playlist with:  - Make Playlist.
+       - Make Playlist to save the Play Queue as a new playlist.
+       - Default Directories to Playlist to save a recursive listing of Default Directories 1-4.
+         This will create a searchable list of all videos by keyword with -Playlist Find.
 
-       * Save a recursive listing of Default Directories 1-4 with:  - Default Directories to Playlist.
+
+   Watch:  
+
+     - Start autoplay from anywhere in the playlist. 
+     - Resume to start autoplay from the last video that was playing on quit.
+     - Play Queue to load up multiple playlists and watch.
+     
+
+   Manage:
+
+     - Change to load an existing playlist in: -Change and Queue.
+     - Queue List to reorder or remove playlists in: -Play Queue
+     - Move Line in -Play Queue to reorder videos in: -Play Queue
+     - Remove Line in -Play Queue to remove videos in: -Play Queue
 
 
-     - Start to autoplay from anywhere in the playlist. 
-     - Resume to start the last video that was playing on quit.
 
-     - Playlist Find to search all playlists.
-         Find and play videos or add videos to a playlist without needing to know the files location.
+   Find: 
+
+     -Playlist Find on the home screen to search for text in all playlists.
+
+      Find videos to play or add to a playlist without needing to know the files location.
+      Use a keyword from the path or filename to locate videos.
+    
 
 <br />
 
