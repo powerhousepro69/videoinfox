@@ -64,7 +64,7 @@ for batch processing.There is a Played List that keeps track of everything playe
 
      - Start autoplay from anywhere in the playlist. 
      - Resume to start autoplay from the last video that was playing on quit.
-     - Play Queue to load up multiple playlists and watch.
+     - Play Queue to load up multiple playlists for autoplay with resume.
      
 
 #### *Manage*
