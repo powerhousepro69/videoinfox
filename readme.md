@@ -1,4 +1,4 @@
-# Videoinfox v5.0.34
+# Videoinfox v5.1.00
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -337,6 +337,22 @@ FIRST RUN
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
 
+###  v5.1.00  Fix: Most options were accepting 0 as an entry and processing it as 1. This fix was applied globally.
+
+        Fix: Play Queue. Path was removed from listings in options:  - Remove Line  - Move Line 
+
+        Fix: View Playlist >>> Change and Queue >>> Queue List -Rebuild Queue
+             Running rebuild queue produced a script error if a playlist was deleted after it was
+             added to the queue.
+
+        Add: Message added to View Playlist >>> Change and Queue -Delete when a loaded playlist
+             is deleted.
+        MSG: Loaded playlist was deleted. Default playlist loaded . . .
+
+        Change: View Playlist -Change and Queue
+        The word Playlist was removed from options:  -Change Playlist  -Create Playlist  -Delete Playlist 
+
+
 ###  v5.0.34 Update: -Play  -Autoplay  -Start  -Resume   All hide Videoinfox's display to gain more screen space for listings.
 
         add: There was no way to clear Default Directories (1-4) once they were set. The only option
@@ -349,7 +365,7 @@ FIRST RUN
 
         The above 4 options all hide Videoinfox's display to gain more screen space for listings.
 
-        Change: -Mpv Playlist info added. A message dispays everytime this option is run.
+        Change: -Mpv Playlist info added. A message displays every time this option is run.
 
         Change: View Playlist >>> Change and Queue -Queue List options condensed to one line.
 
@@ -358,7 +374,6 @@ FIRST RUN
         More cleaning up of prompts, messages and headers to provide a more consistent user
         experience.
          
-
 ###  v5.0.03 Edit: A few minor edits in help files.
 
 ###  v5.0.02 Fix: -Make Playlist in -Played List was broke.
@@ -367,7 +382,7 @@ FIRST RUN
 
 ###  v5.0.00 Add: -Make Playlist added to Played List
 
-        Add: Numbered lines now in -Queue List and added options -Move Line and -Remove Line
+         Add: Numbered lines now in -Queue List and added options -Move Line and -Remove Line
 
          Change: -Queue List. Options moved around.
          Change: Everywhere -Play is used, is now written to the Played List including -Play in -View Playlist
