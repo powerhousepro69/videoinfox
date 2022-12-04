@@ -74,7 +74,7 @@ Help is located on the Home screen covering most of the features. Help also in D
 
 ### Harnessing the power of:
 
-Videoinfox - Over 13,000 lines of code.
+Videoinfox - Over 14,000 lines of code.
 
 Xclip - Interact with the clipboard.
 
