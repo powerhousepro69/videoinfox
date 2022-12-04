@@ -35,9 +35,10 @@ Videoinfox is a Linux shell script that feels like an app. If you enjoy watching
 for batch processing.There is a Played List that keeps track of everything played by Play Clipboard, Last Download and Play. Create unlimited Playlists and autoplay with last video played marker. Playlist queue to load up multiple playlists.
 
 
-#### Create unlimited playlists. Watch and Manage playlists and the play queue in: -View Playlist
+### Playlist Features:
 
-#### Find videos by searching the text of all playlists using a keyword with: -Playlist Find
+##### Create unlimited playlists. Watch and Manage playlists and the play queue in: -View Playlist
+##### Find videos by searching the text of all playlists using a keyword with: -Playlist Find
 
    Create and Add:
 
@@ -57,7 +58,7 @@ for batch processing.There is a Played List that keeps track of everything playe
  
        - Make Playlist to save the Play Queue as a new playlist.
        - Default Directories to Playlist to save a recursive listing of Default Directories 1-4.
-         This will create a searchable list of all videos by keyword with -Playlist Find.
+         Note: This will create a searchable list of all videos by keyword with -Playlist Find.
 
 
    Watch:  
@@ -69,13 +70,34 @@ for batch processing.There is a Played List that keeps track of everything playe
 
    Manage:
 
-     - Change to load an existing playlist in: -Change and Queue.
-     - Queue List to reorder or remove playlists in: -Play Queue
-     - Move Line in -Play Queue to reorder videos in: -Play Queue
-     - Remove Line in -Play Queue to remove videos in: -Play Queue
+     - View Playlist
 
+       - Move Line to reorder videos in the playlist.
+       - Remove Line to remove videos from the playlist.
+       - Remove Dupes to remove duplicate videos from the playlist.
+       - Clear Playlist to clear out the playlist.
 
+     - Play Queue
 
+       - Move Line to reorder videos in the play queue.
+       - Remove Line to remove videos from the play queue.
+       - Remove Dupes to remove duplicate videos from the play queue.
+       - Clear Queue to clear out the play queue.
+  
+     - Change and Queue
+
+       - Change to load an existing playlist.
+       - Create to create an empty Playlist.
+       - Delete to delete a playlist.
+       - Add to Queue to add a playlist to the play queue. 
+
+     - Queue List
+ 
+       - Move Line to reorder playlists in the play queue.
+       - Remove Line to remove playlists from the play queue.
+       - Remove Dupes to remove duplicate playlists from the play queue.
+       - Clear Queue out the play queue.
+     
    Find: 
 
      -Playlist Find on the home screen to search for text in all playlists.
