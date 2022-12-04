@@ -37,10 +37,9 @@ for batch processing.There is a Played List that keeps track of everything playe
 
 ### Playlist Features:
 
-##### Create unlimited playlists. Watch and Manage playlists and the play queue in: -View Playlist
-##### Find videos by searching the text of all playlists using a keyword with: -Playlist Find
+### *Create, Watch, and Manage playlists and the play queue in View Playlist*
 
-   Create and Add:
+#### *Create*
 
      - Create .......... Create an empty playlist in: -Change and Queue
      - Playlist Add .... Add an individual video to the loaded playlist.
@@ -61,14 +60,14 @@ for batch processing.There is a Played List that keeps track of everything playe
          Note: This will create a searchable list of all videos by keyword with -Playlist Find.
 
 
-   Watch:  
+#### *Watch*:  
 
      - Start autoplay from anywhere in the playlist. 
      - Resume to start autoplay from the last video that was playing on quit.
      - Play Queue to load up multiple playlists and watch.
      
 
-   Manage:
+#### *Manage*:
 
      - View Playlist
 
@@ -97,8 +96,8 @@ for batch processing.There is a Played List that keeps track of everything playe
        - Remove Line to remove playlists from the play queue.
        - Remove Dupes to remove duplicate playlists from the play queue.
        - Clear Queue out the play queue.
-     
-   Find: 
+
+### Find videos by searching the text of all playlists using a keyword with Playlist Find      
 
      -Playlist Find on the home screen to search for text in all playlists.
 
