@@ -60,14 +60,14 @@ for batch processing.There is a Played List that keeps track of everything playe
          Note: This will create a searchable list of all videos by keyword with -Playlist Find.
 
 
-#### *Watch*:  
+#### *Watch*  
 
      - Start autoplay from anywhere in the playlist. 
      - Resume to start autoplay from the last video that was playing on quit.
      - Play Queue to load up multiple playlists and watch.
      
 
-#### *Manage*:
+#### *Manage*
 
      - View Playlist
 
