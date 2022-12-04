@@ -41,7 +41,7 @@ for batch processing.There is a Played List that keeps track of everything playe
 
 #### *Create*
 
-     - Create .......... Create an empty playlist in: -Change and Queue
+     - Create .......... Create an empty playlist.
      - Playlist Add .... Add an individual video to the loaded playlist.
      - Make Playlist ... Save the entire video listing as a new playlist.
 
