@@ -57,7 +57,7 @@ for batch processing.There is a Played List that keeps track of everything playe
  
        - Make Playlist to save the Play Queue as a new playlist.
        - Default Directories to Playlist to save a recursive listing of Default Directories 1-4.
-         Note: This will create a searchable list of all videos by keyword with -Playlist Find.
+         Note: This will create a searchable list of all videos by keyword for -Playlist Find.
 
 
 #### *Watch*  
