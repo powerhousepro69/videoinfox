@@ -47,9 +47,9 @@ for batch processing.There is a Played List that keeps track of everything playe
 
      The following 3 areas support  -Playlist Add  and  -Make Playlist:
 
-       * Home Screen. Add videos from recursive search results or recursive directory listings.
-       * Navigate Tree >>> Show All. Add videos from one level deep directory listings.
-       * Played List. Add videos from the Played List.
+       * Home Screen to add videos from recursive search results or recursive directory listings.
+       * Navigate Tree >>> Show All to add videos from one level deep directory listings.
+       * Played List to add videos from the Played List.
          Note: Play, Play Clipboard and Last Download all write to the Played List.
                Play Directory, Autoplay, Start and Resume do not write to the Played list.
 
