@@ -96,7 +96,7 @@ for batch processing.There is a Played List that keeps track of everything playe
        - Remove Line to remove playlists from the play queue.
        - Remove Dupes to remove duplicate playlists from the play queue.
        - Rebuild Queue to rebuild the play queue after one or more of the above 3 options are run.
-       - Clear Queue out the play queue.
+       - Clear Queue to clear out the play queue.
 
 
      * Playlist overwrite prompt for an existing file with options:  -Create and -Make Playlist
