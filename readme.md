@@ -97,6 +97,9 @@ for batch processing.There is a Played List that keeps track of everything playe
        - Remove Dupes to remove duplicate playlists from the play queue.
        - Clear Queue out the play queue.
 
+
+     * Playlist overwrite prompt for an existing file with options:  -Create and -Make Playlist
+
 ### Find videos by searching the text of all playlists using a keyword with Playlist Find      
 
      -Playlist Find on the home screen to search for text in all playlists.
