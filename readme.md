@@ -1,4 +1,4 @@
-# Videoinfox v5.1.01
+# Videoinfox v5.1.07
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -47,17 +47,17 @@ for batch processing.There is a Played List that keeps track of everything playe
 
      The following 3 areas support  -Playlist Add  and  -Make Playlist:
 
-       * Home Screen to add videos from recursive search results or recursive directory listings.
-       * Navigate Tree >>> Show All to add videos from one level deep directory listings.
-       * Played List to add videos from the Played List.
-         Note: Play, Play Clipboard and Last Download all write to the Played List.
-               Play Directory, Autoplay, Start and Resume do not write to the Played list.
+     * Home Screen to add videos from recursive search results or recursive directory listings.
+     * Navigate Tree >>> Show All to add videos from one level deep directory listings.
+     * Played List to add videos from the Played List.
+       Note: Play, Play Clipboard and Last Download all write to the Played List.
+             Play Directory, Autoplay, Start and Resume do not write to the Played list.
 
      Save the entire list as a new playlist with the following 2 options:
  
-       - Make Playlist to save the Play Queue as a new playlist.
-       - Default Directories to Playlist to save a recursive listing of Default Directories 1-4.
-         Note: This will create a searchable list of all videos by keyword for -Playlist Find.
+     - Make Playlist to save the Play Queue as a new playlist.
+     - Default Directories to Playlist to save a recursive listing of Default Directories 1-4.
+       Note: This will create a searchable list of all videos by keyword for -Playlist Find.
 
 
 #### *Watch*  
@@ -378,7 +378,23 @@ FIRST RUN
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
 
+###  v5.1.07 Change: Default download directory can't be cleared. It can only be changed.
+
+        Videoinfox always needs a download directory set for: -Download Only  -Download Choose
+        -Self Destruct and for downloading the default list in -Download List
+
+        Change: Options moved around in -View Playlist to make room for the next 2 new options.
+                 -Play Queue still needs options moved around for the same next 2 new options.
+
+        Change: View Playlist and Play Queue Option:  B - Clear Resume  changed to  b - Clear Resume
+        Add: Confirmation prompt added to -Clear Resume
+
+        Change: Played List option:  D - Clear Played List  changed to  d - Clear Played List
+        Add: Confirmation prompt added to -Clear Played List
+
+
 ###  v5.1.01 Edit: Home Help Playlist Features:
+
 
 ###  v5.1.00  Fix: Most options were accepting 0 as an entry and processing it as 1. This fix was applied globally.
 
