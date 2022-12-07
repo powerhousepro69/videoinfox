@@ -121,7 +121,7 @@ Xclip - Interact with the clipboard.
 
 Yt-dlp - Download video urls.
 
-FFplay - Play videos.
+MPV or FFplay - Play videos.
 
 FFmpeg - Get duration in hh:min:sec
 
