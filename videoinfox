@@ -5,9 +5,9 @@
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
-ver="Videoinfox v5.1.07"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m1.07")  # Version Number: with blinking dot
-vn="v5.1.07" #V!
+ver="Videoinfox v5.1.08"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m1.08")  # Version Number: with blinking dot
+vn="v5.1.08" #V!
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -1115,7 +1115,7 @@ else
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.1.07   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Videoinfox v5.1.08   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1272,7 +1272,7 @@ else
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.1.07   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
+echo " Videoinfox v5.1.08   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1580,7 +1580,7 @@ echo " q - quit                                                                 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 #V!
-echo " 167 Updates" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " 168 Updates" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 
 
@@ -1593,6 +1593,9 @@ echo " _________________________________________________________________________
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
 
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v5.1.08 Fix: Play Queue -Clear Resume y/n prompt." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.1.07 Change: Default download directory can't be cleared. It can only be changed. " >> ~/.config/videoinfox/videoinfo-ver-history
 echo "                 Videoinfox always needs a download directory set for: -Download Only  -Download Choose  -Self Destruct" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -6813,7 +6816,7 @@ case $optionpq in
         
        b) # CLEAR RESUME PLAY QUEUE
 
-if [ -z "$resumedisplay3" ]
+if [ -z "$resumedisplay2" ]
   then
       :
   else    
@@ -7451,17 +7454,23 @@ fi
 ;;
 
 
-Z) # CLEAR RESUME
-        read chk4empty < ~/.config/videoinfox/playlists/playlist.queue.last-autoplay
-        if [ -z "$chk4empty" ]
-        then
-            echo
-            echo " Resume was already cleared . . ."
-            sleep .7
-        else
-        echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay
-        fi
-        ;;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 o) # START AUTOPLAY (NAVIGATE TREE >>> SHOW ALL >>> VIEW PLAYLIST >>> CHANGE AND QUEUE >> PLAY QUEUE)
@@ -11351,7 +11360,7 @@ case $optionpq in
 
         b) # CLEAR RESUME PLAY QUEUE
 
-if [ -z "$resumedisplay3" ]
+if [ -z "$resumedisplay2" ]
   then
       :
   else    
@@ -11987,17 +11996,26 @@ fi
 ;;
 
 
-Z) # CLEAR RESUME
-        read chk4empty < ~/.config/videoinfox/playlists/playlist.queue.last-autoplay
-        if [ -z "$chk4empty" ]
-        then
-            echo
-            echo " Resume was already cleared . . ."
-            sleep .7
-        else
-        echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay
-        fi
-        ;;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 o) # START AUTOPLAY (PLAYED LIST >>> VIEW PLAYLIST >>> CHANGE AND QUEUE >> PLAY QUEUE)
@@ -14935,7 +14953,7 @@ case $optionpq in
 
         b) # CLEAR RESUME PLAY QUEUE
 
-if [ -z "$resumedisplay3" ]
+if [ -z "$resumedisplay2" ]
   then
       :
   else    
@@ -15572,17 +15590,7 @@ fi
 ;;
 
 
-Z) # CLEAR RESUME
-        read chk4empty < ~/.config/videoinfox/playlists/playlist.queue.last-autoplay
-        if [ -z "$chk4empty" ]
-        then
-            echo
-            echo " Resume was already cleared . . ."
-            sleep .7
-        else
-        echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay
-        fi
-        ;;
+####!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 o) # START AUTOPLAY (HOME VIEW PLAYLIST >>> CHANGE AND QUEUE >> PLAY QUEUE)
