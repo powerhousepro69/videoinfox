@@ -1,4 +1,4 @@
-# Videoinfox v5.1.07
+# Videoinfox v5.1.08
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -377,6 +377,8 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.1.08 Fix: Play Queue -Clear Resume y/n prompt.
 
 ###  v5.1.07 Change: Default download directory can't be cleared. It can only be changed.
 
