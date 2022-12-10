@@ -5,9 +5,9 @@
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
-ver="Videoinfox v5.3.11"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m3.11")  # Version Number: with blinking dot
-vn="v5.3.11" #V!
+ver="Videoinfox v5.3.12"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m3.12")  # Version Number: with blinking dot
+vn="v5.3.12" #V!
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -1115,7 +1115,7 @@ else
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.3.11   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Videoinfox v5.3.12   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1272,7 +1272,7 @@ else
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.3.11   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
+echo " Videoinfox v5.3.12   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1594,7 +1594,7 @@ echo " q - quit                                                                 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 #V!
-echo " 169 Updates" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " 170 Updates" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 
 
@@ -1607,6 +1607,9 @@ echo " _________________________________________________________________________
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
 
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v5.3.12 Fix: Script errors in -Rename " >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.3.11 New: -Move Block added to -View Playlist and -Play Queue" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
@@ -8452,29 +8455,30 @@ else
 
 if [[ "$setplaylist" = "$renfrom" ]]
   then  # PLAYLIST IS LOADED
-cp ~/.config/videoinfox/videoinfo.playlist ~/.config/videoinfox/playlists/vplaylist."$renamepl" 
+cp ~/.config/videoinfox/videoinfo.playlist ~/.config/videoinfox/playlists/vplaylist."$renamepl"
 echo "$renamepl" > ~/.config/videoinfox/videoinfo.playlist.current # WRITE SELECTED PLAYLIST
 read -r setplaylist < ~/.config/videoinfox/videoinfo.playlist.current
 
-cp  ~/.config/videoinfox/playlists/"$renfrom".last-autoplay ~/.config/videoinfox/playlists/"$renamepl".last-autoplay
-rm ~/.config/videoinfox/playlists/"$renfrom".last-autoplay
-cp ~/.config/videoinfox/playlists/"$renfrom".last-autoplay.nextup ~/.config/videoinfox/playlists/"$renamepl".last-autoplay.nextup
-rm ~/.config/videoinfox/playlists/"$renfrom".last-autoplay.nextup
+cp ~/.config/videoinfox/playlists/"$renfrom".last-autoplay ~/.config/videoinfox/playlists/"$renamepl".last-autoplay 2>/dev/null
+rm ~/.config/videoinfox/playlists/"$renfrom".last-autoplay 2>/dev/null
+cp ~/.config/videoinfox/playlists/"$renfrom".last-autoplay.nextup ~/.config/videoinfox/playlists/"$renamepl".last-autoplay.nextup 2>/dev/null
+rm ~/.config/videoinfox/playlists/"$renfrom".last-autoplay.nextup 2>/dev/null
+rm ~/.config/videoinfox/playlists/"$renfrom" 2>/dev/null
 
 cp ~/.config/videoinfox/playlists/vplaylist."$renamepl" ~/.config/videoinfox/videoinfo.playlist # LOAD RENAMED PLAYLIST
-rm "$selectedtorename"
+rm "$selectedtorename" 2>/dev/null
 echo
 echo " Playlist renamed and reloaded . . ."
 sleep .9
   else # PLAYLIST ISN'T LOADED
 
 cp "$selectedtorename" ~/.config/videoinfox/playlists/vplaylist."$renamepl"
-rm "$selectedtorename"
-cp  ~/.config/videoinfox/playlists/"$renfrom".last-autoplay ~/.config/videoinfox/playlists/"$renamepl".last-autoplay
-rm ~/.config/videoinfox/playlists/"$renfrom".last-autoplay
-cp ~/.config/videoinfox/playlists/"$renfrom".last-autoplay.nextup ~/.config/videoinfox/playlists/"$renamepl".last-autoplay.nextup
-rm ~/.config/videoinfox/playlists/"$renfrom".last-autoplay.nextup
-rm ~/.config/videoinfox/playlists/"$renfrom"
+rm "$selectedtorename" 2>/dev/null
+cp ~/.config/videoinfox/playlists/"$renfrom".last-autoplay ~/.config/videoinfox/playlists/"$renamepl".last-autoplay 2>/dev/null
+rm ~/.config/videoinfox/playlists/"$renfrom".last-autoplay 2>/dev/null
+cp ~/.config/videoinfox/playlists/"$renfrom".last-autoplay.nextup ~/.config/videoinfox/playlists/"$renamepl".last-autoplay.nextup 2>/dev/null
+rm ~/.config/videoinfox/playlists/"$renfrom".last-autoplay.nextup 2>/dev/null
+rm ~/.config/videoinfox/playlists/"$renfrom" 2>/dev/null
 echo
 echo " Playlist renamed . . ."
 sleep .9
@@ -13568,7 +13572,7 @@ fi
 ;;   
 
 
-r)  # RENAME PLAYLIST (NAVIGATE TREE)
+r)  # RENAME PLAYLIST (PLAYED LIST)
 
 clear
 cat /home/homeserver/.config/videoinfox/tmp/playlist.dirlist.tmp
@@ -13654,29 +13658,30 @@ else
 
 if [[ "$setplaylist" = "$renfrom" ]]
   then  # PLAYLIST IS LOADED
-cp ~/.config/videoinfox/videoinfo.playlist ~/.config/videoinfox/playlists/vplaylist."$renamepl" 
+cp ~/.config/videoinfox/videoinfo.playlist ~/.config/videoinfox/playlists/vplaylist."$renamepl"
 echo "$renamepl" > ~/.config/videoinfox/videoinfo.playlist.current # WRITE SELECTED PLAYLIST
 read -r setplaylist < ~/.config/videoinfox/videoinfo.playlist.current
 
-cp  ~/.config/videoinfox/playlists/"$renfrom".last-autoplay ~/.config/videoinfox/playlists/"$renamepl".last-autoplay
-rm ~/.config/videoinfox/playlists/"$renfrom".last-autoplay
-cp ~/.config/videoinfox/playlists/"$renfrom".last-autoplay.nextup ~/.config/videoinfox/playlists/"$renamepl".last-autoplay.nextup
-rm ~/.config/videoinfox/playlists/"$renfrom".last-autoplay.nextup
+cp ~/.config/videoinfox/playlists/"$renfrom".last-autoplay ~/.config/videoinfox/playlists/"$renamepl".last-autoplay 2>/dev/null
+rm ~/.config/videoinfox/playlists/"$renfrom".last-autoplay 2>/dev/null
+cp ~/.config/videoinfox/playlists/"$renfrom".last-autoplay.nextup ~/.config/videoinfox/playlists/"$renamepl".last-autoplay.nextup 2>/dev/null
+rm ~/.config/videoinfox/playlists/"$renfrom".last-autoplay.nextup 2>/dev/null
+rm ~/.config/videoinfox/playlists/"$renfrom" 2>/dev/null
 
 cp ~/.config/videoinfox/playlists/vplaylist."$renamepl" ~/.config/videoinfox/videoinfo.playlist # LOAD RENAMED PLAYLIST
-rm "$selectedtorename"
+rm "$selectedtorename" 2>/dev/null
 echo
 echo " Playlist renamed and reloaded . . ."
 sleep .9
   else # PLAYLIST ISN'T LOADED
 
 cp "$selectedtorename" ~/.config/videoinfox/playlists/vplaylist."$renamepl"
-rm "$selectedtorename"
-cp  ~/.config/videoinfox/playlists/"$renfrom".last-autoplay ~/.config/videoinfox/playlists/"$renamepl".last-autoplay
-rm ~/.config/videoinfox/playlists/"$renfrom".last-autoplay
-cp ~/.config/videoinfox/playlists/"$renfrom".last-autoplay.nextup ~/.config/videoinfox/playlists/"$renamepl".last-autoplay.nextup
-rm ~/.config/videoinfox/playlists/"$renfrom".last-autoplay.nextup
-rm ~/.config/videoinfox/playlists/"$renfrom"
+rm "$selectedtorename" 2>/dev/null
+cp ~/.config/videoinfox/playlists/"$renfrom".last-autoplay ~/.config/videoinfox/playlists/"$renamepl".last-autoplay 2>/dev/null
+rm ~/.config/videoinfox/playlists/"$renfrom".last-autoplay 2>/dev/null
+cp ~/.config/videoinfox/playlists/"$renfrom".last-autoplay.nextup ~/.config/videoinfox/playlists/"$renamepl".last-autoplay.nextup 2>/dev/null
+rm ~/.config/videoinfox/playlists/"$renfrom".last-autoplay.nextup 2>/dev/null
+rm ~/.config/videoinfox/playlists/"$renfrom" 2>/dev/null
 echo
 echo " Playlist renamed . . ."
 sleep .9
@@ -17814,7 +17819,7 @@ fi
 ;;     
 
 
-r)  # RENAME PLAYLIST (NAVIGATE TREE)
+r)  # RENAME PLAYLIST (HOME)
 
 clear
 cat /home/homeserver/.config/videoinfox/tmp/playlist.dirlist.tmp
@@ -17900,29 +17905,30 @@ else
 
 if [[ "$setplaylist" = "$renfrom" ]]
   then  # PLAYLIST IS LOADED
-cp ~/.config/videoinfox/videoinfo.playlist ~/.config/videoinfox/playlists/vplaylist."$renamepl" 
+cp ~/.config/videoinfox/videoinfo.playlist ~/.config/videoinfox/playlists/vplaylist."$renamepl"
 echo "$renamepl" > ~/.config/videoinfox/videoinfo.playlist.current # WRITE SELECTED PLAYLIST
 read -r setplaylist < ~/.config/videoinfox/videoinfo.playlist.current
 
-cp  ~/.config/videoinfox/playlists/"$renfrom".last-autoplay ~/.config/videoinfox/playlists/"$renamepl".last-autoplay
-rm ~/.config/videoinfox/playlists/"$renfrom".last-autoplay
-cp ~/.config/videoinfox/playlists/"$renfrom".last-autoplay.nextup ~/.config/videoinfox/playlists/"$renamepl".last-autoplay.nextup
-rm ~/.config/videoinfox/playlists/"$renfrom".last-autoplay.nextup
+cp ~/.config/videoinfox/playlists/"$renfrom".last-autoplay ~/.config/videoinfox/playlists/"$renamepl".last-autoplay 2>/dev/null
+rm ~/.config/videoinfox/playlists/"$renfrom".last-autoplay 2>/dev/null
+cp ~/.config/videoinfox/playlists/"$renfrom".last-autoplay.nextup ~/.config/videoinfox/playlists/"$renamepl".last-autoplay.nextup 2>/dev/null
+rm ~/.config/videoinfox/playlists/"$renfrom".last-autoplay.nextup 2>/dev/null
+rm ~/.config/videoinfox/playlists/"$renfrom" 2>/dev/null
 
 cp ~/.config/videoinfox/playlists/vplaylist."$renamepl" ~/.config/videoinfox/videoinfo.playlist # LOAD RENAMED PLAYLIST
-rm "$selectedtorename"
+rm "$selectedtorename" 2>/dev/null
 echo
 echo " Playlist renamed and reloaded . . ."
 sleep .9
   else # PLAYLIST ISN'T LOADED
 
 cp "$selectedtorename" ~/.config/videoinfox/playlists/vplaylist."$renamepl"
-rm "$selectedtorename"
-cp  ~/.config/videoinfox/playlists/"$renfrom".last-autoplay ~/.config/videoinfox/playlists/"$renamepl".last-autoplay
-rm ~/.config/videoinfox/playlists/"$renfrom".last-autoplay
-cp ~/.config/videoinfox/playlists/"$renfrom".last-autoplay.nextup ~/.config/videoinfox/playlists/"$renamepl".last-autoplay.nextup
-rm ~/.config/videoinfox/playlists/"$renfrom".last-autoplay.nextup
-rm ~/.config/videoinfox/playlists/"$renfrom"
+rm "$selectedtorename" 2>/dev/null
+cp ~/.config/videoinfox/playlists/"$renfrom".last-autoplay ~/.config/videoinfox/playlists/"$renamepl".last-autoplay 2>/dev/null
+rm ~/.config/videoinfox/playlists/"$renfrom".last-autoplay 2>/dev/null
+cp ~/.config/videoinfox/playlists/"$renfrom".last-autoplay.nextup ~/.config/videoinfox/playlists/"$renamepl".last-autoplay.nextup 2>/dev/null
+rm ~/.config/videoinfox/playlists/"$renfrom".last-autoplay.nextup 2>/dev/null
+rm ~/.config/videoinfox/playlists/"$renfrom" 2>/dev/null
 echo
 echo " Playlist renamed . . ."
 sleep .9
@@ -17938,6 +17944,7 @@ fi
 fi
 fi
 ;;
+
 
   
          d)  # DELETE PLAYLIST
