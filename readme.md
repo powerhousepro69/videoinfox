@@ -10,9 +10,6 @@ Find local Video Files fast, immediately play and get info on. Download Videos e
 Add URL's to unlimited User Set Lists on the fly without leaving the browser. Download all your video url lists
 with Videoinfox's Yt-dlp integration including a Download Queue. Watch videos with mpv, ffplay or any
 video player of your choice.  Mpv saves play postion on quit. 
-<br />
-
-#### NEW in 5.3 &nbsp; -Move Block and -Remove Block in View Playlist and Play Queue
 
 <br />
 
@@ -23,6 +20,10 @@ sudo wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/vide
 ```
 sudo chmod +x /usr/local/bin/videoinfox
 ```
+
+
+#### NEW in 5.3 &nbsp; -Move Block and -Remove Block in View Playlist and Play Queue
+
 
 ##### *** Videoinfox recommends Mpv to watch videos. 
 ##### Mpv saves play postion on quit of every video played and Videoinfox saves Playlist and Play Queue position.
