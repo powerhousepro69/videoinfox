@@ -1,4 +1,4 @@
-# Videoinfox v5.1.08
+# Videoinfox v5.3.11
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -26,10 +26,6 @@ sudo chmod +x /usr/local/bin/videoinfox
        
 
 <br />
-Download multiple URL User Lists simultaneously.
-
-You have to start Download List first then run another instance of Videoinfox to start downloading the next list.
-<br />
 
 Videoinfox is a Linux shell script that feels like an app. If you enjoy watching local videos on your PC and want the ability to download video url's, you won't be disappointed. You can also make your own URL lists to download. While downloading a list, a log file will be generated for each list. The log is each http link from your list with the downloaded video filename. If the download list is aborted before completion, Yt-dlp has you covered. Just run the Download List feature again. Yt-dlp won't re-download files that you already have. Download Queue to add unlimited Videoinfox created User Download Lists
 for batch processing.There is a Played List that keeps track of everything played by Play Clipboard, Last Download and Play. Create unlimited Playlists and autoplay with last video played marker. Playlist queue to load up multiple playlists.
@@ -42,28 +38,37 @@ for batch processing.There is a Played List that keeps track of everything playe
 #### *Create*
 
      - Create .......... Create an empty playlist.
+
      - Playlist Add .... Add an individual video to the loaded playlist.
+
      - Make Playlist ... Save the entire video listing as a new playlist.
+
 
      The following 3 areas support  -Playlist Add  and  -Make Playlist:
 
      * Home Screen to add videos from recursive search results or recursive directory listings.
+
      * Navigate Tree >>> Show All to add videos from one level deep directory listings.
+
      * Played List to add videos from the Played List.
        Note: Play, Play Clipboard and Last Download all write to the Played List.
              Play Directory, Autoplay, Start and Resume do not write to the Played list.
 
+
      Save the entire list as a new playlist with the following 2 options:
  
      - Make Playlist to save the Play Queue as a new playlist.
+
      - Default Directories to Playlist to save a recursive listing of Default Directories 1-4.
        Note: This will create a searchable list of all videos by keyword for -Playlist Find.
 
 
 #### *Watch*  
 
-     - Start autoplay from anywhere in the playlist. 
+     - Start autoplay from anywhere in the playlist.
+ 
      - Resume to start autoplay from the last video that was playing on quit.
+
      - Play Queue to load up multiple playlists for autoplay with resume.
      
 
@@ -71,35 +76,40 @@ for batch processing.There is a Played List that keeps track of everything playe
 
      - View Playlist
 
-       - Move Line to reorder videos in the playlist.
-       - Remove Line to remove videos from the playlist.
-       - Remove Dupes to remove duplicate videos from the playlist.
-       - Clear Playlist to clear out the playlist.
+       - Move Line .............. move a video in the playlist.
+       - Move Block ............. move a block of videos in the playlist.
+       - Remove Line ............ remove a video from the playlist.
+       - Remove Block ........... remove a block of videos from the playlist
+       - Remove Dupes ........... remove duplicate videos from the playlist.
+       - Clear Playlist ......... clear out the playlist.
 
      - Play Queue
 
-       - Move Line to reorder videos in the play queue.
-       - Remove Line to remove videos from the play queue.
-       - Remove Dupes to remove duplicate videos from the play queue.
-       - Clear Queue to clear out the play queue.
+       - Move Line .............. move a video in the play queue.
+       - Move Block ............. move a block of videos in the play queue.
+       - Remove Line ............ remove a video from the play queue.
+       - Remove Block ........... remove a block of videos from the play queue.
+       - Remove Dupes ........... remove duplicate videos from the play queue.
+       - Clear Queue ............ clear out the play queue.
   
      - Change and Queue
 
-       - Change to load an existing playlist.
-       - Create to create an empty Playlist.
-       - Delete to delete a playlist.
-       - Add to Queue to add a playlist to the play queue. 
+       - Change ................. change playlist.
+       - Create ................. create empty Playlist.
+       - Delete ................. delete playlist.
+       - Rename ................. rename playlist.
+       - Add to Queue ........... add playlist to the play queue. 
 
      - Queue List
  
-       - Move Line to reorder playlists in the play queue.
-       - Remove Line to remove playlists from the play queue.
-       - Remove Dupes to remove duplicate playlists from the play queue.
-       - Rebuild Queue to rebuild the play queue after one or more of the above 3 options are run.
-       - Clear Queue to clear out the play queue.
+       - Move Line * ............ move a playlist in the play queue.
+       - Remove Line * .......... remove a playlist from the play queue.
+       - Remove Dupes * ......... remove duplicate playlists from the play queue.
+       - Rebuild Queue .......... updates play queue after one or more of the above 3 options * are run.
+       - Clear Queue ............ clear out the play queue.
 
 
-     * Playlist overwrite prompt for an existing file with options:  -Create and -Make Playlist
+     Playlist overwrite prompt for an existing file with options:  -Create and -Make Playlist
 
 ### Find videos by searching the text of all playlists using a keyword with Playlist Find      
 
@@ -377,6 +387,16 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.3.11 New: -Move Block added to -View Playlist and -Play Queue
+
+        New: -Remove Block added to -View Playlist and -Play Queue
+
+        Add: -Rename added to -Change and Queue
+        Note: If there is a playlist resume marker, it will be retained when renaming a playlist.
+
+        Edit: Home Help Playlist Features: and View Playlist Help
+
 
 ###  v5.1.08 Fix: Play Queue -Clear Resume y/n prompt.
 
