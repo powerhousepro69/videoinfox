@@ -1,4 +1,4 @@
-# Videoinfox v5.3.11
+# Videoinfox v5.3.12
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -387,6 +387,8 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.3.12 Fix: Script errors in -Rename
 
 ###  v5.3.11 New: -Move Block added to -View Playlist and -Play Queue
 
