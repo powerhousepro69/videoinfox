@@ -12,6 +12,9 @@ with Videoinfox's Yt-dlp integration including a Download Queue. Watch videos wi
 video player of your choice.  Mpv saves play postion on quit. 
 <br />
 
+#### NEW in 5.3 &nbsp; -Move Block and -Remove Block in View Playlist and Play Queue
+
+<br />
 
 ### To install : &nbsp; &nbsp; Run the 2 lines below.
 ```
