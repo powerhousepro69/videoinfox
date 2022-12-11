@@ -33,6 +33,9 @@ sudo chmod +x /usr/local/bin/videoinfox
 Videoinfox is a Linux shell script that feels like an app. If you enjoy watching local videos on your PC and want the ability to download video url's, you won't be disappointed. You can also make your own URL lists to download. While downloading a list, a log file will be generated for each list. The log is each http link from your list with the downloaded video filename. If the download list is aborted before completion, Yt-dlp has you covered. Just run the Download List feature again. Yt-dlp won't re-download files that you already have. Download Queue to add unlimited Videoinfox created User Download Lists
 for batch processing.There is a Played List that keeps track of everything played by Play Clipboard, Last Download and Play. Create unlimited Playlists and autoplay with last video played marker. Playlist queue to load up multiple playlists.
 
+### Navigation was designed to be robust and efficient.
+
+         One keypress for all menu selections.
 
 ### Playlist Features:
 
@@ -120,19 +123,9 @@ for batch processing.There is a Played List that keeps track of everything playe
 
       Find videos to play or add to a playlist without needing to know the files location.
       Use a keyword from the path or filename to locate videos.
-    
-
 <br />
 
-Help is located on the Home screen covering most of the features. Help also in Download List and View Playlist.
-
-<br />
-
-
-### Navigation was designed to be robust and efficient.
-
-         One keypress for all menu selections.
-
+  - Help is located on the Home screen covering most of the features. Help also in Download List and View Playlist.
   - File types searched for: &nbsp; .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx
   - Auto save last search result(s) and autoload until deleted. Defaulted to never save. Change in Settings.
   - Check for update on startup and notifity if update is available. Download and update in Videoinfox.
