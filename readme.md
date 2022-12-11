@@ -174,8 +174,6 @@ for batch processing.There is a Played List that keeps track of everything playe
         List Directory: List video info one directory deep. Options to save/delete per directory.
         Video Count: Recursive count of videos broken down by video type.
         Video Duration: Recursive duration (days:hrs:min:sec) Options to save/delete per directory.
-  
-<br />
 
 ### Play Clipboard 
 
