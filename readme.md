@@ -111,7 +111,7 @@ for batch processing.There is a Played List that keeps track of everything playe
        - Move Line * ............ move a playlist in the play queue.
        - Remove Line * .......... remove a playlist from the play queue.
        - Remove Dupes * ......... remove duplicate playlists from the play queue.
-       - Rebuild Queue .......... updates play queue after one or more of the above 3 options * are run.
+       - Rebuild Queue .......... updates play queue after one or more of the above 3 options * are run
        - Clear Queue ............ clear out the play queue.
 
 
@@ -178,18 +178,17 @@ for batch processing.There is a Played List that keeps track of everything playe
 ### Play Clipboard 
 
          Download a video url that is in the clipboard via Yt-dlp and autoplay.
-         Play Clipboard is available in: Home, Played List, View Playlist, Yt-dlp Menu and View Downloads  
+         Play Clipboard is available in: Home, Played List, View Playlist, Yt-dlp Menu & View Downloads
          The video url is cleared from clipboard after the video player is closed.
          To watch the last download after Play Clipboard cleared the link, select Last Download.
          Any invalid video urls are cleared from the Clipboard.
 
-         Note: A local video file with full path can be copied to the clipboard for play. (No quotes for files with spaces)
+         Note: A local video file with full path can be copied to the clipboard for play.
+               No quotes for files with spaces.
                
-        
-#### To use Play Clipboard:
-
- 
-#### Copy a video url to the clipboard then press enter to verify validity then &nbsp; p &nbsp; to download and autoplay.
+         To use Play Clipboard:
+         Copy a video url to the clipboard then press enter to verify validity.
+         Then  p   to download and autoplay.
 
 
 <br />
