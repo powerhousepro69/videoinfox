@@ -25,7 +25,7 @@ sudo chmod +x /usr/local/bin/videoinfox
 #### NEW in 5.3 &nbsp; -Move Block &nbsp; and &nbsp; -Remove Block &nbsp; in View Playlist and Play Queue.
 
 
-##### *** Videoinfox recommends Mpv to watch videos. 
+#### *** Videoinfox recommends using Mpv to watch videos. 
 ##### Mpv saves play postion on quit of every video played and Videoinfox saves Playlist and Play Queue position.
        
 
@@ -127,92 +127,79 @@ for batch processing.There is a Played List that keeps track of everything playe
 
 Help is located on the Home screen covering most of the features. Help also in Download List and View Playlist.
 
-### Harnessing the power of:
-
-Videoinfox - Over 14,000 lines of code.
-
-Xclip - Interact with the clipboard.
-
-Yt-dlp - Download video urls.
-
-MPV or FFplay - Play videos.
-
-FFmpeg - Get duration in hh:min:sec
-
-FFprobe - Get codec, resolution & duration in seconds.
-
-
-
 <br />
 
-### Videoinfox Features:
 
+### Navigation was designed to be robust and efficient.
 
-#### Navigation was designed to be robust and efficient. One keypress for all menu selections.
+         One keypress for all menu selections.
 
+  - File types searched for: &nbsp; .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx
   - Check for update on startup and notifity if update is available. Download and update in Videoinfox.
   - Play a local file by entering the line number. Play single video or autoplay the entire list.
-  - Default Directories to Playlist: Add recursive listings from Default Dirs 1-4 to a new Playlist.
-  - Playlist Find to search all playlists. Find videos without needing to know the files location.
-  - Mpv saves play postion on quit of every video played. Ffplay does not save play position on quit.
-  - File types searched for: &nbsp; .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx
-  - Create unlimited Playlists from: &nbsp; Recusive search results, Recursive directory listings and the Played List
-  - Make Playlist on the Home Screen to save all search results as a playlist.
-  - Mpv Playlist will keep track of playlist position. It will bypass Resume Autoplay and Intermission Screen.
-  - Playlist & Playlist Queue Edit options: &nbsp; Remove Line &nbsp; Remove Dupes &nbsp; Move Line &nbsp; Clear Playlist
-  - Playlist & Playlist Queue Play options: &nbsp; Play &nbsp; Start Autoplay &nbsp; Resume Autoplay  
-  - Directory To Playlist: &nbsp; Create a new playlist from a 1 level deep dir listing. Good for seasons of TV shows.
-  - Playlist Queue to load unlimited playlists for autoplay with last played video marker.
-  - Queue to Playlist: &nbsp; Save the Playlist Queue to a new Playlist.
-  - Play Clipboard: &nbsp; Download a video url that is in the clipboard via Yt-dlp and autoplay.
-  - Play Clipboard is available in: &nbsp; Home &nbsp; Played List &nbsp; Play List &nbsp; Yt-dlp Menu &nbsp; View Downloads
-  - See codec, resolution and duration on the playing video.
-  - Play Directory autoplay available on: &nbsp; Home Screen &nbsp; Navigate Tree &nbsp; View Downloads.
+  - See codec, resolution and duration on the playing video.  
   - Set Intermission time in seconds. Change the time in seconds on video end/player quit. Initially set to 10.
-  - Command Line Option: &nbsp; videoinfox -d &nbsp; Autoplay video files in the current directory with option to quit.
-  - Navigate Tree with Play Directory, Play and Autoplay. Select line number to start play.
-  - Video Player auto closes when the video ends. Ffplay is used by default. Any video player can be used.
-  - Auto clear the video url from clipboard after the video player is closed.
-  - To watch the last download after Play Clipboard cleared the link select Last Download.
-  - Auto clear the clipboard of invalid video urls.
-  - Press enter after your copy to the clipboard to validate clipboard content.
+  - Video Player auto closes when the video ends or quit(q). MPV is used by default. Any video player can be used.
+  - Directory saved on exit to load on next run.
+  - GUI notifications
   - Rapid directory changing by setting default directories (4) in Settings. The 5th is the directory at last exit.
-  - Default Dirs - 1 2 3 4 5  available in: Home &nbsp; Navigate Tree &nbsp; Download List &nbsp; More Options
-  - Played List: &nbsp; Log everything played except for: Play Directory, Autoplay, and anything played from a Played List.
-  - Duplicates auto-removed from the Played List.
-  - Enter a video file with full path to get info on and/or play.
+  
+        Default Dirs - 1 2 3 4 5  available in: Home &nbsp; Navigate Tree &nbsp; Download List &nbsp; More Options
+
+        Change directory by entering line number or the full path and filename.
+        Find directory and change to it by entering the line number.
+
+  - Played List: &nbsp; Log everything played with: &nbsp; Play, &nbsp; Play Clipboard &nbsp; and &nbsp; Last Download
+  
+        Duplicates auto-removed from the Played List.
   - Auto save last find result(s) and autoload until deleted. Defaulted to never save. Change in Settings.
   - Yt-dlp integration for easy download of a single url, a list of url's or a queue of multiple url lists.
-  - Download List: &nbsp; Download a list by entering line number.
-  - Logging of downloaded url lists with link and downloaded filename provided by Yt-dlp. 
-  - Download Queue: &nbsp; Add unlimited Videoinfox User Download Lists to the queue for download.
-  - Download Default: &nbsp; Yt-dlp with no arguments. Download only. No auto play.
-  - Download Choose: &nbsp; Choose video type and quality before download. Download only. No auto play.
-  - Self Destruct: &nbsp; Download, auto play, delete when the player is closed.
-  - Last Download in: &nbsp; Home and Yt-dlp Menu for: Play Clipboard, Download Default and Download Choose.
+    
+        Download and update Yt-dlp in Videoinfox.
+
+        Download Only: Yt-dlp with no arguments. Download clipboard only. No autoplay.
+        Download Choose: Choose video type and quality before download. Download only. No autoplay.
+        Self Destruct: Download, auto play, delete when the player is closed.
+        Last Download: Play last download.
+
+        Download List: Download a list by entering line number.
+        Logging of downloaded url lists with link and downloaded filename provided by Yt-dlp. 
+        Download Queue: Add unlimited Videoinfox User Download Lists to the queue for batch download.
+        
+        Command Line Option:  videoinfox -u listname  Download any url list to the directory of the list's location.
+        
   - Default List: &nbsp; Keep pasting Video URL's on the fly from the clipboard to the Default List.
 
         Default List companion: Create a keyboard shortcut for: videoinfox -a  to add to the Default List.
-  - Unlimited User Lists: Keep pasting Video URL's on the fly from the clipboard to the User Set List.
+  - Unlimited User Lists: &nbsp; Keep pasting Video URL's on the fly from the clipboard to the User Set List.
 
         User Set List companion: Create a keyboard shortcut for: videoinfox -l  to add to the User Set list.
-  - Command Line Option: &nbsp; videoinfox -u listname &nbsp; Download any url list to the directory of the list's location.
-  - Download and update Yt-dlp in Videoinfox.
-  - Save current working directory on exit to load on next run.
-  - Change directory by entering full path.
-  - Find directory and change to it by entering the line number.
-  - List video info one directory deep. Save per directory.
-  - Recursive count of videos broken down by video type.
-  - Recursive duration (days:hrs:min:sec) Save per directory.
-  - GUI notifications.
-  - More options . . .
 
+  - Info: Get codec, resolution and duration of videos. 
+
+        More Options:
+
+        List Directory: List video info one directory deep. Options to save/delete per directory.
+        Video Count: Recursive count of videos broken down by video type.
+        Video Duration: Recursive duration (days:hrs:min:sec) Options to save/delete per directory.
+  
 <br />
- 
-### To use Play Clipboard:
+
+### Play Clipboard 
+
+         Download a video url that is in the clipboard via Yt-dlp and autoplay.
+         Play Clipboard is available in: Home, Played List, View Playlist, Yt-dlp Menu and View Downloads  
+         The video url is cleared from clipboard after the video player is closed.
+         To watch the last download after Play Clipboard cleared the link, select Last Download.
+         Any invalid video urls are cleared from the Clipboard.
+
+         Note: A local video file with full path can be copied to the clipboard for play. (No quotes for files with spaces)
+               
+        
+#### To use Play Clipboard:
 
  
-#### Copy a video url to the clipboard then press enter to verify validity then &nbsp; p &nbsp; to download and auto play.
+#### Copy a video url to the clipboard then press enter to verify validity then &nbsp; p &nbsp; to download and autoplay.
 
 
 <br />
@@ -222,7 +209,7 @@ PLAY DIRECTORY
 
 Autoplay directory one level deep. Option to quit on video end or player quit.
 
-Autoplay features: &nbsp; Play Directory, Autoplay, Start Autoplay and Resume Autoplay.
+*Videoinfox autoplay features: &nbsp; Play Directory, Autoplay, Start and Resume*
 
 ![Play Directory](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PLAY-DIRECTORY.png)
 
@@ -230,7 +217,7 @@ Autoplay features: &nbsp; Play Directory, Autoplay, Start Autoplay and Resume Au
 <br />
 INTERMISSION SCREEN. Initially set to 10 seconds. Time can be changed in Settings.
 
-Applies to Play Directory, Autoplay, Start Autoplay and Resume Autoplay
+Applies to Play Directory, Autoplay, Start, and Resume
 
 ![Quit Play Directory](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PD-QUIT.png)
 
@@ -277,19 +264,19 @@ FIND DIRECTORY
 
 
 <br />
-NAVIGATE TREE >>> SHOW ALL with Autoplay, Play, Directory To Playlist and Playlist Add
+NAVIGATE TREE >>> SHOW ALL with Play, Autoplay, Play, Playlist Add and Make Playlist
 
 ![NT Show All](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/NT-SHOW-ALL.png)
 
 
 <br />
-FIND VIDEOS TO Play, Autoplay, Playlist Add or get Info
+FIND VIDEOS TO Play, Autoplay, Playlist Add or Make Playlist with all search results.
 
 ![Videoinfox Find](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/FIND.png)
 
 
 <br />
-VIEW PLAYLIST
+VIEW PLAYLIST to Create, Watch, and Manage Playlists and the Play Queue
 
 ![Videoinfox Playlist](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PLAYLIST.png)
 
@@ -419,5 +406,21 @@ FIRST RUN
 
 
 ![Code Stats](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/CODE-STATS.png)
+
+### Harnessing the power of:
+
+Videoinfox - Over 15,000 lines of code.
+
+Xclip - Interact with the clipboard.
+
+Yt-dlp - Download video urls.
+
+MPV or FFplay - Play videos.
+
+FFmpeg - Get duration in hh:min:sec
+
+FFprobe - Get codec, resolution & duration in seconds.
+
+
 
 
