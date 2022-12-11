@@ -1,4 +1,4 @@
-# Videoinfox v5.3.29
+# Videoinfox v5.3.30
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -366,6 +366,9 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.3.30 Add: Video files available: display to -Playlist Find
+
 
 ###  v5.3.29 Change: -Default Directories to Playlist  was renamed to  -Index Default Directories
 
