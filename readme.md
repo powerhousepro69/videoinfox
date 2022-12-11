@@ -1,4 +1,4 @@
-# Videoinfox v5.3.12
+# Videoinfox v5.3.25
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -22,7 +22,7 @@ sudo chmod +x /usr/local/bin/videoinfox
 ```
 
 
-#### NEW in 5.3 &nbsp; -Move Block and -Remove Block in View Playlist and Play Queue
+#### NEW in 5.3 &nbsp; -Move Block &nbsp; and &nbsp; -Remove Block &nbsp; in View Playlist and Play Queue.
 
 
 ##### *** Videoinfox recommends Mpv to watch videos. 
@@ -392,6 +392,16 @@ FIRST RUN
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
 
+###  v5.3.25 Update: The loaded playlist was saved when another playlist was loaded. Now the playlist is saved on every edit.
+
+        Change: Any edits to a Playlist or the Play Queue will clear the resume marker if one exists.
+
+        Fix: Running Last Download when a video was never downloaded would autoplay the download directory.
+        MSG: A video has to be downloaded first for this feature to work.
+
+        Edit: View Playlist >>> Help
+
+
 ###  v5.3.12 Fix: Script errors in -Rename
 
 ###  v5.3.11 New: -Move Block added to -View Playlist and -Play Queue
@@ -402,91 +412,6 @@ FIRST RUN
         Note: If there is a playlist resume marker, it will be retained when renaming a playlist.
 
         Edit: Home Help Playlist Features: and View Playlist Help
-
-
-###  v5.1.08 Fix: Play Queue -Clear Resume y/n prompt.
-
-###  v5.1.07 Change: Default download directory can't be cleared. It can only be changed.
-
-        Videoinfox always needs a download directory set for: -Download Only  -Download Choose
-        -Self Destruct and for downloading the default list in -Download List
-
-        Change: Options moved around in -View Playlist to make room for the next 2 new options.
-                 -Play Queue still needs options moved around for the same next 2 new options.
-
-        Change: View Playlist and Play Queue Option:  B - Clear Resume  changed to  b - Clear Resume
-        Add: Confirmation prompt added to -Clear Resume
-
-        Change: Played List option:  D - Clear Played List  changed to  d - Clear Played List
-        Add: Confirmation prompt added to -Clear Played List
-
-
-###  v5.1.01 Edit: Home Help Playlist Features:
-
-
-###  v5.1.00  Fix: Most options were accepting 0 as an entry and processing it as 1. This fix was applied globally.
-
-        Fix: Play Queue. Path was removed from listings in options:  - Remove Line  - Move Line 
-
-        Fix: View Playlist >>> Change and Queue >>> Queue List -Rebuild Queue
-             Running rebuild queue produced a script error if a playlist was deleted after it was
-             added to the queue.
-
-        Add: Message added to View Playlist >>> Change and Queue -Delete when a loaded playlist
-             is deleted.
-        MSG: Loaded playlist was deleted. Default playlist loaded . . .
-
-        Change: View Playlist -Change and Queue
-        The word Playlist was removed from options:  -Change Playlist  -Create Playlist  -Delete Playlist 
-
-
-###  v5.0.34 Update: -Play  -Autoplay  -Start  -Resume   All hide Videoinfox's display to gain more screen space for listings.
-
-        add: There was no way to clear Default Directories (1-4) once they were set. The only option
-             was to provide avalid path to change it. There is now an option to clear a Default 
-             Directory where the directories are set.
-
-        Update: View Playlist >>> Change and Queue
-
-             -Change Playlist  -Delete Playlist  -Add to Queue  -Mpv Playlist
-
-        The above 4 options all hide Videoinfox's display to gain more screen space for listings.
-
-        Change: -Mpv Playlist info added. A message displays every time this option is run.
-
-        Change: View Playlist >>> Change and Queue -Queue List options condensed to one line.
-
-        Edit: View Playlist -Help
-
-        More cleaning up of prompts, messages and headers to provide a more consistent user
-        experience.
-         
-###  v5.0.03 Edit: A few minor edits in help files.
-
-###  v5.0.02 Fix: -Make Playlist in -Played List was broke.
-
-###  v5.0.01 Fix: -Play Directory and videoinfox -d
-
-###  v5.0.00 Add: -Make Playlist added to Played List
-
-         Add: Numbered lines now in -Queue List and added options -Move Line and -Remove Line
-
-         Change: -Queue List. Options moved around.
-         Change: Everywhere -Play is used, is now written to the Played List including -Play in -View Playlist
-         Change: -Delete Queue renamed to -Clear Queue
-         Change: -Directory to Playlist and -Queue to Playlist have been renamed to -Make Playlist
-         Change: -View Playlist and -Play Queue.  Z - Clear Resume changed to  B - Clear Resume
-         Change: Options -Resume and -Clear Resume are now removed from the display when there is no resume marker set.
-         Change: d - Download Default  in Yt-dlp Menu changed to  r - Download Only 
-         Change: FIRST RUN >>> SETUP now checks for mpv and sets as default video player. If not found, ffplay is set.
-         Change: FIRST RUN >>> SETUP screen updated with mpv check.
-
-         Fix: View Playlist. Suppress script errors when running -Start with an empty playlist.
-         Fix: Played List. Suppress script error when running -Play or -Playlist Add with an empty played list.
-
-         Updated Playlist and Find section in Home Help.
-         Updated Help in View Playlist.
-
 
 
 <br />
