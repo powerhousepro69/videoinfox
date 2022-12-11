@@ -5,9 +5,9 @@
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
-ver="Videoinfox v5.3.29"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m3.29")  # Version Number: with blinking dot
-vn="v5.3.29" #V!
+ver="Videoinfox v5.3.30"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m3.30")  # Version Number: with blinking dot
+vn="v5.3.30" #V!
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -1116,7 +1116,7 @@ echo "__________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.3.29   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Videoinfox v5.3.30   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1273,7 +1273,7 @@ else
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.3.29   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
+echo " Videoinfox v5.3.30   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1587,7 +1587,7 @@ echo " q - quit                                                                 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 #V!
-echo " 172 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " 173 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 
 
@@ -1600,6 +1600,9 @@ echo " _________________________________________________________________________
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
 
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v5.3.30 Add: Video files available: display to -Playlist Find" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.3.29 Change: -Default Directories to Playlist  was renamed to  -Index Default Directories" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
@@ -3249,22 +3252,34 @@ h)  # HELP
 t)  ################  @ PLAYLIST FIND ROUTINE - <HOME>  ######################$$$##################################################################
 ##################################################################################################################################################
     pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+
+
+find ~/.config/videoinfox/playlists -type f -iname "vplaylist.*" | xargs -d '\n' grep -i -h "." > ~/.config/videoinfox/tmp/search-playlist.tmp.display 2> /dev/null
+find ~/.config/videoinfox/playlists -type f -iname "v-index.*" | xargs -d '\n' grep -i -h "." >> ~/.config/videoinfox/tmp/search-playlist.tmp.display 2> /dev/null
+# REMOVE DUPES
+cat -n ~/.config/videoinfox/tmp/search-playlist.tmp.display | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/search-playlist.tmp.display2
+totalplvideos=$(wc -l ~/.config/videoinfox/tmp/search-playlist.tmp.display2 2> /dev/null | cut -d' ' -f1) # GETTING LINE COUNT
+
+
     clear
     echo
     #echo "Directory: ""$PWD" 
     echo "Clipboard: ""$pasteclip"
     echo "___________________________________________________________________________________________________________________"
     echo
-    echo " ""$ver"" >>> Playlist Find - Text search of all playlists                                 No wildcard *"
+    echo " ""$ver"" >>> Search all Playlists and the Default Directories Index                       No wildcard *"
     echo "___________________________________________________________________________________________________________________"
     echo
-    echo " Find a video file to play, add it to the playlist or get info. Case ignored.                  Enter . to Show All"
+    echo " Video files available:" "$totalplvideos"
+    echo
+    echo
+    echo " Enter a keyword from a path or a video file. Case ignored.                                    Enter . to Show All"
     echo
     read -r -p " Search for text: " videofind  # waiting fot user input - video file that you want to find
 
-    find ~/.config/videoinfox/playlists -type f -iname "vplaylist.*" | xargs -d '\n' grep -i -h "$videofind" > ~/.config/videoinfox/tmp/search-playlist.tmp 2> /dev/null
+find ~/.config/videoinfox/playlists -type f -iname "vplaylist.*" | xargs -d '\n' grep -i -h "$videofind" > ~/.config/videoinfox/tmp/search-playlist.tmp 2> /dev/null
 
-    find ~/.config/videoinfox/playlists -type f -iname "v-index.*" | xargs -d '\n' grep -i -h "$videofind" >> ~/.config/videoinfox/tmp/search-playlist.tmp 2> /dev/null
+find ~/.config/videoinfox/playlists -type f -iname "v-index.*" | xargs -d '\n' grep -i -h "$videofind" >> ~/.config/videoinfox/tmp/search-playlist.tmp 2> /dev/null
 
     # REMOVE DUPES
     cat -n ~/.config/videoinfox/tmp/search-playlist.tmp | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/search-playlist.tmp2
@@ -18743,9 +18758,9 @@ case $optionsettings in
     echo " Building Index of Default Directories 1-4 . . ."
     sleep 1.9
 
-    if [ -f ~/.config/videoinfox/playlists/"vplaylist.Default Directories" ]
+    if [ -f ~/.config/videoinfox/playlists/v-index.Default-Directories ]
       then
-          rm ~/.config/videoinfox/playlists/"vplaylist.Default Directories"
+          rm ~/.config/videoinfox/playlists/v-index.Default-Directories
       else
           :
     fi
@@ -18755,7 +18770,7 @@ case $optionsettings in
           :
       else 
           cd "$dir1"
-find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) | sort -u >> ~/.config/videoinfox/tmp/"vplaylist.Default Directories.tmp"
+find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) | sort -u > ~/.config/videoinfox/tmp/"vplaylist.Default Directories.tmp"
     fi
 
     if [ -z "$dir2" ]
