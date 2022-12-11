@@ -146,7 +146,7 @@ Help is located on the Home screen covering most of the features. Help also in D
   
         Default Dirs - 1 2 3 4 5  available in: Home, Navigate Tree, Download List & More Options
 
-        Change directory by entering line number or the full path and filename.
+        Change directory by entering line number or by entering the path.
         Find directory and change to it by entering the line number.
 
   - Played List: &nbsp; Log everything played with: &nbsp; Play, &nbsp; Play Clipboard &nbsp; and &nbsp; Last Download
