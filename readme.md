@@ -140,14 +140,13 @@ Help is located on the Home screen covering most of the features. Help also in D
   - See codec, resolution and duration on the playing video.  
   - Set Intermission time in seconds. Change the time in seconds on video end/player quit. Initially set to 10.
   - Video Player auto closes when the video ends or quit(q). MPV is used by default. Any video player can be used.
+  - Change directory by entering line number or by entering the path.
+  - Find directory and change to it by entering the line number.
   - Directory saved on exit to load on next run.
   - GUI notifications
   - Rapid directory changing by setting default directories (4) in Settings. The 5th is the directory at last exit.
   
         Default Dirs - 1 2 3 4 5  available in: Home, Navigate Tree, Download List & More Options
-
-        Change directory by entering line number or by entering the path.
-        Find directory and change to it by entering the line number.
 
   - Played List: &nbsp; Log everything played with: &nbsp; Play, &nbsp; Play Clipboard &nbsp; and &nbsp; Last Download
   
