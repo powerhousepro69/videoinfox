@@ -402,12 +402,6 @@ FIRST RUN
         Edit: Home Help Playlist Features: and View Playlist Help
 
 
-<br />
-
-
-
-![Code Stats](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/CODE-STATS.png)
-
 ### Harnessing the power of:
 
 Videoinfox - Over 15,000 lines of code.
@@ -421,6 +415,10 @@ MPV or FFplay - Play videos.
 FFmpeg - Get duration in hh:min:sec
 
 FFprobe - Get codec, resolution & duration in seconds.
+
+
+![Code Stats](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/CODE-STATS.png)
+
 
 
 
