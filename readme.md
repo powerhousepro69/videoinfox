@@ -135,6 +135,7 @@ Help is located on the Home screen covering most of the features. Help also in D
          One keypress for all menu selections.
 
   - File types searched for: &nbsp; .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx
+  - Auto save last search result(s) and autoload until deleted. Defaulted to never save. Change in Settings.
   - Check for update on startup and notifity if update is available. Download and update in Videoinfox.
   - Play a local file by entering the line number. Play single video or autoplay the entire list.
   - See codec, resolution and duration on the playing video.  
@@ -144,7 +145,7 @@ Help is located on the Home screen covering most of the features. Help also in D
   - GUI notifications
   - Rapid directory changing by setting default directories (4) in Settings. The 5th is the directory at last exit.
   
-        Default Dirs - 1 2 3 4 5  available in: Home &nbsp; Navigate Tree &nbsp; Download List &nbsp; More Options
+        Default Dirs - 1 2 3 4 5  available in: Home, Navigate Tree, Download List & More Options
 
         Change directory by entering line number or the full path and filename.
         Find directory and change to it by entering the line number.
@@ -152,7 +153,7 @@ Help is located on the Home screen covering most of the features. Help also in D
   - Played List: &nbsp; Log everything played with: &nbsp; Play, &nbsp; Play Clipboard &nbsp; and &nbsp; Last Download
   
         Duplicates auto-removed from the Played List.
-  - Auto save last find result(s) and autoload until deleted. Defaulted to never save. Change in Settings.
+ 
   - Yt-dlp integration for easy download of a single url, a list of url's or a queue of multiple url lists.
     
         Download and update Yt-dlp in Videoinfox.
