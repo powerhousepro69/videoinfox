@@ -24,9 +24,6 @@ sudo chmod +x /usr/local/bin/videoinfox
 <br />
 
 #### NEW in 5.3 &nbsp; -Move Block &nbsp; and &nbsp; -Remove Block &nbsp; in View Playlist and Play Queue.
-
-<br />
-
 #### *Videoinfox recommends using MPV to watch videos and will be set as the default video player if found.*
 #### *Mpv saves play postion on quit of every video played and Videoinfox saves Playlist and Play Queue position.*
        
