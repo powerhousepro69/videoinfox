@@ -1,4 +1,4 @@
-# Videoinfox v5.3.25
+# Videoinfox v5.3.29
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -65,8 +65,7 @@ for batch processing.There is a Played List that keeps track of everything playe
  
      - Make Playlist to save the Play Queue as a new playlist.
 
-     - Default Directories to Playlist to save a recursive listing of Default Directories 1-4.
-       Note: This will create a searchable list of all videos by keyword for -Playlist Find.
+     - Default Directories can be saved as a playlist. -Playlist Find and search . then -Make Playlist
 
 
 #### *Watch*  
@@ -367,6 +366,19 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.3.29 Change: -Default Directories to Playlist  was renamed to  -Index Default Directories
+
+        Run -Index Default Directories then delete playlist: Default Directories because it won't be
+        updated anymore. This list has been renamed and no longer shows up as a Playlist. If needed,
+        a playlist can be generated from this index. Select -Playlist Find on the home screen and 
+        enter  .  to show all then -Make Playlist
+
+        Add: Date and time displayed in settings of the last time  -Index Default Directories  was run.
+
+        Add: Confirmation prompt for -Clear User Set List in Yt-dlp Menu >>> Download List 
+        Change: -Clear User Set List option letter changed from  Z  to  z
+
 
 ###  v5.3.25 Update: The loaded playlist was saved when another playlist was loaded. Now the playlist is saved on every edit.
 
