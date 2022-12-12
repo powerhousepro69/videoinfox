@@ -1,4 +1,4 @@
-# Videoinfox v5.3.30
+# Videoinfox v5.3.43
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -366,6 +366,16 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.3.43 Update: Some options moved around on the home screen to group playlist features together.
+        
+        Change: Play Clipboard and Download Only blinking dash were changed to an  *  on the home screen.
+                Remaining screens with the Play Clipboard blinking dash will be changed to an  *  on the next update.
+
+        Change: Header in Playlist Find
+
+        Change: Video files available:  changed to  Indexed video files:  in Playlist Find
+
 
 ###  v5.3.30 Add: Video files available: display to -Playlist Find
 
