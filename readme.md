@@ -118,10 +118,12 @@ for batch processing.There is a Played List that keeps track of everything playe
 
 ### Find videos by searching the text of all Playlists and the Default Directories Index      
 
-     -Playlist Find is on the home screen.
+     - PLAYLIST FIND
 
       Find videos to play or add to a playlist without needing to know the files location.
       Use a keyword from the path or filename to locate videos.
+
+      Note: Default directories must be set up first. Then run  - Index Default Directories
 
 ![Playlist Find](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PLAYLIST-FIND.png)
 
