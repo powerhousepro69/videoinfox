@@ -116,12 +116,15 @@ for batch processing.There is a Played List that keeps track of everything playe
 
      Playlist overwrite prompt for an existing file with options:  -Create and -Make Playlist
 
-### Find videos by searching the text of all playlists using a keyword with Playlist Find      
+### Find videos by searching the text of all Playlists and the Default Directories Index      
 
      -Playlist Find on the home screen to search for text in all playlists.
 
       Find videos to play or add to a playlist without needing to know the files location.
       Use a keyword from the path or filename to locate videos.
+
+![Playlist Find](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PLAYLIST-FIND.png)
+
 <br />
 
   - Help is located on the Home screen covering most of the features. Help also in Download List and View Playlist.
