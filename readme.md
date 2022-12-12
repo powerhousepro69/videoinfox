@@ -118,7 +118,7 @@ for batch processing.There is a Played List that keeps track of everything playe
 
 ### Find videos by searching the text of all Playlists and the Default Directories Index      
 
-     -Playlist Find on the home screen to search for text in all playlists.
+     -Playlist Find is on the home screen.
 
       Find videos to play or add to a playlist without needing to know the files location.
       Use a keyword from the path or filename to locate videos.
