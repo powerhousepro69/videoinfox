@@ -127,7 +127,9 @@ for batch processing.There is a Played List that keeps track of everything playe
             
             Indexing more directories in addition the 4 default directories is a simple process.
             Change to a parent directory of a video library. Then -Show All on the home screen
-            and select -Make Playlist 
+            and select -Make Playlist
+ 
+            * Duplicates are always removed from playlist find results. 
 
 ![Playlist Find](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PLAYLIST-FIND.png)
 
