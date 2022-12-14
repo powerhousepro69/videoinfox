@@ -5,9 +5,9 @@
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
-ver="Videoinfox v5.3.43"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m3.43")  # Version Number: with blinking dot
-vn="v5.3.43" #V!
+ver="Videoinfox v5.3.44"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m3.44")  # Version Number: with blinking dot
+vn="v5.3.44" #V!
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -1116,7 +1116,7 @@ echo "__________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.3.43   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Videoinfox v5.3.44   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1273,7 +1273,7 @@ else
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.3.43   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
+echo " Videoinfox v5.3.44   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1587,7 +1587,7 @@ echo " q - quit                                                                 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 #V!
-echo " 174 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history #DONE
+echo " 175 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 
 
@@ -1600,6 +1600,9 @@ echo " _________________________________________________________________________
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
 
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v5.3.44 Fix: Resume in View Playlist was broke in the last update." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.3.43 Update: Some options moved around on the home screen to group playlist features together." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
@@ -3318,7 +3321,7 @@ find ~/.config/videoinfox/playlists -type f -iname "v-index.*" | xargs -d '\n' g
 
                            # save find results
                            cp ~/.config/videoinfox/tmp/search-playlist.tmp2 ~/.config/videoinfox/videoinfo.findwork
-                           echo "Text search of all playlists and the default directories index." > ~/.config/videoinfox/videoinfo.lastfinddir  #  
+                           echo "Playlists and Default Directories Index" > ~/.config/videoinfox/videoinfo.lastfinddir  #  
                            # write last search total file count
                            echo "$searchtotal" > ~/.config/videoinfox/videoinfo.lastsearchtotal
                            # read last search total file count
@@ -5219,7 +5222,7 @@ fi
 
 
 read -r savedpl < ~/.config/videoinfox/videoinfo.playlist.current # full name and path of the saved playlist
-loadedpl="~/.config/videoinfox/videoinfo.playlist" # full name and path of the loaded playlist
+loadedpl="$HOME/.config/videoinfox/videoinfo.playlist" # full name and path of the loaded playlist
 if cmp --silent -- "$savedpl" "$loadedpl"  # compare the saved playlist to the loaded playlist and update the saved playlist on: FILES ARE DIFFERENT  
   then # files are the same
       :
@@ -10458,7 +10461,7 @@ fi
 
 
 read -r savedpl < ~/.config/videoinfox/videoinfo.playlist.current # full name and path of the saved playlist
-loadedpl="~/.config/videoinfox/videoinfo.playlist" # full name and path of the loaded playlist
+loadedpl="$HOME/.config/videoinfox/videoinfo.playlist" # full name and path of the loaded playlist
 if cmp --silent -- "$savedpl" "$loadedpl"  # compare the saved playlist to the loaded playlist and update the saved playlist on: FILES ARE DIFFERENT  
   then # files are the same
       :
@@ -14737,7 +14740,7 @@ fi
 
 
 read -r savedpl < ~/.config/videoinfox/videoinfo.playlist.current # full name and path of the saved playlist
-loadedpl="~/.config/videoinfox/videoinfo.playlist" # full name and path of the loaded playlist
+loadedpl="$HOME/.config/videoinfox/videoinfo.playlist" # full name and path of the loaded playlist
 if cmp --silent -- "$savedpl" "$loadedpl"  # compare the saved playlist to the loaded playlist and update the saved playlist on: FILES ARE DIFFERENT  
   then # files are the same
       :
