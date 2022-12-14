@@ -1,4 +1,4 @@
-# Videoinfox v5.3.43
+# Videoinfox v5.3.44
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -377,6 +377,8 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.3.44 Fix: Resume in View Playlist was broke in the last update.
 
 ###  v5.3.43 Update: Some options moved around on the home screen to group playlist features together.
         
