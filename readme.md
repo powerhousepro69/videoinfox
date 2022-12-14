@@ -242,7 +242,7 @@ DOWNLOAD LIST MENU WITH DOWNLOAD QUEUE
 
 
 <br />
-DEFAULT DOWNLOAD LIST
+DEFAULT LIST
 
 Copy the url to clipboard then add video url to to the default list in videoinfox
 
