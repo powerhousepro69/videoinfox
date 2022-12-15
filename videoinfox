@@ -5,9 +5,9 @@
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
-ver="Videoinfox v5.3.44"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m3.44")  # Version Number: with blinking dot
-vn="v5.3.44" #V!
+ver="Videoinfox v5.3.48"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m3.48")  # Version Number: with blinking dot
+vn="v5.3.48" #V!  update help files on update
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -774,26 +774,25 @@ if [ -d "$direxist" ]  #  if directoty exists goto  <then>
       echo
       echo "___________________________________________________________________________________________________________________"
       echo  
-      echo " $ver >>> FIRST RUN >>> SETUP >>> Directory and file creation "
+      echo " $ver >>> FIRST RUN >>> SETUP"
+      echo " Created config directory: "$HOME"/.config/videoinfox and required files"
       echo "___________________________________________________________________________________________________________________"
       echo "___________________________________________________________________________________________________________________"
       echo         
-      echo " Created config directory: "$HOME"/.config/videoinfox and required files."
+      echo " Don't use paste on any screen with the dot blinking in the version number and Videoinfox will work as intended."
       echo "___________________________________________________________________________________________________________________"
       echo
-      echo " Everywhere the dot is blinking in the version number, don't paste and Videoinfox will function as intended."
-      echo "__________________________________________________________________________________________________________________"
+      echo " * VIDEOINFOX WILL KEEP CLEARING OUT INVALID CONTENT FROM THE CLIPBOARD. ANYTHING THAT ISN'T A VIDEO URL OR FILE *"
+      echo "___________________________________________________________________________________________________________________"
       echo
 
 if ! command -v mpv &> /dev/null
   then # ffplay
       echo " Mpv not found . . . Ffplay will be set as default video player."
-      echo
-      echo " * Mpv will keep a marker of last play position of every video played. Ffplay will not."
+      echo " Mpv will keep a marker of last play position of every video played. Ffplay will not."
   else # mpv
       echo " Mpv found . . . Mpv will be set as default video player."
-      echo
-      echo " * Mpv will keep a marker of last play position of every video played."
+      echo " Mpv will keep a marker of last play position of every video played."
 fi  
       echo "__________________________________________________________________________________________________________________"
       echo
@@ -801,7 +800,7 @@ fi
       echo
       echo " Video playing:  [ f - toggle fullscreen ]   [ spacebar - play/pause ]   [ l/r arrows - fwd/rew ]   [ q -quit ]"
       echo
-      echo " Press  p  when Videoinfox starts up. That will download the video url that is in the clipboard and auto play it."
+      echo " Press  p  when Videoinfox starts up. That will download the video url that is in the clipboard and autoplay it."
       echo "__________________________________________________________________________________________________________________"
       echo
       echo " Yt-dlp will be downloaded to: "$HOME"/.config/videoinfox"
@@ -1116,7 +1115,7 @@ echo "__________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.3.44   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Videoinfox v5.3.48   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1127,7 +1126,7 @@ echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo " DOWNLOAD LIST HELP" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
-echo " ***** The Download List Display is Sorted Recursively By Directory. Not By Filename. *****" >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " ***** The Download List Display is Sorted By Directory. *****" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo " There is a Default List and User Created Lists.  If a list is deleted, it's log file will also be deleted." >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1153,7 +1152,7 @@ echo "                  TO USE:  Copy a Video URL to the clipboard then use the 
 echo "                           That will add the URL to the Default List.  Rinse and repeat until done." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
-echo "                  Keep pasting your clipboard copies on the fly to the Default List without running Videoinfox." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "                  Keep pasting your clipboard copies on the fly to the Default List without leaving the browser." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "                  When done making the list, start Videoinfox. Load the list and Download." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "                  Note: Clipboard will be cleared everytime you run the shortcut." >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1182,7 +1181,7 @@ echo "                  TO USE:  Copy a Video URL to the clipboard then use the 
 echo "                           That will add the URL to the User Set List.  Rinse and repeat until done." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
-echo "                  Keep pasting your clipboard copies on the fly to the User Set List without running Videoinfox." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo "                  Keep pasting your clipboard copies on the fly to the User Set List without leaving the browser." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "                  When done making the list, start Videoinfox. Load the list and Download." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1273,7 +1272,7 @@ else
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.3.44   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
+echo " Videoinfox v5.3.48   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1587,7 +1586,7 @@ echo " q - quit                                                                 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 #V!
-echo " 175 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " 176 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 
 
@@ -1600,6 +1599,17 @@ echo " _________________________________________________________________________
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
 
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v5.3.48 Change: A few options moved around on the home screen." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Change: Play Clipboard blinking dash changed to  *  on all screens." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Edit: Download List >>> Help" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Edit: First Run >>> Setup" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "               Add: VIDEOINFOX WILL KEEP CLEARING OUT INVALID CONTENT FROM THE CLIPBOARD." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                    ANYTHING THAT ISN'T A VIDEO URL OR FILE." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.3.44 Fix: Resume in View Playlist was broke in the last update." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -3183,10 +3193,10 @@ echo
 echo " $der $viv4      Enter - Update Clipboard Display                "$dirdisp" - Default Dirs"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " f - Find Video        n - Navigate Tree     s - View Playlist      p - Play Clipboard     y - Yt-dlp     e - Exit"
-echo " a - Show All          l - Last Download     t - Playlist Find      r - Download Only      x - Clrclp     u - Set" 
-echo " c - Clear Results     v - Played List       k "$dashj" Playlist Add       d "$dash" Play Directory     i "$dashj" Info       h - Help"
-echo " m - More Options      g - Find Dir          z "$dashj" Make Playlist      o "$dashj" Autoplay           j "$dashj" Play"
+echo " f - Find Video        n - Navigate Tree     t - Playlist Find     p - Play Clipboard     y - Yt-dlp     e - Exit"
+echo " a - Show All          g - Find Dir          s - View Playlist     r - Download Only      x - Clrclp     u - Set" 
+echo " c - Clear Results     l - Last Download     k "$dashj" Playlist Add      d "$dash" Play Directory     i "$dashj" Info       h - Help"
+echo " m - More Options      v - Played List       z "$dashj" Make Playlist     o "$dashj" Autoplay           j "$dashj" Play"
 echo        
                   
                   else  # yt-dlp extracted a filename
@@ -3197,11 +3207,11 @@ echo
 echo " $der $viv4      Enter - Update Clipboard Display                "$dirdisp" - Default Dirs"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " f - Find Video        n - Navigate Tree     s - View Playlist      p * Play Clipboard     y - Yt-dlp     e - Exit"
-echo " a - Show All          l - Last Download     t - Playlist Find      r * Download Only      x - Clrclp     u - Set" 
-echo " c - Clear Results     v - Played List       k "$dashj" Playlist Add       d "$dash" Play Directory     i "$dashj" Info       h - Help"
-echo " m - More Options      g - Find Dir          z "$dashj" Make Playlist      o "$dashj" Autoplay           j "$dashj" Play"
-echo                                                          
+echo " f - Find Video        n - Navigate Tree     t - Playlist Find     p * Play Clipboard     y - Yt-dlp     e - Exit"
+echo " a - Show All          g - Find Dir          s - View Playlist     r * Download Only      x - Clrclp     u - Set" 
+echo " c - Clear Results     l - Last Download     k "$dashj" Playlist Add      d "$dash" Play Directory     i "$dashj" Info       h - Help"
+echo " m - More Options      v - Played List       z "$dashj" Make Playlist     o "$dashj" Autoplay           j "$dashj" Play"
+echo                                                        
             fi
     else
 
@@ -3214,10 +3224,10 @@ echo
 echo " $der $viv4      Enter - Update Clipboard Display                "$dirdisp" - Default Dirs"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " f - Find Video        n - Navigate Tree     s - View Playlist      p * Play Clipboard     y - Yt-dlp     e - Exit"
-echo " a - Show All          l - Last Download     t - Playlist Find      r - Download Only      x - Clrclp     u - Set" 
-echo " c - Clear Results     v - Played List       k "$dashj" Playlist Add       d "$dash" Play Directory     i "$dashj" Info       h - Help"
-echo " m - More Options      g - Find Dir          z "$dashj" Make Playlist      o "$dashj" Autoplay           j "$dashj" Play"
+echo " f - Find Video        n - Navigate Tree     t - Playlist Find     p * Play Clipboard     y - Yt-dlp     e - Exit"
+echo " a - Show All          g - Find Dir          s - View Playlist     r - Download Only      x - Clrclp     u - Set" 
+echo " c - Clear Results     l - Last Download     k "$dashj" Playlist Add      d "$dash" Play Directory     i "$dashj" Info       h - Help"
+echo " m - More Options      v - Played List       z "$dashj" Make Playlist     o "$dashj" Autoplay           j "$dashj" Play"
 echo                                                                          
 
   else  # file does not exist
@@ -3230,11 +3240,11 @@ echo
 echo " $der $viv4      Enter - Update Clipboard Display                "$dirdisp" - Default Dirs"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " f - Find Video        n - Navigate Tree     s - View Playlist      p - Play Clipboard     y - Yt-dlp     e - Exit"
-echo " a - Show All          l - Last Download     t - Playlist Find      r - Download Only      x - Clrclp     u - Set" 
-echo " c - Clear Results     v - Played List       k "$dashj" Playlist Add       d "$dash" Play Directory     i "$dashj" Info       h - Help"
-echo " m - More Options      g - Find Dir          z "$dashj" Make Playlist      o "$dashj" Autoplay           j "$dashj" Play"
-echo         
+echo " f - Find Video        n - Navigate Tree     t - Playlist Find     p - Play Clipboard     y - Yt-dlp     e - Exit"
+echo " a - Show All          g - Find Dir          s - View Playlist     r - Download Only      x - Clrclp     u - Set" 
+echo " c - Clear Results     l - Last Download     k "$dashj" Playlist Add      d "$dash" Play Directory     i "$dashj" Info       h - Help"
+echo " m - More Options      v - Played List       z "$dashj" Make Playlist     o "$dashj" Autoplay           j "$dashj" Play"
+echo 
                                    
 
 fi
@@ -5297,7 +5307,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo
                       echo " j - Play     o - Start            c - Change and Queue     r - Remove Line        m - Move Line          q - Quit"
                       echo "              $vpresume           d - Clear Playlist       y - Remove Block       v - Move Block         i - Info"
-                      echo -e " t - Intr     $vpclresume     p \033[5m-\033m\033[0m\033[5m\033[5m\033[0m Play Clipboard       g - Remove Dupes       x - Clrclp             h - Help"
+                      echo -e " t - Intr     $vpclresume     p * Play Clipboard       g - Remove Dupes       x - Clrclp             h - Help"
                       echo                                                                                 
             fi
   else
@@ -5313,7 +5323,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo
                       echo " j - Play     o - Start            c - Change and Queue     r - Remove Line        m - Move Line          q - Quit"
                       echo "              $vpresume           d - Clear Playlist       y - Remove Block       v - Move Block         i - Info"
-                      echo -e " t - Intr     $vpclresume     p \033[5m-\033m\033[0m\033[5m\033[5m\033[0m Play Clipboard       g - Remove Dupes       x - Clrclp             h - Help"
+                      echo -e " t - Intr     $vpclresume     p * Play Clipboard       g - Remove Dupes       x - Clrclp             h - Help"
                       echo                                                                                  
 
         else 
@@ -9827,7 +9837,7 @@ fi
                       echo " "$der" >>> PLAYED LIST"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo -e " j "$dashit" Play          s - View Playlist     d - Clear Played List      p \033[5m-\033m\033[0m\033[5m\033[5m\033[0m Play Clipboard     x - Clrclp      q - Quit"                     
+                      echo -e " j "$dashit" Play          s - View Playlist     d - Clear Played List      p * Play Clipboard     x - Clrclp      q - Quit"                     
                       echo " o "$dashit" Autoplay      k "$dashit" Playlist Add      z - Make PlayList                                               " " i "$dashit" Info"
                       echo                                                                                        
             fi
@@ -9842,7 +9852,7 @@ fi
             echo " "$der" >>> PLAYED LIST"
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo -e " j "$dashit" Play          s - View Playlist     d - Clear Played List      p \033[5m-\033m\033[0m\033[5m\033[5m\033[0m Play Clipboard     x - Clrclp      q - Quit"                     
+            echo -e " j "$dashit" Play          s - View Playlist     d - Clear Played List      p * Play Clipboard     x - Clrclp      q - Quit"                     
             echo " o "$dashit" Autoplay      k "$dashit" Playlist Add      z - Make PlayList                                               " " i "$dashit" Info"
             echo                                                            
 
@@ -10536,7 +10546,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo
                       echo " j - Play     o - Start            c - Change and Queue     r - Remove Line        m - Move Line          q - Quit"
                       echo "              $vpresume           d - Clear Playlist       y - Remove Block       v - Move Block         i - Info"
-                      echo -e " t - Intr     $vpclresume     p \033[5m-\033m\033[0m\033[5m\033[5m\033[0m Play Clipboard       g - Remove Dupes       x - Clrclp             h - Help"
+                      echo -e " t - Intr     $vpclresume     p * Play Clipboard       g - Remove Dupes       x - Clrclp             h - Help"
                       echo                                                                                 
             fi
   else
@@ -10552,7 +10562,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo
                       echo " j - Play     o - Start            c - Change and Queue     r - Remove Line        m - Move Line          q - Quit"
                       echo "              $vpresume           d - Clear Playlist       y - Remove Block       v - Move Block         i - Info"
-                      echo -e " t - Intr     $vpclresume     p \033[5m-\033m\033[0m\033[5m\033[5m\033[0m Play Clipboard       g - Remove Dupes       x - Clrclp             h - Help"
+                      echo -e " t - Intr     $vpclresume     p * Play Clipboard       g - Remove Dupes       x - Clrclp             h - Help"
                       echo                                                                                  
 
         else 
@@ -14815,7 +14825,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo
                       echo " j - Play     o - Start            c - Change and Queue     r - Remove Line        m - Move Line          q - Quit"
                       echo "              $vpresume           d - Clear Playlist       y - Remove Block       v - Move Block         i - Info"
-                      echo -e " t - Intr     $vpclresume     p \033[5m-\033m\033[0m\033[5m\033[5m\033[0m Play Clipboard       g - Remove Dupes       x - Clrclp             h - Help"
+                      echo -e " t - Intr     $vpclresume     p * Play Clipboard       g - Remove Dupes       x - Clrclp             h - Help"
                       echo                                                                                 
             fi
   else
@@ -14831,7 +14841,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo
                       echo " j - Play     o - Start            c - Change and Queue     r - Remove Line        m - Move Line          q - Quit"
                       echo "              $vpresume           d - Clear Playlist       y - Remove Block       v - Move Block         i - Info"
-                      echo -e " t - Intr     $vpclresume     p \033[5m-\033m\033[0m\033[5m\033[5m\033[0m Play Clipboard       g - Remove Dupes       x - Clrclp             h - Help"
+                      echo -e " t - Intr     $vpclresume     p * Play Clipboard       g - Remove Dupes       x - Clrclp             h - Help"
                       echo                                                                                  
 
         else 
@@ -19833,7 +19843,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo "___________________________________________________________________________________________________________________"
                       echo
 
-echo -e " r ~ Download Only       l - Last Download      g - Download List     p \033[5m-\033m\033[0m\033[5m\033[5m\033[0m Play Clipboard                q - Quit "
+echo -e " r ~ Download Only       l - Last Download      g - Download List     p * Play Clipboard                q - Quit "
                       echo " c ~ Download Choose     v - View Downloads"
                       echo " s ~ Self Destruct                                                                                      x - Clrclp"
                       echo                                                                                  
@@ -19849,7 +19859,7 @@ echo -e " r ~ Download Only       l - Last Download      g - Download List     p
             echo "___________________________________________________________________________________________________________________"
             echo
 
-echo -e " r ~ Download Only       l - Last Download      g - Download List     p \033[5m-\033m\033[0m\033[5m\033[5m\033[0m Play Clipboard                q - Quit "
+echo -e " r ~ Download Only       l - Last Download      g - Download List     p * Play Clipboard                q - Quit "
             echo " c ~ Download Choose     v - View Downloads"
             echo " s ~ Self Destruct                                                                                      x - Clrclp"
             echo                                                                      
@@ -20125,7 +20135,7 @@ find ~/.config/videoinfox/videoinfox-dl-Default > ~/.config/videoinfox/videoinfo
 find "$PWD" -type f \( -iname "videoinfox-dl*" \) > ~/.config/videoinfox/videoinfox.dowload.list
 
 # removing all lines that contain  .log   this removes all  */.videoinfox-dl*.log listings from results. write file: videoinfox.dowload.list  
-sed -i '/.log/d' ~/.config/videoinfox/videoinfox.dowload.list 
+sed -i '/.log/d' ~/.config/videoinfox/videoinfox.dowload.list
 
 #################################### count lines file for message display below:  (Copy 1 above User List to the the clipboard to: Download or Set...) 
 copymessage=$(sed -n '$=' ~/.config/videoinfox/videoinfox.dowload.list 2> /dev/null)
@@ -20138,10 +20148,12 @@ sed '/^$/d' ~/.config/videoinfox/videoinfox.dowload.list > ~/.config/videoinfox/
 
 #############
 # REMOVE PATH
-   sed 's/.*\///' ~/.config/videoinfox/tmp/videoinfox.dowload.list.tmp > ~/.config/videoinfox/tmp/videoinfo-number-dowload.list.tmp
-
+sed 's/.*\///' ~/.config/videoinfox/tmp/videoinfox.dowload.list.tmp > ~/.config/videoinfox/tmp/videoinfo-number-dowload.list.tmp
 cat ~/.config/videoinfox/tmp/videoinfo-number-dowload.list.tmp | cut -c 15- > ~/.config/videoinfox/tmp/videoinfo-number-dowload.list.sorted.tmp
 mv ~/.config/videoinfox/tmp/videoinfo-number-dowload.list.sorted.tmp ~/.config/videoinfox/tmp/videoinfo-number-dowload.list.tmp
+
+# SORT BACK INTO ORDER
+#sort -u ~/.config/videoinfox/tmp/videoinfox.dowload.list.tmp > ~/.config/videoinfox/tmp/videoinfo-number-dowload.list.tmp
 
 # CREATE NUMBERED lIST
 sed '/./=' ~/.config/videoinfox/tmp/videoinfo-number-dowload.list.tmp | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/videoinfo-number-dowload.list.tmp2 2>/dev/null
@@ -21916,7 +21928,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " "$der" >>> YT-DLP MENU >>> VIEW DOWNLOADS"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo -e " j "$vdash" Play     o "$vdash" Autoplay     d "$vdash" Play Directory     p \033[5m-\033m\033[0m\033[5m\033[5m\033[0m Play Clipboard     i "$vdash" Info     x - Clrclp      q - Quit"    
+                      echo -e " j "$vdash" Play     o "$vdash" Autoplay     d "$vdash" Play Directory     p * Play Clipboard     i "$vdash" Info     x - Clrclp      q - Quit"    
                       echo                                                                                  
             fi
   else
@@ -21929,7 +21941,7 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
             echo " "$der" >>> YT-DLP MENU >>> VIEW DOWNLOADS"
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo -e " j "$vdash" Play     o "$vdash" Autoplay     d "$vdash" Play Directory     p \033[5m-\033m\033[0m\033[5m\033[5m\033[0m Play Clipboard     i "$vdash" Info     x - Clrclp      q - Quit" 
+            echo -e " j "$vdash" Play     o "$vdash" Autoplay     d "$vdash" Play Directory     p * Play Clipboard     i "$vdash" Info     x - Clrclp      q - Quit" 
             echo                                                             
 
         else 
