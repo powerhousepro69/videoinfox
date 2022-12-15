@@ -1,4 +1,4 @@
-# Videoinfox v5.3.44
+# Videoinfox v5.3.48
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -378,6 +378,16 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.3.48 Change: A few options moved around on the home screen.
+
+        Change: Play Clipboard blinking dash changed to  *  on all screens.
+
+        Edit: Download List >>> Help
+
+        Edit: First Run >>> Setup
+              Add: VIDEOINFOX WILL KEEP CLEARING OUT INVALID CONTENT FROM THE CLIPBOARD.
+                    ANYTHING THAT ISN'T A VIDEO URL OR FILE
 
 ###  v5.3.44 Fix: Resume in View Playlist was broke in the last update.
 
