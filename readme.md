@@ -1,4 +1,4 @@
-# Videoinfox v5.3.48
+# Videoinfox v5.3.51
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -378,6 +378,13 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.3.51 Change: Shortened message display time on all messages.
+
+        Edit: Find Video Screen
+
+        Edit: Playlist Find Screen
+
 
 ###  v5.3.48 Change: A few options moved around on the home screen.
 
