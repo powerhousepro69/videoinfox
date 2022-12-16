@@ -5,9 +5,9 @@
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
-ver="Videoinfox v5.3.48"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m3.48")  # Version Number: with blinking dot
-vn="v5.3.48" #V!  update help files on update
+ver="Videoinfox v5.3.51"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m3.51")  # Version Number: with blinking dot
+vn="v5.3.51" #V!  update help files on update
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -1115,7 +1115,7 @@ echo "__________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.3.48   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Videoinfox v5.3.51   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1272,7 +1272,7 @@ else
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.3.48   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
+echo " Videoinfox v5.3.51   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1285,6 +1285,9 @@ echo " Build playlists from: -recursive search results -recursive and one level 
 echo " Playlist with -Start to begin watching from anywhere in the playlist and -Resume to pick up where you left off." >> ~/.config/videoinfox/videoinfo.help
 echo " Add URL's to the default download list or a user set list on the fly without leaving the web browser." >> ~/.config/videoinfox/videoinfo.help
 echo " Batch download all of your user created url Lists with Yt-dlp and Videoinfox's Download Queue." >> ~/.config/videoinfox/videoinfo.help
+echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo " VIDEOINFOX WILL KEEP CLEARING OUT INVALID CONTENT FROM THE CLIPBOARD. ANYTHING THAT ISN'T A VIDEO URL OR FILE." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Version History is located in: Home Screen: -Set -Vesion History" >> ~/.config/videoinfox/videoinfo.help
@@ -1586,7 +1589,7 @@ echo " q - quit                                                                 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 #V!
-echo " 176 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " 177 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 
 
@@ -1599,6 +1602,13 @@ echo " _________________________________________________________________________
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
 
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v5.3.51 Change: Shortened message display time on all messages." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Edit: Find Video Screen" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Edit: Playlist Find Screen" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.3.48 Change: A few options moved around on the home screen." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
@@ -3280,19 +3290,15 @@ cat -n ~/.config/videoinfox/tmp/search-playlist.tmp.display | sort -uk2 | sort -
 totalplvideos=$(wc -l ~/.config/videoinfox/tmp/search-playlist.tmp.display2 2> /dev/null | cut -d' ' -f1) # GETTING LINE COUNT
 
     clear
-    echo
-    echo "Clipboard: ""$pasteclip"
     echo "___________________________________________________________________________________________________________________"
     echo
-    echo " ""$ver"" >>> Search all Playlists and the Default Directories Index                       No wildcard *"
+    echo " ""$ver"" >>> Playlist Find >>> Indexed video files:" "$totalplvideos" 
     echo "___________________________________________________________________________________________________________________"
     echo
-    echo " Indexed video files:" "$totalplvideos"
+    echo " Search all Playlists and the Default Directories Index.                                       Enter . to Show All"
+    echo " Enter a keyword from a path or file. Case ignored. No wildcard *"
     echo
-    echo
-    echo " Enter a keyword from a path or a video file. Case ignored.                                    Enter . to Show All"
-    echo
-    read -r -p " Search for text: " videofind  # waiting fot user input - video file that you want to find
+    read -r -p " Search: " videofind  # waiting fot user input - video file that you want to find
 
 find ~/.config/videoinfox/playlists -type f -iname "vplaylist.*" | xargs -d '\n' grep -i -h "$videofind" > ~/.config/videoinfox/tmp/search-playlist.tmp 2> /dev/null
 
@@ -3308,14 +3314,14 @@ find ~/.config/videoinfox/playlists -type f -iname "v-index.*" | xargs -d '\n' g
               echo
               echo " Nothing was entered . . ."
               echo
-              sleep 1.9 
+              sleep .4 
           else                                                                                   	
               if echo "$videofind" | grep "/" > /dev/null
                 then
                     echo
-                    echo " error: No directories only filenames."
+                    echo " No directories only filenames . . ."
                     echo
-                    sleep 1.9 
+                    sleep .7 
                 else
                                 
                      if [ "$searchtotal" = 0 ]  # if find returned no results goto <then>      
@@ -3323,7 +3329,7 @@ find ~/.config/videoinfox/playlists -type f -iname "v-index.*" | xargs -d '\n' g
                            echo
                            echo " No files found . . ."
                            echo
-                           sleep 1.9 
+                           sleep .4 
                        else
 
                            echo "$videofind" > ~/.config/videoinfox/videoinfo.lastfindstring   # save last find string used                          
@@ -3342,7 +3348,7 @@ find ~/.config/videoinfox/playlists -type f -iname "v-index.*" | xargs -d '\n' g
                            echo
                            echo " Total files found: " "$searchtotal"  # number of files found
                            notify-send  "Videoinfox messsage: Playlist Find Results" "$searchtotal files found using search term: $fterm"
-                           sleep 1.9
+                           sleep .4
     fi
     fi
     fi              
@@ -3384,7 +3390,7 @@ else
 echo
 echo
 echo " Clipboard is empty or contained invalid video url . . ."
-sleep 1.9
+sleep 1
 fi
               
 cd "$grabdir"
@@ -3400,7 +3406,7 @@ then
     echo
     echo
     echo " Select Show All or use Find to access this feature . . ."
-    sleep 1.3
+    sleep 1
 else
 clear
 echo
@@ -3422,7 +3428,7 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
   then
       echo
       echo " Nothing was entered . . ."
-      sleep 1.9
+      sleep .4
 
   else
       if [ -f ~/.config/videoinfox/playlists/vplaylist."$createpl" ]
@@ -3455,17 +3461,17 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
             echo
             echo " Playlist Overwritten: ""$plname"
             echo
-            sleep 1.9
+            sleep .7
             echo " Reloading" "$plname . . ."
             echo
-            sleep .9
+            sleep .4
         else  # PLAYLIST THAT IS BEING OVERWRITTEN IS NOT LOADED
             cat ~/.config/videoinfox/videoinfo.findwork > "$plname"  # WRITE SEARCH RESULTS TO THE PLAYLIST DIRECTORY
             echo > "$HOME"/.config/videoinfox/playlists/"$createpl1".last-autoplay
             echo
             echo " Playlist Overwritten: "$plname""
             echo
-            sleep 1.9 
+            sleep .7 
         fi        
         break
         ;;
@@ -3483,7 +3489,7 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
             echo
             echo " Playlist Created: "$plname""
             echo
-            sleep 1.9
+            sleep .7
 fi
 fi
 fi
@@ -3507,14 +3513,14 @@ linecount=$(find . -type d -iname "$dirfind" 2>/dev/null | wc -l)   # number of 
 if [ -z "$dirfind" ]  # if no input was entered goto  <then>  
 then
 echo
-echo " error: Nothing was entered"  
-sleep 1.9
+echo " Nothing was entered . . ."  
+sleep .4
 else               
      if echo "$dirfind" | grep "/" > /dev/null # if any slashes were entered goto <then>
      then
      echo
-     echo " error: No slashes. Directory name only."
-     sleep 1.9  
+     echo " No slashes. Directory name only."
+     sleep .7  
      else
      echo
      find . -type d -iname "$dirfind" | sort -u > ~/.config/videoinfox/tmp/finthedir.tmp 2>/dev/null  # directory(s) found
@@ -3527,7 +3533,7 @@ sed '/./=' ~/.config/videoinfox/tmp/finthedir.tmp | sed '/./N; s/\n/ /' > ~/.con
      echo " Total Directories Found:" "$linecount"  # number of files found         
 	    if [ "$findmeadir" = 0 ]  # if find returned no results goto <then>
 	    then
-	    sleep 1.9
+	    sleep .7
           :
 	    else
           echo
@@ -3540,7 +3546,7 @@ read -r -p " Enter line number to change directory: " linenumber  # waiting fot 
               then 
               echo
               echo " Number out of range . . ."
-              sleep .7
+              sleep .4
               else
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/finthedir.tmp > ~/.config/videoinfox/tmp/finthedir.tmp2 2>/dev/null
               OLDIFS=$IFS
@@ -3738,7 +3744,7 @@ else
     echo
     echo
     echo " Select Show All or use Find to access this feature . . ."
-    sleep 1.3
+    sleep 1
 fi
 ;;
 
@@ -3814,7 +3820,7 @@ else
     echo
     echo
     echo " Select Show All or use Find to access this feature . . ."
-    sleep 1.3
+    sleep 1
 
 fi
 
@@ -4100,14 +4106,14 @@ linecount=$(find . -type d -iname "$dirfind" 2>/dev/null | wc -l)   # number of 
 if [ -z "$dirfind" ]  # if no input was entered goto  <then>  
 then
 echo
-echo " error: Nothing was entered"  
-sleep 1.9
+echo " Nothing was entered . . ."  
+sleep .4
 else               
      if echo "$dirfind" | grep "/" > /dev/null # if any slashes were entered goto <then>
      then
      echo
-     echo " error: No slashes. Directory name only."
-     sleep 1.9  
+     echo " No slashes. Directory name only . . ."
+     sleep .4  
      else
      echo
      find . -type d -iname "$dirfind" | sort -u > ~/.config/videoinfox/tmp/finthedir.tmp 2>/dev/null  # directory(s) found
@@ -4120,7 +4126,7 @@ sed '/./=' ~/.config/videoinfox/tmp/finthedir.tmp | sed '/./N; s/\n/ /' > ~/.con
      echo " Total Directories Found:" "$linecount"  # number of files found         
 	    if [ "$findmeadir" = 0 ]  # if find returned no results goto <then>
 	    then
-	    sleep 1.9
+	    sleep .7
           :
 	    else
           echo
@@ -4180,7 +4186,7 @@ fi
            then
                echo
                echo " At treetop. Can't go any higher . . ."
-               sleep 1.9
+               sleep .4
 
            else
                cd .. &>/dev/null
@@ -4212,7 +4218,7 @@ if [[ $linenumber -gt $linecount ]]
   then 
       echo
       echo " Number out of range . . ."
-      sleep .7
+      sleep .4
   else
 
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/nt-list.tmp > ~/.config/videoinfox/tmp/nt-list.tmp2 2>/dev/null
@@ -4382,7 +4388,7 @@ IFS=$OLDIFS
 else
      echo
      echo " No video files in the current directory . . ."
-     sleep 1.9
+     sleep .7
 fi
 ;;           
 
@@ -4410,7 +4416,7 @@ read -r -p " " specifydir  # waiting fot user input - the directory you want to 
 	if [ -z "$specifydir" ]  # if no input was entered goto  <then> 
           then
                echo " Nothing was entered . . ."
-               sleep 1.9
+               sleep .4
           else
               if [ -d "$specifydir" ]  #  if directoty exists goto  <then>
                 then
@@ -4418,11 +4424,11 @@ read -r -p " " specifydir  # waiting fot user input - the directory you want to 
                      grabdirfornav2="$specifydir"
                      cd "$specifydir"   # change the directory
                      echo " Treetop changed to: $PWD"  # <pwd>  print current working directory to the screen
-                     sleep 1.9                   
+                     sleep .7                   
                 else
                      echo
                      echo " No such directory . . ."
-                     sleep 1.9                   
+                     sleep .4                   
               fi
       fi       
 echo
@@ -4575,7 +4581,7 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
   then
       echo
       echo " Nothing was entered . . ."
-      sleep 1.9
+      sleep .4
 
   else
       if [ -f ~/.config/videoinfox/playlists/vplaylist."$createpl" ]
@@ -4608,17 +4614,17 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
             echo
             echo " Playlist Overwritten: ""$plname"
             echo
-            sleep 1.9
+            sleep .7
             echo " Reloading" "$plname . . ."
             echo
-            sleep .9
+            sleep .4
         else  # PLAYLIST THAT IS BEING OVERWRITTEN IS NOT LOADED
             cat ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa > "$plname"  # WRITE DIRECTORY TO THE PLAYLIST DIRECTORY
             echo > "$HOME"/.config/videoinfox/playlists/"$createpl1".last-autoplay
             echo
             echo " Playlist Overwritten: ""$plname"
             echo
-            sleep 1.9 
+            sleep .7 
         fi        
         break
         ;;
@@ -4636,7 +4642,7 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
             echo
             echo " Playlist Created: "$plname""
             echo
-            sleep 1.9
+            sleep .7
 fi
 fi
 ;; 
@@ -4876,7 +4882,7 @@ if [ "$linenumber" = 0 ]
 else
     echo
     echo " No video files in the current directory . . ."
-    sleep 1.9
+    sleep .4
 fi
 ;;
 
@@ -5010,7 +5016,7 @@ if [ "$linenumber" = 0 ]
               then 
                   echo
                   echo "Number out of range . . ."
-                  sleep .7
+                  sleep .4
 
               else
 
@@ -5053,7 +5059,7 @@ rm ~/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-directory-apa-work 2>/d
 else
     echo
     echo " No video files in the current directory . . ."
-    sleep 1.9
+    sleep .4
 
 fi
 
@@ -5386,20 +5392,20 @@ read -r -n1 optionv
           then
               echo
               echo " Entry cannot be less than 1 . . ."
-              sleep 1.9
+              sleep .7
           else
 
          if [[ "$timeinsec" -gt 86400 ]]
            then
                echo
                echo " Entry cannot be greater than 86400 . . ."
-               sleep 1.9
+               sleep .7
            else
               echo "$timeinsec" > ~/.config/videoinfox/videoinfox.intermission
               read -r vto < ~/.config/videoinfox/videoinfox.intermission
               echo
               echo " Intermission changed to:" "$timeinsec" "seconds"    
-              sleep 1.9
+              sleep .7
     fi
     fi
     fi
@@ -5469,7 +5475,7 @@ read -r -n1 optionv
           then
               echo
               echo " Playlist Empty . . ."
-              sleep 1.9
+              sleep .4
           else
               # Remove Duplicates
               cat -n ~/.config/videoinfox/videoinfo.playlist | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfo.playlist.tmp
@@ -5478,7 +5484,7 @@ read -r -n1 optionv
               cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST
               echo
               echo " Duplicates Removed . . ."
-              sleep 1.9
+              sleep .4
         fi
         break
         ;;
@@ -5727,7 +5733,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -5742,7 +5748,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                                         echo "Line deleted from the playlist . . ."
                                         #read -r activeplaylistm < ~/.config/videoinfox/videoinfo.playlist.current # GET CURRENT PLAYLIST
                                         #cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST
-                                        sleep .7
+                                        sleep .4
 fi
 fi
 fi
@@ -5814,7 +5820,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -5839,13 +5845,13 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                                                             then 
                                                                 echo
                                                                 echo "Number out of range . . ."
-                                                                sleep .7
+                                                                sleep .4
                                                             else
                                                           if [[ $linenumber2 -lt $linenumber ]]
                                                             then
                                                                 echo
                                                                 echo "End must be greater than start . . ."
-                                                                sleep 1.9
+                                                                sleep 4
                                                             else
                                                                 # REMOVE BLOCK
                                                                 sed -i "$linenumber,$linenumber2"d ~/.config/videoinfox/videoinfo.playlist 
@@ -5853,7 +5859,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                                                                 echo "Block removed . . ."
                                                             #read -r activeplaylistm < ~/.config/videoinfox/videoinfo.playlist.current # GET CURRENT PLAYLIST
                                                             #cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST
-                                                                sleep .7
+                                                                sleep .4
 fi
 fi
 fi
@@ -5929,7 +5935,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -5954,7 +5960,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                                                             then 
                                                                 echo
                                                                 echo "Number out of range . . ."
-                                                                sleep .7
+                                                                sleep .4
                                                             else 
                                                                 # MOVE LINE
                                                                 ex ~/.config/videoinfox/videoinfo.playlist <<<""$linenumber"m"$linenumber2"|wq" 
@@ -5962,7 +5968,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                                                                 echo "Line moved . . ."
                                                             #read -r activeplaylistm < ~/.config/videoinfox/videoinfo.playlist.current # GET CURRENT PLAYLIST
                                                             #cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST
-                                                                sleep .7
+                                                                sleep .4
 fi
 fi
 fi
@@ -6031,7 +6037,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -6056,19 +6062,19 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                                                             then 
                                                                 echo
                                                                 echo "Number out of range . . ."
-                                                                sleep .7
+                                                                sleep .4
                                                             else
                                                           if [[ $linenumber2 -lt $linenumber ]]
                                                             then
                                                                 echo
                                                                 echo "End must be greater than start . . ."
-                                                                sleep 1.9
+                                                                sleep .4
                                                             else
 if [[ "$linenumber" == "$linenumber2" ]]
 then
     echo
     echo "Numbers can't be the same . . ."
-    sleep 1.9
+    sleep .4
 else
 
 sed -n "$linenumber,$linenumber2"p ~/.config/videoinfox/videoinfo.playlist > ~/.config/videoinfox/tmp/playlist.mb-cut # CUT BLOCK FROM LIST 
@@ -6104,7 +6110,7 @@ read -r -p "Paste block after number: " linenumber  # waiting fot user input
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -6119,7 +6125,7 @@ sed "1,$linenumber"d ~/.config/videoinfox/tmp/playlist.mb-cutfromlist > ~/.confi
 cat ~/.config/videoinfox/tmp/playlist.mb-paste1 ~/.config/videoinfox/tmp/playlist.mb-cut ~/.config/videoinfox/tmp/playlist.mb-paste2 > ~/.config/videoinfox/videoinfo.playlist
 echo
 echo "Block moved . . ."
-sleep .7
+sleep .4
 
 fi
 fi
@@ -6340,7 +6346,7 @@ else
        echo
        echo
        echo " Playlist Empty . . ."
-       sleep 1.9
+       sleep .4
 fi
 
 ;;
@@ -6515,13 +6521,13 @@ if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
         then 
             echo
             echo "Number out of range . . ."
-            sleep .7
+            sleep .4
         else
             if ! command -v mpv &> /dev/null ####### Check for mpv and set if installed ########
               then
                   echo
                   echo "mpv not found . . ."               
-                  sleep 1.9
+                  sleep .4
               else
                   # CREATE FILE MOVING SELECTION TO THE TOP
                   tail -n +"$linenumber" ~/.config/videoinfox/videoinfo.playlist.dirlist > ~/.config/videoinfox/tmp/mpv-playlist.tmp
@@ -6693,7 +6699,7 @@ sed '/./=' ~/.config/videoinfox/videoinfox-playlist.queue | sed '/./N; s/\n/ /' 
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -6718,7 +6724,7 @@ sed '/./=' ~/.config/videoinfox/videoinfox-playlist.queue | sed '/./N; s/\n/ /' 
                                                             then 
                                                                 echo
                                                                 echo "Number out of range . . ."
-                                                                sleep .7
+                                                                sleep .4
                                                             else 
                                                                 # MOVE LINE
                                                                 ex ~/.config/videoinfox/videoinfox-playlist.queue <<<""$linenumber"m"$linenumber2"|wq" 
@@ -6793,7 +6799,7 @@ sed '/./=' ~/.config/videoinfox/videoinfox-playlist.queue | sed '/./N; s/\n/ /' 
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -6851,7 +6857,7 @@ clear
           then
               echo
               echo " Play Queue Empty . . ."
-              sleep 1.9
+              sleep .4
           else
               # Remove Duplicates
               cat -n ~/.config/videoinfox/videoinfox-playlist.queue | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfox-playlist.queue.tmp
@@ -6917,7 +6923,7 @@ then
 echo
 echo
 echo " Play Queue Empty . . ."
-sleep 1.9
+sleep .4
 break
 
 else
@@ -6950,7 +6956,7 @@ sed '/./=' ~/.config/videoinfox/tmp/videoinfox-playlist.Aque.tmp2 | sed '/./N; s
 echo
 echo
 echo " Queue Rebuilt . . ."
-sleep 1.9                      
+sleep .4                      
 fi
 break
 ;;
@@ -6989,7 +6995,7 @@ done
           then
               echo
               echo " Play Queue was already deleted . . ."
-              sleep 1.9
+              sleep .4
 
           else
               echo > ~/.config/videoinfox/videoinfox-playlist.queue
@@ -6999,7 +7005,7 @@ done
               echo > ~/.config/videoinfox/tmp/videoinfo.number.playlist-queue3
               echo
               echo " Play Queue Deleted . . ."
-              sleep 1.9
+              sleep .4
 
         fi
         break
@@ -7055,7 +7061,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
         then  # ENTRY EXCEEDS TOTAL NUMBER OF LINES 
             echo  
             echo "Number out of range . . ."
-            sleep .7
+            sleep .4
         else  # ENTRY IS A VALID NUMBER            
             tail -n +"$linenumber" ~/.config/videoinfox/videoinfo.playlist.dirlist > ~/.config/videoinfox/tmp/videoinfox.playlist.q.tmp 2>/dev/null
             read playnumber < ~/.config/videoinfox/tmp/videoinfox.playlist.q.tmp # read first line         
@@ -7067,7 +7073,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
       
             echo
             echo "$playnumber2" "added to the play queue . . ."
-            sleep 1.9
+            sleep .7
 # REMOVE BLANK LINES
 sed -i '/^$/d' ~/.config/videoinfox/videoinfox-playlist.queue &>/dev/null
       
@@ -7241,20 +7247,20 @@ fi
           then
               echo
               echo " Entry cannot be less than 1 . . ."
-              sleep 1.9
+              sleep 1
           else
 
          if [[ "$timeinsec" -gt 86400 ]]
            then
                echo
                echo " Entry cannot be greater than 86400 . . ."
-               sleep 1.9
+               sleep 1
            else
               echo "$timeinsec" > ~/.config/videoinfox/videoinfox.intermission
               read -r vto < ~/.config/videoinfox/videoinfox.intermission
               echo
               echo " Intermission changed to:" "$timeinsec" "seconds"    
-              sleep 1.9
+              sleep 1
     fi
     fi
     fi
@@ -7268,7 +7274,7 @@ if [ -z "$qempty" ]
 then
 echo
 echo " Play Queue Empty . . ."
-sleep 1.9
+sleep .4
 
 else
 clear
@@ -7292,7 +7298,7 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
   then
       echo
       echo " Nothing was entered . . ."
-      sleep 1.9
+      sleep .4
 
   else
       if [ -f ~/.config/videoinfox/playlists/vplaylist."$createpl" ]
@@ -7325,17 +7331,17 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
             echo
             echo " Playlist Overwritten: ""$plname"
             echo
-            sleep 1.9
+            sleep .7
             echo " Reloading" "$plname . . ."
             echo
-            sleep .9
+            sleep .4
         else  # PLAYLIST THAT IS BEING OVERWRITTEN IS NOT LOADED
             cp ~/.config/videoinfox/playlists/playlist.queue "$plname"  # WRITE TO THE PLAYLIST DIRECTORY            
             echo > "$HOME"/.config/videoinfox/playlists/"$createpl1".last-autoplay
             echo
             echo " Playlist Overwritten: ""$plname"
             echo
-            sleep 1.9 
+            sleep .7 
         fi        
         break
         ;;
@@ -7353,7 +7359,7 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
             echo
             echo " Playlist Created: "$plname""
             echo
-            sleep 1.9
+            sleep .7
 fi
 fi
 fi
@@ -7387,7 +7393,7 @@ fi
           then
               echo
               echo " Play Queue was already deleted . . ."
-              sleep 1.9
+              sleep .4
 
           else
               echo > ~/.config/videoinfox/videoinfox-playlist.queue
@@ -7396,7 +7402,7 @@ fi
               echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay-nextup
               echo
               echo " Play Queue Deleted . . ."
-              sleep 1.9
+              sleep .4
 
         fi
         break
@@ -7446,7 +7452,7 @@ fi
           then
               echo
               echo " Play Queue Empty . . ."
-              sleep 1.9
+              sleep .4
           else
               # Remove Duplicates     
               cat -n ~/.config/videoinfox/playlists/playlist.queue | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfox-playlist.queue.tmp
@@ -7455,7 +7461,7 @@ fi
               echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay-nextup 2>/dev/null              
               echo
               echo " Duplicates Removed . . ."
-              sleep 1.9
+              sleep .4
         fi
         break
         ;;
@@ -7522,7 +7528,7 @@ fi
             echo
             echo
             echo " Play Queue Empty . . ."
-            sleep 1.9            
+            sleep .4            
 
 
             fi
@@ -7628,7 +7634,7 @@ fi
         echo
         echo
         echo " Play Queue Empty . . ."
-        sleep 1.9
+        sleep .4
 
 
 fi
@@ -7688,7 +7694,7 @@ sed '/./=' ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' >
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -7703,7 +7709,7 @@ sed '/./=' ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' >
                                         echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay-nextup 
                                         echo
                                         echo "Line deleted from the play queue . . ."
-                                        sleep 1.9
+                                        sleep .4
 
 
 fi
@@ -7776,7 +7782,7 @@ sed '/./=' ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' >
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -7801,13 +7807,13 @@ sed '/./=' ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' >
                                                             then 
                                                                 echo
                                                                 echo "Number out of range . . ."
-                                                                sleep .7
+                                                                sleep .4
                                                             else
                                                     if [[ $linenumber2 -lt $linenumber ]]
                                                             then
                                                                 echo
                                                                 echo "End must be greater than start . . ."
-                                                                sleep 1.9
+                                                                sleep .4
                                                             else  
                                                                 # MOVE LINE
                                                                 # REMOVE BLOCK
@@ -7816,7 +7822,7 @@ sed '/./=' ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' >
                                                                 echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay-nextup
                                                                 echo
                                                                 echo "Block Removed . . ."
-                                                                sleep .7
+                                                                sleep .4
 fi
 fi
 fi
@@ -7891,7 +7897,7 @@ sed '/./=' ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' >
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -7916,7 +7922,7 @@ sed '/./=' ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' >
                                                             then 
                                                                 echo
                                                                 echo "Number out of range . . ."
-                                                                sleep .7
+                                                                sleep .4
                                                             else 
                                                                 # MOVE LINE
                                                                 ex ~/.config/videoinfox/playlists/playlist.queue <<<""$linenumber"m"$linenumber2"|wq"
@@ -7924,7 +7930,7 @@ sed '/./=' ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' >
                                                                 echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay-nextup 
                                                                 echo
                                                                 echo "Line moved . . ."
-                                                                sleep .7
+                                                                sleep .4
 fi
 fi
 fi
@@ -7987,7 +7993,7 @@ linecount=$(wc -l ~/.config/videoinfox/playlists/playlist.queue 2> /dev/null | c
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -8012,19 +8018,19 @@ linecount=$(wc -l ~/.config/videoinfox/playlists/playlist.queue 2> /dev/null | c
                                                             then 
                                                                 echo
                                                                 echo "Number out of range . . ."
-                                                                sleep .7
+                                                                sleep .4
                                                             else
                                                           if [[ $linenumber2 -lt $linenumber ]]
                                                             then
                                                                 echo
                                                                 echo "End must be greater than start . . ."
-                                                                sleep 1.9
+                                                                sleep .4
                                                             else
 if [[ "$linenumber" == "$linenumber2" ]]
 then
     echo
     echo "Numbers can't be the same . . ."
-    sleep 1.9
+    sleep .4
 else
 
 sed -n "$linenumber,$linenumber2"p ~/.config/videoinfox/playlists/playlist.queue > ~/.config/videoinfox/tmp/playlist.mb-cutQ # CUT BLOCK FROM LIST 
@@ -8060,7 +8066,7 @@ read -r -p "Paste block after number: " linenumber  # waiting fot user input
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -8077,7 +8083,7 @@ echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay
 echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay-nextup
 echo
 echo "Block moved . . ."
-sleep .7
+sleep .4
 
 fi
 fi
@@ -8115,7 +8121,7 @@ if [ -z "$chkplq" ]
    then
        echo
        echo " Play Queue Empty . . ."
-       sleep 1.9
+       sleep .4
  
    else      
 
@@ -8414,7 +8420,7 @@ if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
         then 
             echo
             echo "Number out of range . . ."
-            sleep .7
+            sleep .4
 
         else
 
@@ -8480,7 +8486,7 @@ if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
         then 
             echo
             echo "Number out of range . . ."
-            sleep .7
+            sleep .4
 
         else
 
@@ -8493,7 +8499,7 @@ if [[ "$renfrom" == "Default" ]]
   then
       echo
       echo "The default playlist list cannot be renamed . . ."
-      sleep 1.9
+      sleep .7
   else
 
 clear
@@ -8513,7 +8519,7 @@ if [[ "$renamepl" == "Default" ]]
   then
       echo
       echo " Default playlist name reserved . . ."
-      sleep 1.9
+      sleep .4
   else
 
 if [ -f "$HOME/.config/videoinfox/playlists/vplaylist.""$renamepl" ]
@@ -8521,7 +8527,7 @@ if [ -f "$HOME/.config/videoinfox/playlists/vplaylist.""$renamepl" ]
 #plname="$HOME/.config/videoinfox/playlists/vplaylist.""$renamepl" 
       echo
       echo " File already exists . . ."
-      sleep .7
+      sleep .4
   else
 
 if [ -z "$renamepl" ]
@@ -8545,7 +8551,7 @@ cp ~/.config/videoinfox/playlists/vplaylist."$renamepl" ~/.config/videoinfox/vid
 rm "$selectedtorename" 2>/dev/null
 echo
 echo " Playlist renamed and reloaded . . ."
-sleep .9
+sleep .4
   else # PLAYLIST ISN'T LOADED
 
 cp "$selectedtorename" ~/.config/videoinfox/playlists/vplaylist."$renamepl"
@@ -8557,7 +8563,7 @@ rm ~/.config/videoinfox/playlists/"$renfrom".last-autoplay.nextup 2>/dev/null
 rm ~/.config/videoinfox/playlists/"$renfrom" 2>/dev/null
 echo
 echo " Playlist renamed . . ."
-sleep .9
+sleep .4
 
 fi
 fi
@@ -8612,7 +8618,7 @@ if [ "$linenumber" = 0 ]
               then 
                   echo
                   echo "Number out of range . . ."
-                  sleep .7
+                  sleep .4
 
               else
                   echo
@@ -8628,7 +8634,7 @@ if [ "$linenumber" = 0 ]
                       if [[ "$plselected2" == "Default" ]]
                       then
                       echo "The default playlist list cannot be deleted. It can only be cleared . . ."
-                      sleep 1.9
+                      sleep 1
                       else
 
                       function menucpl {
@@ -8674,7 +8680,7 @@ if [ "$linenumber" = 0 ]
                             :
                       fi
 
-                      sleep 2.1  
+                      sleep 1  
                       break
                       ;;
 
@@ -8718,14 +8724,14 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
   then
       echo
       echo " Nothing was entered . . ."
-      sleep 1.9
+      sleep .4
   else
 
 if [[ "$createpl" = "Default" ]]
   then
       echo
       echo " Default playlist name reserved . . ."
-      sleep 1.9
+      sleep .4
   else
 
       if [ -f ~/.config/videoinfox/playlists/vplaylist."$createpl" ]
@@ -8758,17 +8764,17 @@ if [[ "$createpl" = "Default" ]]
             echo
             echo " Playlist Overwritten: ""$plname"
             echo
-            sleep 1.9
+            sleep .7
             echo " Reloading" "$plname . . ."
             echo
-            sleep .9
+            sleep .4
         else  # PLAYLIST THAT IS BEING OVERWRITTEN IS NOT LOADED
             echo > "$plname"  #  create user list with full path and filename
             echo > "$HOME"/.config/videoinfox/playlists/"$createpl1".last-autoplay
             echo
             echo " Playlist Overwritten: ""$plname"
             echo
-            sleep 1.9 
+            sleep .7
         fi
        
         break
@@ -8787,7 +8793,7 @@ if [[ "$createpl" = "Default" ]]
             echo
             echo " Playlist Created: "$plname""
             echo
-            sleep 1.9
+            sleep .7
 
 fi
 fi
@@ -8958,7 +8964,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
             echo
             echo
             echo " No playable content in the clipboard . . ."
-            sleep 1.9
+            sleep .4
       fi   
   fi
   ;;  
@@ -8994,7 +9000,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
         cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST 
         echo
         echo " ""$setplaylist"" Playlist Cleared . . ."
-        sleep 1.9  
+        sleep .7 
         break
         ;;
 
@@ -9114,7 +9120,7 @@ done
 else
     echo
     echo " No video files in the current directory . . ."
-    sleep 1.9
+    sleep .4
 
 fi
 ;;
@@ -9276,7 +9282,7 @@ else
      echo
      echo
      echo " No video files in the current directory . . ."
-     sleep 1.9
+     sleep .4
 fi
 ;;           
 
@@ -9291,7 +9297,7 @@ if [ -z "$ldcheck" ]
       echo
       echo
       echo " A video has be downloaded first for this feature to work . . ."
-      sleep 1.9
+      sleep 1
   else
               grabdir="$PWD"  # storing directory to restore on quit
                
@@ -9361,7 +9367,7 @@ searchtotal=$(find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname 
                            echo
                            echo
                            echo " No video files recursively reachable from the current directory . . ."
-                           sleep 1.9
+                           sleep 1
                            #cp ~/.config/videoinfox/videoinfo.findwork3 ~/.config/videoinfox/videoinfo.findwork
                            #cp ~/.config/videoinfox/videoinfo.lastsearchtotal2  ~/.config/videoinfox/videoinfo.lastsearchtotal
                         
@@ -9593,7 +9599,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
              echo
              echo
              echo " No playable content in the clipboard . . ."
-             sleep 1.9
+             sleep .4
 
 fi
 fi
@@ -10018,7 +10024,7 @@ fi
        echo
        echo
        echo " Played List Empty . . ."
-       sleep 1.9
+       sleep .4
 fi
 
 ;;
@@ -10125,7 +10131,7 @@ fi
         echo
         echo
         echo " Played List Empty . . ."
-        sleep 1.9
+        sleep .4
 
 
 fi
@@ -10144,7 +10150,7 @@ then
     echo
     echo
     echo " Played List  Empty . . ."
-    sleep 1.3
+    sleep .4
 else
 clear
 echo
@@ -10166,7 +10172,7 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
   then
       echo
       echo " Nothing was entered . . ."
-      sleep 1.9
+      sleep .4
 
   else
       if [ -f ~/.config/videoinfox/playlists/vplaylist."$createpl" ]
@@ -10199,17 +10205,17 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
             echo
             echo " Playlist Overwritten: ""$plname"
             echo
-            sleep 1.9
+            sleep .7
             echo " Reloading" "$plname . . ."
             echo
-            sleep .9
+            sleep .4
         else  # PLAYLIST THAT IS BEING OVERWRITTEN IS NOT LOADED
             cat ~/.config/videoinfox/videoinfo.playedlist > "$plname"  # WRITE SEARCH RESULTS TO THE PLAYLIST DIRECTORY
             echo > "$HOME"/.config/videoinfox/playlists/"$createpl1".last-autoplay
             echo
             echo " Playlist Overwritten: "$plname""
             echo
-            sleep 1.9 
+            sleep .7 
         fi        
         break
         ;;
@@ -10227,7 +10233,7 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
             echo
             echo " Playlist Created: "$plname""
             echo
-            sleep 1.9
+            sleep .7
 fi
 fi
 fi
@@ -10288,7 +10294,7 @@ fi
             echo
             echo
             echo " Play List Empty . . ."
-            sleep 1.9            
+            sleep .4            
 
 
             fi
@@ -10625,20 +10631,20 @@ read -r -n1 optionv
           then
               echo
               echo " Entry cannot be less than 1 . . ."
-              sleep 1.9
+              sleep 1
           else
 
          if [[ "$timeinsec" -gt 86400 ]]
            then
                echo
                echo " Entry cannot be greater than 86400 . . ."
-               sleep 1.9
+               sleep 1
            else
               echo "$timeinsec" > ~/.config/videoinfox/videoinfox.intermission
               read -r vto < ~/.config/videoinfox/videoinfox.intermission
               echo
               echo " Intermission changed to:" "$timeinsec" "seconds"    
-              sleep 1.9
+              sleep 1
     fi
     fi
     fi
@@ -10707,7 +10713,7 @@ read -r -n1 optionv
           then
               echo
               echo " Playlist Empty . . ."
-              sleep 1.9
+              sleep .4
           else
               # Remove Duplicates
               cat -n ~/.config/videoinfox/videoinfo.playlist | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfo.playlist.tmp
@@ -10716,7 +10722,7 @@ read -r -n1 optionv
               cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST
               echo
               echo " Duplicates Removed . . ."
-              sleep 1.9
+              sleep .4
         fi
         break
         ;;
@@ -10966,7 +10972,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -10981,7 +10987,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                                         echo "Line deleted from the playlist . . ."
                                         #read -r activeplaylistm < ~/.config/videoinfox/videoinfo.playlist.current # GET CURRENT PLAYLIST
                                         #cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST
-                                        sleep .7
+                                        sleep .4
 fi
 fi
 fi
@@ -11053,7 +11059,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -11078,13 +11084,13 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                                                             then 
                                                                 echo
                                                                 echo "Number out of range . . ."
-                                                                sleep .7
+                                                                sleep .4
                                                             else
                                                           if [[ $linenumber2 -lt $linenumber ]]
                                                             then
                                                                 echo
                                                                 echo "End must be greater than start . . ."
-                                                                sleep 1.9
+                                                                sleep .4
                                                             else
                                                                 # REMOVE BLOCK
                                                                 sed -i "$linenumber,$linenumber2"d ~/.config/videoinfox/videoinfo.playlist 
@@ -11092,7 +11098,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                                                                 echo "Block removed . . ."
                                                             #read -r activeplaylistm < ~/.config/videoinfox/videoinfo.playlist.current # GET CURRENT PLAYLIST
                                                             #cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST
-                                                                sleep .7
+                                                                sleep .4
 fi
 fi
 fi
@@ -11168,7 +11174,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -11193,7 +11199,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                                                             then 
                                                                 echo
                                                                 echo "Number out of range . . ."
-                                                                sleep .7
+                                                                sleep .4
                                                             else 
                                                                 # MOVE LINE
                                                                 ex ~/.config/videoinfox/videoinfo.playlist <<<""$linenumber"m"$linenumber2"|wq" 
@@ -11201,7 +11207,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                                                                 echo "Line moved . . ."
                                                             #read -r activeplaylistm < ~/.config/videoinfox/videoinfo.playlist.current # GET CURRENT PLAYLIST
                                                             #cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST
-                                                                sleep .7
+                                                                sleep .4
 fi
 fi
 fi
@@ -11270,7 +11276,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -11295,19 +11301,19 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                                                             then 
                                                                 echo
                                                                 echo "Number out of range . . ."
-                                                                sleep .7
+                                                                sleep .4
                                                             else
                                                           if [[ $linenumber2 -lt $linenumber ]]
                                                             then
                                                                 echo
                                                                 echo "End must be greater than start . . ."
-                                                                sleep 1.9
+                                                                sleep .4
                                                             else
 if [[ "$linenumber" == "$linenumber2" ]]
 then
     echo
     echo "Numbers can't be the same . . ."
-    sleep 1.9
+    sleep .4
 else
 
 sed -n "$linenumber,$linenumber2"p ~/.config/videoinfox/videoinfo.playlist > ~/.config/videoinfox/tmp/playlist.mb-cut # CUT BLOCK FROM LIST 
@@ -11343,7 +11349,7 @@ read -r -p "Paste block after number: " linenumber  # waiting fot user input
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -11358,7 +11364,7 @@ sed "1,$linenumber"d ~/.config/videoinfox/tmp/playlist.mb-cutfromlist > ~/.confi
 cat ~/.config/videoinfox/tmp/playlist.mb-paste1 ~/.config/videoinfox/tmp/playlist.mb-cut ~/.config/videoinfox/tmp/playlist.mb-paste2 > ~/.config/videoinfox/videoinfo.playlist
 echo
 echo "Block moved . . ."
-sleep .7
+sleep .4
 
 fi
 fi
@@ -11579,7 +11585,7 @@ else
        echo
        echo
        echo " Playlist Empty . . ."
-       sleep 1.9
+       sleep .4
 fi
 
 ;;
@@ -11754,13 +11760,13 @@ if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
         then 
             echo
             echo "Number out of range . . ."
-            sleep .7
+            sleep .4
         else
             if ! command -v mpv &> /dev/null ####### Check for mpv and set if installed ########
               then
                   echo
                   echo "mpv not found . . ."               
-                  sleep 1.9
+                  sleep .4
               else
                   # CREATE FILE MOVING SELECTION TO THE TOP
                   tail -n +"$linenumber" ~/.config/videoinfox/videoinfo.playlist.dirlist > ~/.config/videoinfox/tmp/mpv-playlist.tmp
@@ -11933,7 +11939,7 @@ sed '/./=' ~/.config/videoinfox/videoinfox-playlist.queue | sed '/./N; s/\n/ /' 
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -11958,7 +11964,7 @@ sed '/./=' ~/.config/videoinfox/videoinfox-playlist.queue | sed '/./N; s/\n/ /' 
                                                             then 
                                                                 echo
                                                                 echo "Number out of range . . ."
-                                                                sleep .7
+                                                                sleep .4
                                                             else 
                                                                 # MOVE LINE
                                                                 ex ~/.config/videoinfox/videoinfox-playlist.queue <<<""$linenumber"m"$linenumber2"|wq" 
@@ -12033,7 +12039,7 @@ sed '/./=' ~/.config/videoinfox/videoinfox-playlist.queue | sed '/./N; s/\n/ /' 
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -12091,7 +12097,7 @@ clear
           then
               echo
               echo " Play Queue Empty . . ."
-              sleep 1.9
+              sleep .4
           else
               # Remove Duplicates
               cat -n ~/.config/videoinfox/videoinfox-playlist.queue | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfox-playlist.queue.tmp
@@ -12157,7 +12163,7 @@ then
 echo
 echo
 echo " Play Queue Empty . . ."
-sleep 1.9
+sleep .4
 break
 
 else
@@ -12190,7 +12196,7 @@ sed '/./=' ~/.config/videoinfox/tmp/videoinfox-playlist.Aque.tmp2 | sed '/./N; s
 echo
 echo
 echo " Queue Rebuilt . . ."
-sleep 1.9                      
+sleep .4                      
 fi
 break
 ;;
@@ -12229,7 +12235,7 @@ done
           then
               echo
               echo " Play Queue was already deleted . . ."
-              sleep 1.9
+              sleep .4
 
           else
               echo > ~/.config/videoinfox/videoinfox-playlist.queue
@@ -12239,7 +12245,7 @@ done
               echo > ~/.config/videoinfox/tmp/videoinfo.number.playlist-queue3
               echo
               echo " Play Queue Deleted . . ."
-              sleep 1.9
+              sleep .4
 
         fi
         break
@@ -12295,7 +12301,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
         then  # ENTRY EXCEEDS TOTAL NUMBER OF LINES 
             echo  
             echo "Number out of range . . ."
-            sleep .7
+            sleep .4
         else  # ENTRY IS A VALID NUMBER            
             tail -n +"$linenumber" ~/.config/videoinfox/videoinfo.playlist.dirlist > ~/.config/videoinfox/tmp/videoinfox.playlist.q.tmp 2>/dev/null
             read playnumber < ~/.config/videoinfox/tmp/videoinfox.playlist.q.tmp # read first line         
@@ -12307,7 +12313,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
       
             echo
             echo "$playnumber2" "added to the play queue . . ."
-            sleep 1.9
+            sleep .7
 # REMOVE BLANK LINES
 sed -i '/^$/d' ~/.config/videoinfox/videoinfox-playlist.queue &>/dev/null
       
@@ -12481,20 +12487,20 @@ fi
           then
               echo
               echo " Entry cannot be less than 1 . . ."
-              sleep 1.9
+              sleep 1
           else
 
          if [[ "$timeinsec" -gt 86400 ]]
            then
                echo
                echo " Entry cannot be greater than 86400 . . ."
-               sleep 1.9
+               sleep 1
            else
               echo "$timeinsec" > ~/.config/videoinfox/videoinfox.intermission
               read -r vto < ~/.config/videoinfox/videoinfox.intermission
               echo
               echo " Intermission changed to:" "$timeinsec" "seconds"    
-              sleep 1.9
+              sleep 1
     fi
     fi
     fi
@@ -12508,7 +12514,7 @@ if [ -z "$qempty" ]
 then
 echo
 echo " Play Queue Empty . . ."
-sleep 1.9
+sleep .4
 
 else
 clear
@@ -12532,7 +12538,7 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
   then
       echo
       echo " Nothing was entered . . ."
-      sleep 1.9
+      sleep .4
 
   else
       if [ -f ~/.config/videoinfox/playlists/vplaylist."$createpl" ]
@@ -12565,17 +12571,17 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
             echo
             echo " Playlist Overwritten: ""$plname"
             echo
-            sleep 1.9
+            sleep .7
             echo " Reloading" "$plname . . ."
             echo
-            sleep .9
+            sleep .4
         else  # PLAYLIST THAT IS BEING OVERWRITTEN IS NOT LOADED
             cp ~/.config/videoinfox/playlists/playlist.queue "$plname"  # WRITE TO THE PLAYLIST DIRECTORY            
             echo > "$HOME"/.config/videoinfox/playlists/"$createpl1".last-autoplay
             echo
             echo " Playlist Overwritten: ""$plname"
             echo
-            sleep 1.9 
+            sleep .7 
         fi        
         break
         ;;
@@ -12593,7 +12599,7 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
             echo
             echo " Playlist Created: "$plname""
             echo
-            sleep 1.9
+            sleep .7
 fi
 fi
 fi
@@ -12627,7 +12633,7 @@ fi
           then
               echo
               echo " Play Queue was already deleted . . ."
-              sleep 1.9
+              sleep .4
 
           else
               echo > ~/.config/videoinfox/videoinfox-playlist.queue
@@ -12636,7 +12642,7 @@ fi
               echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay-nextup
               echo
               echo " Play Queue Deleted . . ."
-              sleep 1.9
+              sleep .4
 
         fi
         break
@@ -12686,7 +12692,7 @@ fi
           then
               echo
               echo " Play Queue Empty . . ."
-              sleep 1.9
+              sleep .4
           else
               # Remove Duplicates     
               cat -n ~/.config/videoinfox/playlists/playlist.queue | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfox-playlist.queue.tmp
@@ -12695,7 +12701,7 @@ fi
               echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay-nextup 2>/dev/null
               echo
               echo " Duplicates Removed . . ."
-              sleep 1.9
+              sleep .4
         fi
         break
         ;;
@@ -12761,7 +12767,7 @@ fi
             echo
             echo
             echo " Play Queue Empty . . ."
-            sleep 1.9            
+            sleep .4           
 
 
             fi
@@ -12867,7 +12873,7 @@ fi
         echo
         echo
         echo " Play Queue Empty . . ."
-        sleep 1.9
+        sleep .4
 
 
 fi
@@ -12927,7 +12933,7 @@ sed '/./=' ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' >
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -12942,7 +12948,7 @@ sed '/./=' ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' >
                                         echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay-nextup
                                         echo
                                         echo "Line deleted from the play queue . . ."
-                                        sleep 1.9
+                                        sleep .4
 
 
 fi
@@ -13015,7 +13021,7 @@ sed '/./=' ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' >
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -13040,13 +13046,13 @@ sed '/./=' ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' >
                                                             then 
                                                                 echo
                                                                 echo "Number out of range . . ."
-                                                                sleep .7
+                                                                sleep .4
                                                             else
                                                     if [[ $linenumber2 -lt $linenumber ]]
                                                             then
                                                                 echo
                                                                 echo "End must be greater than start . . ."
-                                                                sleep 1.9
+                                                                sleep .4
                                                             else  
                                                                 # MOVE LINE
                                                                 # REMOVE BLOCK
@@ -13055,7 +13061,7 @@ sed '/./=' ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' >
                                                                 echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay-nextup
                                                                 echo
                                                                 echo "Block Removed . . ."
-                                                                sleep .7
+                                                                sleep .4
 fi
 fi
 fi
@@ -13130,7 +13136,7 @@ sed '/./=' ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' >
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -13155,7 +13161,7 @@ sed '/./=' ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' >
                                                             then 
                                                                 echo
                                                                 echo "Number out of range . . ."
-                                                                sleep .7
+                                                                sleep .4
                                                             else 
                                                                 # MOVE LINE
                                                                 ex ~/.config/videoinfox/playlists/playlist.queue <<<""$linenumber"m"$linenumber2"|wq"
@@ -13163,7 +13169,7 @@ sed '/./=' ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' >
                                                                 echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay-nextup 
                                                                 echo
                                                                 echo "Line moved . . ."
-                                                                sleep .7
+                                                                sleep .4
 fi
 fi
 fi
@@ -13226,7 +13232,7 @@ linecount=$(wc -l ~/.config/videoinfox/playlists/playlist.queue 2> /dev/null | c
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -13251,19 +13257,19 @@ linecount=$(wc -l ~/.config/videoinfox/playlists/playlist.queue 2> /dev/null | c
                                                             then 
                                                                 echo
                                                                 echo "Number out of range . . ."
-                                                                sleep .7
+                                                                sleep .4
                                                             else
                                                           if [[ $linenumber2 -lt $linenumber ]]
                                                             then
                                                                 echo
                                                                 echo "End must be greater than start . . ."
-                                                                sleep 1.9
+                                                                sleep .4
                                                             else
 if [[ "$linenumber" == "$linenumber2" ]]
 then
     echo
     echo "Numbers can't be the same . . ."
-    sleep 1.9
+    sleep .4
 else
 
 sed -n "$linenumber,$linenumber2"p ~/.config/videoinfox/playlists/playlist.queue > ~/.config/videoinfox/tmp/playlist.mb-cutQ # CUT BLOCK FROM LIST 
@@ -13299,7 +13305,7 @@ read -r -p "Paste block after number: " linenumber  # waiting fot user input
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -13316,7 +13322,7 @@ echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay
 echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay-nextup
 echo
 echo "Block moved . . ."
-sleep .7
+sleep .4
 
 fi
 fi
@@ -13354,7 +13360,7 @@ if [ -z "$chkplq" ]
    then
        echo
        echo " Play Queue Empty . . ."
-       sleep 1.9
+       sleep .4
  
    else      
 
@@ -13652,7 +13658,7 @@ if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
         then 
             echo
             echo "Number out of range . . ."
-            sleep .7
+            sleep .4
 
         else
 
@@ -13718,7 +13724,7 @@ if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
         then 
             echo
             echo "Number out of range . . ."
-            sleep .7
+            sleep .4
 
         else
 
@@ -13731,7 +13737,7 @@ if [[ "$renfrom" == "Default" ]]
   then
       echo
       echo "The default playlist list cannot be renamed . . ."
-      sleep 1.9
+      sleep .4
   else
 
 clear
@@ -13751,7 +13757,7 @@ if [[ "$renamepl" == "Default" ]]
   then
       echo
       echo " Default playlist name reserved . . ."
-      sleep 1.9
+      sleep .4
   else
 
 if [ -f "$HOME/.config/videoinfox/playlists/vplaylist.""$renamepl" ]
@@ -13759,7 +13765,7 @@ if [ -f "$HOME/.config/videoinfox/playlists/vplaylist.""$renamepl" ]
 #plname="$HOME/.config/videoinfox/playlists/vplaylist.""$renamepl" 
       echo
       echo " File already exists . . ."
-      sleep .7
+      sleep .4
   else
 
 if [ -z "$renamepl" ]
@@ -13783,7 +13789,7 @@ cp ~/.config/videoinfox/playlists/vplaylist."$renamepl" ~/.config/videoinfox/vid
 rm "$selectedtorename" 2>/dev/null
 echo
 echo " Playlist renamed and reloaded . . ."
-sleep .9
+sleep .4
   else # PLAYLIST ISN'T LOADED
 
 cp "$selectedtorename" ~/.config/videoinfox/playlists/vplaylist."$renamepl"
@@ -13795,7 +13801,7 @@ rm ~/.config/videoinfox/playlists/"$renfrom".last-autoplay.nextup 2>/dev/null
 rm ~/.config/videoinfox/playlists/"$renfrom" 2>/dev/null
 echo
 echo " Playlist renamed . . ."
-sleep .9
+sleep .4
 
 fi
 fi
@@ -13850,7 +13856,7 @@ if [ "$linenumber" = 0 ]
               then 
                   echo
                   echo "Number out of range . . ."
-                  sleep .7
+                  sleep .4
 
               else
                   echo
@@ -13866,7 +13872,7 @@ if [ "$linenumber" = 0 ]
                       if [[ "$plselected2" == "Default" ]]
                       then
                       echo "The default playlist list cannot be deleted. It can only be cleared . . ."
-                      sleep 1.9
+                      sleep .7
                       else
 
                       function menucpl {
@@ -13912,7 +13918,7 @@ if [ "$linenumber" = 0 ]
                             :
                       fi
 
-                      sleep 2.1  
+                      sleep .7  
                       break
                       ;;
 
@@ -13956,14 +13962,14 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
   then
       echo
       echo " Nothing was entered . . ."
-      sleep 1.9
+      sleep .4
   else
 
 if [[ "$createpl" = "Default" ]]
   then
       echo
       echo " Default playlist name reserved . . ."
-      sleep 1.9
+      sleep .4
   else
 
       if [ -f ~/.config/videoinfox/playlists/vplaylist."$createpl" ]
@@ -13996,17 +14002,17 @@ if [[ "$createpl" = "Default" ]]
             echo
             echo " Playlist Overwritten: ""$plname"
             echo
-            sleep 1.9
+            sleep .7
             echo " Reloading" "$plname . . ."
             echo
-            sleep .9
+            sleep .4
         else  # PLAYLIST THAT IS BEING OVERWRITTEN IS NOT LOADED
             echo > "$plname"  #  create user list with full path and filename
             echo > "$HOME"/.config/videoinfox/playlists/"$createpl1".last-autoplay
             echo
             echo " Playlist Overwritten: ""$plname"
             echo
-            sleep 1.9 
+            sleep .7 
         fi
        
         break
@@ -14025,7 +14031,7 @@ if [[ "$createpl" = "Default" ]]
             echo
             echo " Playlist Created: "$plname""
             echo
-            sleep 1.9
+            sleep .7
 
 fi
 fi
@@ -14196,7 +14202,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
             echo
             echo
             echo " No playable content in the clipboard . . ."
-            sleep 1.9
+            sleep .4
       fi   
   fi
   ;;  
@@ -14232,7 +14238,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
         cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST 
         echo
         echo " ""$setplaylist"" Playlist Cleared . . ."
-        sleep 1.9  
+        sleep .7  
         break
         ;;
 
@@ -14315,7 +14321,7 @@ if [ "$linenumber" = 0 ]
               then 
                   echo
                   echo "Number out of range . . ."
-                  sleep .7
+                  sleep .4
 
               else
 
@@ -14512,7 +14518,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
             echo
             echo
             echo " No playable content in the clipboard . . ."
-            sleep 1.9
+            sleep .4
       fi   
   fi
   ;;  
@@ -14544,14 +14550,14 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
           then
               echo
               echo " Played List was already deleted . . ."
-              sleep 1.9
+              sleep .4
 
           else
               echo > ~/.config/videoinfox/videoinfo.playedlist                  
               echo
               echo " Played List DELETED . . ."
               echo
-              sleep 1.9
+              sleep .4
 
         fi
         break
@@ -14903,20 +14909,20 @@ read -r -n1 optionv
           then
               echo
               echo " Entry cannot be less than 1 . . ."
-              sleep 1.9
+              sleep 1
           else
 
          if [[ "$timeinsec" -gt 86400 ]]
            then
                echo
                echo " Entry cannot be greater than 86400 . . ."
-               sleep 1.9
+               sleep 1
            else
               echo "$timeinsec" > ~/.config/videoinfox/videoinfox.intermission
               read -r vto < ~/.config/videoinfox/videoinfox.intermission
               echo
               echo " Intermission changed to:" "$timeinsec" "seconds"    
-              sleep 1.9
+              sleep 1
     fi
     fi
     fi
@@ -14986,7 +14992,7 @@ read -r -n1 optionv
           then
               echo
               echo " Playlist Empty . . ."
-              sleep 1.9
+              sleep .4
           else
               # Remove Duplicates
               cat -n ~/.config/videoinfox/videoinfo.playlist | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfo.playlist.tmp
@@ -14995,7 +15001,7 @@ read -r -n1 optionv
               cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST
               echo
               echo " Duplicates Removed . . ."
-              sleep 1.9
+              sleep .4
         fi
         break
         ;;
@@ -15245,7 +15251,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -15260,7 +15266,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                                         echo "Line deleted from the playlist . . ."
                                         #read -r activeplaylistm < ~/.config/videoinfox/videoinfo.playlist.current # GET CURRENT PLAYLIST
                                         #cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST
-                                        sleep .7
+                                        sleep .4
 fi
 fi
 fi
@@ -15332,7 +15338,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -15357,13 +15363,13 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                                                             then 
                                                                 echo
                                                                 echo "Number out of range . . ."
-                                                                sleep .7
+                                                                sleep .4
                                                             else
                                                           if [[ $linenumber2 -lt $linenumber ]]
                                                             then
                                                                 echo
                                                                 echo "End must be greater than start . . ."
-                                                                sleep 1.9
+                                                                sleep .4
                                                             else
                                                                 # REMOVE BLOCK
                                                                 sed -i "$linenumber,$linenumber2"d ~/.config/videoinfox/videoinfo.playlist 
@@ -15371,7 +15377,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                                                                 echo "Block removed . . ."
                                                             #read -r activeplaylistm < ~/.config/videoinfox/videoinfo.playlist.current # GET CURRENT PLAYLIST
                                                             #cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST
-                                                                sleep .7
+                                                                sleep .4
 fi
 fi
 fi
@@ -15447,7 +15453,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -15472,7 +15478,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                                                             then 
                                                                 echo
                                                                 echo "Number out of range . . ."
-                                                                sleep .7
+                                                                sleep .4
                                                             else 
                                                                 # MOVE LINE
                                                                 ex ~/.config/videoinfox/videoinfo.playlist <<<""$linenumber"m"$linenumber2"|wq" 
@@ -15480,7 +15486,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                                                                 echo "Line moved . . ."
                                                             #read -r activeplaylistm < ~/.config/videoinfox/videoinfo.playlist.current # GET CURRENT PLAYLIST
                                                             #cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST
-                                                                sleep .7
+                                                                sleep .4
 fi
 fi
 fi
@@ -15549,7 +15555,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -15574,19 +15580,19 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]  # if file exists goto then
                                                             then 
                                                                 echo
                                                                 echo "Number out of range . . ."
-                                                                sleep .7
+                                                                sleep .4
                                                             else
                                                           if [[ $linenumber2 -lt $linenumber ]]
                                                             then
                                                                 echo
                                                                 echo "End must be greater than start . . ."
-                                                                sleep 1.9
+                                                                sleep .4
                                                             else
 if [[ "$linenumber" == "$linenumber2" ]]
 then
     echo
     echo "Numbers can't be the same . . ."
-    sleep 1.9
+    sleep .4
 else
 
 sed -n "$linenumber,$linenumber2"p ~/.config/videoinfox/videoinfo.playlist > ~/.config/videoinfox/tmp/playlist.mb-cut # CUT BLOCK FROM LIST 
@@ -15622,7 +15628,7 @@ read -r -p "Paste block after number: " linenumber  # waiting fot user input
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -15858,7 +15864,7 @@ else
        echo
        echo
        echo " Playlist Empty . . ."
-       sleep 1.9
+       sleep .4
 fi
 
 ;;
@@ -16033,13 +16039,13 @@ if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
         then 
             echo
             echo "Number out of range . . ."
-            sleep .7
+            sleep .4
         else
             if ! command -v mpv &> /dev/null ####### Check for mpv and set if installed ########
               then
                   echo
                   echo "mpv not found . . ."               
-                  sleep 1.9
+                  sleep .4
               else
                   # CREATE FILE MOVING SELECTION TO THE TOP
                   tail -n +"$linenumber" ~/.config/videoinfox/videoinfo.playlist.dirlist > ~/.config/videoinfox/tmp/mpv-playlist.tmp
@@ -16212,7 +16218,7 @@ sed '/./=' ~/.config/videoinfox/videoinfox-playlist.queue | sed '/./N; s/\n/ /' 
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -16237,7 +16243,7 @@ sed '/./=' ~/.config/videoinfox/videoinfox-playlist.queue | sed '/./N; s/\n/ /' 
                                                             then 
                                                                 echo
                                                                 echo "Number out of range . . ."
-                                                                sleep .7
+                                                                sleep .4
                                                             else 
                                                                 # MOVE LINE
                                                                 ex ~/.config/videoinfox/videoinfox-playlist.queue <<<""$linenumber"m"$linenumber2"|wq" 
@@ -16312,7 +16318,7 @@ sed '/./=' ~/.config/videoinfox/videoinfox-playlist.queue | sed '/./N; s/\n/ /' 
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -16370,7 +16376,7 @@ clear
           then
               echo
               echo " Play Queue Empty . . ."
-              sleep 1.9
+              sleep .4
           else
               # Remove Duplicates
               cat -n ~/.config/videoinfox/videoinfox-playlist.queue | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfox-playlist.queue.tmp
@@ -16436,7 +16442,7 @@ then
 echo
 echo
 echo " Play Queue Empty . . ."
-sleep 1.9
+sleep .4
 break
 
 else
@@ -16469,7 +16475,7 @@ sed '/./=' ~/.config/videoinfox/tmp/videoinfox-playlist.Aque.tmp2 | sed '/./N; s
 echo
 echo
 echo " Queue Rebuilt . . ."
-sleep 1.9                      
+sleep .4                      
 fi
 break
 ;;
@@ -16508,7 +16514,7 @@ done
           then
               echo
               echo " Play Queue was already deleted . . ."
-              sleep 1.9
+              sleep .4
 
           else
               echo > ~/.config/videoinfox/videoinfox-playlist.queue
@@ -16518,7 +16524,7 @@ done
               echo > ~/.config/videoinfox/tmp/videoinfo.number.playlist-queue3
               echo
               echo " Play Queue Deleted . . ."
-              sleep 1.9
+              sleep .4
 
         fi
         break
@@ -16571,7 +16577,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
         then  # ENTRY EXCEEDS TOTAL NUMBER OF LINES 
             echo  
             echo "Number out of range . . ."
-            sleep .7
+            sleep .4
         else  # ENTRY IS A VALID NUMBER            
             tail -n +"$linenumber" ~/.config/videoinfox/videoinfo.playlist.dirlist > ~/.config/videoinfox/tmp/videoinfox.playlist.q.tmp 2>/dev/null
             read playnumber < ~/.config/videoinfox/tmp/videoinfox.playlist.q.tmp # read first line         
@@ -16583,7 +16589,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
       
             echo
             echo "$playnumber2" "added to the play queue . . ."
-            sleep 1.9
+            sleep .4
 # REMOVE BLANK LINES
 sed -i '/^$/d' ~/.config/videoinfox/videoinfox-playlist.queue &>/dev/null
       
@@ -16757,20 +16763,20 @@ fi
           then
               echo
               echo " Entry cannot be less than 1 . . ."
-              sleep 1.9
+              sleep 1
           else
 
          if [[ "$timeinsec" -gt 86400 ]]
            then
                echo
                echo " Entry cannot be greater than 86400 . . ."
-               sleep 1.9
+               sleep 1
            else
               echo "$timeinsec" > ~/.config/videoinfox/videoinfox.intermission
               read -r vto < ~/.config/videoinfox/videoinfox.intermission
               echo
               echo " Intermission changed to:" "$timeinsec" "seconds"    
-              sleep 1.9
+              sleep 1
     fi
     fi
     fi
@@ -16784,7 +16790,7 @@ if [ -z "$qempty" ]
 then
 echo
 echo " Play Queue Empty . . ."
-sleep 1.9
+sleep .4
 
 else
 clear
@@ -16808,7 +16814,7 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
   then
       echo
       echo " Nothing was entered . . ."
-      sleep 1.9
+      sleep .4
 
   else
       if [ -f ~/.config/videoinfox/playlists/vplaylist."$createpl" ]
@@ -16841,17 +16847,17 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
             echo
             echo " Playlist Overwritten: ""$plname"
             echo
-            sleep 1.9
+            sleep .7
             echo " Reloading" "$plname . . ."
             echo
-            sleep .9
+            sleep .4
         else  # PLAYLIST THAT IS BEING OVERWRITTEN IS NOT LOADED
             cp ~/.config/videoinfox/playlists/playlist.queue "$plname"  # WRITE TO THE PLAYLIST DIRECTORY            
             echo > "$HOME"/.config/videoinfox/playlists/"$createpl1".last-autoplay
             echo
             echo " Playlist Overwritten: ""$plname"
             echo
-            sleep 1.9 
+            sleep .7 
         fi        
         break
         ;;
@@ -16869,7 +16875,7 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
             echo
             echo " Playlist Created: "$plname""
             echo
-            sleep 1.9
+            sleep .7
 fi
 fi
 fi
@@ -16903,7 +16909,7 @@ fi
           then
               echo
               echo " Play Queue was already deleted . . ."
-              sleep 1.9
+              sleep .4
 
           else
               echo > ~/.config/videoinfox/videoinfox-playlist.queue
@@ -16912,7 +16918,7 @@ fi
               echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay-nextup
               echo
               echo " Play Queue Deleted . . ."
-              sleep 1.9
+              sleep .4
 
         fi
         break
@@ -16962,7 +16968,7 @@ fi
           then
               echo
               echo " Play Queue Empty . . ."
-              sleep 1.9
+              sleep .4
           else
               # Remove Duplicates     
               cat -n ~/.config/videoinfox/playlists/playlist.queue | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfox-playlist.queue.tmp
@@ -16971,7 +16977,7 @@ fi
               echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay-nextup 2>/dev/null
               echo
               echo " Duplicates Removed . . ."
-              sleep 1.9
+              sleep .4
         fi
         break
         ;;
@@ -17038,7 +17044,7 @@ fi
             echo
             echo
             echo " Play Queue Empty . . ."
-            sleep 1.9            
+            sleep .4            
 
 
             fi
@@ -17144,7 +17150,7 @@ fi
         echo
         echo
         echo " Play Queue Empty . . ."
-        sleep 1.9
+        sleep .4
 
 
 fi
@@ -17204,7 +17210,7 @@ sed '/./=' ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' >
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -17219,7 +17225,7 @@ sed '/./=' ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' >
                                         echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay-nextup
                                         echo
                                         echo "Line deleted from the play queue . . ."
-                                        sleep 1.9
+                                        sleep .4
 
 
 fi
@@ -17292,7 +17298,7 @@ sed '/./=' ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' >
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -17317,13 +17323,13 @@ sed '/./=' ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' >
                                                             then 
                                                                 echo
                                                                 echo "Number out of range . . ."
-                                                                sleep .7
+                                                                sleep .4
                                                             else
                                                     if [[ $linenumber2 -lt $linenumber ]]
                                                             then
                                                                 echo
                                                                 echo "End must be greater than start . . ."
-                                                                sleep 1.9
+                                                                sleep .4
                                                             else  
                                                                 # MOVE LINE
                                                                 # REMOVE BLOCK
@@ -17332,7 +17338,7 @@ sed '/./=' ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' >
                                                                 echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay-nextup
                                                                 echo
                                                                 echo "Block Removed . . ."
-                                                                sleep .7
+                                                                sleep .4
 fi
 fi
 fi
@@ -17406,7 +17412,7 @@ sed '/./=' ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' >
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -17431,7 +17437,7 @@ sed '/./=' ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' >
                                                             then 
                                                                 echo
                                                                 echo "Number out of range . . ."
-                                                                sleep .7
+                                                                sleep .4
                                                             else 
                                                                 # MOVE LINE
                                                                 ex ~/.config/videoinfox/playlists/playlist.queue <<<""$linenumber"m"$linenumber2"|wq"
@@ -17439,7 +17445,7 @@ sed '/./=' ~/.config/videoinfox/playlists/playlist.queue | sed '/./N; s/\n/ /' >
                                                                 echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay-nextup 
                                                                 echo
                                                                 echo "Line moved . . ."
-                                                                sleep .7
+                                                                sleep .4
 fi
 fi
 fi
@@ -17502,7 +17508,7 @@ linecount=$(wc -l ~/.config/videoinfox/playlists/playlist.queue 2> /dev/null | c
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -17527,19 +17533,19 @@ linecount=$(wc -l ~/.config/videoinfox/playlists/playlist.queue 2> /dev/null | c
                                                             then 
                                                                 echo
                                                                 echo "Number out of range . . ."
-                                                                sleep .7
+                                                                sleep .4
                                                             else
                                                           if [[ $linenumber2 -lt $linenumber ]]
                                                             then
                                                                 echo
                                                                 echo "End must be greater than start . . ."
-                                                                sleep 1.9
+                                                                sleep .4
                                                             else
 if [[ "$linenumber" == "$linenumber2" ]]
 then
     echo
     echo "Numbers can't be the same . . ."
-    sleep 1.9
+    sleep .4
 else
 
 sed -n "$linenumber,$linenumber2"p ~/.config/videoinfox/playlists/playlist.queue > ~/.config/videoinfox/tmp/playlist.mb-cutQ # CUT BLOCK FROM LIST 
@@ -17575,7 +17581,7 @@ read -r -p "Paste block after number: " linenumber  # waiting fot user input
                               then 
                                   echo
                                   echo "Number out of range . . ."
-                                  sleep .7
+                                  sleep .4
 
                               else
 
@@ -17592,7 +17598,7 @@ echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay
 echo > ~/.config/videoinfox/playlists/playlist.queue.last-autoplay-nextup
 echo
 echo "Block moved . . ."
-sleep .7
+sleep .4
 
 fi
 fi
@@ -17630,7 +17636,7 @@ if [ -z "$chkplq" ]
    then
        echo
        echo " Play Queue Empty . . ."
-       sleep 1.9
+       sleep .4
  
    else      
 
@@ -17926,7 +17932,7 @@ if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
         then 
             echo
             echo "Number out of range . . ."
-            sleep .7
+            sleep .4
 
         else
 
@@ -17992,7 +17998,7 @@ if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
         then 
             echo
             echo "Number out of range . . ."
-            sleep .7
+            sleep .4
 
         else
 
@@ -18005,7 +18011,7 @@ if [[ "$renfrom" == "Default" ]]
   then
       echo
       echo "The default playlist list cannot be renamed . . ."
-      sleep 1.9
+      sleep .4
   else
 
 clear
@@ -18025,7 +18031,7 @@ if [[ "$renamepl" == "Default" ]]
   then
       echo
       echo " Default playlist name reserved . . ."
-      sleep 1.9
+      sleep .4
   else
 
 if [ -f "$HOME/.config/videoinfox/playlists/vplaylist.""$renamepl" ]
@@ -18033,7 +18039,7 @@ if [ -f "$HOME/.config/videoinfox/playlists/vplaylist.""$renamepl" ]
 #plname="$HOME/.config/videoinfox/playlists/vplaylist.""$renamepl" 
       echo
       echo " File already exists . . ."
-      sleep .7
+      sleep .4
   else
 
 if [ -z "$renamepl" ]
@@ -18057,7 +18063,7 @@ cp ~/.config/videoinfox/playlists/vplaylist."$renamepl" ~/.config/videoinfox/vid
 rm "$selectedtorename" 2>/dev/null
 echo
 echo " Playlist renamed and reloaded . . ."
-sleep .9
+sleep .4
   else # PLAYLIST ISN'T LOADED
 
 cp "$selectedtorename" ~/.config/videoinfox/playlists/vplaylist."$renamepl"
@@ -18069,7 +18075,7 @@ rm ~/.config/videoinfox/playlists/"$renfrom".last-autoplay.nextup 2>/dev/null
 rm ~/.config/videoinfox/playlists/"$renfrom" 2>/dev/null
 echo
 echo " Playlist renamed . . ."
-sleep .9
+sleep .4
 
 fi
 fi
@@ -18124,7 +18130,7 @@ if [ "$linenumber" = 0 ]
               then 
                   echo
                   echo "Number out of range . . ."
-                  sleep .7
+                  sleep .4
 
               else
                   echo
@@ -18140,7 +18146,7 @@ if [ "$linenumber" = 0 ]
                       if [[ "$plselected2" == "Default" ]]
                       then
                       echo "The default playlist list cannot be deleted. It can only be cleared . . ."
-                      sleep 1.9
+                      sleep .7
                       else
 
                       function menucpl {
@@ -18186,7 +18192,7 @@ if [ "$linenumber" = 0 ]
                             :
                       fi
 
-                      sleep 2.1  
+                      sleep .7 
                       break
                       ;;
 
@@ -18230,14 +18236,14 @@ if [ -z "$createpl" ]  # if enter is pressed with no entry
   then
       echo
       echo " Nothing was entered . . ."
-      sleep 1.9
+      sleep .4
   else
 
 if [[ "$createpl" = "Default" ]]
   then
       echo
       echo " Default playlist name reserved . . ."
-      sleep 1.9
+      sleep .4
   else
 
       if [ -f ~/.config/videoinfox/playlists/vplaylist."$createpl" ]
@@ -18270,17 +18276,17 @@ if [[ "$createpl" = "Default" ]]
             echo
             echo " Playlist Overwritten: ""$plname"
             echo
-            sleep 1.9
+            sleep .7
             echo " Reloading" "$plname . . ."
             echo
-            sleep .9
+            sleep .4
         else  # PLAYLIST THAT IS BEING OVERWRITTEN IS NOT LOADED
             echo > "$plname"  #  create user list with full path and filename
             echo > "$HOME"/.config/videoinfox/playlists/"$createpl1".last-autoplay
             echo
             echo " Playlist Overwritten: ""$plname"
             echo
-            sleep 1.9 
+            sleep .7
         fi
        
         break
@@ -18299,7 +18305,7 @@ if [[ "$createpl" = "Default" ]]
             echo
             echo " Playlist Created: "$plname""
             echo
-            sleep 1.9
+            sleep .7
 
 fi
 fi
@@ -18471,7 +18477,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
             echo
             echo
             echo " No playable content in the clipboard . . ."
-            sleep 1.9
+            sleep .4
       fi   
   fi
   ;;  
@@ -18507,7 +18513,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
         cp ~/.config/videoinfox/videoinfo.playlist "$activeplaylistm" 2>/dev/null # SAVE CURRENT PLAYLIST 
         echo
         echo " ""$setplaylist"" Playlist Cleared . . ."
-        sleep 1.9  
+        sleep .7  
         break
         ;;
 
@@ -18584,7 +18590,7 @@ if [ "$linenumber" = 0 ]
               then 
                   echo
                   echo "Number out of range . . ."
-                  sleep .7
+                  sleep .4
 
               else
      
@@ -18632,7 +18638,7 @@ fi
                            echo
                            echo
                            echo " No video files recursively reachable from the current directory . . ."
-                           sleep 1.9
+                           sleep 1
                         
                        else
 
@@ -18644,30 +18650,29 @@ fi
     echo "Clipboard: ""$pasteclip"
     echo "___________________________________________________________________________________________________________________"
     echo
-    echo " ""$ver"" >>> Find Video File(s) - Recursive                                               wildcard * ok"
+    echo " ""$ver"" >>> Find Video"
     echo "___________________________________________________________________________________________________________________"
     echo
-    echo " Video files must be recursively reachable from the current directory."
-    echo " Find a video file to play, add it to the playlist or get info.  No file extensions." 
+    echo " Video files must be recursively reachable from the current directory. No file extensions. Wildcard * ok" 
     echo
-    read -r -p " File Name: " videofind  # waiting fot user input - video file that you want to find
+    read -r -p " Search: " videofind  # waiting fot user input - video file that you want to find
 
     searchtotal=$(find "$PWD" -type f \( -iname "$videofind.mp4" -o -iname "$videofind.mkv" -o -iname "$videofind.avi" -o -iname "$videofind.webm" -o -iname "$videofind.divx" \) 2>/dev/null | wc -l)    
                                                                                    	
     if [ -z "$videofind" ]  # if no input was entered goto  <then>  
           then
                echo
-               echo " error: Nothing was entered."
+               echo " Nothing was entered . . ."
                echo
-               sleep 1.9        
+               sleep .4        
           else
                 
               if echo "$videofind" | grep "/" > /dev/null  # if any slashehes were entered goto <then>
                 then
                     echo
-                    echo " error: No directories only filenames."
+                    echo " No directories only filenames . . ."
                     echo
-                    sleep 1.9 
+                    sleep .4 
                 else
                                 
                      if [ "$searchtotal" = 0 ]  # if find returned no results goto <then>
@@ -18678,7 +18683,7 @@ fi
                            echo
                            echo " No files found . . ."
                            echo
-                           sleep 1.9 
+                           sleep .4 
                           
                        else
                            echo "$videofind" > ~/.config/videoinfox/videoinfo.lastfindstring   # save last find string used                          
@@ -18696,7 +18701,7 @@ find "$PWD" -type f \( -iname "$videofind.mp4" -o -iname "$videofind.mkv" -o -in
                            echo
                            echo " Total files found: " "$searchtotal"  # number of files found
                            notify-send  "Videoinfox messsage: Find results in $PWD" "$searchtotal files found using search term: $fterm"
-                           sleep 1.9
+                           sleep .4
     fi
     fi              
     fi
@@ -18854,20 +18859,20 @@ cd "$grabdir"
           then
               echo
               echo " Entry cannot be less than 1 . . ."
-              sleep 1.9
+              sleep 1
           else
 
          if [[ "$timeinsec" -gt 86400 ]]
            then
                echo
                echo " Entry cannot be greater than 86400 . . ."
-               sleep 1.9
+               sleep 1
            else
               echo "$timeinsec" > ~/.config/videoinfox/videoinfox.intermission
               read -r vto < ~/.config/videoinfox/videoinfox.intermission
               echo
               echo " Intermission changed to:" "$timeinsec" "seconds"    
-              sleep 1.9
+              sleep 1
     fi
     fi
     fi
@@ -18921,7 +18926,7 @@ cd "$grabdir"
          echo "1" > ~/.config/videoinfox/videoinfox.video-player
          echo
          echo " ffplay set . . ."
-         sleep 1.9
+         sleep .7
          ;;
 
 
@@ -18930,12 +18935,12 @@ cd "$grabdir"
            then
                echo
                echo " mpv not found . . ."
-               sleep 1.9
+               sleep .7
            else
                echo "2" > ~/.config/videoinfox/videoinfox.video-player
                echo
                echo " mpv set . . . "
-               sleep 1.9
+               sleep .7
          fi
          ;;
 
@@ -18974,7 +18979,7 @@ cd "$grabdir"
           echo "3" > ~/.config/videoinfox/videoinfox.video-player
           echo
           echo " custom set . . ."
-          sleep 1.9
+          sleep .7
           break
           ;;
 
@@ -18993,7 +18998,7 @@ cd "$grabdir"
                 if ! command -v "$customvpe" &> /dev/null ####### Check for custom and set if installed ########
                   then
                       echo " ""$customvpe" "not found . . ."               
-                      sleep 1.9
+                      sleep .7
                   else
                       echo "$customvpe" > ~/.config/videoinfox/videoinfox.customplayer.1
                       echo "3" > ~/.config/videoinfox/videoinfox.video-player
@@ -19006,7 +19011,7 @@ cd "$grabdir"
                       echo " New parameters: " "$cplayer2"
                       echo
                       echo " custom set . . ."
-                      sleep 1.9
+                      sleep .7
           fi
           fi
           break
@@ -19145,7 +19150,7 @@ done
          echo "1" > ~/.config/videoinfox/videoinfo.lastsearch-set
          echo
          echo " Always Save . . ."
-         sleep 1.9
+         sleep .7
          ;;
 
 
@@ -19153,7 +19158,7 @@ done
          echo "2" > ~/.config/videoinfox/videoinfo.lastsearch-set
          echo
          echo " Never Save . . . "
-         sleep 1.9
+         sleep .7
          ;;
 
         
@@ -19161,7 +19166,7 @@ done
          echo "3" > ~/.config/videoinfox/videoinfo.lastsearch-set
          echo
          echo " Ask on Exit . . ."
-         sleep 1.9
+         sleep .7
          ;;
 
          *)
@@ -19208,7 +19213,7 @@ if [[ "$specifydir2" = "clear" ]]
       echo > ~/.config/videoinfox/videoinfo.tv-dir
       echo
       echo " Directory cleared . . ."
-      sleep .9
+      sleep .7
   else
                 if [ -d "$specifydir2" ]  #  if directoty exists goto  <then>
                   then
@@ -19223,7 +19228,7 @@ if [[ "$specifydir2" = "clear" ]]
           fi       
 fi           
           cd "$grabdir"  # restore working directory
-          sleep 1.9
+          sleep .7
           ;;
 
 
@@ -19262,7 +19267,7 @@ if [[ "$specifydir2" = "clear" ]]
       echo > ~/.config/videoinfox/videoinfo.movies-dir
       echo
       echo " Directory cleared . . ."
-      sleep .9
+      sleep .7
   else
                 if [ -d "$specifydir2" ]  #  if directoty exists goto  <then>
                   then
@@ -19277,7 +19282,7 @@ if [[ "$specifydir2" = "clear" ]]
           fi
 fi 
           cd "$grabdir"  # restore working directory
-          sleep 1.9
+          sleep .7
           ;;
            
 
@@ -19324,7 +19329,7 @@ fi
           fi       
     
           cd "$grabdir"  # restore working directory
-          sleep 1.9
+          sleep .7
           ;;
 
 
@@ -19363,7 +19368,7 @@ if [[ "$specifydir2" = "clear" ]]
       echo > ~/.config/videoinfox/videoinfo.parent-dir
       echo
       echo " Directory cleared . . ."
-      sleep .9
+      sleep .7
   else
                 if [ -d "$specifydir2" ]  #  if directoty exists goto  <then>
                   then
@@ -19378,7 +19383,7 @@ if [[ "$specifydir2" = "clear" ]]
           fi       
 fi          
           cd "$grabdir"  # restore working directory
-          sleep 1.9
+          sleep .7
           ;;
 
 
@@ -19445,7 +19450,7 @@ fi
          rm ~/.config/videoinfox/tmp/* 2> /dev/null
          echo
          echo " Not Updated . . ."
-         sleep 1.9
+         sleep 1
          break;;
       
          u)
@@ -19612,7 +19617,7 @@ function chkytdlp {
          cd "$dirtemp"  # restore directory
          echo
          echo " Yt-dlp Not Updated . . ."
-         sleep 1.9
+         sleep 1
          break;;
       
          u)
@@ -20239,7 +20244,7 @@ if [ -z "$ulistset" ]
   then
       echo
       echo " There is no user set list . . ."
-      sleep .9
+      sleep .7
   else
       
       function menuclrusl {
@@ -20264,7 +20269,7 @@ if [ -z "$ulistset" ]
       echo
       echo " User set list cleared . . ."
       echo 
-      sleep .9
+      sleep .7
       break;; 
         
       n)  # NO 
@@ -20587,8 +20592,8 @@ else
      if echo "$dirfind" | grep "/" > /dev/null # if any slashes were entered goto <then>
      then
      echo
-     echo " error: No slashes. Directory name only."
-     sleep 1.9  
+     echo " No slashes. Directory name only . . ."
+     sleep .4  
      else
      echo
      find . -type d -iname "$dirfind" | sort -u > ~/.config/videoinfox/tmp/finthedir.tmp 2>/dev/null  # directory(s) found
@@ -20601,7 +20606,7 @@ sed '/./=' ~/.config/videoinfox/tmp/finthedir.tmp | sed '/./N; s/\n/ /' > ~/.con
      echo " Total Directories Found:" "$linecount"  # number of files found         
 	    if [ "$findmeadir" = 0 ]  # if find returned no results goto <then>
 	    then
-	    sleep 1.9
+	    sleep .7
           :
 	    else
           echo
@@ -20614,7 +20619,7 @@ read -r -p " Enter number to change directory: " linenumber  # waiting fot user 
               then 
               echo
               echo " Number out of range . . ."
-              sleep .7
+              sleep .4
               else
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/finthedir.tmp > ~/.config/videoinfox/tmp/finthedir.tmp2 2>/dev/null
               OLDIFS=$IFS
@@ -20634,7 +20639,7 @@ fi
            then
                echo
                echo " At treetop. Can't go any higher . . ."
-               sleep 1.9
+               sleep .4
 
            else
                cd .. &>/dev/null
@@ -20666,7 +20671,7 @@ if [[ $linenumber -gt $linecount ]]
   then 
       echo
       echo " Number out of range . . ."
-      sleep .7
+      sleep .4
   else
 
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/nt-list.tmp > ~/.config/videoinfox/tmp/nt-list.tmp2 2>/dev/null
@@ -20697,20 +20702,20 @@ read line < ~/.config/videoinfox/tmp/nt-list.tmp2
            then
                echo
                echo " Nothing was entered . . ."
-               sleep 1.9
+               sleep .4
 
            else
                if [ -d "$direxist4" ] 
                  then
                      echo
                      echo " Directory already exists . . ."
-                     sleep 1.9
+                     sleep .4
 
                  else
                      mkdir "$newdir" 2> /dev/null
                      echo
                      echo " Directory Created:" "$PWD""/""$newdir"
-                     sleep 1.9
+                     sleep .7
            fi
          fi
 
@@ -20741,7 +20746,7 @@ read -r -p " " specifydir  # waiting fot user input - the directory you want to 
           then
                echo
                echo " Nothing was entered . . ."
-               sleep 1.9
+               sleep .4
           else
               if [ -d "$specifydir" ]  #  if directoty exists goto  <then>
                 then
@@ -20749,11 +20754,11 @@ read -r -p " " specifydir  # waiting fot user input - the directory you want to 
                      grabdirfornav2="$specifydir"
                      cd "$specifydir"   # change the directory
                      echo " Treetop changed to: $PWD"  # <pwd>  print current working directory to the screen
-                     sleep 1.9                   
+                     sleep 1                   
                 else
                      echo
                      echo " No such directory . . ."
-                     sleep 1.9                   
+                     sleep .4                  
           fi
     fi       
 echo
@@ -20798,7 +20803,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
         then  # ENTRY EXCEEDS TOTAL NUMBER OF LINES 
             echo  
             echo "Number out of range . . ."
-            sleep .7
+            sleep .4
         else  # ENTRY IS A VALID NUMBER            
             # create file moving selected line number to the top
             tail -n +"$linenumber" ~/.config/videoinfox/videoinfox.dowload.list > ~/.config/videoinfox/tmp/videoinfox.dowload.list.tmp 2>/dev/null
@@ -20808,14 +20813,14 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
               then  # if the default download list is selected          
                   echo
                   echo "The default download list cannot be added to the queue . . ."
-                  sleep 1.9
+                  sleep .7
               else
                   echo "$playnumber" >> ~/.config/videoinfox/videoinfox-download.queue
                   echo
                   echo "$playnumber"
                   echo
                   echo "Download list added to queue . . ."
-                  sleep 1.9
+                  sleep .4
                       
 fi
 fi
@@ -20898,11 +20903,11 @@ case $optiondq in
               rm ~/.config/videoinfox/videoinfox-download.queue 2> /dev/null
               echo
               echo " Download Queue Deleted . . ."
-              sleep 1.9
+              sleep .4
           else
               echo
               echo " Download Queue was already deleted . . ."
-              sleep 1.9
+              sleep .4
         fi
         break
         ;;
@@ -21040,7 +21045,7 @@ if [ -z "$createulist" ]  # if enter is pressed with no entry
   then
       echo
       echo " Nothing was entered . . ."
-      sleep 1.9
+      sleep .4
 
   else
 
@@ -21048,7 +21053,7 @@ if [ -z "$createulist" ]  # if enter is pressed with no entry
         then
             echo
             echo " File already exists . . ."
-            sleep 1.9
+            sleep .7
 
         else
 
@@ -21058,7 +21063,7 @@ echo
 echo " User List Created: "$ulistname""
 echo
 echo
-sleep 1.9
+sleep 1
 
       fi
 fi
@@ -21098,7 +21103,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
         then  # ENTRY EXCEEDS TOTAL NUMBER OF LINES 
             echo  
             echo "Number out of range . . ."
-            sleep .7
+            sleep .4
         else  # ENTRY IS A VALID NUMBER            
             # create file moving selected line number to the top
             tail -n +"$linenumber" ~/.config/videoinfox/videoinfox.dowload.list > ~/.config/videoinfox/tmp/videoinfox.dowload.list.tmp 2>/dev/null
@@ -21108,7 +21113,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
               then  # if the default download list is selected          
                   echo
                   echo "The default download list cannot be set as a user list . . ."
-                  sleep 1.9
+                  sleep 1
                   else
                   echo "$playnumber" > ~/.config/videoinfox/videoinfox.set-user-list
 fi
@@ -21152,7 +21157,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
         then  # ENTRY EXCEEDS TOTAL NUMBER OF LINES 
             echo  
             echo "Number out of range . . ."
-            sleep .7
+            sleep .4
         else  # ENTRY IS A VALID NUMBER            
             # create file moving selected line number to the top
             tail -n +"$linenumber" ~/.config/videoinfox/videoinfox.dowload.list > ~/.config/videoinfox/tmp/videoinfox.dowload.list.tmp 2>/dev/null
@@ -21162,7 +21167,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
               then  # if the default download list is selected          
                   echo
                   echo "The default download list cannot be deleted. It can only be cleared . . ."
-                  sleep 1.9
+                  sleep 1
                   else
                       function menudul {
                       clear
@@ -21186,14 +21191,14 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
                       echo
                       echo " User List DELETED . . ."
                       echo 
-                      sleep 1.9
+                      sleep .4
                       break;; 
         
                       n)  # NO 
                       echo
                       echo " User List SAVED . . ."
                       echo   
-                      sleep 1.9
+                      sleep .4
                       break;;
       
                 *)
@@ -21315,7 +21320,7 @@ do
     echo
     echo " Default List CLEARED . . ."
     echo 
-    sleep 1.9
+    sleep .4
     break;; 
  
        
@@ -21323,7 +21328,7 @@ do
     echo
     echo " Default List SAVED . . ."
     echo     
-    sleep 1.9
+    sleep .4
 
     break;;
 
@@ -21381,7 +21386,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
         then  # ENTRY EXCEEDS TOTAL NUMBER OF LINES 
             echo  
             echo "Number out of range . . ."
-            sleep .7
+            sleep .4
         else  # ENTRY IS A VALID NUMBER            
             # create file moving selected line number to the top
             tail -n +"$linenumber" ~/.config/videoinfox/videoinfox.dowload.list > ~/.config/videoinfox/tmp/videoinfox.dowload.list.tmp 2>/dev/null
@@ -21406,7 +21411,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
                             then
                                 echo
                                 echo "List is empty . . ."
-                                sleep 1.9
+                                sleep .4
 else
 
 
@@ -21529,7 +21534,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
         then  # ENTRY EXCEEDS TOTAL NUMBER OF LINES 
             echo  
             echo "Number out of range . . ."
-            sleep .7
+            sleep .4
         else  # ENTRY IS A VALID NUMBER            
             # create file moving selected line number to the top
             tail -n +"$linenumber" ~/.config/videoinfox/videoinfox.dowload.list > ~/.config/videoinfox/tmp/videoinfox.dowload.list.tmp 2>/dev/null         
@@ -21542,7 +21547,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
                  then
                      echo
                      echo "List is Empty . . ."
-                     sleep 1.9
+                     sleep .4
                  else
                      clear
                      cat "$playnumber" 2>/dev/null
@@ -21592,7 +21597,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
         then  # ENTRY EXCEEDS TOTAL NUMBER OF LINES 
             echo  
             echo "Number out of range . . ."
-            sleep .7
+            sleep .4
         else  # ENTRY IS A VALID NUMBER            
             # create file moving selected line number to the top
             tail -n +"$linenumber" ~/.config/videoinfox/videoinfox.dowload.list > ~/.config/videoinfox/tmp/videoinfox.dowload.list.tmp 2>/dev/null         
@@ -21610,7 +21615,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
                    else
                        echo
                        echo "List not downloaded yet . . ."
-                       sleep 1.9          
+                       sleep .7          
 fi
 fi
 fi
@@ -21794,7 +21799,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
            echo
            echo
            echo " No playable content in the clipboard . . ."
-           sleep 1.9
+           sleep .4
        fi
 fi
 
@@ -22143,7 +22148,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
            echo
            echo
            echo " No playable content in the clipboard . . ."
-           sleep 1.9
+           sleep .4
       fi 
 fi
 
@@ -22159,7 +22164,7 @@ if [ "$istherefiles" = 0 ]
       echo
       echo
       echo " No video files in the default download directory . . ."
-      sleep 1.9
+      sleep .7
 
   else
  
@@ -22373,7 +22378,7 @@ IFS=$OLDIFS
 else
      echo
      echo " No video files in the default download directory . . ."
-     sleep 1.9
+     sleep .7
 fi
 ;;           
 
@@ -22388,7 +22393,7 @@ if [ "$istherefiles" = 0 ]
       echo
       echo
       echo " No video files in the default download directory . . ."
-      sleep 1.9
+      sleep .7
 
   else
 
@@ -22506,7 +22511,7 @@ if [ "$istherefiles" = 0 ]
       echo
       echo
       echo " No video files in the default download directory . . ."
-      sleep 1.9
+      sleep .4
 
   else
 
@@ -22644,7 +22649,7 @@ fi
                     echo
                     echo
                     echo " Clipboard is empty or contained invalid video url . . ."
-                    sleep 1.9
+                    sleep .1
               fi
 
               cd "$grabdir" # restore dir
@@ -22659,7 +22664,7 @@ if [ -z "$ldcheck" ]
       echo
       echo
       echo " A video has to be downloaded first for this feature to work . . ."
-      sleep 1.9
+      sleep 1
   else
               grabdir="$PWD"  # storing directory to restore on quit
                
@@ -22757,7 +22762,7 @@ fi
                     echo
                     echo
                     echo " Clipboard is empty or contained invalid video url . . ."
-                    sleep 1.9
+                    sleep 1
               fi
               
               cd "$grabdir"
@@ -22812,7 +22817,7 @@ fi
                     echo
                     echo
                     echo " Clipboard is empty or contained invalid video url . . ."
-                    sleep 1.9
+                    sleep 1
               fi
               
               cd "$grabdir"
@@ -23243,7 +23248,7 @@ do
     echo " Results SAVED . . ."
     echo 
     #read -p "Press enter to continue . . ."
-    sleep 1.9
+    sleep .4
     break;; 
         
     d) 
@@ -23252,7 +23257,7 @@ do
     echo " Results DELETED . . ."
     echo 
     #read -p "Press enter to continue . . ."    
-    sleep 1.9
+    sleep .4
     break;;
       
         *)
@@ -23284,19 +23289,19 @@ read -r -p " Enter Directory: " specifydir  # waiting fot user input - the direc
 	if [ -z "$specifydir" ]  # if no input was entered goto  <then> 
           then
                echo
-               echo " error: Nothing was entered"
-               sleep 1.9
+               echo " Nothing was entered . . ."
+               sleep .4
           else
               if [ -d "$specifydir" ]  #  if directoty exists goto  <then>
                 then
                      echo
                      cd "$specifydir"   # change the directory
                      echo " Working Driectory changed to: $PWD"  # <pwd>  print current working directory to the screen
-                     sleep 1.9                   
+                     sleep .7                   
                 else
                      echo
-                     echo " error:  No such file or directory"
-                     sleep 1.9                   
+                     echo " No such file or directory . . ."
+                     sleep .4                   
           fi
     fi       
 echo
@@ -23325,14 +23330,14 @@ linecount=$(find . -type d -iname "$dirfind" 2>/dev/null | wc -l)   # number of 
 if [ -z "$dirfind" ]  # if no input was entered goto  <then>  
 then
 echo
-echo " error: Nothing was entered"  
-sleep 1.9
+echo " Nothing was entered . . ."  
+sleep .4
 else               
      if echo "$dirfind" | grep "/" > /dev/null # if any slashes were entered goto <then>
      then
      echo
-     echo " error: No slashes. Directory name only."
-     sleep 1.9  
+     echo " No slashes. Directory name only."
+     sleep .4  
      else
      echo
      find . -type d -iname "$dirfind" | sort -u > ~/.config/videoinfox/tmp/finthedir.tmp 2>/dev/null  # directory(s) found
@@ -23345,7 +23350,7 @@ sed '/./=' ~/.config/videoinfox/tmp/finthedir.tmp | sed '/./N; s/\n/ /' > ~/.con
      echo " Total Directories Found:" "$linecount"  # number of files found         
 	    if [ "$findmeadir" = 0 ]  # if find returned no results goto <then>
 	    then
-	    sleep 1.9
+	    sleep 1
           :
 	    else
           echo
@@ -23358,7 +23363,7 @@ read -r -p " Enter number to change directory: " linenumber  # waiting fot user 
               then 
               echo
               echo " Number out of range . . ."
-              sleep .7
+              sleep .4
               else
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/finthedir.tmp > ~/.config/videoinfox/tmp/finthedir.tmp2 2>/dev/null
               OLDIFS=$IFS
@@ -23548,7 +23553,7 @@ do
     echo " Results SAVED . . ."
     echo 
     #read -p "Press enter to continue . . ."
-     .75
+    sleep .4
     break;; 
         
     d) 
@@ -23557,7 +23562,7 @@ do
     echo " Results DELETED . . ."
     echo 
     #read -p "Press enter to continue . . ."    
-    sleep 1.9
+    sleep .4
     break;;
 
          *)
@@ -23588,8 +23593,8 @@ echo
 
         if [ -z "$specifyfile" ]  # if no input was entered goto  <then>
           then
-              echo " error: Nothing was entered"
-              sleep 1.9
+              echo " Nothing was entered . . ."
+              sleep .4
           else  
                if [ -f "$specifyfile" ]  # if file exists goto  <then>
                 then
@@ -23603,7 +23608,7 @@ echo " Video Info: "$(ffprobe -v error -show_entries stream=codec_name -of defau
                        read -r -p " Press enter to continue . . ." 
                 else
                        echo " error: No such file or directory"
-                       sleep 1.9
+                       sleep .4
           fi	  
           fi
 
