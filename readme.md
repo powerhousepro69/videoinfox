@@ -1,4 +1,4 @@
-# Videoinfox v5.3.55
+# Videoinfox v5.4.00
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -23,6 +23,8 @@ sudo chmod +x /usr/local/bin/videoinfox
 
 <br />
 
+**NEW: &nbsp; Toggle on/off mpv save play position on quit and option to erase all mpv markers.**
+<br />
 
 **Getting Started:** Set the Default Directories located in -Set. Enter the parent directories of your video libraries. Then run -Index Default Directories This will build a searchable recursive list of all 4 default directories for -Playlist Find. Find a video(s) with a keyword from the path or file.
 
@@ -373,44 +375,13 @@ FIRST RUN
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
 
-###  v5.3.55 Fix: -Auotplay in Played List wouldn't work if -Play wasn't run first.
+###  v5.4.00 New: Two new features added to -Set >>> Video Player option: 2 - Mpv
 
-        Add: Below line added to Home Help
-             Note: Running multiple instances of Vidoeinfox will cause unwanted behavior with autoplay features.
+        Toggle on/off mpv save play position on quit and option to erase all mpv markers.
 
-###  v5.3.53 Add: Getting Started: added to Home Help.
+        Add: New features added to Home Help
 
-###  v5.3.52 Edit: A few edits in Home Help.
-
-###  v5.3.51 Change: Shortened message display time on all messages.
-
-        Edit: Find Video Screen
-
-        Edit: Playlist Find Screen
-
-
-###  v5.3.48 Change: A few options moved around on the home screen.
-
-        Change: Play Clipboard blinking dash changed to  *  on all screens.
-
-        Edit: Download List >>> Help
-
-        Edit: First Run >>> Setup
-              Add: VIDEOINFOX WILL KEEP CLEARING OUT INVALID CONTENT FROM THE CLIPBOARD.
-                    ANYTHING THAT ISN'T A VIDEO URL OR FILE
-
-###  v5.3.44 Fix: Resume in View Playlist was broke in the last update.
-
-###  v5.3.43 Update: Some options moved around on the home screen to group playlist features together.
-        
-        Change: Play Clipboard and Download Only blinking dash were changed to an  *  on the home screen.
-                Remaining screens with the Play Clipboard blinking dash will be changed to an  *  on the next update.
-
-        Change: Header in Playlist Find
-
-        Change: Video files available:  changed to  Indexed video files:  in Playlist Find
-
-
+        Change: all - Find Dir changed from  f  to  g
 
 
 ### Harnessing the power of:
