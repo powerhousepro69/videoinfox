@@ -5,9 +5,9 @@
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
-ver="Videoinfox v5.3.55"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m3.55")  # Version Number: with blinking dot
-vn="v5.3.55" #V!  update help files on update
+ver="Videoinfox v5.4.00"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.00")  # Version Number: with blinking dot
+vn="v5.4.00" #V!  update help files on update
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -867,6 +867,9 @@ fi
         else # set mpv
             echo "2" > ~/.config/videoinfox/videoinfox.video-player
       fi
+
+      # Set mpv to save play position on quit to true
+      echo "1" > ~/.config/videoinfox/mpvmarker
   
       # SAMPLE URL DOWLOAD LIST BEING CREATED WITH 3 VIDEO URL'S
       echo "https://www.youtube.com/watch?v=d59H0UxhyaY" > $HOME/Downloads/videoinfox-dl-sample-list
@@ -1115,7 +1118,7 @@ echo "__________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.3.55   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Videoinfox v5.4.00   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1272,7 +1275,7 @@ else
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.3.55   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
+echo " Videoinfox v5.4.00   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1300,6 +1303,9 @@ echo >> ~/.config/videoinfox/videoinfo.help
 echo " If MPV is used, it will keep track of last play position on all videos played on Mpv quit(q)" >> ~/.config/videoinfox/videoinfo.help
 echo " Mpv will only save a play position marker when Mpv quit(q) is used while playing a video." >> ~/.config/videoinfox/videoinfo.help
 echo " If Mpv is quit(q) when a video is paused, it will restart the video paused." >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo " Option  2 - mpv  in Settings >>> Video Player there is an option to toggle on/off save play position on mpv quit." >> ~/.config/videoinfox/videoinfo.help
+echo " Also, an option to erase all mpv markers." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Change to a parent directory of a video library and select:  - Find Video  or  - Show All  on the home screen." >> ~/.config/videoinfox/videoinfo.help
@@ -1554,7 +1560,11 @@ echo "__________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " * When running videoinfox with no command line options:" >> ~/.config/videoinfox/videoinfo.help
 echo "   There isn't code in this script to delete or overwrite any files other than Videoinfox created files." >> ~/.config/videoinfox/videoinfo.help
+echo "   Exception: There is code in this script to delete all mpv markers in ~/.config/mpv/watch_later." >> ~/.config/videoinfox/videoinfo.help
+echo "              Located in: Set >>> Video Player - Mpv" >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
 echo "   There is code in this script in Yt-dlp Menu >>> Download List to create a directory but not remove a directory." >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " * When running videoinfox -u command line option:" >> ~/.config/videoinfox/videoinfo.help
 echo "   videoinfox -u will strip out the following 3 errors if they exist and overwrite the download list." >> ~/.config/videoinfox/videoinfo.help
@@ -1595,7 +1605,7 @@ echo " q - quit                                                                 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 #V!
-echo " 180 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " 181 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 
 
@@ -1607,6 +1617,16 @@ echo " _________________________________________________________________________
 
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v5.4.00 New: Two new features added to -Set >>> Video Player option: 2 - Mpv" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              Toggle on/off mpv save play position on quit." >>  ~/.config/videoinfox/videoinfo-ver-history 
+echo "              Option to erase all mpv markers." >>  ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Add: New features added to Home Help" >>  ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Change: all - Find Dir changed from  f  to  g" >>  ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.3.55 Fix: -Auotplay in Played List wouldn't work if -Play wasn't run first." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2879,6 +2899,12 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist.current ]
       echo "$HOME/.config/videoinfox/playlists/vplaylist.Default" > ~/.config/videoinfox/videoinfo.playlist.current
 fi
 
+if [ -f ~/.config/videoinfox/mpvmarker ]
+  then
+      :
+  else
+      echo "1" > ~/.config/videoinfox/mpvmarker
+fi
 
 
 ##################################################################################################################################################
@@ -2886,6 +2912,16 @@ fi
 ##################################################################################################################################################
 
 function menuf {
+
+# Set if mpv will save play position on quit
+read -r mpvsavestat < ~/.config/videoinfox/mpvmarker
+if [[ "$mpvsavestat" = 1 ]]
+  then
+      mpvmarker="--save-position-on-quit"
+  else
+      mpvmarker=" "
+fi
+
 
 if [ -f ~/.config/videoinfox/videoinfox.intermission ]  # if file exists goto then
   then
@@ -2920,9 +2956,10 @@ if [[ "$vplaym" = 1 ]]
       defplayer=(ffplay)
       defplayargu=(-fs -autoexit -loglevel quiet) 
 elif [[ "$vplaym" = 2 ]]
-  then
+  then      
       defplayer=(mpv)
-      defplayargu=(--fs --no-terminal --sid=no --save-position-on-quit)
+      #defplayargu=(--fs --no-terminal --sid=no --save-position-on-quit)
+      defplayargu=(--fs --no-terminal --sid=no "$mpvmarker")
 elif [[ "$vplaym" = 3 ]]
   then
       read -r cplayer1 < ~/.config/videoinfox/videoinfox.customplayer.1 
@@ -3547,14 +3584,14 @@ sed '/./=' ~/.config/videoinfox/tmp/finthedir.tmp | sed '/./N; s/\n/ /' > ~/.con
    
      cat ~/.config/videoinfox/tmp/finthedir.numberlist.tmp
      echo
-     echo " Total Directories Found:" "$linecount"  # number of files found         
-	    if [ "$findmeadir" = 0 ]  # if find returned no results goto <then>
+     echo "Total Directories Found:" "$linecount"  # number of files found
+     sleep .4         
+	    if [ "$linecount" = 0 ]  # if find returned no results goto <then>
 	    then
-	    sleep .7
-          :
+	        :
 	    else
-          echo
-read -r -p " Enter line number to change directory: " linenumber  # waiting fot user input
+              echo
+read -r -p "Enter line number to change directory: " linenumber  # waiting fot user input
               if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
               then
               :
@@ -4071,7 +4108,7 @@ echo " ""$der"" >>> NAVIGATE TREE          Video listing only 1 level deep      
 echo "___________________________________________________________________________________________________________________" 
 echo
 echo " c - Change Directory     a "$bdash" Show All     d "$bdash" Play Directory     n - Change Treetop                      q - Quit"
-echo " u - Up One Level                                                 f - Find Directory"
+echo " u - Up One Level                                                 g - Find Directory"
 echo " t - Treetop                                                                                              h - Help"
 echo   
 echo -en " Enter Option: "
@@ -4106,7 +4143,7 @@ echo
          ;;
 
 
-         f)  # FIND DIRECTORY
+         g)  # FIND DIRECTORY
 clear
 echo
 echo "Directory: ""$PWD"
@@ -4140,14 +4177,14 @@ sed '/./=' ~/.config/videoinfox/tmp/finthedir.tmp | sed '/./N; s/\n/ /' > ~/.con
    
      cat ~/.config/videoinfox/tmp/finthedir.numberlist.tmp
      echo
-     echo " Total Directories Found:" "$linecount"  # number of files found         
-	    if [ "$findmeadir" = 0 ]  # if find returned no results goto <then>
+     echo "Total Directories Found:" "$linecount"  # number of files found
+     sleep .4         
+	    if [ "$linecount" = 0 ]  # if find returned no results goto <then>
 	    then
-	    sleep .7
-          :
+	         :
 	    else
-          echo
-read -r -p " Enter line number to change directory: " linenumber  # waiting fot user input
+              echo
+read -r -p "Enter line number to change directory: " linenumber  # waiting fot user input
               if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
               then
               :
@@ -18908,6 +18945,15 @@ cd "$grabdir"
     p) # VIDEO PLAYER
     function videoplayer {
 
+    # Set if mpv will save play position on quit
+    read -r mpvsavestat < ~/.config/videoinfox/mpvmarker
+    if [[ "$mpvsavestat" = 1 ]]
+      then
+          mpvmarker="--save-position-on-quit"
+      else
+          mpvmarker=" "
+    fi
+
          read -r vplay < ~/.config/videoinfox/videoinfox.video-player
          read -r cplayer1 < ~/.config/videoinfox/videoinfox.customplayer.1 
          read -r cplayer2 < ~/.config/videoinfox/videoinfox.customplayer.2
@@ -18918,15 +18964,13 @@ cd "$grabdir"
          echo " "$der"  >>> SETTINGS >>> VIDEO PLAYER                                              Current Setting: "$vplay" "
          echo "___________________________________________________________________________________________________________________"
          echo
-         echo
          echo " Choose video player                                                                                      q - Quit"
          echo
          echo " 1 - ffplay -fs -autoexit -loglevel quiet"  
          echo
-         echo " 2 - mpv --fs --no-terminal --sid=no --save-position-on-quit"
+         echo " 2 - mpv --fs --no-terminal --sid=no $mpvmarker"
          echo
          echo " 3 - custom:" "$cplayer1" "$cplayer2"
-         echo
          echo
          echo -en " Enter Option: "
          read -r -n1 optionvp
@@ -18957,12 +19001,93 @@ cd "$grabdir"
                echo " mpv not found . . ."
                sleep .7
            else
+
+function menumpvsave {
+                      clear
+                      echo
+                      echo " Use MPV option --save-position-on-quit?"
+                      echo
+                      echo " y - Yes     n - No"  
+                      echo 
+                      echo -en " Enter Option: "
+                      read -r -n1 option
+                      echo
+                      }
+
+                      while true
+                      do
+	                menumpvsave
+	                case $option in
+
+                      y)  # YES
+                      echo "1" > ~/.config/videoinfox/mpvmarker
+                      echo
+                      echo " Mpv will save play/pause postion on quit . . ."
+                      #echo 
+                      sleep 1.5
+                      break;; 
+        
+                      n)  # NO
+                      echo > ~/.config/videoinfox/mpvmarker 
+                      echo
+                      echo " Mpv won't save play/pause postion on quit . . ."
+                      echo
+                      echo " Note: Now if a video is played that has a marker, it will be started from the marker"
+                      echo "       and the marker will be cleared on mpv quit(q)"
+                      echo
+                      echo   
+                      read -r -p " Press enter to continue . . ."
+                      break;;
+      
+                *)
+                                
+                esac
+                done     
+
                echo "2" > ~/.config/videoinfox/videoinfox.video-player
                echo
                echo " mpv set . . . "
                sleep .7
+
+function menumpvclear {
+                      clear
+                      echo
+                      echo " Clear all Mpv Markers?"
+                      echo
+                      echo " y - Yes     n - No"  
+                      echo 
+                      echo -en " Enter Option: "
+                      read -r -n1 option
+                      echo
+                      }
+
+                      while true
+                      do
+	                menumpvclear
+	                case $option in
+
+                      y)  # YES
+                      rm /home/homeserver/.config/mpv/watch_later/* 2> /dev/null
+                      echo
+                      echo " All mpv markers cleared . . ."
+                      sleep .9
+                      break;; 
+        
+                      n)  # NO
+                      echo
+                      echo " All mpv markers kept . . ."
+                      sleep .9
+                      break;;
+      
+                *)
+                                
+                esac
+                done     
+
+
          fi
-         ;;
+
+        ;;
 
         
         3)
@@ -19139,7 +19264,6 @@ done
          echo
          echo " "$der"  >>> SETTINGS >>> LAST SEARCH                                               Current Setting: "$lsearch" "
          echo "___________________________________________________________________________________________________________________"
-         echo
          echo
          echo " If there are search results on the the home screen on exit, the below always applies to the next run."
          echo
@@ -20542,7 +20666,7 @@ echo " ""$der"" >>> CREATE/CHANGE DIRECTORY                                     
 echo "___________________________________________________________________________________________________________________" 
 echo
 echo " c - "$changedir3"     m - Create Directory     n - Change Treetop                                     q - Quit"
-echo " u - Up One Level                                  f - Find Directory"
+echo " u - Up One Level                                  g - Find Directory"
 echo " t - Treetop"
 echo
 echo -en " Enter Option: "
@@ -20589,7 +20713,7 @@ echo
          ;;
 
 
-         f)	 #  FIND DIRECTORY  CREATE/CHANGE DIRECTORY in >>> YT-DLP MENU >>> DOWNLOAD LIST
+         g)	 #  FIND DIRECTORY  CREATE/CHANGE DIRECTORY in >>> YT-DLP MENU >>> DOWNLOAD LIST
 clear
 echo
 echo "Directory: ""$PWD"
@@ -20623,14 +20747,14 @@ sed '/./=' ~/.config/videoinfox/tmp/finthedir.tmp | sed '/./N; s/\n/ /' > ~/.con
    
      cat ~/.config/videoinfox/tmp/finthedir.numberlist.tmp
      echo
-     echo " Total Directories Found:" "$linecount"  # number of files found         
-	    if [ "$findmeadir" = 0 ]  # if find returned no results goto <then>
+     echo "Total Directories Found:" "$linecount"  # number of files found
+     sleep .4         
+	    if [ "$linecount" = 0 ]  # if find returned no results goto <then>
 	    then
-	    sleep .7
-          :
+	        :          
 	    else
-          echo
-read -r -p " Enter number to change directory: " linenumber  # waiting fot user input
+             echo
+read -r -p "Enter number to change directory: " linenumber  # waiting fot user input
               if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
               then
               :
@@ -23003,7 +23127,7 @@ echo " $der >>> MORE OPTIONS                                                    
 echo "___________________________________________________________________________________________________________________"
 echo
 echo " c - Change Directory     n - Video Count        v - Video Info                                           q - Quit"                     
-echo " f - Find Directory       d - Video Duration"
+echo " g - Find Directory       d - Video Duration"
 echo " l - List Directory"
 echo
 echo -en " Enter Option: "
@@ -23329,7 +23453,7 @@ echo
 ;;
 	
 
-f)	 
+g)	 
 ##################################################################################################################################################
 ###########################   MORE OPTIONS f  FIND DIRECTORY  ####################################################################################
 ##################################################################################################################################################
@@ -23367,14 +23491,14 @@ sed '/./=' ~/.config/videoinfox/tmp/finthedir.tmp | sed '/./N; s/\n/ /' > ~/.con
    
      cat ~/.config/videoinfox/tmp/finthedir.numberlist.tmp
      echo
-     echo " Total Directories Found:" "$linecount"  # number of files found         
-	    if [ "$findmeadir" = 0 ]  # if find returned no results goto <then>
+     echo "Total Directories Found:" "$linecount"  # number of files found
+     sleep .4        
+	    if [ "$linecount" = 0 ]  # if find returned no results goto <then>
 	    then
-	    sleep 1
-          :
+              :
 	    else
-          echo
-read -r -p " Enter number to change directory: " linenumber  # waiting fot user input
+              echo
+read -r -p "Enter number to change directory: " linenumber  # waiting fot user input
               if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
               then
               :
