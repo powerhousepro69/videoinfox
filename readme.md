@@ -1,4 +1,4 @@
-# Videoinfox v5.3.52
+# Videoinfox v5.3.53
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -347,14 +347,7 @@ YT-DLP is not on the dependeny list becuase Videoinfox will dowload it to: &nbsp
  
 #### Videoinfox runs a dependency check at startup.  If any dependencies are not found, the script will exit.
 
-DEPENDENCIES &nbsp; Any missing dependencies will be displayed.
-  
-![Videoinfox DEPENDENCY CHECK](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/DEPENDENCY.png)
-
-
-<br />
-
-#### Setup for first the run or if the videoinfox directory gets deleted anytime after the first run.
+Any missing dependencies will be displayed.
 
 <br />
 FIRST RUN
@@ -379,6 +372,8 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.3.53 Add: Getting Started: added to Home Help.
 
 ###  v5.3.52 Edit: A few edits in Home Help.
 
