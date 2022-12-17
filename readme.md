@@ -1,4 +1,4 @@
-# Videoinfox v5.3.51
+# Videoinfox v5.3.52
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -379,6 +379,8 @@ FIRST RUN
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
 
+###  v5.3.52 Edit: A few edits in Home Help.
+
 ###  v5.3.51 Change: Shortened message display time on all messages.
 
         Edit: Find Video Screen
@@ -408,42 +410,6 @@ FIRST RUN
         Change: Video files available:  changed to  Indexed video files:  in Playlist Find
 
 
-###  v5.3.30 Add: Video files available: display to -Playlist Find
-
-
-###  v5.3.29 Change: -Default Directories to Playlist  was renamed to  -Index Default Directories
-
-        Run -Index Default Directories then delete playlist: Default Directories because it won't be
-        updated anymore. This list has been renamed and no longer shows up as a Playlist. If needed,
-        a playlist can be generated from this index. Select -Playlist Find on the home screen and 
-        enter  .  to show all then -Make Playlist
-
-        Add: Date and time displayed in settings of the last time  -Index Default Directories  was run.
-
-        Add: Confirmation prompt for -Clear User Set List in Yt-dlp Menu >>> Download List 
-        Change: -Clear User Set List option letter changed from  Z  to  z
-
-
-###  v5.3.25 Update: The loaded playlist was saved when another playlist was loaded. Now the playlist is saved on every edit.
-
-        Change: Any edits to a Playlist or the Play Queue will clear the resume marker if one exists.
-
-        Fix: Running Last Download when a video was never downloaded would autoplay the download directory.
-        MSG: A video has to be downloaded first for this feature to work.
-
-        Edit: View Playlist >>> Help
-
-
-###  v5.3.12 Fix: Script errors in -Rename
-
-###  v5.3.11 New: -Move Block added to -View Playlist and -Play Queue
-
-        New: -Remove Block added to -View Playlist and -Play Queue
-
-        Add: -Rename added to -Change and Queue
-        Note: If there is a playlist resume marker, it will be retained when renaming a playlist.
-
-        Edit: Home Help Playlist Features: and View Playlist Help
 
 
 ### Harnessing the power of:
