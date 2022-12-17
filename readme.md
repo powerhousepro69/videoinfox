@@ -1,4 +1,4 @@
-# Videoinfox v5.3.53
+# Videoinfox v5.3.55
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -372,6 +372,11 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.3.55 Fix: -Auotplay in Played List wouldn't work if -Play wasn't run first.
+
+        Add: Below line added to Home Help
+             Note: Running multiple instances of Vidoeinfox will cause unwanted behavior with autoplay features.
 
 ###  v5.3.53 Add: Getting Started: added to Home Help.
 
