@@ -5,9 +5,9 @@
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
-ver="Videoinfox v5.3.53"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m3.53")  # Version Number: with blinking dot
-vn="v5.3.53" #V!  update help files on update
+ver="Videoinfox v5.3.55"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m3.55")  # Version Number: with blinking dot
+vn="v5.3.55" #V!  update help files on update
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -1115,7 +1115,7 @@ echo "__________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.3.53   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Videoinfox v5.3.55   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1272,7 +1272,7 @@ else
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.3.53   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
+echo " Videoinfox v5.3.55   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1558,7 +1558,9 @@ echo "   There is code in this script in Yt-dlp Menu >>> Download List to create
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " * When running videoinfox -u command line option:" >> ~/.config/videoinfox/videoinfo.help
 echo "   videoinfox -u will strip out the following 3 errors if they exist and overwrite the download list." >> ~/.config/videoinfox/videoinfo.help
-echo "    -all lines that don't start with http   - all blank lines   - all duplicate lines" >> ~/.config/videoinfox/videoinfo.help
+echo "   All lines that don't start with http, all blank lines and all duplicate lines" >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo " Note: Running multiple instances of Vidoeinfox will cause unwanted behavior with autoplay features." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo "                                     Thanks for checking out Videoinfox!" >> ~/.config/videoinfox/videoinfo.help
@@ -1593,7 +1595,7 @@ echo " q - quit                                                                 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 #V!
-echo " 179 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " 180 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 
 
@@ -1605,7 +1607,12 @@ echo " _________________________________________________________________________
 
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v5.3.55 Fix: -Auotplay in Played List wouldn't work if -Play wasn't run first." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Add: Below line added to Home Help" >>  ~/.config/videoinfox/videoinfo-ver-history 
+echo "              Note: Running multiple instances of Vidoeinfox will cause unwanted behavior with autoplay features." >>  ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.3.53 Add: Getting Started: added to Home Help." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -9704,8 +9711,6 @@ if [ "$grabclip" = "http" ]  # if the first 4 characters = <http> go then
       fi
 fi
 
-#  REMOVE BLANK LINES
-###sed -i '/^$/d' ~/.config/videoinfox/videoinfo.playedlist 2>/dev/null
 
 ########################### removed sort routine #########################
 
@@ -9716,8 +9721,10 @@ cp ~/.config/videoinfox/videoinfo.playedlist ~/.config/videoinfox/tmp/videoinfo.
 
 #  REMOVE DUPLICATES
 cat -n ~/.config/videoinfox/tmp/videoinfo.playedlist-apa | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfo.playedlist-apa3 2>/dev/null
-mv ~/.config/videoinfox/tmp/videoinfo.playedlist-apa3 cat -n ~/.config/videoinfox/tmp/videoinfo.playedlist 2>/dev/null
+mv ~/.config/videoinfox/tmp/videoinfo.playedlist-apa3 ~/.config/videoinfox/videoinfo.playedlist 2>/dev/null
 
+#  REMOVE BLANK LINES
+sed -i '/^$/d' ~/.config/videoinfox/videoinfo.playedlist 2>/dev/null
 
 #  CHECK FOR AT LEAST ONE LINE THAT STARTS WITH A SLASH /
 atleastone=$(grep '^/' ~/.config/videoinfox/tmp/videoinfo.playedlist-apa | wc -l)
@@ -9770,10 +9777,12 @@ sed -i 's/.*\///' ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2
 sed '/./=' ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2 | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/videoinfo.number.played-list 2>/dev/null
 
    
-else #  NO LINES START WITH A SLASH /   remove empty files
-     rm ~/.config/videoinfox/tmp/videoinfo.playedlist-apa 2>/dev/null
-     rm ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2 2>/dev/null
-     rm ~/.config/videoinfox/tmp/videoinfo.number.played-list 2>/dev/null     
+else 
+     :
+     #  NO LINES START WITH A SLASH /   remove empty files
+     #rm ~/.config/videoinfox/tmp/videoinfo.playedlist-apa 2>/dev/null
+     #rm ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2 2>/dev/null
+     #rm ~/.config/videoinfox/tmp/videoinfo.number.played-list 2>/dev/null     
 fi
 
 
@@ -9915,6 +9924,9 @@ read -r -n1 optionv
 
         o) # AUTOPLAY LINE  (PLAYED LIST)
 
+# GETTING LINE COUNT
+linecount=$(wc -l ~/.config/videoinfox/tmp/videoinfo.number.played-list 2> /dev/null | cut -d' ' -f1)
+
 if [ -f ~/.config/videoinfox/tmp/videoinfo.number.played-list ]
    then
 
@@ -9927,9 +9939,7 @@ read -r -p "Autoplay: " linenumber  # waiting fot user input
 if ! [[ "$linenumber" -eq "$linenumber" ]] #2> /dev/null
   then 
       :
-
   else 
-
 
       if [ -z "$linenumber" ] # IF NO ENTRY GOTO THEN
         then
@@ -10073,8 +10083,8 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
 
               else
 
-       tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfo.playedlist-apa > ~/.config/videoinfox/tmp/videoinfo.playedlist-apa.tmp 2>/dev/null
-       mv ~/.config/videoinfox/tmp/videoinfo.playedlist-apa.tmp ~/.config/videoinfox/tmp/videoinfo.playedlist-apa 2>/dev/null
+tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfo.playedlist-apa > ~/.config/videoinfox/tmp/videoinfo.playedlist-apa.tmp 2>/dev/null
+mv ~/.config/videoinfox/tmp/videoinfo.playedlist-apa.tmp ~/.config/videoinfox/tmp/videoinfo.playedlist-apa 2>/dev/null
 
        OLDIFS=$IFS
        IFS=$'\n'
