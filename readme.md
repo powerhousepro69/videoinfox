@@ -23,17 +23,18 @@ sudo chmod +x /usr/local/bin/videoinfox
 
 <br />
 
-#### NEW in 5.3 &nbsp; -Move Block &nbsp; and &nbsp; -Remove Block &nbsp; in View Playlist and Play Queue.
-#### *Videoinfox recommends using MPV to watch videos and will be set as the default video player if found.*
-#### *Mpv saves play postion on quit of every video played and Videoinfox saves Playlist and Play Queue position.*
-       
 
-<br />
+**Getting Started:** Set the Default Directories located in -Set. Enter the parent directories of your video libraries. Then run -Index Default Directories This will build a searchable recursive list of all 4 default directories for -Playlist Find. Find a video(s) with a keyword from the path or file.
+
+
+*Videoinfox recommends using MPV to watch videos and will be set as the default video player if found.
+Mpv saves play postion on quit of every video played and Videoinfox saves Playlist and Play Queue position.*
+       
 
 Videoinfox is a Linux shell script that feels like an app. If you enjoy watching local videos on your PC and want the ability to download video url's, you won't be disappointed. You can also make your own URL lists to download. While downloading a list, a log file will be generated for each list. The log is each http link from your list with the downloaded video filename. If the download list is aborted before completion, Yt-dlp has you covered. Just run the Download List feature again. Yt-dlp won't re-download files that you already have. Download Queue to add unlimited Videoinfox created User Download Lists
 for batch processing.There is a Played List that keeps track of everything played by Play Clipboard, Last Download and Play. Create unlimited Playlists and autoplay with last video played marker. Playlist queue to load up multiple playlists.
 
-### Navigation was designed to be robust and efficient.
+### Hotkey navigation that is robust and efficient.
 
          One keypress for all menu selections.
 
