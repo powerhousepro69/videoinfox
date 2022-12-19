@@ -377,8 +377,7 @@ FIRST RUN
 
 ###  v5.4.02 Add: Notification to Home Screen under Help:  mpv save  
          
-        when mpv is set as video player and
-        mpv option  --save-position-on-quit  is active.
+        Displayed when mpv is set as video player and option  --save-position-on-quit  is active.
 
         Change: ~/.config/videoinfox/tmp directory is only cleared on exit. 
 
