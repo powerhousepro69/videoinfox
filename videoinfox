@@ -5,9 +5,9 @@
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
-ver="Videoinfox v5.4.00"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.00")  # Version Number: with blinking dot
-vn="v5.4.00" #V!  update help files on update
+ver="Videoinfox v5.4.02"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.02")  # Version Number: with blinking dot
+vn="v5.4.0x" #V!  update help files on update or if help files are deleted
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -1080,14 +1080,14 @@ if [ "$viv2" = "$viv3" ]  # If the downloaded version = this script's version go
   then
       # Version numbers are the same
       viv4=$(echo -e \ "               ") # dead space place holder for when there is no Update Available in the display
-      rm ~/.config/videoinfox/tmp/* 2> /dev/null
+      #rm ~/.config/videoinfox/tmp/* 2> /dev/null
       cd "$dirtemp"  # restore directory
 
   else
       # Version numbers are not the same
       viv4="Update Available"   # Update Available   notification on home screen
       notify-send "Videoinfox messsage: Update Available" "$viv" # send gui notification with update ver number
-      rm ~/.config/videoinfox/tmp/* 2> /dev/null
+      #rm ~/.config/videoinfox/tmp/* 2> /dev/null
       cd "$dirtemp"  # restore directory
 fi
 
@@ -1118,7 +1118,7 @@ echo "__________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.4.00   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Videoinfox v5.4.02   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1275,7 +1275,7 @@ else
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.4.00   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
+echo " Videoinfox v5.4.02   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1306,6 +1306,9 @@ echo " If Mpv is quit(q) when a video is paused, it will restart the video pause
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Option  2 - mpv  in Settings >>> Video Player there is an option to toggle on/off save play position on mpv quit." >> ~/.config/videoinfox/videoinfo.help
 echo " Also, an option to erase all mpv markers." >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo " mpv save  notification on the home screen under -Help is displayed when mpv is set as the video player and" >> ~/.config/videoinfox/videoinfo.help
+echo "           the mpv option  --save-position-on-quit  is active." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Change to a parent directory of a video library and select:  - Find Video  or  - Show All  on the home screen." >> ~/.config/videoinfox/videoinfo.help
@@ -1605,7 +1608,7 @@ echo " q - quit                                                                 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 #V!
-echo " 181 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " 182 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 
 
@@ -1617,11 +1620,16 @@ echo " _________________________________________________________________________
 
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v5.4.02 Add: Notification to Home Screen under Help:  mpv save  when mpv is set as video player and" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              mpv option  --save-position-on-quit  is active." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Change: ~/.config/videoinfox/tmp directory is only cleared on exit." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.4.00 New: Two new features added to -Set >>> Video Player option: 2 - Mpv" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              Toggle on/off mpv save play position on quit." >>  ~/.config/videoinfox/videoinfo-ver-history 
-echo "              Option to erase all mpv markers." >>  ~/.config/videoinfox/videoinfo-ver-history
+echo "              Toggle on/off mpv save play position on quit and an option to erase all mpv markers." >>  ~/.config/videoinfox/videoinfo-ver-history 
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Add: New features added to Home Help" >>  ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2913,13 +2921,22 @@ fi
 
 function menuf {
 
-# Set if mpv will save play position on quit
-read -r mpvsavestat < ~/.config/videoinfox/mpvmarker
-if [[ "$mpvsavestat" = 1 ]]
-  then
-      mpvmarker="--save-position-on-quit"
-  else
-      mpvmarker=" "
+# if set player is mpv: display for  mpv save  notification on home screen and add --save-position-on-quit to mpv options
+read -r vplay < ~/.config/videoinfox/videoinfox.video-player
+if [[ "$vplay" = 2 ]]
+  then    
+      read -r mpvsavestat < ~/.config/videoinfox/mpvmarker
+
+      if [[ "$mpvsavestat" = 1 ]]
+        then  # mpv will save play position on quit
+            mpvmarker="--save-position-on-quit"
+            mpvdisplay1=$(echo -e "\033[2mmpv save\033[0m")
+        else
+            mpvmarker=" "
+            mpvdisplay1=" "
+      fi
+else
+    mpvdisplay1=" "
 fi
 
 
@@ -3257,10 +3274,10 @@ echo
 echo " $der $viv4      Enter - Update Clipboard Display                "$dirdisp" - Default Dirs"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " f - Find Video        n - Navigate Tree     t - Playlist Find     p - Play Clipboard     y - Yt-dlp     e - Exit"
-echo " a - Show All          g - Find Dir          s - View Playlist     r - Download Only      x - Clrclp     u - Set" 
-echo " c - Clear Results     l - Last Download     k "$dashj" Playlist Add      d "$dash" Play Directory     i "$dashj" Info       h - Help"
-echo " m - More Options      v - Played List       z "$dashj" Make Playlist     o "$dashj" Autoplay           j "$dashj" Play"
+echo " f - Find Video        n - Navigate Tree     t - Playlist Find     p - Play Clipboard     y - Yt-dlp      e - Exit"
+echo " a - Show All          g - Find Dir          s - View Playlist     r - Download Only      x - Clrclp      u - Set" 
+echo " c - Clear Results     l - Last Download     k $dashj Playlist Add      d $dash Play Directory     i $dashj Info        h - Help"
+echo -e " m - More Options      v - Played List       z $dashj Make Playlist     o $dashj Autoplay           j $dashj Play        $mpvdisplay1"
 echo        
                   
                   else  # yt-dlp extracted a filename
@@ -3271,10 +3288,10 @@ echo
 echo " $der $viv4      Enter - Update Clipboard Display                "$dirdisp" - Default Dirs"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " f - Find Video        n - Navigate Tree     t - Playlist Find     p * Play Clipboard     y - Yt-dlp     e - Exit"
-echo " a - Show All          g - Find Dir          s - View Playlist     r * Download Only      x - Clrclp     u - Set" 
-echo " c - Clear Results     l - Last Download     k "$dashj" Playlist Add      d "$dash" Play Directory     i "$dashj" Info       h - Help"
-echo " m - More Options      v - Played List       z "$dashj" Make Playlist     o "$dashj" Autoplay           j "$dashj" Play"
+echo " f - Find Video        n - Navigate Tree     t - Playlist Find     p * Play Clipboard     y - Yt-dlp      e - Exit"
+echo " a - Show All          g - Find Dir          s - View Playlist     r * Download Only      x - Clrclp      u - Set" 
+echo " c - Clear Results     l - Last Download     k $dashj Playlist Add      d $dash Play Directory     i $dashj Info        h - Help"
+echo -e " m - More Options      v - Played List       z $dashj Make Playlist     o $dashj Autoplay           j $dashj Play        $mpvdisplay1"
 echo                                                        
             fi
     else
@@ -3288,10 +3305,10 @@ echo
 echo " $der $viv4      Enter - Update Clipboard Display                "$dirdisp" - Default Dirs"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " f - Find Video        n - Navigate Tree     t - Playlist Find     p * Play Clipboard     y - Yt-dlp     e - Exit"
-echo " a - Show All          g - Find Dir          s - View Playlist     r - Download Only      x - Clrclp     u - Set" 
-echo " c - Clear Results     l - Last Download     k "$dashj" Playlist Add      d "$dash" Play Directory     i "$dashj" Info       h - Help"
-echo " m - More Options      v - Played List       z "$dashj" Make Playlist     o "$dashj" Autoplay           j "$dashj" Play"
+echo " f - Find Video        n - Navigate Tree     t - Playlist Find     p * Play Clipboard     y - Yt-dlp      e - Exit"
+echo " a - Show All          g - Find Dir          s - View Playlist     r - Download Only      x - Clrclp      u - Set" 
+echo " c - Clear Results     l - Last Download     k $dashj Playlist Add      d $dash Play Directory     i $dashj Info        h - Help"
+echo -e " m - More Options      v - Played List       z $dashj Make Playlist     o $dashj Autoplay           j $dashj Play        $mpvdisplay1"
 echo                                                                          
 
   else  # file does not exist
@@ -3304,12 +3321,11 @@ echo
 echo " $der $viv4      Enter - Update Clipboard Display                "$dirdisp" - Default Dirs"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " f - Find Video        n - Navigate Tree     t - Playlist Find     p - Play Clipboard     y - Yt-dlp     e - Exit"
-echo " a - Show All          g - Find Dir          s - View Playlist     r - Download Only      x - Clrclp     u - Set" 
-echo " c - Clear Results     l - Last Download     k "$dashj" Playlist Add      d "$dash" Play Directory     i "$dashj" Info       h - Help"
-echo " m - More Options      v - Played List       z "$dashj" Make Playlist     o "$dashj" Autoplay           j "$dashj" Play"
+echo " f - Find Video        n - Navigate Tree     t - Playlist Find     p - Play Clipboard     y - Yt-dlp      e - Exit"
+echo " a - Show All          g - Find Dir          s - View Playlist     r - Download Only      x - Clrclp      u - Set" 
+echo " c - Clear Results     l - Last Download     k $dashj Playlist Add      d $dash Play Directory     i $dashj Info        h - Help"
+echo -e " m - More Options      v - Played List       z $dashj Make Playlist     o $dashj Autoplay           j $dashj Play        $mpvdisplay1"
 echo 
-                                   
 
 fi
 fi
@@ -3618,7 +3634,7 @@ fi
 
 e)   # EXIT  
      echo "$PWD" > ~/.config/videoinfox/videoinfo.dir-at-exit  # SAVE DIRECTORY AT EXIT
-     rm ~/.config/videoinfox/tmp/* 
+     #rm ~/.config/videoinfox/tmp/* 
      read -r lsearch < ~/.config/videoinfox/videoinfo.lastsearch-set  # load last search setting
      
 if [ "$lsearch" = 1 ]  # ALWAYS SAVE
@@ -19591,7 +19607,7 @@ fi
          d)
          #  QUIT
          cd "$dirtemp" # restore directory
-         rm ~/.config/videoinfox/tmp/* 2> /dev/null
+         #rm ~/.config/videoinfox/tmp/* 2> /dev/null
          echo
          echo " Not Updated . . ."
          sleep 1
@@ -19604,7 +19620,7 @@ fi
             then
                  echo
                  sudo mv ~/.config/videoinfox/tmp/videoinfox /usr/local/bin/videoinfox 2> /dev/null
-                 rm ~/.config/videoinfox/tmp/* 2> /dev/null
+                 #rm ~/.config/videoinfox/tmp/* 2> /dev/null
                  echo
                  echo " Downloaded videoinfox copied to: /usr/local/bin"
                  echo   
@@ -19757,7 +19773,7 @@ function chkytdlp {
 
          d)
          #  DON'T UPDATE
-         rm ~/.config/videoinfox/tmp/* 2>/dev/null
+         #rm ~/.config/videoinfox/tmp/* 2>/dev/null
          cd "$dirtemp"  # restore directory
          echo
          echo " Yt-dlp Not Updated . . ."
@@ -19769,7 +19785,7 @@ function chkytdlp {
          rm ~/.config/videoinfox/yt-dlp 2> /dev/null
          mv ~/.config/videoinfox/tmp/yt-dlp ~/.config/videoinfox 2> /dev/null       
          ~/.config/videoinfox/yt-dlp --version > ~/.config/videoinfox/videoinfo.yt-dlp.version
-         rm ~/.config/videoinfox/tmp/* 2>/dev/null
+         #rm ~/.config/videoinfox/tmp/* 2>/dev/null
          cd "$dirtemp"  # restore directory
          echo
                  
@@ -19786,7 +19802,7 @@ function chkytdlp {
 
 
    else
-         rm ~/.config/videoinfox/tmp/* 2>/dev/null     
+         #rm ~/.config/videoinfox/tmp/* 2>/dev/null     
          cd "$dirtemp"  # restore directory
          sec=20           
          while [ $sec -ge 0 ]; do  #  This pauses the execution.  It displays and counts down the seconds set in <$sec>                       
@@ -19801,7 +19817,7 @@ fi
 esac
 done
 
-rm ~/.config/videoinfox/tmp/* 2>/dev/null
+#rm ~/.config/videoinfox/tmp/* 2>/dev/null
 ;;
 
    
@@ -23774,6 +23790,8 @@ done
 
 
 #  EXIT MESSAGE
+rm ~/.config/videoinfox/tmp/* 2>/dev/null
+
 clear
 echo -e "\n"
 echo
