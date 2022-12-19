@@ -1,4 +1,4 @@
-# Videoinfox v5.4.00
+# Videoinfox v5.4.02
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -374,6 +374,14 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.4.02 Add: Notification to Home Screen under Help:  mpv save  
+         
+        when mpv is set as video player and
+        mpv option  --save-position-on-quit  is active.
+
+        Change: ~/.config/videoinfox/tmp directory is only cleared on exit. 
+
 
 ###  v5.4.00 New: Two new features added to -Set >>> Video Player option: 2 - Mpv
 
