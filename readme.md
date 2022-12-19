@@ -24,6 +24,8 @@ sudo chmod +x /usr/local/bin/videoinfox
 <br />
 
 **NEW: &nbsp; Toggle on/off mpv save play position on quit and an option to erase all mpv markers.**
+**Notification on home screen if mpv is set as the video player and  option --save-position-on-quit is active.**
+
 <br />
 
 **Getting Started:** Set the Default Directories located in -Set. Enter the parent directories of your video libraries. Then run -Index Default Directories This will build a searchable recursive list of all 4 default directories for -Playlist Find. Find a video(s) with a keyword from the path or file.
