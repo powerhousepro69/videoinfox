@@ -102,7 +102,7 @@ for batch processing.There is a Played List that keeps track of everything playe
        - Remove Line ............ remove a video from the play queue.
        - Remove Block ........... remove a block of videos from the play queue.
        - Remove Dupes ........... remove duplicate videos from the play queue.
-       - Clear Queue ............ clear out the play queue.
+       - Clear Queue ............ clear out the play queue and the queue list.
   
      - Change and Queue
 
