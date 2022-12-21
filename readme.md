@@ -71,7 +71,8 @@ for batch processing.There is a Played List that keeps track of everything playe
  
      - Make Playlist to save the Play Queue as a new playlist.
 
-     - Default Directories can be saved as a playlist. -Playlist Find and search . then -Make Playlist
+     - Default directories and all Playlists can be saved as a playlist.
+       Playlist Find and search . then -Make Playlist. 
 
 
 #### *Watch*  
@@ -117,7 +118,7 @@ for batch processing.There is a Played List that keeps track of everything playe
        - Remove Line * .......... remove a playlist from the play queue.
        - Remove Dupes * ......... remove duplicate playlists from the play queue.
        - Rebuild Queue .......... updates play queue after one or more of the above 3 options * are run
-       - Clear Queue ............ clear out the play queue.
+       - Clear Queue ............ clear out the queue list and the play queue.
 
 
      Playlist overwrite prompt for an existing file with options:  -Create and -Make Playlist
