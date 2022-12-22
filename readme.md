@@ -194,11 +194,11 @@ for batch processing.There is a Played List that keeps track of everything playe
 
 ### Play Clipboard 
 
-         Download a video url that is in the clipboard via Yt-dlp and autoplay.
-         Play Clipboard is available in: Home, Played List, View Playlist, Yt-dlp Menu & View Downloads
-         The video url is cleared from clipboard after the video player is closed.
-         To watch the last download after Play Clipboard cleared the link, select Last Download.
-         Any invalid video urls are cleared from the Clipboard.
+        Download a video url that is in the clipboard via Yt-dlp and autoplay.
+        Play Clipboard is available in: Home, Played List, View Playlist, Yt-dlp Menu & View Downloads
+        The video url is cleared from clipboard after the video player is closed.
+        To watch the last download after Play Clipboard cleared the link, select Last Download.
+        Any invalid video urls are costantly cleared from the Clipboard.
 
          Note: A local video file with full path can be copied to the clipboard for play.
                No quotes for files with spaces.
@@ -263,16 +263,17 @@ NAVIGATE TREE
 
 ![Navigate Tree](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/NAVIGATE-TREE.png)
 
+
+<br />
+NAVIGATE TREE >>> SHOW ALL one directory deep listing with Play, Autoplay, Playlist Add and Make Playlist
+
+![NT Show All](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/NT-SHOW-ALL.png)
+
+
 <br />
 FIND DIRECTORY
 
 ![Videoinfox Find Directory](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/FIND-DIRECTORY.png)
-
-
-<br />
-NAVIGATE TREE >>> SHOW ALL with Play, Autoplay, Play, Playlist Add and Make Playlist
-
-![NT Show All](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/NT-SHOW-ALL.png)
 
 
 <br />
