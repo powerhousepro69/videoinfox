@@ -1,4 +1,4 @@
-# Videoinfox v5.4.02
+# Videoinfox v5.4.04
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -378,6 +378,16 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.4.04 Fix: Renaming the loaded playlist would clear the resume marker if one existed.
+
+        Added: Below lines added to Home Help: 1 2 3 4 5 - Default Dirs section
+
+               Indexing more directories in addition the 4 default directories is a simple process.
+               Change to a parent directory of a video library. Then -Show All on the home screen & select -Make Playlist
+
+               Note:   -Show All on the Home Screen is recursive.   -Show all in -Navigate Tree is one level deep.
+
 
 ###  v5.4.02 Add: Notification to Home Screen under Help:  mpv save  
          
