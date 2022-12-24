@@ -384,9 +384,11 @@ FIRST RUN
         Added: Below lines added to Home Help: 1 2 3 4 5 - Default Dirs section
 
                Indexing more directories in addition the 4 default directories is a simple process.
-               Change to a parent directory of a video library. Then -Show All on the home screen & select -Make Playlist
+               Change to a parent directory of a video library. 
+               Then -Show All on the home screen & select -Make Playlist
 
-               Note:   -Show All on the Home Screen is recursive.   -Show all in -Navigate Tree is one level deep.
+               Note:   -Show All on the Home Screen is recursive.
+                       -Show all in -Navigate Tree is one level deep.
 
 
 ###  v5.4.02 Add: Notification to Home Screen under Help:  mpv save  
