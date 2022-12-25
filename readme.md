@@ -144,6 +144,10 @@ for batch processing.There is a Played List that keeps track of everything playe
 
   - Help is located on the Home screen covering most of the features. Help also in Download List and View Playlist.
   - File types searched for: &nbsp; .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx
+
+        Note:   -Show All on the Home Screen is recursive.
+                -Show all in -Navigate Tree is one level deep.
+
   - Auto save last search result(s) and autoload until deleted. Defaulted to never save. Change in Settings.
   - Check for update on startup and notifity if update is available. Download and update in Videoinfox.
   - Play a local file by entering the line number. Play single video or autoplay the entire list.
