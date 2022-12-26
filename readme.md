@@ -1,4 +1,4 @@
-# Videoinfox v5.4.06
+# Videoinfox v5.4.22
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -382,6 +382,18 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.4.22 Update: -Playlist Add on the Home Screen, in Navigate Tree >>> Show All and in -Played List
+
+        -Playlist Add will update an existing resume list with the added video.
+
+        Update: -Add to Queue in Change and Queue will update an existing resume list 
+                 with the added playlist.
+
+        Change: -Rebuild Queue in View Playlist >>> Change and Queue >>> Queue List
+                 will clear the -Resume list in the Play Queue
+
+        Edit: View Playlist >>> Help
 
 ###  v5.4.06 Move: playlist save loop moved up in the function to correct a display issue on any playlist edits.
 
