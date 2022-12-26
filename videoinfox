@@ -5,9 +5,9 @@
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
-ver="Videoinfox v5.4.04"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.04")  # Version Number: with blinking dot
-vn="v5.4.04" #V!  update help files on update
+ver="Videoinfox v5.4.06"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.06")  # Version Number: with blinking dot
+vn="v5.4.06" #V!  update help files on update
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -1118,7 +1118,7 @@ echo "__________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.4.04   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Videoinfox v5.4.06   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1275,7 +1275,7 @@ else
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.4.04   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
+echo " Videoinfox v5.4.06   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1614,7 +1614,7 @@ echo " q - quit                                                                 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 #V!
-echo " 183 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " 184 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 
 
@@ -1627,6 +1627,18 @@ echo " _________________________________________________________________________
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
 
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v5.4.06 Move: playlist save loop moved up in the function to correct a display issue on any playlist edits." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Add: Message added to View Playlist that will be displayed on any playlist edits." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         MSG: Saving loaded playlist . . ." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Note: * Everytime an edit is made to a playlist, the resume marker will be cleared if one exists." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "               This is done because the resume marker and next: on the intermission screen need to be updated with the" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "               playlist edit(s). Running -Start will rewrite the resume marker." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "               * Playlist edits are saved on every edit. Resume and Next: are working with a copy of the loaded playlist." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.4.04 Fix: Renaming the loaded playlist would clear the resume marker if one existed." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
@@ -5191,6 +5203,19 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]
       echo > ~/.config/videoinfox/videoinfo.playlist
 fi
 
+read -r savedpl < ~/.config/videoinfox/videoinfo.playlist.current # full name and path of the saved playlist
+loadedpl="$HOME/.config/videoinfox/videoinfo.playlist" # full name and path of the loaded playlist
+if cmp --silent -- "$savedpl" "$loadedpl"  # compare the saved playlist to the loaded playlist and update the saved playlist on: FILES ARE DIFFERENT  
+  then # files are the same
+      :
+  else # FILES ARE DIFFERENT everytime an edit is made to the loaded playlist
+      cp ~/.config/videoinfox/videoinfo.playlist "$savedpl" 2>/dev/null  # SAVE THE LOADED PLAYLIST
+      echo > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay # CLEAR START MARKER
+      echo > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay.nextup # CLEAR RESUME MARKER
+      echo
+      echo "Saving loaded playlist . . ."
+      sleep .4
+fi
                 
 clear
 
@@ -5321,19 +5346,6 @@ if [ -z "$resumedisplay2" ]
       read resumedisplay3 < ~/.config/videoinfox/tmp/resume-display.tmp2
       echo "Resume:" "$resumedisplay3"
 fi 
-
-
-read -r savedpl < ~/.config/videoinfox/videoinfo.playlist.current # full name and path of the saved playlist
-loadedpl="$HOME/.config/videoinfox/videoinfo.playlist" # full name and path of the loaded playlist
-if cmp --silent -- "$savedpl" "$loadedpl"  # compare the saved playlist to the loaded playlist and update the saved playlist on: FILES ARE DIFFERENT  
-  then # files are the same
-      :
-  else # FILES ARE DIFFERENT everytime an edit is made to the loaded playlist
-      cp ~/.config/videoinfox/videoinfo.playlist "$savedpl" 2>/dev/null  # SAVE THE LOADED PLAYLIST
-      echo > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay # CLEAR START MARKER
-      echo > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay.nextup # CLEAR RESUME MARKER
-fi
-
 
 ##################################################################################################################################################
 
@@ -10431,7 +10443,20 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]
       echo > ~/.config/videoinfox/videoinfo.playlist
 fi
 
-                
+read -r savedpl < ~/.config/videoinfox/videoinfo.playlist.current # full name and path of the saved playlist
+loadedpl="$HOME/.config/videoinfox/videoinfo.playlist" # full name and path of the loaded playlist
+if cmp --silent -- "$savedpl" "$loadedpl"  # compare the saved playlist to the loaded playlist and update the saved playlist on: FILES ARE DIFFERENT  
+  then # files are the same
+      :
+  else # FILES ARE DIFFERENT everytime an edit is made to the loaded playlist
+      cp ~/.config/videoinfox/videoinfo.playlist "$savedpl" 2>/dev/null  # SAVE THE LOADED PLAYLIST
+      echo > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay # CLEAR START MARKER
+      echo > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay.nextup # CLEAR RESUME MARKER
+      echo
+      echo "Saving loaded playlist . . ."
+      sleep .4
+fi
+
 clear
 
 cp ~/.config/videoinfox/videoinfo.playlist ~/.config/videoinfox/tmp/videoinfo.playlist-apa
@@ -10561,19 +10586,6 @@ if [ -z "$resumedisplay2" ]
       read resumedisplay3 < ~/.config/videoinfox/tmp/resume-display.tmp2
       echo "Resume:" "$resumedisplay3"
 fi 
-
-
-read -r savedpl < ~/.config/videoinfox/videoinfo.playlist.current # full name and path of the saved playlist
-loadedpl="$HOME/.config/videoinfox/videoinfo.playlist" # full name and path of the loaded playlist
-if cmp --silent -- "$savedpl" "$loadedpl"  # compare the saved playlist to the loaded playlist and update the saved playlist on: FILES ARE DIFFERENT  
-  then # files are the same
-      :
-  else # FILES ARE DIFFERENT everytime an edit is made to the loaded playlist
-      cp ~/.config/videoinfox/videoinfo.playlist "$savedpl" 2>/dev/null  # SAVE THE LOADED PLAYLIST
-      echo > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay # CLEAR START MARKER
-      echo > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay.nextup # CLEAR RESUME MARKER
-fi
-
 
 ##################################################################################################################################################
 
@@ -14708,7 +14720,20 @@ if [ -f ~/.config/videoinfox/videoinfo.playlist ]
       echo > ~/.config/videoinfox/videoinfo.playlist
 fi
 
-                
+read -r savedpl < ~/.config/videoinfox/videoinfo.playlist.current # full name and path of the saved playlist
+loadedpl="$HOME/.config/videoinfox/videoinfo.playlist" # full name and path of the loaded playlist
+if cmp --silent -- "$savedpl" "$loadedpl"  # compare the saved playlist to the loaded playlist and update the saved playlist on: FILES ARE DIFFERENT  
+  then # files are the same
+      :
+  else # FILES ARE DIFFERENT everytime an edit is made to the loaded playlist
+      cp ~/.config/videoinfox/videoinfo.playlist "$savedpl" 2>/dev/null  # SAVE THE LOADED PLAYLIST
+      echo > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay # CLEAR START MARKER
+      echo > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay.nextup # CLEAR RESUME MARKER
+      echo
+      echo "Saving loaded playlist . . ."
+      sleep .4
+fi
+
 clear
 
 cp ~/.config/videoinfox/videoinfo.playlist ~/.config/videoinfox/tmp/videoinfo.playlist-apa
@@ -14838,19 +14863,6 @@ if [ -z "$resumedisplay2" ]
       read resumedisplay3 < ~/.config/videoinfox/tmp/resume-display.tmp2
       echo "Resume:" "$resumedisplay3"
 fi 
-
-
-read -r savedpl < ~/.config/videoinfox/videoinfo.playlist.current # full name and path of the saved playlist
-loadedpl="$HOME/.config/videoinfox/videoinfo.playlist" # full name and path of the loaded playlist
-if cmp --silent -- "$savedpl" "$loadedpl"  # compare the saved playlist to the loaded playlist and update the saved playlist on: FILES ARE DIFFERENT  
-  then # files are the same
-      :
-  else # FILES ARE DIFFERENT everytime an edit is made to the loaded playlist
-      cp ~/.config/videoinfox/videoinfo.playlist "$savedpl" 2>/dev/null  # SAVE THE LOADED PLAYLIST
-      echo > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay # CLEAR START MARKER
-      echo > ~/.config/videoinfox/playlists/"$setplaylist".last-autoplay.nextup # CLEAR RESUME MARKER
-fi
-
 
 ##################################################################################################################################################
 
