@@ -386,13 +386,14 @@ FIRST RUN
 ###  v5.4.06 Move: playlist save loop moved up in the function to correct a display issue on any playlist edits.
 
         Add: Message added to View Playlist that will be displayed on any playlist edits.
-         MSG: Saving loaded playlist . . .
+        MSG: Saving loaded playlist . . .
 
-         Note: * Everytime an edit is made to a playlist, the resume marker will be cleared if one exists.
-               This is done because the resume marker and next: on the intermission screen need to be updated with the
-               playlist edit(s). Running -Start will rewrite the resume marker.
+        Note: * Everytime an edit is made to a playlist, the resume marker will be cleared if one exists.
+                This is done because the resume marker and next: on the intermission screen need to be 
+                updated with the playlist edit(s). Running -Start will rewrite the resume marker.
 
-               * Playlist edits are saved on every edit. Resume and Next: are working with a copy of the loaded playlist.
+              * Playlist edits are saved on every edit.
+              * Resume and Next: are working with a copy of the loaded playlist.
 
 ###  v5.4.04 Fix: Renaming the loaded playlist would clear the resume marker if one existed.
 
