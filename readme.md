@@ -23,7 +23,7 @@ sudo chmod +x /usr/local/bin/videoinfox
 
 <br />
 
-**NEW: &nbsp; Resume list updated with added videos via -Playlist Add or added playlists via -Add to Queue**
+**NEW: &nbsp; Resume lists now updated with added videos via -Playlist Add or added playlists via -Add to Queue**
 
 <br />
 
