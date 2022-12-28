@@ -5,9 +5,9 @@
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
-ver="Videoinfox v5.4.22"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.22")  # Version Number: with blinking dot
-vn="v5.4.22" #V!  update help files on update
+ver="Videoinfox v5.4.23"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.23")  # Version Number: with blinking dot
+vn="v5.4.23" #V!  update help files on update
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -1118,7 +1118,7 @@ echo "__________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.4.22   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Videoinfox v5.4.23   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1275,7 +1275,7 @@ else
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.4.22   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
+echo " Videoinfox v5.4.23   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1614,7 +1614,7 @@ echo " q - quit                                                                 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 #V!
-echo " 185 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " 186 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 
 
@@ -1626,6 +1626,9 @@ echo " _________________________________________________________________________
 
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v5.4.23 Fix: Playlist Add prompt in Played List was not displaying the loaded Playlist." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.4.22 Update: -Playlist Add on the Home Screen, in Navigate Tree >>> Show All and in -Played List" >> ~/.config/videoinfox/videoinfo-ver-history
 echo "                  will update an existing resume list with the added video." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -5090,8 +5093,8 @@ cat ~/.config/videoinfox/videoinfo.playlist.current | sed 's/.*\.//' > ~/.config
 read -r whatplnt < ~/.config/videoinfox/tmp/whatplnt.tmp
 rm ~/.config/videoinfox/tmp/whatplnt.tmp
 
-echo
-read -r -p "Add video to $whatplhome playlist: " linenumber  # waiting fot user input 
+echo 
+read -r -p "Add video to playlist $whatplhome: " linenumber  # waiting fot user input
 
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-directory-apa > ~/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-directory-apa.tmp 2>/dev/null
 
@@ -14402,7 +14405,7 @@ k)
 
 # REMOVE EVERYTHING FROM THE BEGINNING OF THE LINE UP TO AND INCLUDING THE DOT). LEAVING ONLY PLAYLIST NAME
 cat ~/.config/videoinfox/videoinfo.playlist.current | sed 's/.*\.//' > ~/.config/videoinfox/tmp/whatplpld.tmp 
-read -r whatplpld < ~/.config/videoinfox/tmp/whatplpld.tmp
+read -r whatplhome < ~/.config/videoinfox/tmp/whatplpld.tmp
 rm ~/.config/videoinfox/tmp/whatplpld.tmp
 
 
@@ -14421,7 +14424,7 @@ if [ -f ~/.config/videoinfox/videoinfo.playedlist ]  # if file exists goto then
       cat ~/.config/videoinfox/tmp/videoinfo.number.played-list 2>/dev/null
 
       echo
-      read -r -p "Add video to $whatplhome playlist: " linenumber  # waiting fot user input 
+      read -r -p "Add video to playlist $whatplhome: " linenumber  # waiting fot user input 
 
       # REMOVE BLANK LINES
       sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfo.playedlist-apa 2>/dev/null
@@ -18711,7 +18714,7 @@ if [ -f ~/.config/videoinfox/tmp/videoinfo-findwork.tmp ]  # if file exists goto
       cat ~/.config/videoinfox/tmp/videoinfo-number-findwork.tmp
 
       echo
-      read -r -p "Add video to $whatplhome playlist: " linenumber  # waiting fot user input     
+      read -r -p "Add video to playlist $whatplhome: " linenumber  # waiting fot user input     
 
       # create file moving selected line number to the top
       tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfo-findwork.tmp > ~/.config/videoinfox/tmp/videoinfo-findwork-playnumber.tmp 2>/dev/null
