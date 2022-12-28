@@ -1,4 +1,4 @@
-# Videoinfox v5.4.22
+# Videoinfox v5.4.23
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -382,6 +382,9 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+
+###  v5.4.23 Fix: Playlist Add prompt in Played List was not displaying the loaded Playlist.
 
 ###  v5.4.22 Update: -Playlist Add on the Home Screen, in Navigate Tree >>> Show All and in -Played List
 
