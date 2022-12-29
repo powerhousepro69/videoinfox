@@ -1,4 +1,4 @@
-# Videoinfox v5.4.23
+# Videoinfox v5.4.25
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -383,6 +383,12 @@ FIRST RUN
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
 
+
+###  v5.4.25 Add: option -clear in Settings >>> Video Player >>> Custom
+
+        note: If -custom is cleared, player will default to mpv if available. If not, then ffplay
+
+        Change: moved options around in Settings >>> Video Player >>> Custom
 
 ###  v5.4.23 Fix: Playlist Add prompt in Played List was not displaying the loaded Playlist.
 
