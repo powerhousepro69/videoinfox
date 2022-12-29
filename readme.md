@@ -49,18 +49,14 @@ for batch processing.There is a Played List that keeps track of everything playe
 #### *Create*
 
      - Create .......... Create an empty playlist.
-
      - Playlist Add .... Add an individual video to the loaded playlist.
-
      - Make Playlist ... Save the entire video listing as a new playlist.
 
 
      The following 3 areas support  -Playlist Add  and  -Make Playlist:
 
      * Home Screen to add videos from recursive search results or recursive directory listings.
-
      * Navigate Tree >>> Show All to add videos from one level deep directory listings.
-
      * Played List to add videos from the Played List.
 
        Note: Play, Play Clipboard and Last Download all write to the Played List.
@@ -70,17 +66,14 @@ for batch processing.There is a Played List that keeps track of everything playe
      Save the entire list as a new playlist with the following 2 options:
  
      - Make Playlist to save the Play Queue as a new playlist.
-
      - Default directories and all Playlists can be saved as a playlist.
        Playlist Find and search . then -Make Playlist. 
 
 
 #### *Watch*  
 
-     - Start autoplay from anywhere in the playlist.
- 
+     - Start autoplay from anywhere in the playlist. 
      - Resume to start autoplay from the last video that was playing on quit.
-
      - Play Queue to load up multiple playlists for autoplay with resume.
      
 
