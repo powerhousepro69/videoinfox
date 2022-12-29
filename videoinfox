@@ -5,9 +5,9 @@
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
-ver="Videoinfox v5.4.23"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.23")  # Version Number: with blinking dot
-vn="v5.4.23" #V!  update help files on update
+ver="Videoinfox v5.4.25"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.25")  # Version Number: with blinking dot
+vn="v5.4.25" #V!  update help files on update
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -1118,7 +1118,7 @@ echo "__________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.4.23   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Videoinfox v5.4.25   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1275,7 +1275,7 @@ else
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.4.23   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
+echo " Videoinfox v5.4.25   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1614,7 +1614,7 @@ echo " q - quit                                                                 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 #V!
-echo " 186 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " 187 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 
 
@@ -1626,6 +1626,12 @@ echo " _________________________________________________________________________
 
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v5.4.25 Add: option -clear in Settings >>> Video Player >>> Custom" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              note: If -custom is cleared, player will default to mpv if available. If not, then ffplay" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Change: moved options around in Settings >>> Video Player >>> Custom" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.4.23 Fix: Playlist Add prompt in Played List was not displaying the loaded Playlist." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -19164,7 +19170,7 @@ function menumpvsave {
 function menumpvclear {
                       clear
                       echo
-                      echo " Clear all Mpv Markers?"
+                      echo " Clear All Mpv Markers?"
                       echo
                       echo " y - Yes     n - No"  
                       echo 
@@ -19213,14 +19219,11 @@ function menumpvclear {
         echo " "$der"  >>> SETTINGS >>> VIDEO PLAYER >>> CUSTOM                                   Current Setting: "$vplay" "
         echo "___________________________________________________________________________________________________________________"
         echo
-        echo "                                                                                                          q - Quit"
-        echo
         echo " Custom:" "$cplayer1" "$cplayer2"
         echo
+        echo " e - Edit                                                                                                 q - Quit"
         echo " s - Set"
-        echo
-        echo " e - Edit & Set"  
-        echo
+        echo " c - Clear"
         echo
         echo -en " Enter Option: "
         read -r -n1 optionsvp
@@ -19232,13 +19235,55 @@ function menumpvclear {
 	  menusvp
 	  case $optionsvp in
 
+        c) #CLEAR
+           echo > ~/.config/videoinfox/videoinfox.customplayer.1
+           echo > ~/.config/videoinfox/videoinfox.customplayer.2
+           read -r cplayer1 < ~/.config/videoinfox/videoinfox.customplayer.1 
+           read -r cplayer2 < ~/.config/videoinfox/videoinfox.customplayer.2
+           echo
+           echo " Custom cleared . . ."
+           sleep .7
+
+           if ! command -v mpv &> /dev/null ####### Check for mpv and set if found ########
+           then
+               echo "1" > ~/.config/videoinfox/videoinfox.video-player # SET FFPLAY
+               echo
+               echo " ffplay set . . ."
+               sleep .4
+           else
+               echo "2" > ~/.config/videoinfox/videoinfox.video-player # SET MPV
+               echo "1" > ~/.config/videoinfox/mpvmarker # MPV OPTION  --save-position-on-quit  ACTIVE
+               echo
+               echo " mpv set . . ."
+               sleep .4
+           fi
+           read -r vplay < ~/.config/videoinfox/videoinfox.video-player
+           ;;
+
+
         s) #SET
-          echo "3" > ~/.config/videoinfox/videoinfox.video-player
-          echo
-          echo " custom set . . ."
-          sleep .7
-          break
+          if [ -f ~/.config/videoinfox/videoinfox.customplayer.1 ]
+            then
+                :
+            else
+                echo > ~/.config/videoinfox/videoinfox.customplayer.1
+          fi
+             
+          read -r chkforempty < ~/.config/videoinfox/videoinfox.customplayer.1
+          if [ -z "$chkforempty" ]
+            then
+                echo
+                echo " Custom is empty . . ."
+                sleep .7
+            else
+                echo "3" > ~/.config/videoinfox/videoinfox.video-player
+                echo
+                echo " Custom set . . ."
+                sleep .7
+                break
+            fi
           ;;
+
 
         e) #EDIT
           echo
@@ -19267,7 +19312,7 @@ function menumpvclear {
                       echo " New executable: " "$cplayer1"
                       echo " New parameters: " "$cplayer2"
                       echo
-                      echo " custom set . . ."
+                      echo " Custom set . . ."
                       sleep .7
           fi
           fi
