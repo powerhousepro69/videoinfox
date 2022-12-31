@@ -1,4 +1,4 @@
-# Videoinfox v5.4.25
+# Videoinfox v5.4.26
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -172,14 +172,16 @@ for batch processing.There is a Played List that keeps track of everything playe
         Logging of downloaded url lists with link and downloaded filename provided by Yt-dlp. 
         Download Queue: Add unlimited Videoinfox User Download Lists to the queue for batch download.
         
-        Command Line Option:  videoinfox -u listname  Download any url list to the directory of the list's location.
+        Command Line Option:  videoinfox -u listname
+        Download any url list to the directory of the list's location.
         
-  - Default List: &nbsp; Keep pasting Video URL's on the fly from the clipboard to the Default List.
+        Default List: Keep pasting Video URL's on the fly from the clipboard to the Default List.
+        Default List companion: Create a keyboard shortcut for: videoinfox -a
+                                to past the video url to the Default List.
 
-        Default List companion: Create a keyboard shortcut for: videoinfox -a  to add to the Default List.
-  - Unlimited User Lists: &nbsp; Keep pasting Video URL's on the fly from the clipboard to the User Set List.
-
-        User Set List companion: Create a keyboard shortcut for: videoinfox -l  to add to the User Set list.
+        User Lists: Keep pasting Video URL's on the fly from the clipboard to the User Set List.
+        User Set List companion: Create a keyboard shortcut for: videoinfox -l
+                                 to paste the video url to the User Set list.
 
   - Info: Get codec, resolution and duration of videos. 
 
@@ -365,10 +367,10 @@ FIRST RUN
 
       - On First Run, Github will be contacted to download Yt-dlp.
       - On every start, Github will be contacted to download Videoinfox for Update Available Check.
-      - Everytime Videoinfox Update or Yt-dlp Update is selected in Settings, Github will be contacted.
+      - Every time Videoinfox Update or Yt-dlp Update is selected in Settings, Github will be contacted.
       - If there isn't a copy of Yt-dlp in Videoinfox's config directory, Github will be contacted
         when you select the Yt-dlp Menu to attempt a download of Yt-dlp.
-      - Everytime Yt-dlp is used to download a video url.
+      - Every time Yt-dlp is used to download a video url.
         Refer to Yt-dlp's site for their privacy policy. https://github.com/yt-dlp/yt-dlp
 
 
@@ -376,6 +378,14 @@ FIRST RUN
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
 
+###  v5.4.26 Add: Below info added to Home Help in Default Directories section.
+
+        Set default directories first then -Index Default Directories located in settings.
+        Every time a default directory is changed or removed in settings, or if any content has been
+        added or removed from any of the default directories, Index Default Directories will need to 
+        be run again to update the changes. The above also applies if any videos are renamed in any
+        of the default directories. A date and time stamp is displayed in settings of the last time 
+        Index Default Directories was run.
 
 ###  v5.4.25 Add: option -clear in Settings >>> Video Player >>> Custom
 
@@ -402,7 +412,7 @@ FIRST RUN
         Add: Message added to View Playlist that will be displayed on any playlist edits.
         MSG: Saving loaded playlist . . .
 
-        Note: * Everytime an edit is made to a playlist, the resume marker will be cleared if one exists.
+        Note: * Every time an edit is made to a playlist, the resume marker will be cleared if one exists.
                 This is done because the resume marker and next: on the intermission screen need to be 
                 updated with the playlist edit(s). Running -Start will rewrite the resume marker.
 
