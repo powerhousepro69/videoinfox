@@ -5,9 +5,9 @@
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
-ver="Videoinfox v5.4.29"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.29")  # Version Number: with blinking dot
-vn="v5.4.29" #V!  update help files on update
+ver="Videoinfox v5.4.30"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.30")  # Version Number: with blinking dot
+vn="v5.4.30" #V!  update help files on update
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -1118,7 +1118,7 @@ echo "__________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.4.29   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Videoinfox v5.4.30   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1271,7 +1271,7 @@ else
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.4.29   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
+echo " Videoinfox v5.4.30   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1598,7 +1598,7 @@ echo " q - quit                                                                 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 #V!
-echo " 190 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " 191 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 
 
@@ -1611,6 +1611,10 @@ echo " _________________________________________________________________________
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
 
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v5.4.30 Edit: Some edits in View Playlist >>> Help" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "               Added line:  Pressing enter with no entry on any of the above edits will cancel the edit." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.4.29 Fix: Option spacing in View Playlist" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -5548,15 +5552,14 @@ read -r -n1 optionv
         echo " "$der" >>> VIEW PLAYLIST >>> HELP"        
         echo " _________________________________________________________________________________________________________________"
         echo
-        echo "  The loaded playlist is saved when any of the below  - edits  are made."
+        echo "  The loaded playlist is saved when any of the below edits are made."
         echo "  If any of the following options are run in View Playlist or the Play Queue, the resume marker will be cleared."
         echo
-        echo "  - Remove Line"
-        echo "  - Remove Block"
-        echo "  - Remove Dupes"
-        echo "  - Move Line"
-        echo "  - Move Block"
-        echo "  - Clear Playlist or Queue"
+        echo "  - Remove Line   - Remove Block   - Remove Dupes   - Move Line   - Move Block   - Clear Playlist or Queue"
+        echo
+        echo "  Move Line and Move Block: To insert above line 1 enter 0"
+        echo
+        echo "  Note: Pressing enter with no entry on any of the above edits will cancel the edit."
         echo " _________________________________________________________________________________________________________________" 
         echo
         echo "  Start and Resume: When resume reaches the end of the playlist, the last video will stay in resume until"
@@ -5566,8 +5569,10 @@ read -r -n1 optionv
         echo "  - Add to Queue in Change and Queue will update an existing resume list with the added playlist."
         echo "  - Rename an existing playlist. If a resume list exists, it will also be renamed."
         echo " _________________________________________________________________________________________________________________"
+        echo        
+        echo " - Change and Queue: Playlist and Play Queue management. All the playlists are displayed on this screen."
         echo
-        echo "  Move Line and Move Block: To insert above line 1 enter 0"
+        echo "  PLAYLIST: - Change  - Create  - Rename  - Delete        PLAY QUEUE: - Add to Queue  - Queue List  - Play Queue"     
         echo " _________________________________________________________________________________________________________________"
         echo
         echo "  Mpv Playlist: This option will load a playlist into Mpv. This will bypass the -Resume option and the"
@@ -10833,15 +10838,14 @@ read -r -n1 optionv
         echo " "$der" >>> VIEW PLAYLIST >>> HELP"        
         echo " _________________________________________________________________________________________________________________"
         echo
-        echo "  The loaded playlist is saved when any of the below  - edits  are made."
+        echo "  The loaded playlist is saved when any of the below edits are made."
         echo "  If any of the following options are run in View Playlist or the Play Queue, the resume marker will be cleared."
         echo
-        echo "  - Remove Line"
-        echo "  - Remove Block"
-        echo "  - Remove Dupes"
-        echo "  - Move Line"
-        echo "  - Move Block"
-        echo "  - Clear Playlist or Queue"
+        echo "  - Remove Line   - Remove Block   - Remove Dupes   - Move Line   - Move Block   - Clear Playlist or Queue"
+        echo
+        echo "  Move Line and Move Block: To insert above line 1 enter 0"
+        echo
+        echo "  Note: Pressing enter with no entry on any of the above edits will cancel the edit."
         echo " _________________________________________________________________________________________________________________" 
         echo
         echo "  Start and Resume: When resume reaches the end of the playlist, the last video will stay in resume until"
@@ -10851,8 +10855,10 @@ read -r -n1 optionv
         echo "  - Add to Queue in Change and Queue will update an existing resume list with the added playlist."
         echo "  - Rename an existing playlist. If a resume list exists, it will also be renamed."
         echo " _________________________________________________________________________________________________________________"
+        echo        
+        echo " - Change and Queue: Playlist and Play Queue management. All the playlists are displayed on this screen."
         echo
-        echo "  Move Line and Move Block: To insert above line 1 enter 0"
+        echo "  PLAYLIST: - Change  - Create  - Rename  - Delete        PLAY QUEUE: - Add to Queue  - Queue List  - Play Queue"     
         echo " _________________________________________________________________________________________________________________"
         echo
         echo "  Mpv Playlist: This option will load a playlist into Mpv. This will bypass the -Resume option and the"
@@ -15174,15 +15180,14 @@ read -r -n1 optionv
         echo " "$der" >>> VIEW PLAYLIST >>> HELP"        
         echo " _________________________________________________________________________________________________________________"
         echo
-        echo "  The loaded playlist is saved when any of the below  - edits  are made."
+        echo "  The loaded playlist is saved when any of the below edits are made."
         echo "  If any of the following options are run in View Playlist or the Play Queue, the resume marker will be cleared."
         echo
-        echo "  - Remove Line"
-        echo "  - Remove Block"
-        echo "  - Remove Dupes"
-        echo "  - Move Line"
-        echo "  - Move Block"
-        echo "  - Clear Playlist or Queue"
+        echo "  - Remove Line   - Remove Block   - Remove Dupes   - Move Line   - Move Block   - Clear Playlist or Queue"
+        echo
+        echo "  Move Line and Move Block: To insert above line 1 enter 0"
+        echo
+        echo "  Note: Pressing enter with no entry on any of the above edits will cancel the edit."
         echo " _________________________________________________________________________________________________________________" 
         echo
         echo "  Start and Resume: When resume reaches the end of the playlist, the last video will stay in resume until"
@@ -15192,8 +15197,10 @@ read -r -n1 optionv
         echo "  - Add to Queue in Change and Queue will update an existing resume list with the added playlist."
         echo "  - Rename an existing playlist. If a resume list exists, it will also be renamed."
         echo " _________________________________________________________________________________________________________________"
+        echo        
+        echo " - Change and Queue: Playlist and Play Queue management. All the playlists are displayed on this screen."
         echo
-        echo "  Move Line and Move Block: To insert above line 1 enter 0"
+        echo "  PLAYLIST: - Change  - Create  - Rename  - Delete        PLAY QUEUE: - Add to Queue  - Queue List  - Play Queue"     
         echo " _________________________________________________________________________________________________________________"
         echo
         echo "  Mpv Playlist: This option will load a playlist into Mpv. This will bypass the -Resume option and the"
