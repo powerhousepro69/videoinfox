@@ -1,6 +1,4 @@
-# *Happy New Year !   2023*
-
-# Videoinfox v5.4.26
+# Videoinfox v5.4.28
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -379,6 +377,12 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.4.28 Fix: Play Clipboard would try to play any valid file even if it wasn't a video file.
+
+        Now Play Clipboard only processes file extensions: mp4,mkv,avi,webm,divx.
+
+        Fix: After clearing the Played List, the display wouldn't update until quit and run Played List again.
 
 ###  v5.4.26 Add: Below info added to Home Help in Default Directories section.
 
