@@ -1,4 +1,4 @@
-# Videoinfox v5.4.30
+# Videoinfox v5.4.31
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -377,6 +377,10 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.4.31 Change: Duplicates in the Played List are no longer auto removed.
+
+        Add: -Remove Dupes option added to the Played List.
 
 ###  v5.4.30 Edit: Some edits in View Playlist >>> Help
 
