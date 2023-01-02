@@ -5,9 +5,9 @@
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
-ver="Videoinfox v5.4.30"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.30")  # Version Number: with blinking dot
-vn="v5.4.30" #V!  update help files on update
+ver="Videoinfox v5.4.31"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.31")  # Version Number: with blinking dot
+vn="v5.4.31" #V!  update help files on update
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -1118,7 +1118,7 @@ echo "__________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.4.30   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Videoinfox v5.4.31   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1271,7 +1271,7 @@ else
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.4.30   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
+echo " Videoinfox v5.4.31   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1419,7 +1419,6 @@ echo "                 Available in: Home Screen and Yt-dlp Menu" >> ~/.config/v
 echo >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo "                 Note: Play Clipboard, Play and Last Download all write to the Played List." >> ~/.config/videoinfox/videoinfo.help
-echo "                       Duplicates are removed from the played list." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Playlist Features:" >> ~/.config/videoinfox/videoinfo.help
@@ -1598,7 +1597,7 @@ echo " q - quit                                                                 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 #V!
-echo " 191 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " 192 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 
 
@@ -1611,6 +1610,10 @@ echo " _________________________________________________________________________
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
 
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v5.4.31 Change: Duplicates in the Played List are no longer auto removed." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Add: -Remove Dupes option added to the Played List." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.4.30 Edit: Some edits in View Playlist >>> Help" >> ~/.config/videoinfox/videoinfo-ver-history
 echo "               Added line:  Pressing enter with no entry on any of the above edits will cancel the edit." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -9887,8 +9890,8 @@ clear
 cp ~/.config/videoinfox/videoinfo.playedlist ~/.config/videoinfox/tmp/videoinfo.playedlist-apa 2>/dev/null
 
 #  REMOVE DUPLICATES
-cat -n ~/.config/videoinfox/tmp/videoinfo.playedlist-apa | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfo.playedlist-apa3 2>/dev/null
-mv ~/.config/videoinfox/tmp/videoinfo.playedlist-apa3 ~/.config/videoinfox/videoinfo.playedlist 2>/dev/null
+#cat -n ~/.config/videoinfox/tmp/videoinfo.playedlist-apa | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfo.playedlist-apa3 2>/dev/null
+#mv ~/.config/videoinfox/tmp/videoinfo.playedlist-apa3 ~/.config/videoinfox/videoinfo.playedlist 2>/dev/null
 
 #  REMOVE BLANK LINES
 sed -i '/^$/d' ~/.config/videoinfox/videoinfo.playedlist 2>/dev/null
@@ -9931,8 +9934,8 @@ sed -i '/^$/d' ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2 2>/dev/null
 
 
 #  REMOVE DUPLICATES
-cat -n ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2 | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfo.playedlist-apa3 2>/dev/null
-mv ~/.config/videoinfox/tmp/videoinfo.playedlist-apa3 ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2 2>/dev/null
+#cat -n ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2 | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfo.playedlist-apa3 2>/dev/null
+#mv ~/.config/videoinfox/tmp/videoinfo.playedlist-apa3 ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2 2>/dev/null
 
 #  MOVE apa2 BACK TO apa
 cp ~/.config/videoinfox/tmp/videoinfo.playedlist-apa2 ~/.config/videoinfox/tmp/videoinfo.playedlist-apa 2>/dev/null
@@ -10011,8 +10014,9 @@ fi
                       echo " "$der" >>> PLAYED LIST"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " j "$dashit" Play         s - View Playlist     d - Clear Played List     p - Play Clipboard      x - Clrclp      q - Quit"
-                      echo " o "$dashit" Autoplay     k "$dashit" Playlist Add       z - Make Playlist                                                                    i "$dashit" Info"
+                      echo " j "$dashit" Play         s - View Playlist     g - Remove Dupes          p - Play Clipboard     x - Clrclp       q - Quit"
+                      echo " o "$dashit" Autoplay     k "$dashit" Playlist Add      d - Clear Played List"
+                      echo " i "$dashit" Info         z "$dashit" Make Playlist"
                       echo   
 
                   else 
@@ -10023,8 +10027,9 @@ fi
                       echo " "$der" >>> PLAYED LIST"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo -e " j "$dashit" Play          s - View Playlist     d - Clear Played List      p * Play Clipboard     x - Clrclp      q - Quit"                     
-                      echo " o "$dashit" Autoplay      k "$dashit" Playlist Add      z - Make PlayList                                               " " i "$dashit" Info"
+                      echo " j "$dashit" Play         s - View Playlist     g - Remove Dupes          p * Play Clipboard     x - Clrclp       q - Quit"
+                      echo " o "$dashit" Autoplay     k "$dashit" Playlist Add      d - Clear Played List"
+                      echo " i "$dashit" Info         z "$dashit" Make Playlist"
                       echo                                                                                        
             fi
   else
@@ -10038,8 +10043,9 @@ fi
             echo " "$der" >>> PLAYED LIST"
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo -e " j "$dashit" Play          s - View Playlist     d - Clear Played List      p * Play Clipboard     x - Clrclp      q - Quit"                     
-            echo " o "$dashit" Autoplay      k "$dashit" Playlist Add      z - Make PlayList                                               " " i "$dashit" Info"
+            echo " j "$dashit" Play         s - View Playlist     g - Remove Dupes          p * Play Clipboard     x - Clrclp       q - Quit"
+            echo " o "$dashit" Autoplay     k "$dashit" Playlist Add      d - Clear Played List"
+            echo " i "$dashit" Info         z "$dashit" Make Playlist"
             echo                                                            
 
         else 
@@ -10052,8 +10058,9 @@ fi
             echo " "$der" >>> PLAYED LIST"
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " j "$dashit" Play         s - View Playlist     d - Clear Played List     p - Play Clipboard      x - Clrclp      q - Quit"
-            echo " o "$dashit" Autoplay     k "$dashit" Playlist Add      z - Make Playlist                                                 i "$dashit" Info"
+            echo " j "$dashit" Play         s - View Playlist     g - Remove Dupes          p - Play Clipboard     x - Clrclp       q - Quit"
+            echo " o "$dashit" Autoplay     k "$dashit" Playlist Add      d - Clear Played List"
+            echo " i "$dashit" Info         z "$dashit" Make Playlist"
             echo
 fi
 fi
@@ -10080,6 +10087,56 @@ read -r -n1 optionv
         # CLRCLP 
         echo "" | xclip -sel clip  # copy message in quotes to the clipboard. clearing out the clipboard
         pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+        ;;
+
+
+        g) # REMOVE DUPES PLAYED LIST
+
+ function menurdup {
+        read -r playedlempty < ~/.config/videoinfox/videoinfo.playedlist
+        clear
+        echo
+        echo " Remove Duplicate Videos in Played List?"
+        echo
+        echo " y - Yes     n - No"  
+        echo 
+        echo -en " Enter Option: "
+        read -r -n1 option
+        echo
+        }
+
+        while true
+        do
+	  menurdup
+	  case $option in
+
+
+	  y)  # YES
+        if [ -z "$playedlempty" ]
+          then
+              echo
+              echo " Played List Empty . . ."
+              sleep .4
+          else
+              # Remove Duplicates
+cat -n ~/.config/videoinfox/videoinfo.playedlist | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/videoinfo.playedlist-rdupes 2>/dev/null
+mv ~/.config/videoinfox/tmp/videoinfo.playedlist-rdupes ~/.config/videoinfox/videoinfo.playedlist 2>/dev/null
+sed -i '/^$/d' ~/.config/videoinfox/videoinfo.playedlist 2>/dev/null #  REMOVE BLANK LINES
+              
+              echo
+              echo " Duplicates Removed . . ."
+              sleep .4
+        fi
+        break
+        ;;
+
+        n)  # NO       
+        break;;
+
+        *)
+        
+        esac
+        done
         ;;
 
 
