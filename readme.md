@@ -1,4 +1,4 @@
-# Videoinfox v5.4.28
+# Videoinfox v5.4.29
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -377,6 +377,8 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.4.29 Fix: Option spacing in View Playlist
 
 ###  v5.4.28 Fix: Play Clipboard would try to play any valid file even if it wasn't a video file.
 
