@@ -128,8 +128,9 @@ for batch processing.There is a Played List that keeps track of everything playe
             Indexing more directories in addition the 4 default directories is a simple process.
             Change to a parent directory of a video library. Then -Show All on the home screen
             and select -Make Playlist
- 
-            * Duplicates are always removed from playlist find results. 
+
+            Removed Line: * Duplicates are always removed from playlist find results.
+  
 
 ![Playlist Find](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PLAYLIST-FIND.png)
 
@@ -156,8 +157,6 @@ for batch processing.There is a Played List that keeps track of everything playe
         Default Dirs - 1 2 3 4 5  available in: Home, Navigate Tree, Download List & More Options
 
   - Played List: &nbsp; Log everything played with: &nbsp; Play, &nbsp; Play Clipboard &nbsp; and &nbsp; Last Download
-  
-        Duplicates auto-removed from the Played List.
  
   - Yt-dlp integration for easy download of a single url, a list of url's or a queue of multiple url lists.
     
