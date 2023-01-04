@@ -1,4 +1,4 @@
-# Videoinfox v5.4.32
+# Videoinfox v5.4.33
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -376,6 +376,11 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.4.33 Change: -Change Directory in YT-DLP MENU >>> DOWNLOAD LIST >>> Create/Change Directory
+     
+        Change Directory would blink if there was a valid dir in the clipboard.
+        Left over from many versions ago.
 
 ###  v5.4.32 Change: Messages in Queue List
 
