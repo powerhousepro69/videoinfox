@@ -1,4 +1,4 @@
-# Videoinfox v5.4.31
+# Videoinfox v5.4.32
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -376,6 +376,8 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.4.32 Change: Messages in Queue List
 
 ###  v5.4.31 Change: Duplicates in the Played List are no longer auto removed.
 
