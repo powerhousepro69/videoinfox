@@ -1,4 +1,4 @@
-# Videoinfox v5.4.42
+# Videoinfox v5.4.44
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -376,6 +376,10 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.4.44 Add: mpv save notification added to the Play Queue
+
+        Change: Moved a few options around in the Play Queue
 
 ###  v5.4.42 Add: mpv save notification added to View Playlist
 
