@@ -1,4 +1,4 @@
-# Videoinfox v5.4.33
+# Videoinfox v5.4.40
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -23,7 +23,7 @@ sudo chmod +x /usr/local/bin/videoinfox
 
 <br />
 
-**NEW: &nbsp; Resume lists now updated with added videos via -Playlist Add or added playlists via -Add to Queue**
+**NEW: &nbsp; -Save As added to change and queue to save the loaded playlist as... with file overwrite prompt.**
 
 <br />
 
@@ -377,6 +377,10 @@ FIRST RUN
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
 
+###  v5.4.40 New: -Save As added to change and queue to save the loaded playlist as... with file overwrite prompt.
+
+        Change: Moved a few options around in Change and Queue
+
 ###  v5.4.33 Change: -Change Directory in YT-DLP MENU >>> DOWNLOAD LIST >>> Create/Change Directory
      
         Change Directory would blink if there was a valid dir in the clipboard.
@@ -391,82 +395,6 @@ FIRST RUN
 ###  v5.4.30 Edit: Some edits in View Playlist >>> Help
 
         Added line:  Pressing enter with no entry on any of the above edits will cancel the edit.
-
-###  v5.4.29 Fix: Option spacing in View Playlist
-
-###  v5.4.28 Fix: Play Clipboard would try to play any valid file even if it wasn't a video file.
-
-        Now Play Clipboard only processes file extensions: mp4,mkv,avi,webm,divx.
-
-        Fix: After clearing the Played List, the display wouldn't update until quit and run Played List again.
-
-###  v5.4.26 Add: Below info added to Home Help in Default Directories section.
-
-        Set default directories first then -Index Default Directories located in settings.
-        Every time a default directory is changed or removed in settings, or if any content has been
-        added or removed from any of the default directories, Index Default Directories will need to 
-        be run again to update the changes. The above also applies if any videos are renamed in any
-        of the default directories. A date and time stamp is displayed in settings of the last time 
-        Index Default Directories was run.
-
-###  v5.4.25 Add: option -clear in Settings >>> Video Player >>> Custom
-
-        note: If -custom is cleared, player will default to mpv if available. If not, then ffplay
-
-        Change: moved options around in Settings >>> Video Player >>> Custom
-
-###  v5.4.23 Fix: Playlist Add prompt in Played List was not displaying the loaded Playlist.
-
-###  v5.4.22 Update: -Playlist Add on the Home Screen, in Navigate Tree >>> Show All and in -Played List
-
-        -Playlist Add will update an existing resume list with the added video.
-
-        Update: -Add to Queue in Change and Queue will update an existing resume list 
-                 with the added playlist.
-
-        Change: -Rebuild Queue in View Playlist >>> Change and Queue >>> Queue List
-                 will clear the -Resume list in the Play Queue
-
-        Edit: View Playlist >>> Help
-
-###  v5.4.06 Move: playlist save loop moved up in the function to correct a display issue on any playlist edits.
-
-        Add: Message added to View Playlist that will be displayed on any playlist edits.
-        MSG: Saving loaded playlist . . .
-
-        Note: * Every time an edit is made to a playlist, the resume marker will be cleared if one exists.
-                This is done because the resume marker and next: on the intermission screen need to be 
-                updated with the playlist edit(s). Running -Start will rewrite the resume marker.
-
-              * Playlist edits are saved on every edit.
-              * Resume and Next: are working with a copy of the loaded playlist.
-
-###  v5.4.04 Fix: Renaming the loaded playlist would clear the resume marker if one existed.
-
-        Added: Below lines added to Home Help: 1 2 3 4 5 - Default Dirs section
-
-               Indexing more directories in addition the 4 default directories is a simple process.
-               Change to a parent directory of a video library. 
-               Then -Show All on the home screen & select -Make Playlist
-
-               Note:   -Show All on the Home Screen is recursive.
-                       -Show all in -Navigate Tree is one level deep.
-
-
-###  v5.4.02 Add: Notification to Home Screen under Help:  mpv save  
-         
-        Displayed when mpv is set as video player and option  --save-position-on-quit  is active.
-
-        Change: ~/.config/videoinfox/tmp directory is only cleared on exit. 
-
-
-###  v5.4.00 New: Two new features added to -Set >>> Video Player option: 2 - Mpv
-
-        Toggle on/off mpv save play position on quit and option to erase all mpv markers.
-
-        Add: New features added to Home Help
-
-        Change: all - Find Dir changed from  f  to  g
 
 
 ### Harnessing the power of:
