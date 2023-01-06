@@ -130,9 +130,27 @@ for batch processing.There is a Played List that keeps track of everything playe
             and select -Make Playlist
 
             Removed Line: * Duplicates are always removed from playlist find results.
-  
 
 ![Playlist Find](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PLAYLIST-FIND.png)
+
+
+<br />
+VIEW PLAYLIST to Create, Watch, and Manage Playlists and the Play Queue
+
+![Videoinfox Playlist](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PLAYLIST.png)
+
+
+<br />
+CHANGE AND QUEUE in View Playlist
+
+![Videoinfox Change and Queue](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/CHANGEANDQUEUE.png)
+
+
+<br />
+PLAY QUEUE in View Playlist >>> Change and Queue
+
+![Videoinfox Play Queue](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PLAYQUEUE.png)
+
 
 <br />
 
@@ -278,24 +296,6 @@ FIND DIRECTORY
 FIND VIDEOS TO Play, Autoplay, Playlist Add or Make Playlist with all search results.
 
 ![Videoinfox Find](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/FIND.png)
-
-
-<br />
-VIEW PLAYLIST to Create, Watch, and Manage Playlists and the Play Queue
-
-![Videoinfox Playlist](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PLAYLIST.png)
-
-
-<br />
-CHANGE AND QUEUE in View Playlist
-
-![Videoinfox Change and Queue](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/CHANGEANDQUEUE.png)
-
-
-<br />
-PLAY QUEUE in View Playlist >>> Change and Queue
-
-![Videoinfox Play Queue](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PLAYQUEUE.png)
 
 
 <br />
