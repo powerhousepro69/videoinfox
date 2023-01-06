@@ -5,9 +5,9 @@
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
-ver="Videoinfox v5.4.33"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.33")  # Version Number: with blinking dot
-vn="v5.4.33" #V!  update help files on update
+ver="Videoinfox v5.4.40"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.40")  # Version Number: with blinking dot
+vn="v5.4.40" #V!  update help files on update
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -1118,7 +1118,7 @@ echo "__________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.4.33   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Videoinfox v5.4.40   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1271,7 +1271,7 @@ else
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.4.33   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
+echo " Videoinfox v5.4.40   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1483,7 +1483,7 @@ echo "         Change and Queue" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo "         - Change playlist." >> ~/.config/videoinfox/videoinfo.help
 echo "         - Create empty playlist." >> ~/.config/videoinfox/videoinfo.help
-echo "         - Delete playlist." >> ~/.config/videoinfox/videoinfo.help
+echo "         - Delete playlist. If the loaded playlist is deleted, the default playlist will be loaded." >> ~/.config/videoinfox/videoinfo.help
 echo "         - Rename playlist." >> ~/.config/videoinfox/videoinfo.help
 echo "         - Add to Queue to add a playlist to the play queue." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1597,7 +1597,7 @@ echo " q - quit                                                                 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 #V!
-echo " 194 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " 195 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 
 
@@ -1610,6 +1610,10 @@ echo " _________________________________________________________________________
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
 
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v5.4.40 New: -Save As added to change and queue to save the loaded playlist as... with file overwrite prompt." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Change: Moved a few options around in Change and Queue" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.4.33 Change: -Change Directory in YT-DLP MENU >>> DOWNLOAD LIST >>> Create/Change Directory" >> ~/.config/videoinfox/videoinfo-ver-history
 echo "                 Change Directory would blink if there was a valid dir in the clipboard. Left over from many versions ago." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -3429,7 +3433,7 @@ totalplvideos=$(wc -l ~/.config/videoinfox/tmp/search-playlist.tmp.display2 2> /
     echo " ""$ver"" >>> Playlist Find >>> Indexed files:" "$totalplvideos" 
     echo "___________________________________________________________________________________________________________________"
     echo
-    echo " Search all Playlists and the Default Directories Index.                                       Enter . to Show All"
+    echo " Search all playlists and the default directories index.                                       Enter . to Show All"
     echo " Enter a keyword from a path or file. Case ignored. No wildcard *"
     echo
     read -r -p " Search: " videofind  # waiting fot user input - video file that you want to find
@@ -6601,10 +6605,9 @@ echo
 echo " ""$der"" VIEW PLAYLIST >>> CHANGE AND QUEUE"       
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " z - Change     a - Add to Queue     m - Mpv Playlist                                                     q - Quit"
-echo " c - Create     b - Queue List"
-echo " r - Rename     p - Play Queue"
-echo " d - Delete"
+echo " z - Change      r - Rename           a - Add to Queue                               m - Mpv Playlist     q - Quit"
+echo " c - Create      d - Delete           b - Queue List"
+echo " s - Save As                          p - Play Queue"
 echo
 echo -en " Enter Option: "
 read -r -n1 optioncpl
@@ -6623,7 +6626,98 @@ case $optioncpl in
         break ;;
 
 
-  m)  # MPV PLAYLIST
+        s)  # SAVE AS
+clear
+echo
+echo " Playlist:" "$setplaylist"
+echo
+echo " If any dots are entered, they will be stripped from the playlist name."
+echo " Spaces can be used after the first character of the playlist name."
+echo
+read -r -p " Save Playlist As... " createpl1  # waiting fot user input. grabbing new filename
+
+# Strip out any dots from user entry
+echo "$createpl1" > ~/.config/videoinfox/tmp/plremovedot.tmp
+sed -i -e 's/\.//g' ~/.config/videoinfox/tmp/plremovedot.tmp
+read createpl < ~/.config/videoinfox/tmp/plremovedot.tmp
+
+plname="$HOME/.config/videoinfox/playlists/vplaylist.""$createpl"
+
+if [ -z "$createpl" ]  # if enter is pressed with no entry
+  then
+      echo
+      echo " Nothing was entered . . ."
+      sleep .4
+  else
+
+if [[ "$createpl" = "Default" ]]
+  then
+      echo
+      echo " Default playlist name reserved . . ."
+      sleep .4
+  else
+
+      if [ -f ~/.config/videoinfox/playlists/vplaylist."$createpl" ]
+        then
+            
+  function ovewritesr {
+        clear
+        echo
+        echo " File already exists . . ."
+        echo
+        echo " Overwrite playlist "$createpl1"?"
+        echo
+        echo " y - Yes     n - No"  
+        echo 
+        echo -en " Enter Option: "
+        read -r -n1 optiondelq
+        echo
+        }
+
+        while true
+        do
+	  ovewritesr
+	  case $optiondelq in
+
+	  y)  # YES
+
+        if [[ "$setplaylist" = "$createpl1" ]]
+        then  # PLAYLIST IS LOADED
+            echo
+            echo " Save as... name can't be the same as the loaded playlist . . ."
+            sleep 2
+        
+        else
+            cp ~/.config/videoinfox/videoinfo.playlist ~/.config/videoinfox/playlists/vplaylist."$createpl"
+            echo
+            echo " Playlist Saved . . ."
+            sleep .7
+        fi
+
+        break
+        ;;
+
+
+        n)  # NO
+        break;;
+
+        *)        
+        esac
+        done  
+
+        else
+        cp ~/.config/videoinfox/videoinfo.playlist ~/.config/videoinfox/playlists/vplaylist."$createpl"
+        echo
+        echo " Playlist Saved . . ."
+        sleep .7
+
+fi
+fi
+fi
+;; 
+
+
+        m)  # MPV PLAYLIST
 # GETTING NUMBER OF PLAYLISTS
 linecount=$(wc -l ~/.config/videoinfox/videoinfo.playlist.dirlist | cut -d' ' -f1)
 
@@ -8650,7 +8744,7 @@ if [[ "$renfrom" == "Default" ]]
   then
       echo
       echo "The default playlist list cannot be renamed . . ."
-      sleep .4
+      sleep 2
   else
 
 clear
@@ -8783,7 +8877,7 @@ if [ "$linenumber" = 0 ]
                       if [[ "$plselected2" == "Default" ]]
                       then
                       echo "The default playlist list cannot be deleted. It can only be cleared . . ."
-                      sleep 1
+                      sleep 2
                       else
 
                       function menucpl {
@@ -8816,6 +8910,7 @@ if [ "$linenumber" = 0 ]
                       rm ~/.config/videoinfox/playlists/"$plselectedla".last-autoplay.nextup 2> /dev/null  # REMOVE PLAYLIST.last.autoplay.nextup  file
                       echo
                       echo  " Playlist Deleted . . ."
+                      sleep .7
 
                       if [[ "$setplaylistfull" = "$plselected" ]]  # IF DELETED PLAYLIST = ACTIVE PLAYLIST
                         then # SET DEFAULT PLAYLIST TO ACTIVE PLAYLIST
@@ -8824,12 +8919,11 @@ if [ "$linenumber" = 0 ]
                             setplaylist="Default"
                             echo
                             echo " Loaded playlist was deleted. Default playlist loaded . . ."
-
+                            sleep 2
                         else
                             :
                       fi
-
-                      sleep 1  
+ 
                       break
                       ;;
 
@@ -11940,10 +12034,9 @@ echo
 echo " ""$der"" VIEW PLAYLIST >>> CHANGE AND QUEUE"       
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " z - Change     a - Add to Queue     m - Mpv Playlist                                                     q - Quit"
-echo " c - Create     b - Queue List"
-echo " r - Rename     p - Play Queue"
-echo " d - Delete"
+echo " z - Change      r - Rename           a - Add to Queue                               m - Mpv Playlist     q - Quit"
+echo " c - Create      d - Delete           b - Queue List"
+echo " s - Save As                          p - Play Queue"
 echo
 echo -en " Enter Option: "
 read -r -n1 optioncpl
@@ -11960,6 +12053,97 @@ case $optioncpl in
         q)  # QUIT
         ###cd "$grabdir"
         break ;;
+
+
+        s)  # SAVE AS
+clear
+echo
+echo " Playlist:" "$setplaylist"
+echo
+echo " If any dots are entered, they will be stripped from the playlist name."
+echo " Spaces can be used after the first character of the playlist name."
+echo
+read -r -p " Save Playlist As... " createpl1  # waiting fot user input. grabbing new filename
+
+# Strip out any dots from user entry
+echo "$createpl1" > ~/.config/videoinfox/tmp/plremovedot.tmp
+sed -i -e 's/\.//g' ~/.config/videoinfox/tmp/plremovedot.tmp
+read createpl < ~/.config/videoinfox/tmp/plremovedot.tmp
+
+plname="$HOME/.config/videoinfox/playlists/vplaylist.""$createpl"
+
+if [ -z "$createpl" ]  # if enter is pressed with no entry
+  then
+      echo
+      echo " Nothing was entered . . ."
+      sleep .4
+  else
+
+if [[ "$createpl" = "Default" ]]
+  then
+      echo
+      echo " Default playlist name reserved . . ."
+      sleep .4
+  else
+
+      if [ -f ~/.config/videoinfox/playlists/vplaylist."$createpl" ]
+        then
+            
+  function ovewritesr {
+        clear
+        echo
+        echo " File already exists . . ."
+        echo
+        echo " Overwrite playlist "$createpl1"?"
+        echo
+        echo " y - Yes     n - No"  
+        echo 
+        echo -en " Enter Option: "
+        read -r -n1 optiondelq
+        echo
+        }
+
+        while true
+        do
+	  ovewritesr
+	  case $optiondelq in
+
+	  y)  # YES
+
+        if [[ "$setplaylist" = "$createpl1" ]]
+        then  # PLAYLIST IS LOADED
+            echo
+            echo " Save as... name can't be the same as the loaded playlist . . ."
+            sleep 2
+        
+        else
+            cp ~/.config/videoinfox/videoinfo.playlist ~/.config/videoinfox/playlists/vplaylist."$createpl"
+            echo
+            echo " Playlist Saved . . ."
+            sleep .7
+        fi
+
+        break
+        ;;
+
+
+        n)  # NO
+        break;;
+
+        *)        
+        esac
+        done  
+
+        else
+        cp ~/.config/videoinfox/videoinfo.playlist ~/.config/videoinfox/playlists/vplaylist."$createpl"
+        echo
+        echo " Playlist Saved . . ."
+        sleep .7
+
+fi
+fi
+fi
+;; 
 
 
   m)  # MPV PLAYLIST
@@ -13989,7 +14173,7 @@ if [[ "$renfrom" == "Default" ]]
   then
       echo
       echo "The default playlist list cannot be renamed . . ."
-      sleep .4
+      sleep 2
   else
 
 clear
@@ -14122,7 +14306,7 @@ if [ "$linenumber" = 0 ]
                       if [[ "$plselected2" == "Default" ]]
                       then
                       echo "The default playlist list cannot be deleted. It can only be cleared . . ."
-                      sleep .7
+                      sleep 2
                       else
 
                       function menucpl {
@@ -14155,6 +14339,7 @@ if [ "$linenumber" = 0 ]
                       rm ~/.config/videoinfox/playlists/"$plselectedla".last-autoplay.nextup 2> /dev/null  # REMOVE PLAYLIST.last.autoplay.nextup  file
                       echo
                       echo  " Playlist Deleted . . ."
+                      sleep .7
 
                       if [[ "$setplaylistfull" = "$plselected" ]]  # IF DELETED PLAYLIST = ACTIVE PLAYLIST
                         then # SET DEFAULT PLAYLIST TO ACTIVE PLAYLIST
@@ -14163,12 +14348,12 @@ if [ "$linenumber" = 0 ]
                             setplaylist="Default"
                             echo
                             echo " Loaded playlist was deleted. Default playlist loaded . . ."
+                            sleep 2
 
                         else
                             :
                       fi
-
-                      sleep .7  
+ 
                       break
                       ;;
 
@@ -16282,10 +16467,9 @@ echo
 echo " ""$der"" VIEW PLAYLIST >>> CHANGE AND QUEUE"       
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " z - Change     a - Add to Queue     m - Mpv Playlist                                                     q - Quit"
-echo " c - Create     b - Queue List"
-echo " r - Rename     p - Play Queue"
-echo " d - Delete"
+echo " z - Change      r - Rename           a - Add to Queue                               m - Mpv Playlist     q - Quit"
+echo " c - Create      d - Delete           b - Queue List"
+echo " s - Save As                          p - Play Queue"
 echo
 echo -en " Enter Option: "
 read -r -n1 optioncpl
@@ -16302,6 +16486,97 @@ case $optioncpl in
         q)  # QUIT
         ###cd "$grabdir"
         break ;;
+
+
+        s)  # SAVE AS
+clear
+echo
+echo " Playlist:" "$setplaylist"
+echo
+echo " If any dots are entered, they will be stripped from the playlist name."
+echo " Spaces can be used after the first character of the playlist name."
+echo
+read -r -p " Save Playlist As... " createpl1  # waiting fot user input. grabbing new filename
+
+# Strip out any dots from user entry
+echo "$createpl1" > ~/.config/videoinfox/tmp/plremovedot.tmp
+sed -i -e 's/\.//g' ~/.config/videoinfox/tmp/plremovedot.tmp
+read createpl < ~/.config/videoinfox/tmp/plremovedot.tmp
+
+plname="$HOME/.config/videoinfox/playlists/vplaylist.""$createpl"
+
+if [ -z "$createpl" ]  # if enter is pressed with no entry
+  then
+      echo
+      echo " Nothing was entered . . ."
+      sleep .4
+  else
+
+if [[ "$createpl" = "Default" ]]
+  then
+      echo
+      echo " Default playlist name reserved . . ."
+      sleep .4
+  else
+
+      if [ -f ~/.config/videoinfox/playlists/vplaylist."$createpl" ]
+        then
+            
+  function ovewritesr {
+        clear
+        echo
+        echo " File already exists . . ."
+        echo
+        echo " Overwrite playlist "$createpl1"?"
+        echo
+        echo " y - Yes     n - No"  
+        echo 
+        echo -en " Enter Option: "
+        read -r -n1 optiondelq
+        echo
+        }
+
+        while true
+        do
+	  ovewritesr
+	  case $optiondelq in
+
+	  y)  # YES
+
+        if [[ "$setplaylist" = "$createpl1" ]]
+        then  # PLAYLIST IS LOADED
+            echo
+            echo " Save as... name can't be the same as the loaded playlist . . ."
+            sleep 2
+        
+        else
+            cp ~/.config/videoinfox/videoinfo.playlist ~/.config/videoinfox/playlists/vplaylist."$createpl"
+            echo
+            echo " Playlist Saved . . ."
+            sleep .7
+        fi
+
+        break
+        ;;
+
+
+        n)  # NO
+        break;;
+
+        *)        
+        esac
+        done  
+
+        else
+        cp ~/.config/videoinfox/videoinfo.playlist ~/.config/videoinfox/playlists/vplaylist."$createpl"
+        echo
+        echo " Playlist Saved . . ."
+        sleep .7
+
+fi
+fi
+fi
+;; 
 
 
   m)  # MPV PLAYLIST
@@ -18326,7 +18601,7 @@ if [[ "$renfrom" == "Default" ]]
   then
       echo
       echo "The default playlist list cannot be renamed . . ."
-      sleep .4
+      sleep 2
   else
 
 clear
@@ -18459,7 +18734,7 @@ if [ "$linenumber" = 0 ]
                       if [[ "$plselected2" == "Default" ]]
                       then
                       echo "The default playlist list cannot be deleted. It can only be cleared . . ."
-                      sleep .7
+                      sleep 2
                       else
 
                       function menucpl {
@@ -18492,6 +18767,7 @@ if [ "$linenumber" = 0 ]
                       rm ~/.config/videoinfox/playlists/"$plselectedla".last-autoplay.nextup 2> /dev/null  # REMOVE PLAYLIST.last.autoplay.nextup  file
                       echo
                       echo  " Playlist Deleted . . ."
+                      sleep .7
 
                       if [[ "$setplaylistfull" = "$plselected" ]]  # IF DELETED PLAYLIST = ACTIVE PLAYLIST
                         then # SET DEFAULT PLAYLIST TO ACTIVE PLAYLIST
@@ -18500,12 +18776,11 @@ if [ "$linenumber" = 0 ]
                             setplaylist="Default"
                             echo
                             echo " Loaded playlist was deleted. Default playlist loaded . . ."
-
+                            sleep 2
                         else
                             :
                       fi
 
-                      sleep .7 
                       break
                       ;;
 
