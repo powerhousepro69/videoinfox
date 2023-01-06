@@ -174,32 +174,7 @@ PLAY QUEUE in View Playlist >>> Change and Queue
   
         Default Dirs - 1 2 3 4 5  available in: Home, Navigate Tree, Download List & More Options
 
-  - Played List: &nbsp; Log everything played with: &nbsp; Play, &nbsp; Play Clipboard &nbsp; and &nbsp; Last Download
- 
-  - Yt-dlp integration for easy download of a single url, a list of url's or a queue of multiple url lists.
-    
-        Download and update Yt-dlp in Videoinfox.
-
-        Download Only: Yt-dlp with no arguments. Download clipboard only. No autoplay.
-        Download Choose: Choose video type and quality before download. Download only. No autoplay.
-        Self Destruct: Download, auto play, delete when the player is closed.
-        Last Download: Play last download.
-
-        Download List: Download a list by entering line number.
-        Logging of downloaded url lists with link and downloaded filename provided by Yt-dlp. 
-        Download Queue: Add unlimited Videoinfox User Download Lists to the queue for batch download.
-        
-        Command Line Option:  videoinfox -u listname
-        Download any url list to the directory of the list's location.
-        
-        Default List: Keep pasting Video URL's on the fly from the clipboard to the Default List.
-        Default List companion: Create a keyboard shortcut for: videoinfox -a
-                                to past the video url to the Default List.
-
-        User Lists: Keep pasting Video URL's on the fly from the clipboard to the User Set List.
-        User Set List companion: Create a keyboard shortcut for: videoinfox -l
-                                 to paste the video url to the User Set list.
-
+  - Played List: &nbsp; Log everything played with: &nbsp; Play, &nbsp; Play Clipboard &nbsp; and &nbsp; Last Download 
   - Info: Get codec, resolution and duration of videos. 
 
         More Options:
@@ -242,6 +217,30 @@ INTERMISSION SCREEN. Initially set to 10 seconds. Time can be changed in Setting
 Applies to Play Directory, Autoplay, Start, and Resume
 
 ![Quit Play Directory](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PD-QUIT.png)
+
+#### Yt-dlp integration for easy download of a single url, a list of url's or a queue of multiple url lists.
+    
+        Download and update Yt-dlp in Videoinfox.
+
+        Download Only: Yt-dlp with no arguments. Download clipboard only. No autoplay.
+        Download Choose: Choose video type and quality before download. Download only. No autoplay.
+        Self Destruct: Download, auto play, delete when the player is closed.
+        Last Download: Play last download.
+
+        Download List: Download a list by entering line number.
+        Logging of downloaded url lists with link and downloaded filename provided by Yt-dlp. 
+        Download Queue: Add unlimited Videoinfox User Download Lists to the queue for batch download.
+        
+        Command Line Option:  videoinfox -u listname
+        Download any url list to the directory of the list's location.
+        
+        Default List: Keep pasting Video URL's on the fly from the clipboard to the Default List.
+        Default List companion: Create a keyboard shortcut for: videoinfox -a
+                                to past the video url to the Default List.
+
+        User Lists: Keep pasting Video URL's on the fly from the clipboard to the User Set List.
+        User Set List companion: Create a keyboard shortcut for: videoinfox -l
+                                 to paste the video url to the User Set list.
 
 
 <br />
