@@ -377,6 +377,10 @@ FIRST RUN
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
 
+###  v5.4.42 Add: mpv save notification added to View Playlist
+
+        Change: Moved a few options around in View Playlist
+
 ###  v5.4.40 New: -Save As added to change and queue to save the loaded playlist as... with file overwrite prompt.
 
         Change: Moved a few options around in Change and Queue
