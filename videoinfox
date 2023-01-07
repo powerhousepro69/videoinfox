@@ -5,9 +5,9 @@
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
-ver="Videoinfox v5.4.44"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.44")  # Version Number: with blinking dot
-vn="v5.4.44" #V!  update help files on update
+ver="Videoinfox v5.4.45"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.45")  # Version Number: with blinking dot
+vn="v5.4.45" #V!  update help files on update
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -18,7 +18,7 @@ vn="v5.4.44" #V!  update help files on update
 # - ffprobe is used to extract Codec, Resolution and Duration in floating seconds format (x.xxxxxx)
 # - ffplay is used to play videos (mp4, webm, mkxv, avi, divx).                                          
 # - bc needed to do floating point math.  
-# - notify-send needed to display gui notifications.
+# - notifysend needed to display gui notifications.
  
 ##########  Videoinfox runs a dependency check at startup. If any dependencies are Not Found, the script will exit. 
 ##########  Missing dependencies will be displayed.
@@ -200,6 +200,7 @@ if [ "$1" = "-h" ]
        echo "   -u  This option can be used with your own ready to download url list that can be any name. Videos will be"
        echo "       downloaded to the directory of the list's location. Example: videoinfox -u mylist"
        echo "       Only enter the list filename. No Paths. The list must be recursively reachable from the current directory."
+       echo
        echo "       NOTE: The first line in the list must begin with http to be processed. Any files processed with this"
        echo "             option will delete all lines that don't start with http, all blank lines and all duplicate lines."
        echo -e "\n"     
@@ -222,10 +223,10 @@ fi
 #-------------------------------------------------------------------------------------------------------------------------------------------------
 
 if [ "$1" = "-u" ]
-   then 
+  then   
+  read -r vnotify < ~/.config/videoinfox/vnotify
 
   direxist="$HOME/.config/videoinfox/tmp"
-
   if [ -d "$direxist" ]  #  if directoty exists goto  <then>
   then
        
@@ -364,7 +365,7 @@ if [ "$1" = "-u" ]
                 echo "Log :" "$PWD/""$ulogfile"  # display log filename with full path
                 echo
                 
-                notify-send "Videoinfox -u messsage: Done Processing Download List . . ." "$PWD/""$2"
+                "$vnotify" "Videoinfox -u messsage: Done Processing Download List . . ." "$PWD/""$2"
                 exit  # exit videoinfox
 
            else
@@ -378,7 +379,7 @@ if [ "$1" = "-u" ]
   echo
   echo "Videoinfox error: Config directory not found. Run videoinfox first with no command line options to setup."
   echo
-  notify-send "Videoinfox error: Config directory not found. Run videoinfox first with no command line options to setup."
+  "$vnotify" "Videoinfox error: Config directory not found. Run videoinfox first with no command line options to setup."
   exit
   fi
 
@@ -394,9 +395,9 @@ fi
 
 if [ "$1" = "-d" ]
    then
+       read -r vnotify < ~/.config/videoinfox/vnotify
 
        direxist="$HOME/.config/videoinfox/tmp"
-
        if [ -d "$direxist" ]  #  if directoty exists goto  <then>
          then
 
@@ -534,7 +535,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
       echo " This screen will quit when the video player is quit . . ."
-      notify-send "Videoinfox messsage: Playing . . ." "$line"
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line"
       
 i=$((i+1)) # line number of video that was playing on video end/user quit.
@@ -592,7 +593,7 @@ else
   echo
   echo "Videoinfox error: Config directory not found. Run videoinfox first with no command line options to setup."
   echo
-  notify-send "Videoinfox error: Config directory not found. Run videoinfox first with no command line options to setup."
+  "$vnotify" "Videoinfox error: Config directory not found. Run videoinfox first with no command line options to setup."
   exit
   fi
 
@@ -867,9 +868,11 @@ fi
         else # set mpv
             echo "2" > ~/.config/videoinfox/videoinfox.video-player
       fi
+     
+      echo "1" > ~/.config/videoinfox/mpvmarker # Set mpv to save play position on quit to true
 
-      # Set mpv to save play position on quit to true
-      echo "1" > ~/.config/videoinfox/mpvmarker
+      echo "notify-send" > ~/.config/videoinfox/vnotify # Set notification on
+      read -r vnotify < ~/.config/videoinfox/vnotify      
   
       # SAMPLE URL DOWLOAD LIST BEING CREATED WITH 3 VIDEO URL'S
       echo "https://www.youtube.com/watch?v=d59H0UxhyaY" > $HOME/Downloads/videoinfox-dl-sample-list
@@ -960,8 +963,15 @@ fi
 #####  You will only see FIRST RUN >>> SETUP again if the  ~/.config/videoinfox directory doesn't exist.  ######################################## 
 ##################################################################################################################################################
 
-direxist3="$HOME/.config/videoinfox/tmp"
+if [ -f ~/.config/videoinfox/vnotify ]
+  then
+      :
+  else
+      echo "notify-send" > ~/.config/videoinfox/vnotify  # Set notification on
+fi
+read -r vnotify < ~/.config/videoinfox/vnotify # Set gui notification on/off
 
+direxist3="$HOME/.config/videoinfox/tmp"
 if [ -d "$direxist3" ]  #  if directoty exists goto  <then>
   then
       :
@@ -1086,7 +1096,7 @@ if [ "$viv2" = "$viv3" ]  # If the downloaded version = this script's version go
   else
       # Version numbers are not the same
       viv4="Update Available"   # Update Available   notification on home screen
-      notify-send "Videoinfox messsage: Update Available" "$viv" # send gui notification with update ver number
+      "$vnotify" "Videoinfox messsage: Update Available" "$viv" # send gui notification with update ver number
       #rm ~/.config/videoinfox/tmp/* 2> /dev/null
       cd "$dirtemp"  # restore directory
 fi
@@ -1118,7 +1128,7 @@ echo "__________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.4.44   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Videoinfox v5.4.45   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1271,7 +1281,7 @@ else
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.4.44   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
+echo " Videoinfox v5.4.45   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1485,6 +1495,7 @@ echo "         - Change playlist." >> ~/.config/videoinfox/videoinfo.help
 echo "         - Create empty playlist." >> ~/.config/videoinfox/videoinfo.help
 echo "         - Delete playlist. If the loaded playlist is deleted, the default playlist will be loaded." >> ~/.config/videoinfox/videoinfo.help
 echo "         - Rename playlist." >> ~/.config/videoinfox/videoinfo.help
+echo "         - Save As to save the loaded playlist as... with file overwrite prompt." >> ~/.config/videoinfox/videoinfo.help
 echo "         - Add to Queue to add a playlist to the play queue." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1509,8 +1520,8 @@ echo " This will create a searchable index of videos for each location. Then fin
 echo " changing the directory." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Optional: Multiple playlists can be dumped into the play queue with -Add to Queue located in" >> ~/.config/videoinfox/videoinfo.help
-echo "           View Playlist >>> Change and Queue. Then use -Queue to Playlist in -Play Queue to condense the" >> ~/.config/videoinfox/videoinfo.help
-echo "           multiple playlists into a new playlist. Combining multiple playlists with the play queue is always" >> ~/.config/videoinfox/videoinfo.help
+echo "           View Playlist >>> Change and Queue. Then use -Make Playlist in -Play Queue to condense the" >> ~/.config/videoinfox/videoinfo.help
+echo "           multiple playlists into one playlist. Combining multiple playlists with the play queue is always" >> ~/.config/videoinfox/videoinfo.help
 echo "           optional because Playlist Find searches all of Videinfox's playlists." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
@@ -1597,7 +1608,7 @@ echo " q - quit                                                                 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 #V!
-echo " 197 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " 198 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 
 
@@ -1610,6 +1621,10 @@ echo " _________________________________________________________________________
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
 
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v5.4.45 Add: -GUI Notify added to Settings. Turn GUI notifications on or off." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Note: GUI Notifications are always on for videoinfox -a and videoinfox -l keyboard shortcuts." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.4.44 Add: mpv save notification added to the Play Queue" >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Change: Moved a few options around in the Play Queue" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2990,7 +3005,6 @@ if [ -f ~/.config/videoinfox/mpvmarker ]
       echo "1" > ~/.config/videoinfox/mpvmarker
 fi
 
-
 ##################################################################################################################################################
 ###########################  HOME LOOP START #####################################################################################################
 ##################################################################################################################################################
@@ -3438,7 +3452,7 @@ totalplvideos=$(wc -l ~/.config/videoinfox/tmp/search-playlist.tmp.display2 2> /
     clear
     echo "___________________________________________________________________________________________________________________"
     echo
-    echo " ""$ver"" >>> Playlist Find >>> Indexed files:" "$totalplvideos" 
+    echo " ""$ver"" >>> PLAYLIST FIND >>> Indexed files:" "$totalplvideos" 
     echo "___________________________________________________________________________________________________________________"
     echo
     echo " Search all playlists and the default directories index.                                       Enter . to Show All"
@@ -3493,7 +3507,7 @@ find ~/.config/videoinfox/playlists -type f -iname "v-index.*" | xargs -d '\n' g
                            cp ~/.config/videoinfox/videoinfo.lastsearchtotal ~/.config/videoinfox/videoinfo.lastsearchtotal2                 
                            echo
                            echo " Total files found: " "$searchtotal"  # number of files found
-                           notify-send  "Videoinfox messsage: Playlist Find Results" "$searchtotal files found using search term: $fterm"
+                           "$vnotify" "Videoinfox messsage: Playlist Find Results" "$searchtotal files found using search term: $fterm"
                            sleep .4
     fi
     fi
@@ -3526,7 +3540,7 @@ mv ~/.config/videoinfox/videoinfo.lastdownload.work ~/.config/videoinfox/videoin
       
 read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
               
-notify-send "Videoinfox messsage: YT-DLP done downloading . . ." "$lastdownload"
+"$vnotify" "Videoinfox messsage: YT-DLP done downloading . . ." "$lastdownload"
               
 echo "" | xclip -sel clip  # clearing out the clipboard
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
@@ -3841,7 +3855,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
       echo " This screen will quit when the video player is quit . . ."
-      notify-send "Videoinfox messsage: Playing . . ." "$line"
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null # PLAY VIDEO
 
 i=$((i+1)) # line number of video that was playing on video end/user quit.
@@ -3953,7 +3967,7 @@ if [ "$linenumber" = 0 ]
       # video filename with full path <$pasteclip> strip from the bgininning of line to the last slash leaving only the filename <$getfilenameonly>
       getfilenameonly=$(echo "$playnumber" |  awk -F '/' '{print $NF}')  
   
-      notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"      
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$getfilenameonly"      
 
       echo "$playnumber" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
       $defplayer "${defplayargu[@]}" "$playnumber" 2>/dev/null  # play video
@@ -4004,7 +4018,7 @@ cat ~/.config/videoinfox/tmp/nt-list-number.tmp
 # recursive number of directories found
 ttotal=$(find  "$PWD" -type d -iname "*" 2>/dev/null | wc -l)   
 
-notify-send "Videoinfox is done processing: Directory Tree" "Total Directories Found: "$ttotal" " # GUI Notification.
+"$vnotify" "Videoinfox is done processing: Directory Tree" "Total Directories Found: "$ttotal" " # GUI Notification.
 
 # recursive number of files found
 ttotalnum=$(find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
@@ -4488,7 +4502,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo
       echo " - Quit: q"      
       echo -e "\n"
-      notify-send "Videoinfox messsage: Playing . . ." "$line"
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
 i=$((i+1)) # line number of video that was playing on video end/user quit.
@@ -5010,7 +5024,7 @@ if [ "$linenumber" = 0 ]
       echo " This screen will quit when the video player is quit . . ."
 
       echo "$line" >> ~/.config/videoinfox/videoinfo.playedlist  # write to the played list
-      notify-send "Videoinfox messsage: Playing . . ." "$line" 
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$line" 
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
  
       IFS=$OLDIFS
@@ -5767,7 +5781,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
       echo " This screen will quit when the video player is quit . . ."
-      notify-send "Videoinfox messsage: Playing . . ." "$line"
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
 i=$((i+1)) # line number of video that was playing on video end/user quit.
@@ -6373,7 +6387,7 @@ for line in $(cat "$input2" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
       echo " This screen will quit when the video player is quit . . ."
-      notify-send "Videoinfox messsage: Playing . . ." "$line"
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
 i=$((i+1)) # line number of video that was playing on video end/user quit.
@@ -6485,7 +6499,7 @@ if [ "$linenumber" = 0 ]
       echo " - Quit: q"      
       echo -e "\n"
       echo " This screen will quit when the video player is quit . . ."
-      notify-send "Videoinfox messsage: Playing . . ." "$line"
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$line"
       echo "$line" >> ~/.config/videoinfox/videoinfo.playedlist
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
  
@@ -7875,7 +7889,7 @@ if [ "$linenumber" = 0 ]
              echo " - Quit: q"      
              echo -e "\n"
              echo " This screen will quit when the video player is quit . . ."
-             notify-send "Videoinfox messsage: Playing . . ." "$line"
+             "$vnotify" "Videoinfox messsage: Playing . . ." "$line"
              echo "$line" >> ~/.config/videoinfox/videoinfo.playedlist
              $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
  
@@ -8452,7 +8466,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
       echo " This screen will quit when the video player is quit . . ."
-      notify-send "Videoinfox messsage: Playing . . ." "$line"
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
 i=$((i+1)) # line number of video that was playing on video end/user quit.
@@ -8570,7 +8584,7 @@ for line in $(cat "$input2" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
       echo " This screen will quit when the video player is quit . . ."
-      notify-send "Videoinfox messsage: Playing . . ." "$line"
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
 i=$((i+1)) # line number of video that was playing on video end/user quit.
@@ -9159,7 +9173,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
           then
               :
           else     
-              notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
+              "$vnotify" "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
               echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to PLAYLIST File  
               $defplayer "${defplayargu[@]}" &> /dev/null "$ytdlplast"  
       fi 
@@ -9225,7 +9239,7 @@ fi
       
        # video filename with full path <$pasteclip> strip from the bgininning of line to the last slash leaving only the filename <$getfilenameonly>
       getfilenameonly=$(echo "$pasteclip" |  awk -F '/' '{print $NF}')  
-      notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$getfilenameonly"
      
       echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to PLAYLIST file
       $defplayer "${defplayargu[@]}" "$pasteclip" 2>/dev/null  # play video in clipboard
@@ -9342,7 +9356,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
       echo " This screen will quit when the video player is quit . . ."
-      notify-send "Videoinfox messsage: Playing . . ." "$line"
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
 i=$((i+1)) # line number of video that was playing on video end/user quit.
@@ -9509,7 +9523,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
       echo " This screen will quit when the video player is quit . . ."
-      notify-send "Videoinfox messsage: Playing . . ." "$line"
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
 i=$((i+1)) # line number of video that was playing on video end/user quit.
@@ -9618,7 +9632,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               echo -e "\n"
               echo " This screen will quit when the video player is quit . . ."
          
-              notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
+              "$vnotify" "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
                        
               echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to file
 
@@ -9660,7 +9674,7 @@ find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -in
                            cp ~/.config/videoinfox/videoinfo.findwork ~/.config/videoinfox/videoinfo.findwork3
                            cp ~/.config/videoinfox/videoinfo.lastsearchtotal ~/.config/videoinfox/videoinfo.lastsearchtotal2                 
 
-                           notify-send  "Videoinfox messsage: Find results in $PWD" "$searchtotal files found using search term: $fterm"
+                           "$vnotify" "Videoinfox messsage: Find results in $PWD" "$searchtotal files found using search term: $fterm"
                          
      fi
      ;;
@@ -9815,7 +9829,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
          then
              :
          else     
-             notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
+             "$vnotify" "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
              echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List File  
              $defplayer "${defplayargu[@]}" "$ytdlplast" 2> /dev/null  
       fi
@@ -9882,8 +9896,8 @@ fi
       # video filename with full path <$pasteclip> strip from the bgininning of line to the last slash leaving only the filename <$getfilenameonly>
       getfilenameonly=$(echo "$pasteclip" |  awk -F '/' '{print $NF}')  
       
-      #notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"
-      notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"      
+      #"$vnotify" "Videoinfox messsage: Playing . . ." "$getfilenameonly"
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$getfilenameonly"      
 
       echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
       $defplayer "${defplayargu[@]}" "$pasteclip" 2>/dev/null  # play video in clipboard
@@ -10316,7 +10330,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
       echo " This screen will quit when the video player is quit . . ."
-      notify-send "Videoinfox messsage: Playing . . ." "$line"
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
 i=$((i+1)) # line number of video that was playing on video end/user quit.
@@ -10460,7 +10474,7 @@ if [ "$linenumber" = 0 ]
              echo " - Quit: q"      
              echo -e "\n"
              echo " This screen will quit when the video player is quit . . ."
-             notify-send "Videoinfox messsage: Playing . . ." "$line"
+             "$vnotify" "Videoinfox messsage: Playing . . ." "$line"
              #echo "$line" >> ~/.config/videoinfox/videoinfo.playedlist
              $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
  
@@ -11197,7 +11211,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
       echo " This screen will quit when the video player is quit . . ."
-      notify-send "Videoinfox messsage: Playing . . ." "$line"
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
 i=$((i+1)) # line number of video that was playing on video end/user quit.
@@ -11803,7 +11817,7 @@ for line in $(cat "$input2" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
       echo " This screen will quit when the video player is quit . . ."
-      notify-send "Videoinfox messsage: Playing . . ." "$line"
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
 i=$((i+1)) # line number of video that was playing on video end/user quit.
@@ -11915,7 +11929,7 @@ if [ "$linenumber" = 0 ]
       echo " - Quit: q"      
       echo -e "\n"
       echo " This screen will quit when the video player is quit . . ."
-      notify-send "Videoinfox messsage: Playing . . ." "$line"
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$line"
       echo "$line" >> ~/.config/videoinfox/videoinfo.playedlist
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
  
@@ -13306,7 +13320,7 @@ if [ "$linenumber" = 0 ]
              echo " - Quit: q"      
              echo -e "\n"
              echo " This screen will quit when the video player is quit . . ."
-             notify-send "Videoinfox messsage: Playing . . ." "$line"
+             "$vnotify" "Videoinfox messsage: Playing . . ." "$line"
              echo "$line" >> ~/.config/videoinfox/videoinfo.playedlist
              $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
  
@@ -13883,7 +13897,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
       echo " This screen will quit when the video player is quit . . ."
-      notify-send "Videoinfox messsage: Playing . . ." "$line"
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
 i=$((i+1)) # line number of video that was playing on video end/user quit.
@@ -14001,7 +14015,7 @@ for line in $(cat "$input2" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
       echo " This screen will quit when the video player is quit . . ."
-      notify-send "Videoinfox messsage: Playing . . ." "$line"
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
 i=$((i+1)) # line number of video that was playing on video end/user quit.
@@ -14590,7 +14604,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
           then
               :
           else     
-              notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
+              "$vnotify" "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
               echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to PLAYLIST File  
               $defplayer "${defplayargu[@]}" &> /dev/null "$ytdlplast"  
       fi 
@@ -14656,7 +14670,7 @@ fi
       
        # video filename with full path <$pasteclip> strip from the bgininning of line to the last slash leaving only the filename <$getfilenameonly>
       getfilenameonly=$(echo "$pasteclip" |  awk -F '/' '{print $NF}')  
-      notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$getfilenameonly"
      
       echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to PLAYLIST file
       $defplayer "${defplayargu[@]}" "$pasteclip" 2>/dev/null  # play video in clipboard
@@ -14938,7 +14952,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
           then
               :
           else     
-              notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
+              "$vnotify" "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
               echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List File  
               $defplayer "${defplayargu[@]}" 2> /dev/null "$ytdlplast"  
       fi 
@@ -15006,7 +15020,7 @@ fi
       
        # video filename with full path <$pasteclip> strip from the bgininning of line to the last slash leaving only the filename <$getfilenameonly>
       getfilenameonly=$(echo "$pasteclip" |  awk -F '/' '{print $NF}')  
-      notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$getfilenameonly"
      
       echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
       $defplayer "${defplayargu[@]}" "$pasteclip" 2>/dev/null  # play video in clipboard
@@ -15630,7 +15644,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
       echo " This screen will quit when the video player is quit . . ."
-      notify-send "Videoinfox messsage: Playing . . ." "$line"
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
 i=$((i+1)) # line number of video that was playing on video end/user quit.
@@ -16237,7 +16251,7 @@ for line in $(cat "$input2" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
       echo " This screen will quit when the video player is quit . . ."
-      notify-send "Videoinfox messsage: Playing . . ." "$line"
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
 i=$((i+1)) # line number of video that was playing on video end/user quit.
@@ -16349,7 +16363,7 @@ if [ "$linenumber" = 0 ]
       echo " - Quit: q"      
       echo -e "\n"
       echo " This screen will quit when the video player is quit . . ."
-      notify-send "Videoinfox messsage: Playing . . ." "$line"
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$line"
       echo "$line" >> ~/.config/videoinfox/videoinfo.playedlist
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
  
@@ -17738,7 +17752,7 @@ if [ "$linenumber" = 0 ]
              echo " - Quit: q"      
              echo -e "\n"
              echo " This screen will quit when the video player is quit . . ."
-             notify-send "Videoinfox messsage: Playing . . ." "$line"
+             "$vnotify" "Videoinfox messsage: Playing . . ." "$line"
              echo "$line" >> ~/.config/videoinfox/videoinfo.playedlist
              $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
  
@@ -18314,7 +18328,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
       echo " This screen will quit when the video player is quit . . ."
-      notify-send "Videoinfox messsage: Playing . . ." "$line"
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
 i=$((i+1)) # line number of video that was playing on video end/user quit.
@@ -18432,7 +18446,7 @@ for line in $(cat "$input2" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
       echo " This screen will quit when the video player is quit . . ."
-      notify-send "Videoinfox messsage: Playing . . ." "$line"
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
 i=$((i+1)) # line number of video that was playing on video end/user quit.
@@ -19019,7 +19033,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
           then
               :
           else     
-              notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
+              "$vnotify" "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
               echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to PLAYLIST File  
               $defplayer "${defplayargu[@]}" &> /dev/null "$ytdlplast"  
       fi 
@@ -19085,7 +19099,7 @@ fi
       echo
        # video filename with full path <$pasteclip> strip from the bgininning of line to the last slash leaving only the filename <$getfilenameonly>
       getfilenameonly=$(echo "$pasteclip" |  awk -F '/' '{print $NF}')  
-      notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$getfilenameonly"
      
       echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to PLAYLIST file
       $defplayer "${defplayargu[@]}" "$pasteclip" 2>/dev/null  # play video in clipboard
@@ -19288,7 +19302,7 @@ fi
     echo "Clipboard: ""$pasteclip"
     echo "___________________________________________________________________________________________________________________"
     echo
-    echo " ""$ver"" >>> Find Video"
+    echo " ""$ver"" >>> FIND VIDEO"
     echo "___________________________________________________________________________________________________________________"
     echo
     echo " Video files must be recursively reachable from the current directory. No file extensions. Wildcard * ok" 
@@ -19338,7 +19352,7 @@ find "$PWD" -type f \( -iname "$videofind.mp4" -o -iname "$videofind.mkv" -o -in
                            cp ~/.config/videoinfox/videoinfo.lastsearchtotal ~/.config/videoinfox/videoinfo.lastsearchtotal2                 
                            echo
                            echo " Total files found: " "$searchtotal"  # number of files found
-                           notify-send  "Videoinfox messsage: Find results in $PWD" "$searchtotal files found using search term: $fterm"
+                           "$vnotify" "Videoinfox messsage: Find results in $PWD" "$searchtotal files found using search term: $fterm"
                            sleep .4
     fi
     fi              
@@ -19371,6 +19385,13 @@ if [ -f ~/.config/videoinfox/index-last-time ]
 
 read -r ddlastime < ~/.config/videoinfox/index-last-time
 
+if [[ "$vnotify" = ":" ]]
+  then
+      vnot="OFF"
+  else
+      vnot="ON"
+fi
+
 clear
 echo
 echo "Directory:" "$PWD"
@@ -19392,11 +19413,11 @@ echo "                                                                          
 echo " 4 - Extra:" "$dir4"
 echo "                                                                                             t - Intermission"
 echo " z - Index Default Directories   Last run: ""$ddlastime"
+echo "                                                                                             n - GUI Notify: $vnot"
+echo   
 echo "                                                                                             h - Version History"
-echo "      "    
-echo "                                                                                             c - Code Stats"
 echo " Last Exit Dir 5:" "$dir5"
-echo "                                                                                             x - Clrclp"
+echo "                                                                                             c - Code Stats"
 echo
 echo -en " Enter Option: "
 read -r -n1 optionsettings
@@ -19409,6 +19430,50 @@ case $optionsettings in
 
     q)  # QUIT
     break;;
+
+    n) # NOTIFICATION
+    function guinotify {
+    clear
+    echo
+    echo " GUI Notifications?"
+    echo
+    echo " y - Yes     n - No"  
+    echo 
+    echo -en " Enter Option: "
+    read -r -n1 option
+    echo
+    }
+
+    while true
+    do
+    guinotify
+    case $option in
+
+    y)  # YES
+    echo "notify-send" > ~/.config/videoinfox/vnotify  # Set notification on
+    read -r vnotify < ~/.config/videoinfox/vnotify
+    echo
+    echo " GUI Noifications ON . . ." 
+    sleep 1.3
+    break;; 
+        
+    n)  # NO
+    echo ":" > ~/.config/videoinfox/vnotify  # Set notification off
+    read -r vnotify < ~/.config/videoinfox/vnotify
+    echo
+    echo " GUI Noifications OFF . . ."
+    echo
+    echo " Note: GUI Notifications are always on for  videoinfox -a  and  videoinfox -l  keyboard shortcuts."
+    echo
+    read -r -p " Press enter to continue . . ." 
+    #sleep 2.5
+    break;; 
+  
+    *)                   
+    esac
+    done
+    ;;
+
 
     z) # WRITE DEFAULT DIRECTORIES TO PLAYLIST
     grabdir="$PWD"
@@ -19826,7 +19891,7 @@ du -h /usr/local/bin/videoinfox > ~/.config/videoinfox/videoinfox.code-stats.tmp
 vsize=$(sed 's:/.*::' ~/.config/videoinfox/videoinfox.code-stats.tmp)
 
 # READ FILE LOCATION
-vlocat=$(cat ~/.config/videoinfox/videoinfox.code-stats.tmp | cut -c 6-)
+vlocat=$(cat ~/.config/videoinfox/videoinfox.code-stats.tmp | cut -c 7-)
 
 
 printf " Code Lines .......  %s\n" "$d"
@@ -21089,7 +21154,7 @@ cat ~/.config/videoinfox/tmp/nt-list-number.tmp
 # recursive number of directories found
 ttotal=$(find  "$PWD" -type d -iname "*" 2>/dev/null | wc -l)   
 
-notify-send "Videoinfox is done processing: Directory Tree" "Total Directories Found: "$ttotal" " # GUI Notification.
+"$vnotify" "Videoinfox is done processing: Directory Tree" "Total Directories Found: "$ttotal" " # GUI Notification.
 
 # recursive number of files found
 #ttotalnum=$(find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
@@ -21783,7 +21848,7 @@ echo -e "$der" "\033[5mDone processing download queue . . .\033m\033[0m"
 echo
 echo "Press enter to exit this screen"
 
-notify-send "Videoinfox messsage: Done Processing Download Queue . . ."
+"$vnotify" "Videoinfox messsage: Done Processing Download Queue . . ."
 
 read -p ""
 echo "" | xclip -sel clip  # clearing out the clipboard
@@ -22107,7 +22172,7 @@ a)  # ADD TO DEFAULT LIST  <DEFAULT LIST>
 
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 echo "$pasteclip" >> ~/.config/videoinfox/videoinfox-dl-Default
-# notify-send "Videoinfox Message: Added to Default Download List." ""$pasteclip"" # GUI Notification.
+# "$vnotify" "Videoinfox Message: Added to Default Download List." ""$pasteclip"" # GUI Notification.
 echo "" | xclip -sel clip  # clearing out the clipboard
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 ;;
@@ -22219,7 +22284,7 @@ echo "List:" "$playnumber"  # display list filename with full path
 echo "Log :" "$logfile"  # display log filename with full path
 echo
 echo "Press enter to continue . . ."
-notify-send "Videoinfox messsage: Done Processing Download List . . ." "$playnumber"
+"$vnotify" "Videoinfox messsage: Done Processing Download List . . ." "$playnumber"
 read -p ""
 
 #########################################################################################################################################################
@@ -22506,7 +22571,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
          then
              :
          else     
-             notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
+             "$vnotify" "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
              echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List File  
              $defplayer "${defplayargu[@]}" "$ytdlplast" 2> /dev/null  
       fi 
@@ -22572,7 +22637,7 @@ fi
       
        # video filename with full path <$pasteclip> strip from the bgininning of line to the last slash leaving only the filename <$getfilenameonly>
       getfilenameonly=$(echo "$pasteclip" |  awk -F '/' '{print $NF}')  
-      notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$getfilenameonly"
      
       echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
       $defplayer "${defplayargu[@]}" "$pasteclip" 2>/dev/null  # play video in clipboard
@@ -22878,7 +22943,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
          then
              :
          else     
-             notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
+             "$vnotify" "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
              echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List File  
              $defplayer "${defplayargu[@]}" &> /dev/null "$ytdlplast"  
       fi 
@@ -22945,7 +23010,7 @@ fi
       
        # video filename with full path <$pasteclip> strip from the bgininning of line to the last slash leaving only the filename <$getfilenameonly>
       getfilenameonly=$(echo "$pasteclip" |  awk -F '/' '{print $NF}')  
-      notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$getfilenameonly"
      
       echo "$pasteclip" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
       $defplayer "${defplayargu[@]}" "$pasteclip" 2>/dev/null  # play video in clipboard
@@ -23143,7 +23208,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo
       echo " - Quit: q"      
       echo -e "\n"
-      notify-send "Videoinfox messsage: Playing . . ." "$line"
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
 i=$((i+1)) # line number of video that was playing on video end/user quit.
@@ -23255,7 +23320,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo " - Quit: q"      
       echo -e "\n"
       echo " This screen will quit when the video player is quit . . ."
-      notify-send "Videoinfox messsage: Playing . . ." "$line"
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$line"
       $defplayer "${defplayargu[@]}" "$line" 2> /dev/null
 
 i=$((i+1)) # line number of video that was playing on video end/user quit.
@@ -23380,7 +23445,7 @@ if [ "$linenumber" = 0 ]
       # video filename with full path <$pasteclip> strip from the bgininning of line to the last slash leaving only the filename <$getfilenameonly>
       getfilenameonly=$(echo "$playnumber" |  awk -F '/' '{print $NF}')  
   
-      notify-send "Videoinfox messsage: Playing . . ." "$getfilenameonly"      
+      "$vnotify" "Videoinfox messsage: Playing . . ." "$getfilenameonly"      
 
       echo "$playnumber" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to Played List file
       $defplayer "${defplayargu[@]}" "$playnumber" 2>/dev/null  # play video
@@ -23426,7 +23491,7 @@ fi
          
               clear
               ~/.config/videoinfox/yt-dlp "$pasteclip" -o "$dirsaved"/download.tmp  # downloading temporary video
-              notify-send "Videoinfox messsage: YT-DLP is done downloading . . ." "$pasteclip" 
+              "$vnotify" "Videoinfox messsage: YT-DLP is done downloading . . ." "$pasteclip" 
 
               clear
               echo
@@ -23522,7 +23587,7 @@ echo " "$(ffprobe -v error -show_entries stream=codec_name -of default=noprint_w
               echo -e "\n"
               echo " This screen will quit when the video player is quit . . ."
          
-              notify-send "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
+              "$vnotify" "Videoinfox messsage: Playing last yt-dlp download . . ." "Play: $lastdownload"
                        
               echo "$ytdlplast" >> ~/.config/videoinfox/videoinfo.playedlist  # write clipboard content to file
 
@@ -23563,7 +23628,7 @@ fi
       
               read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
               
-              notify-send "Videoinfox messsage: YT-DLP done downloading . . ." "$lastdownload"
+              "$vnotify" "Videoinfox messsage: YT-DLP done downloading . . ." "$lastdownload"
               
               echo "" | xclip -sel clip  # clearing out the clipboard
               pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
@@ -23619,7 +23684,7 @@ fi
               mv ~/.config/videoinfox/videoinfo.lastdownload.work ~/.config/videoinfox/videoinfo.lastdownload
               
               read -r lastdownload < ~/.config/videoinfox/videoinfo.lastdownload  # reading last download video file
-              notify-send "Videoinfox messsage: YT-DLP done downloading . . ." "$lastdownload"              
+              "$vnotify" "Videoinfox messsage: YT-DLP done downloading . . ." "$lastdownload"              
               
               echo "" | xclip -sel clip  # clearing out the clipboard
               pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
@@ -24020,7 +24085,7 @@ find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi"
       echo >> videoinfo.List-Directory
       echo
       echo >> videoinfo.List-Directory
-      notify-send "Videoinfox is done processing: List Directory" "$PWD"  # GUI Notification is displayed when this function <option 1> has completed.
+      "$vnotify" "Videoinfox is done processing: List Directory" "$PWD"  # GUI Notification is displayed when this function <option 1> has completed.
       # The file  <~/.config/videoinfox/videoinfo.duration.tmp>  was created for <ffprobe> to store video duration in seconds of all find results.
       # The math was already performed on this file and it is no longer needed.  So it is being removed.  
       rm ~/.config/videoinfox/videoinfo.duration.tmp
@@ -24221,7 +24286,7 @@ echo "------------------"
 totalcount=$(($mp4count + $mkvcount + $avicount + $webmcount + $divxcount))  # calcutation for Sum of All 4 file types
 echo " TOTAL = " $totalcount  # display Sum
 # GUI Notification is displayed when this function <option 6> has completed. 
-notify-send  "Videoinfox is done processing Video File Count " "Total Video Files located in $PWD : $totalcount"
+"$vnotify" "Videoinfox is done processing Video File Count " "Total Video Files located in $PWD : $totalcount"
 echo
 read -r -p " Press enter to continue . . ." 
 ;;
@@ -24331,7 +24396,7 @@ echo >> videoinfo.Video-Duration
 #echo
 #echo "     q  to quit" >> videoinfo.Video-Duration
 echo >> videoinfo.Video-Duration
-notify-send  "Videoinfox is done processing: Video Duration" "$PWD"  # GUI Notification is displayed when this function has completed.
+"$vnotify" "Videoinfox is done processing: Video Duration" "$PWD"  # GUI Notification is displayed when this function has completed.
 # The file  <~/.config/videoinfox/videoinfo.duration.tmp>  was created for <ffprobe> to store video duration in seconds of all find results.
 # The math was already performed on this file and it is no longer needed.  So it is being removed.  
 #rm ~/.config/videoinfox/videoinfo.duration.tmp
