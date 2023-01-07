@@ -1,4 +1,4 @@
-# Videoinfox v5.4.44
+# Videoinfox v5.4.45
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -22,6 +22,8 @@ sudo chmod +x /usr/local/bin/videoinfox
 ```
 
 <br />
+
+**NEW: &nbsp; -GUI Notify added to Settings. Turn GUI notifications on or off.**
 
 **NEW: &nbsp; -Save As added to change and queue to save the loaded playlist as... with file overwrite prompt.**
 
@@ -105,6 +107,7 @@ for batch processing.There is a Played List that keeps track of everything playe
        - Create ................. create empty Playlist.
        - Delete ................. delete playlist.
        - Rename ................. rename playlist.
+       - Save As ................ save the loaded playlist as... with file overwrite prompt.
        - Add to Queue ........... add playlist to the play queue. 
 
      - Queue List
@@ -375,6 +378,10 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.4.45 Add: -GUI Notify added to Settings. Turn GUI notifications on or off.
+
+        Note: GUI Notifications are always on for Videoinfox -a and videoinfox -l keyboard shortcuts.
 
 ###  v5.4.44 Add: mpv save notification added to the Play Queue
 
