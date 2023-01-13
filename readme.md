@@ -1,4 +1,4 @@
-# Videoinfox v5.4.45
+# Videoinfox v5.5.00
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -23,9 +23,7 @@ sudo chmod +x /usr/local/bin/videoinfox
 
 <br />
 
-**NEW: &nbsp; -GUI Notify added to Settings. Turn GUI notifications on or off.**
-
-**NEW: &nbsp; -Save As added to change and queue to save the loaded playlist as... with file overwrite prompt.**
+**NEW: &nbsp; Make Playlist feature is now also a command line option: &nbsp; videoinfox -z**
 
 <br />
 
@@ -38,7 +36,7 @@ Toggle on/off mpv save play position on quit and an option to erase all mpv mark
 Notification on home screen if mpv is set as the video player and  option --save-position-on-quit is active.*       
 
 Videoinfox is a Linux shell script that feels like an app. If you enjoy watching local videos on your PC and want the ability to download video url's, you won't be disappointed. You can also make your own URL lists to download. While downloading a list, a log file will be generated for each list. The log is each http link from your list with the downloaded video filename. If the download list is aborted before completion, Yt-dlp has you covered. Just run the Download List feature again. Yt-dlp won't re-download files that you already have. Download Queue to add unlimited Videoinfox created User Download Lists
-for batch processing.There is a Played List that keeps track of everything played by Play Clipboard, Last Download and Play. Create unlimited Playlists and autoplay with last video played marker. Playlist queue to load up multiple playlists.
+for batch processing.There is a Played List that keeps track of everything played by Play Clipboard, Last Download and Play. Create unlimited Playlists and autoplay with last video played marker. Play Queue to load up multiple playlists.
 
 ### Hotkey navigation that is robust and efficient.
 
@@ -132,7 +130,7 @@ for batch processing.There is a Played List that keeps track of everything playe
             Change to a parent directory of a video library. Then -Show All on the home screen
             and select -Make Playlist
 
-            Removed Line: * Duplicates are always removed from playlist find results.
+            * Duplicates are always removed from playlist find results.
 
 ![Playlist Find](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PLAYLIST-FIND.png)
 
@@ -163,7 +161,7 @@ PLAY QUEUE in View Playlist >>> Change and Queue
         Note:   -Show All on the Home Screen is recursive.
                 -Show all in -Navigate Tree is one level deep.
 
-  - Auto save last search result(s) and autoload until deleted. Defaulted to never save. Change in Settings.
+  - Auto save last search result(s) and autoload until cleared. Defaulted to never save. Change in Settings.
   - Check for update on startup and notifity if update is available. Download and update in Videoinfox.
   - Play a local file by entering the line number. Play single video or autoplay the entire list.
   - See codec, resolution and duration on the playing video.  
@@ -378,6 +376,17 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.5.00 New: Make Playlist feature is now also a command line option: videoinfox -z
+
+        Add: The below 2 lines were added to: Videoinfox -h 
+             -z  Make a playlist from a recursive video listing in the current directory. The Playlist
+                 will be saved in ~/.config/videoinfox/playlists which makes the playlist/index
+                 available to videoinfox's feature set.
+
+         Edit: Version History. Everything before v5.0.00 was removed to reduce some bloat.
+               A little over 1,000 lines.
+  
 
 ###  v5.4.45 Add: -GUI Notify added to Settings. Turn GUI notifications on or off.
 
