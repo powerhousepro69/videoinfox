@@ -4,7 +4,7 @@
 
 ![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/HOME.png)
 
-### 100% Linux Shell Script. Videoinfox is one file under two megabytes.
+### 100% Linux Shell Script. Videoinfox is one file under one megabyte.
 
 Find local Video Files fast, immediately play and get info on. Download Videos effortlessly and autoplay.
 Add URL's to unlimited User Set Lists on the fly without leaving the browser. Download all your video url lists
