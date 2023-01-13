@@ -117,9 +117,9 @@ for batch processing.There is a Played List that keeps track of everything playe
        - Clear Queue ............ clear out the queue list and the play queue.
 
 
-### Find videos by searching the text of all Playlists and the Default Directories Index      
+### *Find videos by searching the text of all Playlists and the Default Directories Index*      
 
-     - PLAYLIST FIND
+### Playlist Find
 
       Find videos to play or add to a playlist without needing to know the files location.
       Use a keyword from the path or filename to locate videos.
