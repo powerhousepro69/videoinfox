@@ -102,7 +102,7 @@ for batch processing.There is a Played List that keeps track of everything playe
      - Change and Queue
 
        - Change ................. change playlist.
-       - Create ................. create empty Playlist.
+       - Create ................. create empty playlist.
        - Delete ................. delete playlist.
        - Rename ................. rename playlist.
        - Save As ................ save the loaded playlist as... with file overwrite prompt.
