@@ -5,9 +5,9 @@
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
-ver="Videoinfox v5.4.45"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m4.45")  # Version Number: with blinking dot
-vn="v5.4.45" #V!  update help files on update
+ver="Videoinfox v5.5.00"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m5.00")  # Version Number: with blinking dot
+vn="v5.5.00" #V!  update help files on update
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -191,18 +191,20 @@ if [ "$1" = "-h" ]
        echo
        echo "   -v  Display the version number."
        echo
-       echo "   -a  Write clipboard content to the Default List. For instructions on use: Yt-dlp >>> Download List >>> Help"
+       echo "   -a  Write video URL in the clipboard to the Default List. Instructions: Yt-dlp >>> Download List >>> Help"
        echo
-       echo "   -l  Write clipboard content to the User Set List. For instructions on use: Yt-dlp >>> Download List >>> Help"
+       echo "   -l  Write video URL in the clipboard to the User Set List. Instructions: Yt-dlp >>> Download List >>> Help"
        echo
-       echo "   -d  Play Directory. Autoplay video files in the current directory. (change intermission time in Settings)"
+       echo "   -d  Play Directory. Autoplay video files in the current directory. Change intermission time in Settings"
+       echo
+       echo "   -z  Make a playlist from a recursive video listing in the current directory. The Playlist will be saved in"
+       echo "       ~/.config/videoinfox/playlists which makes the playlist/index available to videoinfox's feature set."
        echo
        echo "   -u  This option can be used with your own ready to download url list that can be any name. Videos will be"
-       echo "       downloaded to the directory of the list's location. Example: videoinfox -u mylist"
-       echo "       Only enter the list filename. No Paths. The list must be recursively reachable from the current directory."
-       echo
-       echo "       NOTE: The first line in the list must begin with http to be processed. Any files processed with this"
-       echo "             option will delete all lines that don't start with http, all blank lines and all duplicate lines."
+       echo "       downloaded to the directory of the list's location. Example: videoinfox -u mylist  Only enter the list"
+       echo "       filename. No Paths. The list must be recursively reachable from the current directory. THE FIRST LINE"
+       echo "       IN THE LIST MUST BEGIN WITH  http  TO BE PROCESSED. Any files processed with this option will delete all"
+       echo "       lines that don't start with http, all blank lines and all duplicate lines."
        echo -e "\n"     
        exit
   
@@ -224,12 +226,10 @@ fi
 
 if [ "$1" = "-u" ]
   then   
-  read -r vnotify < ~/.config/videoinfox/vnotify
-
   direxist="$HOME/.config/videoinfox/tmp"
   if [ -d "$direxist" ]  #  if directoty exists goto  <then>
   then
-       
+     read -r vnotify < ~/.config/videoinfox/vnotify  
      clear
      echo
      echo "___________________________________________________________________________________________________________________"
@@ -379,10 +379,9 @@ if [ "$1" = "-u" ]
   echo
   echo "Videoinfox error: Config directory not found. Run videoinfox first with no command line options to setup."
   echo
-  "$vnotify" "Videoinfox error: Config directory not found. Run videoinfox first with no command line options to setup."
+  "$vnotify" "Videoinfox error: Config directory not found. Run videoinfox first with no command line options to setup." 2>/dev/null
   exit
   fi
-
    
    else
         :
@@ -395,11 +394,11 @@ fi
 
 if [ "$1" = "-d" ]
    then
-       read -r vnotify < ~/.config/videoinfox/vnotify
-
        direxist="$HOME/.config/videoinfox/tmp"
        if [ -d "$direxist" ]  #  if directoty exists goto  <then>
          then
+
+read -r vnotify < ~/.config/videoinfox/vnotify
 
 if [ -f ~/.config/videoinfox/videoinfox.intermission ]  # if file exists goto then
   then
@@ -593,9 +592,135 @@ else
   echo
   echo "Videoinfox error: Config directory not found. Run videoinfox first with no command line options to setup."
   echo
-  "$vnotify" "Videoinfox error: Config directory not found. Run videoinfox first with no command line options to setup."
+  "$vnotify" "Videoinfox error: Config directory not found. Run videoinfox first with no command line options to setup." 2>/dev/null
   exit
   fi
+
+else
+    :
+fi
+
+
+#-------------------------------------------------------------------------------------------------------------------------------------------------
+#  videoinfox -z     MAKE RECURSIVE PLAYLIST FROM THE CURRENT DIRECTORY
+#-------------------------------------------------------------------------------------------------------------------------------------------------
+
+if [ "$1" = "-z" ]
+   then
+       direxist="$HOME/.config/videoinfox/tmp"
+clear
+echo
+echo "___________________________________________________________________________________________________________________"
+echo
+echo " ""$ver"" >>> Make a recursive playlist from the current directory."
+echo "___________________________________________________________________________________________________________________"    
+
+if [ -d "$direxist" ]  #  if directoty exists goto  <then>
+then
+cat ~/.config/videoinfox/videoinfo.playlist.current | sed 's/.*\.//' > ~/.config/videoinfox/tmp/plread.tmp       
+read -r setplaylist < ~/.config/videoinfox/tmp/plread.tmp
+find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) > ~/.config/videoinfox/tmp/videoinfox-u.work 2>/dev/null
+sort -u ~/.config/videoinfox/tmp/videoinfox-u.work > ~/.config/videoinfox/tmp/videoinfox-u
+
+read -r isempty < ~/.config/videoinfox/tmp/videoinfox-u
+if [ -z "$isempty" ]
+  then
+      echo
+      echo " No video files found . . ."
+      echo
+      exit
+
+  else
+      echo
+      echo " $PWD"
+      echo
+      echo " If any dots are entered, they will be stripped from the playlist name."
+      echo " Spaces can be used after the first character of the playlist name."
+      echo
+      read -r -p " Create Playlist: " createpl1  # waiting fot user input. grabbing new filename
+
+      # Strip out any dots from user entry
+      echo "$createpl1" > ~/.config/videoinfox/tmp/plremovedot-u.tmp
+      sed -i -e 's/\.//g' ~/.config/videoinfox/tmp/plremovedot-u.tmp
+      read createpl < ~/.config/videoinfox/tmp/plremovedot-u.tmp
+      rm ~/.config/videoinfox/tmp/plremovedot-u.tmp
+
+      plname="$HOME/.config/videoinfox/playlists/vplaylist.""$createpl"  # add user input as file extension
+
+      if [ -z "$createpl" ]
+        then
+            echo
+            echo " Nothing was entered . . ."
+            echo
+            exit
+
+        else
+            if [ -f ~/.config/videoinfox/playlists/vplaylist."$createpl" ]
+              then
+                  function ovewritesr {
+                  clear
+                  echo
+                  echo " File already exists . . ."
+                  echo
+                  echo " Overwrite playlist "$createpl1"?"
+                  echo
+                  echo " y - Yes     n - No"  
+                  echo 
+                  echo -en " Enter Option: "
+                  read -r -n1 optiondelq
+                  echo
+                  }
+
+                  while true
+                  do
+	            ovewritesr
+	            case $optiondelq in
+
+	            y)  # YES
+                  if [[ "$setplaylist" = "$createpl1" ]]
+                    then  # PLAYLIST THAT IS BEING OVERWRITTEN IS LOADED
+                        cat ~/.config/videoinfox/tmp/videoinfox-u > "$plname"
+                        cat ~/.config/videoinfox/tmp/videoinfox-u > ~/.config/videoinfox/videoinfo.playlist
+                        echo
+                        echo " Playlist Overwritten: ""$plname"
+                        echo
+                        exit
+                        
+                    else  # PLAYLIST THAT IS BEING OVERWRITTEN IS NOT LOADED
+                        cat ~/.config/videoinfox/tmp/videoinfox-u > "$plname"
+                        echo
+                        echo " Playlist Overwritten: ""$plname"
+                        echo
+                        exit
+                  fi        
+                  exit
+                  ;;
+
+                  n)  # NO
+                  echo
+                  exit
+                  ;;
+
+                  *)        
+                  esac
+                  done  
+
+              else
+                  cat ~/.config/videoinfox/tmp/videoinfox-u > "$plname"
+                  echo
+                  echo " Playlist Created: "$plname""
+                  echo
+                  exit
+fi
+fi
+fi
+
+else
+    echo
+    echo " Videoinfox error: Config directory not found. Run videoinfox first with no command line options to setup."
+    echo
+    exit
+fi
 
 else
     :
@@ -789,19 +914,18 @@ if [ -d "$direxist" ]  #  if directoty exists goto  <then>
 
 if ! command -v mpv &> /dev/null
   then # ffplay
-      echo " Mpv not found . . . Ffplay will be set as default video player."
+      echo " Mpv not found . . . Ffplay will be set as the default video player."
       echo " Mpv will keep a marker of last play position of every video played. Ffplay will not."
   else # mpv
-      echo " Mpv found . . . Mpv will be set as default video player."
-      echo " Mpv will keep a marker of last play position of every video played."
+      echo " Mpv found . . . Mpv will be set as the default video player."
+      echo " Mpv will keep a marker of last play position of every video played. This feature can be turned off in Settings."
 fi  
-      echo "__________________________________________________________________________________________________________________"
+      echo "___________________________________________________________________________________________________________________"
       echo
       echo " A sample video url was copied to the clipboard to show how the Play Clipboard feature works."
+      echo " Press  p  when Videoinfox starts up. That will download the video url that is in the clipboard and autoplay it."
       echo
       echo " Video playing:  [ f - toggle fullscreen ]   [ spacebar - play/pause ]   [ l/r arrows - fwd/rew ]   [ q -quit ]"
-      echo
-      echo " Press  p  when Videoinfox starts up. That will download the video url that is in the clipboard and autoplay it."
       echo "__________________________________________________________________________________________________________________"
       echo
       echo " Yt-dlp will be downloaded to: "$HOME"/.config/videoinfox"
@@ -1128,7 +1252,7 @@ echo "__________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.4.45   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Videoinfox v5.5.00   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1281,7 +1405,7 @@ else
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.4.45   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
+echo " Videoinfox v5.5.00   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1608,7 +1732,7 @@ echo " q - quit                                                                 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 #V!
-echo " 198 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " 199 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 
 
@@ -1621,6 +1745,15 @@ echo " _________________________________________________________________________
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
 
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v5.5.00 New: Make Playlist feature is now also a command line option: videoinfox -z" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Add: The below 2 lines were added to: Videoinfox -h " >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              -z  Make a playlist from a recursive video listing in the current directory. The Playlist will be saved in" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "                  ~/.config/videoinfox/playlists which makes the playlist/index available to videoinfox's feature set." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Edit: Version History. Everything before v5.0.00 was removed to reduce some bloat. A little over 1,000 lines." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.4.45 Add: -GUI Notify added to Settings. Turn GUI notifications on or off." >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Note: GUI Notifications are always on for videoinfox -a and videoinfox -l keyboard shortcuts." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -1891,1094 +2024,7 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Updated Playlist and Find section in Home Help." >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Updated Help in View Playlist." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.8.06 Updated Playlist Find section in Home Help." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.8.05 Change: Moved options around in View Playlist, Ytdlp Menu and View Downloads." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.8.04 Add: Intermission time display added to view playlist and play queue." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: Moved -Info to far right in view playlist and play queue." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.8.02 Change: i - Intermission  to  t - Intermission" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Added -Intermission to view playlist and play queue." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.8.00 Change: -Start Autoplay changed to -Start in view playlist and play queue." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: -Resume Autoplay changed to -Resume in view playlist and play queue." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Edit: Home Help and Playlist Help with the above changes." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Update to -Start in view playlist and play queue. Entering an invalid selection will no longer clear Resume:" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add new option: -Clear Resume in view playlist and play queue." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: Menu in view playlist is now removed when executing -Start to provide more space for listing." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: Spacing on header with valid video url in clipboard on all screens with play clipboard." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: Path removed from listing in play queue." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: -Clrclp on all screens with play clipboard." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: Below 2 lines Home Help:" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              * Exception: videoinfox -u  will strip out the following errors and overwrite the download list." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              - all lines that don't start with http   - all blank lines   - all duplicate lines" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.7.13 Add: Resume display in View Playlist of Video name -Resume Autoplay will start playing." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Added to Resume Autoplay prompt: Pressing enter with no entry or an invalid entry will clear resume autoplay." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: Video play display. All >>> Play Line changed to >>> Play" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: Video play display. All >>> Autoplay Line changed to >>> Autoplay" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.7.01 Add: Below added to Playlist >>> Help" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Note: This applies to only to mpv . . ." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         If a video is quit(q) while playing in mpv, it will create a marker of the last play position." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         If using Mpv Playlist and back track <| or forward track|>) are selected, the mpv marker will be" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         erased for the video that was playing (if it had a marker) when <| or |> were selected. To avoid" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         any mpv markers from being erased, use -Resume Autoplay instead of -Mpv Playlist to watch playlists." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.7.00 Add: --save-position-on-quit to mpv options." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              When Quit(q) is used to exit Mpv, the current play position will be saved for every video played with Mpv." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              When a video is played that Mpv has a position marker for, the video will start playing from that marker." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              Mpv handles the markers for the videos. Located in ~/.config/mpv/watch_later" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: -Mpv Playlist to VIEW PLAYLIST >>> CHANGE AND QUEUE" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              The above option will load a playlist into Mpv. This will bypass the -Resume Autoplay option and the" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              Intermission Screen in Videoinfox. So when -Mpv Playlist is used, it will keep track of playlist position" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              instead of Videoinfox's Resume Autoplay option." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Added to Home Help * If Mpv is used, it will keep track of last play position on all videos played on Mpv quit(q)" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Added -Mpv Playlist info to View Playlist >>> Help " >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.6.11 Fix: Suppress script error. Error occurred if Start Autoplay was never executed on a playlist being deleted." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: Default mpv options. Added: [--sid=no] Start mpv without displaying Closed Caption." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: Options being used with ffplay and mpv are now shown in: Set >>> Video Player" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.6.08 Added to Home Help:" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " * There isn't code in this script to delete any files other than Videoinfox created files." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " * There is code in this script in Yt-dlp Menu >>> Download List to create a directory but not remove a directory." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.6.07 Change: Home Help, Download List Help and Version History." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                 The above files were written on every start. Now only written on update or delete." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Fix: Script error from Resume Autoplay. Located in View Playlist." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              error on Resume Autoplay if Start Autoplay wasn't run at least once before Resume Autoplay." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Fix: Script error from Resume Autoplay in View Playlist >>> Change and Queue >>> Play Queue." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              error on Resume Autoplay if Start Autoplay wasn't run at least once before Resume Autoplay." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Fix: When deleting or clearing a playlist, last video played marker for that playlist wasn't being removed." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.6.03 Change in Playlist Find." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Enter with no entry shows no results. Enter . to Show All" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.6.02 Change: Play Clipboard doesn't blink anymore with valid url in the clipboard. The dash blinks." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.6.01 Edit: Home Help >>> Create Unlimited Playlists section." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.6.00 New Option in Settings: Default Directories to Playlist" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Playlist named Default Directories will be created with recursive listings from default directories 1-4" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Then Playlist Find can be used to search for videos in all 4 default directories." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change home screen option: z - Set ............... u - Set" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change home screen option: b - Make Playlist ..... z - Make Playlist" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Added to Playlist Find: To show all: Press Enter with no entry." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Added to Home Help: Default Directories to Playlist" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.5.01 Added to home help." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         - Find Video is located on the home screen. It is a recursive search from the current script directory." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         - Playlist Find is located on the home screen. It is a text search of all playlists with duplicates removed." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                Create playlists for all video libraries to find videos without needing to know the location." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                More info located in Home Help about Playlist Find." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.5.00 New Feature: -Playlist Find added to the home screen. Text search of all playlists." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: Moved around a few options on the home screen to fit in the new feature." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.4.13 Moved options around on Intermission Screen." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.4.12 Overwrite of an existing playlist is now available for the following options:" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         -Make Playlist ............. home screen" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         -Directory to Playlist ..... navigate tree >>> show all" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         -Create Playlist ........... view playlist >>> change and queue" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         -Queue to Playlist ......... view playlist >>> change and queue >>> play queue" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.4.02 Another fix in intermission time setting." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.4.01 Fix: Intermission time could be set to zero which would break Autoplay. " >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Error Message when 0 is entered: Entry cannot be less than 1 . . ." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.4.00 New: -Move Line added to View Playlist and Play Queue." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                 Move line: x" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                 Insert line x below line: (to insert above line 1 enter 0)" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Added to -View Playlist -Help" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Note: If -Remove Line, -Remove Dupes, -Move Line or -Add to Playlist is used after running -Start Autoplay," >> ~/.config/videoinfox/videoinfo-ver-history 
-echo "               -Start Autoplay will need to be run again to update -Resume Autoplay with any of the above changes." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Move Line: To insert above line 1 enter 0. To insert after the last line, enter the last line number." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.3.06 Edit home help." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.3.05 Add: When there is a video file with full path in the clipboard (no quotes for filenames with spaces)," >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              it will be displayed on screens with Play Clipboard." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change Message for above event: Valid file in clipboard  to  Video file in clipboard:" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Edit home help:  To use Play Clipboard section..." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add to home help: Played List Note: Duplicates are auto removed from the played list." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.3.03 Fix: Header on the home screen. This issue would be seen with an http link that wasn't a valid video url." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              Note: On invalid link, YT-DLP Confirmed: won't be displayed. Press Enter to clear the invalid link." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.3.02 Removed more uneeded code." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.3.01 Removed code from View Playlist that wasn't needed since v3.3.00" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         It would cause a bug if any of the file extensions contained at least one capital letter." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.3.00 New: Intermission screen with next video up for play and countdown timer for Autoplay and Play Directory." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              Options:     Anykey Enter - PLAY     Spacebar Enter - QUIT     Hold Enter - Speed Up Timer" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                           Next video starting in x seconds" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Fix: All play and autoplay now show a gui notification." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: Display times of some error messages and confirmation messages." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.2.13 Fix: Custom player settings now available to videoinfox -d" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Edit: Help in videoinfox -h, Home Help and View Playlist Help" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.2.12 Add: -Download Only on Home Screen. Download a video url that is in the clipboard." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              -Download Only is the same as -Download Default in Yt-dlp Menu." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.2.11 Add: -Make Playlist on Home Screen. Save all search results as a Playlist." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: -Find Dir on Home Screen." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Edit: Home Help." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.2.04 Change: Another edit in Quit message on video end/player quit in -Play Directory and Autoplay." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.2.03 Change: Quit message on video end/player quit in -Play Directory and Autoplay." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.2.02 Add: added message to Home -Find if there are no video files." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         MSG: No video files recursively reachable from the current directory . . ." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "      Change: View Playlist options: -Remove Line -Remove Duplicates -Clear Playlist all autosave the changes." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              Before this change the active playlist was only saved when selecting option -Change Playlist" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.2.00 Play Queue added. Load unlimited playlists into the queue for autoplay with last played video marker." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " >>> View Playlist option: -Change Paylist was renamed to -Change and Queue." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " New Options in -Change and Queue:     -Add to Queue     -Queue List     -Play Queue." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " Queue List options:     g - Remove Duplicate Playlists     r - Rewrite Queue With Current List     d - Delete Queue" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " Play Queue options:     j - Play     o - Start Autoplay      z - Queue to Playlist     r - Remove Line" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                         i - Info     l - Resume Autoplay                               g - Remove Duplicates" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                                                                                        d - Delete Queue" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: -Remove Duplictes added to >>> View Playlist. Duplicates were auto-removed. Now they are not." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: -Find Directory added to YT-DLP MENU >>> DOWNLOAD LIST -Create/Change Directory" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: -Intermission option in Settings. Change the time in seconds on video end/player quit. Initially set to 10." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: in FIRST RUN >>> SETUP Timeout changed to Press enter to continue . . ." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Fix: -Set -Videoinfox Update. Directory wasn't being restored on -Update" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.1.32 After extensive testing, everything appears to be working as expected without any script errors." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: Home Screen: -Find changed to -Find Video" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.1.31 Add: Download Directory: is now displayed in Yt-dlp Menu >>> Download List >>> Default List" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: Screen is cleared for option -Clear Default List in Yt-dlp Menu >>> Download List >>> Default List" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.1.20 Add: Loaded playlist is now displayed on the below screens which have option -Playlist Add in common." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              [Home]     [>>> Navigate Tree >>> Show All]     [Played List]" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.1.12 Change: Blinking dash in Ytd-lp menu options -Download Default -Download Choose -Self Destruct changed to ~" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: Clipboard was saved when entering Yt-dlp >>> Download List and restored on quit even if the clipboard" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                 was cleared while in Yt-dlp >>> Download List -Default List. Now the clipboard isn't restored if cleared." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Fix: The default playlist could be deleted." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Message: The default playlist list cannot be deleted. It can only be cleared . . ." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.1.09 Change: Clipboard is no longer cleared when entering or quitting -Default List in Yt-dlp >>> Download List." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.1.08 Removed one line that was accidently pasted with last update." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.1.07 Add: No execute if not a number in: -Set User list located in Yt-dlp Menu >>> Download List" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.1.06 Updated more options to prevent script errors if entry isn't a number." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: No execute if not a number in: -Remove Line in View Playlist" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: No execute if not a number in: -Change Playlist -Delete Playlist in View Playlist >>> Change Playlist" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.1.05 Update in Yt-dlp >>> Download List" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: No execute if entry is not a number in: -View List -View Log -Delete User List -Add to Queue" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Fix: Spacing at option -View List" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.1.04 Change: Dashes would blink when entering Yt-dlp Menu >>> Download List with a valid url in the clipboard." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.1.03 Change: Yt-dlp Menu >>> Download List display of user download lists." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                 Old display: line number -- /path/filename" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                 New display: line number -- filename (with videoinfox-dl- removed from the beginning of the filename.)" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                 Note: The path of a user list will be displayed when a user list is set." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Fix: Videoinfox -a gui notification would display when the clipboard was empty or didn't start with http" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              MESSAGE: Clipboard content didn't start with http (message will also display if the clipboard is empty)" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Fix: Videoinfox -l gui notification would display when the clipboard was empty or didn't start with http" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              MESSAGE: Clipboard content didn't start with http (message will also display if the clipboard is empty)" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: Line to Download List Help - The Download List Display Is Sorted Recursively By Directory. Not By Filename." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.1.00 No more copying screen results to interact with Videoinfox. ALL KEYBOARD DRIVEN." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: More Options >>> Find Directory" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                 No more copying the directory to the clipboard. Enter Line Number." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: Find Directory added to Navigate Tree" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Edit: Help" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " Note: Clipboard copy is only needed when copying video urls for immediate download or to add the url to a download list" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "       in Videoinfox or a keyboard shortcut. Stay in web browser and use: (default) videoinfox -a or (user) videoinfox -l" >> ~/.config/videoinfox/videoinfo-ver-history  
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.0.01 Download List Help edit." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v4.0.00 No more copy to clipboard for options in YT-DLP >>> DOWNLOAD LIST." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Enter line number for all options in YT-DLP >>> DOWNLOAD LIST." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " Note: The only place left that needs converted over to selection by number is MORE OPTIONS >>> FIND DIRECTORY." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.9.16 Add: Help in Navigate Tree." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: Autoplay Line to Autoplay." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: Play Line to Play." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.9.13 Add: In -Set -Video Player -Custom. Added -Set to set custom and -Edit to edit custom. " >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              If Custom isn't found, notification given and the currently set video player is kept." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.9.12 Add: In -Set -Video Player. If Mpv isn't found, notification is given and the currently set video player is kept." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: Info added to home help: Start Autoplay from anywhere in the playlist. Then Resume Autoplay to start the" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              last video that was playing on quit. More info located in View Playlist >>> Help" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Removed: Features List in home help" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.9.10 Add: Watch videos with (default) ffplay, mpv or any video player. Home Screen: -Set -Video Player" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.9.03 Fix: Unknowingly deleted 1 charater on 1 line and broke Resume Autoplay with the last update." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.9.02 Fix: Option display in View Playlist with a valid http video link in the clipboard." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Fix: Resume Autoplay would error on a new Playlist without initially running Start Autoplay." >> ~/.config/videoinfox/videoinfo-ver-history               
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Added below line to Playlist >>> Help" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         When Resume Autoplay reaches the end of the playlist, it will remain there until Start Autoplay is run again." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.9.00 View Playlist appearance update + new options in View Playlist and Navigate Tree >>> Show All." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: Start Autoplay in View Playlist saves the last played video to Resume Autoplay." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              Resume Autoplay will also save the last played video." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              ** Use Start Autoplay first to begin watching **" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              ** Use Resume Autoplay after to continue watching and keep track of where you left off in the playlist **" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              More info. located in View Playlist >>> Help " >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: Delete Line in View Playlist. Delete line number entered from the playlist." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: Directory To Playlist in Navigate Tree >>> Show All." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              This option will write a one level deep directory listing to a new playlist." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              Good for creating a tv show season number x playlist." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: All blinking  -  changed to non blinking  ~  everywhere except the Yt-dlp Menu" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                 ** This will be updated in the Yt-dlp Menu along with selection by number instead of clipboard copy." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: Home Screen, Played List and Playlist" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                 Clipboard: is hidden if there isn't a valid video url available in the clipboard." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Fix: Home Screen >>> View Playlist" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              After using Play Clipboard, the user set directory wasn't being restored on quit to home screen." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Fix: View Playlist >>> Change Playlist" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              The playlist name display wasn't updating if the loaded playlist was deleted." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              Note: If the loaded playlist is deleted, the default playlist will be loaded." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Note: The loaded playlist is auto saved when another playlist is loaded." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.8.00 Add, Move and Change" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: Show All to Navigate Tree." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Move: The following options in Navigate Tree were moved to Navigate Tree >>> Show All" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "               - Autoplay Line   - Play Line   - View Playlist   - Playlist Add" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: - Info to Navigate Tree >>> Show All" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: Playlist Add now hides the Videoinfox Menu to gain more screen space for video listings." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: Error Message to Playlist Add if number entered excedes the line count." >> ~/.config/videoinfox/videoinfo-ver-history 
-echo "         MSG: Number out of range . . ." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Note: There are only 2 areas left in Videoinfox that still use the clipboard feature." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         1. More Options >>> Find Directory" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         2. Yt-dlp Menu >>> Download List" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history     
-echo "         - Download List     - Set User List" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         - View List" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         - View Logs         - Delete User List     - Add to Queue" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         The above will all eventually be converted over from clipboard copy to line number for all selections." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Once that is finished, the only time the clipboard feature will be used is in the gui. Copying video" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         url's to the clipboard to download or when building a download list with a videoinfox keyboard shortcut." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.7.00 Enter line number to change directory. No more clipboard copy to change directory on the following two screens." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         NAVIGATE TREE - Change Directory" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         YT-DLP MENU >>> DOWNLOAD LIST >>> CREATE DIRECTORY - Change Directory" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Navigate Tree and Create Directory displays updated." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.5.13 Moved options around in Yt-dlp Menu >>> View Downloads." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Added: Clear Clipboard to Yt-dlp Menu." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Added: Line to HOME >>> HELP. Autoplay Features - Play Clipboard - Available in ..." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.5.10 Updated info on Find screen." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.5.09 Moved options around in Played List." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.5.08 Fix in VIEW PLAYLIST >>> CHANGE PLAYLIST - Change Playlist when the DEFAULT Playlist was deleted." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         When the Default Playlist was deleted it generated a script error from the cp command." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         The Default Playlist can't be deleted. It can only be cleared. If the Default Playlist is deleted, it is" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         temporarily removed (not deleted) from CHANGE PLAYLIST. The Default Playlist will show again in Change Playlist" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         after another playlist is loaded. This issue in Change Playlist will be dealt with in a future update. " >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.5.07 MSG Change in Yt-dlp Menu >>> Download List >>> Create Directory  - Change Directory." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Message shows when Change Directory is selected without a valid directory in the clipboard or" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         the directory in the clipboard is outside of the Treetop." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         OLD MSG: At treetop. Can't go any higher . . ." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         NEW MSG: Copy an above directory to the clipboard to use this feature . . ." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " Notes:  Whatever the directory is when entering Create Directory or Navigate Tree is set as the Treetop." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         While in Create Directory or Navigate Tree, the Treetop can be changed with Default Dirs or Change Treetop." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.5.06 Fix: Play Line in Navigate Tree would try to play an out of range number." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.5.05 Change: Ytdlp Menu >>> Download List - Create Directory option was changed from N to M" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.5.04 Add: Number out of range message to Played List >>> Play Line." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Fix: Bug that Play Line and Autoplay Line were causing on the Home Screen." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Fix: Typo in Yt-dlp >>> Download List >>> Help." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              From: Notes: Pressing enter BEFORE making a selection isn't necessary...." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              To:   Notes: Pressing enter AFTER making a selection isn't necessary...." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.5.01 Fix: Some of the Play Clipboard selections were writing to the Play List instead of the Played List." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.5.00 Add: Multi Playlist - Create unlimited playlists." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              Add videos to a playlist from the 3 below sources." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "               - Home Screen. Add videos from recursive search results or recursive directory listings to the Playlist." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "               - Navigate Tree. Add videos from one level deep directory listings to the Playlist." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "               - Played List. Add videos from Played List to the Playlist." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "               (Play Clipboard, Last Download and Play Line all write to the Played List)." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.4.22 Edit: Help in Download List - Create Directory." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.4.21 Add: Blinking dash at Playlist Add in Played List." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.4.20 Change: Create User List in Download List." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         If a list was saved with a filename that already existed, the existing list would be overwritten." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: Error handling. If the file already exists, don't overwrite." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         MSG: File already exists . . ." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         (At this time, there is no overwrite option.)" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.4.19 Changes in Download List." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         CREATER USER LIST" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: Error reporting for Create User List when enter is pressed with no user input." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         MSG: Nothing was entered . . ." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         CREATE DIRECTORY" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: Create Directory not longer changes directory automatically after creation." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: Error reporting for Create Directory when enter is pressed with no user input." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         MSG: Nothing was entered . . ." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: Error reporting for Create Directory if the directory already exists." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         MSG: Directory already exists . . ." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: Change Treetop added to Create Directory." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.4.14 Add: Error reporting on empty clipboard for (Change Directory) in Navigate Tree." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         MSG: Copy a directory to the clipboard to use this feature . . ." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.4.13 Add: Error reporting when no viedos are available in View Downloads (Default Download Directory)." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.4.12 Add: Info (blinking dash) when videos are available." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Fix: Option spacing in Play List when there was a url in the clipboard." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.4.11 Edit: Home Help > Videoinfox Features:"  >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.4.10 Change: User Set List display in Download List."  >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: Show message on Home Screen when Show All is selected and there are no video files to play." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         MSG: No video files recursively reachable from the current directory . . ." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: Change Treetop in Navigate Tree." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              Now the Treetop can be changed by Default Dirs or by manually entering a directory." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: Navigate Tree info in Home Help." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.4.08 Add: Download List error reporting when trying to set the Default List as a User Set List."  >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         MSG: The Default List can't be a User Set List. Only user created lists . . ."  >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: Download Queue removes any blank lines in each list in the queue before processing."  >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.4.07 Add: Show Message when Set User List is slected in Yt-dlp >>> Download List." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Message: User list set for option: videoinfox -l   Also, gui notification." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.4.06 Fix: View Downloads in Yt-dlp Menu." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              Play Directory, Autoplay Line and Play Line were not being displayed when there was a url in the clipboard." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.4.05 Add: Error handling and reporting in Yt-dlp Menu." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Download Default, Download Choose and Self Destruct. Yt-dlp won't try to process empty clipboard or invalid url." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Error message: Clipboard is empty or contained invalid video url . . ." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.4.04 Fix: Error in Played List." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.4.03 Fix: Last Download in Yt-dlp Menu wasn't changing back to user set directory after video play." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.4.02 Updated Home Help and Version History." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.4.01 Change timeout on message: Added to Playlist . . ." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.4.00 Added: Playlist Add in Played List. Add videos from the Played List to the Playlist." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                View Playlist added to Played List." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "           Fix: Bug in Played List" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "        Update: Home Help > Autoplay Features and Playlist." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.3.03 Fixed an error in Clear Results on Home Screen." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.3.02 Switched 2 lines around in Yt-dlp >>> Download List" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.3.01 Add: Remove duplicates from the Play List." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.3.00 Additions and Changes" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         New feature: PlayList Add: add video selection to the Playlist by entering line number." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history              
-echo "         Playlist Add: added to the Home Screen. Add to the Playlist from Search Results." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Playlist Add: added to Navigate Tree. Add to the Playlist from directory listings." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                       View Playlist was added to Navigate Tree." >> ~/.config/videoinfox/videoinfo-ver-history 
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         No more coying to the clipboard to play selections from the Playlist." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         View Playlist look and function was updated to maintain user interface continuity." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Added to View Playlist: Autoplay Line and Play Line. Neither will write to the Played List." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Removed error correction routine for clipboard copy errors. It was no longer needed." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Added error correction to verify file validity before adding selection to the Playlist." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Notes:" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Local video files can no longer be added to the Playlist from the Clipboard." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Local video files played with Play Clipboard will still be added to the Played List." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         All Local video play and autoplay is now done by entering the line number or using Play Directory." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history 
-echo >> ~/.config/videoinfox/videoinfo-ver-history    
-echo "         The clipboard feature is still used to:" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Download video url's (yt-dlp) with Play Clipboard, Download Default, Download Choose and Self Destruct." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Loading Download List, View Logs, and Add to Queue." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change Directories in Navigate Tree and Create Directory." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Updated Home Help." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v3.0.00 New features in Yt-dlp >>> Download List. Added: Add to Queue, Download Queue and Create Directory." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.9.52 Updated header in View Downloads." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.9.51 Updated Autoplay Features in Home Help." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.9.50 Fixed Major Faux Pas with Autoplay Line and Play Line." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         I was referencing the absolute path on my machine with the last 2 added features." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Added Play Directory, Autoplay Line and Play Line to View Downloads." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.9.41 Removed play loop exit in Play Line." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.9.40 Played List Menu Updated. No more copying to the clipboard to play a local file. Enter line number to play." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.9.30 Change, Add and Fix." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: Renamed Play Line to Autoplay Line. Autoplay from entered line number to end of list." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                 - Home Screen: Moved a few things around. Autoplay Line will not write to the Played List." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                 - Navigate Tree: Moved a few things around. Autoplay Line will not write to the Played List." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "            Add: - Play Line to Home Screen. Only Play Line number entered. This feature will write to the Played List." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                 - Play Line to Navigate Tree. Only Play Line number entered. This feature will write to the Played List." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                 - Autoplay Features added to Home Help." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "            Fix: Last Search Setting (Ask On Exit) was freezing script on invalid selection." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.9.01 Fix: Video Info on Home Screen. Get info on video in clipboard or by entering the line number." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.9.00 Add: Play Number on Home Screen." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              No more copying a find result to the clipboard to play. Select Play Number and enter the number to play." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.8.44 Add: Error reporting added to command line options. User notified if videoinfox's config directory is missing." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.8.42 Add: videoinfox -d  Autoplay video files in the current directory." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.8.41 Fix: Play Directory alphabetical sorting for directories that include multiple file extensions." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.8.40 Added: Navigate Tree >>> Play Line. Select line number to start autoplay from directory listing." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Fix: Find results needed sorted alphabetically in: Find Directory and Home Find." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.8.30 Added: Played List >>> Play Line. Start Autoplay from any line in the Played List by entering the line number." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.8.26 Fixed: Play Clipboard play notificaton displaying when processing an invalid url." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.8.25 Fixed: Flawed logic in Last Download and http side of Play Clipboard keeping track of last sucessful download." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.8.24 Fixed: Play Clipboard and Last download were breaking with file names that contained a [" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.8.23 Updated: Home Help. Last Download will work with Play Clipboard, Download Default and Download Choose.." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                  I fixed this many updates ago and forgot to update it in help." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.8.22 Added: Error Reporting for Play Clipboard and Play Directory." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                If Play Clipboard is selected with no playable content available in the clipboard," >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                Error Message Displayed: No playable content in the clipboard . . ." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                With Play Clipboard, you will also see this message right after a Yt-dlp download completes." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                The error shows there because the clipboard is cleared immediately after the download is completed." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                If Play Directory is selected with no playable content available in the current directory," >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                Error Message Displayed: No playable content in the current directory . . ." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Fix: If a User Set List was deleted outside of Videoinfox, It would still display as a Set User List." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              Now when download Download List menu is selected, if a list doesn't exist, it is cleared from User Set List." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              The gui notification will also notify if the user download list is not set or missing when using the" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              videoinfox -l shortcut. " >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.8.20 Added: Play All option for Played List. Auto play the entire list with option to quit." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.8.14 Fix: Directory at exit was not auto loading on next run." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.8.13 Added: Privacy Policy added to Home Help" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.8.12 Edited: Version History. Posted known issue." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                 If Play Clipboard is selected with an invalid video url in the clipboard, the gui play notification" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                 still displays. This only happens if Play Clipboard is selected before pressing enter." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.8.11 Updated: Home Help and Download List Help." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.8.10 Added: Command line option -u" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                This option can be used with your own ready to download url list that can be any name and location." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                There is no need to use the Videoinfox interface with this option. Videos will be downloaded to the" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                directory of the list location.  Example: videoinfox -u mylist  Only enter the list filename." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                The list must be recursively reachable from the current directory." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                The first line in the list must begin with http to be processed." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                videoinfox -h  will display the above instructions." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.8.05 Fixed issues from v2.8.03 and v2.8.04 Had a mess going on here for a minute." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.8.04 Fix: I was unaware that my cat edited the last update before commit. Forgot to lock the keyboard and auto save" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              got the cat's edit.  The dog really did eat my homework. lol" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.8.03 Fix: Videoinfox Update Available was showing on download fail." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              I went back through the download and update routines and found more errors." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              Fixed error checking and reporting. Tested all possible scenarios with download success vs. download fail." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.8.02 Fix: Videoinfox and Yt-dlp download and update routines." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              On download fail, notification given." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.8.01 Fix: a mistake that was in command line option: videoinfox -h" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Error:       -u Write clipboard content to User Set List." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Correction:  -l Write clipboard content to User Set List." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.8.00 Feature Added: videoinfox -l shortcut for User Lists." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Copy your links on the fly without needing to have Videoinfox running." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Complete instructions located in: Yt-dlp >>> Download List >>> Help" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.7.15 Updated: Features List In Help" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.7.14 Added: Command line option -h" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.7.13 Change: Videoinfo Update exit message appearance." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.7.12 Bug Squashed: Download List" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Fix: After downloading a user list, the directory wasn't changing back to what is was before downloading list." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.7.11 Completed Version History." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         It has been a month of heavy coding since I started writing Videoinfox. I initially wrote it because I wanted" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         to learn more about the Linux Shell.  I have been a Linux only user for 18 years.  I have learned more about" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Linux in the last 30 days than I have in the past 18 years.  Screenshot of first script at bottom of page." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.7.10 Added:  Code Stats  to Settings (set)  Edited Help on home screen.  Cleaned up some comments." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.7.00 Changes, Additions and Bug Squashing." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Cosmetic update on  1 2 3 4 5 - Default Dirs  display." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         When a default directory is selected that number stays normal while the other 4 numbers will be less bold." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         If you change to a directory that is not a default directory 1-5: All 5 numbers will be less bold." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         If directory on exit (5) matches any of the default directories 1-4: 1-4 gets the display." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Download List  - Added:  1 2 3 4 5 - Default Dirs  selector." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         More Options   - Changed look to maintain continuity.  " >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                        - Changed options from numbers to letters" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                        - Added:  1 2 3 4 5 - Default Dirs  selector." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Home Screen    - Changed Navigate Tree option from  t  to  n" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         View Downloads - Directory is saved on the way in because the dir is changed to the Default Download Directory." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                          Directory is restored on quit." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Fix: View Downloads   Valid clipboard content was being lost on quit." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                               Valid clipboard content should only be cleared after Video Player exit." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Fix: Navigate Tree -  Directory was getting changed when quitting to the Home screen." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Fix: Self Destruct - After copying to the clipboard, you had to press enter first." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Fix: Download List - After a list was downloaded the directory was changed back to what it was pre download." >> ~/.config/videoinfox/videoinfo-ver-history 
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         First Run now checks for the directory: ~/Downloads  If the directory doesn't exist, it is created." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Directory Policy: Directory will only be change when the user changes the directory." >> ~/.config/videoinfox/videoinfo-ver-history 
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.1.00 Added Default Download List and a command line option  -a  for making a keyboard shortcut" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         to keep pasting your clipboard copies on the fly to the Default List without needing to run Videoinfox." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Videoinfox will run, paste your clipboard content to the Default List and exit.  Make Shortcut:  "videoinfox -a"  " >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         New feature located in:  Yt-dlp Menu >>> Download List >>> Default List           Help -  Download List >>> Help" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.0.73 Added done downloading gui notification to Download Default.">> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.0.72 View Downloads  and  Last Download.">> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Fix: Valid clipboard content was being cleared after the above options were run then quit.">> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Clipboard Policy: There are only 2 circumstances when valid clipboard content will be cleared.">> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                           1. User copies to clipboard.     2. Clipboard has been played.">> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.0.71 Play Clipboard handling of invalid urls and an empty clipboard.">> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Fix: Running Play Clipboard with an invalid url would play the Last Download.">> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: Play Clipboard won't run if the clipboard is empty.">> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.0.70 Download List menu fixes and change to download Log.">> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Fix: If you would try to Download List with an empty clipboard, it would throw an error.">> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: View List won't run if the clipboard is empty.">> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: View Log  won't run if the clipboard is empty.">> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: Download log only shows url and matching filename." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.0.69 Added another decimal to the version number be compliant with Semantic Versioning.">> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.068  Fixed auto play failing with urls in Play Clipboard. This issue also caused Last Download auto play to fail. ">> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Below is what would cause the failure." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Only with a URL. If you download a video file and you already have a filename with the same name but a" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         different video extension in the current directory, it would cause Play Clipboard auto play to fail." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Last Download would also fail to play in this situation." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.067  Play Directory will only execute if video files exist in the current directory." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         On the Home Screen, the dash at Play Directory will blink if video files exist in the current directory." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.066  Version History added to Settings  Version History is still under construction." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.065  Auto clear clipboard content after player quit script wide." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history      
-echo "         Before Update:  Yty-dlp Menu  Valid video url in the clipboard causes Play Clipboard to blink." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         After Update: Blinking along with Play Clipboard, (just -)  Download Default, Download Choose and Self Destruct" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         They are all available options with a valid video url in the clipboard." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.064  More error handling with clipboard content" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Affected areas: Anywhere there is Play Clipboard. Also, Navigate Tree and Download List" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Any content that is copied to the clipboard that doesn't start with   http   was addressed with this update." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         A file exist check is done on the clipboard content. If the file doesn't exist," >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         the clipboard is cleared and the invalid content never makes it to the clipboard display." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         This was already done at the end of the loop. Now it is also done at the start of the loop." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         The above update doesn't include    http   because Yt-dlp validates anything that starts with   http" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.063  Download List Menu fix." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         I forgot to refresh the clipboard variable   pasteclip   in the following options:" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         d - Download List     v - View List     l - View Logs" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         The user was forced to press enter after copying to the clipboard for the above options to work." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Now those 3 features refresh the clipboard variable upon entering those options." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         No need to press enter after copy unless you want to update the clipboard display first." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.062  Bug Squashed in Play Clipboard and Last Download." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         If you downloaded a video file and you already had the same filename in another directory, find was returning" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         more than one result .  This caused Play Clipboard to fail on auto play." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         It also caused Last Download play to fail." >> ~/.config/videoinfox/videoinfo-ver-history 
-echo "         FIX: -maxdepth 1 was added to those find lines in Play Clipboard and Last Download." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.061  Download List added to the Yt-dlp Menu." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Create download list(s) of video urls with your preferred text editor." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Then use Videoinfox to download the entire list." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Help located in:   Download List   explains how the download list feature works." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "_________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.060  Fixed typo on Navigate Tree" >> ~/.config/videoinfox/videoinfo-ver-history 
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.059  Blinking Change Directory in Navigate Tree." >> ~/.config/videoinfox/videoinfo-ver-history
-echo>> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change Directory blink when valid directory is in clipboard." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Also added a loop to Change Directory in Navigate Tree." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         To prevent changing to clipboard copied directories outside of the Treetop." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.058  Yt-dlp menu update. Now 2 download choices:" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         d - Download Default - Yt-dlp with no arguments." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         c - Download Choose  - Choose video type and quality before download." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.057  1 2 3 4 5 - Default Dirs added to Navigate Tree." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Total Files: added  (file count 1 dir deep)  Navigate Tree" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history 
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.056  Added missing features in Navigate Tree" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Clipboard content is now saved when entering Navigate Tree and restored on quit." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Total Files: (recursive) Was added to the display." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         When navigating in or out of a directory," >> ~/.config/videoinfox/videoinfo-ver-history 
-echo "         Play Directory will blink when video files are available in the current directory." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Yt-dlp menu - Clear clipboard after download." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.055  Added Navigate Tree with Play Directory:" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history   
-echo "         Change Directory, Up one Level and Treetop" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.054  Play Directory" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Play Directory - Auto play with option to quit every time a video ends (played to end or quit by user)." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Moved options around on the home screen.  The blank space will be for another feature." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         (set) was changed from  d  to  z        - d  is now for Play Directory" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         all  (x - Clear Clipboard) have been removed because Play Clipboard will clear the clipboard" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         every time there is an invalid valid file or url in the clipboard.  If it is a vald url but not a video url," >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         yt-dlp will catch that and the clipboard will be cleared." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.053  Video Player (ffplay) auto closes when the video ends." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Auto exit was added to all ffplay lines." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.052  Added check for update on startup" >> ~/.config/videoinfox/videoinfo-ver-history
-echo  >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         If update available: Message displayed in Videoinfox only on the home screen right after the version number." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Home screen display: update available with gui notification: Update Available & update version number" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.051  Added digit after decimal on version number." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         fix: Help file wasn't  getting updated for existing users." >> ~/.config/videoinfox/videoinfo-ver-history 
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.05   Some code comments fixed. Sample video url loaded for first run." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.04   Play Clipboard now on all content screens." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Squashed a bug in Play Clipboard." >> ~/.config/videoinfox/videoinfo-ver-history 
-echo "         That feature would fail when url had a video filename that had a dot before the .ext" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         New feature added in  >>> SETTINGS >>> LAST SEARCH" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         If there are search results on the the home screen on exit, the below always applies to your next run." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         1 - Always Save     2 - Never Save     3 - Ask on Exit" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.03   Added space below prompt at (play list deleted) and (played list deleted)." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.02   Major Layout changes to remove interface redundancy. + more features." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Home, playlist and played list screens are aware if the clipboard contains a valid file or a valid url link in" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         it and act accordingly. Yt-dlp now tries to extract a fliename from the link in the clipboard. If it is" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         successful, the videos name will be displayed.  Now every time there is a valid file or a valid url in the" >> ~/.config/videoinfox/videoinfo-ver-history 
-echo "         clipboard... <Play Clipboard> will blink to let the user know there is playable content in the clipboard." >> ~/.config/videoinfox/videoinfo-ver-history 
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.01   Had to change the timeout on the first run screen from 3 seconds back to 30 seconds." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v2.00   Intoroduction of Play Clipboard." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v1.99 and earlier versions:  I wasn't keeping track of version history.  At that point in time, I didn't plan on" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " Videoinfox having all the features it has now.  It was just a few hundred lines of code to find a video file's codec," >> ~/.config/videoinfox/videoinfo-ver-history
-echo " resolution and duration." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " Videoinfox's Start: Below was the first home screen which is now just another option (More Options) in Videoinfox. " >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                     It was named Videoinfo until I found out the word Videoinfo was already in use. " >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                     Working Directory:" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                     Clipboard Content:" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                     Videoinfo" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history               
-echo "                     1. List Directory" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                     2. Change Directory" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                     3. Find Directory" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                     4. Enter Video File" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                     5. Find Video File" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                     6. Video Count" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                     7. Video Duration" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                     Enter an Option: " >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+
 fi
 ###########################  END VERSION HISTORY  ################################################################################################ 
 ##################################################################################################################################################
@@ -5608,7 +4654,7 @@ read -r -n1 optionv
         echo        
         echo "  - Change and Queue: Playlist and Play Queue management. All the playlists are displayed on this screen."
         echo
-        echo "  PLAYLIST: - Change  - Create  - Rename  - Delete              QUEUE: - Add to Queue  - Queue List  - Play Queue"     
+        echo "  PLAYLIST: - Change - Create - Rename - Delete - Save As       QUEUE: - Add to Queue - Queue List - Play Queue"     
         echo " _________________________________________________________________________________________________________________"
         echo
         echo "  Mpv Playlist: This option will load a playlist into Mpv. This will bypass the -Resume option and the"
@@ -11038,7 +10084,7 @@ read -r -n1 optionv
         echo        
         echo "  - Change and Queue: Playlist and Play Queue management. All the playlists are displayed on this screen."
         echo
-        echo "  PLAYLIST: - Change  - Create  - Rename  - Delete              QUEUE: - Add to Queue  - Queue List  - Play Queue"     
+        echo "  PLAYLIST: - Change - Create - Rename - Delete - Save As       QUEUE: - Add to Queue - Queue List - Play Queue"      
         echo " _________________________________________________________________________________________________________________"
         echo
         echo "  Mpv Playlist: This option will load a playlist into Mpv. This will bypass the -Resume option and the"
@@ -15472,7 +14518,7 @@ read -r -n1 optionv
         echo        
         echo "  - Change and Queue: Playlist and Play Queue management. All the playlists are displayed on this screen."
         echo
-        echo "  PLAYLIST: - Change  - Create  - Rename  - Delete              QUEUE: - Add to Queue  - Queue List  - Play Queue"     
+        echo "  PLAYLIST: - Change - Create - Rename - Delete - Save As       QUEUE: - Add to Queue - Queue List - Play Queue"      
         echo " _________________________________________________________________________________________________________________"
         echo
         echo "  Mpv Playlist: This option will load a playlist into Mpv. This will bypass the -Resume option and the"
