@@ -6,10 +6,14 @@
 
 ### 100% Linux Shell Script. Videoinfox is one file under one megabyte.
 
-Find local Video Files fast, immediately play and get info on. Download Videos effortlessly and autoplay.
-Add URL's to unlimited User Set Lists on the fly without leaving the browser. Download all your video url lists
-with Videoinfox's Yt-dlp integration including a Download Queue. Watch videos with mpv, ffplay or any
-video player of your choice.  Mpv saves play postion on quit. 
+Find your videos fast.  Powerful playlist building and editing. A play queue to load up unlimited playlists
+for autoplay with last video played marker to pick up where you left off. Played List that keeps track of 
+everything played by Play Clipboard, Last Download and Play.  Index unlimited video libraries and find 
+videos by keyword from the path or file.  Yt-dlp integration. Download list building without leaving
+your web browser and a download queue to load up unlimited download lists for batch processing.
+
+<br />
+NEW: &nbsp; -Set in YT-DLP MENU to use Yt-dlp with no options or custom options.
 
 <br />
 
@@ -23,10 +27,6 @@ sudo chmod +x /usr/local/bin/videoinfox
 
 <br />
 
-**NEW: &nbsp; -Set in YT-DLP MENU to use Yt-dlp with no options or custom options.**
-
-<br />
-
 **Getting Started:** Set the Default Directories located in -Set. Enter the parent directories of your video libraries. Then run -Index Default Directories This will build a searchable recursive list of all 4 default directories for -Playlist Find. Find a video(s) with a keyword from the path or file.
 
 
@@ -34,9 +34,6 @@ sudo chmod +x /usr/local/bin/videoinfox
 Mpv saves play postion on quit of every video played and Videoinfox saves Playlist and Play Queue position.
 Toggle on/off mpv save play position on quit and an option to erase all mpv markers.
 Notification on home screen if mpv is set as the video player and  option --save-position-on-quit is active.*       
-
-Videoinfox is a Linux shell script that feels like an app. If you enjoy watching local videos on your PC and want the ability to download video url's, you won't be disappointed. You can also make your own URL lists to download. While downloading a list, a log file will be generated for each list. The log is each http link from your list with the downloaded video filename. If the download list is aborted before completion, Yt-dlp has you covered. Just run the Download List feature again. Yt-dlp won't re-download files that you already have. Download Queue to add unlimited Videoinfox created User Download Lists
-for batch processing.There is a Played List that keeps track of everything played by Play Clipboard, Last Download and Play. Create unlimited Playlists and autoplay with last video played marker. Play Queue to load up multiple playlists.
 
 ### Hotkey navigation that is robust and efficient.
 
