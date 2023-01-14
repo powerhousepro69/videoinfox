@@ -1,4 +1,4 @@
-# Videoinfox v5.5.00
+# Videoinfox v5.5.14
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -23,7 +23,7 @@ sudo chmod +x /usr/local/bin/videoinfox
 
 <br />
 
-**NEW: &nbsp; Make Playlist feature is now also a command line option: &nbsp; videoinfox -z**
+**NEW: &nbsp; -Set in YT-DLP MENU to use Yt-dlp with no options or custom options.**
 
 <br />
 
@@ -376,6 +376,20 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.5.14 New: -Set in YT-DLP MENU to use Yt-dlp with no options or custom options.
+
+        Applies to: -Download Only  -Self Destruct  -Download List  -Play Clipboard
+
+
+        Add: Videoinfox now also looks for: 3gp video files.
+
+        Add: File types searched for: mp4, webm, mkv, avi, divx, 3gp  added to Home Help
+
+        Fix: Settings >>> Video player >>> Custom -Clear
+
+        Change: Version history only displays the last 40 updates.
+
 
 ###  v5.5.00 New: Make Playlist feature is now also a command line option: videoinfox -z
 
