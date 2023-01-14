@@ -5,9 +5,9 @@
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
-ver="Videoinfox v5.5.00"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m5.00")  # Version Number: with blinking dot
-vn="v5.5.00" #V!  update help files on update
+ver="Videoinfox v5.5.14"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m5.14")  # Version Number: with blinking dot
+vn="v5.5.14" #V!  update help files on update
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -32,7 +32,7 @@ vn="v5.5.00" #V!  update help files on update
 #  START COMMAND LINE OPTIONS  ###################################################################################################################
 ##################################################################################################################################################
 
-# Note: Command Line Options won't run until First Run (setup):  videoinfox  with no command line options.
+# Note: Command Line Options won't run except for -v  until First Run (setup):  videoinfox  with no command line options.
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------
 #  videoinfox -v     DISPLAY VERSION NUMBER THEN EXIT  
@@ -318,7 +318,8 @@ if [ "$1" = "-u" ]
 
                 echo
                 echo "Processing list:" "$PWD/""$2"
-           
+
+                read -r dlargue 2>/dev/null < ~/.config/videoinfox/dlargue
              
                 #####  DOWNLOAD LIST  #####
                 
@@ -331,14 +332,14 @@ if [ "$1" = "-u" ]
                 do
 
                 echo
-                ~/.config/videoinfox/yt-dlp "$line"  # download url
+                ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$line"  # download url
                 echo
                 echo "Logging URL and Filename to:" "$PWD/""$ulogfile" 
 
                 # logging yt-dlp output to the log file
 
                 echo "$line" >> "$ulogfile" 
-                ~/.config/videoinfox/yt-dlp "$line" | tee >> "$PWD/""$ulogfile"
+                ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$line" | tee >> "$PWD/""$ulogfile"
                 echo >> "$ulogfile" 
 
                 done < "$input"
@@ -409,7 +410,7 @@ fi
 read -r vto < ~/.config/videoinfox/videoinfox.intermission
 
 # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
-find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) > ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa-work 2>/dev/null
+find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" -o -iname "*.3gp" \) > ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa-work 2>/dev/null
 
 # SORT BACK INTO ORDER
 sort -u ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa-work > ~/.config/videoinfox/tmp/videoinfox.optiond-play-directory-apa
@@ -619,7 +620,7 @@ if [ -d "$direxist" ]  #  if directoty exists goto  <then>
 then
 cat ~/.config/videoinfox/videoinfo.playlist.current | sed 's/.*\.//' > ~/.config/videoinfox/tmp/plread.tmp       
 read -r setplaylist < ~/.config/videoinfox/tmp/plread.tmp
-find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) > ~/.config/videoinfox/tmp/videoinfox-u.work 2>/dev/null
+find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" -o -iname "*.3gp" \) > ~/.config/videoinfox/tmp/videoinfox-u.work 2>/dev/null
 sort -u ~/.config/videoinfox/tmp/videoinfox-u.work > ~/.config/videoinfox/tmp/videoinfox-u
 
 read -r isempty < ~/.config/videoinfox/tmp/videoinfox-u
@@ -1252,7 +1253,7 @@ echo "__________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.5.00   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Videoinfox v5.5.14   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1405,7 +1406,7 @@ else
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.5.00   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
+echo " Videoinfox v5.5.14   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1421,6 +1422,9 @@ echo " Batch download all of your user created url Lists with Yt-dlp and Videoin
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " VIDEOINFOX WILL KEEP CLEARING OUT INVALID CONTENT FROM THE CLIPBOARD. ANYTHING THAT ISN'T A VIDEO URL OR FILE." >> ~/.config/videoinfox/videoinfo.help
+echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
+echo >> ~/.config/videoinfox/videoinfo.help
+echo " File types searched for: mp4, webm, mkv, avi, divx, 3gp" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Getting Started: Set Default Directories located in -Set. Enter the parent directories of your video libraries." >> ~/.config/videoinfox/videoinfo.help
@@ -1498,7 +1502,7 @@ echo >> ~/.config/videoinfox/videoinfo.help
 echo " Copy a video url link (entire line) to the clipboard before selecting any of the above options." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " Yt-dlp Menu    d - Download Only ..... Yt-dlp with no arguements." >> ~/.config/videoinfox/videoinfo.help
+echo " Yt-dlp Menu    d - Download Only ..... Yt-dlp with any options set in Yt-dlp Menu -Set." >> ~/.config/videoinfox/videoinfo.help
 echo "                c - Download Choose ... Choose video type and quality before download." >> ~/.config/videoinfox/videoinfo.help
 echo "                s - Self Destruct ..... Download, auto play then delete when the video player is quit." >> ~/.config/videoinfox/videoinfo.help
 echo "                g - Download List ..... Instructions are located in Help on the Download List screen." >> ~/.config/videoinfox/videoinfo.help
@@ -1732,7 +1736,7 @@ echo " q - quit                                                                 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 #V!
-echo " 199 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " 200 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 
 
@@ -1745,6 +1749,18 @@ echo " _________________________________________________________________________
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
 
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v5.5.14 New: -Set in YT-DLP MENU to use Yt-dlp with no options or custom options." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              Applies to: -Download Only  -Self Destruct  -Download List  -Play Clipboard" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Add: Videoinfox now also looks for: 3gp video files." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Add: File types searched for: mp4, webm, mkv, avi, divx, 3gp  added to Home Help" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Fix: Settings >>> Video player >>> Custom -Clear" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Change: Version history only displays the last 40 updates." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.5.00 New: Make Playlist feature is now also a command line option: videoinfox -z" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2001,29 +2017,13 @@ echo " _________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.0.02 Fix: -Make Playlist in -Played List was broke." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+
+########################
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.0.01 Fix: -Play Directory and videoinfox -d" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v5.0.00 Add: -Make Playlist added to Played List" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: Numbered lines now in -Queue List and added options -Move Line and -Remove Line" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: -Queue List. Options moved around." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: Everywhere -Play is used, is now written to the Played List including -Play in -View Playlist" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: -Delete Queue renamed to -Clear Queue" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: -Directory to Playlist and -Queue to Playlist have been renamed to -Make Playlist" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: -View Playlist and -Play Queue.  Z - Clear Resume changed to  B - Clear Resume" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: Options -Resume and -Clear Resume are now removed from the display when there is no resume marker set." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: d - Download Default  in Yt-dlp Menu changed to  r - Download Only " >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: FIRST RUN >>> SETUP now checks for mpv and sets as default video player. If not found, ffplay is set." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: FIRST RUN >>> SETUP screen updated with mpv check." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Fix: View Playlist. Suppress script errors when running -Start with an empty playlist." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Fix: Played List. Suppress script error when running -Play or -Playlist Add with an empty played list." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Updated Playlist and Find section in Home Help." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Updated Help in View Playlist." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+
+
 
 fi
 ###########################  END VERSION HISTORY  ################################################################################################ 
@@ -2050,6 +2050,8 @@ if [ -f ~/.config/videoinfox/mpvmarker ]
   else
       echo "1" > ~/.config/videoinfox/mpvmarker
 fi
+
+read -r dlargue 2>/dev/null < ~/.config/videoinfox/dlargue
 
 ##################################################################################################################################################
 ###########################  HOME LOOP START #####################################################################################################
@@ -2349,7 +2351,7 @@ fi
 
 
 # CHECKING FOR VIDEOS IN CURRENT DIRECTORY.  if video(s) exist:  the dash @ Play Directory will blink on the home screen
-dovideosexist=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
+dovideosexist=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" -o -iname "*.3gp" \) 2>/dev/null | wc -l)
 
 if [ $dovideosexist -ne 0 ]  # If the find result doesn't =   0   goto then
   then 
@@ -2573,7 +2575,7 @@ if [ "$grabpaste3" = "http" ]  # if the 4 characters = <http> go then
 then                  
 clear  
 ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload 
-~/.config/videoinfox/yt-dlp "$pasteclip"     
+~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$pasteclip"     
       
 # remove first dot and everything after it in filename. file names with dots before the extension were breking find results
 sed "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload > ~/.config/videoinfox/videoinfo.lastdownload.work
@@ -3067,7 +3069,7 @@ ttotal=$(find  "$PWD" -type d -iname "*" 2>/dev/null | wc -l)
 "$vnotify" "Videoinfox is done processing: Directory Tree" "Total Directories Found: "$ttotal" " # GUI Notification.
 
 # recursive number of files found
-ttotalnum=$(find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
+ttotalnum=$(find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" -o -iname "*.3gp" \) 2>/dev/null | wc -l)
 
 
 ##################################################################################
@@ -3219,7 +3221,7 @@ dash1=$(echo "~")
 
 
 # get file count of videos one directory deep for blinking   Play Directory
-blinkit=$(find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
+blinkit=$(find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" -o -iname "*.3gp" \) 2>/dev/null | wc -l)
 
 # if find results are zero goto then
 if [ "$blinkit" = 0 ]
@@ -3449,7 +3451,7 @@ read line < ~/.config/videoinfox/tmp/nt-list.tmp2
 rm ~/.config/videoinfox/tmp/videoinfox.numbered-navtree-play-directory-list 2>/dev/null
 
 # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
-find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) > ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa-work 2>/dev/null
+find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" -o -iname "*.3gp" \) > ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa-work 2>/dev/null
 
 # SORT BACK INTO ORDER
 sort -u ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa-work > ~/.config/videoinfox/tmp/videoinfox.navtree-play-directory-apa
@@ -3647,7 +3649,7 @@ echo
          ########################################################################################################################################
 
 #checking for videos in the current directory.  if no videos exist,   Play Directory   won't execute
-dovideosexist=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
+dovideosexist=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" -o -iname "*.3gp" \) 2>/dev/null | wc -l)
 
 
 if [ $dovideosexist -ne 0 ]  # If the find result doesn't =   0   goto then
@@ -3660,7 +3662,7 @@ cat ~/.config/videoinfox/videoinfo.playlist.current | sed 's/.*\.//' > ~/.config
 read -r setplaylist < ~/.config/videoinfox/tmp/plread.tmp
 
 # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
-find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) > ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa-work 2>/dev/null
+find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" -o -iname "*.3gp" \) > ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa-work 2>/dev/null
 
 # SORT BACK INTO ORDER
 sort -u ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa-work > ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa
@@ -3923,14 +3925,14 @@ fi
 ########################################################################################################################################
 
 #checking for videos in the current directory.  if no videos exist,   Play Directory   won't execute
-dovideosexist=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
+dovideosexist=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" -o -iname "*.3gp" \) 2>/dev/null | wc -l)
 
 
 if [ $dovideosexist -ne 0 ]  # If the find result doesn't =   0   goto then
   then  # IF VIDEOS EXIST IN THE CURRENT DIRECTORY THEN RUN PLAY LINE
 
 # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
-find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) > ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa-work 2>/dev/null
+find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" -o -iname "*.3gp" \) > ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa-work 2>/dev/null
 
 # SORT BACK INTO ORDER
 sort -u ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa-work > ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa
@@ -4098,7 +4100,7 @@ k)  # SHOW ALL - PLAYLIST ADD (NAVIGATE TREE)  #################################
 ########################################################################################################################################
 
 #checking for videos in the current directory.
-dovideosexist=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
+dovideosexist=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" -o -iname "*.3gp" \) 2>/dev/null | wc -l)
 
 
 if [ $dovideosexist -ne 0 ]  # If the find result doesn't =   0   goto then
@@ -4107,7 +4109,7 @@ if [ $dovideosexist -ne 0 ]  # If the find result doesn't =   0   goto then
 ########################################################################################################################function ntplaylistaddnavnum {
 
 # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-playlistaddnav-directory-apa 
-find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) > ~/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-directory-apa-work 2>/dev/null
+find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" -o -iname "*.3gp" \) > ~/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-directory-apa-work 2>/dev/null
 
 # SORT BACK INTO ORDER
 sort -u ~/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-directory-apa-work > ~/.config/videoinfox/tmp/videoinfox.nt-playlistaddnav-directory-apa
@@ -8141,7 +8143,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       cp ~/.config/videoinfox/videoinfo.lastdownload ~/.config/videoinfox/videoinfo.lastdownload.bak
    
       ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload 
-      ~/.config/videoinfox/yt-dlp "$pasteclip"     
+      ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$pasteclip"     
       
       # remove first dot and everything after it in filename. this was done because file names with dots before the extension were breking find results
       sed "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload > ~/.config/videoinfox/videoinfo.lastdownload.work
@@ -8471,7 +8473,7 @@ d)  # (@PLAY DIRECTORY) HOME  ##################################################
 rm ~/.config/videoinfox/tmp/videoinfox.numbered-home-play-directory-list 2>/dev/null
 
 # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
-find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) > ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa-work 2>/dev/null
+find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" -o -iname "*.3gp" \) > ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa-work 2>/dev/null
 
 # SORT BACK INTO ORDER
 sort -u ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa-work > ~/.config/videoinfox/tmp/videoinfox.home-play-directory-apa
@@ -8693,7 +8695,7 @@ fi
 
 a)  # SHOW ALL VIDEOS
 
-searchtotal=$(find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)    
+searchtotal=$(find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" -o -iname "*.3gp" \) 2>/dev/null | wc -l)    
                                            	                               
                      if [ "$searchtotal" = 0 ]  # if find returned no results goto <then>
       
@@ -8711,7 +8713,7 @@ searchtotal=$(find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname 
                            
 
                            # save find results
-find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) | sort -u > ~/.config/videoinfox/videoinfo.findwork
+find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" -o -iname "*.3gp" \) | sort -u > ~/.config/videoinfox/videoinfo.findwork
                            echo "$PWD" > ~/.config/videoinfox/videoinfo.lastfinddir  # save last directory that last find was run in 
                            # write last search total file count
                            echo "$searchtotal" > ~/.config/videoinfox/videoinfo.lastsearchtotal
@@ -8796,7 +8798,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       clear
    
       ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload 
-      ~/.config/videoinfox/yt-dlp "$pasteclip"    
+      ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$pasteclip"    
 
       
       # remove first dot and everything after it in filename. this was done because file names with dots before the extension were breking find results
@@ -13572,7 +13574,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       cp ~/.config/videoinfox/videoinfo.lastdownload ~/.config/videoinfox/videoinfo.lastdownload.bak
    
       ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload 
-      ~/.config/videoinfox/yt-dlp "$pasteclip"     
+      ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$pasteclip"     
       
       # remove first dot and everything after it in filename. this was done because file names with dots before the extension were breking find results
       sed "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload > ~/.config/videoinfox/videoinfo.lastdownload.work
@@ -13920,7 +13922,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       cp ~/.config/videoinfox/videoinfo.lastdownload ~/.config/videoinfox/videoinfo.lastdownload.bak
    
       ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload 
-      ~/.config/videoinfox/yt-dlp "$pasteclip"     
+      ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$pasteclip"     
       
       # remove first dot and everything after it in filename. this was done because file names with dots before the extension were breking find results
       sed "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload > ~/.config/videoinfox/videoinfo.lastdownload.work
@@ -18001,7 +18003,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       cp ~/.config/videoinfox/videoinfo.lastdownload ~/.config/videoinfox/videoinfo.lastdownload.bak
    
       ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload 
-      ~/.config/videoinfox/yt-dlp "$pasteclip"     
+      ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$pasteclip"     
       
       # remove first dot and everything after it in filename. this was done because file names with dots before the extension were breking find results
       sed "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload > ~/.config/videoinfox/videoinfo.lastdownload.work
@@ -18328,7 +18330,7 @@ fi
     f)  ################  FIND ROUTINE - <HOME>  #################################################################################################
 ##################################################################################################################################################
 
-    searchtotal2=$(find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)    
+    searchtotal2=$(find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" -o -iname "*.3gp" \) 2>/dev/null | wc -l)    
                                            	                               
                      if [ "$searchtotal2" = 0 ]  # if find returned no results goto <then>
       
@@ -18355,7 +18357,7 @@ fi
     echo
     read -r -p " Search: " videofind  # waiting fot user input - video file that you want to find
 
-    searchtotal=$(find "$PWD" -type f \( -iname "$videofind.mp4" -o -iname "$videofind.mkv" -o -iname "$videofind.avi" -o -iname "$videofind.webm" -o -iname "$videofind.divx" \) 2>/dev/null | wc -l)    
+    searchtotal=$(find "$PWD" -type f \( -iname "$videofind.mp4" -o -iname "$videofind.mkv" -o -iname "$videofind.avi" -o -iname "$videofind.webm" -o -iname "$videofind.divx" -o -iname "$videofind.3gp" \) 2>/dev/null | wc -l)    
                                                                                    	
     if [ -z "$videofind" ]  # if no input was entered goto  <then>  
           then
@@ -18388,7 +18390,7 @@ fi
                            read -r fterm < ~/.config/videoinfox/videoinfo.lastfindstring
 
                            # save find results
-find "$PWD" -type f \( -iname "$videofind.mp4" -o -iname "$videofind.mkv" -o -iname "$videofind.avi" -o -iname "$videofind.webm" -o -iname "$videofind.divx" \) | sort -u > ~/.config/videoinfox/videoinfo.findwork
+find "$PWD" -type f \( -iname "$videofind.mp4" -o -iname "$videofind.mkv" -o -iname "$videofind.avi" -o -iname "$videofind.webm" -o -iname "$videofind.divx" -o -iname "$videofind.3gp" \) | sort -u > ~/.config/videoinfox/videoinfo.findwork
                            echo "$PWD" > ~/.config/videoinfox/videoinfo.lastfinddir  # save last directory that last find was run in 
                            # write last search total file count
                            echo "$searchtotal" > ~/.config/videoinfox/videoinfo.lastsearchtotal
@@ -18541,7 +18543,7 @@ case $optionsettings in
           :
       else 
           cd "$dir1"
-find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) | sort -u > ~/.config/videoinfox/tmp/"vplaylist.Default Directories.tmp"
+find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" -o -iname "*.3gp" \) | sort -u > ~/.config/videoinfox/tmp/"vplaylist.Default Directories.tmp"
     fi
 
     if [ -z "$dir2" ]
@@ -18549,7 +18551,7 @@ find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -in
           :
       else 
           cd "$dir2"
-find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) | sort -u >> ~/.config/videoinfox/tmp/"vplaylist.Default Directories.tmp"
+find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" -o -iname "*.3gp" \) | sort -u >> ~/.config/videoinfox/tmp/"vplaylist.Default Directories.tmp"
     fi
 
     if [ -z "$dirsaved" ]
@@ -18557,7 +18559,7 @@ find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -in
           :
       else 
           cd "$dirsaved"
-find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) | sort -u >> ~/.config/videoinfox/tmp/"vplaylist.Default Directories.tmp"
+find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" -o -iname "*.3gp" \) | sort -u >> ~/.config/videoinfox/tmp/"vplaylist.Default Directories.tmp"
     fi
 
     if [ -z "$dir4" ]
@@ -18565,7 +18567,7 @@ find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -in
           :
       else 
           cd "$dir4"
-find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) | sort -u >> ~/.config/videoinfox/tmp/"vplaylist.Default Directories.tmp"
+find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" -o -iname "*.3gp" \) | sort -u >> ~/.config/videoinfox/tmp/"vplaylist.Default Directories.tmp"
     fi
 
 
@@ -18790,7 +18792,7 @@ function menumpvclear {
         echo
         echo "___________________________________________________________________________________________________________________"
         echo
-        echo " "$der"  >>> SETTINGS >>> VIDEO PLAYER >>> CUSTOM                                   Current Setting: "$vplay" "
+        echo " "$der"  >>> SETTINGS >>> VIDEO PLAYER >>> CUSTOM"
         echo "___________________________________________________________________________________________________________________"
         echo
         echo " Custom:" "$cplayer1" "$cplayer2"
@@ -18818,20 +18820,26 @@ function menumpvclear {
            echo " Custom cleared . . ."
            sleep .7
 
+           if [[ "$vplay" = "3" ]]
+           then
            if ! command -v mpv &> /dev/null ####### Check for mpv and set if found ########
            then
-               echo "1" > ~/.config/videoinfox/videoinfox.video-player # SET FFPLAY
-               echo
-               echo " ffplay set . . ."
-               sleep .4
+           echo "1" > ~/.config/videoinfox/videoinfox.video-player # SET FFPLAY
+           echo
+           echo " ffplay set . . ."
+           sleep .7
            else
-               echo "2" > ~/.config/videoinfox/videoinfox.video-player # SET MPV
-               echo "1" > ~/.config/videoinfox/mpvmarker # MPV OPTION  --save-position-on-quit  ACTIVE
-               echo
-               echo " mpv set . . ."
-               sleep .4
+           echo "2" > ~/.config/videoinfox/videoinfox.video-player # SET MPV
+           echo "1" > ~/.config/videoinfox/mpvmarker # MPV OPTION  --save-position-on-quit  ACTIVE
+           echo
+           echo " mpv set . . ."
+           sleep .7
            fi
            read -r vplay < ~/.config/videoinfox/videoinfox.video-player
+
+           else
+           :
+           fi
            ;;
 
 
@@ -19703,9 +19711,9 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " ""$der"" >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlpver"        
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " r - Download Only       l - Last Download      g - Download List     p - Play Clipboard                q - Quit"
-                      echo " c - Download Choose     v - View Downloads"
-                      echo " s - Self Destruct                                                                                      x - Clrclp"
+                      echo " r - Download Only       g - Download List     l - Last Download      p - Play Clipboard                  q - Quit"
+                      echo " c - Download Choose                           v - View Downloads     x - Clrclp                          u - Set"
+                      echo " s - Self Destruct"
                       echo
                   
                       echo "" | xclip -sel clip  # clearing out the clipboard
@@ -19723,10 +19731,9 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " ""$der"" >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlpver"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-
-echo -e " r ~ Download Only       l - Last Download      g - Download List     p * Play Clipboard                q - Quit "
-                      echo " c ~ Download Choose     v - View Downloads"
-                      echo " s ~ Self Destruct                                                                                      x - Clrclp"
+                      echo " r - Download Only       g - Download List     l - Last Download      p * Play Clipboard                  q - Quit"
+                      echo " c - Download Choose                           v - View Downloads     x - Clrclp                          u - Set"
+                      echo " s - Self Destruct"
                       echo                                                                                  
             fi
   else
@@ -19739,10 +19746,9 @@ echo -e " r ~ Download Only       l - Last Download      g - Download List     p
             echo " ""$der"" >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlpver"
             echo "___________________________________________________________________________________________________________________"
             echo
-
-echo -e " r ~ Download Only       l - Last Download      g - Download List     p * Play Clipboard                q - Quit "
-            echo " c ~ Download Choose     v - View Downloads"
-            echo " s ~ Self Destruct                                                                                      x - Clrclp"
+            echo " r - Download Only       g - Download List     l - Last Download      p * Play Clipboard                  q - Quit"
+            echo " c - Download Choose                           v - View Downloads     x - Clrclp                          u - Set"
+            echo " s - Self Destruct"                                                                        
             echo                                                                      
 
         else 
@@ -19755,9 +19761,9 @@ echo -e " r ~ Download Only       l - Last Download      g - Download List     p
             echo " ""$der"" >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlpver"        
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " r - Download Only       l - Last Download      g - Download List     p - Play Clipboard                q - Quit"
-            echo " c - Download Choose     v - View Downloads"
-            echo " s - Self Destruct                                                                                      x - Clrclp"
+            echo " r - Download Only       g - Download List     l - Last Download      p - Play Clipboard                  q - Quit"
+            echo " c - Download Choose                           v - View Downloads     x - Clrclp                          u - Set"
+            echo " s - Self Destruct"
             echo
 fi
 fi
@@ -19771,12 +19777,75 @@ read -r -n1 optiony
      while true
      do
      menuy
-	case $optiony in
+     case $optiony in
 
 
      q)  # QUIT
      clear
      break;;
+
+      
+     u)  # SET
+     
+        function dwnlderop {
+
+        read -r dlargue 2>/dev/null < ~/.config/videoinfox/dlargue         
+        clear
+        clear
+        echo
+        echo "___________________________________________________________________________________________________________________"
+        echo
+        echo " "$der"  YT-DLP MENU >>> SETTINGS"
+        echo "___________________________________________________________________________________________________________________"
+        echo
+        echo " Set or clear custom yt-dlp option(s). Applies to: -Download Only -Self Destruct -Download List -Play Clipboard"
+        echo
+        echo " yt-dlp" "$dlargue"
+        echo
+        echo " s - Set                                                                                                  q - Quit"
+        echo " c - Clear"
+        echo
+        echo -en " Enter Option: "
+        read -r -n1 option
+        echo
+        }
+
+        while true
+        do
+	  dwnlderop
+	  case $option in
+
+        c) #CLEAR
+           unset dlargue
+           rm ~/.config/videoinfox/dlargue 2>/dev/null
+           echo
+           echo " Custom options cleared . . ."
+           sleep .7
+           ;;
+
+        s) #SET
+          echo
+          read -r -p " Enter yt-dlp option(s): " dlcustom
+          echo
+
+          if [ -z "$dlcustom" ]
+            then
+                :
+            else
+                echo "$dlcustom" > ~/.config/videoinfox/dlargue
+                read -r dlargue 2>/dev/null < ~/.config/videoinfox/dlargue
+                echo " Custom options set . . ."
+                sleep .7
+          fi
+          ;;
+
+          q) # quit
+          break;;
+          
+          *)        
+          esac
+          done
+          ;;
 
 
      x)  # CLEAR CLIPBOARD  (DOWNLOAD LIST)
@@ -20355,7 +20424,7 @@ dash1=$(echo -e "\033[5m-\033m\033[0m\033[5m\033[5m\033[0m")
 
 
 # get file count of videos one directory deep for blinking   Play Directory
-blinkit=$(find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
+blinkit=$(find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" -o -iname "*.3gp" \) 2>/dev/null | wc -l)
 
 # if find results are zero goto then
 if [ "$blinkit" = 0 ]
@@ -20862,14 +20931,14 @@ fi
 
     echo
 
-    ~/.config/videoinfox/yt-dlp "$line"  # download url
+    ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$line"  # download url
 
     echo
     echo "Logging URL and Filename to:" "$logfile"
 
     # logging yt-dlp output
     echo "$line" >> "$logfile" 
-    ~/.config/videoinfox/yt-dlp "$line" | tee >> "$logfile"
+    ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$line" | tee >> "$logfile"
     echo >> "$logfile" 
 
     ############  REMOVE UNWANTED LOG INFO  ############# 
@@ -21305,12 +21374,12 @@ input="$playnumber"
 while read -r line  # read line by line until end
 do
 echo
-~/.config/videoinfox/yt-dlp "$line"  # download url
+~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$line"  # download url
 echo
 echo "Logging URL and Filename to:" "$logfile"
 # logging yt-dlp output
 echo "$line" >> "$logfile" 
-~/.config/videoinfox/yt-dlp "$line" | tee >> "$logfile"
+~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$line" | tee >> "$logfile"
 echo >> "$logfile" 
 done < "$input"
 ################  DOWNLOAD LOOP END  ################
@@ -21540,7 +21609,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       cp ~/.config/videoinfox/videoinfo.lastdownload ~/.config/videoinfox/videoinfo.lastdownload.bak
    
       ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload 
-      ~/.config/videoinfox/yt-dlp "$pasteclip"     
+      ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$pasteclip"     
       
       # remove first dot and everything after it in filename. this was done because file names with dots before the extension were breking find results
       sed "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload > ~/.config/videoinfox/videoinfo.lastdownload.work
@@ -21739,10 +21808,10 @@ if [ "$grabclip" = "http" ]  # if the first 4 characters = <http> go then
 fi
 
 # Find video files.
-find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) > ~/.config/videoinfox/videoinfo.view-downloads
+find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" -o -iname "*.3gp" \) > ~/.config/videoinfox/videoinfo.view-downloads
 
 # CHECK FOR FILES to display:  - vs ~
-istherefiles=$(find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) | wc -l)
+istherefiles=$(find "$PWD" -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" -o -iname "*.3gp" \) | wc -l)
 
 vdash0=$(echo "-")
 vdash1=$(echo "~")
@@ -21912,7 +21981,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       cp ~/.config/videoinfox/videoinfo.lastdownload ~/.config/videoinfox/videoinfo.lastdownload.bak
    
       ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload 
-      ~/.config/videoinfox/yt-dlp "$pasteclip"     
+      ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$pasteclip"     
       
       # remove first dot and everything after it in filename. this was done because file names with dots before the extension were breking find results
       sed "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload > ~/.config/videoinfox/videoinfo.lastdownload.work
@@ -22157,7 +22226,7 @@ fi
 rm ~/.config/videoinfox/tmp/videoinfox.numbered-viewdownloads-play-directory-list 2>/dev/null
 
 # WRITING VIDEO FILE LIST TO FILE: /.config/videoinfox/tmp/videoinfo.nt-play-directory-apa 
-find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) > ~/.config/videoinfox/tmp/videoinfox.viewdownloads-play-directory-apa-work 2>/dev/null
+find "$PWD" -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" -o -iname "*.3gp" \) > ~/.config/videoinfox/tmp/videoinfox.viewdownloads-play-directory-apa-work 2>/dev/null
 
 # SORT BACK INTO ORDER
 sort -u ~/.config/videoinfox/tmp/videoinfox.viewdownloads-play-directory-apa-work > ~/.config/videoinfox/tmp/videoinfox.viewdownloads-play-directory-apa
@@ -22536,7 +22605,7 @@ fi
                 then
          
               clear
-              ~/.config/videoinfox/yt-dlp "$pasteclip" -o "$dirsaved"/download.tmp  # downloading temporary video
+              ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$pasteclip" -o "$dirsaved"/download.tmp  # downloading temporary video
               "$vnotify" "Videoinfox messsage: YT-DLP is done downloading . . ." "$pasteclip" 
 
               clear
@@ -22661,7 +22730,7 @@ fi
               clear
       
               ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload 
-              ~/.config/videoinfox/yt-dlp "$pasteclip"     
+              ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$pasteclip"     
       
               # remove first dot and everything after it in filename. file names with dots before the extension were breking find results
               sed "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload > ~/.config/videoinfox/videoinfo.lastdownload.work
@@ -22956,7 +23025,7 @@ l)  # LIST DIRECTORY
 ##################################################################################################################################################
 
 #   The Line below gives a total count of all mp4, mkv, avi, & divx in Current Directory.
-currentdirfilecount=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
+currentdirfilecount=$(find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" -o -iname "*.3gp" \) 2>/dev/null | wc -l)
 	
 
 if [ -f "videoinfo.List-Directory" ]  #  if file <videoinfo.List-Directory> exists goto <then>
@@ -23053,7 +23122,21 @@ do
   echo
   echo >> videoinfo.List-Directory
 done
- 	
+
+
+for i in *.3gp  # list all <3gp> files in the current directory
+do 
+  echo "$i"  # display <3gp> filename
+  echo "$i" >> videoinfo.List-Directory
+  $codecres "$i"  # display <3gp> Codec & Resolution
+  $codecres "$i" >> videoinfo.List-Directory
+  ffmpeg -i "$i" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//  # grep out duration, cut everything after "," then remove the ","
+  ffmpeg -i "$i" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,// >> videoinfo.List-Directory  # writing the same thing to a file
+  echo
+  echo >> videoinfo.List-Directory
+done
+
+	
 # echo >> videoinfo.List-Directory
 echo "Total Video Files:" "$currentdirfilecount"
 echo >> videoinfo.List-Directory
@@ -23084,7 +23167,7 @@ if [ "$currentdirfilecount" = 0 ]  # if find returned no results goto <then>
      
       #  This is where the file <~/.config/videoinfox/videoinfo.duration.tmp> is created to store duration in seconds with the format being  (x.xxxxxx)
       #  Video files are found in current directory and processed with ffprobe and written to <~/.config/videoinfox/videoinfo.duration.tmp>. 
-find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) -exec ffprobe -show_entries format=duration -v quiet -of csv="p=0" {} \; > ~/.config/videoinfox/videoinfo.duration.tmp 2>/dev/null
+find . -maxdepth 1 -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" -o -iname "*.3gp" \) -exec ffprobe -show_entries format=duration -v quiet -of csv="p=0" {} \; > ~/.config/videoinfox/videoinfo.duration.tmp 2>/dev/null
 
       #  ffprobe outputs video duration in seconds 6 places past the decimal point.
       #  bash can't do floating point math.  So  <bc>  is needed first to get sum of   <~/.config/videoinfox/videoinfo.duration.tmp>
@@ -23328,8 +23411,10 @@ webmcount=$(find . -type f \( -iname "*.webm" \) 2>/dev/null | wc -l) # total nu
 echo " WEBM  = " "$webmcount"
 divxcount=$(find . -type f \( -iname "*.divx" \) 2>/dev/null | wc -l) # total number of <divx> files found
 echo " DIVX  = " "$divxcount"
+g3pcount=$(find . -type f \( -iname "*.3gp" \) 2>/dev/null | wc -l) # total number of <divx> files found
+echo " 3GP  = " "$g3pcount"
 echo "------------------"
-totalcount=$(($mp4count + $mkvcount + $avicount + $webmcount + $divxcount))  # calcutation for Sum of All 4 file types
+totalcount=$(($mp4count + $mkvcount + $avicount + $webmcount + $divxcount + $g3pcount))  # calcutation for Sum of All 4 file types
 echo " TOTAL = " $totalcount  # display Sum
 # GUI Notification is displayed when this function <option 6> has completed. 
 "$vnotify" "Videoinfox is done processing Video File Count " "Total Video Files located in $PWD : $totalcount"
@@ -23350,7 +23435,7 @@ if [ -f "videoinfo.Video-Duration" ]  #  if <videoinfo.Video-Durationy> exists g
   else
 #     >>>>>>>>>>>>>>>>>>>>>>>>>> CREATE NEW RESULTS >>>>>>>>>>>>>>>>>>>>>>>>>>
 #   The Line below gives a total count of all mp4, mkv, avi, & divx Recursively.
-alldirfilecount=$(find . -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -name "*.webm" -o -iname "*.divx" \) 2>/dev/null | wc -l)
+alldirfilecount=$(find . -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -name "*.webm" -o -iname "*.divx" -o -iname "*.3gp" \) 2>/dev/null | wc -l)
 
 #  The group of echo's below write a header to file <videoinfo.Video-Duration> 
 echo > videoinfo.Video-Duration
@@ -23384,7 +23469,7 @@ echo >> videoinfo.Video-Duration
 
 #  This is where the file <~/.config/videoinfox/videoinfo.duration.tmp> is created to store duration in seconds with the format being  (x.xxxxxx)
 #  Video files are found recursively and processed with ffprobe and written to <~/.config/videoinfox/videoinfo.duration.tmp>. 
-find . -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" \) -exec ffprobe -show_entries format=duration -v quiet -of csv="p=0" {} \; > ~/.config/videoinfox/videoinfo.duration.tmp 2>/dev/null
+find . -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" -o -iname "*.3gp" \) -exec ffprobe -show_entries format=duration -v quiet -of csv="p=0" {} \; > ~/.config/videoinfox/videoinfo.duration.tmp 2>/dev/null
 
 
 #  ffprobe outputs video duration in seconds 6 places past the decimal point.
