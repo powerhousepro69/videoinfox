@@ -37,7 +37,7 @@ Notification on home screen if mpv is set as the video player and  option --save
 
 ### Hotkey navigation that is robust and efficient.
 
-         One keypress for all menu selections. Over 100 options.
+     ONE KEYPRESS FOR ALL MENU SELECTIONS. OVER 100 OPTIONS.
 
 ### Playlist Features:
 
