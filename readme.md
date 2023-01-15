@@ -1,4 +1,4 @@
-# Videoinfox v5.5.17
+# Videoinfox v5.5.19
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -373,6 +373,10 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.5.19 Add: Line number added to Resume: in -View Playlist
+
+        Add: Line number added to Resume: in -Play Queue
 
 ###  v5.5.17 Edit: Home Help. Find your videos fast. Powerful playlist building and editing..... section
 
