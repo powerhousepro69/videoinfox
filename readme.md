@@ -1,4 +1,4 @@
-# Videoinfox v5.5.14
+# Videoinfox v5.5.16
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -374,6 +374,10 @@ FIRST RUN
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
 
+###  v5.5.16 Change: Moved option -Clrclp below -Play Clipboard in -Played List
+
+        Fix: Had to add 3gp files to -Play Clipboard filter.
+
 ###  v5.5.14 New: -Set in YT-DLP MENU to use Yt-dlp with no options or custom options.
 
         Applies to: -Download Only  -Self Destruct  -Download List  -Play Clipboard
@@ -415,20 +419,6 @@ FIRST RUN
 
         Change: Moved a few options around in Change and Queue
 
-###  v5.4.33 Change: -Change Directory in YT-DLP MENU >>> DOWNLOAD LIST >>> Create/Change Directory
-     
-        Change Directory would blink if there was a valid dir in the clipboard.
-        Left over from many versions ago.
-
-###  v5.4.32 Change: Messages in Queue List
-
-###  v5.4.31 Change: Duplicates in the Played List are no longer auto removed.
-
-        Add: -Remove Dupes option added to the Played List.
-
-###  v5.4.30 Edit: Some edits in View Playlist >>> Help
-
-        Added line:  Pressing enter with no entry on any of the above edits will cancel the edit.
 
 
 ### Harnessing the power of:
