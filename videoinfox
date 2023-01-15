@@ -5,9 +5,9 @@
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
-ver="Videoinfox v5.5.14"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m5.14")  # Version Number: with blinking dot
-vn="v5.5.14" #V!  update help files on update
+ver="Videoinfox v5.5.16"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m5.16")  # Version Number: with blinking dot
+vn="v5.5.16" #V!  update help files on update
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -1253,7 +1253,7 @@ echo "__________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.5.14   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Videoinfox v5.5.16   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1406,7 +1406,7 @@ else
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.5.14   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
+echo " Videoinfox v5.5.16   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1736,7 +1736,7 @@ echo " q - quit                                                                 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 #V!
-echo " 200 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " 201 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 
 
@@ -1749,6 +1749,11 @@ echo " _________________________________________________________________________
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
 
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v5.5.16 Change: Moved option -Clrclp below -Play Clipboard in -Played List" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Fix: Had to add 3gp files to -Play Clipboard filter." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.5.14 New: -Set in YT-DLP MENU to use Yt-dlp with no options or custom options." >> ~/.config/videoinfox/videoinfo-ver-history
 echo "              Applies to: -Download Only  -Self Destruct  -Download List  -Play Clipboard" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2014,14 +2019,14 @@ echo " _________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.0.03 Edit: A few minor edits in help files." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v5.0.02 Fix: -Make Playlist in -Played List was broke." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+
 
 ########################
 echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v5.0.01 Fix: -Play Directory and videoinfox -d" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v5.0.02 Fix: -Make Playlist in -Played List was broke." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+########################
+
 
 
 
@@ -8255,6 +8260,9 @@ then
 elif [[ "$whatfext" = "divx" ]]
 then
 :
+elif [[ "$whatfext" = "3gp" ]]
+then
+:
 else
 echo "" | xclip -sel clip  # clearing out the clipboard
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content    
@@ -8300,7 +8308,7 @@ fi
             echo
             echo
             echo " No playable content in the clipboard . . ."
-            sleep .4
+            sleep .9
       fi   
   fi
   ;;  
@@ -8911,6 +8919,9 @@ then
 elif [[ "$whatfext" = "divx" ]]
 then
 :
+elif [[ "$whatfext" = "3gp" ]]
+then
+:
 else
 echo "" | xclip -sel clip  # clearing out the clipboard
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content    
@@ -8958,7 +8969,7 @@ fi
              echo
              echo
              echo " No playable content in the clipboard . . ."
-             sleep .4
+             sleep .9
 
 fi
 fi
@@ -9184,8 +9195,8 @@ fi
                       echo " "$der" >>> PLAYED LIST"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " j "$dashit" Play         s - View Playlist     g - Remove Dupes          p - Play Clipboard     x - Clrclp       q - Quit"
-                      echo " o "$dashit" Autoplay     k "$dashit" Playlist Add      d - Clear Played List"
+                      echo " j "$dashit" Play         s - View Playlist     g - Remove Dupes          p - Play Clipboard                      q - Quit"
+                      echo " o "$dashit" Autoplay     k "$dashit" Playlist Add      d - Clear Played List     x - Clrclp"
                       echo " i "$dashit" Info         z "$dashit" Make Playlist"
                       echo   
 
@@ -9197,9 +9208,9 @@ fi
                       echo " "$der" >>> PLAYED LIST"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " j "$dashit" Play         s - View Playlist     g - Remove Dupes          p * Play Clipboard     x - Clrclp       q - Quit"
-                      echo " o "$dashit" Autoplay     k "$dashit" Playlist Add      d - Clear Played List"
-                      echo " i "$dashit" Info         z "$dashit" Make Playlist"
+                      echo " j "$dashit" Play         s - View Playlist     g - Remove Dupes          p * Play Clipboard                      q - Quit"
+            echo " o "$dashit" Autoplay     k "$dashit" Playlist Add      d - Clear Played List     x - Clrclp"
+            echo " i "$dashit" Info         z "$dashit" Make Playlist"
                       echo                                                                                        
             fi
   else
@@ -9213,8 +9224,8 @@ fi
             echo " "$der" >>> PLAYED LIST"
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " j "$dashit" Play         s - View Playlist     g - Remove Dupes          p * Play Clipboard     x - Clrclp       q - Quit"
-            echo " o "$dashit" Autoplay     k "$dashit" Playlist Add      d - Clear Played List"
+            echo " j "$dashit" Play         s - View Playlist     g - Remove Dupes          p * Play Clipboard                      q - Quit"
+            echo " o "$dashit" Autoplay     k "$dashit" Playlist Add      d - Clear Played List     x - Clrclp"
             echo " i "$dashit" Info         z "$dashit" Make Playlist"
             echo                                                            
 
@@ -9228,8 +9239,8 @@ fi
             echo " "$der" >>> PLAYED LIST"
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " j "$dashit" Play         s - View Playlist     g - Remove Dupes          p - Play Clipboard     x - Clrclp       q - Quit"
-            echo " o "$dashit" Autoplay     k "$dashit" Playlist Add      d - Clear Played List"
+            echo " j "$dashit" Play         s - View Playlist     g - Remove Dupes          p - Play Clipboard                      q - Quit"
+            echo " o "$dashit" Autoplay     k "$dashit" Playlist Add      d - Clear Played List     x - Clrclp"
             echo " i "$dashit" Info         z "$dashit" Make Playlist"
             echo
 fi
@@ -13686,6 +13697,9 @@ then
 elif [[ "$whatfext" = "divx" ]]
 then
 :
+elif [[ "$whatfext" = "3gp" ]]
+then
+:
 else
 echo "" | xclip -sel clip  # clearing out the clipboard
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content    
@@ -13731,7 +13745,7 @@ fi
             echo
             echo
             echo " No playable content in the clipboard . . ."
-            sleep .4
+            sleep .9
       fi   
   fi
   ;;  
@@ -14034,6 +14048,9 @@ then
 elif [[ "$whatfext" = "divx" ]]
 then
 :
+elif [[ "$whatfext" = "3gp" ]]
+then
+:
 else
 echo "" | xclip -sel clip  # clearing out the clipboard
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content    
@@ -14081,7 +14098,7 @@ fi
             echo
             echo
             echo " No playable content in the clipboard . . ."
-            sleep .4
+            sleep .9
       fi   
   fi
   ;;  
@@ -18115,6 +18132,9 @@ then
 elif [[ "$whatfext" = "divx" ]]
 then
 :
+elif [[ "$whatfext" = "3gp" ]]
+then
+:
 else
 echo "" | xclip -sel clip  # clearing out the clipboard
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content    
@@ -18160,7 +18180,7 @@ fi
             echo
             echo
             echo " No playable content in the clipboard . . ."
-            sleep .4
+            sleep .9
       fi   
   fi
   ;;  
@@ -21720,6 +21740,9 @@ then
 elif [[ "$whatfext" = "divx" ]]
 then
 :
+elif [[ "$whatfext" = "3gp" ]]
+then
+:
 else
 echo "" | xclip -sel clip  # clearing out the clipboard
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content    
@@ -21767,7 +21790,7 @@ fi
            echo
            echo
            echo " No playable content in the clipboard . . ."
-           sleep .4
+           sleep .9
        fi
 fi
 
@@ -22092,6 +22115,9 @@ then
 elif [[ "$whatfext" = "divx" ]]
 then
 :
+elif [[ "$whatfext" = "3gp" ]]
+then
+:
 else
 echo "" | xclip -sel clip  # clearing out the clipboard
 pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content    
@@ -22139,7 +22165,7 @@ fi
            echo
            echo
            echo " No playable content in the clipboard . . ."
-           sleep .4
+           sleep .9
       fi 
 fi
 
@@ -22640,7 +22666,7 @@ fi
                     echo
                     echo
                     echo " Clipboard is empty or contained invalid video url . . ."
-                    sleep .1
+                    sleep .7
               fi
 
               cd "$grabdir" # restore dir
@@ -23412,7 +23438,7 @@ echo " WEBM  = " "$webmcount"
 divxcount=$(find . -type f \( -iname "*.divx" \) 2>/dev/null | wc -l) # total number of <divx> files found
 echo " DIVX  = " "$divxcount"
 g3pcount=$(find . -type f \( -iname "*.3gp" \) 2>/dev/null | wc -l) # total number of <divx> files found
-echo " 3GP  = " "$g3pcount"
+echo " 3GP   = " "$g3pcount"
 echo "------------------"
 totalcount=$(($mp4count + $mkvcount + $avicount + $webmcount + $divxcount + $g3pcount))  # calcutation for Sum of All 4 file types
 echo " TOTAL = " $totalcount  # display Sum
