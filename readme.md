@@ -1,4 +1,4 @@
-# Videoinfox v5.5.16
+# Videoinfox v5.5.17
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -373,6 +373,8 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.5.17 Edit: Home Help. Find your videos fast. Powerful playlist building and editing..... section
 
 ###  v5.5.16 Change: Moved option -Clrclp below -Play Clipboard in -Played List
 
