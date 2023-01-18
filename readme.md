@@ -34,7 +34,7 @@ sudo chmod +x /usr/local/bin/videoinfox
 
 <br />
 
-#### The next feature will be &nbsp; - Download Channel  &nbsp; to download Youtube channels.
+#### The next feature will be &nbsp; - Download Channel  &nbsp; to download Youtube channels via Yt-dlp.
 
 <br />
 
