@@ -12,8 +12,6 @@ everything played by Play Clipboard, Last Download and Play.  Index unlimited vi
 videos by keyword from the path or file.  Yt-dlp integration. Download list building without leaving
 your web browser and a download queue to load up unlimited download lists for batch processing.
 
-<br />
-NEW: &nbsp; -Set in YT-DLP MENU to use Yt-dlp with no options or custom options.
 
 <br />
 
@@ -29,6 +27,16 @@ sudo chmod +x /usr/local/bin/videoinfox
 
 **Getting Started:** Set the Default Directories located in -Set. Enter the parent directories of your video libraries. Then run -Index Default Directories This will build a searchable recursive list of all 4 default directories for -Playlist Find. Find a video(s) with a keyword from the path or file.
 
+
+<br />
+
+#### New: &nbsp; -Set in YT-DLP MENU to use Yt-dlp with no options or custom options.
+
+<br />
+
+#### The next feature will be &nbsp; - Download Channel  &nbsp; to download Youtube channels.
+
+<br />
 
 *Videoinfox recommends using MPV to watch videos and will be set as the default video player if found.
 Mpv saves play postion on quit of every video played and Videoinfox saves Playlist and Play Queue position.
