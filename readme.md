@@ -1,4 +1,4 @@
-# Videoinfox v5.5.19
+# Videoinfox v5.6.00
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -34,7 +34,7 @@ sudo chmod +x /usr/local/bin/videoinfox
 
 <br />
 
-#### The next feature will be &nbsp; - Download Channel  &nbsp; to download Youtube channels via Yt-dlp.
+#### The next feature will be &nbsp; - Download Playlist  &nbsp; to download Url Playlists.
 
 <br />
 
@@ -381,6 +381,25 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.6.00 New: -Download Playlist added to Yt-dlp Menu
+
+        With options:  -Add  -Remove  -Info  -Download 
+                        Yt-dlp video quality is set to best video with best audio
+
+        Add: Default Directory   5 - Download Playlist  for the download playlist feature.
+
+        Add: Index Date: added to Playlist Find
+
+        Change: Directory at last exit changed from 5 to 6
+
+        Change: Last Run: changed to Index Date: in Settings
+
+        Change: Play Clipboard with url. If Yt-dlp deosn't extract a filename in 7 seconds it times out.
+                This change was made for when yt-dlp hangs on trying to get a name from a bad url.
+
+        Note: New feature was first named Download Channel and then renamed to Download Playlist before release.
+
 
 ###  v5.5.19 Add: Line number added to Resume: in -View Playlist
 
