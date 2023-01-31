@@ -29,8 +29,11 @@ sudo chmod +x /usr/local/bin/videoinfox
 
 
 <br />
+NEW: &nbsp; -Download Playlist added to the Yt-dlp Menu
 
-#### New: &nbsp; -Download Playlist added to the Yt-dlp Menu
+![Videoinfox DL Playlist](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/DOWNLOAD-PLAYLIST.png)
+
+
 
 <br />
 
