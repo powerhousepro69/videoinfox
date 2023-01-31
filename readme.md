@@ -1,4 +1,4 @@
-# Videoinfox v5.6.00
+# Videoinfox v5.6.34
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -30,11 +30,7 @@ sudo chmod +x /usr/local/bin/videoinfox
 
 <br />
 
-#### New: &nbsp; -Set in YT-DLP MENU to use Yt-dlp with no options or custom options.
-
-<br />
-
-#### The next feature will be &nbsp; - Download Playlist  &nbsp; to download Url Playlists.
+#### New: &nbsp; -Download Playlist added to the Yt-dlp Menu
 
 <br />
 
@@ -382,76 +378,39 @@ FIRST RUN
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
 
-###  v5.6.00 New: -Download Playlist added to Yt-dlp Menu
+###  v5.6.34 New: -Download Playlist added to the Yt-dlp Menu
 
-        With options:  -Add  -Remove  -Info  -Download 
-                        Yt-dlp video quality is set to best video with best audio
+        Options:   -Add   -Info   -Download   -Update   -Remove   -View   -Restore   -Clear All
+        Note: Video download quality set to best video with best audio.
+
+        This feature will create directory:  url-playlists  in the default Download dir. -Set in home to change.
+
+        -Add to enter or paste a URL playlist. Then enter a playlist name.
+         If a URL or Playlist Name already exists, message displays and -Add will exit.
+         The 2 below files are created in the default Download Playlist directory for every playlist created.
+
+        .playlistname.nfo contains: Media location, URL, Playlist Name, Yt-dlp Archive File, Line used to download playlist.
+        .playlistname.pl that contains the URL playlist with video names and download ids.
+
+        The first time a playlist is downloaded whether finished or not, the downloaded videos location will be written to 
+        the to Download Playlist -Info
+
+        Download archive file is a Yt-dlp feature. It keeps track of what was already downloaded.
+        Download playlist file is a Yt-dlp feature. Listing of all video names and download ids in the URL Playlist.
 
         Add: Default Directory   5 - Download Playlist  for the download playlist feature.
 
-        Add: Index Date: added to Playlist Find
-
         Change: Directory at last exit changed from 5 to 6
+
+        Update: Default Dirs 6 added to the display.
 
         Change: Last Run: changed to Index Date: in Settings
 
-        Change: Play Clipboard with url. If Yt-dlp deosn't extract a filename in 7 seconds it times out.
-                This change was made for when yt-dlp hangs on trying to get a name from a bad url.
+        Add: Index Date: added to Playlist Find
 
-        Note: New feature was first named Download Channel and then renamed to Download Playlist before release.
+        Change: Play Clipboard with url. If Yt-dlp deosn't extract a filename in 10 seconds it times out.
 
-
-###  v5.5.19 Add: Line number added to Resume: in -View Playlist
-
-        Add: Line number added to Resume: in -Play Queue
-
-###  v5.5.17 Edit: Home Help. Find your videos fast. Powerful playlist building and editing..... section
-
-###  v5.5.16 Change: Moved option -Clrclp below -Play Clipboard in -Played List
-
-        Fix: Had to add 3gp files to -Play Clipboard filter.
-
-###  v5.5.14 New: -Set in YT-DLP MENU to use Yt-dlp with no options or custom options.
-
-        Applies to: -Download Only  -Self Destruct  -Download List  -Play Clipboard
-
-
-        Add: Videoinfox now also looks for: 3gp video files.
-
-        Add: File types searched for: mp4, webm, mkv, avi, divx, 3gp  added to Home Help
-
-        Fix: Settings >>> Video player >>> Custom -Clear
-
-        Change: Version history only displays the last 40 updates.
-
-
-###  v5.5.00 New: Make Playlist feature is now also a command line option: videoinfox -z
-
-        Add: The below 2 lines were added to: Videoinfox -h 
-             -z  Make a playlist from a recursive video listing in the current directory. The Playlist
-                 will be saved in ~/.config/videoinfox/playlists which makes the playlist/index
-                 available to videoinfox's feature set.
-
-         Edit: Version History. Everything before v5.0.00 was removed to reduce some bloat.
-               A little over 1,000 lines.
-  
-
-###  v5.4.45 Add: -GUI Notify added to Settings. Turn GUI notifications on or off.
-
-        Note: GUI Notifications are always on for Videoinfox -a and videoinfox -l keyboard shortcuts.
-
-###  v5.4.44 Add: mpv save notification added to the Play Queue
-
-        Change: Moved a few options around in the Play Queue
-
-###  v5.4.42 Add: mpv save notification added to View Playlist
-
-        Change: Moved a few options around in View Playlist
-
-###  v5.4.40 New: -Save As added to change and queue to save the loaded playlist as... with file overwrite prompt.
-
-        Change: Moved a few options around in Change and Queue
-
+        Change: Message at prompt -Queue List -Rebuild queue.
 
 
 ### Harnessing the power of:
