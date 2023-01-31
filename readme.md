@@ -34,6 +34,10 @@ NEW: &nbsp; -Download Playlist added to the Yt-dlp Menu
 ![Videoinfox DL Playlist](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/DOWNLOAD-PLAYLIST.png)
 
 
+Download URL Playlists. Total Videos downloaded and Videos in URL playlist are displayed for each list. When adding a URL, the URL and Playlist Name are checked to find if the entry already exists to avoid a duplicate entry. Yt-dlp will check URL Playlist validity before adding the playlist. Removed playlists can be recovered with Restore. Update Playlist to download a fresh copy. View Playlist to see video names with id. Yt-dlp option --download-archive is use so you can ctrl/c out of a download in progress and restart the download right from where it left off.
+
+There will be more features added to Download Playlist.
+
 
 <br />
 
