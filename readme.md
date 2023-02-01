@@ -25,7 +25,7 @@ sudo chmod +x /usr/local/bin/videoinfox
 
 <br />
 
-**Getting Started:** Set the Default Directories located in -Set. Enter the parent directories of your video libraries. Then run -Index Default Directories This will build a searchable recursive list of all 4 default directories for -Playlist Find. Find a video(s) with a keyword from the path or file.
+**Getting Started:** Set the Default Directories located in -Set. Enter the parent directories of your video libraries. Then run -Index Default Directories This will build a searchable recursive list of all 5 default directories for -Playlist Find. Find a video(s) with a keyword from the path or file.
 
 
 <br />
