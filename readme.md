@@ -1,4 +1,4 @@
-# Videoinfox v5.6.34
+# Videoinfox v5.6.36
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -384,6 +384,10 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.6.36 Fix: Displayed number of files downloaded in -Download Playlist
+ 
+        Fix: Displayed URL in -Download Playlist
 
 ###  v5.6.34 New: -Download Playlist added to the Yt-dlp Menu
 
