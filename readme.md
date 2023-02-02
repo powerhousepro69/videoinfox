@@ -51,6 +51,13 @@ Notification on home screen if mpv is set as the video player and  option --save
 
      ONE KEYPRESS FOR ALL MENU SELECTIONS. OVER 100 OPTIONS.
 
+
+### File types searched for: &nbsp; .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx &nbsp; .3gp
+
+        Note:   -Show All on the Home Screen is recursive.
+                -Show all in -Navigate Tree is one level deep.
+
+
 ### Playlist Features:
 
 ### *Create, Watch, and Manage playlists and the play queue in View Playlist*
@@ -164,12 +171,7 @@ PLAY QUEUE in View Playlist >>> Change and Queue
 
 <br />
 
-  - Help is located on the Home screen covering most of the features. Help also in Download List and View Playlist.
-  - File types searched for: &nbsp; .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx &nbsp; .3gp
-
-        Note:   -Show All on the Home Screen is recursive.
-                -Show all in -Navigate Tree is one level deep.
-
+  - Help is located on the Home screen covering most of the features. Help also in Download List and View Playlist.  
   - Auto save last search result(s) and autoload until cleared. Defaulted to never save. Change in Settings.
   - Check for update on startup and notifity if update is available. Download and update in Videoinfox.
   - Play a local file by entering the line number. Play single video or autoplay the entire list.
