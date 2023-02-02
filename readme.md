@@ -142,7 +142,7 @@ Notification on home screen if mpv is set as the video player and  option --save
 
       Note: Default directories must be set up first. Then run  - Index Default Directories
             
-            Indexing more directories in addition the 4 default directories is a simple process.
+            Indexing more directories in addition to the 5 default directories is a simple process.
             Change to a parent directory of a video library. Then -Show All on the home screen
             and select -Make Playlist
 
