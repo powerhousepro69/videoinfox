@@ -5,9 +5,9 @@
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
-ver="Videoinfox v5.6.36"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m6.36")  # Version Number: with blinking dot
-vn="v5.6.36" #V!  update help files on update
+ver="Videoinfox v5.6.37"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m6.37")  # Version Number: with blinking dot
+vn="v5.6.37" #V!  update help files on update
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -1277,7 +1277,7 @@ echo "__________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.6.36   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Videoinfox v5.6.37   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1429,7 +1429,7 @@ echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.6.36   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
+echo " Videoinfox v5.6.37   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1763,7 +1763,7 @@ echo " q - quit                                                                 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 #V!
-echo " 205 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " 206 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 
 
@@ -1776,6 +1776,9 @@ echo " _________________________________________________________________________
 
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v5.6.37 Fix: Playlist download directory being written to the nfo file." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.6.36 Fix: Displayed number of files downloaded in -Download Playlist" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2053,11 +2056,9 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Change: Played List option:  D - Clear Played List  changed to  d - Clear Played List" >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Add: Confirmation prompt added to -Clear Played List" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v5.1.01 Edit: Home Help Playlist Features:" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 
-####################### Here for v5.6.36 but up next on the chopping block with next update #######################
+
+####################### Here for v5.6.37 but up next on the chopping block with next update #######################
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.1.01 Edit: Home Help Playlist Features:" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -20023,21 +20024,24 @@ sed -n -e 's/^.*archive //p' ~/.config/videoinfox/videoinfox.dl-playlist | cut -
 input1="$HOME"/.config/videoinfox/tmp/videoinfox.dl-playlist-names
 while read -r line
 do
-read -r nfodir < ."$line".nfo 
 
-chk4slash=$(echo "$nfodir" | cut -c1-1)      
-if [ "$chk4slash" = "/" ]
+if [ -f "$line".ch ]
 then
-
-cd "$nfodir"
-
-find -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" -o -iname "*.3gp" \) | wc -l >> ~/.config/videoinfox/tmp/dl-download-filestotal
-
+cat "$line".ch | wc -l >> ~/.config/videoinfox/tmp/dl-download-filestotal 
 else
 echo "0" >> ~/.config/videoinfox/tmp/dl-download-filestotal
 fi
 
-cd "$sthedir"
+#read -r nfodir < ."$line".nfo 
+#chk4slash=$(echo "$nfodir" | cut -c1-1)      
+#if [ "$chk4slash" = "/" ]
+#then
+#cd "$nfodir"
+#find -type f \( -iname "*.mp4" -o -iname "*.mkv" -o -iname "*.avi" -o -iname "*.webm" -o -iname "*.divx" -o -iname "*.3gp" \) | wc -l >> ~/.config/videoinfox/tmp/dl-download-filestotal
+#else
+#echo "0" >> ~/.config/videoinfox/tmp/dl-download-filestotal
+#fi
+#cd "$sthedir"
 done < "$input1"
 
 
@@ -20128,12 +20132,13 @@ echo " ""$der"" >>> DOWNLOAD PLAYLIST >>> HELP"
 echo "_________________________________________________________________________________________________________________"
 echo
 echo
-echo " Overhead display:  line #   Playlist Name   Playlist URL   # of downloaded videos ~ # of videos in the Playlist"
+echo " Overhead display:  line #   Playlist Name   Playlist URL   # of videos downloaded ~ # of videos in the Playlist"
 echo
+echo " The number of videos downloaded is gotten from the Yt-dlp --download-archive feature. The playlistname.ch files."
+echo " If a .ch file is deleted, the number displayed will be zero along with the list of what was already downloaded."
 echo
 echo " -ADD to enter or paste a URL playlist. Then enter a desriptive playlist name."
 echo "  If a URL or Playlist Name already exists, message displays and -Add will exit."
-echo
 echo
 echo " -UPDATE will download a fresh copy of a URL Playlist. There is also an option to Index Default Directories."
 echo
@@ -20157,14 +20162,11 @@ read -r -p " Press enter to continue . . ."
 
 
 v) # VIEW
-
-linecount="$chklinklist"
 clear
+linecount="$chklinklist"
 cat ~/.config/videoinfox/tmp/videoinfox.dl-playlist-names-number
 echo
 read -r -p "View URL Playlist: " linenumber  # waiting fot user input
-
-chname=$(sed -n "$linenumber"p ~/.config/videoinfox/tmp/videoinfox.dl-playlist-names)
 
 if [ -z "$linenumber" ]
 then # BLANK ENTRY
@@ -20190,7 +20192,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
         then  # ENTRY EXCEEDS TOTAL NUMBER OF LINES
             :
 else
-
+chname=$(sed -n "$linenumber"p ~/.config/videoinfox/tmp/videoinfox.dl-playlist-names) 
 clear
 cat ."$chname".pl
 echo
@@ -20778,7 +20780,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
             read plfile1 < ."$chname".pl # first video downloaded 
             read nfofile1 < ."$chname".nfo # first line of .*.nfo. will be blank if download was never run  
 
-dirfind1=$(find "$PWD" -type f \( -iname "*.mp4" -o -iname "$plfile1.mkv" -o -iname "$plfile1.avi" -o -iname "$plfile1.webm" -o -iname "$plfile1.divx" -o -iname "$plfile1.3gp" \) | sort -u > ~/.config/videoinfox/tmp/videoinfox.dl-1st-pl-result) # video downloaded with path
+dirfind1=$(find "$PWD" -type f \( -iname "$plfile1.mp4" -o -iname "$plfile1.mkv" -o -iname "$plfile1.avi" -o -iname "$plfile1.webm" -o -iname "$plfile1.divx" -o -iname "$plfile1.3gp" \) 2>/dev/null > ~/.config/videoinfox/tmp/videoinfox.dl-1st-pl-result) # video downloaded with path
  
             read firstplresult < ~/.config/videoinfox/tmp/videoinfox.dl-1st-pl-result # read 1st video with path
             thedir=$(echo "$firstplresult"| sed 's:[^/]*$::' | rev | cut -c2- | rev)
@@ -20790,6 +20792,7 @@ dirfind1=$(find "$PWD" -type f \( -iname "*.mp4" -o -iname "$plfile1.mkv" -o -in
             echo "$var1" > ."$chname".nfo
             var2=$(sed '2 i .' ."$chname".nfo)
             echo "$var2" > ."$chname".nfo
+
        
             else
             :
