@@ -182,9 +182,9 @@ PLAY QUEUE in View Playlist >>> Change and Queue
   - Find directory and change to it by entering the line number.
   - Directory saved on exit to load on next run.
   - GUI notifications
-  - Rapid directory changing by setting default directories (5) in Settings. The 5th is the directory at last exit.
+  - Rapid directory changing by setting default directories (5) in Settings. 6 is the directory at last exit.
   
-        Default Dirs - 1 2 3 4 5  available in: Home, Navigate Tree, Download List & More Options
+        Default Dirs - 1 2 3 4 5 6  available in: Home, Navigate Tree, Download List & More Options
 
   - Played List: &nbsp; Log everything played with: &nbsp; Play, &nbsp; Play Clipboard &nbsp; and &nbsp; Last Download 
   - Info: Get codec, resolution and duration of videos. 
