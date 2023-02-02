@@ -1,4 +1,4 @@
-# Videoinfox v5.6.36
+# Videoinfox v5.6.37
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -9,8 +9,9 @@
 Find your videos fast.  Powerful playlist building and editing. A play queue to load up unlimited playlists
 for autoplay with last video played marker to pick up where you left off. Played List that keeps track of 
 everything played by Play Clipboard, Last Download and Play.  Index unlimited video libraries and find 
-videos by keyword from the path or file.  Yt-dlp integration. Download list building without leaving
-your web browser and a download queue to load up unlimited download lists for batch processing.
+videos by keyword from the path or file.  Yt-dlp integration with Download list building without leaving
+your web browser and a download queue to load up unlimited download lists for batch processing. Download
+URL paylists.
 
 
 <br />
@@ -164,7 +165,7 @@ PLAY QUEUE in View Playlist >>> Change and Queue
 <br />
 
   - Help is located on the Home screen covering most of the features. Help also in Download List and View Playlist.
-  - File types searched for: &nbsp; .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx
+  - File types searched for: &nbsp; .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx &nbsp; .3gp
 
         Note:   -Show All on the Home Screen is recursive.
                 -Show all in -Navigate Tree is one level deep.
@@ -384,6 +385,8 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.6.37 Fix: Playlist download directory being written to the nfo file.
 
 ###  v5.6.36 Fix: Displayed number of files downloaded in -Download Playlist
  
