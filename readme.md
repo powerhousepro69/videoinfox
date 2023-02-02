@@ -1,4 +1,4 @@
-# Videoinfox v5.6.37
+# Videoinfox v5.6.59
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -387,6 +387,16 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.6.59 Change: Options moved around in Download Playlist
+
+        Add: -Update Index added to Download Playlist. This option will add downloaded content to the index.
+               Note: -Index Default Directories will delete the index and rebuild it. -Update Index will add to existing.
+
+        Add: -Clear Restore added to Download Playlist -Restore.
+
+        Change: -Update was renamed and option letter changed in Yt-dlp Menu to:  y - Update Playlist
+
 
 ###  v5.6.37 Fix: Playlist download directory being written to the nfo file.
 
