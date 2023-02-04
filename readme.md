@@ -2,6 +2,9 @@
 
 ### *Where video download and play is a clipboard copy away . . .*
 
+## Next new feature will be -Browse in Download Playlist
+        BROWSE THE URL PLAYLIST. ONLY DOWNLOAD THE VIDEOS YOU WANT FROM THE PLAYLIST.
+
 ![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/HOME.png)
 
 ### 100% Linux Shell Script. Videoinfox is one file under one megabyte.
