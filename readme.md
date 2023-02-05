@@ -1,9 +1,19 @@
-# Videoinfox v5.6.61
+# Videoinfox v5.6.62
 
 ### *Where video download and play is a clipboard copy away . . .*
 
-## Next new feature will be -Browse in Download Playlist
-        BROWSE THE URL PLAYLIST. ONLY DOWNLOAD THE VIDEOS YOU WANT FROM THE PLAYLIST.
+
+#### !!! Just found an issue when on friends pc when updating from a few version before.
+
+Download Playlist wouldn't add a Url Playlist. Kept reporting no videos available. I missed
+something. The feature will work on a fresh setup. All that needs done to fix this issue is
+copy or move the playlist directory ~/.config/videoinfox/playlists so no playlists are lost.
+Then delete the videoinfox directory ~/.config/videoinfox/ and run videoinfox. Exit videoinfox
+and copy the playlist dir back into ~/.config/videoinfox/  Restart videoinfox and setup your
+default directories again. For future reference, if you ever run setup again and you have
+existing URL Playlists, all the data for the Download Playlist feature is saved to where the
+playlists are being downloaded. Download Playlist data isn't stored in the videoinfox directory
+but local playlists are.
 
 ![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/HOME.png)
 
@@ -31,9 +41,13 @@ sudo chmod +x /usr/local/bin/videoinfox
 
 **Getting Started:** Set the Default Directories located in -Set. Enter the parent directories of your video libraries. Then run -Index Default Directories This will build a searchable recursive list of all 5 default directories for -Playlist Find. Find a video(s) with a keyword from the path or file.
 
+<br />
+
+#### NEW: &nbsp; Early preview of -Browse in Download Playlist. For now, -Browse only works with Youtube.
 
 <br />
-NEW: &nbsp; -Download Playlist added to the Yt-dlp Menu
+
+-Download Playlist in the Yt-dlp Menu
 
 ![Videoinfox DL Playlist](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/DOWNLOAD-PLAYLIST.png)
 
@@ -390,6 +404,15 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.6.62 !! Fix: Flawed logic for saving the list in Download Playlist.
+
+        If the active download playlist was empty when directory 5 was changed and there was an existing
+        list, it would get wiped.
+
+        **** Early preview of -Browse in Download Playlist. For now, -Browse only works with Youtube.
+             Browse the playlist and only download the videos that you want from the URL Playlist.
+
 
 ###  v5.6.61 Fix: -Download in Download Playlist. Not all playlist directories were being written to the .nfo file.
 
