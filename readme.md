@@ -1,4 +1,4 @@
-# Videoinfox v5.6.62
+# Videoinfox v5.6.63
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -404,6 +404,8 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.6.63 Fix: Forgot to remove a line in Download Playlist -Download.
 
 ###  v5.6.62 !! Fix: Flawed logic for saving the list in Download Playlist.
 
