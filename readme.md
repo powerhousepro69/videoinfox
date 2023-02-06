@@ -1,4 +1,4 @@
-# Videoinfox v5.7.00
+# Videoinfox v5.7.01
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -376,6 +376,8 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.7.01 Fix: YT-DLP MENU -SETTINGS. Changed some text on the screen.
 
 ###  v5.7.00 New: Now when adding a URL Playlist there is an option to customize the Yt-dlp options for each list.
 
