@@ -1,19 +1,9 @@
-# Videoinfox v5.6.63
+# Videoinfox v5.7.00
 
 ### *Where video download and play is a clipboard copy away . . .*
 
+#### NEW: &nbsp; Customize Yt-dlp options for each playlist. Now other sites besides Youtube can be used. 
 
-#### !!! Just found an issue when on friends pc when updating from a few version before.
-
-Download Playlist wouldn't add a Url Playlist. Kept reporting no videos available. I missed
-something. The feature will work on a fresh setup. All that needs done to fix this issue is
-copy or move the playlist directory ~/.config/videoinfox/playlists so no playlists are lost.
-Then delete the videoinfox directory ~/.config/videoinfox/ and run videoinfox. Exit videoinfox
-and copy the playlist dir back into ~/.config/videoinfox/  Restart videoinfox and setup your
-default directories again. For future reference, if you ever run setup again and you have
-existing URL Playlists, all the data for the Download Playlist feature is saved to where the
-playlists are being downloaded. Download Playlist data isn't stored in the videoinfox directory
-but local playlists are.
 
 ![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/HOME.png)
 
@@ -43,9 +33,6 @@ sudo chmod +x /usr/local/bin/videoinfox
 
 <br />
 
-#### NEW: &nbsp; Early preview of -Browse in Download Playlist. For now, -Browse only works with Youtube.
-
-<br />
 
 -Download Playlist in the Yt-dlp Menu
 
@@ -405,6 +392,18 @@ FIRST RUN
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
 
+###  v5.7.00 New: Now when adding a URL Playlist there is an option to customize the Yt-dlp options for each list.
+
+         New: -Set in -Browse. Each domain has it own link format. This is the info in the link after the .com but
+               before the video id. This is needed for browse to download single videos from the playlist. Other sites 
+               besides Youtube can now be be used with Download Playlistand Browse.
+
+         Add: -Delete in -Download Playlist.
+
+         Fix: Had to fix some wonky code with restore.
+
+         Edit: Changed the prompt messages for -Remove and -Restore to provide more info. on how it works.
+
 ###  v5.6.63 Fix: Forgot to remove a line in Download Playlist -Download.
 
 ###  v5.6.62 !! Fix: Flawed logic for saving the list in Download Playlist.
@@ -489,6 +488,17 @@ FFprobe - Get codec, resolution & duration in seconds.
 ![Code Stats](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/CODE-STATS.png)
 
 
+#### !!! Just found an issue when on friends pc when updating from a few version before.
+
+Download Playlist wouldn't add a Url Playlist. Kept reporting no videos available. I missed
+something. The feature will work on a fresh setup. All that needs done to fix this issue is
+copy or move the playlist directory ~/.config/videoinfox/playlists so no playlists are lost.
+Then delete the videoinfox directory ~/.config/videoinfox/ and run videoinfox. Exit videoinfox
+and copy the playlist dir back into ~/.config/videoinfox/  Restart videoinfox and setup your
+default directories again. For future reference, if you ever run setup again and you have
+existing URL Playlists, all the data for the Download Playlist feature is saved to where the
+playlists are being downloaded. Download Playlist data isn't stored in the videoinfox directory
+but local playlists are.
 
 
 
