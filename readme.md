@@ -32,20 +32,6 @@ sudo chmod +x /usr/local/bin/videoinfox
 **Getting Started:** Set the Default Directories located in -Set. Enter the parent directories of your video libraries. Then run -Index Default Directories This will build a searchable recursive list of all 5 default directories for -Playlist Find. Find a video(s) with a keyword from the path or file.
 
 <br />
-
-
--Download Playlist in the Yt-dlp Menu
-
-![Videoinfox DL Playlist](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/DOWNLOAD-PLAYLIST.png)
-
-
-Download URL Playlists. Total Videos downloaded and Videos in URL playlist are displayed for each list. When adding a URL, the URL and Playlist Name are checked to find if the entry already exists to avoid a duplicate entry. Yt-dlp will check URL Playlist validity before adding the playlist. Removed playlists can be recovered with Restore. Update Playlist to download a fresh copy. View Playlist to see video names with id. Yt-dlp option --download-archive is use so you can ctrl/c out of a download in progress and restart the download right from where it left off.
-
-There will be more features added to Download Playlist.
-
-
-<br />
-
 *Videoinfox recommends using MPV to watch videos and will be set as the default video player if found.
 Mpv saves play postion on quit of every video played and Videoinfox saves Playlist and Play Queue position.
 Toggle on/off mpv save play position on quit and an option to erase all mpv markers.
@@ -136,10 +122,16 @@ Notification on home screen if mpv is set as the video player and  option --save
        - Rebuild Queue .......... updates play queue after one or more of the above 3 options * are run
        - Clear Queue ............ clear out the queue list and the play queue.
 
+       videoinfox -z  Make a playlist from a recursive video listing in the current directory.
+                      The Playlist will be saved in: ~/.config/videoinfox/playlists which makes
+                      the playlist/index available to videoinfox's feature set.
+
 
 ### *Find videos by searching the text of all Playlists and the Default Directories Index*      
 
 ### Playlist Find
+
+![Playlist Find](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PLAYLIST-FIND.png)
 
       Find videos to play or add to a playlist without needing to know the files location.
       Use a keyword from the path or filename to locate videos.
@@ -151,9 +143,6 @@ Notification on home screen if mpv is set as the video player and  option --save
             and select -Make Playlist
 
             * Duplicates are always removed from playlist find results.
-
-![Playlist Find](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PLAYLIST-FIND.png)
-
 
 <br />
 VIEW PLAYLIST to Create, Watch, and Manage Playlists and the Play Queue
@@ -214,28 +203,22 @@ PLAY QUEUE in View Playlist >>> Change and Queue
          Copy a video url to the clipboard then press enter to verify validity.
          Then  p   to download and autoplay.
 
-
 <br />
-
-
 PLAY DIRECTORY
 
-Autoplay directory one level deep. Option to quit on video end or player quit.
-
-*Videoinfox autoplay features: &nbsp; Play Directory, Autoplay, Start and Resume*
+Autoplay directory one level deep. Option to quit on video end or player quit. *Videoinfox autoplay features: &nbsp; Play Directory, Autoplay, Start and Resume*
 
 ![Play Directory](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PLAY-DIRECTORY.png)
 
-
 <br />
-INTERMISSION SCREEN. Initially set to 10 seconds. Time can be changed in Settings.
-
-Applies to Play Directory, Autoplay, Start, and Resume
+INTERMISSION SCREEN. Initially set to 10 seconds. Time can be changed in Settings. Applies to Play Directory, Autoplay, Start, and Resume
 
 ![Quit Play Directory](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PD-QUIT.png)
 
-#### Yt-dlp integration for easy download of a single url, a list of url's or a queue of multiple url lists.
+#### Yt-dlp integration: Download a single url, a list of url's, a queue of multiple url lists and download Playlists.
     
+        BUILD DOWNLOAD LISTS WITHOUT LEAVING YOUR BROWSER.         
+
         Download and update Yt-dlp in Videoinfox.
 
         Download Only: Yt-dlp with no arguments. Download clipboard only. No autoplay.
@@ -246,7 +229,9 @@ Applies to Play Directory, Autoplay, Start, and Resume
         Download List: Download a list by entering line number.
         Logging of downloaded url lists with link and downloaded filename provided by Yt-dlp. 
         Download Queue: Add unlimited Videoinfox User Download Lists to the queue for batch download.
-        
+
+        Download Playlist: Download an entire playlist or browse a playlist and choose what to download.
+
         Command Line Option:  videoinfox -u listname
         Download any url list to the directory of the list's location.
         
@@ -261,18 +246,24 @@ Applies to Play Directory, Autoplay, Start, and Resume
 
 <br />
 YT-DLP MENU
-
 Download video url in clipboard or download and autoplay with Play Clipboard
 
 ![Yt-dlp Menu](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/YT-DLP-MENU.png)
 
+<br />
+DOWNLOAD PLAYLIST in the Yt-dlp Menu
+
+![Videoinfox DL Playlist](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/DOWNLOAD-PLAYLIST.png)
+
+Download Playlist: Total Videos downloaded and Videos in URL playlist are displayed for each list. When adding a URL, the URL and playlist name are checked to find if the entry already exists to avoid a duplicate entry. Yt-dlp will check URL Playlist validity before adding the playlist. Removed playlists can be recovered with Restore. Update Playlist to download a fresh copy. Browse to download single videos from the playlist. You can ctrl/c out of a download in progress and restart the download right from where it left off. There will be more features added to Download Playlist.
+
+BROWSE in Download Playlist. Download single videos from the playlist.
+![Videoinfox DL Playlist](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/BROWSE-DPL.png)
 
 <br />
 DOWNLOAD LIST MENU WITH DOWNLOAD QUEUE
 
-1. Create unlimited user lists. Add video url's to the list from the clipboard without leaving the browser.
-   
-   Copy the url to clipboard then add video url to a user set list with the videoinfox -l keyboard shortcut.
+1. Create unlimited user lists. Add video url's to the list from the clipboard without leaving the browser. Copy the url to clipboard then add video url to a user set list with the videoinfox -l keyboard shortcut.
 
 2. Download single list or load unlimited user lists into the download queue for batch download.
 
@@ -282,9 +273,7 @@ DOWNLOAD LIST MENU WITH DOWNLOAD QUEUE
 <br />
 DEFAULT LIST
 
-Copy the url to clipboard then add video url to to the default list in videoinfox
-
-or stay in your browser and add the url with the videoinfox -a keyboard shortcut.
+Copy the url to clipboard then add video url to to the default list in videoinfox or stay in your browser and add the url with the videoinfox -a keyboard shortcut.
 
 ![Videoinfox download list help](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/DEFAULT-LIST.png)
 
@@ -306,18 +295,15 @@ FIND DIRECTORY
 
 ![Videoinfox Find Directory](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/FIND-DIRECTORY.png)
 
-
 <br />
 FIND VIDEOS TO Play, Autoplay, Playlist Add or Make Playlist with all search results.
 
 ![Videoinfox Find](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/FIND.png)
 
-
 <br />
 MORE OPTIONS
 
 ![Videoinfox More Options](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/MORE-OPTIONS.png)
-
 
 <br />
 LIST DIRECTORY
@@ -333,7 +319,6 @@ VIDEO COUNT
 VIDEO DURATION
 
 ![Videoinfox Duration](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/VIDEO-DURATION.png)
-
 
 <br />
 SETTINGS
