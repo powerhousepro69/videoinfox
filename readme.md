@@ -1,4 +1,4 @@
-# Videoinfox v5.7.01
+# Videoinfox v5.7.02
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -377,6 +377,11 @@ FIRST RUN
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
 
+###  v5.7.02 Removed: -Yt-dlp Set in Browse -Settings was removed. 
+
+         It was accidentally put there. Set custom Yt-dlp settings when a Url Playlist is added.
+
+
 ###  v5.7.01 Fix: YT-DLP MENU -SETTINGS. Changed some text on the screen.
 
 ###  v5.7.00 New: Now when adding a URL Playlist there is an option to customize the Yt-dlp options for each list.
@@ -390,71 +395,6 @@ FIRST RUN
          Fix: Had to fix some wonky code with restore.
 
          Edit: Changed the prompt messages for -Remove and -Restore to provide more info. on how it works.
-
-###  v5.6.63 Fix: Forgot to remove a line in Download Playlist -Download.
-
-###  v5.6.62 !! Fix: Flawed logic for saving the list in Download Playlist.
-
-        If the active download playlist was empty when directory 5 was changed and there was an existing
-        list, it would get wiped.
-
-        **** Early preview of -Browse in Download Playlist. For now, -Browse only works with Youtube.
-             Browse the playlist and only download the videos that you want from the URL Playlist.
-
-
-###  v5.6.61 Fix: -Download in Download Playlist. Not all playlist directories were being written to the .nfo file.
-
-###  v5.6.60 Add: -Change Directory added to Download Playlist
-
-###  v5.6.59 Change: Options moved around in Download Playlist
-
-        Add: -Update Index added to Download Playlist. This option will add downloaded content to the index.
-               Note: -Index Default Directories will delete the index and rebuild it. -Update Index will add to existing.
-
-        Add: -Clear Restore added to Download Playlist -Restore.
-
-        Change: -Update was renamed and option letter changed in Yt-dlp Menu to:  y - Update Playlist
-
-
-###  v5.6.37 Fix: Playlist download directory being written to the nfo file.
-
-###  v5.6.36 Fix: Displayed number of files downloaded in -Download Playlist
- 
-        Fix: Displayed URL in -Download Playlist
-
-###  v5.6.34 New: -Download Playlist added to the Yt-dlp Menu
-
-        Options:   -Add   -Info   -Download   -Update   -Remove   -View   -Restore   -Clear All
-        Note: Video download quality set to best video with best audio.
-
-        This feature will create directory:  url-playlists  in the default Download dir. -Set in home to change.
-
-        -Add to enter or paste a URL playlist. Then enter a playlist name.
-         If a URL or Playlist Name already exists, message displays and -Add will exit.
-         The 2 below files are created in the default Download Playlist directory for every playlist created.
-
-        .playlistname.nfo contains: Media location, URL, Playlist Name, Yt-dlp Archive File, Line used to download playlist.
-        .playlistname.pl that contains the URL playlist with video names and download ids.
-
-        The first time a playlist is downloaded whether finished or not, the downloaded videos location will be written to 
-        the to Download Playlist -Info
-
-        Download archive file is a Yt-dlp feature. It keeps track of what was already downloaded.
-        Download playlist file is a Yt-dlp feature. Listing of all video names and download ids in the URL Playlist.
-
-        Add: Default Directory   5 - Download Playlist  for the download playlist feature.
-
-        Change: Directory at last exit changed from 5 to 6
-
-        Update: Default Dirs 6 added to the display.
-
-        Change: Last Run: changed to Index Date: in Settings
-
-        Add: Index Date: added to Playlist Find
-
-        Change: Play Clipboard with url. If Yt-dlp deosn't extract a filename in 10 seconds it times out.
-
-        Change: Message at prompt -Queue List -Rebuild queue.
 
 
 ### Harnessing the power of:
