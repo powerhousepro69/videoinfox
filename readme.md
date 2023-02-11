@@ -2,7 +2,7 @@
 
 ### *Where video download and play is a clipboard copy away . . .*
 
-#### NEXT FEATURE: A Download Queue for Browse. Add videos to the queue from any of the playlists. 
+#### NEXT FEATURE: &nbsp; A Download Queue for Browse. Add videos to the queue from any of the playlists. 
 
 ![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/HOME.png)
 
