@@ -82,6 +82,7 @@ Notification on home screen if mpv is set as the video player and  option --save
      - Start autoplay from anywhere in the playlist. 
      - Resume to start autoplay from the last video that was playing on quit.
      - Play Queue to load up multiple playlists for autoplay with resume.
+     - Play to play a single video and write it to the played list.
      
 
 #### *Manage*
