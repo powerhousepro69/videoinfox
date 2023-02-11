@@ -13,7 +13,7 @@ for autoplay with last video played marker to pick up where you left off. Played
 everything played by Play Clipboard, Last Download and Play.  Index unlimited video libraries and find 
 videos by keyword from the path or file.  Yt-dlp integration with Download list building without leaving
 your web browser and a download queue to load up unlimited download lists for batch processing. Download
-URL paylists.
+entire URL playlists or pick and choose what videos to download.
 
 
 <br />
