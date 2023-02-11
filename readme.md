@@ -1,4 +1,4 @@
-# Videoinfox v5.7.13
+# Videoinfox v5.7.14
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -374,6 +374,11 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.7.14 Add: -Disk added to Home Screen and removed mpv save indicator.
+     
+          Disk shows disk space used in the current directory by videos and free disk space.
+          mpv save indicator is still in View Playlist and Play Queue.
 
 ###  v5.7.13 Add: -Downloaded added to Browse in Download Playlist.
     
