@@ -1,8 +1,10 @@
-# Videoinfox v5.7.02
+# Videoinfox v5.7.13
 
 ### *Where video download and play is a clipboard copy away . . .*
 
-#### NEW: &nbsp; Customize Yt-dlp options for each playlist. Now other sites besides Youtube can be used. 
+#### NEW: &nbsp; Customize Yt-dlp options for each playlist. Now other sites besides Youtube can be used.
+
+#### NEXT FEATURE: A Download Queue for Browse. Add videos to the queue from any of the playlists. 
 
 
 ![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/HOME.png)
@@ -215,7 +217,7 @@ INTERMISSION SCREEN. Initially set to 10 seconds. Time can be changed in Setting
 
 ![Quit Play Directory](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PD-QUIT.png)
 
-#### Yt-dlp integration: Download a single url, a list of url's, a queue of multiple url lists and download Playlists.
+#### Yt-dlp integration: Download a single url, a list of url's, a queue of multiple url lists and URL Playlists.
     
         BUILD DOWNLOAD LISTS WITHOUT LEAVING YOUR BROWSER.         
 
@@ -283,12 +285,10 @@ NAVIGATE TREE
 
 ![Navigate Tree](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/NAVIGATE-TREE.png)
 
-
 <br />
 NAVIGATE TREE >>> SHOW ALL one directory deep listing with Play, Autoplay, Playlist Add and Make Playlist
 
 ![NT Show All](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/NT-SHOW-ALL.png)
-
 
 <br />
 FIND DIRECTORY
@@ -376,6 +376,12 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.7.13 Add: -Downloaded added to Browse in Download Playlist.
+    
+         Change: # of Videos downloaded in Download Playlist was changed back to a count from find 
+                 and not the .ch file.
+     
 
 ###  v5.7.02 Removed: -Yt-dlp Set in Browse -Settings was removed. 
 
