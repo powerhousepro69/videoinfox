@@ -2,10 +2,7 @@
 
 ### *Where video download and play is a clipboard copy away . . .*
 
-#### NEW: &nbsp; Customize Yt-dlp options for each playlist. Now other sites besides Youtube can be used.
-
 #### NEXT FEATURE: A Download Queue for Browse. Add videos to the queue from any of the playlists. 
-
 
 ![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/HOME.png)
 
