@@ -1,4 +1,4 @@
-# Videoinfox v5.7.14
+# Videoinfox v5.7.17
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -373,6 +373,12 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.7.17 Fix: -Add in Download Playlist. http:// and www . is now removed if entered. It would break browse.
+
+          Fix: -Set in browse. If an entry was edited it wouldn't update until quitting browse and re-entering.
+
+          Add: Url Link: added to Browse display.
 
 ###  v5.7.14 Add: -Disk added to Home Screen and removed mpv save indicator.
      
