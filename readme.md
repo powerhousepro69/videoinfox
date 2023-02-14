@@ -1,8 +1,8 @@
-# Videoinfox v5.7.17
+# Videoinfox v5.8.00
 
 ### *Where video download and play is a clipboard copy away . . .*
 
-#### NEXT FEATURE: &nbsp; A Download Queue for Browse. Add videos to the queue from any of the URL Playlists. 
+#### NEW: &nbsp; A Download Queue for Browse. Add videos to the queue from any of the URL Playlists. 
 
 ![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/HOME.png)
 
@@ -254,7 +254,8 @@ DOWNLOAD PLAYLIST in the Yt-dlp Menu
 
 ![Videoinfox DL Playlist](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/DOWNLOAD-PLAYLIST.png)
 
-Download Playlist: Total Videos downloaded and Videos in URL playlist are displayed for each list. When adding a URL, the URL and playlist name are checked to find if the entry already exists to avoid a duplicate entry. Yt-dlp will check URL Playlist validity before adding the playlist. Removed playlists can be recovered with Restore. Update Playlist to download a fresh copy. Browse to download single videos from the playlist. You can ctrl/c out of a download in progress and restart the download right from where it left off. There will be more features added to Download Playlist.
+Download Playlist: Total number of videos downloaded and videos in URL playlist are displayed for each list. When adding a URL, the URL and playlist name are checked to find if the entry already exists to avoid a duplicate entry. Yt-dlp will check URL Playlist validity before it is added to the list. Removed playlists can be recovered with Restore. Update Playlist to download a fresh copy.  When downlading an entire playlist you can ctrl/c out of a download in progress 
+and restart the download right from where it left off thanks to Yt-dlp's archive feature. Browse to download single videos from the playlist.
 
 BROWSE in Download Playlist. Download single videos from the playlist.
 ![Videoinfox DL Playlist](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/BROWSE-DPL.png)
@@ -373,6 +374,10 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.8.00 New: Download Queue added to Browse. Add videos from any of the playlists and batch download.
+
+          Each video will be downloaded to the directory that Yt-dlp created for the playlist.
 
 ###  v5.7.17 Fix: -Add in Download Playlist. http:// and www . is now removed if entered. It would break browse.
 
