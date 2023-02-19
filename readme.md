@@ -2,7 +2,9 @@
 
 ### *Where video download and play is a clipboard copy away . . .*
 
-#### NEW: &nbsp; -Not Downloaded located in Download Playlist -Browse with options -Download and -Add to Queue 
+#### NEW: &nbsp; -Not Downloaded located in Download Playlist -Browse with options -Download and -Add to Queue
+
+#### Fix: The playlist directory wasn't always being written the .nfo file. This causes browse to fail. 
 
 ![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/HOME.png)
 
@@ -375,6 +377,8 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.9.01 Fix: The playlist directory wasn't always being written the .nfo file. This causes browse to fail.
 
 ###  v5.9.00 New: -Not Downloaded located in Download Playlist -Browse with options -Download and -Add to Queue
 
