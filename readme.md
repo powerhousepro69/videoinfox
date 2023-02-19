@@ -1,8 +1,8 @@
-# Videoinfox v5.8.00
+# Videoinfox v5.9.00
 
 ### *Where video download and play is a clipboard copy away . . .*
 
-#### NEW: &nbsp; A Download Queue for Browse. Add videos to the queue from any of the URL Playlists. 
+#### NEW: &nbsp; -Not Downloaded located in Download Playlist -Browse with options -Download and -Add to Queue 
 
 ![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/HOME.png)
 
@@ -258,7 +258,7 @@ DOWNLOAD PLAYLIST in the Yt-dlp Menu
 Download Playlist: Total number of videos downloaded and videos in URL playlist are displayed for each list. When adding a URL, the URL and playlist name are checked to find if the entry already exists to avoid a duplicate entry. Yt-dlp will check URL Playlist validity before it is added to the list. Removed playlists can be recovered with Restore. Update Playlist to download a fresh copy.  When downlading an entire playlist you can ctrl/c out of a download in progress and restart the download right from where it left off thanks to Yt-dlp's archive feature. Browse to download single videos from a playlist and a
 download queue to add single videos from any of the playlists for batch download.
 
-BROWSE in Download Playlist. Download single videos from the playlist.
+BROWSE in Download Playlist. Download single videos from the playlist or add videos to the queue.
 ![Videoinfox DL Playlist](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/BROWSE-DPL.png)
 
 <br />
@@ -376,45 +376,32 @@ FIRST RUN
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
 
+###  v5.9.00 New: -Not Downloaded located in Download Playlist -Browse with options -Download and -Add to Queue
+
+        It displays videos that haven't been downloaded from the playlist with browse.
+
+        New: Last date of Download Playlist Update added to the overhead display.
+
+        Add: -View Downloads in Download Playlist with options:   -Play   -Autoplay   -Info   -Playlist Add
+
+        Add: Options added to Browse -Downloaded:   -Play   -Autoplay   -Info   -Playlist Add
+
+
 ###  v5.8.00 New: Download Queue added to Browse. Add videos from any of the playlists and batch download.
 
-          Each video will be downloaded to the directory that Yt-dlp created for the playlist.
+        Each video will be downloaded to the directory that Yt-dlp created for the playlist.
 
 ###  v5.7.17 Fix: -Add in Download Playlist. http:// and www . is now removed if entered. It would break browse.
 
-          Fix: -Set in browse. If an entry was edited it wouldn't update until quitting browse and re-entering.
+        Fix: -Set in browse. If an entry was edited it wouldn't update until quitting browse and re-entering.
 
-          Add: Url Link: added to Browse display.
+        Add: Url Link: added to Browse display.
 
 ###  v5.7.14 Add: -Disk added to Home Screen and removed mpv save indicator.
      
-          Disk shows disk space used in the current directory by videos and free disk space.
-          mpv save indicator is still in View Playlist and Play Queue.
+        Disk shows disk space used in the current directory by videos and free disk space.
+        mpv save indicator is still in View Playlist and Play Queue.
 
-###  v5.7.13 Add: -Downloaded added to Browse in Download Playlist.
-    
-         Change: # of Videos downloaded in Download Playlist was changed back to a count from find 
-                 and not the .ch file.
-     
-
-###  v5.7.02 Removed: -Yt-dlp Set in Browse -Settings was removed. 
-
-         It was accidentally put there. Set custom Yt-dlp settings when a Url Playlist is added.
-
-
-###  v5.7.01 Fix: YT-DLP MENU -SETTINGS. Changed some text on the screen.
-
-###  v5.7.00 New: Now when adding a URL Playlist there is an option to customize the Yt-dlp options for each list.
-
-         New: -Set in -Browse. Each domain has it own link format. This is the info in the link after the .com but
-               before the video id. This is needed for browse to download single videos from the playlist. Other sites 
-               besides Youtube can now be be used with Download Playlistand Browse.
-
-         Add: -Delete in -Download Playlist.
-
-         Fix: Had to fix some wonky code with restore.
-
-         Edit: Changed the prompt messages for -Remove and -Restore to provide more info. on how it works.
 
 
 ### Harnessing the power of:
