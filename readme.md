@@ -2,7 +2,7 @@
 
 ### *Where video download and play is a clipboard copy away . . .*
 
-#### NEW: &nbsp; -Not Downloaded located in Download Playlist -Browse with options -Download and -Add to Queue
+#### Next feature in the works: &nbsp; Search will be added to browse. Search a playlist using a keyword.
 
 #### Fix: The playlist directory wasn't always being written the .nfo file. This causes browse to fail.
 
