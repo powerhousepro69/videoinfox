@@ -6,9 +6,8 @@
 
 #### Fix: The playlist directory wasn't always being written the .nfo file. This causes browse to fail.
 
-        IF YOU ALREADY HAVE PLAYLISTS THAT BROWSE WON'T WORK WITH JUST RUN -DOWNLOAD AND CTRL-C OUT.
+        IF YOU ALREADY HAVE PLAYLISTS THAT BROWSE WON'T WORK WITH, UPDATE PLAYLIST THE DOWNLOAD 1st VIDEO.
 
-        This will write the directory to the .nfo file (-info) and browse should now work. 
 
 ![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/HOME.png)
 
