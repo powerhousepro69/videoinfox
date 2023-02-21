@@ -1,4 +1,4 @@
-# Videoinfox v5.9.01
+# Videoinfox v5.9.02
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -381,6 +381,15 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.9.02 Fix: Pasted some wrong code to Download located in Download Playlist.
+
+        After the first video is downloaded and you ctrl-c out. The first 8 characters are read from the 
+        first line of the playlist to find the directory.
+
+        Note: If any new content was added to the playlist before download is initially run, the directory 
+              won't be found because that new content won't be in the playlist until it is updated. Make 
+              sure playlist is updated before downloading the first video.
 
 ###  v5.9.01 Fix: The playlist directory wasn't always being written the .nfo file. This causes browse to fail.
 
