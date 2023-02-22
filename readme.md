@@ -1,4 +1,4 @@
-# Videoinfox v5.9.02
+# Videoinfox v5.9.03
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -380,6 +380,12 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.9.03 Finished: -Download in Download Playlist.
+
+         If a directory isn't located for a URL playlist, an error message will
+         be shown with the 3 scenarios that will cause the error and ways to fix it.
+
 
 ###  v5.9.02 Fix: Pasted some wrong code to Download located in Download Playlist.
 
