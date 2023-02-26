@@ -1,4 +1,4 @@
-# Videoinfox v5.9.32
+# Videoinfox v5.9.34
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -377,6 +377,10 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.9.34 Update: -Disk. Shows current directory video disk usage and Default Directories 1-5
+
+         Fix: Forgot to remove Press enter to coninue... in Browse -Download
 
 ###  v5.9.32 New: -Search added to Browse to find videos in a URL playlist by keyword.
 
