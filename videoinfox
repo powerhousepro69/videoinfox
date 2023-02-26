@@ -5,9 +5,9 @@
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
-ver="Videoinfox v5.9.03"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m9.03")  # Version Number: with blinking dot
-vn="v5.9.03" #V! update help files on update
+ver="Videoinfox v5.9.32"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m9.32")  # Version Number: with blinking dot
+vn="v5.9.32" #V! update help files on update
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -744,6 +744,7 @@ fi
 #  4. Check for help files update. If an update is needed, delete help files.
 #  5. Check for Videoinfox update and notify on the home screen if an update is available.
 #  6. Create empty Default Download List if it doesn't exist.
+#  6.5 CREATE DOWNLOAD CHANNEL HELP FILE
 #  7. Created Download List Help file if it doesn't exist.
 #  8. Create Main Help file if it doesn't exist.
 #  9. Create Version History file if it doesn't exist.
@@ -1265,6 +1266,69 @@ echo "Default Download List Empty" >> ~/.config/videoinfox/videoinfox-dl-Default
 
 fi
 
+#V!################################################################################################################################################
+#####  6.5 CREATE DOWNLOAD CHANNEL HELP FILE  #################################################################################################### 
+##################################################################################################################################################
+echo "_________________________________________________________________________________________________________________" > ~/.config/videoinfox/d-ch-help
+echo >> ~/.config/videoinfox/d-ch-help   
+echo " Videoinfox v.5.9.32 >>> DOWNLOAD CHANNEL >>> HELP" >> ~/.config/videoinfox/d-ch-help   
+echo >> ~/.config/videoinfox/d-ch-help 
+echo " Arrows - up/dwn                                                                                        q - Quit" >> ~/.config/videoinfox/d-ch-help
+echo "_________________________________________________________________________________________________________________" >> ~/.config/videoinfox/d-ch-help
+echo >> ~/.config/videoinfox/d-ch-help
+echo " Overhead display:  line # Name  # of videos Downloaded ~ # of videos in the Playlist ~ Update date" >> ~/.config/videoinfox/d-ch-help
+echo >> ~/.config/videoinfox/d-ch-help
+echo " !! BE CAREFUL WITH -DOWNLOAD. IT WILL DOWNLOAD THE ENTIRE LIST. IT CAN QUICKLY FILL UP A HARD DRIVE !!" >> ~/.config/videoinfox/d-ch-help
+echo >> ~/.config/videoinfox/d-ch-help
+echo " Number of videos downloaded is a one level deep directory listing." >> ~/.config/videoinfox/d-ch-help
+echo " If a .ch file is deleted, Yt-dlp will re-download the entire playlist." >> ~/.config/videoinfox/d-ch-help
+echo " If a .nfo file is deleted, the videos won't be downloaded to the playlist's directory." >> ~/.config/videoinfox/d-ch-help
+echo >> ~/.config/videoinfox/d-ch-help
+echo " ADD to enter or paste a URL playlist. Then enter a desriptive playlist name." >> ~/.config/videoinfox/d-ch-help
+echo " If a URL or Playlist Name already exists, message displays and -Add will exit." >> ~/.config/videoinfox/d-ch-help
+echo >> ~/.config/videoinfox/d-ch-help
+echo " UPDATE will update the number of videos in the playlist if any new content was added." >> ~/.config/videoinfox/d-ch-help
+echo >> ~/.config/videoinfox/d-ch-help
+echo " INDEX UPDATE will add downloaded content to the default directories index for playlist find." >> ~/.config/videoinfox/d-ch-help
+echo >> ~/.config/videoinfox/d-ch-help
+echo " CHANGE DIRECTORY: Default dir 5 is a portable feature that can be changed at anytime. Each dir entered into" >> ~/.config/videoinfox/d-ch-help
+echo " dir5 will retain all of its own download data. So you can have multiple parent directories for the download" >> ~/.config/videoinfox/d-ch-help
+echo " playlist feature. Change directory to change -Download Playlist to a different download area. Each area will" >> ~/.config/videoinfox/d-ch-help
+echo " have its own download playlists and content." >> ~/.config/videoinfox/d-ch-help
+echo >> ~/.config/videoinfox/d-ch-help
+echo " Note: Index Default Directories will always write a new index and Index Update will add to the existing index." >> ~/.config/videoinfox/d-ch-help
+echo >> ~/.config/videoinfox/d-ch-help
+echo " BROWSE allows single downloads from any playlist and also includes a Download Queue. Add single videos from any" >> ~/.config/videoinfox/d-ch-help
+echo " of the playlists and batch download. Each video will be downloaded to the directory that Yt-dlp created for the" >> ~/.config/videoinfox/d-ch-help
+echo " playlists." >> ~/.config/videoinfox/d-ch-help
+echo "_________________________________________________________________________________________________________________" >> ~/.config/videoinfox/d-ch-help
+echo >> ~/.config/videoinfox/d-ch-help
+echo " !! The below applies to -DOWNLOAD in Download Channel  and  -QUEUE in Browse !!" >> ~/.config/videoinfox/d-ch-help
+echo >> ~/.config/videoinfox/d-ch-help
+echo " I downloaded the first 6 videos from 24 Youtube CHANNELS with -DOWNLOAD in Download Channel." >> ~/.config/videoinfox/d-ch-help
+echo " All videos were downloaded to the correct directories." >> ~/.config/videoinfox/d-ch-help
+echo >> ~/.config/videoinfox/d-ch-help
+echo " I also downloaded the first 6 videos from 1 Youtube music PLAYLIST with -DOWNLOAD in Download Channel." >> ~/.config/videoinfox/d-ch-help
+echo " Every band had it's own directory. This will throw the downloaded number off in the Heads Up display"  >> ~/.config/videoinfox/d-ch-help
+echo " and cause Not Downloaded in Browse to dislay faulty info. because the vidoes from the playlist are spread across" >> ~/.config/videoinfox/d-ch-help
+echo " multiple directories instead of being in one directory. Download Channel only watches one directory per" >> ~/.config/videoinfox/d-ch-help
+echo " channel/playlist." >> ~/.config/videoinfox/d-ch-help
+echo >> ~/.config/videoinfox/d-ch-help
+echo " If you want an entire playlist in one directory when it is being spread out over multiple directories with" >> ~/.config/videoinfox/d-ch-help
+echo " -Download in Download Channel use -All to Queue in Browse. Then go to the Queue to download the entire playlist" >> ~/.config/videoinfox/d-ch-help
+echo " to one directory." >> ~/.config/videoinfox/d-ch-help
+echo >> ~/.config/videoinfox/d-ch-help
+echo " * Download in Download Channel: Yt-dlp is processing the playlist." >> ~/.config/videoinfox/d-ch-help
+echo >> ~/.config/videoinfox/d-ch-help
+echo " * Queue in Browse: The Queue puts itself in between Yt-dlp and the playlist." >> ~/.config/videoinfox/d-ch-help
+echo "   The queue changes to the playlist's directory and feeds Yt-dlp one video at a time to download." >> ~/.config/videoinfox/d-ch-help
+echo "   The queue isn't limited to videos from one playlist. Add videos to the queue from any of the playlists." >> ~/.config/videoinfox/d-ch-help
+echo >> ~/.config/videoinfox/d-ch-help
+echo " Regardless of how you download a playlist, it will not effect Videoinfox's abilty to quickly" >> ~/.config/videoinfox/d-ch-help
+echo " find all of your videos to play or add to a local playlist for autoplay with resume marker." >> ~/.config/videoinfox/d-ch-help
+echo "_________________________________________________________________________________________________________________" >> ~/.config/videoinfox/d-ch-help
+echo >> ~/.config/videoinfox/d-ch-help
+
 ##################################################################################################################################################
 #####  7. CREATE DOWNLOAD LIST HELP FILE  ######################################################################################################## 
 ##################################################################################################################################################
@@ -1277,7 +1341,7 @@ echo "__________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.9.03   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Videoinfox v5.9.32   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1429,7 +1493,7 @@ echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.9.03   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
+echo " Videoinfox v5.9.32   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
@@ -1447,9 +1511,9 @@ echo >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Queue summary: Videoinfox has 3 different queues:" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
-echo " - Play Queue in View Playlist to load unlimited local playlists for autoplay with resume marker." >> ~/.config/videoinfox/videoinfo.help
-echo " - Download Queue in Dowload List to load up unlimited local download lists." >> ~/.config/videoinfox/videoinfo.help
-echo " - Download Queue in Browse to load up unlimited videos from any of the Url Playlists in Download Playlist." >> ~/.config/videoinfox/videoinfo.help
+echo " - Play Queue in View Playlist to add local playlists for autoplay with resume marker." >> ~/.config/videoinfox/videoinfo.help
+echo " - Download Queue in Dowload List. Add local download lists that can be built with a keyboard shortcut." >> ~/.config/videoinfox/videoinfo.help
+echo " - Download Queue in Browse to add videos from any of the Url Playlists locted in Download Channel." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " VIDEOINFOX WILL KEEP CLEARING OUT INVALID CONTENT FROM THE CLIPBOARD ON ANY SCREEN THAT HAS PLAY CLIPBOARD." >> ~/.config/videoinfox/videoinfo.help
@@ -1528,7 +1592,7 @@ echo " Copy a video url to the clipboard and press enter to verify the clipboard
 echo " Then  p  to Download and Autoplay Fullscreen." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " Copy a video file with full path to the clipboard and press enter to verify the clipboard content is valid." >> ~/.config/videoinfox/videoinfo.help  
-echo " Then  p  to Autoplay Fullscreen.    Note: No quotes for filenames with spaces" >> ~/.config/videoinfox/videoinfo.help
+echo " Then  p  to Autoplay Fullscreen.    Note: No quotes for filenames with spaces." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help 
 echo " Processing a video url that is in the clipboard is supported by the following 7 options:" >> ~/.config/videoinfox/videoinfo.help 
@@ -1546,8 +1610,8 @@ echo " Yt-dlp Menu    - Download Only ..... Yt-dlp with any options set in Yt-dl
 echo "                - Download Choose ... Choose video type and quality before download." >> ~/.config/videoinfox/videoinfo.help
 echo "                - Self Destruct ..... Download, auto play then delete when the video player is quit." >> ~/.config/videoinfox/videoinfo.help
 echo "                - Download List ..... Instructions are located in Help on the Download List screen." >> ~/.config/videoinfox/videoinfo.help
-echo "                - Download Playlist . Download Youtube channels and other URL playlists." >> ~/.config/videoinfox/videoinfo.help
-echo "                - Browse............. Choose videos to download from a playlist. Located in Download Playlist." >> ~/.config/videoinfox/videoinfo.help
+echo "                - Download Channel .. Download Youtube channels and other URL playlists." >> ~/.config/videoinfox/videoinfo.help
+echo "                - Browse............. Choose videos to download from a channel/playlist. Located in Download Channel." >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " -Last Download works with -Play Clipboard, -Download Only and -Download Choose." >> ~/.config/videoinfox/videoinfo.help
 echo " -Self Destruct isn't written to Last Download because the video is deleted after closing the player." >> ~/.config/videoinfox/videoinfo.help
@@ -1774,7 +1838,7 @@ echo " q - quit                                                                 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 #V!
-echo " 222 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " 223 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " There are 4 items on the Videoinfox development road map." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -1797,6 +1861,32 @@ echo " _________________________________________________________________________
 #echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v5.9.32 New: -Search added to Browse to find videos in a URL playlist by keyword." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "               Search results have been integrated into -Download and -Add to Queue." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         New: -All to Queue added to browse. Add the entire playlist or search results to the queue." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Change: Download Playlist renamed to Download Channel." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Edit: Home help for the renamed feature." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Change: Channel link removed from heads up display in Download Channel. It is located in Info." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Change: Moved optons around in Browse." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Change: 2 option letters swapped in Yt-dlp -Download List: z-Download Queue and b-Clear User Set List." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Fix: Auto remove duplicates in Download Queue in Browse." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Fix: Script errors in Download Channel when list was empty or the last item was deleted." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Fix: Clear All in Download Channel -Restore wasn't clearing out the .nfo and .pl files." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Add: Download Channel -Help  !! The below applies to -DOWNLOAD in Download Channel and -QUEUE in Browse !!" >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              It is the difference between youtube channels vs. youtube playlists and directory creation." >> ~/.config/videoinfox/videoinfo-ver-history
+echo "              Keystrokes to get you there from the Home Screen: yjh" >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.9.03 Finished: -Download in Download Playlist. If a directory isn't located for a URL playlist, an error message will" >> ~/.config/videoinfox/videoinfo-ver-history
 echo "                    be shown with the 3 scenarios that will cause the error and ways to fix it." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2035,6 +2125,9 @@ echo "                  in the Play Queue" >> ~/.config/videoinfox/videoinfo-ver
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Edit: View Playlist >>> Help" >> ~/.config/videoinfox/videoinfo-ver-history 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+
+
+####################### Here for v5.9.29 but up next on the chopping block with the next update #######################
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.4.06 Move: playlist save loop moved up in the function to correct a display issue on any playlist edits." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2046,19 +2139,6 @@ echo "               This is done because the resume marker and next: on the int
 echo "               playlist edit(s). Running -Start will rewrite the resume marker." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "               * Playlist edits are saved on every edit. Resume and Next: are working with a copy of the loaded playlist." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-
-
-####################### Here for v5.9.03 but up next on the chopping block with the next update #######################
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v5.4.04 Fix: Renaming the loaded playlist would clear the resume marker if one existed." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Added: Below lines added to Home Help: 1 2 3 4 5 - Default Dirs section" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                Indexing more directories in addition the 4 default directories is a simple process." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                Change to a parent directory of a video library. Then -Show All on the home screen & select -Make Playlist" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                Note:   -Show All on the Home Screen is recursive.   -Show all in -Navigate Tree is one level deep." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 ####################################################################################################################
 
@@ -2159,6 +2239,8 @@ elif [[ "$vplaym" = 3 ]]
       read -r cplayer2 < ~/.config/videoinfox/videoinfox.customplayer.2 
       defplayer=($cplayer1)
       defplayargu=($cplayer2)
+else
+:
 fi
 
 
@@ -2238,7 +2320,7 @@ rm ~/.config/videoinfox/tmp/videoinfo-number-findwork.tmp2 2>/dev/null
       echo "Dir: "$(cat ~/.config/videoinfox/videoinfo.lastfinddir 2>/dev/null) # display last directory that last find was run from
       echo "Date: "$(cat ~/.config/videoinfox/videoinfo.lastfindtime 2>/dev/null) # display last find time
       echo "Search: "$(cat ~/.config/videoinfox/videoinfo.lastfindstring 2>/dev/null)  # display last find string that was used
-      echo "Results: ""$searchtotal"  # number of files found
+      #echo "Results: ""$searchtotal"  # number of files found
       
 
 fi
@@ -4141,9 +4223,6 @@ if ! [[ "$linenumber" -eq "$linenumber" ]] 2> /dev/null
       :
 
   else
-
-
-
 
 tail -n +"$linenumber" ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa > ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa.tmp 2>/dev/null
 mv ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa.tmp ~/.config/videoinfox/tmp/videoinfox.nt-play-directory-apa 2>/dev/null
@@ -6456,9 +6535,6 @@ done
         ;;     
 
 
-
-
-
    a)  # ADD TO QUEUE (Playlist)
 
 linecount=$(wc -l ~/.config/videoinfox/tmp/playlist.dirlist.tmp | cut -d' ' -f1)  # GETTING LINECOUNT
@@ -7804,8 +7880,6 @@ IFS=$OLDIFS
 
 fi
 ;;
-
-
 
 
 esac
@@ -11902,9 +11976,6 @@ done
         ;;     
 
 
-
-
-
    a)  # ADD TO QUEUE (Playlist)
 
 linecount=$(wc -l ~/.config/videoinfox/tmp/playlist.dirlist.tmp | cut -d' ' -f1)  # GETTING LINECOUNT
@@ -13251,8 +13322,6 @@ fi
 ;;
 
 
-
-
 esac
 done
 ;;
@@ -14279,8 +14348,6 @@ fi
         esac
         done
         ;;
-
-
 
 
                 *)
@@ -18610,7 +18677,7 @@ echo " 3 - Download:" "$dirsaved"
 echo "                                                                                             p - Video Player"
 echo " 4 - Extra:" "$dir4"
 echo "                                                                                             t - Intermission"
-echo " 5 - Download Playlist:" "$dir5"
+echo " 5 - Download Channel:" "$dir5"
 echo "                                                                                             n - GUI Notify: $vnot"
 echo " z - Index Default Directories   Index Date:" "$ddlastime"   
 echo "                                                                                             h - Version History"
@@ -19161,10 +19228,6 @@ echo
 echo " File Size:" "$vsize"
 echo " Update Location: /""$vlocat"
 echo
-echo " After adding a few more features, going to spend some time removing unnecessary code from this script."
-echo " Before selection by number, it was selection by copying a line to the clipboard. There was more than a few lines"
-echo " left behind for clipboard functionality that isn't used anymore."
-echo
 echo -en " Enter Option: "
 read -r -n1 optionstats
 }
@@ -19481,13 +19544,13 @@ fi
     #echo "Clipboard: ""$pasteclip"
     echo "___________________________________________________________________________________________________________________"
     echo
-    echo " $ver >>> SET DOWNLOAD PLAYLIST DIRECTORY 5"
+    echo " $ver >>> SET DOWNLOAD CHANNEL DIRECTORY 5"
     echo "___________________________________________________________________________________________________________________"
     echo
     echo " Enter with no entry to exit. This directory can't be cleared. It can only be changed."
     echo
     echo
-    echo " *** Changing this directory will change the location for -Download Playlist ***"
+    echo " *** Changing this directory will change the location for -Download Channel ***"
     echo
     echo
     echo " Currently Set: ""$dir5"
@@ -19518,7 +19581,7 @@ fi
                       read -r dir5 2> /dev/null < ~/.config/videoinfox/videoinfo.downchan-dir # load the new dir
                       cp "$dir5/.videoinfox.dl-playlist" ~/.config/videoinfox/videoinfox.dl-playlist 2>/dev/null # load its playlists
                       
-                      echo " Download Playlist Directory Set to:" "$dir5"
+                      echo " Download Channel Directory Set to:" "$dir5"
                       sleep 1                                        
                       else
                       echo
@@ -19973,8 +20036,8 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " ""$der"" >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlpver"        
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " r - Download Only       g - Download List         l - Last Download      p - Play Clipboard              q - Quit"
-                      echo " c - Download Choose     j - Download Playlist     v - View Downloads     x - Clrclp                      u - Set"
+                      echo " r - Download Only       g - Download List        l - Last Download      p - Play Clipboard               q - Quit"
+                      echo " c - Download Choose     j - Download Channel     v - View Downloads     x - Clrclp                       u - Set"
                       echo " s - Self Destruct"
                       echo
                   
@@ -19993,8 +20056,8 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
                       echo " ""$der"" >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlpver"
                       echo "___________________________________________________________________________________________________________________"
                       echo
-                      echo " r - Download Only       g - Download List         l - Last Download      p * Play Clipboard              q - Quit"
-                      echo " c - Download Choose     j - Download Playlist     v - View Downloads     x - Clrclp                      u - Set"
+                      echo " r - Download Only       g - Download List        l - Last Download      p * Play Clipboard               q - Quit"
+                      echo " c - Download Choose     j - Download Channel     v - View Downloads     x - Clrclp                       u - Set"
                       echo " s - Self Destruct"
                       echo                                                                                  
             fi
@@ -20008,8 +20071,8 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
             echo " ""$der"" >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlpver"
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " r - Download Only       g - Download List         l - Last Download      p * Play Clipboard              q - Quit"
-            echo " c - Download Choose     j - Download Playlist     v - View Downloads     x - Clrclp                      u - Set"
+            echo " r - Download Only       g - Download List        l - Last Download      p * Play Clipboard               q - Quit"
+            echo " c - Download Choose     j - Download Channel     v - View Downloads     x - Clrclp                       u - Set"
             echo " s - Self Destruct"                                                                      
             echo                                                                      
 
@@ -20023,8 +20086,8 @@ if [ "$grabpaste" = "http" ]  # if the first 4 characters = <http> go then
             echo " ""$der"" >>> YT-DLP MENU         Enter - Update Clipboard Display         yt-dlp Version: $ytdlpver"        
             echo "___________________________________________________________________________________________________________________"
             echo
-            echo " r - Download Only       g - Download List         l - Last Download      p - Play Clipboard              q - Quit"
-            echo " c - Download Choose     j - Download Playlist     v - View Downloads     x - Clrclp                      u - Set"
+            echo " r - Download Only       g - Download List        l - Last Download      p - Play Clipboard               q - Quit"
+            echo " c - Download Choose     j - Download Channel     v - View Downloads     x - Clrclp                       u - Set"
             echo " s - Self Destruct"
             echo
 fi
@@ -20133,7 +20196,8 @@ then
 echo "URL playlist empty . . ."
 
 else # OVERHEAD DISPLAY
-paste -d '  ' 2>/dev/null ~/.config/videoinfox/tmp/videoinfox.dl-playlist-names ~/.config/videoinfox/tmp/videoinfox.dlp-space ~/.config/videoinfox/tmp/videoinfox.dl-playlist-links ~/.config/videoinfox/tmp/dl-download-filestotal ~/.config/videoinfox/tmp/videoinfox.dlp-tilde ~/.config/videoinfox/tmp/videoinfox.dl-playlist-plcount ~/.config/videoinfox/tmp/videoinfox.dlp-tilde ~/.config/videoinfox/tmp/dl-download-pldate > ~/.config/videoinfox/tmp/videoinfox.dl-playlist-names.display
+paste -d '  ' 2>/dev/null ~/.config/videoinfox/tmp/videoinfox.dl-playlist-names ~/.config/videoinfox/tmp/dl-download-filestotal ~/.config/videoinfox/tmp/videoinfox.dlp-tilde ~/.config/videoinfox/tmp/videoinfox.dl-playlist-plcount ~/.config/videoinfox/tmp/videoinfox.dlp-tilde ~/.config/videoinfox/tmp/dl-download-pldate > ~/.config/videoinfox/tmp/videoinfox.dl-playlist-names.display
+# removed url line: ~/.config/videoinfox/tmp/videoinfox.dl-playlist-links & ~/.config/videoinfox/tmp/videoinfox.dlp-space 
 
 sed '/./=' ~/.config/videoinfox/tmp/videoinfox.dl-playlist-names.display | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/videoinfox.dl-playlist-names-number 2>/dev/null
 
@@ -20145,7 +20209,7 @@ echo
 echo "Directory: ""$PWD"
 echo "___________________________________________________________________________________________________________________"
 echo  
-echo " ""$der"" >>> YT-DLP MENU >>> DOWNLOAD PLAYLIST"
+echo " ""$der"" >>> YT-DLP MENU >>> DOWNLOAD CHANNEL"
 echo "___________________________________________________________________________________________________________________" 
 echo
 echo " a - Add         d - Download     y - Update     v - View Downloads              z - Index Update         q - Quit"
@@ -20154,8 +20218,6 @@ echo " k - Restore     s - Delete"
 echo 
 echo -en " Enter Option: "
 read -r -n1 option
-#linkread=$(sed -n "$linenumber"p ~/.config/videoinfox/tmp/videoinfox.dl-playlist-links)
-
 }
 
 while true
@@ -20163,10 +20225,11 @@ do
 dwnchan
 case $option in
 
+
 q)
 cd "$grabdir"
-#echo "" | xclip -sel clip  # clearing out the clipboard
-#pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
+echo "" | xclip -sel clip  # clearing out the clipboard
+pasteclip=$(xclip -o -selection clipboard 2> /dev/null)  # grab clipboard content
 break
 ;;
 
@@ -20202,7 +20265,7 @@ echo "Directory: $dir5"  # dislpay default download directory
 echo "Playlist: ""$setplaylist" 
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " "$der" >>> YT-DLP MENU >>> DOWNLOAD PLAYLIST >>> VIEW DOWNLOADS"
+echo " "$der" >>> YT-DLP MENU >>> DOWNLOAD CHANNEL >>> VIEW DOWNLOADS"
 echo "___________________________________________________________________________________________________________________"
 echo
 echo " j - Play     o - Autoplay     i - Info     k - Playlist Add                                              q - Quit"                     
@@ -20417,7 +20480,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo
       echo "___________________________________________________________________________________________________________________"
       echo
-      echo " ""$der"" >>> YT-DLP MENU >>> DOWNLOAD PLAYLIST >>> VIEW DOWNLOADS >>> AUTOPLAY" 
+      echo " ""$der"" >>> YT-DLP MENU >>> DOWNLOAD CHANNEL >>> VIEW DOWNLOADS >>> AUTOPLAY" 
       echo
       echo " [PLAYING]>" "$line"
       echo "___________________________________________________________________________________________________________________"
@@ -20538,7 +20601,7 @@ if [ "$linenumber" = 0 ]
       echo
       echo "___________________________________________________________________________________________________________________"
       echo
-      echo " ""$der"" >>> YT-DLP MENU >>> DOWNLOAD PLAYLIST >>> VIEW DOWNLOADS >>> PLAY" 
+      echo " ""$der"" >>> YT-DLP MENU >>> DOWNLOAD CHANNEL >>> VIEW DOWNLOADS >>> PLAY" 
       echo
       echo " [PLAYING]>" "$playnumber"
       echo "___________________________________________________________________________________________________________________"
@@ -20591,39 +20654,7 @@ fi
 
 
 h) # HELP
-clear
-echo "_________________________________________________________________________________________________________________"
-echo
-echo " ""$der"" >>> DOWNLOAD PLAYLIST >>> HELP"        
-echo "_________________________________________________________________________________________________________________"
-echo
-echo " Overhead display:  line #   Name   URL   # of videos Downloaded ~ # of videos in the Playlist ~ Update date"
-echo
-echo " !! BE CAREFUL WITH -DOWNLOAD. IT WILL DOWNLOAD THE ENTIRE LIST. IT CAN QUICKLY FILL UP A HARD DRIVE !!"
-echo
-echo " Number of videos downloaded is a one level deep directory listing."
-echo " If a .ch file is deleted, Yt-dlp will re-download the entire playlist."
-echo " If a .nfo file is deleted, the videos won't be downloaded to the playlist's directory." 
-echo
-echo " ADD to enter or paste a URL playlist. Then enter a desriptive playlist name."
-echo " If a URL or Playlist Name already exists, message displays and -Add will exit."
-echo
-echo " UPDATE will update the number of videos in the playlist if any new content was added."
-echo
-echo " INDEX UPDATE will add downloaded content to the default directories index for playlist find."
-echo
-echo " CHANGE DIRECTORY: Default dir 5 is a portable feature that can be changed at anytime. Each dir entered into"
-echo " dir5 will retain all of its own download data. So you can have multiple parent directories for the download"
-echo " playlist feature. Change directory to change -Download Playlist to a different download area. Each area will"
-echo " have its own download playlists and content."
-echo
-echo " BROWSE allows single downloads from any playlist and also includes a Download Queue. Add single videos from any"
-echo " of the playlists and batch download. Each video will be downloaded to the directory that Yt-dlp created for the"
-echo " playlists."
-echo
-echo " Note: Index Default Directories will always write a new index and Index Update will add to the existing index." 
-echo
-read -r -p " Press enter to continue . . ."
+less ~/.config/videoinfox/d-ch-help
 ;;
 
 
@@ -20652,6 +20683,15 @@ echo > ~/.config/videoinfox/browse-queue
 fi
 
 linecount="$chklinklist"
+read -r chk4empty < ~/.config/videoinfox/videoinfox.dl-playlist
+if [ -z "$chk4empty" ]
+then
+echo
+echo
+echo " No Url playlists to process . . ."
+sleep .7
+
+else
 cat ~/.config/videoinfox/tmp/videoinfox.dl-playlist-names-number
 echo 
 read -r -p "Browse URL Playlist: " linenumber  # waiting fot user input
@@ -20685,6 +20725,9 @@ linkread=$(sed -n "$linenumber"p ~/.config/videoinfox/tmp/videoinfox.dl-playlist
 baseurl=$(echo "$linkread" | sed 's%/[^/]*$%%')  # remove last slash and after
 chname=$(sed -n "$linenumber"p ~/.config/videoinfox/tmp/videoinfox.dl-playlist-names)
 read -r direntry < ."$chname".nfo # grab first line of .*.nfo
+urlfind=$(cat ~/.config/videoinfox/videoinfox.dl-site-list | grep -i -h "$baseurl")
+echo "1" > ~/.config/videoinfox/tmp/download-browse-viewset
+read -r viewset < ~/.config/videoinfox/tmp/download-browse-viewset
 sed -n 'n;p' ."$chname".pl > ~/.config/videoinfox/tmp/download-browse-even # even ID
 sed -n 'p;n' ."$chname".pl > ~/.config/videoinfox/tmp/download-browse-odd  # odd NAME
 
@@ -20693,8 +20736,10 @@ then
 cd "$direntry" 2>/dev/null
 
 function dlbrowse {
-urlfind=$(cat ~/.config/videoinfox/videoinfox.dl-site-list | grep -i -h "$baseurl")
 clear
+read -r viewset < ~/.config/videoinfox/tmp/download-browse-viewset
+if [[ "$viewset" = 1 ]] # entire list
+then
 sed '/./=' ~/.config/videoinfox/tmp/download-browse-odd | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/download-browse-odd-numbered # NUMBER THE LIST
 cat ~/.config/videoinfox/tmp/download-browse-odd-numbered
 echo
@@ -20702,12 +20747,26 @@ echo "Directory: ""$PWD"
 echo "URL Playlist: ""$chname"
 echo "Url Link: ""$urlfind"
 echo "View: Entire List"
+
+elif [[ "$viewset" = 2 ]] # search results
+then
+sed '/./=' ~/.config/videoinfox/tmp/search-url-playlist-odd | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/search-url-playlist.tmp-numbered # # THE LIST
+cat ~/.config/videoinfox/tmp/search-url-playlist.tmp-numbered
+echo
+echo "Directory: ""$PWD"
+echo "URL Playlist: ""$chname"
+echo "Url Link: ""$urlfind"
+echo "View: Search Results"
+echo "Search: ""$videofind"
+fi
+
 echo "___________________________________________________________________________________________________________________"
 echo  
-echo " ""$der"" >>> YT-DLP MENU >>> DOWNLOAD PLAYLIST >>> BROWSE                          u - Set     h - Help"
+echo " ""$der"" >>> YT-DLP MENU >>> DOWNLOAD CHANNEL >>> BROWSE"
 echo "___________________________________________________________________________________________________________________" 
 echo
-echo " d - Download     a - Add to Queue     z - Queue     y - Downloaded     n - Not Downloaded                q - Quit"                                   
+echo " t - Search            a - Add to Queue     d - Download     n - Not Downloaded                           q - Quit"
+echo " c - Clear Results     b - All to Queue     z - Queue        y - Downloaded                               u - Set"
 echo 
 echo -en " Enter Option: "
 read -r -n1 option
@@ -20718,8 +20777,65 @@ do
 dlbrowse
 case $option in
 
-q) #quit
+q) # Quit
 break;;
+
+c) # Clear Results
+echo "1" > ~/.config/videoinfox/tmp/download-browse-viewset
+;;
+
+
+t) # SEARCH
+wholelistcount=$(sed -n '$=' ~/.config/videoinfox/tmp/download-browse-odd-numbered) # line count
+uplup=$(date +%D -r /"$dir5"/."$chname".pl)
+clear
+echo "___________________________________________________________________________________________________________________"
+echo
+echo " ""$ver"" >>> SEARCH URL PLAYLIST                           Enter a keyword. Case ignored. No wildcard *"  
+echo "___________________________________________________________________________________________________________________"
+echo
+echo " Playlist:" "$chname"
+echo " Updated: ""$uplup"
+echo " Videos: ""$wholelistcount"
+echo
+read -r -p " Search: " videofind  # waiting fot user input - video file that you want to find
+
+find ~/.config/videoinfox/tmp -type f -iname "download-browse-odd-numbered" | xargs -d '\n' grep -i -h "$videofind" > ~/.config/videoinfox/tmp/search-url-playlist.tmp2 2> /dev/null
+sed 's/\s.*$//' ~/.config/videoinfox/tmp/search-url-playlist.tmp2 > ~/.config/videoinfox/tmp/search-url-playlist-even # line #'s from the unedited playlist
+sed 's/[^ ]* //' ~/.config/videoinfox/tmp/search-url-playlist.tmp2 > ~/.config/videoinfox/tmp/search-url-playlist-odd # search results video names
+
+    searchtotal=$(wc -l < ~/.config/videoinfox/tmp/search-url-playlist-even)
+
+        if [ -z "$videofind" ]
+          then
+              echo "1" > ~/.config/videoinfox/tmp/download-browse-viewset
+              echo
+              echo " Nothing was entered . . ."
+              echo
+              sleep .4 
+          else                                                                                   	
+              if echo "$videofind" | grep "/" > /dev/null
+                then
+                    echo "1" > ~/.config/videoinfox/tmp/download-browse-viewset
+                    echo
+                    echo " No / . . ."
+                    echo
+                    sleep .7 
+                else
+                                
+                     if [ "$searchtotal" = 0 ]  # if find returned no results goto <then>      
+                       then
+                           echo
+                           echo " No videos found . . ."
+                           echo "1" > ~/.config/videoinfox/tmp/download-browse-viewset
+                           sleep .7
+                       else
+                           echo "2" > ~/.config/videoinfox/tmp/download-browse-viewset
+                          
+fi
+fi
+fi
+;;                    
 
 
 n) # @not downloaded
@@ -20892,27 +21008,60 @@ fi
 ;;
 
 
-z) # browse queue
+z) # @browse queue
 function dlbrowsequque {
 clear
 linecount=$(sed -n '$=' ~/.config/videoinfox/browse-queue) # line count
+
 read -r chkit < ~/.config/videoinfox/browse-queue
 if [ -z "$chkit" ]
 then
 echo "Queue empty . . ."
+
 else
+linecount2=$(sed -n '$=' ~/.config/videoinfox/browse-queue-dir) # line count
+yes "~" | head -n "$linecount2" 2>/dev/null > ~/.config/videoinfox/tmp/videoinfox.browsequeue-tilde
 
 cp ~/.config/videoinfox/browse-queue-names ~/.config/videoinfox/tmp/browse-queue-names.tmp
-#sed '/./=' ~/.config/videoinfox/browse-queue-names | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/browse-queue-names.tmp 2>/dev/null # NUMBER THE LIST
-yes "~" | head -n "$linecount" 2>/dev/null > ~/.config/videoinfox/tmp/videoinfox.browsequeue-tilde
 paste -d '  ' 2>/dev/null ~/.config/videoinfox/tmp/browse-queue-names.tmp ~/.config/videoinfox/tmp/videoinfox.browsequeue-tilde ~/.config/videoinfox/browse-queue-names-2 > ~/.config/videoinfox/tmp/browse-queue-names.tmp2
+cp  ~/.config/videoinfox/tmp/browse-queue-names.tmp2 ~/.config/videoinfox/tmp/browse-queue-names.tmp3
 
-cat -n  ~/.config/videoinfox/tmp/browse-queue-names.tmp2 | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/browse-queue-names.tmp3 # REMOVE DUPES
-sed '/./=' ~/.config/videoinfox/tmp/browse-queue-names.tmp3 | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/browse-queue-names.tmp2 2>/dev/null # #THE LIST
+# REMOVE DUPES
+# sed remove everthing that isn't a number or letter >>> awk display video names and line numbers of dupes >>> sed remove names leaving line numbers        
+sed 's/[^[:alnum:]]\+//g' ~/.config/videoinfox/tmp/browse-queue-names.tmp2 | awk 'a[$1]++ {print $0, NR}' | sed 's/[^ ]* //' > ~/.config/videoinfox/tmp/browse-queue-names.dupes
+read -r chkit < ~/.config/videoinfox/tmp/browse-queue-names.dupes
+if [ -z "$chkit" ]
+then
+:
 
-cat ~/.config/videoinfox/tmp/browse-queue-names.tmp2
+else
+echo
+echo -e "Removing duplicates\033[5m . . .\033m\033[0m\033[5m\033[5m\033[0m"
+echo
+
+input="$HOME"/.config/videoinfox/tmp/browse-queue-names.dupes
+while read -r line # MARK DUPLICATE LINES
+do
+sed -i -e "${line}s/^/z18xvi/" ~/.config/videoinfox/tmp/browse-queue-names.tmp3
+sed -i -e "${line}s/^/z18xvi/" ~/.config/videoinfox/browse-queue 2>/dev/null
+sed -i -e "${line}s/^/z18xvi/" ~/.config/videoinfox/browse-queue-dir 2>/dev/null
+sed -i -e "${line}s/^/z18xvi/" ~/.config/videoinfox/browse-queue-names 2>/dev/null
+sed -i -e "${line}s/^/z18xvi/" ~/.config/videoinfox/browse-queue-names-2 2>/dev/null
+sed -i -e "${line}s/^/z18xvi/" ~/.config/videoinfox/tmp/videoinfox.browsequeue-tilde 2>/dev/null
+done < "$input"
+# REMOVE MARKED LINES
+sed -i '/^z18xvi/d' ~/.config/videoinfox/tmp/browse-queue-names.tmp3
+sed -i '/^z18xvi/d' ~/.config/videoinfox/browse-queue 2>/dev/null
+sed -i '/^z18xvi/d' ~/.config/videoinfox/browse-queue-dir 2>/dev/null
+sed -i '/^z18xvi/d' ~/.config/videoinfox/browse-queue-names 2>/dev/null
+sed -i '/^z18xvi/d' ~/.config/videoinfox/browse-queue-names-2 2>/dev/null
+sed -i '/^z18xvi/d' ~/.config/videoinfox/tmp/videoinfox.browsequeue-tilde 2>/dev/null
 fi
 
+sed '/./=' ~/.config/videoinfox/tmp/browse-queue-names.tmp3 | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/browse-queue-names.tmp2 2>/dev/null # #THE LIST
+clear
+cat ~/.config/videoinfox/tmp/browse-queue-names.tmp2
+fi
 echo "___________________________________________________________________________________________________________________"
 echo  
 echo " ""$der"" >>> YT-DLP MENU >>> DOWNLOAD PLAYLIST >>> BROWSE QUEUE"
@@ -21057,7 +21206,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
             sed -i "${linenumber}d" ~/.config/videoinfox/browse-queue-dir 2>/dev/null
             sed -i "${linenumber}d" ~/.config/videoinfox/browse-queue-names 2>/dev/null
             sed -i "${linenumber}d" ~/.config/videoinfox/browse-queue-names-2 2>/dev/null
-            sed -i "${linenumber}d"~/.config/videoinfox/tmp/videoinfox.browsequeue-tilde 2>/dev/null
+            sed -i "${linenumber}d" ~/.config/videoinfox/tmp/videoinfox.browsequeue-tilde 2>/dev/null
 
             echo
             echo "Removed . . ."
@@ -21536,7 +21685,7 @@ for line in $(cat "$input" 2>/dev/null)
       echo
       echo "___________________________________________________________________________________________________________________"
       echo
-      echo " ""$der"" >>> YT-DLP MENU >>> DOWNLOAD PLAYLIST >>> VIEW DOWNLOADS >>> AUTOPLAY" 
+      echo " ""$der"" >>> YT-DLP MENU >>> DOWNLOAD CHANNEL >>> VIEW DOWNLOADS >>> AUTOPLAY" 
       echo
       echo " [PLAYING]>" "$line"
       echo "___________________________________________________________________________________________________________________"
@@ -21659,7 +21808,7 @@ if [ "$linenumber" = 0 ]
       echo
       echo "___________________________________________________________________________________________________________________"
       echo
-      echo " ""$der"" >>> YT-DLP MENU >>> DOWNLOAD PLAYLIST >>> VIEW DOWNLOADS >>> PLAY" 
+      echo " ""$der"" >>> YT-DLP MENU >>> DOWNLOAD CHANNEL >>> VIEW DOWNLOADS >>> PLAY" 
       echo
       echo " [PLAYING]>" "$playnumber"
       echo "___________________________________________________________________________________________________________________"
@@ -21711,7 +21860,11 @@ fi
               ;;
 
 
-a) # add to browse queue
+
+a) # @add to browse queue
+
+if [[ "$viewset" = 1 ]] # entire list
+then
 clear
 linecount=$(sed -n '$=' ~/.config/videoinfox/tmp/download-browse-odd) # line count
 cat ~/.config/videoinfox/tmp/download-browse-odd-numbered
@@ -21745,6 +21898,7 @@ else
 
 if [ -z "$urlfind" ]
 then
+clear
 echo
 echo " Url is missing to download a single videos from the following domain:"
 echo " ""$baseurl"
@@ -21756,6 +21910,7 @@ read -r -p " Press enter to continue . . ."
 else
 videoid=$(sed -n "$linenumber"p ~/.config/videoinfox/tmp/download-browse-even)
 videoname=$(sed -n "$linenumber"p ~/.config/videoinfox/tmp/download-browse-odd)
+
 sed -i '/^$/d' ~/.config/videoinfox/browse-queue-dir 2>/dev/null
 sed -i '/^$/d' ~/.config/videoinfox/browse-queue 2>/dev/null
 sed -i '/^$/d' ~/.config/videoinfox/browse-queue-names 2>/dev/null
@@ -21774,27 +21929,248 @@ fi
 fi
 fi
 fi
+
+
+elif [[ "$viewset" = 2 ]] # search results
+then
+clear
+linecount=$(sed -n '$=' ~/.config/videoinfox/tmp/search-url-playlist-odd) # line count
+cat ~/.config/videoinfox/tmp/search-url-playlist.tmp-numbered
+echo
+read -r -p "Add video to browse queue: " linenumber  # waiting fot user input
+
+if [ -z "$linenumber" ]
+then # BLANK ENTRY
+    :
+else
+
+re='^[0-9]+$'
+if ! [[ $linenumber =~ $re ]]
+  then
+      :
+  else
+
+if [ "$linenumber" = 0 ]
+  then
+      :
+  else
+
+if ! [[ "$linenumber" -eq "$linenumber" ]]
+  then 
+      :
+  else
+      if [[ $linenumber -gt $linecount ]]
+        then  # ENTRY EXCEEDS TOTAL NUMBER OF LINES
+            :
+else
+
+if [ -z "$urlfind" ]
+then
+clear
+echo
+echo " Url is missing to download a single videos from the following domain:"
+echo " ""$baseurl"
+echo
+echo " An entry can be created in -Set"
+echo
+read -r -p " Press enter to continue . . ."
+
+else
+idsearch=$(sed -n "$linenumber"p ~/.config/videoinfox/tmp/search-url-playlist-even)
+videoid=$(sed -n "$idsearch"p ~/.config/videoinfox/tmp/download-browse-even)
+videoname=$(sed -n "$linenumber"p ~/.config/videoinfox/tmp/search-url-playlist-odd)
+
+sed -i '/^$/d' ~/.config/videoinfox/browse-queue-dir 2>/dev/null
+sed -i '/^$/d' ~/.config/videoinfox/browse-queue 2>/dev/null
+sed -i '/^$/d' ~/.config/videoinfox/browse-queue-names 2>/dev/null
+sed -i '/^$/d' ~/.config/videoinfox/browse-queue-names-2 2>/dev/null
+echo "$PWD" >> ~/.config/videoinfox/browse-queue-dir
+echo "$urlfind""$videoid" >> ~/.config/videoinfox/browse-queue
+echo "$videoname" >> ~/.config/videoinfox/browse-queue-names
+echo "$chname" >> ~/.config/videoinfox/browse-queue-names-2
+echo
+echo "$videoname"" added to the queue . . ."
+sleep .5
+
+fi
+fi
+fi
+fi
+fi
+fi
+
+
+fi
 ;;
 
 
-z) # browse queue
+b) # ALL TO QUEUE
+if [ -z "$urlfind" ]
+then
+clear
+echo
+echo " Url is missing to download a single videos from the following domain:"
+echo " ""$baseurl"
+echo
+echo " An entry can be created in -Set"
+echo
+read -r -p " Press enter to continue . . ."
+
+else
+if [[ "$viewset" = 1 ]] # entire list
+then
+linecount=$(sed -n '$=' ~/.config/videoinfox/tmp/download-browse-odd) # line count
+function alltoqueue {
+
+clear
+echo
+echo " Add" "$linecount" "videos to the download queue?"
+echo
+echo " y - Yes     n - No"  
+echo 
+echo -en " Enter Option: "
+read -r -n1 option
+echo
+}
+
+while true
+do
+alltoqueue
+case $option in
+
+y)  # YES
+sed -i '/^$/d' ~/.config/videoinfox/browse-queue-dir 2>/dev/null
+sed -i '/^$/d' ~/.config/videoinfox/browse-queue 2>/dev/null
+sed -i '/^$/d' ~/.config/videoinfox/browse-queue-names 2>/dev/null
+sed -i '/^$/d' ~/.config/videoinfox/browse-queue-names-2 2>/dev/null
+yes "$PWD" | head -n "$linecount" >> ~/.config/videoinfox/browse-queue-dir
+yes "$urlfind" | head -n "$linecount" > ~/.config/videoinfox/tmp/all-to-queue-url
+paste -d "" ~/.config/videoinfox/tmp/all-to-queue-url ~/.config/videoinfox/tmp/download-browse-even > ~/.config/videoinfox/tmp/all-to-queue-url-final
+cat ~/.config/videoinfox/tmp/all-to-queue-url-final >> ~/.config/videoinfox/browse-queue
+cat ~/.config/videoinfox/tmp/download-browse-odd >> ~/.config/videoinfox/browse-queue-names
+yes "$chname" | head -n "$linecount" >> ~/.config/videoinfox/browse-queue-names-2
+echo
+echo " ""$linecount"" videos added to the queue . . ."
+sleep .7
+break;; 
+        
+n)  # NO 
+echo
+echo " Videos not added . . ."
+echo   
+sleep .7
+break;;
+      
+*)
+esac
+done
+
+
+elif [[ "$viewset" = 2 ]] # search results
+then
+linecount=$(sed -n '$=' ~/.config/videoinfox/tmp/search-url-playlist-odd) # line count
+function alltoqueue {
+clear
+echo
+echo " Add" "$linecount" "videos to the download queue?"
+echo
+echo " y - Yes     n - No"  
+echo 
+echo -en " Enter Option: "
+read -r -n1 option
+echo
+}
+
+while true
+do
+alltoqueue
+case $option in
+
+y)  # YES
+sed -i '/^$/d' ~/.config/videoinfox/browse-queue-dir 2>/dev/null
+sed -i '/^$/d' ~/.config/videoinfox/browse-queue 2>/dev/null
+sed -i '/^$/d' ~/.config/videoinfox/browse-queue-names 2>/dev/null
+sed -i '/^$/d' ~/.config/videoinfox/browse-queue-names-2 2>/dev/null
+yes "$PWD" | head -n "$linecount" >> ~/.config/videoinfox/browse-queue-dir
+linecount2=$(sed -n '$=' ~/.config/videoinfox/browse-queue-dir) # line count
+yes "$urlfind" | head -n "$linecount2" > ~/.config/videoinfox/tmp/all-to-queue-url
+paste -d "" ~/.config/videoinfox/tmp/all-to-queue-url ~/.config/videoinfox/tmp/search-url-playlist-even > ~/.config/videoinfox/tmp/all-to-queue-url-final
+cat ~/.config/videoinfox/tmp/all-to-queue-url-final >> ~/.config/videoinfox/browse-queue
+cat ~/.config/videoinfox/tmp/search-url-playlist-odd >> ~/.config/videoinfox/browse-queue-names
+yes "$chname" | head -n "$linecount" >> ~/.config/videoinfox/browse-queue-names-2
+echo
+echo " ""$linecount"" videos added to the queue . . ."
+sleep .7
+break;; 
+        
+n)  # NO 
+echo
+echo " Videos not added . . ."
+echo   
+sleep .7
+break;;
+      
+*)
+esac
+done
+
+fi
+fi
+;;
+
+
+z) # @browse queue
 function dlbrowsequque {
 clear
 linecount=$(sed -n '$=' ~/.config/videoinfox/browse-queue) # line count
+
 read -r chkit < ~/.config/videoinfox/browse-queue
 if [ -z "$chkit" ]
 then
 echo "Queue empty . . ."
+
 else
+linecount2=$(sed -n '$=' ~/.config/videoinfox/browse-queue-dir) # line count
+yes "~" | head -n "$linecount2" 2>/dev/null > ~/.config/videoinfox/tmp/videoinfox.browsequeue-tilde
 
 cp ~/.config/videoinfox/browse-queue-names ~/.config/videoinfox/tmp/browse-queue-names.tmp
-#sed '/./=' ~/.config/videoinfox/browse-queue-names | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/browse-queue-names.tmp 2>/dev/null # NUMBER THE LIST
-yes "~" | head -n "$linecount" 2>/dev/null > ~/.config/videoinfox/tmp/videoinfox.browsequeue-tilde
 paste -d '  ' 2>/dev/null ~/.config/videoinfox/tmp/browse-queue-names.tmp ~/.config/videoinfox/tmp/videoinfox.browsequeue-tilde ~/.config/videoinfox/browse-queue-names-2 > ~/.config/videoinfox/tmp/browse-queue-names.tmp2
+cp  ~/.config/videoinfox/tmp/browse-queue-names.tmp2 ~/.config/videoinfox/tmp/browse-queue-names.tmp3
 
-cat -n  ~/.config/videoinfox/tmp/browse-queue-names.tmp2 | sort -uk2 | sort -n | cut -f2- > ~/.config/videoinfox/tmp/browse-queue-names.tmp3 # REMOVE DUPES
+# REMOVE DUPES
+# sed remove everthing that isn't a number or letter >>> awk display video names and line numbers of dupes >>> sed remove names leaving line numbers        
+sed 's/[^[:alnum:]]\+//g' ~/.config/videoinfox/tmp/browse-queue-names.tmp2 | awk 'a[$1]++ {print $0, NR}' | sed 's/[^ ]* //' > ~/.config/videoinfox/tmp/browse-queue-names.dupes
+read -r chkit < ~/.config/videoinfox/tmp/browse-queue-names.dupes
+if [ -z "$chkit" ]
+then
+:
+
+else
+echo
+echo -e "Removing duplicates\033[5m . . .\033m\033[0m\033[5m\033[5m\033[0m"
+echo
+
+input="$HOME"/.config/videoinfox/tmp/browse-queue-names.dupes
+while read -r line # MARK DUPLICATE LINES
+do
+sed -i -e "${line}s/^/z18xvi/" ~/.config/videoinfox/tmp/browse-queue-names.tmp3
+sed -i -e "${line}s/^/z18xvi/" ~/.config/videoinfox/browse-queue 2>/dev/null
+sed -i -e "${line}s/^/z18xvi/" ~/.config/videoinfox/browse-queue-dir 2>/dev/null
+sed -i -e "${line}s/^/z18xvi/" ~/.config/videoinfox/browse-queue-names 2>/dev/null
+sed -i -e "${line}s/^/z18xvi/" ~/.config/videoinfox/browse-queue-names-2 2>/dev/null
+sed -i -e "${line}s/^/z18xvi/" ~/.config/videoinfox/tmp/videoinfox.browsequeue-tilde 2>/dev/null
+done < "$input"
+# REMOVE MARKED LINES
+sed -i '/^z18xvi/d' ~/.config/videoinfox/tmp/browse-queue-names.tmp3
+sed -i '/^z18xvi/d' ~/.config/videoinfox/browse-queue 2>/dev/null
+sed -i '/^z18xvi/d' ~/.config/videoinfox/browse-queue-dir 2>/dev/null
+sed -i '/^z18xvi/d' ~/.config/videoinfox/browse-queue-names 2>/dev/null
+sed -i '/^z18xvi/d' ~/.config/videoinfox/browse-queue-names-2 2>/dev/null
+sed -i '/^z18xvi/d' ~/.config/videoinfox/tmp/videoinfox.browsequeue-tilde 2>/dev/null
+fi
+
 sed '/./=' ~/.config/videoinfox/tmp/browse-queue-names.tmp3 | sed '/./N; s/\n/ /' > ~/.config/videoinfox/tmp/browse-queue-names.tmp2 2>/dev/null # #THE LIST
-
+clear
 cat ~/.config/videoinfox/tmp/browse-queue-names.tmp2
 fi
 
@@ -21942,7 +22318,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
             sed -i "${linenumber}d" ~/.config/videoinfox/browse-queue-dir 2>/dev/null
             sed -i "${linenumber}d" ~/.config/videoinfox/browse-queue-names 2>/dev/null
             sed -i "${linenumber}d" ~/.config/videoinfox/browse-queue-names-2 2>/dev/null
-            sed -i "${linenumber}d"~/.config/videoinfox/tmp/videoinfox.browsequeue-tilde 2>/dev/null
+            sed -i "${linenumber}d" ~/.config/videoinfox/tmp/videoinfox.browsequeue-tilde 2>/dev/null
 
             echo
             echo "Removed . . ."
@@ -22013,6 +22389,8 @@ done
 
 
 d) # @DOWNLOAD SINGLE VIDEO FROM PLAYLIST
+if [[ "$viewset" = 1 ]] # entire list
+then
 clear
 linecount=$(sed -n '$=' ~/.config/videoinfox/tmp/download-browse-odd) # line count
 cat ~/.config/videoinfox/tmp/download-browse-odd-numbered
@@ -22047,6 +22425,7 @@ clear
 
 if [ -z "$urlfind" ]
 then
+clear
 echo
 echo " Url is missing to download a single videos from the following domain:"
 echo " ""$baseurl"
@@ -22064,6 +22443,68 @@ fi
 fi
 fi
 fi
+fi
+#;;
+
+elif [[ "$viewset" = 2 ]] # search results
+then
+clear
+linecount=$(sed -n '$=' ~/.config/videoinfox/tmp/search-url-playlist-odd) # line count
+cat ~/.config/videoinfox/tmp/search-url-playlist.tmp-numbered
+echo
+read -r -p "Download Video: " linenumber  # waiting fot user input
+
+if [ -z "$linenumber" ]
+then # BLANK ENTRY
+    :
+else
+
+re='^[0-9]+$'
+if ! [[ $linenumber =~ $re ]]
+  then
+      :
+  else
+
+if [ "$linenumber" = 0 ]
+  then
+      :
+  else
+
+if ! [[ "$linenumber" -eq "$linenumber" ]]
+  then 
+      :
+  else
+      if [[ $linenumber -gt $linecount ]]
+        then  # ENTRY EXCEEDS TOTAL NUMBER OF LINES
+            :
+else
+clear
+
+if [ -z "$urlfind" ]
+then
+clear
+echo
+echo " Url is missing to download a single videos from the following domain:"
+echo " ""$baseurl"
+echo
+echo " An entry can be created in -Set"
+echo
+read -r -p " Press enter to continue . . ."
+
+else
+idsearch=$(sed -n "$linenumber"p ~/.config/videoinfox/tmp/search-url-playlist-even)
+videoid=$(sed -n "$idsearch"p ~/.config/videoinfox/tmp/download-browse-even)
+~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$urlfind""$videoid"
+read -r -p " Press enter to continue . . ."
+
+fi
+fi
+fi
+fi
+fi
+fi
+
+
 fi
 ;;
 
@@ -22090,6 +22531,7 @@ fi
 fi
 fi
 fi
+fi
 cd "$dir5"
 ;;
 
@@ -22105,13 +22547,13 @@ l) # CHANGE DIRECTORY 5
     #echo "Clipboard: ""$pasteclip"
     echo "___________________________________________________________________________________________________________________"
     echo
-    echo " $ver >>> SET DOWNLOAD PLAYLIST DIRECTORY 5"
+    echo " $ver >>> SET DOWNLOAD CHANNEL DIRECTORY 5"
     echo "___________________________________________________________________________________________________________________"
     echo
     echo " Enter with no entry to exit. This directory can't be cleared. It can only be changed."
     echo
     echo
-    echo " *** Changing this directory will change the location for -Download Playlist ***"
+    echo " *** Changing this directory will change the location for -Download Channel ***"
     echo
     echo
     echo " Currently Set: ""$dir5"
@@ -22137,14 +22579,15 @@ l) # CHANGE DIRECTORY 5
                       :
                       else
                       echo > "$dir5/.videoinfox.dl-playlist"
-           fi
+                      fi
 
                       read -r dir5 2> /dev/null < ~/.config/videoinfox/videoinfo.downchan-dir # load the new dir
                       cp "$dir5/.videoinfox.dl-playlist" ~/.config/videoinfox/videoinfox.dl-playlist 2>/dev/null # load its playlists
                       
-                      echo " Download Playlist Directory Set to:" "$dir5"
-                      sleep 1                                        
-                      else
+                      echo " Download Channel Directory Set to:" "$dir5"
+                      sleep 1
+                                        
+                  else
                       echo
                       echo " error: Directory doesn't exist"                   
                       sleep 1
@@ -22300,10 +22743,11 @@ case $option in
 
 y)  # YES
 echo > ~/.config/videoinfox/videoinfox.dl-playlist
+echo > "$dir5"/.videoinfox.dl-playlist
 rm *.ch 2>/dev/null
-rm *.nfo 2>/dev/null
-rm *.pl 2>/dev/null
-rm *.res 2>/dev/null
+rm .*.nfo 2>/dev/null
+rm .*.pl 2>/dev/null
+rm .*.res 2>/dev/null
 
 echo
 echo " All URL Playlists Deleted . . ."
@@ -22448,15 +22892,24 @@ done
 ;;
 
 
+
 *)
 esac
 done  
 ;;
-
+#@browse end
 
 y) # UPDATE DOWNLOAD LIST
-
 linecount="$chklinklist"
+read -r chk4empty < ~/.config/videoinfox/videoinfox.dl-playlist
+if [ -z "$chk4empty" ]
+then
+echo
+echo
+echo " No Url playlists to process . . ."
+sleep .7
+
+else
 clear
 cat ~/.config/videoinfox/tmp/videoinfox.dl-playlist-names-number 2>/dev/null
 echo
@@ -22500,6 +22953,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
             echo
             echo " Done . . ."
             sleep .4
+fi
 fi
 fi
 fi
@@ -22712,6 +23166,15 @@ fi
 
 d) # @DOWNLOAD PLAYLIST
 linecount="$chklinklist"
+read -r chk4empty < ~/.config/videoinfox/videoinfox.dl-playlist
+if [ -z "$chk4empty" ]
+then
+echo
+echo
+echo " No Url playlists to process . . ."
+sleep .7
+
+else
 clear
 cat ~/.config/videoinfox/tmp/videoinfox.dl-playlist-names-number
 echo
@@ -22836,11 +23299,21 @@ fi
 fi
 fi
 fi
+fi
 ;;
 
 
 i) # INFO SHOW LINE
 linecount="$chklinklist"
+read -r chk4empty < ~/.config/videoinfox/videoinfox.dl-playlist
+if [ -z "$chk4empty" ]
+then
+echo
+echo
+echo " No Url playlists to process . . ."
+sleep .7
+
+else
 clear
 cat ~/.config/videoinfox/tmp/videoinfox.dl-playlist-names-number 2>/dev/null
 echo
@@ -22892,11 +23365,21 @@ fi
 fi
 fi
 fi
+fi
 ;;
 
 
 s) # DELETE URL DOWNLOAD PLAYLIST
 linecount="$chklinklist"
+read -r chk4empty < ~/.config/videoinfox/videoinfox.dl-playlist
+if [ -z "$chk4empty" ]
+then
+echo
+echo
+echo " No Url playlists to process . . ."
+sleep .7
+
+else
 clear
 cat ~/.config/videoinfox/tmp/videoinfox.dl-playlist-names-number 2>/dev/null
 echo
@@ -22957,10 +23440,10 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
 
             y)  # YES
             sed -i "$linenumber"d 2>/dev/null ~/.config/videoinfox/videoinfox.dl-playlist
+            sed -i "$linenumber"d 2>/dev/null "$dir5"/.videoinfox.dl-playlist
             rm "$chname".ch 2>/dev/null
             rm ."$chname".nfo 2>/dev/null
-            rm ."$chname".pl 2>/dev/null
-            
+            rm ."$chname".pl 2>/dev/null                         
             echo
             echo " URL Playlist Deleted . . ."
             echo 
@@ -22983,13 +23466,23 @@ fi
 fi
 fi
 fi
+fi
 ;;
 
 
 r) # REMOVE URL PLAYLIST
 linecount="$chklinklist"
+read -r chk4empty < ~/.config/videoinfox/videoinfox.dl-playlist
+if [ -z "$chk4empty" ]
+then
+echo
+echo
+echo " No Url playlists to process . . ."
+sleep .7
+
+else
 clear
-cat ~/.config/videoinfox/tmp/videoinfox.dl-playlist-names-number 2>/dev/null
+cat ~/.config/videoinfox/tmp/videoinfox.dl-playlist-names-number
 echo
 read -r -p "Remove URL playlist: " linenumber  # waiting fot user input
 
@@ -23074,6 +23567,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
                             
             esac
             done     
+fi
 fi
 fi
 fi
@@ -23460,7 +23954,7 @@ echo "__________________________________________________________________________
 echo
 echo " d - Download List     s - Set User List        k - Default List       m - Create/Change Directory        q - Quit"
 echo " v - View List         c - Create User List     a - Add to Queue"    
-echo " l - View Log          r - Delete User List     b - Download Queue     z - Clear User Set List            h - Help"
+echo " l - View Log          r - Delete User List     z - Download Queue     b - Clear User Set List            h - Help"
 echo 
 echo -en " Enter Option: "
 read -r -n1 optiond
@@ -23504,7 +23998,7 @@ q)  # QUIT (DOWNLOAD LIST)
 break;;
 
 
-z)  # CLEAR User Set List
+b)  # CLEAR User Set List
 
 sed 's/.*-//g' ~/.config/videoinfox/videoinfox.set-user-list > ~/.config/videoinfox/tmp/ulistset-minus-path # REMOVE PATH AND videoinfox-dl- 
 #sed 's/.*\///' ~/.config/videoinfox/videoinfox.set-user-list > ~/.config/videoinfox/tmp/ulistset-minus-path # REMOVE PATH
@@ -24120,7 +24614,7 @@ fi
 fi
 ;;
 
-    b)   # DOWNLOAD QUEUE  (DOWNLOAD LIST)
+    z)   # DOWNLOAD QUEUE  (DOWNLOAD LIST)
 
 # SAVE CURRENT DIRECTORY FOR RESTORE ON FUNCTION
 savethedir="$PWD"
