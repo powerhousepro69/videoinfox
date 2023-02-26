@@ -1,13 +1,10 @@
-# Videoinfox v5.9.03
+# Videoinfox v5.9.32
 
 ### *Where video download and play is a clipboard copy away . . .*
 
-#### Next feature in the works: &nbsp; Search will be added to browse. Search a playlist using a keyword.
+#### New: &nbsp; -Search added to Browse to find videos in a URL playlist by keyword.
 
-#### Fix: The playlist directory wasn't always being written the .nfo file. This causes browse to fail.
-
-        IF BROWSE ISN'T WORKING WITH A PLAYLIST, UPDATE THE PLAYLIST THEN DOWNLOAD THE FIRST VIDEO.
-
+        New: -All to Queue added to browse. Add the entire playlist or search results to the queue.
 
 ![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/HOME.png)
 
@@ -381,6 +378,28 @@ FIRST RUN
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
 
+###  v5.9.32 New: -Search added to Browse to find videos in a URL playlist by keyword.
+
+         Search results have been integrated into -Download and -Add to Queue.
+
+         New: -All to Queue added to browse. Add the entire playlist or search results to the queue.
+
+         Change: Download Playlist renamed to Download Channel.
+         Edit: Home help for the renamed feature.
+
+         Change: Channel link removed from heads up display in Download Channel. It is located in Info.
+
+         Change: Moved optons around in Browse.
+
+         Change: 2 option letters swapped in Yt-dlp -Download List: z-Download Queue and b-Clear User Set List.
+
+         Fix: Auto remove duplicates in Download Queue in Browse.
+
+         Fix: Script errors in Download Channel when list was empty or the last item was deleted.
+
+         Fix: Clear All in Download Channel -Restore wasn't clearing out the .nfo and .pl files.
+
+
 ###  v5.9.03 Finished: -Download in Download Playlist.
 
          If a directory isn't located for a URL playlist, an error message will
@@ -407,24 +426,6 @@ FIRST RUN
         Add: -View Downloads in Download Playlist with options:   -Play   -Autoplay   -Info   -Playlist Add
 
         Add: Options added to Browse -Downloaded:   -Play   -Autoplay   -Info   -Playlist Add
-
-
-###  v5.8.00 New: Download Queue added to Browse. Add videos from any of the playlists and batch download.
-
-        Each video will be downloaded to the directory that Yt-dlp created for the playlist.
-
-###  v5.7.17 Fix: -Add in Download Playlist. http:// and www . is now removed if entered. It would break browse.
-
-        Fix: -Set in browse. If an entry was edited it wouldn't update until quitting browse and re-entering.
-
-        Add: Url Link: added to Browse display.
-
-###  v5.7.14 Add: -Disk added to Home Screen and removed mpv save indicator.
-     
-        Disk shows disk space used in the current directory by videos and free disk space.
-        mpv save indicator is still in View Playlist and Play Queue.
-
-
 
 ### Harnessing the power of:
 
