@@ -51,7 +51,7 @@ Toggle on/off mpv save play position on quit and an option to erase all mpv mark
 
 ### Playlist Features:
 
-### *Create, Watch, and Manage playlists and the play queue in View Playlist*
+### *Create, Watch, Manage playlists and the Play Queue in View Playlist*
 
 #### *Create*
 
