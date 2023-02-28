@@ -1,4 +1,4 @@
-# Videoinfox v5.9.34
+# Videoinfox v5.9.35
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -377,6 +377,8 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.9.35 Add: Note added to error in Download located in Download Channel with further explanation of the manual fix.
 
 ###  v5.9.34 Update: -Disk. Shows current directory video disk usage and Default Directories 1-5
 
