@@ -1,4 +1,4 @@
-# Videoinfox v5.9.35
+# Videoinfox v5.9.36
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -377,6 +377,8 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.9.36 Fix: Disk on Home Screen. Now displays Not Set if any of the directories aren't set.
 
 ###  v5.9.35 Add: Note added to error in Download located in Download Channel with further explanation of the manual fix.
 
