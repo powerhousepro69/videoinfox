@@ -1,4 +1,4 @@
-# Videoinfox v5.9.37
+# Videoinfox v5.9.38
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -377,6 +377,10 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  5.9.38 Change: -Download Only -Download Choose -Self Destruct in Yt-dlp Menu. - changes to * on valid URL in clipboard.
+
+         Removed white space at end of all lines. 
 
 ###  v5.9.37 Edit: Download Channel -Help. Change Directory Section.
 
