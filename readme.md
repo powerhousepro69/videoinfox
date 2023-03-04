@@ -6,7 +6,7 @@
 
         New: -All to Queue added to browse. Add the entire playlist or search results to the queue.
 
-![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/HOME.png)
+![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/videoinfox.gif)
 
 ### 100% Linux Shell Script. Videoinfox is one file under one megabyte.
 
