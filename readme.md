@@ -1,4 +1,4 @@
-# Videoinfox v5.9.38
+# Videoinfox v5.9.39
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -40,7 +40,7 @@ Toggle on/off mpv save play position on quit and an option to erase all mpv mark
 
 ### Hotkey navigation that is robust and efficient.
 
-     ONE KEYPRESS FOR ALL MENU SELECTIONS. OVER 100 OPTIONS.
+     ONE KEYPRESS FOR ALL MENU SELECTIONS. OVER 150 OPTIONS.
 
 
 ### File types searched for: &nbsp; .webm &nbsp; .mp4 &nbsp; .mkv &nbsp; .avi &nbsp; .divx &nbsp; .3gp
@@ -378,7 +378,9 @@ FIRST RUN
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
 
-###  5.9.38 Change: -Download Only -Download Choose -Self Destruct in Yt-dlp Menu. - changes to * on valid URL in clipboard.
+###  v5.9.39 Fix: -Rebuild Queue in Queue List would throw a script error if run on empty queue.
+
+###  v5.9.38 Change: -Download Only -Download Choose -Self Destruct in Yt-dlp Menu. - changes to * on valid URL in clipboard.
 
          Removed white space at end of all lines. 
 
@@ -414,33 +416,6 @@ FIRST RUN
          Fix: Clear All in Download Channel -Restore wasn't clearing out the .nfo and .pl files.
 
 
-###  v5.9.03 Finished: -Download in Download Playlist.
-
-         If a directory isn't located for a URL playlist, an error message will
-         be shown with the 3 scenarios that will cause the error and ways to fix it.
-
-
-###  v5.9.02 Fix: Pasted some wrong code to Download located in Download Playlist.
-
-        After the first video is downloaded and you ctrl-c out. The first 8 characters are read from the 
-        first line of the playlist to find the directory.
-
-        Note: If any new content was added to the playlist before download is initially run, the directory 
-              won't be found because that new content won't be in the playlist until it is updated. Make 
-              sure playlist is updated before downloading the first video.
-
-###  v5.9.01 Fix: The playlist directory wasn't always being written the .nfo file. This causes browse to fail.
-
-###  v5.9.00 New: -Not Downloaded located in Download Playlist -Browse with options -Download and -Add to Queue
-
-        It displays videos that haven't been downloaded from the playlist with browse.
-
-        New: Last date of Download Playlist Update added to the overhead display.
-
-        Add: -View Downloads in Download Playlist with options:   -Play   -Autoplay   -Info   -Playlist Add
-
-        Add: Options added to Browse -Downloaded:   -Play   -Autoplay   -Info   -Playlist Add
-
 ### Harnessing the power of:
 
 Videoinfox - Over 15,000 lines of code.
@@ -457,19 +432,4 @@ FFprobe - Get codec, resolution & duration in seconds.
 
 
 ![Code Stats](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/CODE-STATS.png)
-
-
-#### !!! Just found an issue when on friends pc when updating from a few version before.
-
-Download Playlist wouldn't add a Url Playlist. Kept reporting no videos available. I missed
-something. The feature will work on a fresh setup. All that needs done to fix this issue is
-copy or move the playlist directory ~/.config/videoinfox/playlists so no playlists are lost.
-Then delete the videoinfox directory ~/.config/videoinfox/ and run videoinfox. Exit videoinfox
-and copy the playlist dir back into ~/.config/videoinfox/  Restart videoinfox and setup your
-default directories again. For future reference, if you ever run setup again and you have
-existing URL Playlists, all the data for the Download Playlist feature is saved to where the
-playlists are being downloaded. Download Playlist data isn't stored in the videoinfox directory
-but local playlists are.
-
-
 
