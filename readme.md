@@ -1,4 +1,4 @@
-# Videoinfox v5.9.41
+# Videoinfox v5.9.42
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -375,6 +375,10 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.9.42 Add: Splash screen with script name and removed checking for update display.
+
+         💥️ The splash screen suggestion came from goochockipar@reddit  Thanks 👍️
 
 ###  v5.9.41 Change: Added 4s timeout to wget when checking for videoinfox update on startup.
 
