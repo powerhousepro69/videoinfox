@@ -1,21 +1,19 @@
-# Videoinfox v5.9.39
+# Videoinfox v5.9.40
 
 ### *Where video download and play is a clipboard copy away . . .*
 
-#### New: &nbsp; -Search added to Browse to find videos in a URL playlist by keyword.
-
-        New: -All to Queue added to browse. Add the entire playlist or search results to the queue.
-
 ![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/videoinfox.gif)
+
+#### Videoinfox will not edit video files. It is a front-end to play videos and download videos.
 
 ### 100% Linux Shell Script. Videoinfox is one file under one megabyte.
 
-Find your videos fast.  Powerful playlist building and editing. A play queue to load up unlimited playlists
+Find your videos fast.  Powerful playlist building and editing.  A play queue to load up unlimited playlists
 for autoplay with last video played marker to pick up where you left off. Played List that keeps track of 
 everything played by Play Clipboard, Last Download and Play.  Index unlimited video libraries and find 
 videos by keyword from the path or file.  Yt-dlp integration with Download list building without leaving
-your web browser and a download queue to load up unlimited download lists for batch processing. Download
-entire URL playlists or pick and choose what videos to download with browse. A download queue in browse to
+your web browser and a download queue to load up unlimited download lists for batch processing.  Download
+entire URL playlists or pick and choose what videos to download with browse.  A download queue in browse to
 add single videos from any of the playlists to batch download. 
 
 
@@ -377,6 +375,8 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.9.40 Edit: Home Help.
 
 ###  v5.9.39 Fix: -Rebuild Queue in Queue List would throw a script error if run on empty queue.
 
