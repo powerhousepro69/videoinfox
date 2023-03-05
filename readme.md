@@ -1,4 +1,4 @@
-# Videoinfox v5.9.40
+# Videoinfox v5.9.41
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -375,6 +375,8 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.9.41 Change: Added 4s timeout to wget when checking for videoinfox update on startup.
 
 ###  v5.9.40 Edit: Home Help.
 
