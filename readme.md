@@ -1,4 +1,4 @@
-# Videoinfox v5.9.42
+# Videoinfox v5.9.43
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -375,6 +375,8 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.9.43 Edit: A few small edits in Home Help.
 
 ###  v5.9.42 Add: Splash screen with script name and removed checking for update display.
 
