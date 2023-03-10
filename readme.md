@@ -12,9 +12,9 @@ sudo wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/vide
 sudo chmod +x /usr/local/bin/videoinfox
 ```
 
-#### Videoinfox will not edit video files. It is a front-end to play videos and download videos.
+#### *Videoinfox will not edit video files. It is a front-end to play videos, build playlists and download videos.*
 
-### *100% Linux Shell Script. Videoinfox is only 1 megabyte.*
+### 100% Linux Shell Script. Videoinfox is only 1 megabyte.
 
 Find your videos fast.  Powerful playlist building and editing.  A play queue to load up unlimited playlists
 for autoplay with last video played marker to pick up where you left off. Played List that keeps track of 
