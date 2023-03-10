@@ -40,6 +40,22 @@ Toggle on/off mpv save play position on quit and an option to erase all mpv mark
         Note:   -Show All on the Home Screen is recursive.
                 -Show all in -Navigate Tree is one level deep.
 
+### *Find videos by searching the text of all Playlists and the Default Directories Index*      
+
+### Playlist Find
+
+![Playlist Find](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PLAYLIST-FIND.png)
+
+      Find videos to play or add to a playlist without needing to know the files location.
+      Use a keyword from the path or filename to locate videos.
+
+      Note: Default directories must be set up first. Then run  - Index Default Directories
+            
+            Indexing more directories in addition to the 5 default directories is a simple process.
+            Change to a parent directory of a video library. Then -Show All on the home screen
+            and select -Make Playlist
+
+            * Duplicates are always removed from playlist find results.
 
 ### Playlist Features:
 
@@ -119,24 +135,6 @@ Toggle on/off mpv save play position on quit and an option to erase all mpv mark
        videoinfox -z  Make a playlist from a recursive video listing in the current directory.
                       The Playlist will be saved in: ~/.config/videoinfox/playlists which makes
                       the playlist/index available to videoinfox's feature set.
-
-
-### *Find videos by searching the text of all Playlists and the Default Directories Index*      
-
-### Playlist Find
-
-![Playlist Find](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PLAYLIST-FIND.png)
-
-      Find videos to play or add to a playlist without needing to know the files location.
-      Use a keyword from the path or filename to locate videos.
-
-      Note: Default directories must be set up first. Then run  - Index Default Directories
-            
-            Indexing more directories in addition to the 5 default directories is a simple process.
-            Change to a parent directory of a video library. Then -Show All on the home screen
-            and select -Make Playlist
-
-            * Duplicates are always removed from playlist find results.
 
 <br />
 VIEW PLAYLIST to Create, Watch, and Manage Playlists and the Play Queue
