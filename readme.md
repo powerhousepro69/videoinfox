@@ -12,6 +12,8 @@ sudo wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/vide
 sudo chmod +x /usr/local/bin/videoinfox
 ```
 
+**Getting Started:** Set the Default Directories located in -Set. Enter the parent directories of your video libraries. Then run -Index Default Directories This will build a searchable recursive list of all 5 default directories for -Playlist Find. Find a video(s) with a keyword from the path or file.
+
 #### *Videoinfox will not edit video files. It is a front-end to play videos, build playlists and download videos.*
 
 ### 100% Linux Shell Script. Videoinfox is only 1 megabyte.
@@ -24,11 +26,6 @@ your web browser and a download queue to load up unlimited download lists for ba
 entire URL playlists or pick and choose what videos to download with browse.  A download queue in browse to
 add single videos from any of the playlists to batch download. 
 
-<br />
-
-**Getting Started:** Set the Default Directories located in -Set. Enter the parent directories of your video libraries. Then run -Index Default Directories This will build a searchable recursive list of all 5 default directories for -Playlist Find. Find a video(s) with a keyword from the path or file.
-
-<br />
 *Videoinfox recommends using MPV to watch videos and will be set as the default video player if found.
 Mpv saves play postion on quit of every video played and Videoinfox saves Playlist and Play Queue position.
 Toggle on/off mpv save play position on quit and an option to erase all mpv markers.
