@@ -422,7 +422,7 @@ FIRST RUN
 
 ### Harnessing the power of:
 
-Videoinfox - Over 15,000 lines of code.
+Videoinfox - Over 17,000 lines of code.
 
 Xclip - Interact with the clipboard.
 
