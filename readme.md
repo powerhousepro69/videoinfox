@@ -4,6 +4,14 @@
 
 ![Videoinfox HOME](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/videoinfox.gif)
 
+### To install : &nbsp; &nbsp; Run the 2 lines below.
+```
+sudo wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox -O /usr/local/bin/videoinfox
+```
+```
+sudo chmod +x /usr/local/bin/videoinfox
+```
+
 #### Videoinfox will not edit video files. It is a front-end to play videos and download videos.
 
 ### 100% Linux Shell Script. Videoinfox is one file under one megabyte.
@@ -15,17 +23,6 @@ videos by keyword from the path or file.  Yt-dlp integration with Download list 
 your web browser and a download queue to load up unlimited download lists for batch processing.  Download
 entire URL playlists or pick and choose what videos to download with browse.  A download queue in browse to
 add single videos from any of the playlists to batch download. 
-
-
-<br />
-
-### To install : &nbsp; &nbsp; Run the 2 lines below.
-```
-sudo wget https://raw.githubusercontent.com/powerhousepro69/videoinfox/main/videoinfox -O /usr/local/bin/videoinfox
-```
-```
-sudo chmod +x /usr/local/bin/videoinfox
-```
 
 <br />
 
