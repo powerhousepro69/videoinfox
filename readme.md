@@ -1,4 +1,4 @@
-# Videoinfox v5.9.45
+# Videoinfox v5.9.46
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -368,6 +368,8 @@ FIRST RUN
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
 
+###  v5.9.46 Fix: Spacing on Saving loaded playlist . . . message.
+
 ###  v5.9.45 Fix: Removed an extra slash in Update Location in Code Stats.
 
 ###  v5.9.44 Fix: Had to fix some headers in Download Playlist.
@@ -380,44 +382,6 @@ FIRST RUN
 
 ###  v5.9.41 Change: Added 4s timeout to wget when checking for videoinfox update on startup.
 
-###  v5.9.40 Edit: Home Help.
-
-###  v5.9.39 Fix: -Rebuild Queue in Queue List would throw a script error if run on empty queue.
-
-###  v5.9.38 Change: -Download Only -Download Choose -Self Destruct in Yt-dlp Menu. - changes to * on valid URL in clipboard.
-
-         Removed white space at end of all lines. 
-
-###  v5.9.37 Edit: Download Channel -Help. Change Directory Section.
-
-###  v5.9.36 Fix: Disk on Home Screen. Now displays Not Set if any of the directories aren't set.
-
-###  v5.9.35 Add: Note added to error in Download located in Download Channel with further explanation of the manual fix.
-
-###  v5.9.34 Update: -Disk. Shows current directory video disk usage and Default Directories 1-5
-
-         Fix: Forgot to remove Press enter to coninue... in Browse -Download
-
-###  v5.9.32 New: -Search added to Browse to find videos in a URL playlist by keyword.
-
-         Search results have been integrated into -Download and -Add to Queue.
-
-         New: -All to Queue added to browse. Add the entire playlist or search results to the queue.
-
-         Change: Download Playlist renamed to Download Channel.
-         Edit: Home help for the renamed feature.
-
-         Change: Channel link removed from heads up display in Download Channel. It is located in Info.
-
-         Change: Moved optons around in Browse.
-
-         Change: 2 option letters swapped in Yt-dlp -Download List: z-Download Queue and b-Clear User Set List.
-
-         Fix: Auto remove duplicates in Download Queue in Browse.
-
-         Fix: Script errors in Download Channel when list was empty or the last item was deleted.
-
-         Fix: Clear All in Download Channel -Restore wasn't clearing out the .nfo and .pl files.
 
 
 ### Harnessing the power of:
