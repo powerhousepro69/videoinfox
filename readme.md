@@ -26,6 +26,13 @@ your web browser and a download queue to load up unlimited download lists for ba
 entire URL playlists or pick and choose what videos to download with browse.  A download queue in browse to
 add single videos from any of the playlists to batch download. 
 
+Queue summary: Videoinfox has 3 different queues:
+
+ - Play Queue in View Playlist to add local playlists for autoplay with resume marker.
+ - Download Queue in Dowload List. Add local download lists that can be built with a keyboard shortcut.
+ - Download Queue in Browse to add videos from any of the Url Playlists located in Download Channel.
+
+
 *Videoinfox recommends using MPV to watch videos and will be set as the default video player if found.
 Mpv saves play postion on quit of every video played and Videoinfox saves Playlist and Play Queue position.
 Toggle on/off mpv save play position on quit and an option to erase all mpv markers.
