@@ -170,32 +170,7 @@ The play queue can also be written to a new playlist. Create a playlist from mul
 
 ![Videoinfox Play Queue](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PLAYQUEUE.png)
 
-
 <br />
-
-  - Help is located on the Home screen covering most of the features. Help also in Download List and View Playlist.  
-  - Auto save last search result(s) and autoload until cleared. Defaulted to never save. Change in Settings.
-  - Check for update on startup and notifity if update is available. Download and update in Videoinfox.
-  - Play a local file by entering the line number. Play single video or autoplay the entire list.
-  - See codec, resolution and duration on the playing video.  
-  - Set Intermission time in seconds. Change the time in seconds on video end/player quit. Initially set to 10.
-  - Video Player auto closes when the video ends or quit(q). MPV is used by default. Any video player can be used.
-  - Change directory by entering line number or by entering the path.
-  - Find directory and change to it by entering the line number.
-  - Directory saved on exit to load on next run.
-  - GUI notifications
-  - Rapid directory changing by setting default directories (5) in Settings. 6 is the directory at last exit.
-  
-        Default Dirs - 1 2 3 4 5 6  available in: Home, Navigate Tree, Download List & More Options
-
-  - Played List: &nbsp; Log everything played with: &nbsp; Play, &nbsp; Play Clipboard &nbsp; and &nbsp; Last Download 
-  - Info: Get codec, resolution and duration of videos. 
-
-        More Options:
-
-        List Directory: List video info one directory deep. Options to save/delete per directory.
-        Video Count: Recursive count of videos broken down by video type.
-        Video Duration: Recursive duration (days:hrs:min:sec) Options to save/delete per directory.
 
 ### Play Clipboard 
 
@@ -302,6 +277,34 @@ NAVIGATE TREE >>> SHOW ALL one directory deep listing with Play, Autoplay, Playl
 FIND DIRECTORY
 
 ![Videoinfox Find Directory](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/FIND-DIRECTORY.png)
+
+<br />
+
+  - Help locations: &nbsp; Home Screen &nbsp; View Playlist &nbsp; Download List &nbsp; Download Channel    
+  - Auto save last search result(s) and autoload until cleared. Defaulted to never save. Change in Settings.
+  - Check for update on startup and notifity if update is available. Download and update in Videoinfox.
+  - Play a local file by entering the line number. Play single video or autoplay the entire list.
+  - See codec, resolution and duration on the playing video.  
+  - Set Intermission time in seconds. Change the time in seconds on video end/player quit. Initially set to 10.
+  - Video Player auto closes when the video ends or quit(q). MPV is used by default. Any video player can be used.
+  - Change directory by entering line number or by entering the path.
+  - Find directory and change to it by entering the line number.
+  - Directory saved on exit to load on next run.
+  - GUI notifications
+  - Rapid directory changing by setting default directories (5) in Settings. 6 is the directory at last exit.
+  
+        Default Dirs - 1 2 3 4 5 6  available in: Home, Navigate Tree, Download List & More Options
+
+  - Played List: &nbsp; Log everything played with: &nbsp; Play, &nbsp; Play Clipboard &nbsp; and &nbsp; Last Download 
+  - Info: Get codec, resolution and duration of videos.
+
+<br /> 
+
+        More Options:
+
+        List Directory: List video info one directory deep. Options to save/delete per directory.
+        Video Count: Recursive count of videos broken down by video type.
+        Video Duration: Recursive duration (days:hrs:min:sec) Options to save/delete per directory.
 
 <br />
 MORE OPTIONS
