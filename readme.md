@@ -47,10 +47,17 @@ Toggle on/off mpv save play position on quit and an option to erase all mpv mark
         Note:   -Show All on the Home Screen is recursive.
                 -Show all in -Navigate Tree is one level deep.
 
-### *Find videos by searching the text of all Playlists and the Default Directories Index*      
+## 3 ways to find videos from the Home Screen.
 
-### Playlist Find
+### 1. Find Video: Recursive search from the current directory. 
 
+![Videoinfox Find](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/FIND.png)
+
+### 2. Show All: Recursive listing of all videos in the current directory. 
+
+### 3. Playlist Find: Search the text of all Playlists and the Default Directories Index.
+#### *Instant access to videos in large libraries that are spread out over multiple directories and drives.*
+    
 ![Playlist Find](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PLAYLIST-FIND.png)
 
       Find videos to play or add to a playlist without needing to know the files location.
@@ -63,8 +70,9 @@ Toggle on/off mpv save play position on quit and an option to erase all mpv mark
             and select -Make Playlist
 
             * Duplicates are always removed from playlist find results.
+<br />
 
-### Playlist Features:
+## Playlist Features
 
 ### *Create, Watch, Manage playlists and the Play Queue in View Playlist*
 
@@ -294,11 +302,6 @@ FIND DIRECTORY
 ![Videoinfox Find Directory](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/FIND-DIRECTORY.png)
 
 <br />
-FIND VIDEOS TO Play, Autoplay, Playlist Add or Make Playlist with all search results.
-
-![Videoinfox Find](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/FIND.png)
-
-<br />
 MORE OPTIONS
 
 ![Videoinfox More Options](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/MORE-OPTIONS.png)
@@ -389,7 +392,7 @@ FIRST RUN
 
 ###  v5.9.41 Change: Added 4s timeout to wget when checking for videoinfox update on startup.
 
-
+<br />
 
 ### Harnessing the power of:
 
