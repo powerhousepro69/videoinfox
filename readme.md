@@ -158,7 +158,7 @@ VIEW PLAYLIST to Create, Watch, and Manage Playlists and the Play Queue
 
 
 <br />
-CHANGE AND QUEUE in View Playlist
+CHANGE AND QUEUE in View Playlist. This is where all local playlists/indexes are diplayed.
 
 ![Videoinfox Change and Queue](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/CHANGEANDQUEUE.png)
 
