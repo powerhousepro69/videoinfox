@@ -164,7 +164,9 @@ CHANGE AND QUEUE in View Playlist. This is where all local playlists/indexes are
 
 
 <br />
-PLAY QUEUE in View Playlist >>> Change and Queue
+PLAY QUEUE in Change and Queue to play all playlists that were added to the queue with resume marker.
+        
+The play queue can also be written to a new playlist. Create a playlist from multiple playlists.  
 
 ![Videoinfox Play Queue](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PLAYQUEUE.png)
 
