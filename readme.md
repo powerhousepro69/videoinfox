@@ -265,7 +265,7 @@ DOWNLOAD CHANNEL in the Yt-dlp Menu
 ![Videoinfox DL Playlist](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/DOWNLOAD-PLAYLIST.png)
 
 Download Channel: Total number of videos downloaded and videos in URL playlist are displayed for each list. The channel/playlist name are checked to find if the entry already exists to avoid a duplicate entry. Yt-dlp will check URL Playlist validity before it is added to the list. Removed playlists can be recovered with Restore. Update Playlist to download a fresh copy.  When downlading an entire playlist you can ctrl/c out of a download in progress and restart the download right from where it left off thanks to Yt-dlp's archive feature. Browse to download single videos from a playlist and a
-download queue to add single videos from any of the playlists for batch download.
+download queue to add single videos from any of the playlists or search results. Also an option to add the entire list to the download queue.
 
 BROWSE in Download Channel. Download single videos from the playlist or add videos to the queue.
 ![Videoinfox DL Playlist](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/BROWSE-DPL.png)
