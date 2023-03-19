@@ -1,4 +1,4 @@
-# Videoinfox v5.9.46
+# Videoinfox v5.9.49
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -393,6 +393,13 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.9.49 Add: Finally decided on a color for Videoinfox. If the terminal supports 256 colors, blue back with white text.
+
+         Add: Command line option -c. This will start videoinfox using your default terminal colors.
+
+         Fix: Had some missed Download Playlist in displays that were changed to Download Channel.
+
 
 ###  v5.9.46 Fix: Spacing on Saving loaded playlist . . . message.
 
