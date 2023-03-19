@@ -47,7 +47,7 @@ Toggle on/off mpv save play position on quit and an option to erase all mpv mark
         Note:   -Show All on the Home Screen is recursive.
                 -Show all in -Navigate Tree is one level deep.
 
-## 3 ways to find videos from the Home Screen.
+## 4 ways to find videos from the Home Screen.
 
 ### 1. Find Video: Recursive search from the current directory. 
 
@@ -55,7 +55,9 @@ Toggle on/off mpv save play position on quit and an option to erase all mpv mark
 
 ### 2. Show All: Recursive listing of all videos in the current directory. 
 
-### 3. Playlist Find: Search the text of all Playlists and the Default Directories Index.
+### 3. Navigate Tree - Show All for video listing one directory deep.
+
+### 4. Playlist Find: Search the text of all Playlists and the Default Directories Index.
 #### *Instant access to videos in large libraries that are spread out over multiple directories and drives.*
     
 ![Playlist Find](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PLAYLIST-FIND.png)
@@ -172,7 +174,7 @@ The play queue can also be written to a new playlist. Create a playlist from mul
 
 <br />
 
-### Play Clipboard 
+## Play Clipboard 
 
         Download a video url that is in the clipboard via Yt-dlp and autoplay.
         Play Clipboard is available in: Home, Played List, View Playlist, Yt-dlp Menu & View Downloads
@@ -188,10 +190,19 @@ The play queue can also be written to a new playlist. Create a playlist from mul
          Then  p   to download and autoplay.
 
 <br />
-PLAY DIRECTORY
 
-Autoplay directory one level deep. Option to quit on video end or player quit. *Videoinfox autoplay features: &nbsp; Play Directory, Autoplay, Start and Resume*
+## Autoplay Features
 
+        PLAY DIRECTORY to autoplay directory one level deep from beginning to end.
+
+        AUTOPLAY to start autoplay from anywhere in a list and play to the end.
+
+        START in view playlist and play queue to start autoplay from anywhere in a
+        playlist and play to the end.
+
+        RESUME to start autoplay from the last video played on player (q) quit.
+
+        
 ![Play Directory](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PLAY-DIRECTORY.png)
 
 <br />
