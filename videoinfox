@@ -5,9 +5,10 @@
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
-ver="Videoinfox v5.9.49"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m9.49")  # Version Number: with blinking dot
-vn="v5.9.49" #V! update help files on update
+ver="Videoinfox v5.9.50"  # Version Number: no blinking dot
+ver2=$(echo -e "\e[3mVideoinfox v5.9.50\e[0m")
+der=$(echo -e "\e[3mVideoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m\e[3m9.50\033[0m") # Version Number: with blinking dot
+vn="v5.9.50" #V! update help files on update
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -1276,7 +1277,8 @@ if [ "$viv2" = "$viv3" ]  # If the downloaded version = this script's version go
 
   else
       # Version numbers are not the same
-      viv4="Update Available"   # Update Available   notification on home screen
+      ###viv4="Update Available"   # Update Available   notification on home screen
+      viv4=$(echo -e "\e[3mUpdate Available\e[0m")
       "$vnotify" "Videoinfox messsage: Update Available" "$viv" # send gui notification with update ver number
       #rm ~/.config/videoinfox/tmp/* 2> /dev/null
       cd "$dirtemp"  # restore directory
@@ -1302,7 +1304,7 @@ fi
 ##################################################################################################################################################
 echo "_________________________________________________________________________________________________________________" > ~/.config/videoinfox/d-ch-help
 echo >> ~/.config/videoinfox/d-ch-help
-echo " Videoinfox v.5.9.49 >>> DOWNLOAD CHANNEL >>> HELP" >> ~/.config/videoinfox/d-ch-help
+echo " Videoinfox v.5.9.50 >>> DOWNLOAD CHANNEL >>> HELP" >> ~/.config/videoinfox/d-ch-help
 echo >> ~/.config/videoinfox/d-ch-help
 echo " Arrows - up/dwn                                                                                        q - Quit" >> ~/.config/videoinfox/d-ch-help
 echo "_________________________________________________________________________________________________________________" >> ~/.config/videoinfox/d-ch-help
@@ -1373,7 +1375,7 @@ echo "__________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.9.49   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Videoinfox v5.9.50   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1525,7 +1527,7 @@ echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.9.49   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
+echo " Videoinfox v5.9.50   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " VIDEOINFOX WILL NOT EDIT VIDEO FILES. IT IS A FRONT-END TO PLAY VIDEOS AND DOWNLOAD VIDEOS." >> ~/.config/videoinfox/videoinfo.help
@@ -1884,7 +1886,7 @@ echo " q - quit                                                                 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 #V!
-echo " 237 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " 239 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " There are 4 items on the Videoinfox development road map." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -1907,6 +1909,9 @@ echo " _________________________________________________________________________
 #echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v5.9.50 Change: Videoinfox v.... changed to italic" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.9.49 Add: Finally decided on a color for Videoinfox. If the terminal supports 256 colors, blue back with white text." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2144,6 +2149,8 @@ echo "         Fix: Settings >>> Video player >>> Custom -Clear" >> ~/.config/vi
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Change: Version history only displays the last 40 updates." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+
+#V!####################### Here for v5.9.50 but up next on the chopping block with the next update #######################
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.5.00 New: Make Playlist feature is now also a command line option: videoinfox -z" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2152,16 +2159,6 @@ echo "              -z  Make a playlist from a recursive video listing in the cu
 echo "                  ~/.config/videoinfox/playlists which makes the playlist/index available to videoinfox's feature set." >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Edit: Version History. Everything before v5.0.00 was removed to reduce some bloat. A little over 1,000 lines." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v5.4.45 Add: -GUI Notify added to Settings. Turn GUI notifications on or off." >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Note: GUI Notifications are always on for videoinfox -a and videoinfox -l keyboard shortcuts." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-
-#V!####################### Here for v5.9.49 but up next on the chopping block with the next update #######################
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v5.4.44 Add: mpv save notification added to the Play Queue" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: Moved a few options around in the Play Queue" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 ####################################################################################################################
 
@@ -2754,7 +2751,7 @@ totalplvideos=$(wc -l ~/.config/videoinfox/tmp/search-playlist.tmp.display2 2> /
     clear
     echo "___________________________________________________________________________________________________________________"
     echo
-    echo " ""$ver"" >>> PLAYLIST FIND                       Search all playlists and the default directories index"
+    echo " ""$ver2"" >>> PLAYLIST FIND                       Search all playlists and the default directories index"
     echo "___________________________________________________________________________________________________________________"
     echo
     echo "                                                                                             Enter  .  to show all"
@@ -2967,7 +2964,7 @@ echo
 echo "Directory: ""$PWD"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " ""$ver"" >>> FIND DIRECTORY                 Enter only to quit                             * - Show All"
+echo " ""$ver2"" >>> FIND DIRECTORY                 Enter only to quit                             * - Show All"
 echo "___________________________________________________________________________________________________________________"
 echo
 echo " The directory enterd must be recursively reachable from the current directory."
@@ -3574,7 +3571,7 @@ echo
 echo "Directory: ""$PWD"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " ""$ver"" >>> FIND DIRECTORY                 Enter only to quit                             * - Show All"
+echo " ""$ver2"" >>> FIND DIRECTORY                 Enter only to quit                             * - Show All"
 echo "___________________________________________________________________________________________________________________"
 echo
 echo " The directory enterd must be recursively reachable from the current directory."
@@ -3888,7 +3885,7 @@ echo "Directory: ""$PWD"
 echo "Clipboard: ""$pasteclip"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " $ver >>> CHANGE TREETOP"
+echo " $ver2 >>> CHANGE TREETOP"
 echo "___________________________________________________________________________________________________________________"
 echo
 echo " No quotations needed for paths with spaces. Case sensative."
@@ -18642,7 +18639,7 @@ fi
     echo "Clipboard: ""$pasteclip"
     echo "___________________________________________________________________________________________________________________"
     echo
-    echo " ""$ver"" >>> FIND VIDEO                                                                   Wildcard * ok"
+    echo " ""$ver2"" >>> FIND VIDEO                                                                   Wildcard * ok"
     echo "___________________________________________________________________________________________________________________"
     echo
     echo " Video files must be recursively reachable from the current directory. No file extensions. Case Ignored."
@@ -19408,7 +19405,7 @@ done
     echo "Clipboard: ""$pasteclip"
     echo "___________________________________________________________________________________________________________________"
     echo
-    echo " $ver >>> SET TV DIRECTORY 1"
+    echo " $ver2 >>> SET TV DIRECTORY 1"
     echo "___________________________________________________________________________________________________________________"
     echo
     echo " Enter with no entry to exit     - To clear directory type: clear"
@@ -19462,7 +19459,7 @@ fi
     echo "Clipboard: ""$pasteclip"
     echo "___________________________________________________________________________________________________________________"
     echo
-    echo " ""$ver"" >>> SET MOVIE DIRECTORY 2"
+    echo " ""$ver2"" >>> SET MOVIE DIRECTORY 2"
     echo "___________________________________________________________________________________________________________________"
     echo
     echo " Enter with no entry to exit     - To clear directory type: clear"
@@ -19516,7 +19513,7 @@ fi
     echo "Clipboard: ""$pasteclip"
     echo "___________________________________________________________________________________________________________________"
     echo
-    echo " $ver >>> SET YT-DLP DOWNLOAD DIRECTORY 3"
+    echo " $ver2 >>> SET YT-DLP DOWNLOAD DIRECTORY 3"
     echo "___________________________________________________________________________________________________________________"
     echo
     echo " Enter with no entry to exit. This directory can't be cleared. It can only be changed."
@@ -19566,7 +19563,7 @@ fi
     echo "Clipboard: ""$pasteclip"
     echo "___________________________________________________________________________________________________________________"
     echo
-    echo " $ver >>> SET EXTRA DIRECTORY 4"
+    echo " $ver2 >>> SET EXTRA DIRECTORY 4"
     echo "___________________________________________________________________________________________________________________"
     echo
     echo " Enter with no entry to exit     - To clear directory type: clear"
@@ -19620,7 +19617,7 @@ fi
     #echo "Clipboard: ""$pasteclip"
     echo "___________________________________________________________________________________________________________________"
     echo
-    echo " $ver >>> SET DOWNLOAD CHANNEL DIRECTORY 5"
+    echo " $ver2 >>> SET DOWNLOAD CHANNEL DIRECTORY 5"
     echo "___________________________________________________________________________________________________________________"
     echo
     echo " Enter with no entry to exit. This directory can't be cleared. It can only be changed."
@@ -20867,7 +20864,7 @@ uplup=$(date +%D -r /"$dir5"/."$chname".pl)
 clear
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " ""$ver"" >>> SEARCH URL PLAYLIST                           Enter a keyword. Case ignored. No wildcard *"
+echo " ""$ver2"" >>> SEARCH URL PLAYLIST                           Enter a keyword. Case ignored. No wildcard *"
 echo "___________________________________________________________________________________________________________________"
 echo
 echo " Playlist:" "$chname"
@@ -22622,7 +22619,7 @@ l) # CHANGE DIRECTORY 5
     #echo "Clipboard: ""$pasteclip"
     echo "___________________________________________________________________________________________________________________"
     echo
-    echo " $ver >>> SET DOWNLOAD CHANNEL DIRECTORY 5"
+    echo " $ver2 >>> SET DOWNLOAD CHANNEL DIRECTORY 5"
     echo "___________________________________________________________________________________________________________________"
     echo
     echo " Enter with no entry to exit. This directory can't be cleared. It can only be changed."
@@ -22802,7 +22799,7 @@ a) # CLEAR ALL
 function dlplaydel {
 clear
 echo
-echo " DELETE ALL OF URL PLAYLIST DATA?"
+echo " DELETE ALL URL PLAYLIST DATA?"
 echo
 echo " y - Yes     n - No"
 echo
@@ -24440,7 +24437,7 @@ echo
 echo "Directory: ""$PWD"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " ""$ver"" >>> FIND DIRECTORY                 Enter only to quit                             * - Show All"
+echo " ""$ver2"" >>> FIND DIRECTORY                 Enter only to quit                             * - Show All"
 echo "___________________________________________________________________________________________________________________"
 echo
 echo " The directory enterd must be recursively reachable from the current directory."
@@ -24598,7 +24595,7 @@ echo "Directory: ""$PWD"
 echo "Clipboard: ""$pasteclip"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " $ver >>> CHANGE TREETOP"
+echo " $ver2 >>> CHANGE TREETOP"
 echo "___________________________________________________________________________________________________________________"
 echo
 echo " No quotations needed for paths with spaces. Case sensative."
@@ -25130,7 +25127,7 @@ echo
 echo "Clipboard:" "$pasteclip"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " ""$der"" YT-DLP MENU >>> DOWNLOAD LIST >>> DEFAULT LIST                Enter - Update Clipboard Display"
+echo " ""$der""  YT-DLP MENU >>> DOWNLOAD LIST >>> DEFAULT LIST               Enter - Update Clipboard Display"
 echo "___________________________________________________________________________________________________________________"
 echo
 echo " a - "$atd"     r - Remove Last Entry     c - Clear Default List     x - Clear Clipboard     q - Quit"
@@ -27227,7 +27224,7 @@ echo "Directory: ""$PWD"
 echo "Clipboard: ""$pasteclip"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " $ver >>> CHANGE DIRECTORY"
+echo " $ver2 >>> CHANGE DIRECTORY"
 echo "___________________________________________________________________________________________________________________"
 echo
 echo " No quotations needed for paths with spaces. Case sensative."
@@ -27267,7 +27264,7 @@ echo
 echo "Directory: ""$PWD"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " ""$ver"" >>> FIND DIRECTORY                 Enter only to quit                             * - Show All"
+echo " ""$ver2"" >>> FIND DIRECTORY                 Enter only to quit                             * - Show All"
 echo "___________________________________________________________________________________________________________________"
 echo
 echo " The directory enterd must be recursively reachable from the current directory."
@@ -27533,7 +27530,7 @@ echo "Directory: ""$PWD"
 echo "Clipboard: ""$pasteclip"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " ""$ver"" >>> ENTER VIDEO FILE - For Info"
+echo " ""$ver2"" >>> ENTER VIDEO FILE - For Info"
 echo "___________________________________________________________________________________________________________________"
 echo
 echo " Full path needed. No quotations needed for paths or files with spaces. Case Sensative."
