@@ -5,9 +5,9 @@
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
-ver="Videoinfox v5.9.46"  # Version Number: no blinking dot
-der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m9.46")  # Version Number: with blinking dot
-vn="v5.9.46" #V! update help files on update
+ver="Videoinfox v5.9.49"  # Version Number: no blinking dot
+der=$(echo -e "Videoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m9.49")  # Version Number: with blinking dot
+vn="v5.9.49" #V! update help files on update
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -190,6 +190,8 @@ if [ "$1" = "-h" ]
        echo "   -h  This help screen."
        echo
        echo "   -v  Display the version number."
+       echo
+       echo "   -c  Start up Videoinfox with default terminal colors."
        echo
        echo "   -a  Write video URL in the clipboard to the Default List. Instructions: Yt-dlp >>> Download List >>> Help"
        echo
@@ -1188,6 +1190,20 @@ else
     :
 fi
 
+# Color Set
+if [ "$1" = "-c" ] 
+   then # use default terminal color
+       :
+   else
+       clrange=$(tput colors)       
+       if [[ "$clrange" = "256" ]] # terminal supports 256 colors
+         then # set color
+             echo -ne "\033]10;#BABDB6\007" # Change text color 
+             echo -ne "\033]11;#001B33\007" # Change background color
+         else
+             :
+fi
+fi
 
 ##################################################################################################################################################
 #####  5. CHECK FOR  (VIDEOINFOX NOTIFICATION UPDATE)                         routine to get version number from github          #################
@@ -1286,7 +1302,7 @@ fi
 ##################################################################################################################################################
 echo "_________________________________________________________________________________________________________________" > ~/.config/videoinfox/d-ch-help
 echo >> ~/.config/videoinfox/d-ch-help
-echo " Videoinfox v.5.9.46 >>> DOWNLOAD CHANNEL >>> HELP" >> ~/.config/videoinfox/d-ch-help
+echo " Videoinfox v.5.9.49 >>> DOWNLOAD CHANNEL >>> HELP" >> ~/.config/videoinfox/d-ch-help
 echo >> ~/.config/videoinfox/d-ch-help
 echo " Arrows - up/dwn                                                                                        q - Quit" >> ~/.config/videoinfox/d-ch-help
 echo "_________________________________________________________________________________________________________________" >> ~/.config/videoinfox/d-ch-help
@@ -1357,7 +1373,7 @@ echo "__________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.9.46   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Videoinfox v5.9.49   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1509,7 +1525,7 @@ echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.9.46   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
+echo " Videoinfox v5.9.49   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " VIDEOINFOX WILL NOT EDIT VIDEO FILES. IT IS A FRONT-END TO PLAY VIDEOS AND DOWNLOAD VIDEOS." >> ~/.config/videoinfox/videoinfo.help
@@ -1868,7 +1884,7 @@ echo " q - quit                                                                 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 #V!
-echo " 236 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " 237 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " There are 4 items on the Videoinfox development road map." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -1891,6 +1907,13 @@ echo " _________________________________________________________________________
 #echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v5.9.49 Add: Finally decided on a color for Videoinfox. If the terminal supports 256 colors, blue back with white text." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Add: Command line option -c. This will start videoinfox using your default terminal colors." >> ~/.config/videoinfox/videoinfo-ver-history
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo "         Fix: Had some missed Download Playlist in displays that were changed to Download Channel." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.9.46 Fix: Spacing on Saving loaded playlist . . . message." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2134,15 +2157,11 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.4.45 Add: -GUI Notify added to Settings. Turn GUI notifications on or off." >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Note: GUI Notifications are always on for videoinfox -a and videoinfox -l keyboard shortcuts." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+
+#V!####################### Here for v5.9.49 but up next on the chopping block with the next update #######################
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.4.44 Add: mpv save notification added to the Play Queue" >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Change: Moved a few options around in the Play Queue" >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-
-#V!####################### Here for v5.9.46 but up next on the chopping block with the next update #######################
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v5.4.42 Add: mpv save notification added to View Playlist" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Change: Moved a few options around in View Playlist" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 ####################################################################################################################
 
@@ -21369,7 +21388,7 @@ echo
 echo "Domain: ""$baseurl"
 echo "___________________________________________________________________________________________________________________"
 echo
-echo " ""$der"" >>> DOWNLOAD PLAYLIST >>> BROWSE >>> SETTINGS                          Only 1 entry per domain"
+echo " ""$der"" >>> DOWNLOAD CHANNEL >>> BROWSE >>> SETTINGS                          Only 1 entry per domain"
 echo "___________________________________________________________________________________________________________________"
 echo
 echo " a - Add     r - Remove                                                                                   q - Quit"
@@ -22701,7 +22720,7 @@ fi
 
 echo "_________________________________________________________________________________________________________________"
 echo
-echo " ""$der"" >>> DOWNLOAD PLAYLIST >>> RESTORE"
+echo " ""$der"" >>> DOWNLOAD CHANNEL >>> RESTORE"
 echo "_________________________________________________________________________________________________________________"
 echo
 echo " j - Restore     d - Delete     c - Clear Restore     a - Clear All                                      q -Quit"
@@ -22765,7 +22784,7 @@ mv ."$chname".ch-res "$chname".ch 2>/dev/null
 
 else
 echo
-echo "There is an matching entry in download playlist. Restore will not overwrite . . ."
+echo "There is a matching entry in download channel. Restore will not overwrite . . ."
 echo "That entry needs to be deleted before this playlist can be restored."
 echo
 read -r -p "Press enter to continue . . ."
@@ -23657,9 +23676,9 @@ done
         echo " "$der"  YT-DLP MENU >>> SETTINGS"
         echo "___________________________________________________________________________________________________________________"
         echo
-        echo " Set or clear custom yt-dlp option(s). Applies to everything including -Browse in download playlist."
+        echo " Set or clear custom yt-dlp option(s). Applies to everything including -Browse in download channel."
         echo
-        echo " Exceptions: -Download Choose in yt-dlp menu and -Download in download playlist."
+        echo " Exceptions: -Download Choose in yt-dlp menu and -Download in download channel."
         echo
         echo " yt-dlp" "$dlargue"
         echo
