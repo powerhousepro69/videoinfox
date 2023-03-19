@@ -1,4 +1,4 @@
-# Videoinfox v5.9.49
+# Videoinfox v5.9.50
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -396,6 +396,8 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.9.50 Change: Videoinfox v.... changed to italic
 
 ###  v5.9.49 Add: Finally decided on a color for Videoinfox. If the terminal supports 256 colors, blue back with white text.
 
