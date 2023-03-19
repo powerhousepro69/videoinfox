@@ -202,6 +202,9 @@ The play queue can also be written to a new playlist. Create a playlist from mul
 
         RESUME to start autoplay from the last video played on player (q) quit.
 
+        Note: There is no resume for play directory or autoplay. Resume is only
+              available in view playlist and the play queue.
+
         
 ![Play Directory](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PLAY-DIRECTORY.png)
 
@@ -399,7 +402,6 @@ FIRST RUN
          Add: Command line option -c. This will start videoinfox using your default terminal colors.
 
          Fix: Had some missed Download Playlist in displays that were changed to Download Channel.
-
 
 ###  v5.9.46 Fix: Spacing on Saving loaded playlist . . . message.
 
