@@ -200,11 +200,11 @@ The play queue can also be written to a new playlist. Create a playlist from mul
         START in view playlist and play queue to start autoplay from anywhere in a
         playlist and play to the end.
 
-        RESUME to start autoplay from the last video played on player (q) quit.
+        RESUME in view playlist and play queue to start autoplay from the last video
+        that was playing on player (q) quit.
 
-        Note: There is no resume for play directory or autoplay. Resume is only
-              available in view playlist and the play queue.
-
+        Note: There is no resume for play directory or autoplay.
+              Resume is only available in view playlist and the play queue.
         
 ![Play Directory](https://github.com/powerhousepro69/videoinfox/blob/main/screenshots/PLAY-DIRECTORY.png)
 
