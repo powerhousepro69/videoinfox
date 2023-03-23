@@ -1,4 +1,4 @@
-# Videoinfox v5.9.50
+# Videoinfox v5.9.51
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -396,6 +396,8 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.9.51 Fix: eval added to yt-dlp lines. When custom options where added to yt-dlp, there were errors.
 
 ###  v5.9.50 Change: Videoinfox v.... changed to italic
 
