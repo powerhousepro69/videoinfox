@@ -35,7 +35,7 @@ Queue summary: Videoinfox has 3 different queues:
 
 *Videoinfox recommends using MPV to watch videos and will be set as the default video player if found.
 Mpv saves play postion on quit of every video played and Videoinfox saves Playlist and Play Queue position.
-Toggle on/off mpv save play position on quit and an option to erase all mpv markers.
+Toggle on/off mpv save play position on quit and an option to erase all mpv markers located in settings.
 
 ### Hotkey navigation that is robust and efficient.
 
