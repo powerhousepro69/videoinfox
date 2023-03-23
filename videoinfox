@@ -5,10 +5,10 @@
 #  GNU General Public License v2.0
 #  reddit:  /videoinfox
 
-ver="Videoinfox v5.9.50"  # Version Number: no blinking dot
-ver2=$(echo -e "\e[3mVideoinfox v5.9.50\e[0m")
-der=$(echo -e "\e[3mVideoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m\e[3m9.50\033[0m") # Version Number: with blinking dot
-vn="v5.9.50" #V! update help files on update
+ver="Videoinfox v5.9.51"  # Version Number: no blinking dot
+ver2=$(echo -e "\e[3mVideoinfox v5.9.51\e[0m")
+der=$(echo -e "\e[3mVideoinfox v5\033[5m.\033m\033[0m\033[5m\033[5m\033[0m\e[3m9.51\033[0m") # Version Number: with blinking dot
+vn="v5.9.51" #V! update help files on update. disabled until fixed. all help files are written on every run.
 
 ##################################################################################################################################################
 #  DEPENDENCIES REQUIRED:  #######################################################################################################################
@@ -335,14 +335,14 @@ if [ "$1" = "-u" ]
                 do
 
                 echo
-                ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$line"  # download url
+                eval ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$line"  # download url
                 echo
                 echo "Logging URL and Filename to:" "$PWD/""$ulogfile"
 
                 # logging yt-dlp output to the log file
 
                 echo "$line" >> "$ulogfile"
-                ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$line" | tee >> "$PWD/""$ulogfile"
+                eval ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$line" | tee >> "$PWD/""$ulogfile"
                 echo >> "$ulogfile"
 
                 done < "$input"
@@ -1304,7 +1304,7 @@ fi
 ##################################################################################################################################################
 echo "_________________________________________________________________________________________________________________" > ~/.config/videoinfox/d-ch-help
 echo >> ~/.config/videoinfox/d-ch-help
-echo " Videoinfox v.5.9.50 >>> DOWNLOAD CHANNEL >>> HELP" >> ~/.config/videoinfox/d-ch-help
+echo " Videoinfox v.5.9.51 >>> DOWNLOAD CHANNEL >>> HELP" >> ~/.config/videoinfox/d-ch-help
 echo >> ~/.config/videoinfox/d-ch-help
 echo " Arrows - up/dwn                                                                                        q - Quit" >> ~/.config/videoinfox/d-ch-help
 echo "_________________________________________________________________________________________________________________" >> ~/.config/videoinfox/d-ch-help
@@ -1375,7 +1375,7 @@ echo "__________________________________________________________________________
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.9.50   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
+echo " Videoinfox v5.9.51   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfox.download-list-help
 echo >> ~/.config/videoinfox/videoinfox.download-list-help
@@ -1527,7 +1527,7 @@ echo >> ~/.config/videoinfox/videoinfox.download-list-help
 echo "___________________________________________________________________________________________________________________" > ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-echo " Videoinfox v5.9.50   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
+echo " Videoinfox v5.9.51   Where video download and play is a clipboard copy away . . ." >> ~/.config/videoinfox/videoinfo.help
 echo "___________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo.help
 echo >> ~/.config/videoinfox/videoinfo.help
 echo " VIDEOINFOX WILL NOT EDIT VIDEO FILES. IT IS A FRONT-END TO PLAY VIDEOS AND DOWNLOAD VIDEOS." >> ~/.config/videoinfox/videoinfo.help
@@ -1886,7 +1886,7 @@ echo " q - quit                                                                 
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 #V!
-echo " 239 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
+echo " 240 Version Updates" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " There are 4 items on the Videoinfox development road map." >> ~/.config/videoinfox/videoinfo-ver-history
@@ -1909,6 +1909,9 @@ echo " _________________________________________________________________________
 #echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 
 #V!VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+echo >> ~/.config/videoinfox/videoinfo-ver-history
+echo " v5.9.51 Fix: eval added to yt-dlp lines. When custom options where added to yt-dlp, there were errors." >> ~/.config/videoinfox/videoinfo-ver-history
+echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.9.50 Change: Videoinfox v.... changed to italic" >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2137,6 +2140,8 @@ echo " v5.5.16 Change: Moved option -Clrclp below -Play Clipboard in -Played Lis
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Fix: Had to add 3gp files to -Play Clipboard filter." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
+
+#V!####################### Here for v5.9.51 but up next on the chopping block with the next update #######################
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo " v5.5.14 New: -Set in YT-DLP MENU to use Yt-dlp with no options or custom options." >> ~/.config/videoinfox/videoinfo-ver-history
 echo "              Applies to: -Download Only  -Self Destruct  -Download List  -Play Clipboard" >> ~/.config/videoinfox/videoinfo-ver-history
@@ -2148,17 +2153,6 @@ echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Fix: Settings >>> Video player >>> Custom -Clear" >> ~/.config/videoinfox/videoinfo-ver-history
 echo >> ~/.config/videoinfox/videoinfo-ver-history
 echo "         Change: Version history only displays the last 40 updates." >> ~/.config/videoinfox/videoinfo-ver-history
-echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
-
-#V!####################### Here for v5.9.50 but up next on the chopping block with the next update #######################
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo " v5.5.00 New: Make Playlist feature is now also a command line option: videoinfox -z" >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Add: The below 2 lines were added to: Videoinfox -h " >> ~/.config/videoinfox/videoinfo-ver-history
-echo "              -z  Make a playlist from a recursive video listing in the current directory. The Playlist will be saved in" >> ~/.config/videoinfox/videoinfo-ver-history
-echo "                  ~/.config/videoinfox/playlists which makes the playlist/index available to videoinfox's feature set." >> ~/.config/videoinfox/videoinfo-ver-history
-echo >> ~/.config/videoinfox/videoinfo-ver-history
-echo "         Edit: Version History. Everything before v5.0.00 was removed to reduce some bloat. A little over 1,000 lines." >> ~/.config/videoinfox/videoinfo-ver-history
 echo " _________________________________________________________________________________________________________________________" >> ~/.config/videoinfox/videoinfo-ver-history
 ####################################################################################################################
 
@@ -2829,7 +2823,7 @@ if [ "$grabpaste3" = "http" ]  # if the 4 characters = <http> go then
 then
 clear
 ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload
-~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$pasteclip"
+eval ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$pasteclip"
 
 # remove first dot and everything after it in filename. file names with dots before the extension were breking find results
 sed "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload > ~/.config/videoinfox/videoinfo.lastdownload.work
@@ -8414,7 +8408,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       cp ~/.config/videoinfox/videoinfo.lastdownload ~/.config/videoinfox/videoinfo.lastdownload.bak
 
       ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload
-      ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$pasteclip"
+      eval ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$pasteclip"
 
       # remove first dot and everything after it in filename. this was done because file names with dots before the extension were breking find results
       sed "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload > ~/.config/videoinfox/videoinfo.lastdownload.work
@@ -9076,7 +9070,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       clear
 
       ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload
-      ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$pasteclip"
+      eval ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$pasteclip"
 
 
       # remove first dot and everything after it in filename. this was done because file names with dots before the extension were breking find results
@@ -13854,7 +13848,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       cp ~/.config/videoinfox/videoinfo.lastdownload ~/.config/videoinfox/videoinfo.lastdownload.bak
 
       ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload
-      ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$pasteclip"
+      eval ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$pasteclip"
 
       # remove first dot and everything after it in filename. this was done because file names with dots before the extension were breking find results
       sed "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload > ~/.config/videoinfox/videoinfo.lastdownload.work
@@ -14205,7 +14199,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       cp ~/.config/videoinfox/videoinfo.lastdownload ~/.config/videoinfox/videoinfo.lastdownload.bak
 
       ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload
-      ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$pasteclip"
+      eval ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$pasteclip"
 
       # remove first dot and everything after it in filename. this was done because file names with dots before the extension were breking find results
       sed "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload > ~/.config/videoinfox/videoinfo.lastdownload.work
@@ -18289,7 +18283,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       cp ~/.config/videoinfox/videoinfo.lastdownload ~/.config/videoinfox/videoinfo.lastdownload.bak
 
       ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload
-      ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$pasteclip"
+      eval ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$pasteclip"
 
       # remove first dot and everything after it in filename. this was done because file names with dots before the extension were breking find results
       sed "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload > ~/.config/videoinfox/videoinfo.lastdownload.work
@@ -21018,7 +21012,7 @@ if ! [[ "$linenumber" -eq "$linenumber" ]]
 else
 clear
 videoid=$(sed -n "$linenumber"p ~/.config/videoinfox/tmp/download-browse-even-not-dl)
-~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$urlfind""$videoid"
+eval ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$urlfind""$videoid"
 fi
 fi
 fi
@@ -21330,7 +21324,7 @@ echo
 echo
 echo "DOWNLOAD DIRECTORY: ""$PWD"
 echo
-~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$getlink"
+eval ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$getlink"
 done < "$input"
 cd "$grabdir"
 echo
@@ -22442,7 +22436,7 @@ echo
 echo
 echo "DOWNLOAD DIRECTORY: ""$PWD"
 echo
-~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$getlink"
+eval ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$getlink"
 done < "$input"
 cd "$grabdir"
 echo
@@ -22509,7 +22503,9 @@ read -r -p " Press enter to continue . . ."
 
 else
 videoid=$(sed -n "$linenumber"p ~/.config/videoinfox/tmp/download-browse-even)
-~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$urlfind""$videoid"
+
+#@eval 1st line changed. note to self...
+eval eval ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$urlfind""$videoid"
 
 fi
 fi
@@ -22567,7 +22563,7 @@ read -r -p " Press enter to continue . . ."
 else
 idsearch=$(sed -n "$linenumber"p ~/.config/videoinfox/tmp/search-url-playlist-even)
 videoid=$(sed -n "$idsearch"p ~/.config/videoinfox/tmp/download-browse-even)
-~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$urlfind""$videoid"
+eval ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$urlfind""$videoid"
 
 fi
 fi
@@ -22575,7 +22571,6 @@ fi
 fi
 fi
 fi
-
 
 fi
 ;;
@@ -24848,14 +24843,14 @@ fi
 
     echo
 
-    ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$line"  # download url
+    eval ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$line"  # download url
 
     echo
     echo "Logging URL and Filename to:" "$logfile"
 
     # logging yt-dlp output
     echo "$line" >> "$logfile"
-    ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$line" | tee >> "$logfile"
+    eval ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$line" | tee >> "$logfile"
     echo >> "$logfile"
 
     ############  REMOVE UNWANTED LOG INFO  #############
@@ -25291,12 +25286,12 @@ input="$playnumber"
 while read -r line  # read line by line until end
 do
 echo
-~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$line"  # download url
+eval ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$line"  # download url
 echo
 echo "Logging URL and Filename to:" "$logfile"
 # logging yt-dlp output
 echo "$line" >> "$logfile"
-~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$line" | tee >> "$logfile"
+eval ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$line" | tee >> "$logfile"
 echo >> "$logfile"
 done < "$input"
 ################  DOWNLOAD LOOP END  ################
@@ -25526,7 +25521,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       cp ~/.config/videoinfox/videoinfo.lastdownload ~/.config/videoinfox/videoinfo.lastdownload.bak
 
       ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload
-      ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$pasteclip"
+      eval ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$pasteclip"
 
       # remove first dot and everything after it in filename. this was done because file names with dots before the extension were breking find results
       sed "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload > ~/.config/videoinfox/videoinfo.lastdownload.work
@@ -25901,7 +25896,7 @@ if [ "$grabpaste" = "http" ]  # if the 4 characters = <http> go then
       cp ~/.config/videoinfox/videoinfo.lastdownload ~/.config/videoinfox/videoinfo.lastdownload.bak
 
       ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload
-      ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$pasteclip"
+      eval ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$pasteclip"
 
       # remove first dot and everything after it in filename. this was done because file names with dots before the extension were breking find results
       sed "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload > ~/.config/videoinfox/videoinfo.lastdownload.work
@@ -26528,7 +26523,7 @@ fi
                 then
 
               clear
-              ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$pasteclip" -o "$dirsaved"/download.tmp  # downloading temporary video
+              eval ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$pasteclip" -o "$dirsaved"/download.tmp  # downloading temporary video
               "$vnotify" "Videoinfox messsage: YT-DLP is done downloading . . ." "$pasteclip"
 
               clear
@@ -26653,7 +26648,7 @@ fi
               clear
 
               ~/.config/videoinfox/yt-dlp --get-filename -o "%(title)s" "$pasteclip" > ~/.config/videoinfox/videoinfo.lastdownload
-              ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$pasteclip"
+              eval ~/.config/videoinfox/yt-dlp "${dlargue[@]}" "$pasteclip"
 
               # remove first dot and everything after it in filename. file names with dots before the extension were breking find results
               sed "s/\..*//" ~/.config/videoinfox/videoinfo.lastdownload > ~/.config/videoinfox/videoinfo.lastdownload.work
