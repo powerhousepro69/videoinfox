@@ -1,4 +1,4 @@
-# Videoinfox v5.9.52
+# Videoinfox v5.9.53
 
 ### *Where video download and play is a clipboard copy away . . .*
 
@@ -396,6 +396,8 @@ FIRST RUN
 
 ** If videoinfox is removed, the directory  ~/.config/videoinfox  will have to be manually deleted.
 <br />
+
+###  v5.9.53 Add: -Stream added to Browse in Download Channel. Stream selected video in default browser.
 
 ###  v5.9.52 Fix: Create options file for yt-dlp if it doesn't exist.
 
